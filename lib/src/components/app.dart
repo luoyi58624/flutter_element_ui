@@ -65,12 +65,10 @@ class ElApp extends StatelessWidget {
   const ElApp({
     super.key,
     required this.child,
-    this.title = 'Flutter Element UI',
     this.theme,
   });
 
   final Widget child;
-  final String title;
   final ElTheme? theme;
 
   static ElAppData of(BuildContext context) {
@@ -82,22 +80,16 @@ class ElApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $theme = ElTheme.copyWith(theme);
-    return WidgetsApp(
-      color: $theme.primary,
-      title: title,
-      builder: (BuildContext context, Widget? navigator) {
-        return ElAppData(
-          theme: $theme,
-          themeColors: {
-            ElThemeType.primary: $theme.primary,
-            ElThemeType.success: $theme.success,
-            ElThemeType.info: $theme.info,
-            ElThemeType.warning: $theme.warning,
-            ElThemeType.error: $theme.error,
-          },
-          child: child,
-        );
+    return ElAppData(
+      theme: $theme,
+      themeColors: {
+        ElThemeType.primary: $theme.primary,
+        ElThemeType.success: $theme.success,
+        ElThemeType.info: $theme.info,
+        ElThemeType.warning: $theme.warning,
+        ElThemeType.error: $theme.error,
       },
+      child: child,
     );
   }
 }
