@@ -10,6 +10,8 @@ class ElApp extends StatelessWidget {
 
   /// [ElApp]不是一个应用脚手架，你可以应用任意的App脚手架
   final Widget child;
+
+  /// 自定义主题
   final ElTheme? theme;
 
   /// 通过[ElApp.of]获取全局配置信息
