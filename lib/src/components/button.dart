@@ -4,7 +4,6 @@ enum _ButtonType { base, text, icon }
 
 const double _defaultSize = 32;
 const double _defaultIconSize = 16;
-const double _defaultRadius = 4;
 
 /// 默认水平间距
 const double _defaultHorizontal = 15;
@@ -37,7 +36,7 @@ class ElButton extends StatefulWidget {
   const ElButton(
     this.text, {
     super.key,
-    required this.onPressed,
+    this.onPressed,
     this.leftIcon,
     this.rightIcon,
     this.height,
@@ -45,6 +44,7 @@ class ElButton extends StatefulWidget {
     this.iconSize = _defaultIconSize,
     this.plain = false,
     this.round = false,
+    this.disabled = false,
     this.tooltip,
     this.disabledTooltip,
     this.loading = false,
@@ -59,9 +59,10 @@ class ElButton extends StatefulWidget {
   const ElButton.text(
     this.text, {
     super.key,
-    required this.onPressed,
+    this.onPressed,
     this.height,
     this.type,
+    this.disabled = false,
     this.bg = false,
     this.tooltip,
     this.disabledTooltip,
@@ -81,11 +82,12 @@ class ElButton extends StatefulWidget {
   const ElButton.icon(
     this.icon, {
     super.key,
-    required this.onPressed,
+    this.onPressed,
     this.type,
     this.circle = false,
     this.size = _defaultSize,
     this.iconSize = _defaultIconSize,
+    this.disabled = false,
     this.tooltip,
     this.disabledTooltip,
     this.loading = false,
@@ -100,10 +102,17 @@ class ElButton extends StatefulWidget {
         plain = false;
 
   final _ButtonType _buttonType;
+
+  /// 点击事件，如果为null按钮将被禁用，但如果此按钮属于[ElButtonGroup]按钮组，点击事件设置为null它也不会禁用，除非你设置[disabled]
   final VoidCallback? onPressed;
+
+  /// 按钮文字
   final String? text;
+
+  /// 按钮图标
   final IconData? icon;
 
+  /// 按钮主题类型
   final ElThemeType? type;
 
   /// 普通按钮左图标
@@ -120,6 +129,9 @@ class ElButton extends StatefulWidget {
 
   /// 圆角按钮
   final bool round;
+
+  /// 禁用按钮
+  final bool disabled;
 
   /// 文字按钮是否添加背景
   final bool bg;
@@ -153,16 +165,42 @@ class _ElButtonState extends State<ElButton> {
   bool _onHover = false;
   bool _onTap = false;
 
+  /// 此按钮是否属于按钮组成员，如果父级组件存在[ElButtonGroup]，那么它为true
+  late bool _isButtonGroupItem;
+
+  /// 按钮当前索引的key，如果是single、multiple按钮组，那么此值必须存在
+  int? _currentKeyValue;
+
+  bool get _disabledButton {
+    if (_isButtonGroupItem) {
+      return widget.disabled;
+    } else {
+      return widget.disabled || widget.onPressed == null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _ElButtonGroupData? buttonGroupData = _ElButtonGroupData.of(context);
+    _isButtonGroupItem = buttonGroupData != null;
+    if (_isButtonGroupItem) {
+      if (buttonGroupData!.buttonGroupType == _ButtonGroupType.single || buttonGroupData.buttonGroupType == _ButtonGroupType.multiple) {
+        assert(widget.key != null && widget.key is ValueKey<int>,
+            '你声明了${buttonGroupData.buttonGroupType.name}按钮组，但是ElButton的key参数却没有设置ValueKey<int>，请传递包含当前按钮索引的ValueKey');
+        _currentKeyValue = (widget.key! as ValueKey<int>).value;
+      }
+    }
     late Widget buttonWidget;
     switch (widget._buttonType) {
       case _ButtonType.base:
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _BaseButton(
-          onPressed: widget.onPressed,
           onHover: _onHover,
           onTap: _onTap,
+          disabledButton: _disabledButton,
+          currentKeyValue: _currentKeyValue,
+          isButtonGroupItem: _isButtonGroupItem,
+          buttonGroupData: buttonGroupData,
           text: widget.text!,
           type: widget.type,
           height: widget.height ?? _defaultSize,
@@ -178,9 +216,9 @@ class _ElButtonState extends State<ElButton> {
       case _ButtonType.text:
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _TextButton(
-          onPressed: widget.onPressed,
           onHover: _onHover,
           onTap: _onTap,
+          disabledButton: _disabledButton,
           text: widget.text!,
           type: widget.type,
           height: widget.height ?? _defaultSize,
@@ -192,9 +230,9 @@ class _ElButtonState extends State<ElButton> {
       case _ButtonType.icon:
         assert(widget.icon != null, 'icon不能为null');
         buttonWidget = _IconButton(
-          onPressed: widget.onPressed,
           onHover: _onHover,
           onTap: _onTap,
+          disabledButton: _disabledButton,
           icon: widget.icon!,
           type: widget.type,
           circle: widget.circle,
@@ -218,55 +256,85 @@ class _ElButtonState extends State<ElButton> {
       );
     }
     return MouseRegion(
-      onEnter: widget.onPressed != null
-          ? (e) {
+      onEnter: _disabledButton
+          ? null
+          : (e) {
               setState(() {
                 _onHover = true;
               });
-            }
-          : null,
-      onExit: widget.onPressed != null
-          ? (e) {
+            },
+      onExit: _disabledButton
+          ? null
+          : (e) {
               setState(() {
                 _onHover = false;
               });
-            }
-          : null,
-      cursor: widget.onPressed != null ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+            },
+      cursor: _disabledButton ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
       child: GestureDetector(
-        onTapDown: widget.onPressed != null
-            ? (e) {
+        onTapDown: _disabledButton
+            ? null
+            : (e) {
                 setState(() {
                   _onTap = true;
                 });
-              }
-            : null,
-        onTapCancel: widget.onPressed != null
-            ? () {
+              },
+        onTapCancel: _disabledButton
+            ? null
+            : () {
                 setState(() {
                   _onTap = false;
                 });
-              }
-            : null,
-        onTap: widget.onPressed != null
-            ? () {
+              },
+        onTap: _disabledButton
+            ? null
+            : () {
                 setState(() {
                   _onTap = false;
                 });
-                widget.onPressed!();
-              }
-            : null,
+                if (_isButtonGroupItem) {
+                  if (widget.onPressed != null) widget.onPressed!();
+                  switch (buttonGroupData!.buttonGroupType) {
+                    case _ButtonGroupType.base:
+                      break;
+                    case _ButtonGroupType.single:
+                      if (buttonGroupData.onChange != null) {
+                        if (buttonGroupData.index != _currentKeyValue) {
+                          buttonGroupData.onChange!(_currentKeyValue!);
+                        }
+                      }
+                      break;
+                    case _ButtonGroupType.multiple:
+                      if (buttonGroupData.onChangeList != null) {
+                        List<int> indexList = buttonGroupData.indexList;
+                        int targetIndex = indexList.indexOf(_currentKeyValue!);
+                        if (targetIndex == -1) {
+                          indexList.add(_currentKeyValue!);
+                        } else {
+                          indexList.removeAt(targetIndex);
+                        }
+                        buttonGroupData.onChangeList!(indexList);
+                      }
+                      break;
+                  }
+                } else {
+                  widget.onPressed!();
+                }
+              },
         child: buttonWidget,
       ),
     );
   }
 }
 
-class _BaseButton extends _DesktopEventWidget {
+class _BaseButton extends StatelessWidget {
   const _BaseButton({
-    required super.onPressed,
-    required super.onHover,
-    required super.onTap,
+    required this.onHover,
+    required this.onTap,
+    required this.disabledButton,
+    this.currentKeyValue,
+    required this.isButtonGroupItem,
+    required this.buttonGroupData,
     required this.text,
     this.type,
     required this.height,
@@ -279,6 +347,12 @@ class _BaseButton extends _DesktopEventWidget {
     this.loadingBuilder,
   });
 
+  final bool onHover;
+  final bool onTap;
+  final bool disabledButton;
+  final int? currentKeyValue;
+  final bool isButtonGroupItem;
+  final _ElButtonGroupData? buttonGroupData;
   final String text;
   final ElThemeType? type;
   final double height;
@@ -290,11 +364,13 @@ class _BaseButton extends _DesktopEventWidget {
   final bool loading;
   final Widget Function(Color color)? loadingBuilder;
 
-  double get _roundValue => round ? 9999 : _defaultRadius;
-
   @override
   Widget build(BuildContext context) {
-    return type == null ? _buildDefaultButton(context) : _buildThemeButton(context);
+    return isButtonGroupItem
+        ? _buildGroupButton(context)
+        : type == null
+            ? _buildDefaultButton(context)
+            : _buildThemeButton(context);
   }
 
   Widget _buildChild(BuildContext context, Color textColor, Color iconColor) {
@@ -351,8 +427,8 @@ class _BaseButton extends _DesktopEventWidget {
     var textColor = ElApp.of(context).theme.textBlack;
     Color iconColor = textColor.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
     Color? bgColor;
-    Color borderColor = ElApp.of(context).theme.defaultBorderColor;
-    if (onPressed == null) {
+    Color borderColor = ElApp.of(context).theme.borderColor;
+    if (disabledButton) {
       borderColor = borderColor.withOpacity(_disabledOpacity);
       textColor = textColor.withAlpha(_disabledTextAlpha);
       iconColor = iconColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
@@ -372,7 +448,7 @@ class _BaseButton extends _DesktopEventWidget {
       decoration: BoxDecoration(
         color: bgColor,
         border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(_roundValue),
+        borderRadius: BorderRadius.circular(getBorderRadius(context)),
       ),
       child: _buildChild(context, textColor, iconColor),
     );
@@ -396,7 +472,7 @@ class _BaseButton extends _DesktopEventWidget {
     } else {
       bgColor = themeColor;
     }
-    if (onPressed == null) {
+    if (disabledButton) {
       if (plain) {
         bgColor = themeColor.withAlpha(25);
         textColor = themeColor.withOpacity(_disabledOpacity);
@@ -421,18 +497,69 @@ class _BaseButton extends _DesktopEventWidget {
       decoration: BoxDecoration(
         color: bgColor,
         border: border,
-        borderRadius: BorderRadius.circular(_roundValue),
+        borderRadius: BorderRadius.circular(getBorderRadius(context)),
       ),
       child: _buildChild(context, textColor, iconColor),
     );
   }
+
+  Widget _buildGroupButton(BuildContext context) {
+    var primaryColor = ElApp.of(context).theme.primary;
+    var textColor = ElApp.of(context).theme.textBlack;
+    Color iconColor = textColor.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+    Color? bgColor;
+    Color borderColor = ElApp.of(context).theme.borderColor;
+    if (disabledButton) {
+      borderColor = borderColor.withOpacity(_disabledOpacity);
+      textColor = textColor.withAlpha(_disabledTextAlpha);
+      iconColor = iconColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+    } else {
+      bgColor = onHover ? primaryColor.withOpacity(0.1) : null;
+      textColor = onTap || onHover ? primaryColor : textColor.withAlpha(_defaultTextAlpha);
+      iconColor = onTap || onHover ? primaryColor : iconColor;
+      borderColor = onTap
+          ? primaryColor
+          : onHover
+              ? primaryColor.withOpacity(0.2)
+              : borderColor;
+    }
+    late Border border;
+    late BorderRadius borderRadius;
+    double radius = getBorderRadius(context);
+    BorderSide borderSide = BorderSide(color: borderColor);
+    if (buttonGroupData!.children.length == 2) {
+      if (currentKeyValue == 0) {
+        border = Border.all(color: borderColor);
+        borderRadius = BorderRadius.only();
+      }
+    } else {}
+    if (currentKeyValue == 0) {
+      border = Border(left: borderSide, top: borderSide, bottom: borderSide);
+    } else if (currentKeyValue == buttonGroupData!.children.length - 1) {
+      border = Border(right: borderSide, top: borderSide, bottom: borderSide);
+    } else {}
+    return Container(
+      height: height,
+      padding: const EdgeInsets.symmetric(horizontal: _defaultHorizontal),
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: Border.all(color: borderColor),
+        borderRadius: BorderRadius.circular(round ? 9999 : ElApp.of(context).theme.radius),
+      ),
+      child: _buildChild(context, textColor, iconColor),
+    );
+  }
+
+  double getBorderRadius(BuildContext context) {
+    return round ? 9999 : ElApp.of(context).theme.radius;
+  }
 }
 
-class _TextButton extends _DesktopEventWidget {
+class _TextButton extends StatelessWidget {
   const _TextButton({
-    required super.onPressed,
-    required super.onHover,
-    required super.onTap,
+    required this.onHover,
+    required this.onTap,
+    required this.disabledButton,
     required this.text,
     this.type,
     required this.height,
@@ -441,6 +568,9 @@ class _TextButton extends _DesktopEventWidget {
     this.loadingBuilder,
   });
 
+  final bool onHover;
+  final bool onTap;
+  final bool disabledButton;
   final String text;
   final ElThemeType? type;
   final double height;
@@ -452,7 +582,7 @@ class _TextButton extends _DesktopEventWidget {
   Widget build(BuildContext context) {
     Color? bgColor = ElApp.of(context).theme.info.withAlpha(160);
     Color textColor = ElApp.of(context).theme.textBlack;
-    if (onPressed == null) {
+    if (disabledButton) {
       bgColor = bg ? bgColor.withAlpha(15) : null;
       textColor =
           type == null ? textColor.withAlpha(_disabledTextAlpha) : ElApp.of(context).themeColors[type!]!.withAlpha(_disabledTextAlpha);
@@ -482,7 +612,7 @@ class _TextButton extends _DesktopEventWidget {
       padding: const EdgeInsets.symmetric(horizontal: _defaultHorizontal),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(_defaultRadius),
+        borderRadius: BorderRadius.circular(ElApp.of(context).theme.radius),
       ),
       child: UnconstrainedBox(
         child: Center(
@@ -503,11 +633,11 @@ class _TextButton extends _DesktopEventWidget {
   }
 }
 
-class _IconButton extends _DesktopEventWidget {
+class _IconButton extends StatelessWidget {
   const _IconButton({
-    required super.onPressed,
-    required super.onHover,
-    required super.onTap,
+    required this.onHover,
+    required this.onTap,
+    required this.disabledButton,
     required this.icon,
     this.type,
     required this.circle,
@@ -517,6 +647,9 @@ class _IconButton extends _DesktopEventWidget {
     this.loadingBuilder,
   });
 
+  final bool onHover;
+  final bool onTap;
+  final bool disabledButton;
   final IconData icon;
   final ElThemeType? type;
   final bool circle;
@@ -528,8 +661,6 @@ class _IconButton extends _DesktopEventWidget {
   double get _width => circle ? size : size * 1.2;
 
   double get _height => circle ? size : size;
-
-  double get _roundValue => circle ? 9999 : _defaultRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -556,8 +687,8 @@ class _IconButton extends _DesktopEventWidget {
     var primaryColor = ElApp.of(context).theme.primary;
     var textColor = ElApp.of(context).theme.textBlack;
     Color? bgColor;
-    Color borderColor = ElApp.of(context).theme.defaultBorderColor;
-    if (onPressed == null) {
+    Color borderColor = ElApp.of(context).theme.borderColor;
+    if (disabledButton) {
       borderColor = borderColor.withOpacity(_disabledOpacity);
       textColor = textColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
     } else {
@@ -575,7 +706,7 @@ class _IconButton extends _DesktopEventWidget {
       decoration: BoxDecoration(
         color: bgColor,
         border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(_roundValue),
+        borderRadius: BorderRadius.circular(circle ? 9999 : ElApp.of(context).theme.radius),
       ),
       child: _buildIcon(textColor),
     );
@@ -584,7 +715,7 @@ class _IconButton extends _DesktopEventWidget {
   Widget _buildThemeButton(BuildContext context) {
     Color bgColor = ElApp.of(context).themeColors[type!]!;
     Color textColor = ElApp.of(context).theme.textWhite;
-    if (onPressed == null) {
+    if (disabledButton) {
       bgColor = bgColor.withOpacity(_disabledOpacity);
     } else {
       bgColor = onTap
@@ -598,7 +729,7 @@ class _IconButton extends _DesktopEventWidget {
       height: _height,
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(_roundValue),
+        borderRadius: BorderRadius.circular(circle ? 9999 : ElApp.of(context).theme.radius),
       ),
       child: _buildIcon(textColor),
     );

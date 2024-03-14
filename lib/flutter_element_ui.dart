@@ -13,8 +13,6 @@ part 'src/components/button_group.dart';
 
 part 'src/utils/color.dart';
 
-part 'src/widgets/desktop_event.dart';
-
 /// A Calculator.
 class Calculator {
   /// Returns [value] plus 1.

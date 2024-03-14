@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> {
   bool disabled = false;
   bool loading = false;
   int count = 0;
+  int selectIndex = 0;
 
   VoidCallback? get onPressed => disabled
       ? null
@@ -203,17 +204,23 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 8),
-            ElButtonGroup(
-              children: [
+            ElButtonGroup.single(
+              index: selectIndex,
+              onChange: (index) {
+                setState(() {
+                  selectIndex = index;
+                });
+              },
+              children: const [
                 ElButton(
+                  key: ValueKey(0),
                   'Previous Page',
                   leftIcon: Icons.arrow_back_ios,
-                  onPressed: () {},
                 ),
                 ElButton(
+                  key: ValueKey(1),
                   'Next Page',
                   rightIcon: Icons.arrow_forward_ios,
-                  onPressed: () {},
                 ),
               ],
             ),
