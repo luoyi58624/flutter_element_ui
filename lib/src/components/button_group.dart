@@ -39,6 +39,7 @@ class _ElButtonGroupData extends InheritedWidget {
   }
 }
 
+/// Element UI 按钮组组件
 class ElButtonGroup extends StatefulWidget {
   /// 普通按钮组
   const ElButtonGroup({

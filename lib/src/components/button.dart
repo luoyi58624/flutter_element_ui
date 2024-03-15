@@ -26,6 +26,7 @@ Widget _materialLoading(Color color) => SizedBox(
       ),
     );
 
+/// Element UI 按钮组件
 class ElButton extends StatefulWidget {
   /// 渲染普通按钮，提示：[ElButton]实际上是一个[Container]，如果遇到布局问题，请留意flutter中的布局约束。
   ///
@@ -396,7 +397,7 @@ class _BaseButtonState extends _ButtonState<_BaseButton> {
                   child: widget.loadingBuilder == null
                       ? CupertinoActivityIndicator(
                           radius: 8,
-                          color: widget.type == null ? textColor : ElApp.of(context).theme.white,
+                          color: widget.type == null ? textColor : ElApp.of(context).themeData.white,
                         )
                       : widget.loadingBuilder!(iconColor!),
                 ),
@@ -525,7 +526,7 @@ class _TextButton extends _Button {
 class _TextButtonState extends _ButtonState<_TextButton> {
   @override
   Widget build(BuildContext context) {
-    bgColor = ElApp.of(context).theme.info.withAlpha(160);
+    bgColor = ElApp.of(context).themeData.info.withAlpha(160);
     textColor = textBlack;
     if (widget.disabledButton) {
       bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
@@ -556,7 +557,7 @@ class _TextButtonState extends _ButtonState<_TextButton> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(ElApp.of(context).theme.radius),
+        borderRadius: BorderRadius.circular(radius),
       ),
       child: UnconstrainedBox(
         child: Center(
@@ -735,15 +736,15 @@ class _ButtonState<T extends _Button> extends State<T> {
   Color? borderColor;
 
   /// 默认的按钮边框圆角
-  double get radius => widget.round || widget.circle ? 9999 : ElApp.of(context).theme.radius;
+  double get radius => widget.round || widget.circle ? 9999 : ElApp.of(context).themeData.radius;
 
-  Color get primaryColor => ElApp.of(context).theme.primary;
+  Color get primaryColor => ElApp.of(context).themeData.primary;
 
-  Color get textBlack => ElApp.of(context).theme.textBlack;
+  Color get textBlack => ElApp.of(context).themeData.textBlack;
 
-  Color get textWhite => ElApp.of(context).theme.textWhite;
+  Color get textWhite => ElApp.of(context).themeData.textWhite;
 
-  Color get defaultBorderColor => ElApp.of(context).theme.defaultBorderColor;
+  Color get defaultBorderColor => ElApp.of(context).themeData.defaultBorderColor;
 
   /// 当前按钮是否是默认类型的button
   bool get isDefaultTypeButton {

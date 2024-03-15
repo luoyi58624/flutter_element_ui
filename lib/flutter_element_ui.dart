@@ -13,7 +13,10 @@ part 'src/components/button.dart';
 
 part 'src/components/button_group.dart';
 
+part 'src/components/menu.dart';
+
 part 'src/utils/color.dart';
+
 part 'src/utils/logger.dart';
 
 /// A Calculator.
