@@ -180,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                   type: ElThemeType.success,
                   loadingText,
                   loading: loading,
+                  round: true,
                   loadingBuilder: (color) => SizedBox(
                     width: 14,
                     height: 14,
@@ -204,6 +205,23 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 8),
+            const ElButtonGroup(
+              children: [
+                ElButton(key: ValueKey(0), 'Item 1'),
+                ElButton(key: ValueKey(1), 'Item 2'),
+                ElButton(key: ValueKey(2), 'Item 3'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const ElButtonGroup(
+              type: ElThemeType.primary,
+              children: [
+                ElButton(key: ValueKey(0), 'Item 1'),
+                ElButton(key: ValueKey(1), 'Item 2'),
+                ElButton(key: ValueKey(2), 'Item 3'),
+              ],
+            ),
+            const SizedBox(height: 8),
             ElButtonGroup.single(
               index: selectIndex,
               onChange: (index) {
@@ -212,16 +230,75 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               children: const [
-                ElButton(
-                  key: ValueKey(0),
-                  'Previous Page',
-                  leftIcon: Icons.arrow_back_ios,
-                ),
-                ElButton(
-                  key: ValueKey(1),
-                  'Next Page',
-                  rightIcon: Icons.arrow_forward_ios,
-                ),
+                ElButton(key: ValueKey(0), 'Previous Page', leftIcon: Icons.arrow_back_ios),
+                ElButton(key: ValueKey(1), 'Next Page', rightIcon: Icons.arrow_forward_ios),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElButtonGroup.single(
+              type: ElThemeType.primary,
+              index: selectIndex,
+              onChange: (index) {
+                setState(() {
+                  selectIndex = index;
+                });
+              },
+              children: const [
+                ElButton(key: ValueKey(0), 'Previous Page', leftIcon: Icons.arrow_back_ios),
+                ElButton(key: ValueKey(1), 'Next Page', rightIcon: Icons.arrow_forward_ios),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const ElButtonGroup(
+              // type: ElThemeType.primary,
+              children: [
+                ElButton.text(key: ValueKey(0), 'Item 1'),
+                ElButton.text(key: ValueKey(1), 'Item 2'),
+                ElButton.text(key: ValueKey(2), 'Item 3'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const ElButtonGroup(
+              children: [
+                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
+                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
+                ElButton.icon(key: ValueKey(2), Icons.edit_calendar_outlined),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const ElButtonGroup(
+              type: ElThemeType.primary,
+              children: [
+                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
+                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
+                ElButton.icon(key: ValueKey(2), Icons.edit_calendar_outlined),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElButtonGroup.single(
+              index: selectIndex,
+              onChange: (index) {
+                setState(() {
+                  selectIndex = index;
+                });
+              },
+              children: const [
+                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
+                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElButtonGroup.single(
+              type: ElThemeType.primary,
+              index: selectIndex,
+              onChange: (index) {
+                setState(() {
+                  selectIndex = index;
+                });
+              },
+              children: const [
+                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
+                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
               ],
             ),
           ],

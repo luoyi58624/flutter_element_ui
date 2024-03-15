@@ -98,7 +98,7 @@ class ElTheme {
   Color textBlack;
 
   /// 默认的边框颜色
-  Color borderColor;
+  Color defaultBorderColor;
 
   /// 组件全局圆角值
   double radius;
@@ -113,7 +113,7 @@ class ElTheme {
     this.black = const Color(0xff000000),
     this.textWhite = const Color(0xfff6f6f6),
     this.textBlack = const Color(0xff1f1f1f),
-    this.borderColor = const Color(0xffdcdfe6),
+    this.defaultBorderColor = const Color(0xffdcdfe6),
     this.radius = 4,
   });
 
@@ -129,7 +129,7 @@ class ElTheme {
       black: theme.black,
       textWhite: theme.textWhite,
       textBlack: theme.textBlack,
-      borderColor: theme.borderColor,
+      defaultBorderColor: theme.defaultBorderColor,
       radius: theme.radius,
     );
   }

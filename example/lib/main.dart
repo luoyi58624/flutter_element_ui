@@ -12,8 +12,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElApp(
-      // theme: ElTheme(radius: 8),
+    return ElApp(
+      // theme: ElTheme(primary: Colors.purple, radius: 8),
       child: MaterialApp(
         title: 'Flutter Element UI',
         home: HomePage(),

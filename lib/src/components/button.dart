@@ -5,9 +5,6 @@ enum _ButtonType { base, text, icon }
 const double _defaultSize = 32;
 const double _defaultIconSize = 16;
 
-/// 默认水平间距
-const double _defaultHorizontal = 15;
-
 /// 默认的文字alpha
 const int _defaultTextAlpha = 200;
 
@@ -168,7 +165,7 @@ class _ElButtonState extends State<ElButton> {
   /// 此按钮是否属于按钮组成员，如果父级组件存在[ElButtonGroup]，那么它为true
   late bool _isButtonGroupItem;
 
-  /// 按钮当前索引的key，如果是single、multiple按钮组，那么此值必须存在
+  /// 按钮当前索引的key，如果是按钮组，那么此值必须存在
   int? _currentKeyValue;
 
   bool get _disabledButton {
@@ -184,17 +181,16 @@ class _ElButtonState extends State<ElButton> {
     _ElButtonGroupData? buttonGroupData = _ElButtonGroupData.of(context);
     _isButtonGroupItem = buttonGroupData != null;
     if (_isButtonGroupItem) {
-      if (buttonGroupData!.buttonGroupType == _ButtonGroupType.single || buttonGroupData.buttonGroupType == _ButtonGroupType.multiple) {
-        assert(widget.key != null && widget.key is ValueKey<int>,
-            '你声明了${buttonGroupData.buttonGroupType.name}按钮组，但是ElButton的key参数却没有设置ValueKey<int>，请传递包含当前按钮索引的ValueKey');
-        _currentKeyValue = (widget.key! as ValueKey<int>).value;
-      }
+      assert(
+          widget.key != null && widget.key is ValueKey<int>, '你声明了ElButtonGroup，但是ElButton的key参数却没有设置ValueKey<int>，请传递包含当前按钮索引的ValueKey');
+      _currentKeyValue = (widget.key! as ValueKey<int>).value;
     }
     late Widget buttonWidget;
     switch (widget._buttonType) {
       case _ButtonType.base:
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _BaseButton(
+          buttonType: widget._buttonType,
           onHover: _onHover,
           onTap: _onTap,
           disabledButton: _disabledButton,
@@ -216,9 +212,13 @@ class _ElButtonState extends State<ElButton> {
       case _ButtonType.text:
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _TextButton(
+          buttonType: widget._buttonType,
           onHover: _onHover,
           onTap: _onTap,
           disabledButton: _disabledButton,
+          currentKeyValue: _currentKeyValue,
+          isButtonGroupItem: _isButtonGroupItem,
+          buttonGroupData: buttonGroupData,
           text: widget.text!,
           type: widget.type,
           height: widget.height ?? _defaultSize,
@@ -230,9 +230,13 @@ class _ElButtonState extends State<ElButton> {
       case _ButtonType.icon:
         assert(widget.icon != null, 'icon不能为null');
         buttonWidget = _IconButton(
+          buttonType: widget._buttonType,
           onHover: _onHover,
           onTap: _onTap,
           disabledButton: _disabledButton,
+          currentKeyValue: _currentKeyValue,
+          isButtonGroupItem: _isButtonGroupItem,
+          buttonGroupData: buttonGroupData,
           icon: widget.icon!,
           type: widget.type,
           circle: widget.circle,
@@ -262,6 +266,9 @@ class _ElButtonState extends State<ElButton> {
               setState(() {
                 _onHover = true;
               });
+              if (_isButtonGroupItem) {
+                buttonGroupData!.setOnEnterIndex(_currentKeyValue!);
+              }
             },
       onExit: _disabledButton
           ? null
@@ -286,9 +293,9 @@ class _ElButtonState extends State<ElButton> {
                   _onTap = false;
                 });
               },
-        onTap: _disabledButton
+        onTapUp: _disabledButton
             ? null
-            : () {
+            : (e) {
                 setState(() {
                   _onTap = false;
                 });
@@ -327,153 +334,148 @@ class _ElButtonState extends State<ElButton> {
   }
 }
 
-class _BaseButton extends StatelessWidget {
+class _BaseButton extends _Button {
   const _BaseButton({
-    required this.onHover,
-    required this.onTap,
-    required this.disabledButton,
-    this.currentKeyValue,
-    required this.isButtonGroupItem,
-    required this.buttonGroupData,
+    required super.buttonType,
+    required super.onHover,
+    required super.onTap,
+    required super.disabledButton,
+    required super.currentKeyValue,
+    required super.isButtonGroupItem,
+    required super.buttonGroupData,
+    super.type,
+    required super.round,
+    required super.loading,
+    super.loadingBuilder,
     required this.text,
-    this.type,
     required this.height,
     required this.plain,
-    required this.round,
     this.leftIcon,
     this.rightIcon,
     required this.iconSize,
-    required this.loading,
-    this.loadingBuilder,
   });
 
-  final bool onHover;
-  final bool onTap;
-  final bool disabledButton;
-  final int? currentKeyValue;
-  final bool isButtonGroupItem;
-  final _ElButtonGroupData? buttonGroupData;
   final String text;
-  final ElThemeType? type;
   final double height;
   final bool plain;
-  final bool round;
   final IconData? leftIcon;
   final IconData? rightIcon;
   final double iconSize;
-  final bool loading;
-  final Widget Function(Color color)? loadingBuilder;
+
+  @override
+  _ButtonState createState() => _BaseButtonState();
+}
+
+class _BaseButtonState extends _ButtonState<_BaseButton> {
+  bool get noText => widget.text == '';
+
+  /// 默认水平间距
+  static const double _defaultHorizontal = 15;
 
   @override
   Widget build(BuildContext context) {
-    return isButtonGroupItem
-        ? _buildGroupButton(context)
-        : type == null
-            ? _buildDefaultButton(context)
-            : _buildThemeButton(context);
-  }
-
-  Widget _buildChild(BuildContext context, Color textColor, Color iconColor) {
-    bool noText = text == '';
-    return UnconstrainedBox(
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (loading)
-              Padding(
-                padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 6),
-                child: loadingBuilder == null
-                    ? CupertinoActivityIndicator(
-                        radius: 8,
-                        color: type == null ? textColor : ElApp.of(context).theme.white,
-                      )
-                    : loadingBuilder!(iconColor),
-              ),
-            if (leftIcon != null)
-              Padding(
-                padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 4),
-                child: Icon(
-                  leftIcon,
-                  color: iconColor,
-                  size: iconSize,
+    super.buildButtonTheme();
+    return Container(
+      height: widget.height,
+      padding: border == null
+          ? const EdgeInsets.symmetric(horizontal: _defaultHorizontal)
+          : const EdgeInsets.symmetric(horizontal: _defaultHorizontal - 1),
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: border,
+        borderRadius: borderRadius,
+      ),
+      child: UnconstrainedBox(
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (widget.loading)
+                Padding(
+                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 6),
+                  child: widget.loadingBuilder == null
+                      ? CupertinoActivityIndicator(
+                          radius: 8,
+                          color: widget.type == null ? textColor : ElApp.of(context).theme.white,
+                        )
+                      : widget.loadingBuilder!(iconColor!),
                 ),
-              ),
-            if (!noText)
-              Text(
-                text,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.w500,
+              if (widget.leftIcon != null)
+                Padding(
+                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 4),
+                  child: Icon(
+                    widget.leftIcon,
+                    color: iconColor,
+                    size: widget.iconSize,
+                  ),
                 ),
-              ),
-            if (rightIcon != null)
-              Padding(
-                padding: noText ? EdgeInsets.zero : const EdgeInsets.only(left: 4),
-                child: Icon(
-                  rightIcon,
-                  color: iconColor,
-                  size: iconSize,
+              if (!noText)
+                Text(
+                  widget.text,
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-          ],
+              if (widget.rightIcon != null)
+                Padding(
+                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    widget.rightIcon,
+                    color: iconColor,
+                    size: widget.iconSize,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildDefaultButton(BuildContext context) {
-    var primaryColor = ElApp.of(context).theme.primary;
-    var textColor = ElApp.of(context).theme.textBlack;
-    Color iconColor = textColor.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
-    Color? bgColor;
-    Color borderColor = ElApp.of(context).theme.borderColor;
-    if (disabledButton) {
-      borderColor = borderColor.withOpacity(_disabledOpacity);
-      textColor = textColor.withAlpha(_disabledTextAlpha);
-      iconColor = iconColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+  @override
+  void buildDefaultTheme() {
+    textColor = textBlack;
+    iconColor = textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+    borderColor = defaultBorderColor;
+    if (widget.disabledButton) {
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withAlpha(_disabledTextAlpha);
+      iconColor = iconColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
     } else {
-      bgColor = onHover ? primaryColor.withOpacity(0.1) : null;
-      textColor = onTap || onHover ? primaryColor : textColor.withAlpha(_defaultTextAlpha);
-      iconColor = onTap || onHover ? primaryColor : iconColor;
-      borderColor = onTap
+      bgColor = widget.onHover ? primaryColor.withOpacity(0.1) : null;
+      textColor = widget.onTap || widget.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = widget.onTap || widget.onHover ? primaryColor : iconColor;
+      borderColor = widget.onTap
           ? primaryColor
-          : onHover
+          : widget.onHover
               ? primaryColor.withOpacity(0.2)
-              : borderColor;
+              : defaultBorderColor;
     }
-    return Container(
-      height: height,
-      padding: const EdgeInsets.symmetric(horizontal: _defaultHorizontal),
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(getBorderRadius(context)),
-      ),
-      child: _buildChild(context, textColor, iconColor),
-    );
+
+    border = Border.all(color: borderColor!);
+    borderRadius = BorderRadius.circular(radius);
   }
 
-  Widget _buildThemeButton(BuildContext context) {
-    Color themeColor = ElApp.of(context).themeColors[type!]!;
-    Color textColor = ElApp.of(context).theme.textWhite;
-    Color iconColor = textColor;
-    Color? bgColor;
-    Border? border;
-    if (plain) {
-      textColor = onTap || onHover ? textColor : themeColor;
-      iconColor = onTap || onHover ? textColor : themeColor;
+  @override
+  void buildTypeTheme(ElThemeType type) {
+    Color themeColor = getThemeTypeColor(type);
+    textColor = textWhite;
+    iconColor = textColor;
+    if (widget.plain) {
+      textColor = widget.onTap || widget.onHover ? textWhite : themeColor;
+      iconColor = widget.onTap || widget.onHover ? textWhite : themeColor;
       border = Border.all(color: themeColor.withOpacity(0.5));
-      bgColor = onTap
+      bgColor = widget.onTap
           ? themeColor.darken(15)
-          : onHover
+          : widget.onHover
               ? bgColor
               : themeColor.withAlpha(25);
     } else {
       bgColor = themeColor;
     }
-    if (disabledButton) {
-      if (plain) {
+    if (widget.disabledButton) {
+      if (widget.plain) {
         bgColor = themeColor.withAlpha(25);
         textColor = themeColor.withOpacity(_disabledOpacity);
         iconColor = themeColor.withOpacity(_disabledOpacity);
@@ -483,145 +485,87 @@ class _BaseButton extends StatelessWidget {
         border = null;
       }
     } else {
-      bgColor = onTap
+      bgColor = widget.onTap
           ? themeColor.darken(15)
-          : onHover
-              ? themeColor.withOpacity(0.8)
+          : widget.onHover
+              ? widget.plain
+                  ? themeColor
+                  : themeColor.withOpacity(0.8)
               : bgColor;
     }
-    return Container(
-      height: height,
-      padding: border == null
-          ? const EdgeInsets.symmetric(horizontal: _defaultHorizontal)
-          : const EdgeInsets.symmetric(horizontal: _defaultHorizontal - 1),
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: border,
-        borderRadius: BorderRadius.circular(getBorderRadius(context)),
-      ),
-      child: _buildChild(context, textColor, iconColor),
-    );
-  }
-
-  Widget _buildGroupButton(BuildContext context) {
-    var primaryColor = ElApp.of(context).theme.primary;
-    var textColor = ElApp.of(context).theme.textBlack;
-    Color iconColor = textColor.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
-    Color? bgColor;
-    Color borderColor = ElApp.of(context).theme.borderColor;
-    if (disabledButton) {
-      borderColor = borderColor.withOpacity(_disabledOpacity);
-      textColor = textColor.withAlpha(_disabledTextAlpha);
-      iconColor = iconColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
-    } else {
-      bgColor = onHover ? primaryColor.withOpacity(0.1) : null;
-      textColor = onTap || onHover ? primaryColor : textColor.withAlpha(_defaultTextAlpha);
-      iconColor = onTap || onHover ? primaryColor : iconColor;
-      borderColor = onTap
-          ? primaryColor
-          : onHover
-              ? primaryColor.withOpacity(0.2)
-              : borderColor;
-    }
-    late Border border;
-    late BorderRadius borderRadius;
-    double radius = getBorderRadius(context);
-    BorderSide borderSide = BorderSide(color: borderColor);
-    if (buttonGroupData!.children.length == 2) {
-      if (currentKeyValue == 0) {
-        border = Border.all(color: borderColor);
-        borderRadius = BorderRadius.only();
-      }
-    } else {}
-    if (currentKeyValue == 0) {
-      border = Border(left: borderSide, top: borderSide, bottom: borderSide);
-    } else if (currentKeyValue == buttonGroupData!.children.length - 1) {
-      border = Border(right: borderSide, top: borderSide, bottom: borderSide);
-    } else {}
-    return Container(
-      height: height,
-      padding: const EdgeInsets.symmetric(horizontal: _defaultHorizontal),
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(round ? 9999 : ElApp.of(context).theme.radius),
-      ),
-      child: _buildChild(context, textColor, iconColor),
-    );
-  }
-
-  double getBorderRadius(BuildContext context) {
-    return round ? 9999 : ElApp.of(context).theme.radius;
+    borderRadius = BorderRadius.circular(radius);
   }
 }
 
-class _TextButton extends StatelessWidget {
+class _TextButton extends _Button {
   const _TextButton({
-    required this.onHover,
-    required this.onTap,
-    required this.disabledButton,
+    required super.buttonType,
+    required super.onHover,
+    required super.onTap,
+    required super.disabledButton,
+    super.currentKeyValue,
+    required super.isButtonGroupItem,
+    required super.buttonGroupData,
     required this.text,
-    this.type,
+    super.type,
     required this.height,
     required this.bg,
-    required this.loading,
-    this.loadingBuilder,
+    required super.loading,
+    super.loadingBuilder,
   });
 
-  final bool onHover;
-  final bool onTap;
-  final bool disabledButton;
   final String text;
-  final ElThemeType? type;
   final double height;
   final bool bg;
-  final bool loading;
-  final Widget Function(Color color)? loadingBuilder;
 
   @override
+  _ButtonState createState() => _TextButtonState();
+}
+
+class _TextButtonState extends _ButtonState<_TextButton> {
+  @override
   Widget build(BuildContext context) {
-    Color? bgColor = ElApp.of(context).theme.info.withAlpha(160);
-    Color textColor = ElApp.of(context).theme.textBlack;
-    if (disabledButton) {
-      bgColor = bg ? bgColor.withAlpha(15) : null;
+    bgColor = ElApp.of(context).theme.info.withAlpha(160);
+    textColor = textBlack;
+    if (widget.disabledButton) {
+      bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
       textColor =
-          type == null ? textColor.withAlpha(_disabledTextAlpha) : ElApp.of(context).themeColors[type!]!.withAlpha(_disabledTextAlpha);
+          widget.type == null ? textColor!.withAlpha(_disabledTextAlpha) : getThemeTypeColor(widget.type!).withAlpha(_disabledTextAlpha);
     } else {
-      if (bg) {
-        bgColor = onTap
-            ? bgColor.withAlpha(50)
-            : onHover
-                ? bgColor.withAlpha(40)
-                : bgColor.withAlpha(25);
+      if (widget.bg) {
+        bgColor = widget.onTap
+            ? bgColor!.withAlpha(50)
+            : widget.onHover
+                ? bgColor!.withAlpha(40)
+                : bgColor!.withAlpha(25);
       } else {
-        bgColor = onTap
-            ? bgColor.withAlpha(50)
-            : onHover
-                ? bgColor.withAlpha(25)
+        bgColor = widget.onTap
+            ? bgColor!.withAlpha(50)
+            : widget.onHover
+                ? bgColor!.withAlpha(25)
                 : null;
       }
-
-      if (type == null) {
-        textColor = textColor.withAlpha(_defaultTextAlpha);
+      if (widget.type == null) {
+        textColor = textColor!.withAlpha(_defaultTextAlpha);
       } else {
-        textColor = ElApp.of(context).themeColors[type!]!;
+        textColor = getThemeTypeColor(widget.type!);
       }
     }
     return Container(
-      height: height,
-      padding: const EdgeInsets.symmetric(horizontal: _defaultHorizontal),
+      height: widget.height,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(ElApp.of(context).theme.radius),
       ),
       child: UnconstrainedBox(
         child: Center(
-          child: loading
-              ? loadingBuilder == null
-                  ? _materialLoading(textColor)
-                  : loadingBuilder!(textColor)
+          child: widget.loading
+              ? widget.loadingBuilder == null
+                  ? _materialLoading(textColor!)
+                  : widget.loadingBuilder!(textColor!)
               : Text(
-                  text,
+                  widget.text,
                   style: TextStyle(
                     color: textColor,
                     fontWeight: FontWeight.w500,
@@ -633,105 +577,335 @@ class _TextButton extends StatelessWidget {
   }
 }
 
-class _IconButton extends StatelessWidget {
+class _IconButton extends _Button {
   const _IconButton({
+    required super.buttonType,
+    required super.onHover,
+    required super.onTap,
+    required super.disabledButton,
+    super.currentKeyValue,
+    required super.isButtonGroupItem,
+    required super.buttonGroupData,
+    required this.icon,
+    super.type,
+    required super.circle,
+    required this.size,
+    required this.iconSize,
+    required super.loading,
+    super.loadingBuilder,
+  });
+
+  final IconData icon;
+  final double size;
+  final double iconSize;
+
+  @override
+  _ButtonState createState() => _IconButtonState();
+}
+
+class _IconButtonState extends _ButtonState<_IconButton> {
+  double get _width => widget.circle ? widget.size : widget.size * 1.2;
+
+  double get _height => widget.circle ? widget.size : widget.size;
+
+  /// 默认水平间距
+  double get _defaultHorizontal => (widget.size - widget.iconSize / 2) / 2;
+
+  bool get isCircleButton => widget.circle && !widget.isButtonGroupItem;
+
+  @override
+  Widget build(BuildContext context) {
+    super.buildButtonTheme();
+    return UnconstrainedBox(
+      child: Container(
+        height: _height,
+        width: isCircleButton ? _width : null,
+        padding: isCircleButton
+            ? null
+            : border == null
+                ? EdgeInsets.symmetric(horizontal: _defaultHorizontal)
+                : EdgeInsets.symmetric(horizontal: _defaultHorizontal - 1),
+        decoration: BoxDecoration(
+          color: bgColor,
+          border: border,
+          borderRadius: borderRadius,
+        ),
+        child: Center(
+          child: widget.loading
+              ? widget.loadingBuilder == null
+                  ? _materialLoading(textColor!)
+                  : widget.loadingBuilder!(textColor!)
+              : Icon(
+                  widget.icon,
+                  color: textColor!,
+                  size: widget.iconSize,
+                ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void buildDefaultTheme() {
+    textColor = textBlack;
+    borderColor = defaultBorderColor;
+    if (widget.disabledButton) {
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+    } else {
+      bgColor = widget.onHover ? primaryColor.withOpacity(0.1) : null;
+      borderColor = widget.onTap
+          ? primaryColor
+          : widget.onHover
+              ? primaryColor.withOpacity(0.2)
+              : defaultBorderColor;
+      textColor = widget.onTap || widget.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+    }
+    border = Border.all(color: borderColor!);
+    borderRadius = BorderRadius.circular(radius);
+  }
+
+  @override
+  void buildTypeTheme(ElThemeType type) {
+    bgColor = getThemeTypeColor(type);
+    textColor = textWhite;
+    if (widget.disabledButton) {
+      bgColor = bgColor!.withOpacity(_disabledOpacity);
+    } else {
+      bgColor = widget.onTap
+          ? bgColor!.darken(15)
+          : widget.onHover
+              ? bgColor!.withOpacity(0.8)
+              : bgColor;
+    }
+    borderRadius = BorderRadius.circular(radius);
+  }
+}
+
+abstract class _Button extends StatefulWidget {
+  const _Button({
+    required this.buttonType,
     required this.onHover,
     required this.onTap,
     required this.disabledButton,
-    required this.icon,
+    this.currentKeyValue,
+    required this.isButtonGroupItem,
+    this.buttonGroupData,
     this.type,
-    required this.circle,
-    required this.size,
-    required this.iconSize,
+    this.round = false,
+    this.circle = false,
     required this.loading,
     this.loadingBuilder,
   });
 
+  final _ButtonType buttonType;
   final bool onHover;
   final bool onTap;
   final bool disabledButton;
-  final IconData icon;
+  final int? currentKeyValue;
+  final bool isButtonGroupItem;
+  final _ElButtonGroupData? buttonGroupData;
   final ElThemeType? type;
+  final bool round;
   final bool circle;
-  final double size;
-  final double iconSize;
   final bool loading;
   final Widget Function(Color color)? loadingBuilder;
 
-  double get _width => circle ? size : size * 1.2;
+  @override
+  State<_Button> createState() => _ButtonState();
+}
 
-  double get _height => circle ? size : size;
+class _ButtonState<T extends _Button> extends State<T> {
+  /// 默认文字颜色
+  Color? textColor;
+
+  /// 按钮的背景颜色
+  Color? bgColor;
+
+  /// 按钮的图标颜色
+  Color? iconColor;
+
+  /// 按钮边框
+  Border? border;
+
+  /// 按钮边框圆角
+  BorderRadius? borderRadius;
+
+  /// 按钮的边框颜色
+  Color? borderColor;
+
+  /// 默认的按钮边框圆角
+  double get radius => widget.round || widget.circle ? 9999 : ElApp.of(context).theme.radius;
+
+  Color get primaryColor => ElApp.of(context).theme.primary;
+
+  Color get textBlack => ElApp.of(context).theme.textBlack;
+
+  Color get textWhite => ElApp.of(context).theme.textWhite;
+
+  Color get defaultBorderColor => ElApp.of(context).theme.defaultBorderColor;
+
+  /// 当前按钮是否是默认类型的button
+  bool get isDefaultTypeButton {
+    if (widget.isButtonGroupItem) {
+      return widget.buttonGroupData!.type == null;
+    } else {
+      return widget.type == null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return UnconstrainedBox(
-      child: type == null ? _buildDefaultButton(context) : _buildThemeButton(context),
-    );
+    throw UnimplementedError();
   }
 
-  Widget _buildIcon(Color color) {
-    return Center(
-      child: loading
-          ? loadingBuilder == null
-              ? _materialLoading(color)
-              : loadingBuilder!(color)
-          : Icon(
-              icon,
-              color: color,
-              size: iconSize,
-            ),
-    );
+  /// 构建普通button主题
+  void buildDefaultTheme() {}
+
+  /// 构建指定类型的主题色
+  void buildTypeTheme(ElThemeType type) {}
+
+  Color getThemeTypeColor(ElThemeType type) {
+    return ElApp.of(context).themeColors[type]!;
   }
 
-  Widget _buildDefaultButton(BuildContext context) {
-    var primaryColor = ElApp.of(context).theme.primary;
-    var textColor = ElApp.of(context).theme.textBlack;
-    Color? bgColor;
-    Color borderColor = ElApp.of(context).theme.borderColor;
-    if (disabledButton) {
-      borderColor = borderColor.withOpacity(_disabledOpacity);
-      textColor = textColor.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+  /// 构建按钮主题，它适用于所有button，不过按钮主题的具体实现由子类决定
+  void buildButtonTheme() {
+    if (widget.isButtonGroupItem) {
+      if (widget.buttonGroupData!.type == null) {
+        buildDefaultTheme();
+        border = caleDefaultButtonGroupBorder(borderColor!);
+        borderRadius = caleButtonGroupBorderRadius(radius);
+      } else {
+        buildTypeTheme(widget.buttonGroupData!.type!);
+        border = caleTypeButtonGroupBorder();
+        borderRadius = caleButtonGroupBorderRadius(radius);
+      }
+      switch (widget.buttonGroupData!.buttonGroupType) {
+        case _ButtonGroupType.base:
+          break;
+        case _ButtonGroupType.single:
+          if (widget.currentKeyValue == widget.buttonGroupData!.index) {
+            if (widget.buttonGroupData!.type == null) {
+              bgColor = primaryColor.withOpacity(0.1);
+              textColor = primaryColor;
+              iconColor = primaryColor;
+            } else {
+              bgColor = getThemeTypeColor(widget.buttonGroupData!.type!);
+              textColor = textWhite;
+              iconColor = textWhite;
+              border = null;
+            }
+          } else {
+            bgColor = null;
+            if (widget.buttonGroupData!.type == null) {
+              textColor = widget.onHover ? primaryColor : textBlack;
+              iconColor = textColor;
+            } else {
+              textColor = widget.onHover ? getThemeTypeColor(widget.buttonGroupData!.type!) : textBlack;
+              iconColor = textColor;
+            }
+          }
+          break;
+        case _ButtonGroupType.multiple:
+          break;
+      }
     } else {
-      bgColor = onHover ? primaryColor.withOpacity(0.1) : null;
-      borderColor = onTap
-          ? primaryColor
-          : onHover
-              ? primaryColor.withOpacity(0.2)
-              : borderColor;
-      textColor = onTap || onHover ? primaryColor : textColor.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+      widget.type == null ? buildDefaultTheme() : buildTypeTheme(widget.type!);
     }
-    return Container(
-      width: _width,
-      height: _height,
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(circle ? 9999 : ElApp.of(context).theme.radius),
-      ),
-      child: _buildIcon(textColor),
-    );
   }
 
-  Widget _buildThemeButton(BuildContext context) {
-    Color bgColor = ElApp.of(context).themeColors[type!]!;
-    Color textColor = ElApp.of(context).theme.textWhite;
-    if (disabledButton) {
-      bgColor = bgColor.withOpacity(_disabledOpacity);
+  /// 计算默认样式的按钮组边框
+  Border? caleDefaultButtonGroupBorder(Color borderColor) {
+    BorderSide borderSide = BorderSide(color: borderColor);
+    if (widget.buttonGroupData!.children.length == 2) {
+      if (widget.currentKeyValue == 0) {
+        return widget.buttonGroupData!.onEnterIndex == widget.currentKeyValue
+            ? Border.all(color: borderColor)
+            : Border(top: borderSide, left: borderSide, bottom: borderSide);
+      } else {
+        return widget.buttonGroupData!.onEnterIndex == widget.currentKeyValue
+            ? Border.all(color: borderColor)
+            : Border(top: borderSide, right: borderSide, bottom: borderSide);
+      }
     } else {
-      bgColor = onTap
-          ? bgColor.darken(15)
-          : onHover
-              ? bgColor.withOpacity(0.8)
-              : bgColor;
+      // 计算第一个按钮的边缘情况，当鼠标进入第一个按钮后面一个的按钮，那么第一个按钮取消右边框，因为后面那一个按钮需要绘制所有边框
+      if (widget.currentKeyValue == 0) {
+        if (widget.buttonGroupData!.onEnterIndex == 1) {
+          return Border(top: borderSide, left: borderSide, bottom: borderSide);
+        } else {
+          return Border.all(color: borderColor);
+        }
+      }
+      // 计算最后一个按钮的边缘情况，当鼠标进入最后一个按钮，返回全边框，否则不绘制左边框，因为前一个按钮已经绘制了右边框
+      else if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 1) {
+        if (widget.buttonGroupData!.onEnterIndex == widget.buttonGroupData!.children.length - 1) {
+          return Border.all(color: borderColor);
+        } else {
+          return Border(top: borderSide, right: borderSide, bottom: borderSide);
+        }
+      }
+      // 计算中间按钮的边缘情况，默认返回绘制上边框、下边框、右边框
+      else {
+        if (widget.buttonGroupData!.onEnterIndex == widget.currentKeyValue) return Border.all(color: borderColor);
+        // 如果最后一个按钮被选中，那么前一个按钮就无需绘制右边框
+        if (widget.buttonGroupData!.onEnterIndex == widget.buttonGroupData!.children.length - 1) {
+          if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 2) {
+            return Border(top: borderSide, bottom: borderSide);
+          }
+        }
+        return Border(top: borderSide, right: borderSide, bottom: borderSide);
+      }
     }
-    return Container(
-      width: _width,
-      height: _height,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(circle ? 9999 : ElApp.of(context).theme.radius),
-      ),
-      child: _buildIcon(textColor),
-    );
+  }
+
+  /// 计算拥有主题类型的按钮组的边框
+  Border? caleTypeButtonGroupBorder() {
+    if (widget.buttonGroupData!.buttonGroupType == _ButtonGroupType.base) {
+      BorderSide borderSide = BorderSide(color: textWhite, width: 0.5);
+      if (widget.buttonGroupData!.children.length == 2) {
+        if (widget.currentKeyValue == 0) {
+          return Border(right: borderSide);
+        }
+      } else {
+        if (widget.currentKeyValue != widget.buttonGroupData!.children.length - 1) {
+          return Border(right: borderSide);
+        }
+      }
+    } else {
+      BorderSide borderSide = BorderSide(color: defaultBorderColor);
+      if (widget.buttonGroupData!.children.length == 2) {
+        if (widget.currentKeyValue == 0) {
+          return Border(top: borderSide, left: borderSide, bottom: borderSide);
+        } else {
+          return Border(top: borderSide, right: borderSide, bottom: borderSide);
+        }
+      } else {
+        return Border(top: borderSide, right: borderSide, bottom: borderSide);
+      }
+    }
+
+    return null;
+  }
+
+  /// 计算按钮组的边框圆角
+  BorderRadius caleButtonGroupBorderRadius(double radius) {
+    late BorderRadius borderRadius;
+    if (widget.buttonGroupData!.children.length == 2) {
+      if (widget.currentKeyValue == 0) {
+        borderRadius = BorderRadius.only(topLeft: Radius.circular(radius), bottomLeft: Radius.circular(radius));
+      } else {
+        borderRadius = BorderRadius.only(topRight: Radius.circular(radius), bottomRight: Radius.circular(radius));
+      }
+    } else {
+      if (widget.currentKeyValue == 0) {
+        borderRadius = BorderRadius.only(topLeft: Radius.circular(radius), bottomLeft: Radius.circular(radius));
+      } else if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 1) {
+        borderRadius = BorderRadius.only(topRight: Radius.circular(radius), bottomRight: Radius.circular(radius));
+      } else {
+        borderRadius = BorderRadius.zero;
+      }
+    }
+    return borderRadius;
   }
 }
