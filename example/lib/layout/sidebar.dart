@@ -17,13 +17,27 @@ class _SidebarState extends State<Sidebar> {
           children: [
             ElMenuModel(title: '子菜单1'),
             ElMenuModel(title: '子菜单2'),
-            ElMenuModel(title: '子菜单3', children: [
-              ElMenuModel(title: '子菜单3-1'),
-              ElMenuModel(title: '子菜单3-2'),
-            ]),
+            ElMenuModel(
+                title: '子菜单3',
+                children: List.generate(
+                  5,
+                  (index) => ElMenuModel(
+                    title: '子菜单3-${index + 1}',
+                    children: List.generate(
+                      4,
+                      (secondIndex) => ElMenuModel(
+                          title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
+                    ).toList(),
+                  ),
+                ).toList()),
           ],
         ),
-        ElMenuModel(title: '三级菜单'),
+        ElMenuModel(
+          title: '三级菜单',
+          children:
+              List.generate(4, (index) => ElMenuModel(title: '子菜单${index + 1}'))
+                  .toList(),
+        ),
         ElMenuModel(title: '四级菜单'),
         ElMenuModel(title: '五级菜单'),
       ];

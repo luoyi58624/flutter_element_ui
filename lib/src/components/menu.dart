@@ -1,5 +1,7 @@
 part of flutter_element_ui;
 
+const double _gapValue = 20;
+
 class ElMenuModel {
   String title;
   IconData? icon;
@@ -62,7 +64,10 @@ class _ElMenuState extends State<ElMenu> {
       child: _ElMenuData(
         background: background,
         child: SingleChildScrollView(
-          child: _ElMenuWidget(modelList: widget.modelList),
+          child: _ElMenuWidget(
+            modelList: widget.modelList,
+            gap: _gapValue,
+          ),
         ),
       ),
     );
@@ -72,45 +77,31 @@ class _ElMenuState extends State<ElMenu> {
 class _ElMenuWidget extends StatefulWidget {
   const _ElMenuWidget({
     required this.modelList,
+    required this.gap,
   });
 
   final List<ElMenuModel> modelList;
+
+  /// 间距，每展开一层，子元素的间距越深
+  final double gap;
 
   @override
   State<_ElMenuWidget> createState() => _ElMenuWidgetState();
 }
 
 class _ElMenuWidgetState extends State<_ElMenuWidget> {
-  bool _expand = false;
-
-  void setExpand(bool value) {
-    setState(() {
-      _expand = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: widget.modelList.map((e) => buildItem(e)).toList(),
-    );
-  }
-
-  Widget buildItem(ElMenuModel model) {
-    bool hasChild = model.children != null && model.children!.isNotEmpty;
-    return Column(
-      children: [
-        _MenuItemWidget(
-          model: model,
-          expand: _expand,
-          setExpand: setExpand,
-        ),
-        if (hasChild && _expand)
-          _ElMenuWidget(
-            modelList: model.children!,
+      children: widget.modelList
+          .map(
+            (e) => _MenuItemWidget(
+              model: e,
+              gap: widget.gap,
+            ),
           )
-      ],
+          .toList(),
     );
   }
 }
@@ -118,20 +109,20 @@ class _ElMenuWidgetState extends State<_ElMenuWidget> {
 class _MenuItemWidget extends StatefulWidget {
   const _MenuItemWidget({
     required this.model,
-    required this.expand,
-    required this.setExpand,
+    required this.gap,
   });
 
   final ElMenuModel model;
-  final bool expand;
-  final void Function(bool value) setExpand;
+  final double gap;
 
   @override
   State<_MenuItemWidget> createState() => _MenuItemWidgetState();
 }
 
 class _MenuItemWidgetState extends State<_MenuItemWidget> {
+  bool _expand = false;
   bool _onHover = false;
+  bool _onTap = false;
 
   Color get textBlack => ElApp.of(context).themeData.textBlack;
 
@@ -141,12 +132,36 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
 
   Color get textColor => parentBgColor.isDark ? textWhite : textBlack;
 
-  Color get hoverColor => parentBgColor.isDark ? parentBgColor.brighten(15) : parentBgColor.darken(15);
+  Color get hoverColor => parentBgColor.isDark ? parentBgColor.brighten(10) : parentBgColor.darken(10);
+
+  Color get tapColor => parentBgColor.isDark ? parentBgColor.brighten(15) : parentBgColor.darken(15);
 
   bool get hasChild => widget.model.children != null && widget.model.children!.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        buildItem(),
+        if (hasChild)
+          AnimatedCrossFade(
+            firstChild: Container(height: 0.0),
+            secondChild: _ElMenuWidget(
+              modelList: widget.model.children!,
+              gap: widget.gap + _gapValue,
+            ),
+            firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+            secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+            sizeCurve: Curves.fastOutSlowIn,
+            crossFadeState: _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            duration: const Duration(milliseconds: 300),
+          ),
+      ],
+    );
+  }
+
+  Widget buildItem() {
     return MouseRegion(
       onEnter: (e) {
         setState(() {
@@ -160,30 +175,49 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
       },
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
+        onTapDown: (e) {
+          setState(() {
+            _onTap = true;
+          });
+        },
+        onTapCancel: () {
+          setState(() {
+            _onTap = false;
+          });
+        },
         onTap: () {
+          setState(() {
+            _onTap = false;
+          });
           if (hasChild) {
-            widget.setExpand(!widget.expand);
+            setState(() {
+              _expand = !_expand;
+            });
           }
         },
         child: Container(
           height: 56,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
-            color: _onHover ? hoverColor : parentBgColor,
+            color: _onTap
+                ? tapColor
+                : _onHover
+                    ? hoverColor
+                    : parentBgColor,
           ),
           child: Center(
             child: Row(
               children: [
-                SizedBox(
-                  width: 44,
-                  child: widget.model.icon == null
-                      ? null
-                      : Icon(
-                          widget.model.icon,
-                          color: textColor,
-                          size: 20,
-                        ),
-                ),
+                SizedBox(width: widget.gap),
+                if (widget.model.icon != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Icon(
+                      widget.model.icon,
+                      color: textColor,
+                      size: 18,
+                    ),
+                  ),
                 Text(
                   widget.model.title,
                   style: TextStyle(
@@ -194,14 +228,14 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
                 const Expanded(child: SizedBox()),
                 if (hasChild)
                   SizedBox(
-                    width: 44,
+                    width: 40,
                     child: AnimatedRotation(
                       duration: const Duration(milliseconds: 200),
-                      turns: widget.expand ? 0.5 : 0,
+                      turns: _expand ? 0.5 : 0,
                       child: Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: textColor,
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                   ),

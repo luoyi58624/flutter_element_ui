@@ -13,7 +13,6 @@ dependencies:
   flutter_element_ui:
     path: ..
   cupertino_icons: ^1.0.2
-  fluent_ui: ^4.4.0
   chicago: ^0.4.2-dev
 
 

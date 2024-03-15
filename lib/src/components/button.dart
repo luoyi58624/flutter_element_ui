@@ -182,8 +182,8 @@ class _ElButtonState extends State<ElButton> {
     _ElButtonGroupData? buttonGroupData = _ElButtonGroupData.of(context);
     _isButtonGroupItem = buttonGroupData != null;
     if (_isButtonGroupItem) {
-      assert(
-          widget.key != null && widget.key is ValueKey<int>, '你声明了ElButtonGroup，但是ElButton的key参数却没有设置ValueKey<int>，请传递包含当前按钮索引的ValueKey');
+      assert(widget.key != null && widget.key is ValueKey<int>,
+          '你声明了ElButtonGroup，但是ElButton的key参数却没有设置ValueKey<int>，请传递包含当前按钮索引的ValueKey');
       _currentKeyValue = (widget.key! as ValueKey<int>).value;
     }
     late Widget buttonWidget;
@@ -278,7 +278,9 @@ class _ElButtonState extends State<ElButton> {
                 _onHover = false;
               });
             },
-      cursor: _disabledButton ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+      cursor: _disabledButton
+          ? SystemMouseCursors.forbidden
+          : SystemMouseCursors.click,
       child: GestureDetector(
         onTapDown: _disabledButton
             ? null
@@ -294,9 +296,9 @@ class _ElButtonState extends State<ElButton> {
                   _onTap = false;
                 });
               },
-        onTapUp: _disabledButton
+        onTap: _disabledButton
             ? null
-            : (e) {
+            : () {
                 setState(() {
                   _onTap = false;
                 });
@@ -393,17 +395,23 @@ class _BaseButtonState extends _ButtonState<_BaseButton> {
             children: [
               if (widget.loading)
                 Padding(
-                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 6),
+                  padding: noText
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.only(right: 6),
                   child: widget.loadingBuilder == null
                       ? CupertinoActivityIndicator(
                           radius: 8,
-                          color: widget.type == null ? textColor : ElApp.of(context).themeData.white,
+                          color: widget.type == null
+                              ? textColor
+                              : ElApp.of(context).themeData.white,
                         )
                       : widget.loadingBuilder!(iconColor!),
                 ),
               if (widget.leftIcon != null)
                 Padding(
-                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 4),
+                  padding: noText
+                      ? EdgeInsets.zero
+                      : const EdgeInsets.only(right: 4),
                   child: Icon(
                     widget.leftIcon,
                     color: iconColor,
@@ -420,7 +428,8 @@ class _BaseButtonState extends _ButtonState<_BaseButton> {
                 ),
               if (widget.rightIcon != null)
                 Padding(
-                  padding: noText ? EdgeInsets.zero : const EdgeInsets.only(left: 4),
+                  padding:
+                      noText ? EdgeInsets.zero : const EdgeInsets.only(left: 4),
                   child: Icon(
                     widget.rightIcon,
                     color: iconColor,
@@ -445,7 +454,9 @@ class _BaseButtonState extends _ButtonState<_BaseButton> {
       iconColor = iconColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
     } else {
       bgColor = widget.onHover ? primaryColor.withOpacity(0.1) : null;
-      textColor = widget.onTap || widget.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      textColor = widget.onTap || widget.onHover
+          ? primaryColor
+          : textColor!.withAlpha(_defaultTextAlpha);
       iconColor = widget.onTap || widget.onHover ? primaryColor : iconColor;
       borderColor = widget.onTap
           ? primaryColor
@@ -530,8 +541,9 @@ class _TextButtonState extends _ButtonState<_TextButton> {
     textColor = textBlack;
     if (widget.disabledButton) {
       bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
-      textColor =
-          widget.type == null ? textColor!.withAlpha(_disabledTextAlpha) : getThemeTypeColor(widget.type!).withAlpha(_disabledTextAlpha);
+      textColor = widget.type == null
+          ? textColor!.withAlpha(_disabledTextAlpha)
+          : getThemeTypeColor(widget.type!).withAlpha(_disabledTextAlpha);
     } else {
       if (widget.bg) {
         bgColor = widget.onTap
@@ -660,7 +672,9 @@ class _IconButtonState extends _ButtonState<_IconButton> {
           : widget.onHover
               ? primaryColor.withOpacity(0.2)
               : defaultBorderColor;
-      textColor = widget.onTap || widget.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+      textColor = widget.onTap || widget.onHover
+          ? primaryColor
+          : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
     }
     border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular(radius);
@@ -736,7 +750,8 @@ class _ButtonState<T extends _Button> extends State<T> {
   Color? borderColor;
 
   /// 默认的按钮边框圆角
-  double get radius => widget.round || widget.circle ? 9999 : ElApp.of(context).themeData.radius;
+  double get radius =>
+      widget.round || widget.circle ? 9999 : ElApp.of(context).themeData.radius;
 
   Color get primaryColor => ElApp.of(context).themeData.primary;
 
@@ -744,7 +759,8 @@ class _ButtonState<T extends _Button> extends State<T> {
 
   Color get textWhite => ElApp.of(context).themeData.textWhite;
 
-  Color get defaultBorderColor => ElApp.of(context).themeData.defaultBorderColor;
+  Color get defaultBorderColor =>
+      ElApp.of(context).themeData.defaultBorderColor;
 
   /// 当前按钮是否是默认类型的button
   bool get isDefaultTypeButton {
@@ -803,7 +819,9 @@ class _ButtonState<T extends _Button> extends State<T> {
               textColor = widget.onHover ? primaryColor : textBlack;
               iconColor = textColor;
             } else {
-              textColor = widget.onHover ? getThemeTypeColor(widget.buttonGroupData!.type!) : textBlack;
+              textColor = widget.onHover
+                  ? getThemeTypeColor(widget.buttonGroupData!.type!)
+                  : textBlack;
               iconColor = textColor;
             }
           }
@@ -839,8 +857,10 @@ class _ButtonState<T extends _Button> extends State<T> {
         }
       }
       // 计算最后一个按钮的边缘情况，当鼠标进入最后一个按钮，返回全边框，否则不绘制左边框，因为前一个按钮已经绘制了右边框
-      else if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 1) {
-        if (widget.buttonGroupData!.onEnterIndex == widget.buttonGroupData!.children.length - 1) {
+      else if (widget.currentKeyValue ==
+          widget.buttonGroupData!.children.length - 1) {
+        if (widget.buttonGroupData!.onEnterIndex ==
+            widget.buttonGroupData!.children.length - 1) {
           return Border.all(color: borderColor);
         } else {
           return Border(top: borderSide, right: borderSide, bottom: borderSide);
@@ -848,10 +868,13 @@ class _ButtonState<T extends _Button> extends State<T> {
       }
       // 计算中间按钮的边缘情况，默认返回绘制上边框、下边框、右边框
       else {
-        if (widget.buttonGroupData!.onEnterIndex == widget.currentKeyValue) return Border.all(color: borderColor);
+        if (widget.buttonGroupData!.onEnterIndex == widget.currentKeyValue)
+          return Border.all(color: borderColor);
         // 如果最后一个按钮被选中，那么前一个按钮就无需绘制右边框
-        if (widget.buttonGroupData!.onEnterIndex == widget.buttonGroupData!.children.length - 1) {
-          if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 2) {
+        if (widget.buttonGroupData!.onEnterIndex ==
+            widget.buttonGroupData!.children.length - 1) {
+          if (widget.currentKeyValue ==
+              widget.buttonGroupData!.children.length - 2) {
             return Border(top: borderSide, bottom: borderSide);
           }
         }
@@ -869,7 +892,8 @@ class _ButtonState<T extends _Button> extends State<T> {
           return Border(right: borderSide);
         }
       } else {
-        if (widget.currentKeyValue != widget.buttonGroupData!.children.length - 1) {
+        if (widget.currentKeyValue !=
+            widget.buttonGroupData!.children.length - 1) {
           return Border(right: borderSide);
         }
       }
@@ -894,15 +918,24 @@ class _ButtonState<T extends _Button> extends State<T> {
     late BorderRadius borderRadius;
     if (widget.buttonGroupData!.children.length == 2) {
       if (widget.currentKeyValue == 0) {
-        borderRadius = BorderRadius.only(topLeft: Radius.circular(radius), bottomLeft: Radius.circular(radius));
+        borderRadius = BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            bottomLeft: Radius.circular(radius));
       } else {
-        borderRadius = BorderRadius.only(topRight: Radius.circular(radius), bottomRight: Radius.circular(radius));
+        borderRadius = BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius));
       }
     } else {
       if (widget.currentKeyValue == 0) {
-        borderRadius = BorderRadius.only(topLeft: Radius.circular(radius), bottomLeft: Radius.circular(radius));
-      } else if (widget.currentKeyValue == widget.buttonGroupData!.children.length - 1) {
-        borderRadius = BorderRadius.only(topRight: Radius.circular(radius), bottomRight: Radius.circular(radius));
+        borderRadius = BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            bottomLeft: Radius.circular(radius));
+      } else if (widget.currentKeyValue ==
+          widget.buttonGroupData!.children.length - 1) {
+        borderRadius = BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius));
       } else {
         borderRadius = BorderRadius.zero;
       }
