@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+import 'package:logger/logger.dart';
 
 var _logger = Logger(
   printer: PrettyPrinter(
@@ -10,8 +10,8 @@ var _logger = Logger(
 );
 
 /// 打印日志工具类
-class _LoggerUtil {
-  _LoggerUtil(dynamic message, [dynamic title]) {
+class LoggerUtil {
+  LoggerUtil(dynamic message, [dynamic title]) {
     _logger.i(message, error: title);
   }
 

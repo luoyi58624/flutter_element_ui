@@ -22,7 +22,7 @@ jobs:
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
-      - run: sh ./script/web_admin.sh
+      - run: sh ./script/build_example_web.sh
       - name: Deploy Web
         uses: JamesIves/github-pages-deploy-action@v4
         with:

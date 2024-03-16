@@ -108,7 +108,7 @@ class ElButton extends StatefulWidget {
   final String? text;
 
   /// 按钮图标
-  final IconData? icon;
+  final ElIcon? icon;
 
   /// 按钮主题类型
   final ElThemeType? type;
@@ -159,12 +159,12 @@ class ElButton extends StatefulWidget {
   State<ElButton> createState() => _ElButtonState();
 }
 
-class _ElButtonState extends State<ElButton> {
-  bool _onHover = false;
-  bool _onTap = false;
-
+class _ElButtonState extends State<ElButton> with ElMouseMixin, ElTapMixin {
   /// 此按钮是否属于按钮组成员，如果父级组件存在[ElButtonGroup]，那么它为true
   late bool _isButtonGroupItem;
+
+  /// 按钮组数据
+  _ElButtonGroupData? buttonGroupData;
 
   /// 按钮当前索引的key，如果是按钮组，那么此值必须存在
   int? _currentKeyValue;
@@ -178,8 +178,53 @@ class _ElButtonState extends State<ElButton> {
   }
 
   @override
+  bool get disabledHover => _disabledButton;
+
+  @override
+  bool get disabledTap => _disabledButton;
+
+  @override
+  void onEnterEvent(PointerEnterEvent event) {
+    if (_isButtonGroupItem) {
+      buttonGroupData!.setOnEnterIndex(_currentKeyValue!);
+    }
+  }
+
+  @override
+  void onTapEvent() {
+    if (_isButtonGroupItem) {
+      if (widget.onPressed != null) widget.onPressed!();
+      switch (buttonGroupData!.buttonGroupType) {
+        case _ButtonGroupType.base:
+          break;
+        case _ButtonGroupType.single:
+          if (buttonGroupData!.onChange != null) {
+            if (buttonGroupData!.index != _currentKeyValue) {
+              buttonGroupData!.onChange!(_currentKeyValue!);
+            }
+          }
+          break;
+        case _ButtonGroupType.multiple:
+          if (buttonGroupData!.onChangeList != null) {
+            List<int> indexList = buttonGroupData!.indexList;
+            int targetIndex = indexList.indexOf(_currentKeyValue!);
+            if (targetIndex == -1) {
+              indexList.add(_currentKeyValue!);
+            } else {
+              indexList.removeAt(targetIndex);
+            }
+            buttonGroupData!.onChangeList!(indexList);
+          }
+          break;
+      }
+    } else {
+      widget.onPressed!();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _ElButtonGroupData? buttonGroupData = _ElButtonGroupData.of(context);
+    buttonGroupData = _ElButtonGroupData.of(context);
     _isButtonGroupItem = buttonGroupData != null;
     if (_isButtonGroupItem) {
       assert(
@@ -192,8 +237,8 @@ class _ElButtonState extends State<ElButton> {
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _BaseButton(
           buttonType: widget._buttonType,
-          onHover: _onHover,
-          onTap: _onTap,
+          onHover: onHover,
+          onTap: onTap,
           disabledButton: _disabledButton,
           currentKeyValue: _currentKeyValue,
           isButtonGroupItem: _isButtonGroupItem,
@@ -214,8 +259,8 @@ class _ElButtonState extends State<ElButton> {
         assert(widget.text != null, 'text不能为null');
         buttonWidget = _TextButton(
           buttonType: widget._buttonType,
-          onHover: _onHover,
-          onTap: _onTap,
+          onHover: onHover,
+          onTap: onTap,
           disabledButton: _disabledButton,
           currentKeyValue: _currentKeyValue,
           isButtonGroupItem: _isButtonGroupItem,
@@ -232,8 +277,8 @@ class _ElButtonState extends State<ElButton> {
         assert(widget.icon != null, 'icon不能为null');
         buttonWidget = _IconButton(
           buttonType: widget._buttonType,
-          onHover: _onHover,
-          onTap: _onTap,
+          onHover: onHover,
+          onTap: onTap,
           disabledButton: _disabledButton,
           currentKeyValue: _currentKeyValue,
           isButtonGroupItem: _isButtonGroupItem,
@@ -260,75 +305,8 @@ class _ElButtonState extends State<ElButton> {
         child: buttonWidget,
       );
     }
-    return MouseRegion(
-      onEnter: _disabledButton
-          ? null
-          : (e) {
-              setState(() {
-                _onHover = true;
-              });
-              if (_isButtonGroupItem) {
-                buttonGroupData!.setOnEnterIndex(_currentKeyValue!);
-              }
-            },
-      onExit: _disabledButton
-          ? null
-          : (e) {
-              setState(() {
-                _onHover = false;
-              });
-            },
-      cursor: _disabledButton ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
-      child: GestureDetector(
-        onTapDown: _disabledButton
-            ? null
-            : (e) {
-                setState(() {
-                  _onTap = true;
-                });
-              },
-        onTapCancel: _disabledButton
-            ? null
-            : () {
-                setState(() {
-                  _onTap = false;
-                });
-              },
-        onTap: _disabledButton
-            ? null
-            : () {
-                setState(() {
-                  _onTap = false;
-                });
-                if (_isButtonGroupItem) {
-                  if (widget.onPressed != null) widget.onPressed!();
-                  switch (buttonGroupData!.buttonGroupType) {
-                    case _ButtonGroupType.base:
-                      break;
-                    case _ButtonGroupType.single:
-                      if (buttonGroupData.onChange != null) {
-                        if (buttonGroupData.index != _currentKeyValue) {
-                          buttonGroupData.onChange!(_currentKeyValue!);
-                        }
-                      }
-                      break;
-                    case _ButtonGroupType.multiple:
-                      if (buttonGroupData.onChangeList != null) {
-                        List<int> indexList = buttonGroupData.indexList;
-                        int targetIndex = indexList.indexOf(_currentKeyValue!);
-                        if (targetIndex == -1) {
-                          indexList.add(_currentKeyValue!);
-                        } else {
-                          indexList.removeAt(targetIndex);
-                        }
-                        buttonGroupData.onChangeList!(indexList);
-                      }
-                      break;
-                  }
-                } else {
-                  widget.onPressed!();
-                }
-              },
+    return buildMouseWidget(
+      child: buildTapWidget(
         child: buttonWidget,
       ),
     );
@@ -596,7 +574,7 @@ class _IconButton extends _Button {
     super.loadingBuilder,
   });
 
-  final IconData icon;
+  final ElIcon icon;
   final double size;
   final double iconSize;
 
@@ -636,10 +614,9 @@ class _IconButtonState extends _ButtonState<_IconButton> {
               ? widget.loadingBuilder == null
                   ? _materialLoading(textColor!)
                   : widget.loadingBuilder!(textColor!)
-              : Icon(
-                  widget.icon,
-                  color: textColor!,
-                  size: widget.iconSize,
+              : ElDefaultIconStyle(
+                  color: textColor,
+                  child: widget.icon,
                 ),
         ),
       ),

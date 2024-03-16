@@ -3,11 +3,10 @@ library flutter_element_ui;
 import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
-
-import 'src/widgets/svg.dart';
 
 part 'src/components/affix.dart';
 
@@ -132,6 +131,10 @@ part 'src/components/transfer.dart';
 part 'src/components/tree.dart';
 
 part 'src/components/upload.dart';
+
+part 'src/mixins/mouse.dart';
+
+part 'src/mixins/tap.dart';
 
 part 'src/styles/icons.dart';
 

@@ -22,14 +22,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ElApp(
-      theme: ElThemeData(
-        primary: flag ? Colors.purple : Colors.blue,
-        success: const Color(0xff059669),
-        info: const Color(0xff64748B),
-        warning: const Color(0xfff59e0b),
-        error: const Color(0xffe11d48),
-        radius: 8,
-      ),
+      // theme: ElThemeData(
+      //   primary: flag ? Colors.purple : Colors.blue,
+      //   success: const Color(0xff059669),
+      //   info: const Color(0xff64748B),
+      //   warning: const Color(0xfff59e0b),
+      //   error: const Color(0xffe11d48),
+      //   radius: 8,
+      // ),
       child: MaterialApp.router(
         title: 'Flutter Element UI',
         debugShowCheckedModeBanner: false,

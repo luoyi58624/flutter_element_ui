@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
+import '../store.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -70,13 +72,22 @@ class _HomePageState extends State<HomePage> {
                   tooltip: '这是基础按钮',
                   disabledTooltip: '按钮已被禁用',
                 ),
+                ValueListenableBuilder(
+                  valueListenable: GlobalStore.counter,
+                  builder: (context, value, _) => ElButton(
+                    'count: ${GlobalStore.counter.value}',
+                    onPressed: () {
+                      GlobalStore.counter.value++;
+                    },
+                  ),
+                ),
                 ElButton(onPressed: onPressed, type: ElThemeType.primary, childText),
                 ElButton(onPressed: onPressed, type: ElThemeType.success, childText),
                 ElButton(onPressed: onPressed, type: ElThemeType.info, childText),
                 ElButton(onPressed: onPressed, type: ElThemeType.warning, childText),
                 ElButton(onPressed: onPressed, type: ElThemeType.error, childText),
-                ElButton.icon(Icons.search, onPressed: onPressed),
-                ElButton.icon(Icons.edit_calendar_outlined, onPressed: onPressed, type: ElThemeType.primary),
+                ElButton.icon(const ElIcon(Icons.search), onPressed: onPressed),
+                ElButton.icon(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary),
               ],
             ),
             const SizedBox(height: 8),
@@ -136,12 +147,12 @@ class _HomePageState extends State<HomePage> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                ElButton.icon(Icons.search, onPressed: onPressed),
-                ElButton.icon(Icons.edit_calendar_outlined, onPressed: onPressed, type: ElThemeType.primary),
-                ElButton.icon(Icons.check, onPressed: onPressed, type: ElThemeType.success),
-                ElButton.icon(Icons.email_outlined, onPressed: onPressed, type: ElThemeType.info),
-                ElButton.icon(Icons.delete, onPressed: onPressed, type: ElThemeType.warning),
-                ElButton.icon(Icons.access_alarm, onPressed: onPressed, type: ElThemeType.error),
+                ElButton.icon(const ElIcon(Icons.search), onPressed: onPressed),
+                ElButton.icon(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary),
+                ElButton.icon(const ElIcon(Icons.check), onPressed: onPressed, type: ElThemeType.success),
+                ElButton.icon(const ElIcon(Icons.email_outlined), onPressed: onPressed, type: ElThemeType.info),
+                ElButton.icon(const ElIcon(Icons.delete), onPressed: onPressed, type: ElThemeType.warning),
+                ElButton.icon(const ElIcon(Icons.access_alarm), onPressed: onPressed, type: ElThemeType.error),
               ],
             ),
             const SizedBox(height: 8),
@@ -149,12 +160,12 @@ class _HomePageState extends State<HomePage> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                ElButton.icon(Icons.search, onPressed: onPressed, circle: true),
-                ElButton.icon(Icons.edit_calendar_outlined, onPressed: onPressed, type: ElThemeType.primary, circle: true),
-                ElButton.icon(Icons.check, onPressed: onPressed, type: ElThemeType.success, circle: true),
-                ElButton.icon(Icons.email_outlined, onPressed: onPressed, type: ElThemeType.info, circle: true),
-                ElButton.icon(Icons.delete, onPressed: onPressed, type: ElThemeType.warning, circle: true),
-                ElButton.icon(Icons.access_alarm, onPressed: onPressed, type: ElThemeType.error, circle: true),
+                ElButton.icon(const ElIcon(Icons.search), onPressed: onPressed, circle: true),
+                ElButton.icon(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary, circle: true),
+                ElButton.icon(const ElIcon(Icons.check), onPressed: onPressed, type: ElThemeType.success, circle: true),
+                ElButton.icon(const ElIcon(Icons.email_outlined), onPressed: onPressed, type: ElThemeType.info, circle: true),
+                ElButton.icon(const ElIcon(Icons.delete), onPressed: onPressed, type: ElThemeType.warning, circle: true),
+                ElButton.icon(const ElIcon(Icons.access_alarm), onPressed: onPressed, type: ElThemeType.error, circle: true),
               ],
             ),
             const SizedBox(height: 8),
@@ -198,10 +209,10 @@ class _HomePageState extends State<HomePage> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                ElButton.icon(onPressed: onLoading, Icons.check, loading: loading),
-                ElButton.icon(onPressed: onLoading, type: ElThemeType.primary, Icons.check, loading: loading),
-                ElButton.icon(onPressed: onLoading, Icons.check, loading: loading, circle: true),
-                ElButton.icon(onPressed: onLoading, type: ElThemeType.primary, Icons.check, loading: loading, circle: true),
+                ElButton.icon(onPressed: onLoading, const ElIcon(Icons.check), loading: loading),
+                ElButton.icon(onPressed: onLoading, type: ElThemeType.primary, const ElIcon(Icons.check), loading: loading),
+                ElButton.icon(onPressed: onLoading, const ElIcon(Icons.check), loading: loading, circle: true),
+                ElButton.icon(onPressed: onLoading, type: ElThemeType.primary, const ElIcon(Icons.check), loading: loading, circle: true),
               ],
             ),
             const SizedBox(height: 8),
@@ -260,18 +271,18 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8),
             const ElButtonGroup(
               children: [
-                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
-                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
-                ElButton.icon(key: ValueKey(2), Icons.edit_calendar_outlined),
+                ElButton.icon(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElButton.icon(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElButton.icon(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
               ],
             ),
             const SizedBox(height: 8),
             const ElButtonGroup(
               type: ElThemeType.primary,
               children: [
-                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
-                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
-                ElButton.icon(key: ValueKey(2), Icons.edit_calendar_outlined),
+                ElButton.icon(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElButton.icon(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElButton.icon(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
               ],
             ),
             const SizedBox(height: 8),
@@ -283,8 +294,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               children: const [
-                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
-                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
+                ElButton.icon(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElButton.icon(key: ValueKey(1), ElIcon(Icons.access_alarm)),
               ],
             ),
             const SizedBox(height: 8),
@@ -297,8 +308,8 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               children: const [
-                ElButton.icon(key: ValueKey(0), Icons.email_outlined),
-                ElButton.icon(key: ValueKey(1), Icons.access_alarm),
+                ElButton.icon(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElButton.icon(key: ValueKey(1), ElIcon(Icons.access_alarm)),
               ],
             ),
           ],

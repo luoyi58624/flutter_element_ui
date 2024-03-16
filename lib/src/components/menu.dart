@@ -1,16 +1,25 @@
 part of flutter_element_ui;
 
-/// 每一层级距离上一级的间距
+/// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 20;
 
 class ElMenuModel {
+  /// 菜单名字
   String title;
-  IconData? icon;
+
+  /// 菜单图标
+  ElIcon? icon;
+
+  /// 菜单对应的路由地址
+  String? path;
+
+  /// 子菜单
   List<ElMenuModel>? children;
 
   ElMenuModel({
     required this.title,
     this.icon,
+    this.path,
     this.children,
   });
 }
@@ -19,9 +28,13 @@ class _ElMenuData extends InheritedWidget {
   const _ElMenuData({
     required super.child,
     required this.background,
+    required this.activePath,
+    required this.onChange,
   });
 
   final Color background;
+  final String? activePath;
+  final void Function(ElMenuModel menu)? onChange;
 
   static _ElMenuData of(BuildContext context) {
     final _ElMenuData? result = context.dependOnInheritedWidgetOfExactType<_ElMenuData>();
@@ -34,18 +47,25 @@ class _ElMenuData extends InheritedWidget {
   }
 }
 
-/// Element UI 菜单栏组件
+/// Element UI 导航菜单组件
 class ElMenu extends StatefulWidget {
   const ElMenu(
     this.menuList, {
     super.key,
     this.width = 250,
     this.background,
+    this.activePath,
+    this.onChange,
   });
 
   final List<ElMenuModel> menuList;
   final double width;
   final Color? background;
+
+  /// 激活的路由地址
+  final String? activePath;
+
+  final void Function(ElMenuModel menu)? onChange;
 
   @override
   State<ElMenu> createState() => _ElMenuState();
@@ -64,6 +84,8 @@ class _ElMenuState extends State<ElMenu> {
       ),
       child: _ElMenuData(
         background: background,
+        activePath: widget.activePath,
+        onChange: widget.onChange,
         child: SingleChildScrollView(
           child: _ElMenuWidget(
             menuList: widget.menuList,
@@ -120,9 +142,8 @@ class _MenuItemWidget extends StatefulWidget {
   State<_MenuItemWidget> createState() => _MenuItemWidgetState();
 }
 
-class _MenuItemWidgetState extends State<_MenuItemWidget> {
+class _MenuItemWidgetState extends State<_MenuItemWidget> with ElMouseMixin {
   bool _expand = false;
-  bool _onHover = false;
 
   Color get textWhite => ElApp.of(context).darkTheme.textColor;
 
@@ -130,7 +151,11 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
 
   Color get parentBgColor => _ElMenuData.of(context).background;
 
-  Color get textColor => parentBgColor.isDark ? textWhite : textBlack;
+  Color get textColor => widget.menuItem.path == _ElMenuData.of(context).activePath
+      ? ElApp.of(context).theme.menuActiveColor
+      : parentBgColor.isDark
+          ? textWhite
+          : textBlack;
 
   Color get hoverColor => parentBgColor.hsp < 50 ? parentBgColor.brighten(15) : parentBgColor.darken(15);
 
@@ -148,24 +173,15 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
   }
 
   Widget buildItem() {
-    return MouseRegion(
-      onEnter: (e) {
-        setState(() {
-          _onHover = true;
-        });
-      },
-      onExit: (e) {
-        setState(() {
-          _onHover = false;
-        });
-      },
-      cursor: SystemMouseCursors.click,
+    return buildMouseWidget(
       child: GestureDetector(
         onTap: () {
           if (hasChild) {
             setState(() {
               _expand = !_expand;
             });
+          } else {
+            if (_ElMenuData.of(context).onChange != null) _ElMenuData.of(context).onChange!(widget.menuItem);
           }
         },
         child: AnimatedContainer(
@@ -174,7 +190,7 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
           height: 56,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
-            color: _onHover ? hoverColor : parentBgColor,
+            color: onHover ? hoverColor : parentBgColor,
           ),
           child: Center(
             child: Row(
@@ -183,10 +199,9 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
                 if (widget.menuItem.icon != null)
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: Icon(
-                      widget.menuItem.icon,
+                    child: ElDefaultIconStyle(
                       color: textColor,
-                      size: 18,
+                      child: widget.menuItem.icon!,
                     ),
                   ),
                 Text(

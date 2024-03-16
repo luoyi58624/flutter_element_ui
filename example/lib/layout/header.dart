@@ -20,6 +20,13 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
       child: Row(
         children: [
           ElIcon.svg(ElIcons.fold),
+          Expanded(child: SizedBox()),
+          ElButton.icon(
+            ElIcon.svg(ElIcons.setting),
+            type: ElThemeType.info,
+            circle: true,
+            onPressed: () {},
+          ),
         ],
       ),
     );
