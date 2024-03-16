@@ -1,0 +1,31 @@
+name: build example web page
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.3'
+          channel: 'stable'
+          architecture: x64
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+      - run: sh ./script/web_admin.sh
+      - name: Deploy Web
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: example_web_pages
+          folder: example/build/web
+          clean: true
