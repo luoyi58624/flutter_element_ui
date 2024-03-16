@@ -3,7 +3,7 @@ name: build example web page
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: write
