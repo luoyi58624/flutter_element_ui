@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
-class Sidebar extends StatefulWidget {
-  const Sidebar({super.key});
+class LayoutSidebarWidget extends StatefulWidget {
+  const LayoutSidebarWidget({super.key});
 
   @override
-  State<Sidebar> createState() => _SidebarState();
+  State<LayoutSidebarWidget> createState() => _LayoutSidebarWidgetState();
 }
 
-class _SidebarState extends State<Sidebar> {
-  List<ElMenuModel> get model => [
+class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
+  List<ElMenuModel> get menuList => [
         ElMenuModel(title: '一级菜单', icon: Icons.home),
         ElMenuModel(
           title: '二级菜单',
@@ -25,8 +25,7 @@ class _SidebarState extends State<Sidebar> {
                     title: '子菜单3-${index + 1}',
                     children: List.generate(
                       4,
-                      (secondIndex) => ElMenuModel(
-                          title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
+                      (secondIndex) => ElMenuModel(title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
                     ).toList(),
                   ),
                 ).toList()),
@@ -34,9 +33,7 @@ class _SidebarState extends State<Sidebar> {
         ),
         ElMenuModel(
           title: '三级菜单',
-          children:
-              List.generate(4, (index) => ElMenuModel(title: '子菜单${index + 1}'))
-                  .toList(),
+          children: List.generate(4, (index) => ElMenuModel(title: '子菜单${index + 1}')).toList(),
         ),
         ElMenuModel(title: '四级菜单'),
         ElMenuModel(title: '五级菜单'),
@@ -44,6 +41,6 @@ class _SidebarState extends State<Sidebar> {
 
   @override
   Widget build(BuildContext context) {
-    return ElMenu(model);
+    return ElMenu(menuList);
   }
 }
