@@ -19,9 +19,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
       color: Colors.grey.shade100,
       child: Row(
         children: [
-          const ElIcon(Ionicons.add),
-          ElIcon.svg(ElIcons.expand),
-          ElIcon.svg(ElIcons.arrowLeft),
+          ElIcon.svg(ElIcons.fold),
         ],
       ),
     );

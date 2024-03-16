@@ -3,6 +3,8 @@ import 'package:example/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
+import 'router.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -28,9 +30,10 @@ class _MyAppState extends State<MyApp> {
         error: const Color(0xffe11d48),
         radius: 8,
       ),
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Flutter Element UI',
-        home: LayoutPage(),
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
         // home: Scaffold(
         //   appBar: AppBar(
         //     actions: [

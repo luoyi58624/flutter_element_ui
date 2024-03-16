@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'header.dart';
 import 'main.dart';
 import 'sidebar.dart';
 
 class LayoutPage extends StatefulWidget {
-  const LayoutPage({super.key});
+  const LayoutPage({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   State<LayoutPage> createState() => _LayoutPageState();
@@ -16,16 +19,16 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Material(
+    return Material(
       child: Row(
         children: [
-          LayoutSidebarWidget(),
+          const LayoutSidebarWidget(),
           Expanded(
             child: Column(
               children: [
-                LayoutHeaderWidget(),
+                const LayoutHeaderWidget(),
                 Expanded(
-                  child: LayoutMainWidget(),
+                  child: widget.navigationShell,
                 ),
               ],
             ),
