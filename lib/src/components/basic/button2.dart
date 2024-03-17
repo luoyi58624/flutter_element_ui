@@ -2,21 +2,6 @@ part of flutter_element_ui;
 
 enum _ButtonType { base, text, icon }
 
-const double _defaultSize = 32;
-const double _defaultIconSize = 16;
-
-/// 默认的文字alpha
-const int _defaultTextAlpha = 200;
-
-/// 当按钮处于禁用状态时，更新当前文字颜色的alpha
-const int _disabledTextAlpha = 120;
-
-/// 图标比文字更小的alpha，在flutter中，图标的颜色似乎比文字更重
-const int _iconAlphaDiff = 40;
-
-/// 当按钮处于禁用状态时，更新按钮样式透明度
-const double _disabledOpacity = 0.6;
-
 Widget _materialLoading(Color color) => SizedBox(
       width: 14,
       height: 14,
@@ -27,11 +12,11 @@ Widget _materialLoading(Color color) => SizedBox(
     );
 
 /// Element UI 按钮组件
-class ElButton extends StatefulWidget {
-  /// 渲染普通按钮，提示：[ElButton]实际上是一个[Container]，如果遇到布局问题，请留意flutter中的布局约束。
+class ElButton2 extends StatefulWidget {
+  /// 渲染普通按钮，提示：[ElButton2]实际上是一个[Container]，如果遇到布局问题，请留意flutter中的布局约束。
   ///
   /// https://flutter.cn/docs/ui/layout/constraints
-  const ElButton(
+  const ElButton2(
     this.text, {
     super.key,
     this.onPressed,
@@ -39,7 +24,7 @@ class ElButton extends StatefulWidget {
     this.rightIcon,
     this.height,
     this.type,
-    this.iconSize = _defaultIconSize,
+    this.iconSize = _buttonHeight,
     this.plain = false,
     this.round = false,
     this.disabled = false,
@@ -54,7 +39,7 @@ class ElButton extends StatefulWidget {
         size = 0;
 
   /// 渲染文字按钮
-  const ElButton.text(
+  const ElButton2.text(
     this.text, {
     super.key,
     this.onPressed,
@@ -77,19 +62,19 @@ class ElButton extends StatefulWidget {
         size = 0;
 
   /// 渲染图标按钮
-  const ElButton.icon(
+  const ElButton2.icon(
     this.icon, {
     super.key,
     this.onPressed,
     this.type,
     this.circle = false,
-    this.size = _defaultSize,
-    this.iconSize = _defaultIconSize,
+    this.size = _buttonHeight,
     this.disabled = false,
     this.tooltip,
     this.disabledTooltip,
     this.loading = false,
     this.loadingBuilder,
+    this.iconSize,
   })  : _buttonType = _ButtonType.icon,
         text = null,
         leftIcon = null,
@@ -141,7 +126,7 @@ class ElButton extends StatefulWidget {
   final double size;
 
   /// icon图标的尺寸
-  final double iconSize;
+  final double? iconSize;
 
   /// 提示文字
   final String? tooltip;
@@ -156,10 +141,10 @@ class ElButton extends StatefulWidget {
   final Widget Function(Color color)? loadingBuilder;
 
   @override
-  State<ElButton> createState() => _ElButtonState();
+  State<ElButton2> createState() => _ElButtonState2();
 }
 
-class _ElButtonState extends State<ElButton> with ElMouseMixin, ElTapMixin {
+class _ElButtonState2 extends State<ElButton2> with ElMouseMixin, ElTapMixin {
   /// 此按钮是否属于按钮组成员，如果父级组件存在[ElButtonGroup]，那么它为true
   late bool _isButtonGroupItem;
 
@@ -245,7 +230,7 @@ class _ElButtonState extends State<ElButton> with ElMouseMixin, ElTapMixin {
           buttonGroupData: buttonGroupData,
           text: widget.text!,
           type: widget.type,
-          height: widget.height ?? _defaultSize,
+          height: widget.height ?? _buttonHeight,
           plain: widget.plain,
           round: widget.round,
           leftIcon: widget.leftIcon,
@@ -267,7 +252,7 @@ class _ElButtonState extends State<ElButton> with ElMouseMixin, ElTapMixin {
           buttonGroupData: buttonGroupData,
           text: widget.text!,
           type: widget.type,
-          height: widget.height ?? _defaultSize,
+          height: widget.height ?? _buttonHeight,
           bg: widget.bg,
           loading: widget.loading,
           loadingBuilder: widget.loadingBuilder,
@@ -313,7 +298,7 @@ class _ElButtonState extends State<ElButton> with ElMouseMixin, ElTapMixin {
   }
 }
 
-class _BaseButton extends _Button {
+class _BaseButton extends _Button2 {
   const _BaseButton({
     required super.buttonType,
     required super.onHover,
@@ -331,7 +316,7 @@ class _BaseButton extends _Button {
     required this.plain,
     this.leftIcon,
     this.rightIcon,
-    required this.iconSize,
+    this.iconSize,
   });
 
   final String text;
@@ -339,13 +324,13 @@ class _BaseButton extends _Button {
   final bool plain;
   final IconData? leftIcon;
   final IconData? rightIcon;
-  final double iconSize;
+  final double? iconSize;
 
   @override
-  _ButtonState createState() => _BaseButtonState();
+  _ButtonState2 createState() => _BaseButtonState();
 }
 
-class _BaseButtonState extends _ButtonState<_BaseButton> {
+class _BaseButtonState extends _ButtonState2<_BaseButton> {
   bool get noText => widget.text == '';
 
   /// 默认水平间距
@@ -476,7 +461,7 @@ class _BaseButtonState extends _ButtonState<_BaseButton> {
   }
 }
 
-class _TextButton extends _Button {
+class _TextButton extends _Button2 {
   const _TextButton({
     required super.buttonType,
     required super.onHover,
@@ -498,10 +483,10 @@ class _TextButton extends _Button {
   final bool bg;
 
   @override
-  _ButtonState createState() => _TextButtonState();
+  _ButtonState2 createState() => _TextButtonState();
 }
 
-class _TextButtonState extends _ButtonState<_TextButton> {
+class _TextButtonState extends _ButtonState2<_TextButton> {
   @override
   Widget build(BuildContext context) {
     bgColor = ElApp.of(context).theme.info.withAlpha(160);
@@ -556,7 +541,7 @@ class _TextButtonState extends _ButtonState<_TextButton> {
   }
 }
 
-class _IconButton extends _Button {
+class _IconButton extends _Button2 {
   const _IconButton({
     required super.buttonType,
     required super.onHover,
@@ -569,26 +554,28 @@ class _IconButton extends _Button {
     super.type,
     required super.circle,
     required this.size,
-    required this.iconSize,
+    this.iconSize,
     required super.loading,
     super.loadingBuilder,
   });
 
   final ElIcon icon;
   final double size;
-  final double iconSize;
+  final double? iconSize;
 
   @override
-  _ButtonState createState() => _IconButtonState();
+  _ButtonState2 createState() => _IconButtonState();
 }
 
-class _IconButtonState extends _ButtonState<_IconButton> {
+class _IconButtonState extends _ButtonState2<_IconButton> {
+  double get iconSize => widget.iconSize ?? ElApp.of(context).theme.iconSize;
+
   double get _width => widget.circle ? widget.size : widget.size * 1.2;
 
   double get _height => widget.circle ? widget.size : widget.size;
 
   /// 默认水平间距
-  double get _defaultHorizontal => (widget.size - widget.iconSize / 2) / 2;
+  double get _defaultHorizontal => (widget.size - iconSize / 2) / 2;
 
   bool get isCircleButton => widget.circle && !widget.isButtonGroupItem;
 
@@ -660,8 +647,8 @@ class _IconButtonState extends _ButtonState<_IconButton> {
   }
 }
 
-abstract class _Button extends StatefulWidget {
-  const _Button({
+abstract class _Button2 extends StatefulWidget {
+  const _Button2({
     required this.buttonType,
     required this.onHover,
     required this.onTap,
@@ -690,10 +677,10 @@ abstract class _Button extends StatefulWidget {
   final Widget Function(Color color)? loadingBuilder;
 
   @override
-  State<_Button> createState() => _ButtonState();
+  State<_Button2> createState() => _ButtonState2();
 }
 
-class _ButtonState<T extends _Button> extends State<T> {
+class _ButtonState2<T extends _Button2> extends State<T> {
   /// 默认文字颜色
   Color? textColor;
 
