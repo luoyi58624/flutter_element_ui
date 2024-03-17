@@ -19,22 +19,23 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Row(
-        children: [
-          const LayoutSidebarWidget(),
-          Expanded(
-            child: Column(
-              children: [
-                const LayoutHeaderWidget(),
-                Expanded(
+    return Row(
+      children: [
+        const LayoutSidebarWidget(),
+        Expanded(
+          child: Column(
+            children: [
+              const LayoutHeaderWidget(),
+              Expanded(
+                child: ColoredBox(
+                  color: Colors.white,
                   child: widget.navigationShell,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

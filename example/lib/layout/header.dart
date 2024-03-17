@@ -1,3 +1,4 @@
+import 'package:example/store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,12 +22,21 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
         children: [
           ElIcon.svg(ElIcons.fold),
           Expanded(child: SizedBox()),
-          ElIconButton(
-            ElIcon.svg(ElIcons.setting),
-            type: ElThemeType.info,
-            circle: true,
-            onPressed: () {},
-          ),
+          // ElIconButton(
+          //   ElIcon.svg(ElIcons.setting),
+          //   type: ElThemeType.info,
+          //   circle: true,
+          //   onPressed: () {},
+          // ),
+          // ValueListenableBuilder(
+          //   valueListenable: GlobalStore.isDark,
+          //   builder: (context, value, child) => Switch(
+          //     value: value,
+          //     onChanged: (v) {
+          //       GlobalStore.isDark.value = v;
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

@@ -87,7 +87,7 @@ class _ElMenuState extends State<ElMenu> {
         activePath: widget.activePath,
         onChange: widget.onChange,
         child: SingleChildScrollView(
-          child: _ElMenuWidget(
+          child: _MenuWidget(
             menuList: widget.menuList,
             gap: _defaultGap,
           ),
@@ -97,8 +97,8 @@ class _ElMenuState extends State<ElMenu> {
   }
 }
 
-class _ElMenuWidget extends StatefulWidget {
-  const _ElMenuWidget({
+class _MenuWidget extends StatefulWidget {
+  const _MenuWidget({
     required this.menuList,
     required this.gap,
   });
@@ -109,10 +109,10 @@ class _ElMenuWidget extends StatefulWidget {
   final double gap;
 
   @override
-  State<_ElMenuWidget> createState() => _ElMenuWidgetState();
+  State<_MenuWidget> createState() => _MenuWidgetState();
 }
 
-class _ElMenuWidgetState extends State<_ElMenuWidget> {
+class _MenuWidgetState extends State<_MenuWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -142,9 +142,72 @@ class _MenuItemWidget extends StatefulWidget {
   State<_MenuItemWidget> createState() => _MenuItemWidgetState();
 }
 
-class _MenuItemWidgetState extends State<_MenuItemWidget> with ElMouseMixin {
+class _MenuItemWidgetState extends State<_MenuItemWidget> {
   bool _expand = false;
 
+  bool get hasChild => widget.menuItem.children != null && widget.menuItem.children!.isNotEmpty;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTap: () {
+            if (hasChild) {
+              setState(() {
+                _expand = !_expand;
+              });
+            } else {
+              if (_ElMenuData.of(context).onChange != null) _ElMenuData.of(context).onChange!(widget.menuItem);
+            }
+          },
+          child: _MenuItemContentWidget(
+            menuItem: widget.menuItem,
+            hasChild: hasChild,
+            expand: _expand,
+            gap: widget.gap,
+          ),
+        ),
+        if (hasChild) buildChildMenu(),
+      ],
+    );
+  }
+
+  Widget buildChildMenu() {
+    return AnimatedCrossFade(
+      firstChild: Container(height: 0.0),
+      secondChild: _MenuWidget(
+        menuList: widget.menuItem.children!,
+        gap: widget.gap + _defaultGap,
+      ),
+      firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+      secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+      sizeCurve: Curves.fastOutSlowIn,
+      crossFadeState: _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+}
+
+class _MenuItemContentWidget extends StatefulWidget {
+  const _MenuItemContentWidget({
+    required this.menuItem,
+    required this.hasChild,
+    required this.expand,
+    required this.gap,
+  });
+
+  final ElMenuModel menuItem;
+  final bool hasChild;
+  final bool expand;
+  final double gap;
+
+  @override
+  State<_MenuItemContentWidget> createState() => _MenuItemContentWidgetState();
+}
+
+class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin {
   Color get textWhite => ElApp.of(context).darkTheme.textColor;
 
   Color get textBlack => ElApp.of(context).theme.textColor;
@@ -159,92 +222,54 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> with ElMouseMixin {
 
   Color get hoverColor => parentBgColor.hsp < 50 ? parentBgColor.brighten(15) : parentBgColor.darken(15);
 
-  bool get hasChild => widget.menuItem.children != null && widget.menuItem.children!.isNotEmpty;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        buildItem(),
-        if (hasChild) buildChildMenu(),
-      ],
-    );
-  }
-
-  Widget buildItem() {
     return buildMouseWidget(
-      child: GestureDetector(
-        onTap: () {
-          if (hasChild) {
-            setState(() {
-              _expand = !_expand;
-            });
-          } else {
-            if (_ElMenuData.of(context).onChange != null) _ElMenuData.of(context).onChange!(widget.menuItem);
-          }
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOut,
-          height: 56,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            color: onHover ? hoverColor : parentBgColor,
-          ),
-          child: Center(
-            child: Row(
-              children: [
-                SizedBox(width: widget.gap),
-                if (widget.menuItem.icon != null)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: ElDefaultIconStyle(
-                      color: textColor,
-                      child: widget.menuItem.icon!,
-                    ),
-                  ),
-                Text(
-                  widget.menuItem.title,
-                  style: TextStyle(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: onHover ? hoverColor : parentBgColor,
+        ),
+        child: Center(
+          child: Row(
+            children: [
+              SizedBox(width: widget.gap),
+              if (widget.menuItem.icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ElDefaultIconStyle(
                     color: textColor,
-                    fontSize: 14,
+                    child: widget.menuItem.icon!,
                   ),
                 ),
-                const Expanded(child: SizedBox()),
-                if (hasChild)
-                  SizedBox(
-                    width: 40,
-                    child: AnimatedRotation(
-                      duration: const Duration(milliseconds: 200),
-                      turns: _expand ? 0.5 : 0,
-                      child: ElIcon.svg(
-                        ElIcons.arrowDown,
-                        color: textColor,
-                        size: 12,
-                      ),
+              Text(
+                widget.menuItem.title,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 14,
+                ),
+              ),
+              const Expanded(child: SizedBox()),
+              if (widget.hasChild)
+                SizedBox(
+                  width: 40,
+                  child: AnimatedRotation(
+                    duration: const Duration(milliseconds: 200),
+                    turns: widget.expand ? 0.5 : 0,
+                    child: ElIcon.svg(
+                      ElIcons.arrowDown,
+                      color: textColor,
+                      size: 12,
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildChildMenu() {
-    return AnimatedCrossFade(
-      firstChild: Container(height: 0.0),
-      secondChild: _ElMenuWidget(
-        menuList: widget.menuItem.children!,
-        gap: widget.gap + _defaultGap,
-      ),
-      firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-      secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-      sizeCurve: Curves.fastOutSlowIn,
-      crossFadeState: _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-      duration: const Duration(milliseconds: 300),
     );
   }
 }

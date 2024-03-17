@@ -14,6 +14,9 @@ class ElThemeData {
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff000000);
 
+  /// 当前主题模式
+  Brightness brightness;
+
   /// 主要颜色
   Color primary;
 
@@ -55,6 +58,7 @@ class ElThemeData {
 
   /// 默认的亮色主题构造函数
   ElThemeData({
+    this.brightness = Brightness.light,
     this.primary = const Color(0xff409eff),
     this.success = const Color(0xff67c23a),
     this.info = const Color(0xff909399),
@@ -72,6 +76,7 @@ class ElThemeData {
 
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
+    this.brightness = Brightness.dark,
     this.primary = const Color(0xff409eff),
     this.success = const Color(0xff67c23a),
     this.info = const Color(0xff909399),
@@ -89,6 +94,7 @@ class ElThemeData {
 
   /// 合并主题颜色，并返回新的主题对象
   ElThemeData copyWith(ElThemeData? theme) {
+    brightness = theme?.brightness ?? brightness;
     primary = theme?.primary ?? primary;
     success = theme?.success ?? success;
     info = theme?.info ?? info;

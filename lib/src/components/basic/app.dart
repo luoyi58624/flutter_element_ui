@@ -25,21 +25,28 @@ class ElAppData extends InheritedWidget {
 
 /// Element UI全局配置信息
 class ElApp extends StatelessWidget {
-  const ElApp({
+  /// Element UI是桌面端组件库库，所以强制声明式路由配置，不支持传统的命令式导航，请参考官方[go_router]的使用
+  const ElApp.router({
     super.key,
-    required this.child,
+    required this.routerConfig,
+    this.title = 'Element UI',
     this.theme,
     this.darkTheme,
+    this.builder,
   });
 
-  /// [ElApp]只是提供全局组件配置信息，它不是一个应用脚手架，你应当搭配其他App脚手架，例如官方的[MaterialApp]
-  final Widget child;
+  /// 声明式路由配置
+  final RouterConfig<Object> routerConfig;
+
+  final String title;
 
   /// 自定义主题
   final ElThemeData? theme;
 
   /// 自定义暗色主题
   final ElThemeData? darkTheme;
+
+  final TransitionBuilder? builder;
 
   /// 通过[ElApp.of]获取全局配置信息
   static ElAppData of(BuildContext context) {
@@ -62,7 +69,17 @@ class ElApp extends StatelessWidget {
         ElThemeType.warning: $theme.warning,
         ElThemeType.error: $theme.error,
       },
-      child: child,
+      child: _buildApp($theme),
+    );
+  }
+
+  Widget _buildApp(ElThemeData themeData) {
+    return WidgetsApp.router(
+      color: themeData.primary,
+      routerConfig: routerConfig,
+      title: title,
+      debugShowCheckedModeBanner: false,
+      builder: builder,
     );
   }
 }
