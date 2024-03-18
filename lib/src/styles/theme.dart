@@ -13,6 +13,7 @@ enum ElThemeType {
 class ElThemeData {
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff000000);
+  static const Color transparent = Color(0x00000000);
 
   /// 当前主题模式
   Brightness brightness;

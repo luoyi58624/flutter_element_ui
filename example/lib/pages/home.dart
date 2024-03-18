@@ -15,6 +15,8 @@ class _HomePageState extends State<HomePage> {
   bool loading = false;
   int count = 0;
   int selectIndex = 0;
+  int selectIndex2 = 0;
+  List<int> selectIndexList = [0];
 
   VoidCallback? get onPressed => disabled
       ? null
@@ -327,6 +329,20 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 8),
             ElIconButtonGroup.single(
+              index: selectIndex2,
+              onChange: (index) {
+                setState(() {
+                  selectIndex2 = index;
+                });
+              },
+              children: const [
+                ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElIconButtonGroup.single(
               type: ElThemeType.primary,
               index: selectIndex,
               onChange: (index) {
@@ -337,6 +353,50 @@ class _HomePageState extends State<HomePage> {
               children: const [
                 ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
                 ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm), disabled: true),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElIconButtonGroup.single(
+              type: ElThemeType.primary,
+              index: selectIndex2,
+              onChange: (v) {
+                setState(() {
+                  selectIndex2 = v;
+                });
+              },
+              children: const [
+                ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElIconButtonGroup.multiple(
+              indexList: selectIndexList,
+              onChangeList: (v) {
+                setState(() {
+                  selectIndexList = v;
+                });
+              },
+              children: const [
+                ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
+              ],
+            ),
+            // const SizedBox(height: 8),
+            ElIconButtonGroup.multiple(
+              type: ElThemeType.primary,
+              indexList: selectIndexList,
+              onChangeList: (v) {
+                setState(() {
+                  selectIndexList = v;
+                });
+              },
+              children: const [
+                ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
+                ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
               ],
             ),
           ],

@@ -101,12 +101,44 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
                     : $textColor;
             iconColor = textColor;
           } else {
-            textColor = onHover ? getThemeTypeColor(buttonGroupData.type!) : $textColor;
+            textColor = disabledButton
+                ? $textColor.withAlpha(_disabledTextAlpha)
+                : onHover
+                    ? getThemeTypeColor(buttonGroupData.type!)
+                    : $textColor;
             iconColor = textColor;
           }
         }
         break;
       case _ButtonGroupType.multiple:
+        if (buttonGroupData.indexList.contains(currentIndex)) {
+          if (buttonGroupData.type == null) {
+            bgColor = $primaryColor.withOpacity(0.1);
+            textColor = $primaryColor;
+            iconColor = $primaryColor;
+          } else {
+            bgColor = getThemeTypeColor(buttonGroupData.type!);
+            textColor = $textWhiteColor;
+            iconColor = $textWhiteColor;
+          }
+        } else {
+          bgColor = null;
+          if (buttonGroupData.type == null) {
+            textColor = disabledButton
+                ? $textColor.withAlpha(_disabledTextAlpha)
+                : onHover
+                    ? $primaryColor
+                    : $textColor;
+            iconColor = textColor;
+          } else {
+            textColor = disabledButton
+                ? $textColor.withAlpha(_disabledTextAlpha)
+                : onHover
+                    ? getThemeTypeColor(buttonGroupData.type!)
+                    : $textColor;
+            iconColor = textColor;
+          }
+        }
         break;
     }
   }
@@ -163,7 +195,7 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   /// 计算拥有主题类型的按钮组的边框
   Border? caleTypeButtonGroupBorder() {
     if (buttonGroupData.buttonGroupType == _ButtonGroupType.base) {
-      BorderSide borderSide = BorderSide(color: $textWhiteColor, width: 0.5);
+      BorderSide borderSide = const BorderSide(color: ElThemeData.white, width: 0.5);
       if (childrenLength == 2) {
         if (currentIndex == 0) {
           return Border(right: borderSide);
@@ -182,10 +214,65 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
           return Border(top: borderSide, right: borderSide, bottom: borderSide);
         }
       } else {
-        return Border(top: borderSide, right: borderSide, bottom: borderSide);
+        // 处理单选模式3个及以上按钮组边框
+        if (buttonGroupData.buttonGroupType == _ButtonGroupType.single) {
+          // 选中的按钮取消边框
+          if (buttonGroupData.index == currentIndex) {
+            return null;
+          } else {
+            // 最左边未选中按钮排除右边框
+            if (currentIndex == 0) {
+              return Border(top: borderSide, left: borderSide, bottom: borderSide);
+            }
+            // 最右边未选中按钮排除左边框
+            else if (currentIndex == childrenLength - 1) {
+              return Border(top: borderSide, right: borderSide, bottom: borderSide);
+            }
+            // 计算中间未选中按钮，如果上一个按钮选中，则排除左边框，如果下一个按钮选中，则排除右边框
+            else {
+              return Border(
+                top: borderSide,
+                left: buttonGroupData.index + 1 == currentIndex ? BorderSide.none : borderSide,
+                right: buttonGroupData.index - 1 == currentIndex ? BorderSide.none : borderSide,
+                bottom: borderSide,
+              );
+            }
+          }
+        }
+        // 处理多选模式3个及以上按钮组边框，需要额外处理连续选中的按钮中间的边框样式，边框：灰色->白色
+        else {
+          if (buttonGroupData.indexList.contains(currentIndex)) {
+            if (currentIndex != childrenLength - 1 && buttonGroupData.indexList.contains(currentIndex + 1)) {
+              return Border(
+                top: borderSide,
+                left: borderSide,
+                bottom: borderSide,
+                right: const BorderSide(color: ElThemeData.white, width: 0.5),
+              );
+            }
+            return null;
+          } else {
+            // 最左边未选中按钮排除右边框
+            if (currentIndex == 0) {
+              return Border(top: borderSide, left: borderSide, bottom: borderSide);
+            }
+            // 最右边未选中按钮排除左边框
+            else if (currentIndex == childrenLength - 1) {
+              return Border(top: borderSide, right: borderSide, bottom: borderSide);
+            }
+            // 计算中间未选中按钮，如果上一个按钮选中，则排除左边框，如果下一个按钮选中，则排除右边框
+            else {
+              return Border(
+                top: borderSide,
+                left: buttonGroupData.indexList.contains(currentIndex - 1) ? BorderSide.none : borderSide,
+                right: buttonGroupData.indexList.contains(currentIndex + 1) ? BorderSide.none : borderSide,
+                bottom: borderSide,
+              );
+            }
+          }
+        }
       }
     }
-
     return null;
   }
 
@@ -414,6 +501,7 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
     return UnconstrainedBox(
       child: Container(
         height: $buttonHeight,
+        // width: 40,
         padding: border == null
             ? EdgeInsets.symmetric(horizontal: _horizontal)
             : EdgeInsets.symmetric(horizontal: _horizontal - 1),

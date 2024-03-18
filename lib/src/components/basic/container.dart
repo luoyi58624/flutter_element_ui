@@ -48,8 +48,7 @@ class ElMain extends ElChildContainer {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return ColoredBox(
       color: ElAppData.of(context).currentTheme.mainColor,
       child: child,
     );
