@@ -35,17 +35,17 @@ class ElThemeData {
   /// 全局背景白色
   Color bgColor;
 
+  /// 头部导航栏背景颜色
+  Color headerColor;
+
+  /// 主要区域背景颜色
+  Color mainColor;
+
   /// 全局文字颜色
   Color textColor;
 
   /// 默认的icon亮色颜色
   Color iconColor;
-
-  /// 默认的icon大小
-  double iconSize;
-
-  /// 组件全局圆角值
-  double radius;
 
   /// 默认的边框颜色
   Color defaultBorderColor;
@@ -65,10 +65,10 @@ class ElThemeData {
     this.warning = const Color(0xffe6a23c),
     this.error = const Color(0xfff56c6c),
     this.bgColor = const Color(0xffffffff),
+    this.headerColor = const Color(0xfff3f4f6),
+    this.mainColor = const Color(0xffffffff),
     this.textColor = const Color(0xff1f1f1f),
     this.iconColor = const Color(0xff1f1f1f),
-    this.iconSize = 18,
-    this.radius = 4,
     this.defaultBorderColor = const Color(0xffdcdfe6),
     this.menuBackground = const Color(0xff565c64),
     this.menuActiveColor = const Color(0xffffd04b),
@@ -83,10 +83,10 @@ class ElThemeData {
     this.warning = const Color(0xffe6a23c),
     this.error = const Color(0xfff56c6c),
     this.bgColor = const Color(0xff000000),
+    this.headerColor = const Color(0xff3c3f41),
+    this.mainColor = const Color(0xff2b2b2b),
     this.textColor = const Color(0xfff6f6f6),
     this.iconColor = const Color(0xfff6f6f6),
-    this.iconSize = 18,
-    this.radius = 4,
     this.defaultBorderColor = const Color(0xffdcdfe6),
     this.menuBackground = const Color(0xff565c64),
     this.menuActiveColor = const Color(0xffffd04b),
@@ -101,10 +101,10 @@ class ElThemeData {
     warning = theme?.warning ?? warning;
     error = theme?.error ?? error;
     bgColor = theme?.bgColor ?? bgColor;
+    headerColor = theme?.headerColor ?? headerColor;
+    mainColor = theme?.mainColor ?? mainColor;
     textColor = theme?.textColor ?? textColor;
     iconColor = theme?.iconColor ?? iconColor;
-    iconSize = theme?.iconSize ?? iconSize;
-    radius = theme?.radius ?? radius;
     defaultBorderColor = theme?.defaultBorderColor ?? defaultBorderColor;
     menuBackground = theme?.menuBackground ?? menuBackground;
     menuActiveColor = theme?.menuActiveColor ?? menuActiveColor;

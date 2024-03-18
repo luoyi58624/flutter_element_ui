@@ -19,7 +19,6 @@ dependencies:
   go_router: ^13.2.1
   logger: ^2.1.0
   fluent_ui: ^4.8.6
-  macos_ui: ^2.0.5
 
 dev_dependencies:
   flutter_test:

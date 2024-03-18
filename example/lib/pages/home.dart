@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
-import '../store.dart';
+import '../state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,14 +49,33 @@ class _HomePageState extends State<HomePage> {
       child: Center(
         child: Column(
           children: [
+            const Text(
+              '首页',
+              style: TextStyle(fontSize: 28),
+            ),
             const SizedBox(height: 8),
-            ElButton(
-              disabled ? 'Enabled' : 'Disabled',
-              onPressed: () {
-                setState(() {
-                  disabled = !disabled;
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElButton(
+                  disabled ? 'Enabled' : 'Disabled',
+                  onPressed: () {
+                    setState(() {
+                      disabled = !disabled;
+                    });
+                  },
+                ),
+                const SizedBox(width: 8),
+                ValueListenableBuilder(
+                  valueListenable: GlobalState.isDark,
+                  builder: (context, value, _) => ElButton(
+                    value ? '开启亮色模式' : '开启黑暗模式',
+                    onPressed: () {
+                      GlobalState.isDark.value = !value;
+                    },
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             Wrap(
@@ -70,11 +89,11 @@ class _HomePageState extends State<HomePage> {
                   disabledTooltip: '按钮已被禁用',
                 ),
                 ValueListenableBuilder(
-                  valueListenable: GlobalStore.counter,
+                  valueListenable: GlobalState.counter,
                   builder: (context, value, _) => ElButton(
-                    'count: ${GlobalStore.counter.value}',
+                    'count: ${GlobalState.counter.value}',
                     onPressed: () {
-                      GlobalStore.counter.value++;
+                      GlobalState.counter.value++;
                     },
                   ),
                 ),

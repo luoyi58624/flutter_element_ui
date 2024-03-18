@@ -1,4 +1,4 @@
-import 'package:example/store.dart';
+import 'package:example/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -40,14 +40,14 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: GlobalStore.activePath,
+      valueListenable: GlobalState.activePath,
       builder: (context, value, child) => ElMenu(
         menuList,
         activePath: value,
         onChange: (menu) {
-          if (menu.path != null && menu.path != GlobalStore.activePath.value) {
+          if (menu.path != null && menu.path != GlobalState.activePath.value) {
             context.go(menu.path!);
-            GlobalStore.activePath.value = menu.path!;
+            GlobalState.activePath.value = menu.path!;
           }
         },
       ),

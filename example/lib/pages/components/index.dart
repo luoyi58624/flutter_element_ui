@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:example/utils/logger.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent;
-import 'package:macos_ui/macos_ui.dart' as macos;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
-import '../../store.dart';
+import '../../state.dart';
 
 class ComponentsPage extends StatefulWidget {
   const ComponentsPage({super.key});
@@ -59,28 +58,22 @@ class _ComponentsPageState extends State<ComponentsPage> {
             //     child: const Text('显示弹窗'),
             //   ),
             // ),
-            ElButton(
-              '获取主题模式',
-              onPressed: () {
-                print(ElApp.of(context).theme.brightness);
-              },
-            ),
             ValueListenableBuilder(
-              valueListenable: GlobalStore.isDark,
+              valueListenable: GlobalState.isDark,
               builder: (context, value, _) => ElButton(
                 value ? '开启亮色模式' : '开启黑暗模式',
                 onPressed: () {
-                  GlobalStore.isDark.value = !value;
+                  GlobalState.isDark.value = !value;
                 },
               ),
             ),
             const Text('Overview 组件总览'),
             ValueListenableBuilder(
-              valueListenable: GlobalStore.counter,
+              valueListenable: GlobalState.counter,
               builder: (context, value, _) => ElButton(
-                'count: ${GlobalStore.counter.value}',
+                'count: ${GlobalState.counter.value}',
                 onPressed: () {
-                  GlobalStore.counter.value++;
+                  GlobalState.counter.value++;
                 },
               ),
             ),

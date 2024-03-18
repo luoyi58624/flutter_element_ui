@@ -489,7 +489,7 @@ class _TextButton extends _Button2 {
 class _TextButtonState extends _ButtonState2<_TextButton> {
   @override
   Widget build(BuildContext context) {
-    bgColor = ElApp.of(context).theme.info.withAlpha(160);
+    bgColor = ElAppData.of(context).currentTheme.info.withAlpha(160);
     textColor = textBlack;
     if (widget.disabledButton) {
       bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
@@ -568,7 +568,7 @@ class _IconButton extends _Button2 {
 }
 
 class _IconButtonState extends _ButtonState2<_IconButton> {
-  double get iconSize => widget.iconSize ?? ElApp.of(context).theme.iconSize;
+  double get iconSize => widget.iconSize ?? ElAppData.of(context).config.iconSize;
 
   double get _width => widget.circle ? widget.size : widget.size * 1.2;
 
@@ -700,15 +700,15 @@ class _ButtonState2<T extends _Button2> extends State<T> {
   Color? borderColor;
 
   /// 默认的按钮边框圆角
-  double get radius => widget.round || widget.circle ? 9999 : ElApp.of(context).theme.radius;
+  double get radius => widget.round || widget.circle ? 9999 : ElAppData.of(context).config.radius;
 
-  Color get primaryColor => ElApp.of(context).theme.primary;
+  Color get primaryColor => ElAppData.of(context).currentTheme.primary;
 
-  Color get textWhite => ElApp.of(context).darkTheme.textColor;
+  Color get textWhite => ElAppData.of(context).darkTheme.textColor;
 
-  Color get textBlack => ElApp.of(context).theme.textColor;
+  Color get textBlack => ElAppData.of(context).theme.textColor;
 
-  Color get defaultBorderColor => ElApp.of(context).theme.defaultBorderColor;
+  Color get defaultBorderColor => ElAppData.of(context).currentTheme.defaultBorderColor;
 
   /// 当前按钮是否是默认类型的button
   bool get isDefaultTypeButton {
@@ -731,7 +731,7 @@ class _ButtonState2<T extends _Button2> extends State<T> {
   void buildTypeTheme(ElThemeType type) {}
 
   Color getThemeTypeColor(ElThemeType type) {
-    return ElApp.of(context).themeColors[type]!;
+    return ElAppData.of(context).themeColors[type]!;
   }
 
   /// 构建按钮主题，它适用于所有button，不过按钮主题的具体实现由子类决定

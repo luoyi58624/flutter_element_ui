@@ -1,4 +1,4 @@
-import 'package:example/store.dart';
+import 'package:example/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,31 +14,28 @@ class LayoutHeaderWidget extends StatefulWidget {
 class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      color: Colors.grey.shade100,
-      child: Row(
-        children: [
-          ElIcon.svg(ElIcons.fold),
-          Expanded(child: SizedBox()),
-          // ElIconButton(
-          //   ElIcon.svg(ElIcons.setting),
-          //   type: ElThemeType.info,
-          //   circle: true,
-          //   onPressed: () {},
-          // ),
-          // ValueListenableBuilder(
-          //   valueListenable: GlobalStore.isDark,
-          //   builder: (context, value, child) => Switch(
-          //     value: value,
-          //     onChanged: (v) {
-          //       GlobalStore.isDark.value = v;
-          //     },
-          //   ),
-          // ),
-        ],
-      ),
+    return Row(
+      children: [
+        ElIcon.svg(ElIcons.fold),
+        Expanded(child: SizedBox()),
+        // ElIconButton(
+        //   ElIcon.svg(ElIcons.setting),
+        //   type: ElThemeType.info,
+        //   circle: true,
+        //   onPressed: () {},
+        // ),
+        // ValueListenableBuilder(
+        //   valueListenable: GlobalState.isDark,
+        //   builder: (context, value, child) => Material(
+        //     child: Switch(
+        //       value: value,
+        //       onChanged: (v) {
+        //         GlobalState.isDark.value = v;
+        //       },
+        //     ),
+        //   ),
+        // ),
+      ],
     );
   }
 }

@@ -51,7 +51,7 @@ abstract class _Button extends StatefulWidget {
   State<_Button> createState();
 }
 
-abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElTapMixin {
+abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElTapMixin, _ElThemeMixin {
   /// 默认文字颜色
   Color? textColor;
 
@@ -69,17 +69,6 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
 
   /// 按钮的边框颜色
   Color? borderColor;
-
-  /// 默认的按钮边框圆角
-  double get radius => ElApp.of(context).theme.radius;
-
-  Color get primaryColor => ElApp.of(context).theme.primary;
-
-  Color get textWhite => ElApp.of(context).darkTheme.textColor;
-
-  Color get textBlack => ElApp.of(context).theme.textColor;
-
-  Color get defaultBorderColor => ElApp.of(context).theme.defaultBorderColor;
 
   bool get disabledButton => widget.disabled || widget.onPressed == null;
 
@@ -104,7 +93,7 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
   Widget buildButton();
 
   Color getThemeTypeColor(ElThemeType type) {
-    return ElApp.of(context).themeColors[type]!;
+    return ElAppData.of(context).themeColors[type]!;
   }
 
   @override
@@ -172,40 +161,40 @@ class _ElButtonState extends _ButtonState<ElButton> {
   static const double _defaultHorizontal = 15;
 
   @override
-  double get radius => widget.round ? 9999 : super.radius;
+  double get $radius => widget.round ? 9999 : super.$radius;
 
   @override
   void buildDefaultTheme() {
-    textColor = textBlack;
+    textColor = $textColor;
     iconColor = textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
-    borderColor = defaultBorderColor;
+    borderColor = $defaultBorderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
       textColor = textColor!.withAlpha(_disabledTextAlpha);
       iconColor = iconColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
     } else {
-      bgColor = super.onHover ? primaryColor.withOpacity(0.1) : null;
-      textColor = super.onTap || super.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha);
-      iconColor = super.onTap || super.onHover ? primaryColor : iconColor;
+      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
+      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = super.onTap || super.onHover ? $primaryColor : iconColor;
       borderColor = super.onTap
-          ? primaryColor
+          ? $primaryColor
           : super.onHover
-              ? primaryColor.withOpacity(0.2)
-              : defaultBorderColor;
+              ? $primaryColor.withOpacity(0.2)
+              : $defaultBorderColor;
     }
 
     border = Border.all(color: borderColor!);
-    borderRadius = BorderRadius.circular(radius);
+    borderRadius = BorderRadius.circular($radius);
   }
 
   @override
   void buildTypeTheme(ElThemeType type) {
     Color themeColor = getThemeTypeColor(type);
-    textColor = textWhite;
+    textColor = $textWhiteColor;
     iconColor = textColor;
     if (widget.plain) {
-      textColor = super.onTap || super.onHover ? textWhite : themeColor;
-      iconColor = super.onTap || super.onHover ? textWhite : themeColor;
+      textColor = super.onTap || super.onHover ? $textWhiteColor : themeColor;
+      iconColor = super.onTap || super.onHover ? $textWhiteColor : themeColor;
       border = Border.all(color: themeColor.withOpacity(0.5));
       bgColor = super.onTap
           ? themeColor.darken(15)
@@ -234,7 +223,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
                   : themeColor.withOpacity(0.8)
               : bgColor;
     }
-    borderRadius = BorderRadius.circular(radius);
+    borderRadius = BorderRadius.circular($radius);
   }
 
   @override
@@ -330,8 +319,8 @@ class ElTextButton extends _Button {
 class _ElTextButtonState extends _ButtonState<ElTextButton> {
   @override
   void buildDefaultTheme() {
-    bgColor = ElApp.of(context).theme.info.withAlpha(160);
-    textColor = textBlack;
+    bgColor = ElAppData.of(context).currentTheme.info.withAlpha(160);
+    textColor = ElAppData.of(context).currentTheme.textColor;
     if (super.disabledButton) {
       bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
       textColor = textColor!.withAlpha(_disabledTextAlpha);
@@ -355,8 +344,8 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
 
   @override
   void buildTypeTheme(ElThemeType type) {
-    bgColor = ElApp.of(context).theme.info.withAlpha(160);
-    textColor = textBlack;
+    bgColor = ElAppData.of(context).currentTheme.info.withAlpha(160);
+    textColor = $textColor;
     if (super.disabledButton) {
       bgColor = widget.bg ? bgColor!.withAlpha(15) : null;
       textColor = getThemeTypeColor(type).withAlpha(_disabledTextAlpha);
@@ -385,7 +374,7 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(radius),
+        borderRadius: BorderRadius.circular($radius),
       ),
       child: UnconstrainedBox(
         child: Center(
@@ -440,7 +429,7 @@ class ElIconButton extends _Button {
 }
 
 class _ElIconButtonState extends _ButtonState<ElIconButton> {
-  double get iconSize => widget.iconSize ?? ElApp.of(context).theme.iconSize;
+  double get iconSize => widget.iconSize ?? ElAppData.of(context).config.iconSize;
 
   double get _width => widget.circle ? widget.size : widget.size * 1.2;
 
@@ -450,32 +439,32 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
   double get _defaultHorizontal => (widget.size - iconSize / 2) / 2;
 
   @override
-  double get radius => widget.circle ? 9999 : super.radius;
+  double get $radius => widget.circle ? 9999 : super.$radius;
 
   @override
   void buildDefaultTheme() {
-    textColor = textBlack;
-    borderColor = defaultBorderColor;
+    textColor = $textColor;
+    borderColor = $defaultBorderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
       textColor = textColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
     } else {
-      bgColor = super.onHover ? primaryColor.withOpacity(0.1) : null;
+      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
       borderColor = super.onTap
-          ? primaryColor
+          ? $primaryColor
           : super.onHover
-              ? primaryColor.withOpacity(0.2)
-              : defaultBorderColor;
-      textColor = super.onTap || super.onHover ? primaryColor : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+              ? $primaryColor.withOpacity(0.2)
+              : $defaultBorderColor;
+      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
     }
     border = Border.all(color: borderColor!);
-    borderRadius = BorderRadius.circular(radius);
+    borderRadius = BorderRadius.circular($radius);
   }
 
   @override
   void buildTypeTheme(ElThemeType type) {
     bgColor = getThemeTypeColor(type);
-    textColor = textWhite;
+    textColor = $textWhiteColor;
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {
@@ -485,7 +474,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
               ? bgColor!.withOpacity(0.8)
               : bgColor;
     }
-    borderRadius = BorderRadius.circular(radius);
+    borderRadius = BorderRadius.circular($radius);
   }
 
   @override

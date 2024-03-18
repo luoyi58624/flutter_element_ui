@@ -1,15 +1,16 @@
 part of flutter_element_ui;
 
-abstract class _ButtonItem extends StatefulWidget {
+abstract class _ButtonItem extends _Button {
   const _ButtonItem({
     required super.key,
+    super.disabled,
   }) : assert(key is ValueKey<int>, '请传递包含当前按钮索引的ValueKey');
 
   @override
   State<_ButtonItem> createState();
 }
 
-abstract class _ButtonItemState<T extends _ButtonItem> extends State<T> {
+abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   /// 按钮当前索引的key
   late int currentIndex = (widget.key as ValueKey<int>).value;
 
@@ -19,14 +20,51 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends State<T> {
   /// 按钮组的长度
   int get childrenLength;
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+  void buildButtonItemTheme() {
+    if (buttonGroupData.type == null) {
+      buildDefaultTheme();
+      border = caleDefaultButtonGroupBorder(borderColor!);
+      borderRadius = caleButtonGroupBorderRadius($radius);
+    } else {
+      buildTypeTheme(buttonGroupData.type!);
+      border = caleTypeButtonGroupBorder();
+      borderRadius = caleButtonGroupBorderRadius($radius);
+    }
+    switch (buttonGroupData.buttonGroupType) {
+      case _ButtonGroupType.base:
+        break;
+      case _ButtonGroupType.single:
+        if (currentIndex == buttonGroupData.index) {
+          if (buttonGroupData.type == null) {
+            bgColor = $primaryColor.withOpacity(0.1);
+            textColor = $primaryColor;
+            iconColor = $primaryColor;
+          } else {
+            bgColor = getThemeTypeColor(buttonGroupData.type!);
+            textColor = $textWhiteColor;
+            iconColor = $textWhiteColor;
+            border = null;
+          }
+        } else {
+          bgColor = null;
+          if (buttonGroupData.type == null) {
+            textColor = onHover ? $primaryColor : $textColor;
+            iconColor = textColor;
+          } else {
+            textColor = onHover ? getThemeTypeColor(buttonGroupData.type!) : $textColor;
+            iconColor = textColor;
+          }
+        }
+        break;
+      case _ButtonGroupType.multiple:
+        break;
+    }
   }
 
   /// 计算默认样式的按钮组边框
   Border? caleDefaultButtonGroupBorder(Color borderColor) {
     BorderSide borderSide = BorderSide(color: borderColor);
+    // 如果只有2个button组成，那么只需要简单计算动态切换左右边框即可
     if (childrenLength == 2) {
       if (currentIndex == 0) {
         return buttonGroupData.onEnterIndex == currentIndex
@@ -37,7 +75,9 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends State<T> {
             ? Border.all(color: borderColor)
             : Border(top: borderSide, right: borderSide, bottom: borderSide);
       }
-    } else {
+    }
+    // 2个以上的button组成的按钮组，需要额外考虑中间的button边框计算
+    else {
       // 计算第一个按钮的边缘情况，当鼠标进入第一个按钮后面一个的按钮，那么第一个按钮取消右边框，因为后面那一个按钮需要绘制所有边框
       if (currentIndex == 0) {
         if (buttonGroupData.onEnterIndex == 1) {
@@ -73,7 +113,7 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends State<T> {
   /// 计算拥有主题类型的按钮组的边框
   Border? caleTypeButtonGroupBorder() {
     if (buttonGroupData.buttonGroupType == _ButtonGroupType.base) {
-      BorderSide borderSide = BorderSide(color: ElApp.of(context).darkTheme.textColor, width: 0.5);
+      BorderSide borderSide = BorderSide(color: $textWhiteColor, width: 0.5);
       if (childrenLength == 2) {
         if (currentIndex == 0) {
           return Border(right: borderSide);
@@ -84,7 +124,7 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends State<T> {
         }
       }
     } else {
-      BorderSide borderSide = BorderSide(color: ElApp.of(context).darkTheme.defaultBorderColor);
+      BorderSide borderSide = BorderSide(color: $defaultBorderColor);
       if (childrenLength == 2) {
         if (currentIndex == 0) {
           return Border(top: borderSide, left: borderSide, bottom: borderSide);
@@ -143,11 +183,11 @@ class ElButtonItem extends _ButtonItem {
     required super.key,
     this.leftIcon,
     this.rightIcon,
-    this.disabled = false,
+    super.disabled,
   });
 
   /// 按钮文字
-  final String? text;
+  final String text;
 
   /// 普通按钮左图标
   final IconData? leftIcon;
@@ -155,24 +195,42 @@ class ElButtonItem extends _ButtonItem {
   /// 普通按钮右图标
   final IconData? rightIcon;
 
-  /// 禁用按钮
-  final bool disabled;
-
   @override
   State<ElButtonItem> createState() => _ElButtonItemState();
 }
 
 class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
+  final buttonKey = GlobalKey<_ElButtonState>();
+
+  @override
+  _ElButtonGroupData get buttonGroupData => _ElButtonGroupData.of(context);
+
+  @override
+  int get childrenLength => _ElButtonGroupData.of(context).children.length;
+
+  @override
+  Widget buildButton() {
+    super.buildButtonItemTheme();
+    return ElButton(
+      widget.text,
+      key: buttonKey,
+    );
+  }
+
+  @override
+  void buildDefaultTheme() {
+    return buttonKey.currentState!.buildDefaultTheme();
+  }
+
+  @override
+  void buildTypeTheme(ElThemeType type) {
+    return buttonKey.currentState!.buildTypeTheme(type);
+  }
+
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
   }
-
-  @override
-  _ButtonGroupData get buttonGroupData => _ElButtonGroupData.of(context);
-
-  @override
-  int get childrenLength => _ElButtonGroupData.of(context).children.length;
 }
 
 class ElIconButtonItem extends StatefulWidget {

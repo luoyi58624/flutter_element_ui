@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import 'header.dart';
@@ -25,10 +26,9 @@ class _LayoutPageState extends State<LayoutPage> {
         Expanded(
           child: Column(
             children: [
-              const LayoutHeaderWidget(),
+              const ElHeader(child: LayoutHeaderWidget()),
               Expanded(
-                child: ColoredBox(
-                  color: Colors.white,
+                child: ElMain(
                   child: widget.navigationShell,
                 ),
               ),

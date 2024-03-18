@@ -94,14 +94,14 @@ class ElIcon extends StatelessWidget {
     if (svgUrl != null || (style?.svgUrl != null && style!.svgUrl != '')) {
       return _SvgWidget(
         svgUrl,
-        size: size ?? style?.size ?? ElApp.of(context).theme.iconSize,
+        size: size ?? style?.size ?? ElAppData.of(context).config.iconSize,
         color: color ?? style?.color,
         package: 'flutter_element_ui',
       );
     } else {
       return Icon(
         icon ?? style?.icon,
-        size: size ?? style?.size ?? ElApp.of(context).theme.iconSize,
+        size: size ?? style?.size ?? ElAppData.of(context).config.iconSize,
         color: color ?? style?.color,
         fill: fill,
         weight: weight,

@@ -1,61 +1,93 @@
+import 'package:chicago/chicago.dart';
 import 'package:example/layout/layout.dart';
 import 'package:example/pages/home.dart';
-import 'package:example/utils/logger.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:macos_ui/macos_ui.dart';
 
 import 'router.dart';
-import 'store.dart';
+import 'state.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool flag = false;
-
-  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: GlobalStore.isDark,
-      builder: (context, value, child) {
-        late Widget app;
-        app = ElApp.router(
-          routerConfig: router,
-          theme: ElThemeData(
-            brightness: value ? Brightness.dark : Brightness.light,
-          ),
-          builder: (context, child) => Theme(
-            data: ThemeData(
-              brightness: value ? Brightness.dark : Brightness.light,
-            ),
-            child: Material(
-              child: child!,
-            ),
-            // child: FluentTheme(
-            //   data: FluentThemeData(
-            //     brightness: value ? Brightness.dark : Brightness.light,
-            //   ),
-            //   child: MacosTheme(
-            //     data: MacosThemeData(
-            //       brightness: value ? Brightness.dark : Brightness.light,
-            //     ),
-            //     child: child!,
-            //   ),
-            // ),
-          ),
-        );
-        return app;
-      },
+    return buildApp();
+  }
+
+  Widget buildApp() {
+    return WidgetsApp.router(
+      color: const Color(0xffffffff),
+      routerConfig: router,
+      builder: (context, child) => ValueListenableBuilder(
+        valueListenable: GlobalState.isDark,
+        builder: (c, v, _) {
+          return ElConfigProvider(
+            useDark: v,
+            child: child!,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildMaterialApp() {
+    return MaterialApp.router(
+      routerConfig: router,
+      builder: (context, child) => ElConfigProvider(
+        child: child!,
+      ),
+    );
+    // return MaterialApp.router(
+    //   routerConfig: router,
+    //   debugShowCheckedModeBanner: false,
+    //   builder: (context, child) => ValueListenableBuilder(
+    //     valueListenable: GlobalState.isDark,
+    //     builder: (context, value, _) {
+    //       return Material(
+    //         child: ElConfigProvider(
+    //           useDark: value,
+    //           child: child!,
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
+  }
+
+  Widget buildFluentApp() {
+    return fluent.FluentApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) => ValueListenableBuilder(
+        valueListenable: GlobalState.isDark,
+        builder: (context, value, _) {
+          return ElConfigProvider(
+            useDark: value,
+            child: child!,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildChicagoApp() {
+    return ChicagoApp(
+      home: ValueListenableBuilder(
+        valueListenable: GlobalState.isDark,
+        builder: (context, value, _) {
+          return ElConfigProvider(
+            useDark: value,
+            child: ElMain(child: const HomePage()),
+          );
+        },
+      ),
     );
   }
 }

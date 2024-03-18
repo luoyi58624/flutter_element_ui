@@ -72,7 +72,7 @@ class ElMenu extends StatefulWidget {
 }
 
 class _ElMenuState extends State<ElMenu> {
-  Color get background => widget.background ?? ElApp.of(context).theme.menuBackground;
+  Color get background => widget.background ?? ElAppData.of(context).currentTheme.menuBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -208,14 +208,14 @@ class _MenuItemContentWidget extends StatefulWidget {
 }
 
 class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin {
-  Color get textWhite => ElApp.of(context).darkTheme.textColor;
+  Color get textWhite => ElAppData.of(context).darkTheme.textColor;
 
-  Color get textBlack => ElApp.of(context).theme.textColor;
+  Color get textBlack => ElAppData.of(context).theme.textColor;
 
   Color get parentBgColor => _ElMenuData.of(context).background;
 
   Color get textColor => widget.menuItem.path == _ElMenuData.of(context).activePath
-      ? ElApp.of(context).theme.menuActiveColor
+      ? ElAppData.of(context).currentTheme.menuActiveColor
       : parentBgColor.isDark
           ? textWhite
           : textBlack;

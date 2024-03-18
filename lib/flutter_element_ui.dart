@@ -5,10 +5,10 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
+
+part 'src/components/basic/config_provider.dart';
 
 part 'src/components/basic/button2.dart';
 
@@ -18,6 +18,8 @@ part 'src/components/basic/button_group.dart';
 
 part 'src/components/basic/button_item.dart';
 
+part 'src/components/basic/container.dart';
+
 part 'src/components/affix.dart';
 
 part 'src/components/alert.dart';
@@ -25,8 +27,6 @@ part 'src/components/alert.dart';
 part 'src/components/anchor.dart';
 
 part 'src/components/anchor_link.dart';
-
-part 'src/components/basic/app.dart';
 
 part 'src/components/autocomplete.dart';
 
@@ -142,9 +142,13 @@ part 'src/mixins/mouse.dart';
 
 part 'src/mixins/tap.dart';
 
+part 'src/mixins/theme.dart';
+
 part 'src/styles/icons.dart';
 
 part 'src/styles/theme.dart';
+
+part 'src/styles/config.dart';
 
 part 'src/utils/color.dart';
 
