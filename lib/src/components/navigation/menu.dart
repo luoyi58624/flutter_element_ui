@@ -52,7 +52,7 @@ class ElMenu extends StatefulWidget {
   const ElMenu(
     this.menuList, {
     super.key,
-    this.width = 250,
+    this.width = 240,
     this.background,
     this.activePath,
     this.onChange,
@@ -77,7 +77,7 @@ class _ElMenuState extends State<ElMenu> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
+      width: widget.width,
       height: double.infinity,
       decoration: BoxDecoration(
         color: background,

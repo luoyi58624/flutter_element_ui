@@ -15,4 +15,10 @@ mixin _ElThemeMixin<T extends StatefulWidget, D> on State<T> {
   Color get $defaultBorderColor => ElAppData.of(context).currentTheme.defaultBorderColor;
 
   double get $radius => ElAppData.of(context).config.radius;
+
+  double get $buttonHeight => ElAppData.of(context).config.buttonHeight;
+
+  double get $buttonHorizontal => ElAppData.of(context).config.buttonHorizontal;
+
+  double get $buttonIconSize => ElAppData.of(context).config.buttonIconSize;
 }

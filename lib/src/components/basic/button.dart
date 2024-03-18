@@ -1,15 +1,10 @@
 part of flutter_element_ui;
 
-const double _buttonHeight = 32;
-
 /// 默认的文字alpha
 const int _defaultTextAlpha = 200;
 
 /// 当按钮处于禁用状态时，更新当前文字颜色的alpha
 const int _disabledTextAlpha = 120;
-
-/// 图标比文字更小的alpha，在flutter中，图标的颜色似乎比文字更重
-const int _iconAlphaDiff = 40;
 
 /// 当按钮处于禁用状态时，更新按钮样式透明度
 const double _disabledOpacity = 0.6;
@@ -80,7 +75,7 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
 
   @override
   void onTapEvent() {
-    widget.onPressed!();
+    if (widget.onPressed != null) widget.onPressed!();
   }
 
   /// 构建普通button主题
@@ -123,7 +118,7 @@ class ElButton extends _Button {
     super.loadingBuilder,
     this.leftIcon,
     this.rightIcon,
-    this.height = _buttonHeight,
+    this.height,
     this.iconSize,
     this.plain = false,
     this.round = false,
@@ -138,7 +133,7 @@ class ElButton extends _Button {
   /// 普通按钮右图标
   final IconData? rightIcon;
 
-  /// 按钮高度，默认32
+  /// 按钮高度
   final double? height;
 
   /// 朴素按钮
@@ -157,8 +152,7 @@ class ElButton extends _Button {
 class _ElButtonState extends _ButtonState<ElButton> {
   bool get noText => widget.text == '';
 
-  /// 默认水平间距
-  static const double _defaultHorizontal = 15;
+  double get iconSize => widget.iconSize ?? $buttonIconSize;
 
   @override
   double get $radius => widget.round ? 9999 : super.$radius;
@@ -166,12 +160,12 @@ class _ElButtonState extends _ButtonState<ElButton> {
   @override
   void buildDefaultTheme() {
     textColor = $textColor;
-    iconColor = textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+    iconColor = textColor!.withAlpha(_defaultTextAlpha);
     borderColor = $defaultBorderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
       textColor = textColor!.withAlpha(_disabledTextAlpha);
-      iconColor = iconColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+      iconColor = iconColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
       textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
@@ -229,10 +223,10 @@ class _ElButtonState extends _ButtonState<ElButton> {
   @override
   Widget buildButton() {
     return Container(
-      height: widget.height,
+      height: widget.height ?? $buttonHeight,
       padding: border == null
-          ? const EdgeInsets.symmetric(horizontal: _defaultHorizontal)
-          : const EdgeInsets.symmetric(horizontal: _defaultHorizontal - 1),
+          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
+          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
       decoration: BoxDecoration(
         color: bgColor,
         border: border,
@@ -247,10 +241,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
                 Padding(
                   padding: noText ? EdgeInsets.zero : const EdgeInsets.only(right: 6),
                   child: widget.loadingBuilder == null
-                      ? CupertinoActivityIndicator(
-                          radius: 8,
-                          color: widget.type == null ? textColor : ElThemeData.white,
-                        )
+                      ? ElLoading(size: $buttonIconSize, color: iconColor)
                       : widget.loadingBuilder!(iconColor!),
                 ),
               if (widget.leftIcon != null)
@@ -259,7 +250,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
                   child: ElIcon(
                     widget.leftIcon,
                     color: iconColor,
-                    size: widget.iconSize,
+                    size: iconSize,
                   ),
                 ),
               if (!noText)
@@ -276,7 +267,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
                   child: ElIcon(
                     widget.rightIcon,
                     color: iconColor,
-                    size: widget.iconSize,
+                    size: iconSize,
                   ),
                 ),
             ],
@@ -299,7 +290,7 @@ class ElTextButton extends _Button {
     super.disabledTooltip,
     super.loading,
     super.loadingBuilder,
-    this.height = _buttonHeight,
+    this.height,
     this.bg = false,
   });
 
@@ -370,8 +361,8 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
   @override
   Widget buildButton() {
     return Container(
-      height: widget.height,
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      height: widget.height ?? $buttonHeight,
+      padding: EdgeInsets.symmetric(horizontal: $buttonHorizontal),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular($radius),
@@ -380,7 +371,7 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
         child: Center(
           child: widget.loading
               ? widget.loadingBuilder == null
-                  ? _materialLoading(textColor!)
+                  ? ElLoading(size: $buttonIconSize, color: textColor)
                   : widget.loadingBuilder!(textColor!)
               : Text(
                   widget.text,
@@ -408,7 +399,7 @@ class ElIconButton extends _Button {
     super.loading,
     super.loadingBuilder,
     this.circle = false,
-    this.size = _buttonHeight,
+    this.size,
     this.iconSize,
   });
 
@@ -419,7 +410,7 @@ class ElIconButton extends _Button {
   final bool circle;
 
   /// 图标按钮尺寸
-  final double size;
+  final double? size;
 
   /// icon图标的尺寸
   final double? iconSize;
@@ -429,14 +420,15 @@ class ElIconButton extends _Button {
 }
 
 class _ElIconButtonState extends _ButtonState<ElIconButton> {
-  double get iconSize => widget.iconSize ?? ElAppData.of(context).config.iconSize;
+  double get size => widget.size ?? $buttonHeight;
 
-  double get _width => widget.circle ? widget.size : widget.size * 1.2;
+  double get iconSize => widget.iconSize ?? $buttonIconSize;
 
-  double get _height => widget.circle ? widget.size : widget.size;
+  double get _width => widget.circle ? size : size * 1.2;
 
-  /// 默认水平间距
-  double get _defaultHorizontal => (widget.size - iconSize / 2) / 2;
+  double get _height => widget.circle ? size : size;
+
+  double get _horizontal => (size - iconSize / 2) / 2;
 
   @override
   double get $radius => widget.circle ? 9999 : super.$radius;
@@ -447,7 +439,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
     borderColor = $defaultBorderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
-      textColor = textColor!.withAlpha(_disabledTextAlpha - _iconAlphaDiff);
+      textColor = textColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
       borderColor = super.onTap
@@ -455,7 +447,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
           : super.onHover
               ? $primaryColor.withOpacity(0.2)
               : $defaultBorderColor;
-      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha - _iconAlphaDiff);
+      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
     }
     border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
@@ -486,8 +478,8 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
         padding: widget.circle
             ? null
             : border == null
-                ? EdgeInsets.symmetric(horizontal: _defaultHorizontal)
-                : EdgeInsets.symmetric(horizontal: _defaultHorizontal - 1),
+                ? EdgeInsets.symmetric(horizontal: _horizontal)
+                : EdgeInsets.symmetric(horizontal: _horizontal - 1),
         decoration: BoxDecoration(
           color: bgColor,
           border: border,
@@ -496,10 +488,11 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
         child: Center(
           child: widget.loading
               ? widget.loadingBuilder == null
-                  ? _materialLoading(textColor!)
+                  ? ElLoading(size: $buttonIconSize, color: textColor)
                   : widget.loadingBuilder!(textColor!)
               : ElDefaultIconStyle(
                   color: textColor,
+                  size: iconSize,
                   child: widget.icon,
                 ),
         ),

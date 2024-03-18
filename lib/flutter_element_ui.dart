@@ -1,16 +1,14 @@
 library flutter_element_ui;
 
 import 'dart:math' as math;
+import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 
 part 'src/components/basic/config_provider.dart';
-
-part 'src/components/basic/button2.dart';
 
 part 'src/components/basic/button.dart';
 
@@ -19,6 +17,8 @@ part 'src/components/basic/button_group.dart';
 part 'src/components/basic/button_item.dart';
 
 part 'src/components/basic/container.dart';
+
+part 'src/components/feedback/loading.dart';
 
 part 'src/components/affix.dart';
 
@@ -153,6 +153,8 @@ part 'src/styles/config.dart';
 part 'src/utils/color.dart';
 
 part 'src/utils/logger.dart';
+
+part 'src/widgets/loading.dart';
 
 /// A Calculator.
 class Calculator {

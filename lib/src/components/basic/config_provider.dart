@@ -74,7 +74,10 @@ class ElConfigProvider extends StatelessWidget {
       },
       child: DefaultTextStyle(
         style: TextStyle(color: $currentTheme.textColor),
-        child: child,
+        child: ElDefaultIconStyle(
+          color: $currentTheme.textColor,
+          child: child,
+        ),
       ),
     );
   }

@@ -20,6 +20,52 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   /// 按钮组的长度
   int get childrenLength;
 
+  @override
+  bool get disabledButton => widget.disabled;
+
+  @override
+  Widget build(BuildContext context) {
+    buildButtonItemTheme();
+    return buildMouseWidget(
+      child: buildTapWidget(
+        child: buildButton(),
+      ),
+    );
+  }
+
+  @override
+  void onEnterEvent(PointerEnterEvent event) {
+    buttonGroupData.setOnEnterIndex(currentIndex);
+  }
+
+  @override
+  void onTapEvent() {
+    switch (buttonGroupData.buttonGroupType) {
+      case _ButtonGroupType.base:
+        if (buttonGroupData.onPressed != null) buttonGroupData.onPressed!(currentIndex);
+        break;
+      case _ButtonGroupType.single:
+        if (buttonGroupData.onChange != null) {
+          if (buttonGroupData.index != currentIndex) {
+            buttonGroupData.onChange!(currentIndex);
+          }
+        }
+        break;
+      case _ButtonGroupType.multiple:
+        if (buttonGroupData.onChangeList != null) {
+          List<int> indexList = buttonGroupData.indexList;
+          int targetIndex = indexList.indexOf(currentIndex);
+          if (targetIndex == -1) {
+            indexList.add(currentIndex);
+          } else {
+            indexList.removeAt(targetIndex);
+          }
+          buttonGroupData.onChangeList!(indexList);
+        }
+        break;
+    }
+  }
+
   void buildButtonItemTheme() {
     if (buttonGroupData.type == null) {
       buildDefaultTheme();
@@ -48,7 +94,11 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
         } else {
           bgColor = null;
           if (buttonGroupData.type == null) {
-            textColor = onHover ? $primaryColor : $textColor;
+            textColor = disabledButton
+                ? $textColor.withAlpha(_disabledTextAlpha)
+                : onHover
+                    ? $primaryColor
+                    : $textColor;
             iconColor = textColor;
           } else {
             textColor = onHover ? getThemeTypeColor(buttonGroupData.type!) : $textColor;
@@ -190,65 +240,200 @@ class ElButtonItem extends _ButtonItem {
   final String text;
 
   /// 普通按钮左图标
-  final IconData? leftIcon;
+  final ElIcon? leftIcon;
 
   /// 普通按钮右图标
-  final IconData? rightIcon;
+  final ElIcon? rightIcon;
 
   @override
   State<ElButtonItem> createState() => _ElButtonItemState();
 }
 
 class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
-  final buttonKey = GlobalKey<_ElButtonState>();
-
   @override
   _ElButtonGroupData get buttonGroupData => _ElButtonGroupData.of(context);
 
   @override
-  int get childrenLength => _ElButtonGroupData.of(context).children.length;
+  int get childrenLength => buttonGroupData.children.length;
 
   @override
   Widget buildButton() {
-    super.buildButtonItemTheme();
-    return ElButton(
-      widget.text,
-      key: buttonKey,
+    return Container(
+      height: $buttonHeight,
+      padding: border == null
+          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
+          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: border,
+        borderRadius: borderRadius,
+      ),
+      child: UnconstrainedBox(
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (widget.leftIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: ElDefaultIconStyle(
+                    color: iconColor,
+                    size: $buttonIconSize,
+                    child: widget.leftIcon!,
+                  ),
+                ),
+              Text(
+                widget.text,
+                style: TextStyle(
+                  color: textColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              if (widget.rightIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: ElDefaultIconStyle(
+                    color: iconColor,
+                    size: $buttonIconSize,
+                    child: widget.rightIcon!,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   @override
   void buildDefaultTheme() {
-    return buttonKey.currentState!.buildDefaultTheme();
+    textColor = $textColor;
+    iconColor = textColor!.withAlpha(_defaultTextAlpha);
+    borderColor = $defaultBorderColor;
+    if (super.disabledButton) {
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withAlpha(_disabledTextAlpha);
+      iconColor = iconColor!.withAlpha(_disabledTextAlpha);
+    } else {
+      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
+      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = super.onTap || super.onHover ? $primaryColor : iconColor;
+      borderColor = super.onTap
+          ? $primaryColor
+          : super.onHover
+              ? $primaryColor.withOpacity(0.2)
+              : $defaultBorderColor;
+    }
+
+    border = Border.all(color: borderColor!);
+    borderRadius = BorderRadius.circular($radius);
   }
 
   @override
   void buildTypeTheme(ElThemeType type) {
-    return buttonKey.currentState!.buildTypeTheme(type);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+    Color themeColor = getThemeTypeColor(type);
+    textColor = $textWhiteColor;
+    iconColor = textColor;
+    bgColor = themeColor;
+    if (super.disabledButton) {
+      bgColor = bgColor!.withOpacity(_disabledOpacity);
+      border = null;
+    } else {
+      bgColor = super.onTap
+          ? themeColor.darken(15)
+          : super.onHover
+              ? themeColor.withOpacity(0.8)
+              : bgColor;
+    }
+    borderRadius = BorderRadius.circular($radius);
   }
 }
 
-class ElIconButtonItem extends StatefulWidget {
+class ElIconButtonItem extends _ButtonItem {
   const ElIconButtonItem(
     this.icon, {
     required super.key,
+    super.disabled,
   }) : assert(key is ValueKey<int>, '请传递包含当前按钮索引的ValueKey');
 
   /// 按钮图标
-  final ElIcon? icon;
+  final ElIcon icon;
 
   @override
   State<ElIconButtonItem> createState() => _ElIconButtonItemState();
 }
 
-class _ElIconButtonItemState extends State<ElIconButtonItem> {
+class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
+  double get _horizontal => ($buttonHeight - $buttonIconSize / 2) / 2;
+
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
+  _ElIconButtonGroupData get buttonGroupData => _ElIconButtonGroupData.of(context);
+
+  @override
+  int get childrenLength => buttonGroupData.children.length;
+
+  @override
+  void buildDefaultTheme() {
+    textColor = $textColor;
+    borderColor = $defaultBorderColor;
+    if (super.disabledButton) {
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withAlpha(_disabledTextAlpha);
+    } else {
+      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
+      borderColor = super.onTap
+          ? $primaryColor
+          : super.onHover
+              ? $primaryColor.withOpacity(0.2)
+              : $defaultBorderColor;
+      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+    }
+    border = Border.all(color: borderColor!);
+    borderRadius = BorderRadius.circular($radius);
+  }
+
+  @override
+  void buildTypeTheme(ElThemeType type) {
+    bgColor = getThemeTypeColor(type);
+    textColor = $textWhiteColor;
+    if (super.disabledButton) {
+      bgColor = bgColor!.withOpacity(_disabledOpacity);
+    } else {
+      bgColor = super.onTap
+          ? bgColor!.darken(15)
+          : super.onHover
+              ? bgColor!.withOpacity(0.8)
+              : bgColor;
+    }
+    borderRadius = BorderRadius.circular($radius);
+  }
+
+  @override
+  Widget buildButton() {
+    super.buildButtonItemTheme();
+    return UnconstrainedBox(
+      child: Container(
+        height: $buttonHeight,
+        padding: border == null
+            ? EdgeInsets.symmetric(horizontal: _horizontal)
+            : EdgeInsets.symmetric(horizontal: _horizontal - 1),
+        decoration: BoxDecoration(
+          color: bgColor,
+          border: border,
+          borderRadius: borderRadius,
+        ),
+        child: Center(
+          child: widget.loading
+              ? widget.loadingBuilder == null
+                  ? ElLoading(size: $buttonIconSize, color: textColor)
+                  : widget.loadingBuilder!(textColor!)
+              : ElDefaultIconStyle(
+                  color: textColor,
+                  size: $buttonIconSize,
+                  child: widget.icon,
+                ),
+        ),
+      ),
+    );
   }
 }
