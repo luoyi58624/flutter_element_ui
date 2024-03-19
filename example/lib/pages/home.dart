@@ -324,7 +324,7 @@ class _HomePageState extends State<HomePage> {
               },
               children: const [
                 ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
-                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm), disabled: true),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
               ],
             ),
             const SizedBox(height: 8),
@@ -352,7 +352,7 @@ class _HomePageState extends State<HomePage> {
               },
               children: const [
                 ElIconButtonItem(key: ValueKey(0), ElIcon(Icons.email_outlined)),
-                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm), disabled: true),
+                ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
               ],
             ),
             const SizedBox(height: 8),
@@ -371,6 +371,32 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 8),
+            ElButtonGroup(
+              type: ElThemeType.primary,
+              children: const [
+                ElButtonItem(key: ValueKey(0), 'Item 1'),
+                ElButtonItem(key: ValueKey(1), 'Item 2'),
+                ElButtonItem(key: ValueKey(2), 'Item 3'),
+                ElButtonItem(key: ValueKey(3), 'Item 4'),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ElButtonGroup.multiple(
+              type: ElThemeType.primary,
+              indexList: selectIndexList,
+              onChangeList: (v) {
+                setState(() {
+                  selectIndexList = v;
+                });
+              },
+              children: const [
+                ElButtonItem(key: ValueKey(0), 'Item 1'),
+                ElButtonItem(key: ValueKey(1), 'Item 2'),
+                ElButtonItem(key: ValueKey(2), 'Item 3'),
+                ElButtonItem(key: ValueKey(3), 'Item 4'),
+              ],
+            ),
+            const SizedBox(height: 8),
             ElIconButtonGroup.multiple(
               indexList: selectIndexList,
               onChangeList: (v) {
@@ -384,7 +410,7 @@ class _HomePageState extends State<HomePage> {
                 ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
               ],
             ),
-            // const SizedBox(height: 8),
+            const SizedBox(height: 8),
             ElIconButtonGroup.multiple(
               type: ElThemeType.primary,
               indexList: selectIndexList,

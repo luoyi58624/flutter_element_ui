@@ -18,6 +18,10 @@ mixin _ElThemeMixin<T extends StatefulWidget, D> on State<T> {
 
   double get $buttonHeight => ElAppData.of(context).config.buttonHeight;
 
+  double get $buttonBorderWidth => ElAppData.of(context).config.buttonBorderWidth;
+
+  double get $buttonGroupBorderWidth => ElAppData.of(context).config.buttonGroupBorderWidth;
+
   double get $buttonHorizontal => ElAppData.of(context).config.buttonHorizontal;
 
   double get $buttonIconSize => ElAppData.of(context).config.buttonIconSize;

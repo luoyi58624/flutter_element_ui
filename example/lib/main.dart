@@ -1,7 +1,6 @@
 import 'package:chicago/chicago.dart';
 import 'package:example/layout/layout.dart';
 import 'package:example/pages/home.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
@@ -27,9 +26,9 @@ class MyApp extends StatelessWidget {
       routerConfig: router,
       builder: (context, child) => ValueListenableBuilder(
         valueListenable: GlobalState.isDark,
-        builder: (c, v, _) {
+        builder: (context, value, _) {
           return ElConfigProvider(
-            useDark: v,
+            useDark: value,
             child: child!,
           );
         },
@@ -59,22 +58,6 @@ class MyApp extends StatelessWidget {
     //     },
     //   ),
     // );
-  }
-
-  Widget buildFluentApp() {
-    return fluent.FluentApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) => ValueListenableBuilder(
-        valueListenable: GlobalState.isDark,
-        builder: (context, value, _) {
-          return ElConfigProvider(
-            useDark: value,
-            child: child!,
-          );
-        },
-      ),
-    );
   }
 
   Widget buildChicagoApp() {

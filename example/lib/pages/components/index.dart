@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:example/utils/logger.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 

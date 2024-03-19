@@ -14,6 +14,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   List<ElMenuModel> get menuList => [
         ElMenuModel(title: '首页', icon: const ElIcon.svg(ElIcons.homeFilled), path: '/'),
         ElMenuModel(title: '组件', icon: const ElIcon.svg(ElIcons.eleme), path: '/components'),
+        ElMenuModel(title: '测试', icon: const ElIcon.svg(ElIcons.comment), path: '/test'),
         ElMenuModel(
           title: '嵌套菜单',
           icon: const ElIcon.svg(ElIcons.folder),

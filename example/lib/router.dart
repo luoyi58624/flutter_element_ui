@@ -1,4 +1,5 @@
 import 'package:example/layout/layout.dart';
+import 'package:example/pages/test/border.dart';
 import 'package:example/state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -42,6 +43,20 @@ final router = GoRouter(
             GoRoute(
               path: '/components',
               builder: (context, state) => const ComponentsPage(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/test',
+              redirect: (context, state) => '/test/border',
+              routes: [
+                GoRoute(
+                  path: 'border',
+                  builder: (context, state) => const BorderTestPage(),
+                ),
+              ],
             ),
           ],
         ),

@@ -18,7 +18,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   go_router: ^13.2.1
   logger: ^2.1.0
-  fluent_ui: ^4.8.6
+  morphable_shape: ^1.6.6
+  non_uniform_border: ^1.0.0
 
 dev_dependencies:
   flutter_test:
