@@ -20,18 +20,15 @@ class ElHeader extends ElChildContainer {
     super.key,
     required this.child,
     this.height = 56,
-    this.padding,
   });
 
   final Widget child;
   final double height;
-  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
       color: ElAppData.of(context).currentTheme.headerColor,
       child: child,
     );

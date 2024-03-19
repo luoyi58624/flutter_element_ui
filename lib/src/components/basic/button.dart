@@ -46,7 +46,7 @@ abstract class _Button extends StatefulWidget {
   State<_Button> createState();
 }
 
-abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElTapMixin, _ElThemeMixin {
+abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElTapMixin, ElThemeMixin {
   /// 默认文字颜色
   Color? textColor;
 

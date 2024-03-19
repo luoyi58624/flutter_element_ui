@@ -10,6 +10,16 @@ class ColorPage extends StatefulWidget {
 class _ColorPageState extends State<ColorPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('主题颜色'),
+      ),
+      body: ListView.builder(
+        itemCount: 1000,
+        itemBuilder: (context, index) => ListTile(
+          title: Text('列表 - ${index + 1}'),
+        ),
+      ),
+    );
   }
 }

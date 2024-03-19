@@ -1,4 +1,3 @@
-import 'package:example/router/router.dart';
 import 'package:example/router/routes/layout_routes.dart';
 import 'package:example/state.dart';
 import 'package:example/utils/logger.dart';
@@ -63,23 +62,16 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    LoggerUtil.i(layoutRoutes.routes.map((e) {
-      if (e is GoRoute) {
-        if (e.redirectOnly) {}
-        return e.path;
-      } else {
-        return e;
-      }
-    }));
     return ValueListenableBuilder(
-      valueListenable: GlobalState.activePath,
+      valueListenable: GlobalState.elMenu,
       builder: (context, value, child) => ElMenu(
         menuList,
-        activePath: value,
+        activePath: value.activePath,
+        collapse: value.isCollapse,
         onChange: (menu) {
-          if (menu.path != null && menu.path != GlobalState.activePath.value) {
+          if (menu.path != null && menu.path != GlobalState.elMenu.value.activePath) {
             context.go(menu.path!);
-            GlobalState.activePath.value = menu.path!;
+            GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(activePath: menu.path!);
           }
         },
       ),

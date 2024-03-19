@@ -1,6 +1,6 @@
 part of flutter_element_ui;
 
-/// Color对象扩展
+/// Color工具函数扩展
 extension ElColorUtil on Color {
   /// Color对象转16进制字符串格式颜色
   String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
@@ -24,7 +24,8 @@ extension ElColorUtil on Color {
   Color brighten(int scale) {
     assert(scale > 0 && scale <= 100);
     var p = scale / 100;
-    return Color.fromARGB(alpha, red + ((255 - red) * p).round(), green + ((255 - green) * p).round(), blue + ((255 - blue) * p).round());
+    return Color.fromARGB(
+        alpha, red + ((255 - red) * p).round(), green + ((255 - green) * p).round(), blue + ((255 - blue) * p).round());
   }
 
   /// 将颜色变得更暗
@@ -33,5 +34,11 @@ extension ElColorUtil on Color {
     assert(scale > 0 && scale <= 100);
     var f = 1 - scale / 100;
     return Color.fromARGB(alpha, (red * f).round(), (green * f).round(), (blue * f).round());
+  }
+
+  /// 将颜色变得深，如果当前颜色是亮色，颜色会变暗，但如果当前颜色是暗色，则颜色会变亮
+  /// * scale 0-100，值越大，颜色越深
+  Color deepen(int scale) {
+    return isDark ? brighten(scale) : darken(scale);
   }
 }

@@ -1,7 +1,7 @@
 part of flutter_element_ui;
 
 /// Element 主题混入
-mixin _ElThemeMixin<T extends StatefulWidget, D> on State<T> {
+mixin ElThemeMixin<T extends StatefulWidget, D> on State<T> {
   /// 暗色主题文字颜色
   Color get $textWhiteColor => ElAppData.of(context).darkTheme.textColor;
 
@@ -9,6 +9,10 @@ mixin _ElThemeMixin<T extends StatefulWidget, D> on State<T> {
   Color get $textBlackColor => ElAppData.of(context).theme.textColor;
 
   Color get $textColor => ElAppData.of(context).currentTheme.textColor;
+
+  Color get $bgColor => ElAppData.of(context).currentTheme.bgColor;
+
+  Color get $headerColor => ElAppData.of(context).currentTheme.headerColor;
 
   Color get $primaryColor => ElAppData.of(context).currentTheme.primary;
 

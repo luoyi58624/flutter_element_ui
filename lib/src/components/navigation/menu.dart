@@ -1,7 +1,7 @@
 part of flutter_element_ui;
 
 /// 嵌套子菜单距离上一层级的间距
-const double _defaultGap = 20;
+const double _defaultGap = 22;
 
 class ElMenuModel {
   /// 菜单名字
@@ -29,11 +29,19 @@ class _ElMenuData extends InheritedWidget {
     required super.child,
     required this.background,
     required this.activePath,
+    required this.collapse,
+    required this.iconSize,
+    required this.collapseDuration,
+    required this.expandDuration,
     required this.onChange,
   });
 
   final Color background;
   final String? activePath;
+  final bool collapse;
+  final double iconSize;
+  final int collapseDuration;
+  final int expandDuration;
   final void Function(ElMenuModel menu)? onChange;
 
   static _ElMenuData of(BuildContext context) {
@@ -55,15 +63,35 @@ class ElMenu extends StatefulWidget {
     this.width = 240,
     this.background,
     this.activePath,
+    this.collapse = false,
+    this.iconSize = 20,
+    this.collapseDuration = 250,
+    this.expandDuration = 250,
     this.onChange,
   });
 
   final List<ElMenuModel> menuList;
+
+  /// 菜单栏宽度
   final double width;
+
+  /// 菜单栏背景颜色
   final Color? background;
 
   /// 激活的路由地址
   final String? activePath;
+
+  /// 是否收起菜单
+  final bool collapse;
+
+  /// 菜单图标大小，默认20
+  final double iconSize;
+
+  /// 收起菜单动画过渡时间，单位：毫秒
+  final int collapseDuration;
+
+  /// 菜单折叠动画过渡时间，单位：毫秒
+  final int expandDuration;
 
   final void Function(ElMenuModel menu)? onChange;
 
@@ -76,8 +104,10 @@ class _ElMenuState extends State<ElMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
+    return AnimatedContainer(
+      duration: Duration(milliseconds: widget.collapseDuration),
+      curve: Curves.easeOut,
+      width: widget.collapse ? _defaultGap * 2 + widget.iconSize : widget.width,
       height: double.infinity,
       decoration: BoxDecoration(
         color: background,
@@ -85,6 +115,10 @@ class _ElMenuState extends State<ElMenu> {
       child: _ElMenuData(
         background: background,
         activePath: widget.activePath,
+        collapse: widget.collapse,
+        iconSize: widget.iconSize,
+        collapseDuration: widget.collapseDuration,
+        expandDuration: widget.expandDuration,
         onChange: widget.onChange,
         child: SingleChildScrollView(
           child: _MenuWidget(
@@ -169,14 +203,14 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
             gap: widget.gap,
           ),
         ),
-        if (hasChild) buildChildMenu(),
+        if (hasChild && !_ElMenuData.of(context).collapse) buildChildMenu()
       ],
     );
   }
 
   Widget buildChildMenu() {
     return AnimatedCrossFade(
-      firstChild: Container(height: 0.0),
+      firstChild: const SizedBox(width: 0, height: 0),
       secondChild: _MenuWidget(
         menuList: widget.menuItem.children!,
         gap: widget.gap + _defaultGap,
@@ -185,7 +219,7 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
       sizeCurve: Curves.fastOutSlowIn,
       crossFadeState: _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-      duration: const Duration(milliseconds: 300),
+      duration: Duration(milliseconds: _ElMenuData.of(context).expandDuration),
     );
   }
 }
@@ -207,7 +241,7 @@ class _MenuItemContentWidget extends StatefulWidget {
   State<_MenuItemContentWidget> createState() => _MenuItemContentWidgetState();
 }
 
-class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin, _ElThemeMixin {
+class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin, ElThemeMixin {
   Color get parentBgColor => _ElMenuData.of(context).background;
 
   String? get activePath => _ElMenuData.of(context).activePath;
@@ -236,47 +270,73 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
         height: 56,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
           color: onHover ? hoverColor : parentBgColor,
         ),
-        child: Center(
-          child: Row(
-            children: [
-              SizedBox(width: widget.gap),
-              if (widget.menuItem.icon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ElDefaultIconStyle(
-                    color: menuItemColor,
-                    child: widget.menuItem.icon!,
-                  ),
-                ),
-              Text(
-                widget.menuItem.title,
-                style: TextStyle(
+        child: Row(
+          children: [
+            SizedBox(width: widget.gap),
+            if (widget.menuItem.icon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ElDefaultIconStyle(
                   color: menuItemColor,
-                  fontSize: 14,
+                  size: _ElMenuData.of(context).iconSize,
+                  child: widget.menuItem.icon!,
                 ),
               ),
-              const Expanded(child: SizedBox()),
-              if (widget.hasChild)
-                SizedBox(
-                  width: 40,
-                  child: AnimatedRotation(
-                    duration: const Duration(milliseconds: 200),
-                    turns: widget.expand ? 0.5 : 0,
-                    child: ElIcon.svg(
-                      ElIcons.arrowDown,
-                      color: menuItemColor,
-                      size: 12,
+            if (!_ElMenuData.of(context).collapse)
+              Expanded(
+                child: Text(
+                  widget.menuItem.title,
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: menuItemColor,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            if (widget.hasChild && !_ElMenuData.of(context).collapse)
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 40,
+                    margin: const EdgeInsets.only(left: 8),
+                    child: AnimatedRotation(
+                      duration: Duration(milliseconds: math.max(_ElMenuData.of(context).expandDuration - 50, 0)),
+                      turns: widget.expand ? 0.5 : 0,
+                      child: ElIcon.svg(
+                        ElIcons.arrowDown,
+                        color: menuItemColor,
+                        size: 12,
+                      ),
                     ),
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+/// 收缩状态下的菜单
+class _CollapseMenuWidget extends StatefulWidget {
+  const _CollapseMenuWidget({super.key});
+
+  @override
+  State<_CollapseMenuWidget> createState() => _CollapseMenuWidgetState();
+}
+
+class _CollapseMenuWidgetState extends State<_CollapseMenuWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [],
     );
   }
 }

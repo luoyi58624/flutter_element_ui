@@ -12,7 +12,7 @@ import 'routes/layout_routes.dart';
 final router = GoRouter(
   initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
-    if (state.fullPath != null) GlobalState.activePath.value = state.fullPath!;
+    if (state.fullPath != null) GlobalState.elMenu.value.activePath = state.fullPath!;
     return state.fullPath;
   },
   routes: [

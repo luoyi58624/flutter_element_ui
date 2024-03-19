@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return buildApp();
+    return buildMaterialApp();
   }
 
   Widget buildApp() {
@@ -37,27 +37,27 @@ class MyApp extends StatelessWidget {
   }
 
   Widget buildMaterialApp() {
-    return MaterialApp.router(
-      routerConfig: router,
-      builder: (context, child) => ElConfigProvider(
-        child: child!,
-      ),
-    );
     // return MaterialApp.router(
     //   routerConfig: router,
-    //   debugShowCheckedModeBanner: false,
-    //   builder: (context, child) => ValueListenableBuilder(
-    //     valueListenable: GlobalState.isDark,
-    //     builder: (context, value, _) {
-    //       return Material(
-    //         child: ElConfigProvider(
-    //           useDark: value,
-    //           child: child!,
-    //         ),
-    //       );
-    //     },
+    //   builder: (context, child) => ElConfigProvider(
+    //     child: child!,
     //   ),
     // );
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) => ValueListenableBuilder(
+        valueListenable: GlobalState.isDark,
+        builder: (context, value, _) {
+          return Material(
+            child: ElConfigProvider(
+              useDark: value,
+              child: child!,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget buildChicagoApp() {
