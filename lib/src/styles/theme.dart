@@ -1,6 +1,6 @@
 part of flutter_element_ui;
 
-/// Element UI 所有组件主题类型
+/// Element UI 主题类型，所有组件均围绕以下5种类型设计
 enum ElThemeType {
   primary,
   success,
@@ -9,7 +9,7 @@ enum ElThemeType {
   error,
 }
 
-/// Element UI 主题对象
+/// Element UI 颜色主题对象
 class ElThemeData {
   static const Color white = Color(0xffffffff);
   static const Color black = Color(0xff000000);
@@ -78,19 +78,19 @@ class ElThemeData {
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
     this.brightness = Brightness.dark,
-    this.primary = const Color(0xff409eff),
-    this.success = const Color(0xff67c23a),
-    this.info = const Color(0xff909399),
-    this.warning = const Color(0xffe6a23c),
-    this.error = const Color(0xfff56c6c),
+    this.primary = const Color(0xff38bdf8),
+    this.success = const Color(0xff34d399),
+    this.info = const Color(0xff94A3B8),
+    this.warning = const Color(0xfffbbf24),
+    this.error = const Color(0xfffb7185),
     this.bgColor = const Color(0xff000000),
     this.headerColor = const Color(0xff3c3f41),
     this.mainColor = const Color(0xff2b2b2b),
     this.textColor = const Color(0xfff6f6f6),
     this.iconColor = const Color(0xfff6f6f6),
     this.defaultBorderColor = const Color(0xffdcdfe6),
-    this.menuBackground = const Color(0xff565c64),
-    this.menuActiveColor = const Color(0xffffd04b),
+    this.menuBackground = const Color(0xff374151),
+    this.menuActiveColor = const Color(0xff6ee7b7),
   });
 
   /// 合并主题颜色，并返回新的主题对象

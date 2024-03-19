@@ -5,7 +5,7 @@ import 'package:example/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
-import 'router.dart';
+import 'router/router.dart';
 import 'state.dart';
 
 void main() {

@@ -278,34 +278,13 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
   @override
   int get childrenLength => buttonGroupData.children.length;
 
-  EdgeInsets get _buttonPadding {
-    // 必须单独处理一下多选的padding，否则会存在对齐问题
-    if (widget.type == null || buttonGroupData.buttonGroupType != _ButtonGroupType.multiple) {
-      return border == null
-          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1);
-    } else {
-      return border == null
-          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1);
-      // if (currentIndex == 0) {
-      //   if (buttonGroupData.indexList.contains(currentIndex)) {
-      //     return border == null
-      //         ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-      //         : EdgeInsets.only(left: $buttonHorizontal - 1, right: $buttonHorizontal);
-      //   }
-      // }
-      // return border == null
-      //     ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-      //     : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1);
-    }
-  }
-
   @override
   Widget buildButton() {
     return Container(
       height: $buttonHeight,
-      padding: _buttonPadding,
+      padding: border == null
+          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
+          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
       decoration: BoxDecoration(
         color: bgColor,
         border: border,

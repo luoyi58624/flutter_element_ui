@@ -21,4 +21,6 @@ mixin _ElThemeMixin<T extends StatefulWidget, D> on State<T> {
   double get $buttonHorizontal => ElAppData.of(context).config.buttonHorizontal;
 
   double get $buttonIconSize => ElAppData.of(context).config.buttonIconSize;
+
+  Color get $menuActiveColor => ElAppData.of(context).currentTheme.menuActiveColor;
 }

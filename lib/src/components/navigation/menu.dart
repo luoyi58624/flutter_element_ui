@@ -207,18 +207,25 @@ class _MenuItemContentWidget extends StatefulWidget {
   State<_MenuItemContentWidget> createState() => _MenuItemContentWidgetState();
 }
 
-class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin {
-  Color get textWhite => ElAppData.of(context).darkTheme.textColor;
-
-  Color get textBlack => ElAppData.of(context).theme.textColor;
-
+class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin, _ElThemeMixin {
   Color get parentBgColor => _ElMenuData.of(context).background;
 
-  Color get textColor => widget.menuItem.path == _ElMenuData.of(context).activePath
-      ? ElAppData.of(context).currentTheme.menuActiveColor
-      : parentBgColor.isDark
-          ? textWhite
-          : textBlack;
+  String? get activePath => _ElMenuData.of(context).activePath;
+
+  String? get currentPath => widget.menuItem.path;
+
+  Color get _textColor => parentBgColor.isDark ? $textWhiteColor : $textBlackColor;
+
+  Color get menuItemColor {
+    if (currentPath == '/') {
+      return activePath == '/' ? $menuActiveColor : _textColor;
+    } else {
+      if (activePath != null && currentPath != null && activePath!.contains(currentPath!)) {
+        return $menuActiveColor;
+      }
+    }
+    return _textColor;
+  }
 
   Color get hoverColor => parentBgColor.hsp < 50 ? parentBgColor.brighten(15) : parentBgColor.darken(15);
 
@@ -241,14 +248,14 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ElDefaultIconStyle(
-                    color: textColor,
+                    color: menuItemColor,
                     child: widget.menuItem.icon!,
                   ),
                 ),
               Text(
                 widget.menuItem.title,
                 style: TextStyle(
-                  color: textColor,
+                  color: menuItemColor,
                   fontSize: 14,
                 ),
               ),
@@ -261,7 +268,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
                     turns: widget.expand ? 0.5 : 0,
                     child: ElIcon.svg(
                       ElIcons.arrowDown,
-                      color: textColor,
+                      color: menuItemColor,
                       size: 12,
                     ),
                   ),

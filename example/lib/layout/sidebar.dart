@@ -1,4 +1,7 @@
+import 'package:example/router/router.dart';
+import 'package:example/router/routes/layout_routes.dart';
 import 'package:example/state.dart';
+import 'package:example/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +16,27 @@ class LayoutSidebarWidget extends StatefulWidget {
 class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   List<ElMenuModel> get menuList => [
         ElMenuModel(title: '首页', icon: const ElIcon.svg(ElIcons.homeFilled), path: '/'),
-        ElMenuModel(title: '组件', icon: const ElIcon.svg(ElIcons.eleme), path: '/components'),
+        ElMenuModel(
+          title: '组件',
+          icon: const ElIcon.svg(ElIcons.eleme),
+          path: '/components',
+          children: [
+            ElMenuModel(
+              title: 'Basic 基础组件',
+              path: '/components/basic',
+              children: [
+                ElMenuModel(
+                  title: 'Button 按钮',
+                  path: '/components/basic/button',
+                ),
+                ElMenuModel(
+                  title: 'Color 颜色',
+                  path: '/components/basic/color',
+                ),
+              ],
+            ),
+          ],
+        ),
         ElMenuModel(title: '测试', icon: const ElIcon.svg(ElIcons.comment), path: '/test'),
         ElMenuModel(
           title: '嵌套菜单',
@@ -40,6 +63,14 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    LoggerUtil.i(layoutRoutes.routes.map((e) {
+      if (e is GoRoute) {
+        if (e.redirectOnly) {}
+        return e.path;
+      } else {
+        return e;
+      }
+    }));
     return ValueListenableBuilder(
       valueListenable: GlobalState.activePath,
       builder: (context, value, child) => ElMenu(
@@ -55,3 +86,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
     );
   }
 }
+
+/// 将go_router的路由转换成菜单
+// List<ElMenuModel> routerToMenu(ShellRoute shellRoute) {
+//   for (var route in shellRoute.routes) {
+//     if (route is GoRoute) {}
+//   }
+// }
