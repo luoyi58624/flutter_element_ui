@@ -144,8 +144,8 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
 
   /// 计算默认样式的按钮组边框
   Border? caleDefaultButtonGroupBorder(Color borderColor) {
-    Border allBorder = Border.all(color: borderColor, width: $buttonGroupBorderWidth);
-    BorderSide borderSide = BorderSide(color: borderColor, width: $buttonGroupBorderWidth);
+    Border allBorder = Border.all(color: borderColor, width: 1);
+    BorderSide borderSide = BorderSide(color: borderColor, width: 1);
     // 如果只有2个button组成，那么只需要简单计算动态切换左右边框即可
     if (childrenLength == 2) {
       if (currentIndex == 0) {
@@ -194,7 +194,7 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
 
   /// 计算拥有主题类型的按钮组的边框
   Border? caleTypeButtonGroupBorder() {
-    BorderSide borderSide = BorderSide(color: $defaultBorderColor, width: $buttonGroupBorderWidth);
+    BorderSide borderSide = BorderSide(color: $defaultBorderColor, width: 0.5);
     if (currentIndex == 0) {
       return Border(
         top: borderSide,

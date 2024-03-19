@@ -177,7 +177,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
               : $defaultBorderColor;
     }
 
-    border = Border.all(color: borderColor!, width: $buttonBorderWidth);
+    border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
   }
 
@@ -449,7 +449,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
               : $defaultBorderColor;
       textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
     }
-    border = Border.all(color: borderColor!, width: $buttonBorderWidth);
+    border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
   }
 

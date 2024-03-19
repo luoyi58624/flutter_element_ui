@@ -10,12 +10,6 @@ class ElConfigData {
   /// 按钮默认高度
   double buttonHeight;
 
-  /// 按钮边框的宽度
-  double buttonBorderWidth;
-
-  /// 按钮组边框的宽度
-  double buttonGroupBorderWidth;
-
   /// 按钮水平间距
   double get buttonHorizontal => buttonHeight / 2;
 
@@ -26,8 +20,6 @@ class ElConfigData {
     this.iconSize = 20,
     this.radius = 4,
     this.buttonHeight = 32,
-    this.buttonBorderWidth = 1,
-    this.buttonGroupBorderWidth = 0.5,
   });
 
   ElConfigData copyWith(ElConfigData? config) {
