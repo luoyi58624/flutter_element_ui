@@ -20,6 +20,21 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   /// 按钮组的长度
   int get childrenLength;
 
+  /// 当前按钮是否被选中
+  bool get selected {
+    bool flag = false;
+    if (buttonGroupData.buttonGroupType == _ButtonGroupType.single) {
+      if (buttonGroupData.index == currentIndex) {
+        flag = true;
+      }
+    } else if (buttonGroupData.buttonGroupType == _ButtonGroupType.multiple) {
+      if (buttonGroupData.indexList.contains(currentIndex)) {
+        flag = true;
+      }
+    }
+    return flag;
+  }
+
   @override
   bool get disabledButton => widget.disabled;
 
@@ -195,18 +210,19 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   /// 计算拥有主题类型的按钮组的边框
   Border? caleTypeButtonGroupBorder() {
     BorderSide borderSide = BorderSide(color: $defaultBorderColor, width: 0.5);
+    BorderSide verticalBorderSide = selected ? BorderSide.none : borderSide;
     if (currentIndex == 0) {
       return Border(
-        top: borderSide,
+        top: verticalBorderSide,
         left: borderSide,
         right: borderSide,
-        bottom: borderSide,
+        bottom: verticalBorderSide,
       );
     } else {
       return Border(
-        top: borderSide,
+        top: verticalBorderSide,
         right: borderSide,
-        bottom: borderSide,
+        bottom: verticalBorderSide,
       );
     }
   }

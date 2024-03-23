@@ -34,6 +34,16 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                 ),
               ],
             ),
+            ElMenuModel(
+              title: 'Data 数据展示',
+              path: '/components/data',
+              children: [
+                ElMenuModel(
+                  title: 'Table 表格',
+                  path: '/components/data/table',
+                ),
+              ],
+            ),
           ],
         ),
         ElMenuModel(title: '测试', icon: const ElIcon.svg(ElIcons.comment), path: '/test'),

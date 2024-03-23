@@ -3,11 +3,14 @@ import 'package:go_router/go_router.dart';
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
 import '../../pages/components/basic/color.dart';
+import '../../pages/components/data/table.dart';
 import '../../pages/home.dart';
 import '../../pages/test/border.dart';
 
 const String _components = '/components';
 const String _componentsBasic = '$_components/basic';
+const String _componentsData = '$_components/data';
+const String _tests = '/tests';
 
 final layoutRoutes = StatefulShellRoute.indexedStack(
   builder: (context, state, navigationShell) => LayoutPage(navigationShell: navigationShell),
@@ -33,6 +36,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsBasic/color',
           builder: (context, state) => const ColorPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsData/table',
+          builder: (context, state) => const TablePage(),
         ),
       ],
     ),

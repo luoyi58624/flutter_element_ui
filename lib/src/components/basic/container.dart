@@ -1,13 +1,21 @@
 part of flutter_element_ui;
 
 class ElContainer extends StatelessWidget {
-  const ElContainer({super.key, required this.children});
+  const ElContainer({super.key, required this.child});
 
-  final List<ElChildContainer> children;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          width: 1280,
+          padding: const EdgeInsets.only(top: 16),
+          child: child,
+        ),
+      ),
+    );
   }
 }
 
