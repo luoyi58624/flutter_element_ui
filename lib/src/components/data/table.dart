@@ -7,10 +7,11 @@ class ElTable extends StatefulWidget {
     required this.columns,
     this.height,
     this.rowHeight = 50,
+    this.highlightCurrentRow = false,
   });
 
   /// 表格数据
-  final List<Map<String, dynamic>> data;
+  final List<Map> data;
 
   /// 配置表格列
   final List<ElTableColumn> columns;
@@ -20,6 +21,9 @@ class ElTable extends StatefulWidget {
 
   /// 表格行高度
   final double rowHeight;
+
+  /// 是否高亮当前行
+  final bool highlightCurrentRow;
 
   @override
   State<ElTable> createState() => _ElTableState();
@@ -61,6 +65,7 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
                 rowHeight: widget.rowHeight,
                 firstColumn: firstColumn,
                 otherColumn: otherColumn,
+                highlightCurrentRow: widget.highlightCurrentRow,
               ),
             ),
           ),
@@ -103,7 +108,7 @@ class _TableHeader extends StatelessWidget {
                 height: rowHeight,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(firstColumn.label),
+                  child: Text(firstColumn.label ?? ""),
                 ),
               ),
               width: firstColumn.width),
@@ -116,7 +121,7 @@ class _TableHeader extends StatelessWidget {
                 ),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(e.label),
+                  child: Text(e.label ?? ''),
                 ),
               ),
               width: e.width,
@@ -134,12 +139,14 @@ class _TableDataItem extends StatefulWidget {
     required this.rowHeight,
     required this.firstColumn,
     required this.otherColumn,
+    required this.highlightCurrentRow,
   });
 
-  final Map<String, dynamic> dataItem;
+  final Map dataItem;
   final double? rowHeight;
   final ElTableColumn firstColumn;
   final List<ElTableColumn> otherColumn;
+  final bool highlightCurrentRow;
 
   @override
   State<_TableDataItem> createState() => _TableDataItemState();
@@ -154,7 +161,7 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
     return buildMouseWidget(
       child: Container(
         decoration: BoxDecoration(
-          color: onHover ? $bgColor.deepen(5) : null,
+          color: widget.highlightCurrentRow && onHover ? $bgColor.deepen(5) : null,
           border: Border(bottom: BorderSide(color: $defaultBorderColor)),
         ),
         child: Row(
@@ -164,9 +171,7 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
                 height: widget.rowHeight,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    ElUtil.safeString(widget.dataItem[widget.firstColumn.prop]),
-                  ),
+                  child: buildContent(widget.firstColumn),
                 ),
               ),
               width: widget.firstColumn.width,
@@ -180,9 +185,7 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(
-                      ElUtil.safeString(widget.dataItem[column.prop]),
-                    ),
+                    child: buildContent(column),
                   ),
                 ),
                 width: column.width,
@@ -192,5 +195,17 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
         ),
       ),
     );
+  }
+
+  Widget buildContent(ElTableColumn column) {
+    if (column.render != null) {
+      return column.render!(widget.dataItem);
+    } else if (column.prop != null) {
+      return Text(
+        ElUtil.safeString(widget.dataItem[column.prop] ?? ''),
+      );
+    } else {
+      return SizedBox();
+    }
   }
 }
