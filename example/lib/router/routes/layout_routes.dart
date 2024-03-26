@@ -6,6 +6,7 @@ import '../../pages/components/basic/color.dart';
 import '../../pages/components/data/table.dart';
 import '../../pages/home.dart';
 import '../../pages/test/border.dart';
+import '../../pages/test/image_list.dart';
 
 const String _components = '/components';
 const String _componentsBasic = '$_components/basic';
@@ -50,14 +51,16 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '/test',
-          redirect: (context, state) => '/test/border',
-          routes: [
-            GoRoute(
-              path: 'border',
-              builder: (context, state) => const BorderTestPage(),
-            ),
-          ],
+          path: '$_tests/border',
+          builder: (context, state) => const BorderTestPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_tests/image_list',
+          builder: (context, state) => const ImageListPage(),
         ),
       ],
     ),

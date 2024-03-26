@@ -1,32 +1,16 @@
 part of flutter_element_ui;
 
-/// Element UI 全局配置注入，注意：它就是 Element UI 的顶级入口
+/// Element UI 全局配置注入
 class ElConfigProvider extends StatelessWidget {
-  /// [ElConfigProvider]仅提供全局主题注入，你需要使用 MaterialApp、CupertinoApp、FluentApp、MacosApp 等顶级入口组件创建应用。
+  /// 注入ElementUI的全局配置信息，你需要自己使用 WidgetsApp、MaterialApp、CupertinoApp 等顶级入口组件创建应用。
   ///
   /// 示例:
   /// ``` dart
-  /// MaterialApp.router(
-  ///   routerConfig: router,
-  ///   builder: (context, child) => ElConfigProvider(
-  ///     child: child!,
-  ///   ),
+  /// MaterialApp(
+  ///   builder: (context, child) => ElConfigProvider(child: child!),
   /// );
   /// ```
-  ///
-  /// 当然，以上App全部都是基于 WidgetsApp 构建，如果你想要构建更纯粹的桌面端应用程序，只想使用 Element UI 提供的组件，
-  /// 那么你可以直接使用 WidgetsApp 创建应用。
-  ///
-  /// 示例：
-  /// ``` dart
-  /// WidgetsApp.router(
-  ///   color: const Color(0xffffffff),
-  ///   routerConfig: router,
-  ///   builder: (context, child) => ElConfigProvider(
-  ///     child: child!,
-  ///   ),
-  /// );
-  /// ```
+  /// 提示：你也可以将顶级App组件当做[ElConfigProvider]的子组件，但需要额外处理顶级App组件的黑暗模式。
   const ElConfigProvider({
     super.key,
     required this.child,
@@ -95,10 +79,10 @@ class ElAppData extends InheritedWidget {
     required this.themeColors,
   });
 
-  /// 保存当前亮色主题配置
+  /// 亮色主题配置
   final ElThemeData theme;
 
-  /// 保存当前暗色主题配置
+  /// 暗色主题配置
   final ElThemeData darkTheme;
 
   /// Element UI 当前应用的主题

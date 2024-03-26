@@ -46,7 +46,20 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
             ),
           ],
         ),
-        ElMenuModel(title: '测试', icon: const ElIcon.svg(ElIcons.comment), path: '/test'),
+        ElMenuModel(
+          title: '测试',
+          icon: const ElIcon.svg(ElIcons.comment),
+          children: [
+            ElMenuModel(
+              title: '边框',
+              path: '/tests/border',
+            ),
+            ElMenuModel(
+              title: '图片列表',
+              path: '/tests/image_list',
+            ),
+          ],
+        ),
         ElMenuModel(
           title: '嵌套菜单',
           icon: const ElIcon.svg(ElIcons.folder),
