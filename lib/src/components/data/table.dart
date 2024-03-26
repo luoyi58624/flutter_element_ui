@@ -102,6 +102,7 @@ class _TableHeader extends StatelessWidget {
         border: Border(bottom: borderSide),
       ),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _buildColumnWidthWidget(
               child: SizedBox(
