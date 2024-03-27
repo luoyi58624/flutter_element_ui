@@ -18,6 +18,12 @@ class ElTableColumn {
   /// [Expanded]的参数，默认为1
   final double flex;
 
+  /// 是否将列固定到左边
+  final bool fixedLeft;
+
+  /// 是否将列固定到右边
+  final bool fixedRight;
+
   /// 自定义渲染
   final Widget Function(Map dataItem)? render;
 
@@ -27,6 +33,8 @@ class ElTableColumn {
     this.width,
     this.minWidth = 50.0,
     this.flex = 1.0,
+    this.fixedLeft = false,
+    this.fixedRight = false,
     this.render,
   });
 }

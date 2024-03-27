@@ -4,6 +4,7 @@ class _ElTableData extends InheritedWidget {
   const _ElTableData({
     required super.child,
     required this.rowHeight,
+    required this.highlightCurrentRow,
     required this.tableMinWidth,
     required this.firstColumn,
     required this.otherColumn,
@@ -11,6 +12,7 @@ class _ElTableData extends InheritedWidget {
   });
 
   final double rowHeight;
+  final bool highlightCurrentRow;
   final double tableMinWidth;
   final ElTableColumn firstColumn;
   final List<ElTableColumn> otherColumn;
@@ -103,11 +105,9 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
           children: [
             const _TableHeader(),
             Expanded(
-              child: _TableDataItem(
+              child: _TableBody(
                 data: widget.data,
-                highlightCurrentRow: widget.highlightCurrentRow,
                 scrollController: verticalScrollController,
-                // verticalPosition: verticalPosition,
               ),
             ),
           ],
@@ -129,6 +129,7 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
         );
         return _ElTableData(
           rowHeight: widget.rowHeight,
+          highlightCurrentRow: widget.highlightCurrentRow,
           tableMinWidth: tableMinWidth,
           firstColumn: firstColumn,
           otherColumn: otherColumn,
@@ -140,7 +141,8 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   }
 }
 
-Widget _buildColumnWidthWidget({required Widget child, required ElTableColumn column}) {
+/// 构建列的每一项
+Widget _buildColumnItemWidget({required Widget child, required ElTableColumn column}) {
   if (column.width != null) {
     return SizedBox(width: column.width, child: child);
   } else {
@@ -150,133 +152,6 @@ Widget _buildColumnWidthWidget({required Widget child, required ElTableColumn co
         child: child,
       ),
     );
-  }
-}
-
-class _TableHeader extends StatelessWidget {
-  const _TableHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    var borderSide = BorderSide(color: ElAppData.of(context).currentTheme.defaultBorderColor);
-    var rowHeight = _ElTableData.of(context).rowHeight;
-    var firstColumn = _ElTableData.of(context).firstColumn;
-    var otherColumn = _ElTableData.of(context).otherColumn;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(bottom: borderSide),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildColumnWidthWidget(
-            child: SizedBox(
-              height: rowHeight,
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(firstColumn.label ?? ""),
-              ),
-            ),
-            column: firstColumn,
-          ),
-          ...otherColumn.map(
-            (e) => _buildColumnWidthWidget(
-              child: Container(
-                height: rowHeight,
-                decoration: BoxDecoration(
-                  border: Border(left: borderSide),
-                ),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(e.label ?? ''),
-                ),
-              ),
-              column: e,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TableDataItem extends StatefulWidget {
-  const _TableDataItem({
-    required this.data,
-    required this.highlightCurrentRow,
-    required this.scrollController,
-  });
-
-  final List<Map> data;
-  final bool highlightCurrentRow;
-  final ScrollController scrollController;
-
-  @override
-  State<_TableDataItem> createState() => _TableDataItemState();
-}
-
-class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThemeMixin {
-  @override
-  MouseCursor get cursor => MouseCursor.defer;
-
-  @override
-  Widget build(BuildContext context) {
-    var rowHeight = _ElTableData.of(context).rowHeight;
-    var firstColumn = _ElTableData.of(context).firstColumn;
-    var otherColumn = _ElTableData.of(context).otherColumn;
-
-    return SuperListView.builder(
-      controller: widget.scrollController,
-      physics: const ClampingScrollPhysics(),
-      itemCount: widget.data.length,
-      itemBuilder: (context, index) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: widget.highlightCurrentRow && onHover ? $bgColor.deepen(5) : null,
-          border: Border(bottom: BorderSide(color: $defaultBorderColor)),
-        ),
-        child: Row(
-          children: [
-            _buildColumnWidthWidget(
-              child: SizedBox(
-                height: rowHeight,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: buildContent(widget.data[index], firstColumn),
-                ),
-              ),
-              column: firstColumn,
-            ),
-            ...otherColumn.map(
-              (column) => _buildColumnWidthWidget(
-                child: Container(
-                  height: rowHeight,
-                  decoration: BoxDecoration(
-                    border: Border(left: BorderSide(color: $defaultBorderColor)),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: buildContent(widget.data[index], column),
-                  ),
-                ),
-                column: column,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildContent(Map dataItem, ElTableColumn column) {
-    if (column.render != null) {
-      return column.render!(dataItem);
-    } else if (column.prop != null) {
-      return Text(
-        ElUtil.safeString(dataItem[column.prop] ?? ''),
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 }
 
