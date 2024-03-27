@@ -24,7 +24,7 @@ class _TablePageState extends State<TablePage> {
       padding: const EdgeInsets.all(8),
       child: ElTable(
         data: data,
-        highlightCurrentRow: true,
+        highlightCurrentRow: false,
         columns: [
           ElTableColumn(prop: 'id', label: 'ID', width: 60, fixedLeft: true),
           ElTableColumn(prop: 'username', label: '用户名', width: 220),
@@ -32,6 +32,7 @@ class _TablePageState extends State<TablePage> {
           ElTableColumn(
             label: '操作',
             width: 140,
+            fixedRight: true,
             render: (dataItem) => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

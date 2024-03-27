@@ -2,15 +2,19 @@ part of flutter_element_ui;
 
 class _TableColumnScroll extends StatefulWidget {
   const _TableColumnScroll({
-    required this.child,
+    this.child,
+    required this.itemCount,
+    this.itemBuilder,
     required this.controller,
     required this.linkageController,
     this.enableScrollbar = false,
   });
 
-  final Widget child;
+  final Widget? child;
+  final int itemCount;
+  final NullableIndexedWidgetBuilder? itemBuilder;
   final ScrollController controller;
-  final List<ScrollController> linkageController;
+  final List<ScrollController?> linkageController;
   final bool enableScrollbar;
 
   @override
@@ -23,7 +27,7 @@ class _TableColumnScrollState extends State<_TableColumnScroll> {
     super.initState();
     widget.controller.addListener(() {
       widget.linkageController.forEach((controller) {
-        if (controller.offset != widget.controller.offset) {
+        if (controller != null && controller.offset != widget.controller.offset) {
           controller.jumpTo(widget.controller.offset);
         }
       });
@@ -33,12 +37,20 @@ class _TableColumnScrollState extends State<_TableColumnScroll> {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
+      key: ValueKey(widget.enableScrollbar),
       behavior: _TableScrollBehavior(enableScrollbar: widget.enableScrollbar),
-      child: SingleChildScrollView(
-        controller: widget.controller,
-        physics: const ClampingScrollPhysics(),
-        child: widget.child,
-      ),
+      child: widget.child != null
+          ? SingleChildScrollView(
+              controller: widget.controller,
+              physics: const ClampingScrollPhysics(),
+              child: widget.child,
+            )
+          : SuperListView.builder(
+              controller: widget.controller,
+              itemCount: widget.itemCount,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: widget.itemBuilder!,
+            ),
     );
   }
 }

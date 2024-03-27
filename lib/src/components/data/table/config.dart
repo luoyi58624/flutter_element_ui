@@ -10,7 +10,7 @@ class ElTableColumn {
   /// 表格列的宽度，这是一个固定宽度，若不指定则使用[minWidth]
   final double? width;
 
-  /// 表格列的最小宽度，默认为50
+  /// 表格列的最小宽度，默认为50，如果是固定列，
   ///
   /// 当表格有剩余空间时，将会使用[Expanded]分配剩余空间，你可以设置[flex]参数定义当前列分配剩余空间的比例
   final double minWidth;
