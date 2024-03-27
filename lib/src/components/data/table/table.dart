@@ -62,6 +62,13 @@ class ElTable extends StatefulWidget {
 class _ElTableState extends State<ElTable> with ElThemeMixin {
   ScrollController horizontalScrollController = ScrollController();
   ScrollController verticalScrollController = ScrollController();
+  ScrollController scrollController1 = ScrollController();
+  ScrollController scrollController2 = ScrollController();
+  ScrollController scrollController3 = ScrollController();
+
+  List<ElTableColumn> autoColumn = [];
+  List<ElTableColumn> fixedLeftColumn = [];
+  List<ElTableColumn> fixedRightColumn = [];
 
   /// 表格最小宽度
   double get tableMinWidth {
@@ -81,18 +88,48 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
     super.dispose();
     horizontalScrollController.dispose();
     verticalScrollController.dispose();
+    scrollController1.dispose();
+    scrollController2.dispose();
+    scrollController3.dispose();
+  }
+
+  void calcTableColumn() {
+    autoColumn = [];
+    fixedLeftColumn = [];
+    fixedRightColumn = [];
+    widget.columns.forEach((column) {
+      if (column.fixedLeft) {
+        fixedLeftColumn.add(column);
+      } else if (column.fixedRight) {
+        fixedRightColumn.add(column);
+      } else {
+        autoColumn.add(column);
+      }
+    });
+  }
+
+  Widget buildHorizontal({
+    required Widget child,
+    bool enable = true,
+  }) {
+    return enable
+        ? ScrollConfiguration(
+            behavior: const _TableScrollBehavior(enableScrollbar: true),
+            child: Scrollbar(
+              controller: horizontalScrollController,
+              child: SingleChildScrollView(
+                controller: horizontalScrollController,
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                child: child,
+              ),
+            ),
+          )
+        : child;
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<int, TableColumnWidth> columnWidths = {};
-    for (int i = 0; i < widget.columns.length; i++) {
-      if (widget.columns[i].width == null) {
-        columnWidths[i] = const FlexColumnWidth();
-      } else {
-        columnWidths[i] = FixedColumnWidth(widget.columns[i].width!);
-      }
-    }
     ElTableColumn firstColumn = widget.columns[0];
     List<ElTableColumn> otherColumn = widget.columns.sublist(1);
     return Container(
@@ -101,31 +138,101 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
         border: Border.all(color: $defaultBorderColor),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
-        var tableWidget = Column(
+        ElLogger(constraints);
+        // var tableWidget = Column(
+        //   children: [
+        //     const _TableHeader(),
+        //     Expanded(
+        //       child: _TableBody(
+        //         data: widget.data,
+        //         scrollController: verticalScrollController,
+        //       ),
+        //     ),
+        //   ],
+        // );
+        // late Widget child = SizedBox(
+        //   width: constraints.maxWidth,
+        //   child: ScrollConfiguration(
+        //     behavior: _TableScrollBehavior(),
+        //     child: SingleChildScrollView(
+        //       controller: horizontalScrollController,
+        //       scrollDirection: Axis.horizontal,
+        //       physics: const ClampingScrollPhysics(),
+        //       child: SizedBox(
+        //         width: constraints.maxWidth <= tableMinWidth ? tableMinWidth : constraints.maxWidth,
+        //         child: tableWidget,
+        //       ),
+        //     ),
+        //   ),
+        // );
+        Widget child = Row(
           children: [
-            const _TableHeader(),
+            _TableColumnScroll(
+              controller: scrollController1,
+              linkageController: [scrollController2, scrollController3],
+              child: Container(
+                color: Colors.grey,
+                child: Column(
+                  children: List.generate(
+                    widget.data.length,
+                    (index) => SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: Text('item - ${index + 1}'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Expanded(
-              child: _TableBody(
-                data: widget.data,
-                scrollController: verticalScrollController,
+              child: buildHorizontal(
+                enable: true,
+                child: _TableColumnScroll(
+                  controller: scrollController2,
+                  linkageController: [scrollController1, scrollController3],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      widget.data.length,
+                      (index) => SizedBox(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: List.generate(
+                            10,
+                            (rowIndex) => Container(
+                              margin: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
+                              color: Colors.grey.shade300,
+                              child: Text('item - ${index + 1} - ${rowIndex + 1}'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            _TableColumnScroll(
+              controller: scrollController3,
+              linkageController: [scrollController1, scrollController2],
+              enableScrollbar: true,
+              child: Container(
+                color: Colors.grey,
+                child: Column(
+                  children: List.generate(
+                    widget.data.length,
+                    (index) => SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: Text('item - ${index + 1}'),
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
-        );
-        late Widget child = SizedBox(
-          width: constraints.maxWidth,
-          child: ScrollConfiguration(
-            behavior: _TableScrollBehavior(),
-            child: SingleChildScrollView(
-              controller: horizontalScrollController,
-              scrollDirection: Axis.horizontal,
-              physics: const ClampingScrollPhysics(),
-              child: SizedBox(
-                width: constraints.maxWidth <= tableMinWidth ? tableMinWidth : constraints.maxWidth,
-                child: tableWidget,
-              ),
-            ),
-          ),
         );
         return _ElTableData(
           rowHeight: widget.rowHeight,
@@ -152,31 +259,5 @@ Widget _buildColumnItemWidget({required Widget child, required ElTableColumn col
         child: child,
       ),
     );
-  }
-}
-
-class _TableScrollBehavior extends ScrollBehavior {
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
-
-  @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
-    switch (getPlatform(context)) {
-      case TargetPlatform.linux:
-      case TargetPlatform.macOS:
-      case TargetPlatform.windows:
-        assert(details.controller != null);
-        return Scrollbar(
-          controller: details.controller,
-          child: child,
-        );
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.iOS:
-        return child;
-    }
   }
 }

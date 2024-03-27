@@ -26,7 +26,7 @@ class _TablePageState extends State<TablePage> {
         data: data,
         highlightCurrentRow: true,
         columns: [
-          ElTableColumn(prop: 'id', label: 'ID', width: 60),
+          ElTableColumn(prop: 'id', label: 'ID', width: 60, fixedLeft: true),
           ElTableColumn(prop: 'username', label: '用户名', width: 220),
           ElTableColumn(prop: 'email', label: '邮箱', minWidth: 280),
           ElTableColumn(
