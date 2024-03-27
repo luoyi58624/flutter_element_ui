@@ -1,5 +1,33 @@
 part of flutter_element_ui;
 
+class _ElTableData extends InheritedWidget {
+  const _ElTableData({
+    required super.child,
+    required this.rowHeight,
+    required this.tableMinWidth,
+    required this.firstColumn,
+    required this.otherColumn,
+    required this.constraints,
+  });
+
+  final double rowHeight;
+  final double tableMinWidth;
+  final ElTableColumn firstColumn;
+  final List<ElTableColumn> otherColumn;
+  final BoxConstraints constraints;
+
+  static _ElTableData of(BuildContext context) {
+    final _ElTableData? result = context.dependOnInheritedWidgetOfExactType<_ElTableData>();
+    assert(result != null, 'No _ElTableData found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(_ElTableData oldWidget) {
+    return true;
+  }
+}
+
 class ElTable extends StatefulWidget {
   const ElTable({
     super.key,
@@ -30,7 +58,28 @@ class ElTable extends StatefulWidget {
 }
 
 class _ElTableState extends State<ElTable> with ElThemeMixin {
-  ScrollController scrollController = ScrollController();
+  ScrollController horizontalScrollController = ScrollController();
+  ScrollController verticalScrollController = ScrollController();
+
+  /// 表格最小宽度
+  double get tableMinWidth {
+    double width = 0;
+    widget.columns.forEach((e) {
+      if (e.width == null) {
+        width += e.minWidth;
+      } else {
+        width += e.width!;
+      }
+    });
+    return width;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    horizontalScrollController.dispose();
+    verticalScrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,55 +98,71 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
       decoration: BoxDecoration(
         border: Border.all(color: $defaultBorderColor),
       ),
-      child: Column(
-        children: [
-          _TableHeader(
-            rowHeight: widget.rowHeight,
-            firstColumn: firstColumn,
-            otherColumn: otherColumn,
-          ),
-          Expanded(
-            child: SuperListView.builder(
-              controller: scrollController,
-              itemCount: widget.data.length,
-              itemBuilder: (context, index) => _TableDataItem(
-                dataItem: widget.data[index],
-                rowHeight: widget.rowHeight,
-                firstColumn: firstColumn,
-                otherColumn: otherColumn,
+      child: LayoutBuilder(builder: (context, constraints) {
+        var tableWidget = Column(
+          children: [
+            const _TableHeader(),
+            Expanded(
+              child: _TableDataItem(
+                data: widget.data,
                 highlightCurrentRow: widget.highlightCurrentRow,
+                scrollController: verticalScrollController,
+                // verticalPosition: verticalPosition,
+              ),
+            ),
+          ],
+        );
+        late Widget child = SizedBox(
+          width: constraints.maxWidth,
+          child: ScrollConfiguration(
+            behavior: _TableScrollBehavior(),
+            child: SingleChildScrollView(
+              controller: horizontalScrollController,
+              scrollDirection: Axis.horizontal,
+              physics: const ClampingScrollPhysics(),
+              child: SizedBox(
+                width: constraints.maxWidth <= tableMinWidth ? tableMinWidth : constraints.maxWidth,
+                child: tableWidget,
               ),
             ),
           ),
-        ],
+        );
+        return _ElTableData(
+          rowHeight: widget.rowHeight,
+          tableMinWidth: tableMinWidth,
+          firstColumn: firstColumn,
+          otherColumn: otherColumn,
+          constraints: constraints,
+          child: child,
+        );
+      }),
+    );
+  }
+}
+
+Widget _buildColumnWidthWidget({required Widget child, required ElTableColumn column}) {
+  if (column.width != null) {
+    return SizedBox(width: column.width, child: child);
+  } else {
+    return Expanded(
+      child: SizedBox(
+        width: column.minWidth,
+        child: child,
       ),
     );
   }
 }
 
-Widget _buildColumnWidthWidget({required Widget child, double? width}) {
-  if (width == null) {
-    return Expanded(child: child);
-  } else {
-    return SizedBox(width: width, child: child);
-  }
-}
-
 class _TableHeader extends StatelessWidget {
-  const _TableHeader({
-    required this.rowHeight,
-    required this.firstColumn,
-    required this.otherColumn,
-  });
-
-  final double? rowHeight;
-  final ElTableColumn firstColumn;
-  final List<ElTableColumn> otherColumn;
+  const _TableHeader();
 
   @override
   Widget build(BuildContext context) {
     var borderSide = BorderSide(color: ElAppData.of(context).currentTheme.defaultBorderColor);
-    return Container(
+    var rowHeight = _ElTableData.of(context).rowHeight;
+    var firstColumn = _ElTableData.of(context).firstColumn;
+    var otherColumn = _ElTableData.of(context).otherColumn;
+    return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(bottom: borderSide),
       ),
@@ -105,14 +170,15 @@ class _TableHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildColumnWidthWidget(
-              child: SizedBox(
-                height: rowHeight,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(firstColumn.label ?? ""),
-                ),
+            child: SizedBox(
+              height: rowHeight,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(firstColumn.label ?? ""),
               ),
-              width: firstColumn.width),
+            ),
+            column: firstColumn,
+          ),
           ...otherColumn.map(
             (e) => _buildColumnWidthWidget(
               child: Container(
@@ -125,7 +191,7 @@ class _TableHeader extends StatelessWidget {
                   child: Text(e.label ?? ''),
                 ),
               ),
-              width: e.width,
+              column: e,
             ),
           ),
         ],
@@ -136,18 +202,14 @@ class _TableHeader extends StatelessWidget {
 
 class _TableDataItem extends StatefulWidget {
   const _TableDataItem({
-    required this.dataItem,
-    required this.rowHeight,
-    required this.firstColumn,
-    required this.otherColumn,
+    required this.data,
     required this.highlightCurrentRow,
+    required this.scrollController,
   });
 
-  final Map dataItem;
-  final double? rowHeight;
-  final ElTableColumn firstColumn;
-  final List<ElTableColumn> otherColumn;
+  final List<Map> data;
   final bool highlightCurrentRow;
+  final ScrollController scrollController;
 
   @override
   State<_TableDataItem> createState() => _TableDataItemState();
@@ -159,8 +221,15 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
 
   @override
   Widget build(BuildContext context) {
-    return buildMouseWidget(
-      child: Container(
+    var rowHeight = _ElTableData.of(context).rowHeight;
+    var firstColumn = _ElTableData.of(context).firstColumn;
+    var otherColumn = _ElTableData.of(context).otherColumn;
+
+    return SuperListView.builder(
+      controller: widget.scrollController,
+      physics: const ClampingScrollPhysics(),
+      itemCount: widget.data.length,
+      itemBuilder: (context, index) => DecoratedBox(
         decoration: BoxDecoration(
           color: widget.highlightCurrentRow && onHover ? $bgColor.deepen(5) : null,
           border: Border(bottom: BorderSide(color: $defaultBorderColor)),
@@ -169,27 +238,27 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
           children: [
             _buildColumnWidthWidget(
               child: SizedBox(
-                height: widget.rowHeight,
+                height: rowHeight,
                 child: Align(
                   alignment: Alignment.center,
-                  child: buildContent(widget.firstColumn),
+                  child: buildContent(widget.data[index], firstColumn),
                 ),
               ),
-              width: widget.firstColumn.width,
+              column: firstColumn,
             ),
-            ...widget.otherColumn.map(
+            ...otherColumn.map(
               (column) => _buildColumnWidthWidget(
                 child: Container(
-                  height: widget.rowHeight,
+                  height: rowHeight,
                   decoration: BoxDecoration(
                     border: Border(left: BorderSide(color: $defaultBorderColor)),
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: buildContent(column),
+                    child: buildContent(widget.data[index], column),
                   ),
                 ),
-                width: column.width,
+                column: column,
               ),
             ),
           ],
@@ -198,15 +267,41 @@ class _TableDataItemState extends State<_TableDataItem> with ElMouseMixin, ElThe
     );
   }
 
-  Widget buildContent(ElTableColumn column) {
+  Widget buildContent(Map dataItem, ElTableColumn column) {
     if (column.render != null) {
-      return column.render!(widget.dataItem);
+      return column.render!(dataItem);
     } else if (column.prop != null) {
       return Text(
-        ElUtil.safeString(widget.dataItem[column.prop] ?? ''),
+        ElUtil.safeString(dataItem[column.prop] ?? ''),
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
+    }
+  }
+}
+
+class _TableScrollBehavior extends ScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
+
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    switch (getPlatform(context)) {
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+        assert(details.controller != null);
+        return Scrollbar(
+          controller: details.controller,
+          child: child,
+        );
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.iOS:
+        return child;
     }
   }
 }

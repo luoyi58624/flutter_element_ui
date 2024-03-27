@@ -13,7 +13,7 @@ class _TablePageState extends State<TablePage> {
   @override
   Widget build(BuildContext context) {
     var data = List.generate(
-      100,
+      10000,
       (index) => {
         'id': index + 1,
         'username': faker.person.name(),
@@ -25,20 +25,9 @@ class _TablePageState extends State<TablePage> {
       child: ElTable(
         data: data,
         columns: [
-          ElTableColumn(
-            prop: 'id',
-            label: 'ID',
-            width: 80,
-          ),
-          ElTableColumn(
-            prop: 'username',
-            label: '用户名',
-            width: 220,
-          ),
-          ElTableColumn(
-            prop: 'email',
-            label: '邮箱',
-          ),
+          ElTableColumn(prop: 'id', label: 'ID', width: 60),
+          ElTableColumn(prop: 'username', label: '用户名', width: 220),
+          ElTableColumn(prop: 'email', label: '邮箱', minWidth: 280),
           ElTableColumn(
             label: '操作',
             width: 140,
