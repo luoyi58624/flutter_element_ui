@@ -708,6 +708,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smooth_list_view:
+    dependency: "direct main"
+    description:
+      name: smooth_list_view
+      sha256: d6eb3bed78881c50d4574b0dd466ed3321972477688c1c021178f3132155112a
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.4"
   source_span:
     dependency: transitive
     description:

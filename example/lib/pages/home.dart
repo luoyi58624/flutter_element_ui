@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_plugin/flutter_plugin.dart';
+import 'package:smooth_list_view/smooth_list_view.dart';
 
 import '../state.dart';
 
@@ -16,10 +17,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SuperListView.builder(
-      itemCount: 100000,
+    return SmoothListView.builder(
+      itemCount: 100,
       itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: ElButton(
           'count: $count',
           onPressed: () {
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
+      duration: const Duration(milliseconds: 300),
     );
   }
 }
