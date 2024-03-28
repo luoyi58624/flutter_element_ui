@@ -74,6 +74,9 @@ class _TableScrollBehavior extends ScrollBehavior {
       case TargetPlatform.linux:
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.iOS:
         assert(details.controller != null);
         return enableScrollbar
             ? Scrollbar(
@@ -81,10 +84,6 @@ class _TableScrollBehavior extends ScrollBehavior {
                 child: child,
               )
             : child;
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.iOS:
-        return child;
     }
   }
 }

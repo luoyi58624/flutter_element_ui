@@ -15,9 +15,11 @@ dependencies:
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
+      ref: v0.0.8
   flutter_plugin:
     git:
       url: https://gitee.com/luoyi666/flutter_plugin.git
+      ref: v0.0.5
   cupertino_icons: ^1.0.2
   chicago: ^0.4.2-dev
   ionicons: ^0.2.2

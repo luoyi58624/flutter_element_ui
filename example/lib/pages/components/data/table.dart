@@ -24,10 +24,10 @@ class _TablePageState extends State<TablePage> {
       padding: const EdgeInsets.all(8),
       child: ElTable(
         data: data,
-        highlightCurrentRow: true,
+        highlightCurrentRow: false,
         dragScroll: true,
         columns: [
-          ElTableColumn(prop: 'id', label: 'ID', width: 60, fixedLeft: true),
+          ElTableColumn(prop: 'id', label: 'ID', width: 80, fixedLeft: true),
           ElTableColumn(prop: 'username', label: '用户名', width: 220),
           ElTableColumn(prop: 'email', label: '邮箱', minWidth: 280),
           ElTableColumn(
