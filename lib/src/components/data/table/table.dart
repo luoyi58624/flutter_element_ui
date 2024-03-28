@@ -5,16 +5,14 @@ class _ElTableData extends InheritedWidget {
     required super.child,
     required this.rowHeight,
     required this.highlightCurrentRow,
-    required this.firstColumn,
-    required this.otherColumn,
     required this.constraints,
+    required this.hoverIndex,
   });
 
   final double rowHeight;
   final bool highlightCurrentRow;
-  final ElTableColumn firstColumn;
-  final List<ElTableColumn> otherColumn;
   final BoxConstraints constraints;
+  final ValueNotifier<int> hoverIndex;
 
   static _ElTableData of(BuildContext context) {
     final _ElTableData? result = context.dependOnInheritedWidgetOfExactType<_ElTableData>();
@@ -36,6 +34,7 @@ class ElTable extends StatefulWidget {
     this.height,
     this.rowHeight = 50,
     this.highlightCurrentRow = false,
+    this.dragScroll = false,
   });
 
   /// 表格数据
@@ -50,14 +49,19 @@ class ElTable extends StatefulWidget {
   /// 表格行高度
   final double rowHeight;
 
-  /// 是否高亮当前行
+  /// 是否高亮当前行，默认为false
   final bool highlightCurrentRow;
+
+  /// 是否允许鼠标拖拽滚动，默认为false
+  final bool dragScroll;
 
   @override
   State<ElTable> createState() => _ElTableState();
 }
 
 class _ElTableState extends State<ElTable> with ElThemeMixin {
+  final ValueNotifier<int> hoverIndex = ValueNotifier<int>(-1);
+
   /// 垂直滚动控制器
   ScrollController scrollController = ScrollController();
 
@@ -109,6 +113,7 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   @override
   void dispose() {
     super.dispose();
+    hoverIndex.dispose();
     scrollController.dispose();
     horizontalScrollController.dispose();
     fixedLeftScrollController?.dispose();
@@ -156,7 +161,11 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   Widget buildHorizontalScrollWidget({required Widget child, bool enable = true}) {
     return enable
         ? ScrollConfiguration(
-            behavior: const _TableScrollBehavior(enableScrollbar: true),
+            key: ValueKey(widget.dragScroll),
+            behavior: _TableScrollBehavior(
+              enableScrollbar: true,
+              dragScroll: widget.dragScroll,
+            ),
             child: Scrollbar(
               controller: horizontalScrollController,
               child: SingleChildScrollView(
@@ -178,20 +187,18 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
         width: columnMaxWidth <= columnMinWidth ? columnMinWidth : columnMaxWidth,
         child: Column(
           children: [
-            _FixedTableHeader(
-              columns: columnList,
-              firstNoneBorder: fixedLeftColumnList.isEmpty,
-            ),
+            _TableHeader(columns: columnList),
             Expanded(
               child: _TableColumnScroll(
                 controller: scrollController,
                 linkageController: [fixedLeftScrollController, fixedRightScrollController],
                 enableScrollbar: fixedRightColumnList.isEmpty,
+                dragScroll: widget.dragScroll,
                 itemCount: widget.data.length,
                 itemBuilder: (context, index) => _TableRowItem(
                   dataItem: widget.data[index],
+                  index: index,
                   columns: columnList,
-                  firstNoneBorder: fixedLeftColumnList.isEmpty,
                 ),
               ),
             ),
@@ -205,19 +212,17 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   Widget buildFixedLeftColumnWidget() {
     return Column(
       children: [
-        _FixedTableHeader(
-          columns: fixedLeftColumnList,
-          firstNoneBorder: true,
-        ),
+        _TableHeader(columns: fixedLeftColumnList),
         Expanded(
           child: _TableColumnScroll(
             controller: fixedLeftScrollController!,
             linkageController: [scrollController, fixedRightScrollController],
+            dragScroll: widget.dragScroll,
             itemCount: widget.data.length,
             itemBuilder: (context, index) => _TableRowItem(
               dataItem: widget.data[index],
+              index: index,
               columns: fixedLeftColumnList,
-              firstNoneBorder: true,
             ),
           ),
         ),
@@ -229,15 +234,17 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   Widget buildFixedRightColumnWidget() {
     return Column(
       children: [
-        _FixedTableHeader(columns: fixedRightColumnList),
+        _TableHeader(columns: fixedRightColumnList),
         Expanded(
           child: _TableColumnScroll(
             controller: fixedRightScrollController!,
             linkageController: [scrollController, fixedLeftScrollController],
             enableScrollbar: true,
+            dragScroll: widget.dragScroll,
             itemCount: widget.data.length,
             itemBuilder: (context, index) => _TableRowItem(
               dataItem: widget.data[index],
+              index: index,
               columns: fixedRightColumnList,
             ),
           ),
@@ -249,40 +256,12 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   @override
   Widget build(BuildContext context) {
     calcTableColumn();
-    ElTableColumn firstColumn = widget.columns[0];
-    List<ElTableColumn> otherColumn = widget.columns.sublist(1);
     return Container(
       height: widget.height,
       decoration: BoxDecoration(
         border: Border.all(color: $defaultBorderColor),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
-        // var tableWidget = Column(
-        //   children: [
-        //     const _TableHeader(),
-        //     Expanded(
-        //       child: _TableBody(
-        //         data: widget.data,
-        //         scrollController: verticalScrollController,
-        //       ),
-        //     ),
-        //   ],
-        // );
-        // late Widget child = SizedBox(
-        //   width: constraints.maxWidth,
-        //   child: ScrollConfiguration(
-        //     behavior: _TableScrollBehavior(),
-        //     child: SingleChildScrollView(
-        //       controller: horizontalScrollController,
-        //       scrollDirection: Axis.horizontal,
-        //       physics: const ClampingScrollPhysics(),
-        //       child: SizedBox(
-        //         width: constraints.maxWidth <= tableMinWidth ? tableMinWidth : constraints.maxWidth,
-        //         child: tableWidget,
-        //       ),
-        //     ),
-        //   ),
-        // );
         var columnMaxWidth = getColumnMaxWidth(constraints);
         Widget child = Row(
           children: [
@@ -309,9 +288,8 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
         return _ElTableData(
           rowHeight: widget.rowHeight,
           highlightCurrentRow: widget.highlightCurrentRow,
-          firstColumn: firstColumn,
-          otherColumn: otherColumn,
           constraints: constraints,
+          hoverIndex: hoverIndex,
           child: child,
         );
       }),
@@ -331,4 +309,12 @@ Widget _buildColumnItemWidget({required Widget child, required ElTableColumn col
       ),
     );
   }
+}
+
+Border _buildColumnBroder(ElTableColumn column, BorderSide borderSide) {
+  bool isFixedLeft = column.fixedLeft;
+  return Border(
+    left: isFixedLeft ? BorderSide.none : borderSide,
+    right: isFixedLeft ? borderSide : BorderSide.none,
+  );
 }

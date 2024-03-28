@@ -25,6 +25,8 @@ part 'src/components/data/table/table.dart';
 
 part 'src/components/data/table/table_header.dart';
 
+part 'src/components/data/table/table_body.dart';
+
 part 'src/components/data/table/table_row_item.dart';
 
 part 'src/components/data/table/table_scroll.dart';

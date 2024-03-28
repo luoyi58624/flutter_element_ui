@@ -3,65 +3,98 @@ part of flutter_element_ui;
 class _TableRowItem extends StatefulWidget {
   const _TableRowItem({
     required this.dataItem,
+    required this.index,
     required this.columns,
-    this.firstNoneBorder = false,
   });
 
   final Map dataItem;
+  final int index;
   final List<ElTableColumn> columns;
-
-  /// 第一列不要渲染左边框
-  final bool firstNoneBorder;
 
   @override
   State<_TableRowItem> createState() => _TableRowItemState();
 }
 
-class _TableRowItemState extends State<_TableRowItem> with ElMouseMixin, ElThemeMixin {
-  @override
-  MouseCursor get cursor => MouseCursor.defer;
-
+class _TableRowItemState extends State<_TableRowItem> with ElThemeMixin {
   @override
   Widget build(BuildContext context) {
+    var borderSide = BorderSide(color: $defaultBorderColor);
     var _elTableData = _ElTableData.of(context);
     var rowHeight = _elTableData.rowHeight;
-
-    return buildMouseWidget(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: _elTableData.highlightCurrentRow && onHover ? $bgColor.deepen(5) : null,
-          border: Border(bottom: BorderSide(color: $defaultBorderColor)),
+    var column = widget.columns[0];
+    late List<Widget> children;
+    if (!column.fixedLeft && !column.fixedRight) {
+      children = [
+        _buildColumnItemWidget(
+          child: SizedBox(
+            height: rowHeight,
+            child: Align(
+              alignment: Alignment.center,
+              child: _buildTableBodyItemContainer(widget.dataItem, widget.columns[0]),
+            ),
+          ),
+          column: widget.columns[0],
         ),
-        child: Row(
-          children: [
-            if (widget.firstNoneBorder)
-              _buildColumnItemWidget(
-                child: SizedBox(
+        ...widget.columns.sublist(1).map(
+              (column) => _buildColumnItemWidget(
+                child: Container(
                   height: rowHeight,
+                  decoration: BoxDecoration(
+                    border: Border(left: borderSide),
+                  ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: _buildTableBodyItemContainer(widget.dataItem, widget.columns[0]),
+                    child: _buildTableBodyItemContainer(widget.dataItem, column),
                   ),
                 ),
-                column: widget.columns[0],
+                column: column,
               ),
-            ...widget.columns.sublist(widget.firstNoneBorder ? 1 : 0).map(
-                  (column) => _buildColumnItemWidget(
-                    child: Container(
-                      height: rowHeight,
-                      decoration: BoxDecoration(
-                        border: Border(left: BorderSide(color: $defaultBorderColor)),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: _buildTableBodyItemContainer(widget.dataItem, column),
-                      ),
-                    ),
-                    column: column,
-                  ),
+            ),
+      ];
+    } else {
+      var border = _buildColumnBroder(column, borderSide);
+      children = widget.columns
+          .map(
+            (column) => _buildColumnItemWidget(
+              child: Container(
+                height: rowHeight,
+                decoration: BoxDecoration(
+                  border: border,
                 ),
-          ],
-        ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _buildTableBodyItemContainer(widget.dataItem, column),
+                ),
+              ),
+              column: column,
+            ),
+          )
+          .toList();
+    }
+
+    return MouseRegion(
+      onHover: (e) {
+        setState(() {
+          _ElTableData.of(context).hoverIndex.value = widget.index;
+        });
+      },
+      onExit: (e) {
+        setState(() {
+          _ElTableData.of(context).hoverIndex.value = -1;
+        });
+      },
+      cursor: MouseCursor.defer,
+      child: ValueListenableBuilder(
+        valueListenable: _ElTableData.of(context).hoverIndex,
+        builder: (context, value, _) {
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              color: _elTableData.highlightCurrentRow && value == widget.index ? $bgColor.deepen(5) : null,
+              border: Border(bottom: BorderSide(color: $defaultBorderColor)),
+            ),
+            child: Row(children: children),
+          );
+        },
       ),
     );
   }

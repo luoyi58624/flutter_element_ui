@@ -1,21 +1,22 @@
 part of flutter_element_ui;
 
+/// 表格非固定列、左固定列、右固定列三个区域的联动滚动
 class _TableColumnScroll extends StatefulWidget {
   const _TableColumnScroll({
-    this.child,
     required this.itemCount,
     this.itemBuilder,
     required this.controller,
     required this.linkageController,
     this.enableScrollbar = false,
+    this.dragScroll = false,
   });
 
-  final Widget? child;
   final int itemCount;
   final NullableIndexedWidgetBuilder? itemBuilder;
   final ScrollController controller;
   final List<ScrollController?> linkageController;
   final bool enableScrollbar;
+  final bool dragScroll;
 
   @override
   State<_TableColumnScroll> createState() => _TableColumnScrollState();
@@ -37,33 +38,34 @@ class _TableColumnScrollState extends State<_TableColumnScroll> {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
-      key: ValueKey(widget.enableScrollbar),
-      behavior: _TableScrollBehavior(enableScrollbar: widget.enableScrollbar),
-      child: widget.child != null
-          ? SingleChildScrollView(
-              controller: widget.controller,
-              physics: const ClampingScrollPhysics(),
-              child: widget.child,
-            )
-          : SuperListView.builder(
-              controller: widget.controller,
-              itemCount: widget.itemCount,
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: widget.itemBuilder!,
-            ),
+      key: ValueKey(widget.enableScrollbar || widget.dragScroll),
+      behavior: _TableScrollBehavior(
+        enableScrollbar: widget.enableScrollbar,
+        dragScroll: widget.dragScroll,
+      ),
+      child: SuperListView.builder(
+        controller: widget.controller,
+        itemCount: widget.itemCount,
+        physics: const ClampingScrollPhysics(),
+        itemBuilder: widget.itemBuilder!,
+      ),
     );
   }
 }
 
 class _TableScrollBehavior extends ScrollBehavior {
   final bool enableScrollbar;
+  final bool dragScroll;
 
-  const _TableScrollBehavior({required this.enableScrollbar});
+  const _TableScrollBehavior({
+    required this.enableScrollbar,
+    this.dragScroll = false,
+  });
 
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
+        dragScroll ? PointerDeviceKind.mouse : PointerDeviceKind.unknown,
       };
 
   @override
