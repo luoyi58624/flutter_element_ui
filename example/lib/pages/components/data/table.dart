@@ -13,7 +13,7 @@ class _TablePageState extends State<TablePage> {
   @override
   Widget build(BuildContext context) {
     var data = List.generate(
-      100,
+      1000,
       (index) => {
         'id': index + 1,
         'username': faker.person.name(),

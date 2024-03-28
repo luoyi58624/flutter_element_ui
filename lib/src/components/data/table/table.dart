@@ -79,6 +79,15 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   /// 设置固定在右边的列集合
   List<ElTableColumn> fixedRightColumnList = [];
 
+  /// 没有固定列的最小总宽度
+  double columnMinWidth = 0.0;
+
+  /// 固定在左边列的总宽度
+  double fixedLeftColumnWidth = 0.0;
+
+  /// 固定在右边列的总宽度
+  double fixedRightColumnWidth = 0.0;
+
   /// 获取表格的总宽度
   double getColumnSumWidth(List<ElTableColumn> columns) {
     double width = 0;
@@ -92,6 +101,11 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
     return width;
   }
 
+  /// 获取没有固定列的最大宽度
+  double getColumnMaxWidth(BoxConstraints constraints) {
+    return constraints.maxWidth - fixedLeftColumnWidth - fixedRightColumnWidth;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -103,6 +117,9 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
 
   /// 计算表格列，进行区域划分
   void calcTableColumn() {
+    columnMinWidth = 0;
+    fixedLeftColumnWidth = 0;
+    fixedRightColumnWidth = 0;
     columnList = [];
     fixedLeftColumnList = [];
     fixedRightColumnList = [];
@@ -116,8 +133,11 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
       }
     });
 
+    columnMinWidth = getColumnSumWidth(columnList);
+
     if (fixedLeftColumnList.isNotEmpty) {
       fixedLeftScrollController ??= ScrollController();
+      fixedLeftColumnWidth = getColumnSumWidth(fixedLeftColumnList);
     } else {
       fixedLeftScrollController?.dispose();
       fixedLeftScrollController = null;
@@ -125,6 +145,7 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
 
     if (fixedRightColumnList.isNotEmpty) {
       fixedRightScrollController ??= ScrollController();
+      fixedRightColumnWidth = getColumnSumWidth(fixedRightColumnList);
     } else {
       fixedRightScrollController?.dispose();
       fixedRightScrollController = null;
@@ -150,49 +171,33 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
   }
 
   /// 构建未设置固定列的列组件
-  Widget buildColumnWidget() {
+  Widget buildColumnWidget(double columnMaxWidth) {
     return buildHorizontalScrollWidget(
       enable: true,
-      child: Container(
-          width: 1000,
-          height: 300,
-          color: Colors.green,
-          child: Column(
-            children: [
-              Container(
-                height: 100,
-                color: Colors.red,
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: List.generate(100, (index) => const Text('xxx')),
-                  ),
+      child: SizedBox(
+        width: columnMaxWidth <= columnMinWidth ? columnMinWidth : columnMaxWidth,
+        child: Column(
+          children: [
+            _FixedTableHeader(
+              columns: columnList,
+              firstNoneBorder: fixedLeftColumnList.isEmpty,
+            ),
+            Expanded(
+              child: _TableColumnScroll(
+                controller: scrollController,
+                linkageController: [fixedLeftScrollController, fixedRightScrollController],
+                enableScrollbar: fixedRightColumnList.isEmpty,
+                itemCount: widget.data.length,
+                itemBuilder: (context, index) => _TableRowItem(
+                  dataItem: widget.data[index],
+                  columns: columnList,
+                  firstNoneBorder: fixedLeftColumnList.isEmpty,
                 ),
               ),
-            ],
-          )),
-      // child: Column(
-      //   children: [
-      //     _FixedTableHeader(
-      //       columns: columnList,
-      //       firstNoneBorder: fixedLeftColumnList.isEmpty,
-      //     ),
-      //     Expanded(
-      //       child: _TableColumnScroll(
-      //         controller: scrollController,
-      //         linkageController: [fixedLeftScrollController, fixedRightScrollController],
-      //         enableScrollbar: fixedRightColumnList.isEmpty,
-      //         itemCount: widget.data.length,
-      //         itemBuilder: (context, index) => _TableRowItem(
-      //           dataItem: widget.data[index],
-      //           columns: columnList,
-      //           firstNoneBorder: fixedLeftColumnList.isEmpty,
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -278,24 +283,24 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
         //     ),
         //   ),
         // );
+        var columnMaxWidth = getColumnMaxWidth(constraints);
         Widget child = Row(
           children: [
             if (fixedLeftColumnList.isNotEmpty)
               SizedBox(
-                width: getColumnSumWidth(fixedLeftColumnList),
+                width: fixedLeftColumnWidth,
                 height: constraints.maxHeight,
                 child: buildFixedLeftColumnWidget(),
               ),
             Expanded(
               child: SizedBox(
-                width: getColumnSumWidth(columnList),
                 height: constraints.maxHeight,
-                child: buildColumnWidget(),
+                child: buildColumnWidget(columnMaxWidth),
               ),
             ),
             if (fixedRightColumnList.isNotEmpty)
               SizedBox(
-                width: getColumnSumWidth(fixedRightColumnList),
+                width: fixedRightColumnWidth,
                 height: constraints.maxHeight,
                 child: buildFixedRightColumnWidget(),
               ),
