@@ -1,6 +1,5 @@
+import 'package:example/global.dart';
 import 'package:example/utils/logger.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_plugin/flutter_plugin.dart';
 
 class ImageListPage extends StatefulWidget {
   const ImageListPage({super.key});

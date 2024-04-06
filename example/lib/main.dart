@@ -1,12 +1,10 @@
 import 'package:chicago/chicago.dart';
-import 'package:example/layout/layout.dart';
 import 'package:example/pages/home.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
 
+import 'global.dart';
 import 'router/router.dart';
-import 'state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,15 +35,8 @@ class MyApp extends StatelessWidget {
   }
 
   Widget buildMaterialApp() {
-    // return MaterialApp.router(
-    //   routerConfig: router,
-    //   builder: (context, child) => ElConfigProvider(
-    //     child: child!,
-    //   ),
-    // );
-    return MaterialApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
+    return FlutterApp(
+      router: router,
       builder: (context, child) => ValueListenableBuilder(
         valueListenable: GlobalState.isDark,
         builder: (context, value, _) {
@@ -58,6 +49,22 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+    // return ValueListenableBuilder(
+    //   valueListenable: GlobalState.isDark,
+    //   builder: (context, value, _) {
+    //     return FlutterApp(
+    //       router: router,
+    //       // useDark: value,
+    //       config: FlutterConfigData(fontFamily: 'NotoSansSC'),
+    //       builder: (context, child) => Material(
+    //         child: ElConfigProvider(
+    //           useDark: value,
+    //           child: child!,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget buildChicagoApp() {

@@ -57,12 +57,16 @@ class ElConfigProvider extends StatelessWidget {
         ElThemeType.error: $currentTheme.error,
       },
       child: DefaultTextStyle(
-        style: TextStyle(color: $currentTheme.textColor),
+        style: TextStyle(color: $currentTheme.textColor).useSystemChineseFont(),
         child: ElDefaultIconStyle(
           color: $currentTheme.textColor,
           child: child,
         ),
       ),
+      // child: ElDefaultIconStyle(
+      //   color: $currentTheme.textColor,
+      //   child: child,
+      // ),
     );
   }
 }

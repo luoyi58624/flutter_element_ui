@@ -3,6 +3,7 @@ library flutter_element_ui;
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:chinese_font_library/chinese_font_library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

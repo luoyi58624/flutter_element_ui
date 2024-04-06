@@ -12,14 +12,9 @@ dependencies:
     sdk: flutter
   flutter_element_ui:
     path: ..
-  flutter_base:
+  my_flutter_fonts:
     git:
-      url: https://gitee.com/luoyi666/flutter_base.git
-      ref: v0.0.8
-  flutter_plugin:
-    git:
-      url: https://gitee.com/luoyi666/flutter_plugin.git
-      ref: v0.0.5
+      url: https://gitee.com/luoyi666/my_flutter_fonts.git
   cupertino_icons: ^1.0.2
   chicago: ^0.4.2-dev
   ionicons: ^0.2.2
@@ -29,12 +24,24 @@ dependencies:
   morphable_shape: ^1.6.6
   non_uniform_border: ^1.0.0
   smooth_list_view: ^1.0.4
+  smooth_scroll_multiplatform: ^1.0.8
+  chinese_font_library: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
 
+dependency_overrides:
+  flutter_base:
+    git:
+      url: https://gitee.com/luoyi666/flutter_base.git
+
 flutter:
   uses-material-design: true
-
+  fonts:
+    - family: NotoSansSC
+      fonts:
+        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Black.ttf
+        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Bold.ttf
+        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Medium.ttf

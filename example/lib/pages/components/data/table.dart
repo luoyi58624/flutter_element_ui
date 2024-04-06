@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_plugin/flutter_plugin.dart';
+import 'package:example/global.dart';
+
 
 class TablePage extends StatefulWidget {
   const TablePage({super.key});
