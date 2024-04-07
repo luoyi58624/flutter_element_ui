@@ -4,7 +4,6 @@ import 'package:example/pages/home.dart';
 import 'package:flutter/material.dart';
 
 import 'global.dart';
-import 'router/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,7 +73,7 @@ class MyApp extends StatelessWidget {
         builder: (context, value, _) {
           return ElConfigProvider(
             useDark: value,
-            child: ElMain(child: const HomePage()),
+            child: const ElMain(child: HomePage()),
           );
         },
       ),

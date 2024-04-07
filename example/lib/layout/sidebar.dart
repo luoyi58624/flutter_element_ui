@@ -1,6 +1,4 @@
-import 'package:example/router/routes/layout_routes.dart';
 import 'package:example/state.dart';
-import 'package:example/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +39,16 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                 ElMenuModel(
                   title: 'Table 表格',
                   path: '/components/data/table',
+                ),
+              ],
+            ),
+            ElMenuModel(
+              title: 'FeedBack 反馈组件',
+              path: '/components/feedback',
+              children: [
+                ElMenuModel(
+                  title: 'Dialog 对话框',
+                  path: '/components/feedback/dialog',
                 ),
               ],
             ),

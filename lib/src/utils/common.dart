@@ -1,19 +1,10 @@
 part of flutter_element_ui;
 
-/// 图片后缀
-const imageSuffix = ['jpg', 'jpeg', 'png', 'gif'];
-
-/// 静态图片图片后缀
-const staticImageSuffix = ['jpg', 'jpeg', 'png'];
-
-/// 视频后缀
-const videoSuffix = ['mkv', 'mp4', 'avi', 'mov', 'wmv'];
-
 /// 基本类型字符串
-const baseTypeString = ['String', 'num', 'int', 'double', 'bool'];
+const _baseTypeString = ['String', 'num', 'int', 'double', 'bool'];
 
 /// 比较两个值的条件类型
-enum CompareType {
+enum _CompareType {
   /// 小于
   less,
 
@@ -30,8 +21,8 @@ enum CompareType {
   than,
 }
 
-class ElUtil {
-  ElUtil._();
+class _ElUtil {
+  _ElUtil._();
 
   /// 判断一个变量是否为空，例如：null、''、[]、{}
   ///
@@ -71,7 +62,7 @@ class ElUtil {
 
   /// 检查传入的类型字符串是否是基本类型字符串
   static bool isBaseTypeString(String typeString) {
-    return baseTypeString.contains(typeString);
+    return _baseTypeString.contains(typeString);
   }
 
   /// 获取Map-key泛型类型
@@ -224,7 +215,7 @@ class ElUtil {
   static bool compareNum(
     dynamic value1,
     dynamic value2, {
-    CompareType compareType = CompareType.equal,
+    _CompareType compareType = _CompareType.equal,
   }) {
     return _compareResult(compareType, safeDouble(value1) - safeDouble(value2));
   }
@@ -233,7 +224,7 @@ class ElUtil {
   static bool compareDate(
     dynamic date1,
     dynamic date2, {
-    CompareType compareType = CompareType.equal,
+    _CompareType compareType = _CompareType.equal,
   }) {
     late int result; // 比较结果
     int nullValue1 = isEmpty(date1) ? 0 : 1;
@@ -272,7 +263,7 @@ class ElUtil {
   static DateTime getCompareDate(
     DateTime date1,
     DateTime date2, {
-    CompareType compareType = CompareType.equal,
+    _CompareType compareType = _CompareType.equal,
   }) {
     return compareDate(date1, date2, compareType: compareType) ? date1 : date2;
   }
@@ -359,17 +350,17 @@ class ElUtil {
   }
 }
 
-bool _compareResult(CompareType compareType, num result) {
+bool _compareResult(_CompareType compareType, num result) {
   switch (compareType) {
-    case CompareType.equal:
+    case _CompareType.equal:
       return result == 0;
-    case CompareType.less:
+    case _CompareType.less:
       return result < 0;
-    case CompareType.lessEqual:
+    case _CompareType.lessEqual:
       return result <= 0;
-    case CompareType.than:
+    case _CompareType.than:
       return result > 0;
-    case CompareType.thanEqual:
+    case _CompareType.thanEqual:
       return result >= 0;
   }
 }

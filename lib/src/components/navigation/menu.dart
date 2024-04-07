@@ -106,7 +106,7 @@ class _ElMenuState extends State<ElMenu> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: Duration(milliseconds: widget.collapseDuration),
-      curve: Curves.easeOut,
+      curve: Curves.linear,
       width: widget.collapse ? _defaultGap * 2 + widget.iconSize : widget.width,
       height: double.infinity,
       decoration: BoxDecoration(
@@ -291,6 +291,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
                 child: Text(
                   widget.menuItem.title,
                   maxLines: 1,
+                  overflow: TextOverflow.clip,
                   style: TextStyle(
                     color: menuItemColor,
                     fontSize: 14,
@@ -298,20 +299,18 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
                 ),
               ),
             if (widget.hasChild && !_ElMenuData.of(context).collapse)
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: 40,
-                    margin: const EdgeInsets.only(left: 8),
-                    child: AnimatedRotation(
-                      duration: Duration(milliseconds: math.max(_ElMenuData.of(context).expandDuration - 50, 0)),
-                      turns: widget.expand ? 0.5 : 0,
-                      child: ElIcon.svg(
-                        ElIcons.arrowDown,
-                        color: menuItemColor,
-                        size: 12,
-                      ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: 40,
+                  margin: const EdgeInsets.only(left: 8),
+                  child: AnimatedRotation(
+                    duration: Duration(milliseconds: math.max(_ElMenuData.of(context).expandDuration - 50, 0)),
+                    turns: widget.expand ? 0.5 : 0,
+                    child: ElIcon.svg(
+                      ElIcons.arrowDown,
+                      color: menuItemColor,
+                      size: 12,
                     ),
                   ),
                 ),

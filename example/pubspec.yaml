@@ -12,9 +12,6 @@ dependencies:
     sdk: flutter
   flutter_element_ui:
     path: ..
-  my_flutter_fonts:
-    git:
-      url: https://gitee.com/luoyi666/my_flutter_fonts.git
   cupertino_icons: ^1.0.2
   chicago: ^0.4.2-dev
   ionicons: ^0.2.2
@@ -39,9 +36,3 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
-  fonts:
-    - family: NotoSansSC
-      fonts:
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Black.ttf
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Bold.ttf
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Medium.ttf

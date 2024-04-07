@@ -3,14 +3,13 @@ library flutter_element_ui;
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:chinese_font_library/chinese_font_library.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
+
+import 'src/utils/platform/platform_web.dart' if (dart.library.io) 'src/utils/platform/platform_io.dart';
 
 part 'src/components/basic/config_provider.dart';
 
@@ -25,8 +24,6 @@ part 'src/components/basic/container.dart';
 part 'src/components/data/table/table.dart';
 
 part 'src/components/data/table/table_header.dart';
-
-part 'src/components/data/table/table_body.dart';
 
 part 'src/components/data/table/table_row_item.dart';
 
@@ -80,7 +77,7 @@ part 'src/components/descriptions.dart';
 
 part 'src/components/descriptions_item.dart';
 
-part 'src/components/dialog.dart';
+part 'src/components/feedback/dialog.dart';
 
 part 'src/components/divider.dart';
 
@@ -167,6 +164,8 @@ part 'src/utils/color.dart';
 part 'src/utils/common.dart';
 
 part 'src/utils/logger.dart';
+
+part 'src/utils/platform/platform.dart';
 
 part 'src/widgets/loading.dart';
 

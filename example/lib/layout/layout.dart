@@ -3,7 +3,6 @@ import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
 
 import 'header.dart';
-import 'main.dart';
 import 'sidebar.dart';
 
 class LayoutPage extends StatefulWidget {

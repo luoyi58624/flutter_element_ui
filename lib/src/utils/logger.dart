@@ -10,7 +10,7 @@ var _logger = Logger(
 );
 
 /// 打印日志工具类
-class ElLogger {
+class _ElLogger {
   ElLogger(dynamic message, [dynamic title]) {
     _logger.i(message, error: title);
   }
