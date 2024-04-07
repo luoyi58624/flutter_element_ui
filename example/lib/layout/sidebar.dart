@@ -33,6 +33,16 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
               ],
             ),
             ElMenuModel(
+              title: 'Form 表单组件',
+              path: '/components/form',
+              children: [
+                ElMenuModel(
+                  title: 'Input 输入框',
+                  path: '/components/form/input',
+                ),
+              ],
+            ),
+            ElMenuModel(
               title: 'Data 数据展示',
               path: '/components/data',
               children: [

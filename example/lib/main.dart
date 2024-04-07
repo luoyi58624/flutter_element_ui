@@ -1,84 +1,48 @@
 import 'package:chicago/chicago.dart';
+import 'package:example/controller/global.dart';
 import 'package:example/pages/home.dart';
 
 import 'package:flutter/material.dart';
 
 import 'global.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await initFlutterApp();
+  Get.put(GlobalController());
+  runApp(const _App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _App extends StatelessWidget {
+  const _App();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: buildMaterialApp());
-  }
-
-  Widget buildApp() {
-    return WidgetsApp.router(
-      color: const Color(0xffffffff),
-      routerConfig: router,
-      builder: (context, child) => ValueListenableBuilder(
-        valueListenable: GlobalState.isDark,
-        builder: (context, value, _) {
-          return ElConfigProvider(
-            useDark: value,
-            child: child!,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget buildMaterialApp() {
-    return FlutterApp(
-      router: router,
-      builder: (context, child) => ValueListenableBuilder(
-        valueListenable: GlobalState.isDark,
-        builder: (context, value, _) {
-          return Material(
+    return SafeArea(
+      child: Obx(
+        () => FlutterApp(
+          router: router,
+          useDark: GlobalController.of.useDark.value,
+          builder: (context, child) => Material(
             child: ElConfigProvider(
-              useDark: value,
+              useDark: GlobalController.of.useDark.value,
+              config: GlobalController.of.elConfigData.value,
               child: child!,
             ),
-          );
-        },
-      ),
-    );
-    // return ValueListenableBuilder(
-    //   valueListenable: GlobalState.isDark,
-    //   builder: (context, value, _) {
-    //     return FlutterApp(
-    //       router: router,
-    //       // useDark: value,
-    //       config: FlutterConfigData(fontFamily: 'NotoSansSC'),
-    //       builder: (context, child) => Material(
-    //         child: ElConfigProvider(
-    //           useDark: value,
-    //           child: child!,
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-  }
-
-  Widget buildChicagoApp() {
-    return ChicagoApp(
-      home: ValueListenableBuilder(
-        valueListenable: GlobalState.isDark,
-        builder: (context, value, _) {
-          return ElConfigProvider(
-            useDark: value,
-            child: const ElMain(child: HomePage()),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
+// Widget buildApp() {
+//   return WidgetsApp.router(
+//     color: const Color(0xffffffff),
+//     routerConfig: router,
+//     builder: (context, child) => ElConfigProvider(
+//       config: ElConfigData(radius: 8),
+//       child: child!,
+//     ),
+//   );
+// }
 }
 
 // theme: ElThemeData(

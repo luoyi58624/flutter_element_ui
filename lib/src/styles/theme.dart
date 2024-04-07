@@ -45,7 +45,7 @@ class ElThemeData {
   /// 全局文字颜色
   Color textColor;
 
-  /// 默认的icon亮色颜色
+  /// 默认的icon颜色
   Color iconColor;
 
   /// 默认的边框颜色

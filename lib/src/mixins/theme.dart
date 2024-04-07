@@ -16,6 +16,14 @@ mixin ElThemeMixin<T extends StatefulWidget, D> on State<T> {
 
   Color get $primaryColor => ElAppData.of(context).currentTheme.primary;
 
+  Color get $successColor => ElAppData.of(context).currentTheme.success;
+
+  Color get $infoColor => ElAppData.of(context).currentTheme.info;
+
+  Color get $warningColor => ElAppData.of(context).currentTheme.warning;
+
+  Color get $errorColor => ElAppData.of(context).currentTheme.error;
+
   Color get $defaultBorderColor => ElAppData.of(context).currentTheme.defaultBorderColor;
 
   double get $radius => ElAppData.of(context).config.radius;

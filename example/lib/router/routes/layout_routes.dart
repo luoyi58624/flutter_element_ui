@@ -1,4 +1,5 @@
 import 'package:example/pages/components/feedback/dialog.dart';
+import 'package:example/pages/components/form/input.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../layout/layout.dart';
@@ -11,6 +12,7 @@ import '../../pages/test/image_list.dart';
 
 const String _components = '/components';
 const String _componentsBasic = '$_components/basic';
+const String _componentsForm = '$_components/form';
 const String _componentsData = '$_components/data';
 const String _componentsFeedBack = '$_components/feedback';
 const String _tests = '/tests';
@@ -39,6 +41,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsBasic/color',
           builder: (context, state) => const ColorPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsForm/input',
+          builder: (context, state) => const InputPage(),
         ),
       ],
     ),

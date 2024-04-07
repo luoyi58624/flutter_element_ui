@@ -2,15 +2,15 @@ part of flutter_element_ui;
 
 /// Element UI 全局配置注入
 class ElConfigProvider extends StatelessWidget {
-  /// 注入ElementUI的全局配置信息，你需要自己使用 WidgetsApp、MaterialApp、CupertinoApp 等顶级入口组件创建应用。
+  /// 注入ElementUI的全局配置信息，你需要自己使用 WidgetsApp、MaterialApp 等带有导航功能的顶级入口组件创建应用。
   ///
   /// 示例:
   /// ``` dart
-  /// MaterialApp(
+  /// WidgetsApp(
   ///   builder: (context, child) => ElConfigProvider(child: child!),
   /// );
   /// ```
-  /// 提示：你也可以将顶级App组件当做[ElConfigProvider]的子组件，但需要额外处理顶级App组件的黑暗模式。
+  /// 注意：请不要将顶级App组件当做[ElConfigProvider]的子组件，否则 Element UI 默认的文字样式会被其他顶级App组件覆盖。
   const ElConfigProvider({
     super.key,
     required this.child,
@@ -59,14 +59,10 @@ class ElConfigProvider extends StatelessWidget {
       child: DefaultTextStyle(
         style: TextStyle(color: $currentTheme.textColor, fontFamily: _ElPlatformUtil.isWindows ? "微软雅黑" : null),
         child: ElDefaultIconStyle(
-          color: $currentTheme.textColor,
+          color: $currentTheme.iconColor,
           child: child,
         ),
       ),
-      // child: ElDefaultIconStyle(
-      //   color: $currentTheme.textColor,
-      //   child: child,
-      // ),
     );
   }
 }
