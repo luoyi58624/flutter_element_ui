@@ -50,56 +50,52 @@ class _ColorPageState extends State<ColorPage> {
       colors2.add(generaColors(value));
     });
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('主题颜色'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              Column(
-                children: colors1
-                    .map(
-                      (e) => SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: e
-                              .map(
-                                (e) => Container(
-                                  width: 50,
-                                  height: 50,
-                                  color: e,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              const SizedBox(height: 8),
-              Column(
-                children: colors2
-                    .map(
-                      (e) => SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: e
-                              .map(
-                                (e) => Container(
-                                  width: 50,
-                                  height: 50,
-                                  color: e,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-            ],
+    return Center(
+      child: Column(
+        children: [
+          Column(
+            children: colors1
+                .map(
+                  (e) => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: e
+                          .map(
+                            (e) => Container(
+                              width: 50,
+                              height: 50,
+                              color: e,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
-        ));
+          const SizedBox(height: 8),
+          Column(
+            children: colors2
+                .map(
+                  (e) => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: e
+                          .map(
+                            (e) => Container(
+                              width: 50,
+                              height: 50,
+                              color: e,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ],
+      ),
+    );
   }
 }

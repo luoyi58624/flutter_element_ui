@@ -1,4 +1,4 @@
-import 'package:example/global.dart';
+import 'package:flutter/widgets.dart';
 
 class GlobalState {
   static final ValueNotifier<int> counter = ValueNotifier<int>(0);

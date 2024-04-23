@@ -1,5 +1,5 @@
 import 'package:example/global.dart';
-import 'package:fluent_ui/fluent_ui.dart' as f;
+import 'package:flutter/widgets.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -26,7 +26,6 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   const SizedBox(height: 8),
                   ElInput(),
-                  FormTextFieldWidget(),
                 ],
               ),
             ),

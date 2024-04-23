@@ -1,4 +1,3 @@
-import 'package:example/controller/global.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
@@ -61,15 +60,6 @@ class _ButtonPageState extends State<ButtonPage> {
                       disabled = !disabled;
                     });
                   },
-                ),
-                const SizedBox(width: 8),
-                Obx(
-                  () => ElButton(
-                    GlobalController.of.useDark.value ? '开启亮色模式' : '开启黑暗模式',
-                    onPressed: () {
-                      GlobalController.of.useDark.value = !GlobalController.of.useDark.value;
-                    },
-                  ),
                 ),
               ],
             ),

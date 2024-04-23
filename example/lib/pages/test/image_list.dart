@@ -1,5 +1,7 @@
-import 'package:example/global.dart';
 import 'package:example/utils/logger.dart';
+import 'package:faker/faker.dart';
+import 'package:flutter/widgets.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 class ImageListPage extends StatefulWidget {
   const ImageListPage({super.key});
@@ -28,9 +30,7 @@ class _ImageListPageState extends State<ImageListPage> {
                   aspectRatio: 1,
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8),
-                    child: ImageWidget(
-                      url: imageList[index * 5 + rowIndex],
-                    ),
+                    child: Image.network(imageList[index * 5 + rowIndex]),
                   ),
                 ),
               ),

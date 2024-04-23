@@ -24,10 +24,7 @@ class _DialogPageState extends State<DialogPage> {
                 '你确定要删除吗？',
                 confirmButtonType: ElThemeType.error,
                 confirmLoadingText: '删除中...',
-                onConfirm: () async {
-                  await 2.delay();
-                  ToastUtil.showToast('删除成功');
-                },
+                onConfirm: () async {},
               );
             },
           ),
@@ -44,17 +41,13 @@ class _DialogPageState extends State<DialogPage> {
                     children: [
                       ElButton(
                         '取消',
-                        onPressed: () {
-                          context.pop();
-                        },
+                        onPressed: () {},
                       ),
                       const SizedBox(width: 8),
                       ElButton(
                         '确定',
                         type: ElThemeType.primary,
-                        onPressed: () {
-                          context.pop();
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   ),
