@@ -42,49 +42,50 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
 
   @override
   Widget build(BuildContext context) {
-    return TextField();
+    // return TextField();
+    return Container(
+      height: 32,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1, color: hasFocus ? $primaryColor : $defaultBorderColor),
+        borderRadius: BorderRadius.circular($radius),
+      ),
+      child: RepaintBoundary(
+        child: EditableText(
+          controller: controller,
+          focusNode: focusNode,
+          style: TextStyle(
+            color: $textColor,
+            height: 1.8,
+          ),
+          strutStyle: StrutStyle(
+            forceStrutHeight: true,
+          ),
+          textHeightBehavior: TextHeightBehavior(
+            applyHeightToFirstAscent: false,
+            applyHeightToLastDescent: false,
+          ),
+          cursorColor: $textColor,
+          cursorWidth: 1,
+          cursorHeight: 18,
+          cursorOffset: const Offset(0, 3),
+          backgroundCursorColor: $infoColor.withOpacity(0.6),
+          selectionColor: $primaryColor.withOpacity(0.6),
+          enableInteractiveSelection: true,
+          enableSuggestions: false,
+          enableIMEPersonalizedLearning: true,
+          showSelectionHandles: false,
+          selectionControls: MaterialTextSelectionControls(),
+          selectionHeightStyle: BoxHeightStyle.includeLineSpacingMiddle,
+          dragStartBehavior: DragStartBehavior.start,
+          onSelectionChanged: (selection, cause) {},
+        ),
+      ),
+    );
   }
 }
 
-// return Container(
-// height: 32,
-// padding: const EdgeInsets.symmetric(horizontal: 8),
-// decoration: BoxDecoration(
-// border: Border.all(width: 1, color: hasFocus ? $primaryColor : $defaultBorderColor),
-// borderRadius: BorderRadius.circular($radius),
-// ),
-// child: RepaintBoundary(
-// child: EditableText(
-// controller: controller,
-// focusNode: focusNode,
-// style: TextStyle(
-// color: $textColor,
-// height: 1.8,
-// ),
-// // strutStyle: StrutStyle(
-// //   forceStrutHeight: true,
-// // ),
-// // textHeightBehavior: TextHeightBehavior(
-// //   applyHeightToFirstAscent: false,
-// //   applyHeightToLastDescent: false,
-// // ),
-// cursorColor: $textColor,
-// cursorWidth: 1,
-// cursorHeight: 18,
-// cursorOffset: const Offset(0, 3),
-// backgroundCursorColor: $infoColor.withOpacity(0.6),
-// selectionColor: $primaryColor.withOpacity(0.6),
-// enableInteractiveSelection: true,
-// enableSuggestions: false,
-// enableIMEPersonalizedLearning: true,
-// showSelectionHandles: false,
-// selectionControls: MaterialTextSelectionControls(),
-// selectionHeightStyle: BoxHeightStyle.includeLineSpacingMiddle,
-// dragStartBehavior: DragStartBehavior.start,
-// onSelectionChanged: (selection, cause) {},
-// ),
-// ),
-// );
+
 
 // class CustomTextSelected extends TextSelectionControls {
 //   /// Fluent has no text selection handles.

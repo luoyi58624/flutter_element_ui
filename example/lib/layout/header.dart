@@ -1,3 +1,4 @@
+import 'package:example/global.dart';
 import 'package:example/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';

@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:mini_getx/mini_getx.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
-import 'src/utils/platform/platform_web.dart' if (dart.library.io) 'src/utils/platform/platform_io.dart';
+
 
 part 'src/components/basic/config_provider.dart';
 
@@ -159,11 +161,7 @@ part 'src/styles/theme.dart';
 
 part 'src/styles/config.dart';
 
-part 'src/utils/color.dart';
-
 part 'src/utils/common.dart';
-
-part 'src/utils/platform/platform.dart';
 
 part 'src/widgets/loading.dart';
 

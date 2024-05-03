@@ -1,13 +1,10 @@
-import 'package:chicago/chicago.dart';
-import 'package:example/controller/global.dart';
-import 'package:example/pages/home.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_toast/flutter_toast.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 import 'global.dart';
 
 void main() async {
-  await initFlutterApp();
   Get.put(GlobalController());
   runApp(const _App());
 }
@@ -17,16 +14,20 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Obx(
-        () => FlutterApp(
-          router: router,
-          useDark: GlobalController.of.useDark.value,
-          builder: (context, child) => Material(
-            child: ElConfigProvider(
-              useDark: GlobalController.of.useDark.value,
-              config: GlobalController.of.elConfigData.value,
-              child: child!,
+    return Obx(
+      () => SafeArea(
+        child: MaterialApp.router(
+          routerConfig: router,
+          theme: ThemeData(
+            brightness: GlobalController.of.useDark.value ? Brightness.dark : Brightness.light,
+          ),
+          builder: FlutterToast.builder(
+            (context, child) => Material(
+              child: ElConfigProvider(
+                useDark: GlobalController.of.useDark.value,
+                config: GlobalController.of.elConfigData.value,
+                child: child!,
+              ),
             ),
           ),
         ),

@@ -12,9 +12,18 @@ dependencies:
     sdk: flutter
   flutter_element_ui:
     path: ..
+  flutter_plugin:
+    git:
+      url: https://gitee.com/luoyi666/flutter_plugin.git
+  flutter_toast:
+    git:
+      url: https://gitee.com/luoyi666/flutter_toast.git
+  mini_getx: ^5.0.1
+  go_router: ^14.0.1
   chicago: ^0.4.2-dev
   logger: ^2.1.0
   fluent_ui: ^4.8.6
+  faker: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -22,9 +31,9 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 dependency_overrides:
-  flutter_base:
+  luoyi_flutter_base:
     git:
-      url: https://gitee.com/luoyi666/flutter_base.git
+      url: https://github.com/luoyi58624/luoyi_flutter_base
 
 flutter:
   uses-material-design: true

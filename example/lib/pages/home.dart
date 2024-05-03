@@ -1,5 +1,7 @@
 import 'package:example/global.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
