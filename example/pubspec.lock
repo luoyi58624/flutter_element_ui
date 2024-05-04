@@ -451,10 +451,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d28253b068764b4b7a95748f5f86e8a0721ac36a
+      resolved-ref: "6129d3efa246acb1bc66f1842e00944089e97bb4"
       url: "https://github.com/luoyi58624/luoyi_flutter_base"
     source: git
-    version: "1.0.0"
+    version: "1.0.2"
   matcher:
     dependency: transitive
     description:
