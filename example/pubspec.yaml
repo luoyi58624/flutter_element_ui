@@ -48,3 +48,4 @@ flutter:
         - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Black.ttf
         - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Bold.ttf
         - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Medium.ttf
+        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Regular.ttf

@@ -475,10 +475,10 @@ packages:
     dependency: transitive
     description:
       name: math_expressions
-      sha256: "3576593617c3870d75728a751f6ec6e606706d44e363f088ac394b5a28a98064"
+      sha256: db0b72d867491c4e53a1c773e2708d5d6e94bbe06be07080fc9f896766b9cd3d
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.4.0"
+    version: "2.5.0"
   meta:
     dependency: transitive
     description:

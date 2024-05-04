@@ -295,6 +295,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
                   style: TextStyle(
                     color: menuItemColor,
                     fontSize: 14,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
