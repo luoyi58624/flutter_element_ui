@@ -1,3 +1,4 @@
+import 'package:example/pages/components/basic/font.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
 import 'package:go_router/go_router.dart';
@@ -41,6 +42,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsBasic/color',
           builder: (context, state) => const ColorPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsBasic/font',
+          builder: (context, state) => const FontPage(),
         ),
       ],
     ),

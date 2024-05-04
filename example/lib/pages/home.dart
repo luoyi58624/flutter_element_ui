@@ -23,6 +23,10 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            ElButton(
+              'hello, 你好呀',
+              onPressed: () {},
+            ),
             Obx(
               () => ElButton(
                 GlobalController.of.useDark.value ? '开启亮色模式' : '开启黑暗模式',

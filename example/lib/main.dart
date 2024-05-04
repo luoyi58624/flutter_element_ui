@@ -12,15 +12,20 @@ void main() async {
 class _App extends StatelessWidget {
   const _App();
 
+  ThemeData _buildTheme() {
+    return ThemeData(
+      brightness: GlobalController.of.useDark.value ? Brightness.dark : Brightness.light,
+      fontFamily: 'NotoSansSC',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => SafeArea(
         child: MaterialApp.router(
           routerConfig: router,
-          theme: ThemeData(
-            brightness: GlobalController.of.useDark.value ? Brightness.dark : Brightness.light,
-          ),
+          theme: _buildTheme(),
           builder: FlutterToast.builder(
             (context, child) => Material(
               child: ElConfigProvider(

@@ -57,7 +57,10 @@ class ElConfigProvider extends StatelessWidget {
         ElThemeType.error: $currentTheme.error,
       },
       child: DefaultTextStyle(
-        style: TextStyle(color: $currentTheme.textColor, fontFamily: GetPlatform.isWindows ? "微软雅黑" : null),
+        style: TextStyle(
+          color: $currentTheme.textColor,
+          fontFamily: $config.fontFamily ?? (GetPlatform.isWindows ? '微软雅黑' : null),
+        ),
         child: ElDefaultIconStyle(
           color: $currentTheme.iconColor,
           child: child,

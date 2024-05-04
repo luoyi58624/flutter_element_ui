@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "0763b45fa9294197a2885c8567927e2830ade852e5c896fd4ab7e0e348d0f373"
+      sha256: ecf4273855368121b1caed0d10d4513c7241dfc813f7d3c8933b36622ae9b265
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   args:
     dependency: transitive
     description:
@@ -73,6 +73,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.2-dev"
+  chinese_font_library:
+    dependency: "direct main"
+    description:
+      name: chinese_font_library
+      sha256: "2a432695b8a8fec63dad9547f64aa88260ca8f9481e02701c92dc189f090fafe"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   clock:
     dependency: transitive
     description:
@@ -326,6 +334,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "14.0.2"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      sha256: b1ac0fe2832c9cc95e5e88b57d627c5e68c223b9657f4b96e1487aa9098c7b82
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.2.1"
   highlight_text:
     dependency: transitive
     description:
@@ -459,10 +475,10 @@ packages:
     dependency: transitive
     description:
       name: math_expressions
-      sha256: db0b72d867491c4e53a1c773e2708d5d6e94bbe06be07080fc9f896766b9cd3d
+      sha256: "3576593617c3870d75728a751f6ec6e606706d44e363f088ac394b5a28a98064"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.5.0"
+    version: "2.4.0"
   meta:
     dependency: transitive
     description:
@@ -479,6 +495,15 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.1"
+  my_flutter_fonts:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "87cdb74f4318d0a0bd8b203fc0989a0423121380"
+      url: "https://gitee.com/luoyi666/my_flutter_fonts.git"
+    source: git
+    version: "0.0.1"
   nm:
     dependency: transitive
     description:
@@ -822,4 +847,4 @@ packages:
     version: "6.5.0"
 sdks:
   dart: ">=3.3.0 <4.0.0"
-  flutter: ">=3.19.0"
+  flutter: ">=3.19.2"
