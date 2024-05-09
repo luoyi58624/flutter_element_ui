@@ -1,7 +1,4 @@
-import 'package:chinese_font_library/chinese_font_library.dart';
-import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FontPage extends StatelessWidget {
   const FontPage({super.key});

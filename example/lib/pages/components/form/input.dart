@@ -1,5 +1,4 @@
 import 'package:example/global.dart';
-import 'package:fluent_ui/fluent_ui.dart' as f;
 import 'package:flutter/material.dart';
 
 class InputPage extends StatefulWidget {

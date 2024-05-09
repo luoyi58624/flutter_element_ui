@@ -23,12 +23,7 @@ dependencies:
       url: https://github.com/luoyi58624/luoyi_flutter_font.git
   mini_getx: ^5.0.1
   go_router: ^14.0.1
-  chicago: ^0.4.2-dev
-  logger: ^2.1.0
-  fluent_ui: ^4.8.6
   faker: ^2.1.0
-  chinese_font_library: ^1.1.0
-  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

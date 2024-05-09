@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_toast/flutter_toast.dart';
 import 'package:mini_getx/mini_getx.dart';
 
 class DialogPage extends StatefulWidget {
