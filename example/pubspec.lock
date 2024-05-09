@@ -451,10 +451,19 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6129d3efa246acb1bc66f1842e00944089e97bb4"
+      resolved-ref: f5f6a4593592f3c336c5c6cce35ade40bc78c52c
       url: "https://github.com/luoyi58624/luoyi_flutter_base"
     source: git
-    version: "1.0.2"
+    version: "1.2.0"
+  luoyi_flutter_font:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: b540727138cae4f601f509de3885058cc9bc1795
+      url: "https://github.com/luoyi58624/luoyi_flutter_font.git"
+    source: git
+    version: "0.0.1"
   matcher:
     dependency: transitive
     description:
@@ -475,10 +484,10 @@ packages:
     dependency: transitive
     description:
       name: math_expressions
-      sha256: db0b72d867491c4e53a1c773e2708d5d6e94bbe06be07080fc9f896766b9cd3d
+      sha256: "3576593617c3870d75728a751f6ec6e606706d44e363f088ac394b5a28a98064"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.5.0"
+    version: "2.4.0"
   meta:
     dependency: transitive
     description:
@@ -491,19 +500,10 @@ packages:
     dependency: "direct main"
     description:
       name: mini_getx
-      sha256: "7b47199ca0d100e92bcb900a37d7396d89cf65977c08f3a295238462d4f18649"
+      sha256: ddbc4913d012fd4b5cf504e6d1fddba2922e473e491655365506e5ce8d0c68e0
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.0.1"
-  my_flutter_fonts:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "87cdb74f4318d0a0bd8b203fc0989a0423121380"
-      url: "https://gitee.com/luoyi666/my_flutter_fonts.git"
-    source: git
-    version: "0.0.1"
+    version: "5.0.3"
   nm:
     dependency: transitive
     description:
@@ -572,10 +572,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: "5a7999be66e000916500be4f15a3633ebceb8302719b47b9cc49ce924125350f"
+      sha256: f234384a3fdd67f989b4d54a5d73ca2a6c422fa55ae694381ae0f4375cd1ea16
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   path_provider_linux:
     dependency: transitive
     description:
@@ -846,5 +846,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.3.3 <4.0.0"
   flutter: ">=3.19.2"

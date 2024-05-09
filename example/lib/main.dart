@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_toast/flutter_toast.dart';
+import 'package:luoyi_flutter_font/luoyi_flutter_font.dart';
 import 'package:mini_getx/mini_getx.dart';
 
 import 'global.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterFont.loadNetworkFont(FlutterGoogleFonts.chineseFont());
   Get.put(GlobalController());
   runApp(const _App());
 }

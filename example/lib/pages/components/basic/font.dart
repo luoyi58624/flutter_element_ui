@@ -21,9 +21,9 @@ class FontPage extends StatelessWidget {
         Column(
             children: FontWeight.values
                 .map((e) => Text(
-              'hello，你好呀 - ${e.value}',
-              style: GoogleFonts.notoSansSc(textStyle: TextStyle(fontWeight: e)),
-            ))
+                      'hello，你好呀 - ${e.value}',
+                      style: TextStyle(fontWeight: e, fontSize: 18),
+                    ))
                 .toList()),
         // Column(
         //     children: FontWeight.values

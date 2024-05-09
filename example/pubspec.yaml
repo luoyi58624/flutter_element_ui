@@ -18,9 +18,9 @@ dependencies:
   flutter_toast:
     git:
       url: https://gitee.com/luoyi666/flutter_toast.git
-  my_flutter_fonts:
+  luoyi_flutter_font:
     git:
-      url: https://gitee.com/luoyi666/my_flutter_fonts.git
+      url: https://github.com/luoyi58624/luoyi_flutter_font.git
   mini_getx: ^5.0.1
   go_router: ^14.0.1
   chicago: ^0.4.2-dev
@@ -42,10 +42,3 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
-  fonts:
-    - family: NotoSansSC
-      fonts:
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Black.ttf
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Bold.ttf
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Medium.ttf
-        - asset: packages/my_flutter_fonts/chinese/NotoSansSC-Regular.ttf
