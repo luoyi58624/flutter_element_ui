@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
 
 class DialogPage extends StatefulWidget {
   const DialogPage({super.key});
@@ -27,7 +26,7 @@ class _DialogPageState extends State<DialogPage> {
                 confirmLoadingText: '删除中...',
                 onConfirm: () async {
                   await 2.delay();
-                  FlutterToast.show('删除成功');
+                  ToastUtil.show('删除成功');
                 },
               );
             },
