@@ -1,5 +1,5 @@
 import 'package:example/global.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
@@ -21,11 +21,13 @@ class _InputPageState extends State<InputPage> {
           width: 640,
           child: ElForm(
             data: formData,
-            child: SingleChildScrollView(
+            child: const SingleChildScrollView(
               child: Column(
                 children: [
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   ElInput(),
+                  SizedBox(height: 8),
+                  FormTextFieldWidget(),
                 ],
               ),
             ),

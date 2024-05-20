@@ -46,7 +46,7 @@ abstract class _Button extends StatefulWidget {
   State<_Button> createState();
 }
 
-abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElTapMixin, ElThemeMixin {
+abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixin, ElThemeMixin {
   /// 默认文字颜色
   Color? textColor;
 
@@ -65,18 +65,12 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
   /// 按钮的边框颜色
   Color? borderColor;
 
+  bool isTap = false;
+
   bool get disabledButton => widget.disabled || widget.onPressed == null;
 
   @override
   bool get disabledHover => disabledButton;
-
-  @override
-  bool get disabledTap => disabledButton;
-
-  @override
-  void onTapEvent() {
-    if (widget.onPressed != null) widget.onPressed!();
-  }
 
   /// 构建普通button主题
   void buildDefaultTheme();
@@ -93,11 +87,15 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
 
   @override
   Widget build(BuildContext context) {
-    widget.type == null ? buildDefaultTheme() : buildTypeTheme(widget.type!);
     return buildMouseWidget(
-      child: buildTapWidget(
-        child: buildButton(),
-      ),
+      child: TapBuilder(
+          onTap: widget.onPressed,
+          disabled: disabledButton,
+          builder: (_isTap) {
+            isTap = _isTap;
+            widget.type == null ? buildDefaultTheme() : buildTypeTheme(widget.type!);
+            return buildButton();
+          }),
     );
   }
 }
@@ -168,15 +166,14 @@ class _ElButtonState extends _ButtonState<ElButton> {
       iconColor = iconColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
-      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
-      iconColor = super.onTap || super.onHover ? $primaryColor : iconColor;
-      borderColor = super.onTap
+      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = super.isTap || super.onHover ? $primaryColor : iconColor;
+      borderColor = super.isTap
           ? $primaryColor
           : super.onHover
               ? $primaryColor.withOpacity(0.2)
               : $defaultBorderColor;
     }
-
     border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
   }
@@ -187,10 +184,10 @@ class _ElButtonState extends _ButtonState<ElButton> {
     textColor = $textWhiteColor;
     iconColor = textColor;
     if (widget.plain) {
-      textColor = super.onTap || super.onHover ? $textWhiteColor : themeColor;
-      iconColor = super.onTap || super.onHover ? $textWhiteColor : themeColor;
+      textColor = super.isTap || super.onHover ? $textWhiteColor : themeColor;
+      iconColor = super.isTap || super.onHover ? $textWhiteColor : themeColor;
       border = Border.all(color: themeColor.withOpacity(0.5));
-      bgColor = super.onTap
+      bgColor = super.isTap
           ? themeColor.darken(15)
           : super.onHover
               ? bgColor
@@ -209,7 +206,7 @@ class _ElButtonState extends _ButtonState<ElButton> {
         border = null;
       }
     } else {
-      bgColor = super.onTap
+      bgColor = super.isTap
           ? themeColor.darken(15)
           : super.onHover
               ? widget.plain
@@ -224,9 +221,8 @@ class _ElButtonState extends _ButtonState<ElButton> {
   Widget buildButton() {
     return Container(
       height: widget.height ?? $buttonHeight,
-      padding: border == null
-          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
+      padding:
+          border == null ? EdgeInsets.symmetric(horizontal: $buttonHorizontal) : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
       decoration: BoxDecoration(
         color: bgColor,
         border: border,
@@ -317,13 +313,13 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
       textColor = textColor!.withAlpha(_disabledTextAlpha);
     } else {
       if (widget.bg) {
-        bgColor = super.onTap
+        bgColor = super.isTap
             ? bgColor!.withAlpha(50)
             : super.onHover
                 ? bgColor!.withAlpha(40)
                 : bgColor!.withAlpha(25);
       } else {
-        bgColor = super.onTap
+        bgColor = super.isTap
             ? bgColor!.withAlpha(50)
             : super.onHover
                 ? bgColor!.withAlpha(25)
@@ -342,13 +338,13 @@ class _ElTextButtonState extends _ButtonState<ElTextButton> {
       textColor = getThemeTypeColor(type).withAlpha(_disabledTextAlpha);
     } else {
       if (widget.bg) {
-        bgColor = super.onTap
+        bgColor = super.isTap
             ? bgColor!.withAlpha(50)
             : super.onHover
                 ? bgColor!.withAlpha(40)
                 : bgColor!.withAlpha(25);
       } else {
-        bgColor = super.onTap
+        bgColor = super.isTap
             ? bgColor!.withAlpha(50)
             : super.onHover
                 ? bgColor!.withAlpha(25)
@@ -442,12 +438,12 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
       textColor = textColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
-      borderColor = super.onTap
+      borderColor = super.isTap
           ? $primaryColor
           : super.onHover
               ? $primaryColor.withOpacity(0.2)
               : $defaultBorderColor;
-      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
     }
     border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
@@ -460,7 +456,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {
-      bgColor = super.onTap
+      bgColor = super.isTap
           ? bgColor!.darken(15)
           : super.onHover
               ? bgColor!.withOpacity(0.8)

@@ -42,6 +42,7 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
 
   @override
   Widget build(BuildContext context) {
+    // return TextField();
     return Container(
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -57,13 +58,13 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
             color: $textColor,
             height: 1.8,
           ),
-// strutStyle: StrutStyle(
-//   forceStrutHeight: true,
-// ),
-// textHeightBehavior: TextHeightBehavior(
-//   applyHeightToFirstAscent: false,
-//   applyHeightToLastDescent: false,
-// ),
+          strutStyle: StrutStyle(
+            forceStrutHeight: true,
+          ),
+          textHeightBehavior: TextHeightBehavior(
+            applyHeightToFirstAscent: false,
+            applyHeightToLastDescent: false,
+          ),
           cursorColor: $textColor,
           cursorWidth: 1,
           cursorHeight: 18,
@@ -84,71 +85,73 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
   }
 }
 
-class CustomTextSelected extends TextSelectionControls {
-  /// Fluent has no text selection handles.
-  @override
-  Size getHandleSize(double textLineHeight) {
-    return Size.zero;
-  }
 
-  @override
-  Widget buildToolbar(
-    BuildContext context,
-    Rect globalEditableRegion,
-    double textLineHeight,
-    Offset selectionMidpoint,
-    List<TextSelectionPoint> endpoints,
-    TextSelectionDelegate delegate,
-    ValueListenable<ClipboardStatus>? clipboardStatus,
-    Offset? lastSecondaryTapDownPosition,
-  ) {
-    return SizedBox();
-    // return _FluentTextSelectionControlsToolbar(
-    //   clipboardStatus: clipboardStatus,
-    //   endpoints: endpoints,
-    //   globalEditableRegion: globalEditableRegion,
-    //   handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
-    //   handleCopy: canCopy(delegate) ? () => handleCopy(delegate) : null,
-    //   handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
-    //   handleSelectAll:
-    //   canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
-    //   selectionMidpoint: selectionMidpoint,
-    //   lastSecondaryTapDownPosition: lastSecondaryTapDownPosition,
-    //   textLineHeight: textLineHeight,
-    // );
-  }
 
-  /// Builds the text selection handles, but desktop has none.
-  @override
-  Widget buildHandle(
-    BuildContext context,
-    TextSelectionHandleType type,
-    double textLineHeight, [
-    VoidCallback? onTap,
-    double? startGlyphHeight,
-    double? endGlyphHeight,
-  ]) {
-    return SizedBox();
-  }
-
-  /// Gets the position for the text selection handles, but desktop has none.
-  @override
-  Offset getHandleAnchor(
-    TextSelectionHandleType type,
-    double textLineHeight, [
-    double? startGlyphHeight,
-    double? endGlyphHeight,
-  ]) {
-    return Offset.zero;
-  }
-
-  @override
-  bool canSelectAll(TextSelectionDelegate delegate) {
-    // Allow SelectAll when selection is not collapsed, unless everything has
-    // already been selected. Same behavior as Android.
-    final value = delegate.textEditingValue;
-    return delegate.selectAllEnabled &&
-        value.text.isNotEmpty &&
-        !(value.selection.start == 0 && value.selection.end == value.text.length);
-  }
-}
+// class CustomTextSelected extends TextSelectionControls {
+//   /// Fluent has no text selection handles.
+//   @override
+//   Size getHandleSize(double textLineHeight) {
+//     return Size.zero;
+//   }
+//
+//   @override
+//   Widget buildToolbar(
+//     BuildContext context,
+//     Rect globalEditableRegion,
+//     double textLineHeight,
+//     Offset selectionMidpoint,
+//     List<TextSelectionPoint> endpoints,
+//     TextSelectionDelegate delegate,
+//     ValueListenable<ClipboardStatus>? clipboardStatus,
+//     Offset? lastSecondaryTapDownPosition,
+//   ) {
+//     return SizedBox();
+//     // return _FluentTextSelectionControlsToolbar(
+//     //   clipboardStatus: clipboardStatus,
+//     //   endpoints: endpoints,
+//     //   globalEditableRegion: globalEditableRegion,
+//     //   handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
+//     //   handleCopy: canCopy(delegate) ? () => handleCopy(delegate) : null,
+//     //   handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
+//     //   handleSelectAll:
+//     //   canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
+//     //   selectionMidpoint: selectionMidpoint,
+//     //   lastSecondaryTapDownPosition: lastSecondaryTapDownPosition,
+//     //   textLineHeight: textLineHeight,
+//     // );
+//   }
+//
+//   /// Builds the text selection handles, but desktop has none.
+//   @override
+//   Widget buildHandle(
+//     BuildContext context,
+//     TextSelectionHandleType type,
+//     double textLineHeight, [
+//     VoidCallback? onTap,
+//     double? startGlyphHeight,
+//     double? endGlyphHeight,
+//   ]) {
+//     return SizedBox();
+//   }
+//
+//   /// Gets the position for the text selection handles, but desktop has none.
+//   @override
+//   Offset getHandleAnchor(
+//     TextSelectionHandleType type,
+//     double textLineHeight, [
+//     double? startGlyphHeight,
+//     double? endGlyphHeight,
+//   ]) {
+//     return Offset.zero;
+//   }
+//
+//   @override
+//   bool canSelectAll(TextSelectionDelegate delegate) {
+//     // Allow SelectAll when selection is not collapsed, unless everything has
+//     // already been selected. Same behavior as Android.
+//     final value = delegate.textEditingValue;
+//     return delegate.selectAllEnabled &&
+//         value.text.isNotEmpty &&
+//         !(value.selection.start == 0 && value.selection.end == value.text.length);
+//   }
+// }

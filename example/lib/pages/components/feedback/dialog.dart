@@ -1,5 +1,6 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 class DialogPage extends StatefulWidget {
   const DialogPage({super.key});
@@ -24,7 +25,10 @@ class _DialogPageState extends State<DialogPage> {
                 '你确定要删除吗？',
                 confirmButtonType: ElThemeType.error,
                 confirmLoadingText: '删除中...',
-                onConfirm: () async {},
+                onConfirm: () async {
+                  await 2.delay();
+                  FlutterToast.show('删除成功');
+                },
               );
             },
           ),
@@ -41,13 +45,17 @@ class _DialogPageState extends State<DialogPage> {
                     children: [
                       ElButton(
                         '取消',
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                       ),
                       const SizedBox(width: 8),
                       ElButton(
                         '确定',
                         type: ElThemeType.primary,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                       ),
                     ],
                   ),

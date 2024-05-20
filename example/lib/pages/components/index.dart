@@ -1,5 +1,6 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 class ComponentsPage extends StatefulWidget {
   const ComponentsPage({super.key});
@@ -52,12 +53,12 @@ class _ComponentsPageState extends State<ComponentsPage> {
             //     child: const Text('显示弹窗'),
             //   ),
             // ),
-            // Obx(() => ElButton(
-            //       GlobalController.of.useDark.value ? '开启亮色模式' : '开启黑暗模式',
-            //       onPressed: () {
-            //         GlobalController.of.useDark.value = !GlobalController.of.useDark.value;
-            //       },
-            //     )),
+            Obx(() => ElButton(
+                  GlobalController.of.useDark.value ? '开启亮色模式' : '开启黑暗模式',
+                  onPressed: () {
+                    GlobalController.of.useDark.value = !GlobalController.of.useDark.value;
+                  },
+                )),
             const Text('Overview 组件总览'),
             ValueListenableBuilder(
               valueListenable: GlobalState.counter,

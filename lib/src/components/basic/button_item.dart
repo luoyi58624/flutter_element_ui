@@ -42,8 +42,37 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   Widget build(BuildContext context) {
     buildButtonItemTheme();
     return buildMouseWidget(
-      child: buildTapWidget(
-        child: buildButton(),
+      child: TapBuilder(
+        onTap: () {
+          switch (buttonGroupData.buttonGroupType) {
+            case _ButtonGroupType.base:
+              if (buttonGroupData.onPressed != null) buttonGroupData.onPressed!(currentIndex);
+              break;
+            case _ButtonGroupType.single:
+              if (buttonGroupData.onChange != null) {
+                if (buttonGroupData.index != currentIndex) {
+                  buttonGroupData.onChange!(currentIndex);
+                }
+              }
+              break;
+            case _ButtonGroupType.multiple:
+              if (buttonGroupData.onChangeList != null) {
+                List<int> indexList = buttonGroupData.indexList;
+                int targetIndex = indexList.indexOf(currentIndex);
+                if (targetIndex == -1) {
+                  indexList.add(currentIndex);
+                } else {
+                  indexList.removeAt(targetIndex);
+                }
+                buttonGroupData.onChangeList!(indexList);
+              }
+              break;
+          }
+        },
+        builder: (_isTap) {
+          super.isTap = _isTap;
+          return buildButton();
+        },
       ),
     );
   }
@@ -51,34 +80,6 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
   @override
   void onEnterEvent(PointerEnterEvent event) {
     buttonGroupData.setOnEnterIndex(currentIndex);
-  }
-
-  @override
-  void onTapEvent() {
-    switch (buttonGroupData.buttonGroupType) {
-      case _ButtonGroupType.base:
-        if (buttonGroupData.onPressed != null) buttonGroupData.onPressed!(currentIndex);
-        break;
-      case _ButtonGroupType.single:
-        if (buttonGroupData.onChange != null) {
-          if (buttonGroupData.index != currentIndex) {
-            buttonGroupData.onChange!(currentIndex);
-          }
-        }
-        break;
-      case _ButtonGroupType.multiple:
-        if (buttonGroupData.onChangeList != null) {
-          List<int> indexList = buttonGroupData.indexList;
-          int targetIndex = indexList.indexOf(currentIndex);
-          if (targetIndex == -1) {
-            indexList.add(currentIndex);
-          } else {
-            indexList.removeAt(targetIndex);
-          }
-          buttonGroupData.onChangeList!(indexList);
-        }
-        break;
-    }
   }
 
   void buildButtonItemTheme() {
@@ -164,13 +165,9 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
     // 如果只有2个button组成，那么只需要简单计算动态切换左右边框即可
     if (childrenLength == 2) {
       if (currentIndex == 0) {
-        return buttonGroupData.onEnterIndex == currentIndex
-            ? allBorder
-            : Border(top: borderSide, left: borderSide, bottom: borderSide);
+        return buttonGroupData.onEnterIndex == currentIndex ? allBorder : Border(top: borderSide, left: borderSide, bottom: borderSide);
       } else {
-        return buttonGroupData.onEnterIndex == currentIndex
-            ? allBorder
-            : Border(top: borderSide, right: borderSide, bottom: borderSide);
+        return buttonGroupData.onEnterIndex == currentIndex ? allBorder : Border(top: borderSide, right: borderSide, bottom: borderSide);
       }
     }
     // 2个以上的button组成的按钮组，需要额外考虑中间的button边框计算
@@ -298,9 +295,8 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
   Widget buildButton() {
     return Container(
       height: $buttonHeight,
-      padding: border == null
-          ? EdgeInsets.symmetric(horizontal: $buttonHorizontal)
-          : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
+      padding:
+          border == null ? EdgeInsets.symmetric(horizontal: $buttonHorizontal) : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
       decoration: BoxDecoration(
         color: bgColor,
         border: border,
@@ -354,9 +350,9 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
       iconColor = iconColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
-      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
-      iconColor = super.onTap || super.onHover ? $primaryColor : iconColor;
-      borderColor = super.onTap
+      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = super.isTap || super.onHover ? $primaryColor : iconColor;
+      borderColor = super.isTap
           ? $primaryColor
           : super.onHover
               ? $primaryColor.withOpacity(0.2)
@@ -377,7 +373,7 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
       border = null;
     } else {
-      bgColor = super.onTap
+      bgColor = super.isTap
           ? themeColor.darken(15)
           : super.onHover
               ? themeColor.withOpacity(0.8)
@@ -419,12 +415,12 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
       textColor = textColor!.withAlpha(_disabledTextAlpha);
     } else {
       bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
-      borderColor = super.onTap
+      borderColor = super.isTap
           ? $primaryColor
           : super.onHover
               ? $primaryColor.withOpacity(0.2)
               : $defaultBorderColor;
-      textColor = super.onTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
     }
     border = Border.all(color: borderColor!);
     borderRadius = BorderRadius.circular($radius);
@@ -437,7 +433,7 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {
-      bgColor = super.onTap
+      bgColor = super.isTap
           ? bgColor!.darken(15)
           : super.onHover
               ? bgColor!.withOpacity(0.8)
@@ -453,9 +449,7 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
       child: Container(
         height: $buttonHeight,
         // width: 40,
-        padding: border == null
-            ? EdgeInsets.symmetric(horizontal: _horizontal)
-            : EdgeInsets.symmetric(horizontal: _horizontal - 1),
+        padding: border == null ? EdgeInsets.symmetric(horizontal: _horizontal) : EdgeInsets.symmetric(horizontal: _horizontal - 1),
         decoration: BoxDecoration(
           color: bgColor,
           border: border,

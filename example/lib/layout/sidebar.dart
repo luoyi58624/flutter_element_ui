@@ -30,6 +30,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   title: 'Color 颜色',
                   path: '/components/basic/color',
                 ),
+                ElMenuModel(
+                  title: 'Font 字体',
+                  path: '/components/basic/font',
+                ),
               ],
             ),
             ElMenuModel(
