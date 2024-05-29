@@ -16,6 +16,7 @@ dependencies:
   mini_getx: ^5.0.0
   flutter_svg: ^2.0.10+1
   super_sliver_list: ^0.4.1
+  web: ^0.5.1
 
 dev_dependencies:
   flutter_test:

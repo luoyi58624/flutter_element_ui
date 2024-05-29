@@ -62,11 +62,19 @@ class ElApp extends StatelessWidget {
             : themeMode == ThemeMode.light
                 ? Brightness.light
                 : Brightness.dark,
-        child: WidgetsApp.router(
-          color: Colors.transparent,
-          routerConfig: routerConfig,
-          builder: builder,
-        ),
+        child: Builder(builder: (context) {
+          return DefaultTextStyle(
+            style: TextStyle(
+              fontFamily: context.elConfig.fontFamily,
+              color: context.elTheme.textColor,
+            ),
+            child: WidgetsApp.router(
+              color: Colors.transparent,
+              routerConfig: routerConfig,
+              builder: builder,
+            ),
+          );
+        }),
       ),
     );
   }
