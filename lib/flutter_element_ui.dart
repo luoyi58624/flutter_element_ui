@@ -5,15 +5,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/src/foundation/change_notifier.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-import 'package:mini_getx/mini_getx.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
+export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show BrightnessWidget, BrightnessContextExtension;
 
+part 'src/app.dart';
 
-part 'src/components/basic/config_provider.dart';
+part 'src/extension.dart';
 
 part 'src/components/basic/button.dart';
 
@@ -22,6 +22,10 @@ part 'src/components/basic/button_group.dart';
 part 'src/components/basic/button_item.dart';
 
 part 'src/components/basic/container.dart';
+
+part 'src/components/basic/icon.dart';
+
+part 'src/components/basic/theme.dart';
 
 part 'src/components/data/skeleton_item.dart';
 
@@ -35,9 +39,15 @@ part 'src/components/data/table/table_scroll.dart';
 
 part 'src/components/data/table/config.dart';
 
+part 'src/components/data/card.dart';
+
+part 'src/components/data/image.dart';
+
 part 'src/components/feedback/dialog.dart';
 
 part 'src/components/feedback/loading.dart';
+
+part 'src/components/feedback/message.dart';
 
 part 'src/components/form/form.dart';
 
@@ -85,8 +95,6 @@ part 'src/components/breadcrumb.dart';
 
 part 'src/components/calendar.dart';
 
-part 'src/components/card.dart';
-
 part 'src/components/carousel.dart';
 
 part 'src/components/carousel_item.dart';
@@ -119,10 +127,6 @@ part 'src/components/dropdown_item.dart';
 
 part 'src/components/empty.dart';
 
-part 'src/components/icon.dart';
-
-part 'src/components/image.dart';
-
 part 'src/components/infinite_scroll.dart';
 
 part 'src/components/navigation/menu.dart';
@@ -153,8 +157,6 @@ part 'src/mixins/mouse.dart';
 
 part 'src/mixins/tap.dart';
 
-part 'src/mixins/theme.dart';
-
 part 'src/styles/icons.dart';
 
 part 'src/styles/theme.dart';
@@ -164,9 +166,3 @@ part 'src/styles/config.dart';
 part 'src/utils/common.dart';
 
 part 'src/widgets/loading.dart';
-
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}

@@ -59,7 +59,7 @@ class ElTable extends StatefulWidget {
   State<ElTable> createState() => _ElTableState();
 }
 
-class _ElTableState extends State<ElTable> with ElThemeMixin {
+class _ElTableState extends State<ElTable> {
   final ValueNotifier<int> hoverIndex = ValueNotifier<int>(-1);
 
   /// 垂直滚动控制器
@@ -259,7 +259,7 @@ class _ElTableState extends State<ElTable> with ElThemeMixin {
     return Container(
       height: widget.height,
       decoration: BoxDecoration(
-        border: Border.all(color: $defaultBorderColor),
+        border: Border.all(color: context.elTheme.borderColor),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         var columnMaxWidth = getColumnMaxWidth(constraints);

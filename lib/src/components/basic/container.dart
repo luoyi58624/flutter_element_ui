@@ -37,7 +37,7 @@ class ElHeader extends ElChildContainer {
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      color: ElAppData.of(context).currentTheme.headerColor,
+      color: context.elTheme.headerColor,
       child: child,
     );
   }
@@ -54,7 +54,7 @@ class ElMain extends ElChildContainer {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: ElAppData.of(context).currentTheme.mainColor,
+      color: context.elTheme.mainColor,
       child: child,
     );
   }

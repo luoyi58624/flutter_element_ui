@@ -1,6 +1,7 @@
 name: flutter_element_ui
 description: "A new Flutter project."
 version: 0.0.1
+publish_to: none
 
 environment:
   sdk: '>=3.2.6 <4.0.0'
@@ -14,6 +15,7 @@ dependencies:
       url: https://github.com/luoyi58624/luoyi_flutter_base
   mini_getx: ^5.0.0
   flutter_svg: ^2.0.10+1
+  super_sliver_list: ^0.4.1
 
 dev_dependencies:
   flutter_test:

@@ -3,47 +3,23 @@ import 'package:flutter/material.dart';
 import 'global.dart';
 
 void main() async {
-  await initApp();
-  Get.put(GlobalController());
   runApp(const _App());
 }
 
 class _App extends StatelessWidget {
   const _App();
 
-  ThemeData _buildTheme() {
-    return ThemeData(
-      brightness: GlobalController.of.useDark.value ? Brightness.dark : Brightness.light,
-      fontFamily: 'NotoSansSC',
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SafeArea(
-        child: AppWidget(
-          child: MaterialApp.router(
+    return SafeArea(
+      child: ValueListenableBuilder(
+        valueListenable: GlobalState.themeMode,
+        builder: (context, value, _) {
+          return ElApp(
             routerConfig: router,
-            theme: _buildTheme(),
-            // builder: (context, child) => Material(
-            //   child: ElConfigProvider(
-            //     useDark: GlobalController.of.useDark.value,
-            //     config: GlobalController.of.elConfigData.value,
-            //     child: child!,
-            //   ),
-            // ),
-            builder: AppWidget.builder(
-              (context, child) => Material(
-                child: ElConfigProvider(
-                  useDark: GlobalController.of.useDark.value,
-                  config: GlobalController.of.elConfigData.value,
-                  child: child!,
-                ),
-              ),
-            ),
-          ),
-        ),
+            themeMode: value,
+          );
+        },
       ),
     );
   }

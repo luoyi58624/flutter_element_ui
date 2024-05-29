@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
 
 class ButtonPage extends StatefulWidget {
   const ButtonPage({super.key});
@@ -90,7 +89,8 @@ class _ButtonPageState extends State<ButtonPage> {
                 ElButton(onPressed: onPressed, type: ElThemeType.warning, childText),
                 ElButton(onPressed: onPressed, type: ElThemeType.error, childText),
                 ElIconButton(const ElIcon(Icons.search), onPressed: onPressed),
-                ElIconButton(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary),
+                ElIconButton(const ElIcon(Icons.edit_calendar_outlined),
+                    onPressed: onPressed, type: ElThemeType.primary),
               ],
             ),
             const SizedBox(height: 8),
@@ -151,7 +151,8 @@ class _ButtonPageState extends State<ButtonPage> {
               runSpacing: 8,
               children: [
                 ElIconButton(const ElIcon(Icons.search), onPressed: onPressed, disabled: true),
-                ElIconButton(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary),
+                ElIconButton(const ElIcon(Icons.edit_calendar_outlined),
+                    onPressed: onPressed, type: ElThemeType.primary),
                 ElIconButton(const ElIcon(Icons.check), onPressed: onPressed, type: ElThemeType.success),
                 ElIconButton(const ElIcon(Icons.email_outlined), onPressed: onPressed, type: ElThemeType.info),
                 ElIconButton(const ElIcon(Icons.delete), onPressed: onPressed, type: ElThemeType.warning),
@@ -169,11 +170,14 @@ class _ButtonPageState extends State<ButtonPage> {
               runSpacing: 8,
               children: [
                 ElIconButton(const ElIcon(Icons.search), onPressed: onPressed, circle: true),
-                ElIconButton(const ElIcon(Icons.edit_calendar_outlined), onPressed: onPressed, type: ElThemeType.primary, circle: true),
+                ElIconButton(const ElIcon(Icons.edit_calendar_outlined),
+                    onPressed: onPressed, type: ElThemeType.primary, circle: true),
                 ElIconButton(const ElIcon(Icons.check), onPressed: onPressed, type: ElThemeType.success, circle: true),
-                ElIconButton(const ElIcon(Icons.email_outlined), onPressed: onPressed, type: ElThemeType.info, circle: true),
+                ElIconButton(const ElIcon(Icons.email_outlined),
+                    onPressed: onPressed, type: ElThemeType.info, circle: true),
                 ElIconButton(const ElIcon(Icons.delete), onPressed: onPressed, type: ElThemeType.warning, circle: true),
-                ElIconButton(const ElIcon(Icons.access_alarm), onPressed: onPressed, type: ElThemeType.error, circle: true),
+                ElIconButton(const ElIcon(Icons.access_alarm),
+                    onPressed: onPressed, type: ElThemeType.error, circle: true),
               ],
             ),
             const SizedBox(height: 8),
@@ -184,7 +188,8 @@ class _ButtonPageState extends State<ButtonPage> {
                 ElButton(onPressed: onPressed, childText, leftIcon: Icons.arrow_back_ios),
                 ElButton(onPressed: onPressed, childText, rightIcon: Icons.arrow_forward_ios),
                 ElButton(onPressed: onPressed, type: ElThemeType.primary, childText, leftIcon: Icons.arrow_back_ios),
-                ElButton(onPressed: onPressed, type: ElThemeType.success, childText, rightIcon: Icons.arrow_forward_ios),
+                ElButton(
+                    onPressed: onPressed, type: ElThemeType.success, childText, rightIcon: Icons.arrow_forward_ios),
               ],
             ),
             const SizedBox(height: 8),
@@ -218,9 +223,15 @@ class _ButtonPageState extends State<ButtonPage> {
               runSpacing: 8,
               children: [
                 ElIconButton(onPressed: onLoading, const ElIcon(Icons.check), loading: loading),
-                ElIconButton(onPressed: onLoading, type: ElThemeType.primary, const ElIcon(Icons.check), loading: loading),
+                ElIconButton(
+                    onPressed: onLoading, type: ElThemeType.primary, const ElIcon(Icons.check), loading: loading),
                 ElIconButton(onPressed: onLoading, const ElIcon(Icons.check), loading: loading, circle: true),
-                ElIconButton(onPressed: onLoading, type: ElThemeType.primary, const ElIcon(Icons.check), loading: loading, circle: true),
+                ElIconButton(
+                    onPressed: onLoading,
+                    type: ElThemeType.primary,
+                    const ElIcon(Icons.check),
+                    loading: loading,
+                    circle: true),
               ],
             ),
             const SizedBox(height: 8),
@@ -397,14 +408,6 @@ class _ButtonPageState extends State<ButtonPage> {
                 ElIconButtonItem(key: ValueKey(1), ElIcon(Icons.access_alarm)),
                 ElIconButtonItem(key: ValueKey(2), ElIcon(Icons.edit_calendar_outlined)),
               ],
-            ),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: List.generate(
-                100,
-                    (index) => ElButton(onPressed: onPressed, type: ElThemeType.primary, childText),
-              ).toList(),
             ),
           ],
         ),

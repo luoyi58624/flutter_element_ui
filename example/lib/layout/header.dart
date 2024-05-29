@@ -1,7 +1,5 @@
 import 'package:example/global.dart';
-import 'package:example/state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
 
 class LayoutHeaderWidget extends StatefulWidget {
   const LayoutHeaderWidget({super.key});
@@ -10,13 +8,13 @@ class LayoutHeaderWidget extends StatefulWidget {
   State<LayoutHeaderWidget> createState() => _LayoutHeaderWidgetState();
 }
 
-class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> with ElMouseMixin, ElThemeMixin {
+class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        buildMouseWidget(
-          child: GestureDetector(
+        HoverBuilder(
+          builder: (isHover) => GestureDetector(
             onTap: () {
               GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
                 isCollapse: !GlobalState.elMenu.value.isCollapse,
@@ -25,7 +23,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> with ElMouseMix
             child: Container(
               width: 64,
               height: double.infinity,
-              color: onHover ? $headerColor.deepen(15) : null,
+              color: context.elTheme.headerColor.onHover(context, isHover),
               child: Center(
                 child: ValueListenableBuilder(
                   valueListenable: GlobalState.elMenu,

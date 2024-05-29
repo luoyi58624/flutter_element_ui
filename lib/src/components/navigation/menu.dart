@@ -100,7 +100,7 @@ class ElMenu extends StatefulWidget {
 }
 
 class _ElMenuState extends State<ElMenu> {
-  Color get background => widget.background ?? ElAppData.of(context).currentTheme.menuBackground;
+  Color get background => widget.background ?? context.elTheme.menuBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -241,21 +241,21 @@ class _MenuItemContentWidget extends StatefulWidget {
   State<_MenuItemContentWidget> createState() => _MenuItemContentWidgetState();
 }
 
-class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElMouseMixin, ElThemeMixin {
+class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
   Color get parentBgColor => _ElMenuData.of(context).background;
 
   String? get activePath => _ElMenuData.of(context).activePath;
 
   String? get currentPath => widget.menuItem.path;
 
-  Color get _textColor => parentBgColor.isDark ? $textWhiteColor : $textBlackColor;
+  Color get _textColor => parentBgColor.isDark ? context.darkTheme.textColor : context.theme.textColor;
 
   Color get menuItemColor {
     if (currentPath == '/') {
-      return activePath == '/' ? $menuActiveColor : _textColor;
+      return activePath == '/' ? context.elTheme.menuActiveColor : _textColor;
     } else {
       if (activePath != null && currentPath != null && activePath!.contains(currentPath!)) {
-        return $menuActiveColor;
+        return context.elTheme.menuActiveColor;
       }
     }
     return _textColor;
@@ -265,14 +265,14 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> with ElM
 
   @override
   Widget build(BuildContext context) {
-    return buildMouseWidget(
-      child: AnimatedContainer(
+    return HoverBuilder(
+      builder: (isHover) => AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
-          color: onHover ? hoverColor : parentBgColor,
+          color: isHover ? hoverColor : parentBgColor,
         ),
         child: Row(
           children: [

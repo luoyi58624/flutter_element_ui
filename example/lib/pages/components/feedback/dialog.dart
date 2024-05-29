@@ -1,5 +1,6 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DialogPage extends StatefulWidget {
   const DialogPage({super.key});
@@ -25,8 +26,8 @@ class _DialogPageState extends State<DialogPage> {
                 confirmButtonType: ElThemeType.error,
                 confirmLoadingText: '删除中...',
                 onConfirm: () async {
-                  await 2.delay();
-                  ToastUtil.show('删除成功');
+                  await Future.delayed(Duration(seconds: 2));
+                  ElMessage.show('删除成功');
                 },
               );
             },

@@ -86,11 +86,11 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
     if (buttonGroupData.type == null) {
       buildDefaultTheme();
       border = caleDefaultButtonGroupBorder(borderColor!);
-      borderRadius = caleButtonGroupBorderRadius($radius);
+      borderRadius = caleButtonGroupBorderRadius(context.elConfig.buttonRadius);
     } else {
       buildTypeTheme(buttonGroupData.type!);
       border = caleTypeButtonGroupBorder();
-      borderRadius = caleButtonGroupBorderRadius($radius);
+      borderRadius = caleButtonGroupBorderRadius(context.elConfig.buttonRadius);
     }
     switch (buttonGroupData.buttonGroupType) {
       case _ButtonGroupType.base:
@@ -98,29 +98,29 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
       case _ButtonGroupType.single:
         if (currentIndex == buttonGroupData.index) {
           if (buttonGroupData.type == null) {
-            bgColor = $primaryColor.withOpacity(0.1);
-            textColor = $primaryColor;
-            iconColor = $primaryColor;
+            bgColor = context.elTheme.primary.withOpacity(0.1);
+            textColor = context.elTheme.primary;
+            iconColor = context.elTheme.primary;
           } else {
             bgColor = getThemeTypeColor(buttonGroupData.type!);
-            textColor = $textWhiteColor;
-            iconColor = $textWhiteColor;
+            textColor = ElTheme.darkTheme(context).textColor;
+            iconColor = ElTheme.darkTheme(context).textColor;
           }
         } else {
           bgColor = null;
           if (buttonGroupData.type == null) {
             textColor = disabledButton
-                ? $textColor.withAlpha(_disabledTextAlpha)
+                ? context.elTheme.textColor.withAlpha(_disabledTextAlpha)
                 : onHover
-                    ? $primaryColor
-                    : $textColor;
+                    ? context.elTheme.primary
+                    : context.elTheme.textColor;
             iconColor = textColor;
           } else {
             textColor = disabledButton
-                ? $textColor.withAlpha(_disabledTextAlpha)
+                ? context.elTheme.textColor.withAlpha(_disabledTextAlpha)
                 : onHover
                     ? getThemeTypeColor(buttonGroupData.type!)
-                    : $textColor;
+                    : context.elTheme.textColor;
             iconColor = textColor;
           }
         }
@@ -128,29 +128,29 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
       case _ButtonGroupType.multiple:
         if (buttonGroupData.indexList.contains(currentIndex)) {
           if (buttonGroupData.type == null) {
-            bgColor = $primaryColor.withOpacity(0.1);
-            textColor = $primaryColor;
-            iconColor = $primaryColor;
+            bgColor = context.elTheme.primary.withOpacity(0.1);
+            textColor = context.elTheme.primary;
+            iconColor = context.elTheme.primary;
           } else {
             bgColor = getThemeTypeColor(buttonGroupData.type!);
-            textColor = $textWhiteColor;
-            iconColor = $textWhiteColor;
+            textColor = ElTheme.darkTheme(context).textColor;
+            iconColor = ElTheme.darkTheme(context).textColor;
           }
         } else {
           bgColor = null;
           if (buttonGroupData.type == null) {
             textColor = disabledButton
-                ? $textColor.withAlpha(_disabledTextAlpha)
+                ? context.elTheme.textColor.withAlpha(_disabledTextAlpha)
                 : onHover
-                    ? $primaryColor
-                    : $textColor;
+                    ? context.elTheme.primary
+                    : context.elTheme.textColor;
             iconColor = textColor;
           } else {
             textColor = disabledButton
-                ? $textColor.withAlpha(_disabledTextAlpha)
+                ? context.elTheme.textColor.withAlpha(_disabledTextAlpha)
                 : onHover
                     ? getThemeTypeColor(buttonGroupData.type!)
-                    : $textColor;
+                    : context.elTheme.textColor;
             iconColor = textColor;
           }
         }
@@ -165,9 +165,13 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
     // 如果只有2个button组成，那么只需要简单计算动态切换左右边框即可
     if (childrenLength == 2) {
       if (currentIndex == 0) {
-        return buttonGroupData.onEnterIndex == currentIndex ? allBorder : Border(top: borderSide, left: borderSide, bottom: borderSide);
+        return buttonGroupData.onEnterIndex == currentIndex
+            ? allBorder
+            : Border(top: borderSide, left: borderSide, bottom: borderSide);
       } else {
-        return buttonGroupData.onEnterIndex == currentIndex ? allBorder : Border(top: borderSide, right: borderSide, bottom: borderSide);
+        return buttonGroupData.onEnterIndex == currentIndex
+            ? allBorder
+            : Border(top: borderSide, right: borderSide, bottom: borderSide);
       }
     }
     // 2个以上的button组成的按钮组，需要额外考虑中间的button边框计算
@@ -206,7 +210,7 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
 
   /// 计算拥有主题类型的按钮组的边框
   Border? caleTypeButtonGroupBorder() {
-    BorderSide borderSide = BorderSide(color: $defaultBorderColor, width: 0.5);
+    BorderSide borderSide = BorderSide(color: context.elTheme.borderColor, width: 0.5);
     BorderSide verticalBorderSide = selected ? BorderSide.none : borderSide;
     if (currentIndex == 0) {
       return Border(
@@ -294,9 +298,10 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
   @override
   Widget buildButton() {
     return Container(
-      height: $buttonHeight,
-      padding:
-          border == null ? EdgeInsets.symmetric(horizontal: $buttonHorizontal) : EdgeInsets.symmetric(horizontal: $buttonHorizontal - 1),
+      height: context.elConfig.buttonHeight,
+      padding: border == null
+          ? EdgeInsets.symmetric(horizontal: context.elConfig.buttonHorizontal)
+          : EdgeInsets.symmetric(horizontal: context.elConfig.buttonHorizontal - 1),
       decoration: BoxDecoration(
         color: bgColor,
         border: border,
@@ -312,7 +317,7 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
                   padding: const EdgeInsets.only(right: 4),
                   child: ElDefaultIconStyle(
                     color: iconColor,
-                    size: $buttonIconSize,
+                    size: context.elConfig.buttonIconSize,
                     child: widget.leftIcon!,
                   ),
                 ),
@@ -328,7 +333,7 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
                   padding: const EdgeInsets.only(left: 4),
                   child: ElDefaultIconStyle(
                     color: iconColor,
-                    size: $buttonIconSize,
+                    size: context.elConfig.buttonIconSize,
                     child: widget.rightIcon!,
                   ),
                 ),
@@ -341,32 +346,32 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
 
   @override
   void buildDefaultTheme() {
-    textColor = $textColor;
+    textColor = context.elTheme.textColor;
     iconColor = textColor!.withAlpha(_defaultTextAlpha);
-    borderColor = $defaultBorderColor;
+    borderColor = context.elTheme.borderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
       textColor = textColor!.withAlpha(_disabledTextAlpha);
       iconColor = iconColor!.withAlpha(_disabledTextAlpha);
     } else {
-      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
-      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
-      iconColor = super.isTap || super.onHover ? $primaryColor : iconColor;
+      bgColor = super.onHover ? context.elTheme.primary.withOpacity(0.1) : null;
+      textColor = super.isTap || super.onHover ? context.elTheme.primary : textColor!.withAlpha(_defaultTextAlpha);
+      iconColor = super.isTap || super.onHover ? context.elTheme.primary : iconColor;
       borderColor = super.isTap
-          ? $primaryColor
+          ? context.elTheme.primary
           : super.onHover
-              ? $primaryColor.withOpacity(0.2)
-              : $defaultBorderColor;
+              ? context.elTheme.primary.withOpacity(0.2)
+              : context.elTheme.borderColor;
     }
 
     border = Border.all(color: borderColor!);
-    borderRadius = BorderRadius.circular($radius);
+    borderRadius = BorderRadius.circular(context.elConfig.buttonRadius);
   }
 
   @override
   void buildTypeTheme(ElThemeType type) {
     Color themeColor = getThemeTypeColor(type);
-    textColor = $textWhiteColor;
+    textColor = ElTheme.darkTheme(context).textColor;
     iconColor = textColor;
     bgColor = themeColor;
     if (super.disabledButton) {
@@ -379,7 +384,7 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
               ? themeColor.withOpacity(0.8)
               : bgColor;
     }
-    borderRadius = BorderRadius.circular($radius);
+    borderRadius = BorderRadius.circular(context.elConfig.buttonRadius);
   }
 }
 
@@ -398,7 +403,7 @@ class ElIconButtonItem extends _ButtonItem {
 }
 
 class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
-  double get _horizontal => ($buttonHeight - $buttonIconSize / 2) / 2;
+  double get _horizontal => (context.elConfig.buttonHeight - context.elConfig.buttonIconSize / 2) / 2;
 
   @override
   _ElIconButtonGroupData get buttonGroupData => _ElIconButtonGroupData.of(context);
@@ -408,28 +413,28 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
 
   @override
   void buildDefaultTheme() {
-    textColor = $textColor;
-    borderColor = $defaultBorderColor;
+    textColor = context.elTheme.textColor;
+    borderColor = context.elTheme.borderColor;
     if (super.disabledButton) {
       borderColor = borderColor!.withOpacity(_disabledOpacity);
       textColor = textColor!.withAlpha(_disabledTextAlpha);
     } else {
-      bgColor = super.onHover ? $primaryColor.withOpacity(0.1) : null;
+      bgColor = super.onHover ? context.elTheme.primary.withOpacity(0.1) : null;
       borderColor = super.isTap
-          ? $primaryColor
+          ? context.elTheme.primary
           : super.onHover
-              ? $primaryColor.withOpacity(0.2)
-              : $defaultBorderColor;
-      textColor = super.isTap || super.onHover ? $primaryColor : textColor!.withAlpha(_defaultTextAlpha);
+              ? context.elTheme.primary.withOpacity(0.2)
+              : context.elTheme.borderColor;
+      textColor = super.isTap || super.onHover ? context.elTheme.primary : textColor!.withAlpha(_defaultTextAlpha);
     }
     border = Border.all(color: borderColor!);
-    borderRadius = BorderRadius.circular($radius);
+    borderRadius = BorderRadius.circular(context.elConfig.buttonRadius);
   }
 
   @override
   void buildTypeTheme(ElThemeType type) {
     bgColor = getThemeTypeColor(type);
-    textColor = $textWhiteColor;
+    textColor = ElTheme.darkTheme(context).textColor;
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {
@@ -439,7 +444,7 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
               ? bgColor!.withOpacity(0.8)
               : bgColor;
     }
-    borderRadius = BorderRadius.circular($radius);
+    borderRadius = BorderRadius.circular(context.elConfig.buttonRadius);
   }
 
   @override
@@ -447,9 +452,11 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
     super.buildButtonItemTheme();
     return UnconstrainedBox(
       child: Container(
-        height: $buttonHeight,
+        height: context.elConfig.buttonHeight,
         // width: 40,
-        padding: border == null ? EdgeInsets.symmetric(horizontal: _horizontal) : EdgeInsets.symmetric(horizontal: _horizontal - 1),
+        padding: border == null
+            ? EdgeInsets.symmetric(horizontal: _horizontal)
+            : EdgeInsets.symmetric(horizontal: _horizontal - 1),
         decoration: BoxDecoration(
           color: bgColor,
           border: border,
@@ -458,11 +465,11 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
         child: Center(
           child: widget.loading
               ? widget.loadingBuilder == null
-                  ? ElLoading(size: $buttonIconSize, color: textColor)
+                  ? ElLoading(size: context.elConfig.buttonIconSize, color: textColor)
                   : widget.loadingBuilder!(textColor!)
               : ElDefaultIconStyle(
                   color: textColor,
-                  size: $buttonIconSize,
+                  size: context.elConfig.buttonIconSize,
                   child: widget.icon,
                 ),
         ),

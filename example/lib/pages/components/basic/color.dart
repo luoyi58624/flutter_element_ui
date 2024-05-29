@@ -32,10 +32,17 @@ class _ColorPageState extends State<ColorPage> {
 
   @override
   Widget build(BuildContext context) {
+    Map<ElThemeType, Color> themeColors = {
+      ElThemeType.primary: context.elTheme.primary,
+      ElThemeType.success: context.elTheme.success,
+      ElThemeType.info: context.elTheme.info,
+      ElThemeType.warning: context.elTheme.warning,
+      ElThemeType.error: context.elTheme.error,
+    };
     List<List<Color>> colors1 = [];
     List<List<Color>> colors2 = [];
     int count = 5;
-    ElAppData.of(context).themeColors.forEach((key, value) {
+    themeColors.forEach((key, value) {
       List<Color> themeColors = [];
       for (int i = count; i >= 1; i--) {
         themeColors.add(value.brighten(15 * i));
@@ -47,7 +54,7 @@ class _ColorPageState extends State<ColorPage> {
       colors1.add(themeColors);
     });
 
-    ElAppData.of(context).themeColors.forEach((key, value) {
+    themeColors.forEach((key, value) {
       colors2.add(generaColors(value));
     });
 

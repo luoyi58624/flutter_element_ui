@@ -1,6 +1,6 @@
 part of flutter_element_ui;
 
-/// Element UI 主题类型，所有组件均围绕以下5种类型设计
+/// Element UI 主题类型
 enum ElThemeType {
   primary,
   success,
@@ -9,14 +9,16 @@ enum ElThemeType {
   error,
 }
 
-/// Element UI 颜色主题对象
+/// Element UI 主题对象
 class ElThemeData {
-  static const Color white = Color(0xffffffff);
-  static const Color black = Color(0xff000000);
-  static const Color transparent = Color(0x00000000);
+  /// 默认亮色主题对象
+  static ElThemeData theme = ElThemeData();
 
-  /// 当前主题模式
-  Brightness brightness;
+  /// 默认暗色主题对象
+  static ElThemeData darkTheme = ElThemeData.dark();
+
+  /// 描述当前主题系统是否是亮色、暗色
+  final Brightness brightness;
 
   /// 主要颜色
   Color primary;
@@ -33,29 +35,46 @@ class ElThemeData {
   /// 错误颜色
   Color error;
 
-  /// 全局背景白色
-  Color bgColor;
-
-  /// 头部导航栏背景颜色
-  Color headerColor;
-
-  /// 主要区域背景颜色
+  /// 主要背景色、全局背景色
   Color mainColor;
 
-  /// 全局文字颜色
+  /// 头部背景颜色，亮色模式下默认使用[primary]
+  late Color headerColor;
+
+  /// 卡片背景色，默认使用[mainColor]更深的颜色
+  late Color cardColor;
+
+  /// 模态弹窗背景色，亮色模式下默认使用[mainColor]
+  late Color modalColor;
+
+  /// 文字颜色
   Color textColor;
 
-  /// 默认的icon颜色
+  /// icon颜色
   Color iconColor;
 
-  /// 默认的边框颜色
-  Color defaultBorderColor;
+  /// 边框颜色
+  Color borderColor;
 
   /// 菜单栏背景色
   Color menuBackground;
 
   /// 菜单栏激活文字颜色
   Color menuActiveColor;
+
+  /// 卡片海拔高度，设置较低的海拔能让应用更加扁平化，设置较高的海拔则让应用更具层级感
+  double cardElevation;
+
+  /// 模态弹窗海拔高度
+  double modalElevation;
+
+  /// 根据字体颜色自动创建一组次级颜色: 0 - 5
+  List<Color> get textColors =>
+      List.generate(6, (index) => textColor.deepen(4 * (index + 1), darkScale: 8 * (index + 1)));
+
+  /// 根据图标颜色自动创建一组次级颜色: 0 - 5
+  List<Color> get iconColors =>
+      List.generate(6, (index) => iconColor.deepen(4 * (index + 1), darkScale: 8 * (index + 1)));
 
   /// 默认的亮色主题构造函数
   ElThemeData({
@@ -65,15 +84,21 @@ class ElThemeData {
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffe6a23c),
     this.error = const Color(0xfff56c6c),
-    this.bgColor = const Color(0xffffffff),
-    this.headerColor = const Color(0xfff3f4f6),
-    this.mainColor = const Color(0xffffffff),
+    this.mainColor = const Color(0xfffafafa),
+    Color? headerColor,
+    this.cardColor = const Color(0xffffffff),
+    Color? modalColor,
     this.textColor = const Color(0xff1f1f1f),
-    this.iconColor = const Color(0xff1f1f1f),
-    this.defaultBorderColor = const Color(0xffdcdfe6),
+    this.iconColor = const Color(0xff1b1e23),
+    this.borderColor = const Color(0xffdcdfe6),
     this.menuBackground = const Color(0xff565c64),
     this.menuActiveColor = const Color(0xffffd04b),
-  });
+    this.cardElevation = 0,
+    this.modalElevation = 2,
+  }) {
+    this.headerColor = headerColor ?? primary;
+    this.modalColor = modalColor ?? mainColor;
+  }
 
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
@@ -83,32 +108,57 @@ class ElThemeData {
     this.info = const Color(0xff64748B),
     this.warning = const Color(0xfffbbf24),
     this.error = const Color(0xfffb7185),
-    this.bgColor = const Color(0xff000000),
-    this.headerColor = const Color(0xff404040),
     this.mainColor = const Color(0xff2b2b2b),
+    Color? headerColor = const Color(0xff404040),
+    this.cardColor = const Color(0xffffffff),
+    Color? modalColor = const Color(0xff3c3f41),
     this.textColor = const Color(0xfff6f6f6),
     this.iconColor = const Color(0xfff6f6f6),
-    this.defaultBorderColor = const Color(0xffa3a3a3),
+    this.borderColor = const Color(0xffa3a3a3),
     this.menuBackground = const Color(0xff374151),
     this.menuActiveColor = const Color(0xff6ee7b7),
-  });
+    this.cardElevation = 2,
+    this.modalElevation = 4,
+  }) {
+    this.headerColor = headerColor ?? primary;
+    this.modalColor = modalColor ?? mainColor;
+  }
 
-  /// 合并主题颜色，并返回新的主题对象
-  ElThemeData copyWith(ElThemeData? theme) {
-    brightness = theme?.brightness ?? brightness;
-    primary = theme?.primary ?? primary;
-    success = theme?.success ?? success;
-    info = theme?.info ?? info;
-    warning = theme?.warning ?? warning;
-    error = theme?.error ?? error;
-    bgColor = theme?.bgColor ?? bgColor;
-    headerColor = theme?.headerColor ?? headerColor;
-    mainColor = theme?.mainColor ?? mainColor;
-    textColor = theme?.textColor ?? textColor;
-    iconColor = theme?.iconColor ?? iconColor;
-    defaultBorderColor = theme?.defaultBorderColor ?? defaultBorderColor;
-    menuBackground = theme?.menuBackground ?? menuBackground;
-    menuActiveColor = theme?.menuActiveColor ?? menuActiveColor;
-    return this;
+  ElThemeData copyWith({
+    Color? primary,
+    Color? success,
+    Color? info,
+    Color? warning,
+    Color? error,
+    Color? mainColor,
+    Color? headerColor,
+    Color? cardColor,
+    Color? modalColor,
+    Color? textColor,
+    Color? iconColor,
+    Color? borderColor,
+    Color? menuBackground,
+    Color? menuActiveColor,
+    double? cardElevation,
+    double? modalElevation,
+  }) {
+    return ElThemeData(
+      primary: primary ?? this.primary,
+      success: success ?? this.success,
+      info: info ?? this.info,
+      warning: warning ?? this.warning,
+      error: error ?? this.error,
+      mainColor: mainColor ?? this.mainColor,
+      headerColor: headerColor ?? this.headerColor,
+      cardColor: cardColor ?? this.cardColor,
+      modalColor: modalColor ?? this.modalColor,
+      textColor: textColor ?? this.textColor,
+      iconColor: iconColor ?? this.iconColor,
+      borderColor: borderColor ?? this.borderColor,
+      menuBackground: menuBackground ?? this.menuBackground,
+      menuActiveColor: menuActiveColor ?? this.menuActiveColor,
+      cardElevation: cardElevation ?? this.cardElevation,
+      modalElevation: modalElevation ?? this.modalElevation,
+    );
   }
 }

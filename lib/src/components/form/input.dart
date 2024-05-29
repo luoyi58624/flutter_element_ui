@@ -7,7 +7,7 @@ class ElInput extends StatefulWidget {
   State<ElInput> createState() => _ElInputState();
 }
 
-class _ElInputState extends State<ElInput> with ElThemeMixin {
+class _ElInputState extends State<ElInput> {
   final TextEditingController controller = TextEditingController(text: '初始文本');
   final FocusNode focusNode = FocusNode();
 
@@ -47,30 +47,30 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: hasFocus ? $primaryColor : $defaultBorderColor),
-        borderRadius: BorderRadius.circular($radius),
+        border: Border.all(width: 1, color: hasFocus ? context.elTheme.primary : context.elTheme.borderColor),
+        borderRadius: BorderRadius.circular(context.elConfig.inputRadius),
       ),
       child: RepaintBoundary(
         child: EditableText(
           controller: controller,
           focusNode: focusNode,
           style: TextStyle(
-            color: $textColor,
+            color: context.elTheme.textColor,
             height: 1.8,
           ),
-          strutStyle: StrutStyle(
+          strutStyle: const StrutStyle(
             forceStrutHeight: true,
           ),
-          textHeightBehavior: TextHeightBehavior(
+          textHeightBehavior: const TextHeightBehavior(
             applyHeightToFirstAscent: false,
             applyHeightToLastDescent: false,
           ),
-          cursorColor: $textColor,
+          cursorColor: context.elTheme.textColor,
           cursorWidth: 1,
           cursorHeight: 18,
           cursorOffset: const Offset(0, 3),
-          backgroundCursorColor: $infoColor.withOpacity(0.6),
-          selectionColor: $primaryColor.withOpacity(0.6),
+          backgroundCursorColor: context.elTheme.info.withOpacity(0.6),
+          selectionColor: context.elTheme.primary.withOpacity(0.6),
           enableInteractiveSelection: true,
           enableSuggestions: false,
           enableIMEPersonalizedLearning: true,
@@ -84,8 +84,6 @@ class _ElInputState extends State<ElInput> with ElThemeMixin {
     );
   }
 }
-
-
 
 // class CustomTextSelected extends TextSelectionControls {
 //   /// Fluent has no text selection handles.

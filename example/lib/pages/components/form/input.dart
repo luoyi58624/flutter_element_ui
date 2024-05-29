@@ -27,7 +27,6 @@ class _InputPageState extends State<InputPage> {
                   SizedBox(height: 8),
                   ElInput(),
                   SizedBox(height: 8),
-                  FormTextFieldWidget(),
                 ],
               ),
             ),
