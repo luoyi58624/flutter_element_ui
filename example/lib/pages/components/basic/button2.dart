@@ -16,6 +16,7 @@ class Button2Page extends HookWidget {
           children: [
             const Gap(8),
             ElButton2(disabled ? 'Enabled' : 'Disabled', onClick: toggleDisabled),
+            ElButton2('你好'),
             const Gap(12),
             Text('普通按钮', style: context.h3),
             const Gap(8),

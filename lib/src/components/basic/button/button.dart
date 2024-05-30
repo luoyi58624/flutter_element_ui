@@ -1,6 +1,6 @@
 part of flutter_element_ui;
 
-const Duration _buttonAnimatedDuration = Duration(milliseconds: 50);
+const Duration _buttonAnimatedDuration = Duration(milliseconds: 100);
 
 class ElButton2 extends HookWidget {
   const ElButton2(
@@ -58,6 +58,7 @@ class ElButton2 extends HookWidget {
       builder: (isHover) => TapBuilder(
         onTap: onClick,
         disabled: disabled,
+        // delay: 50,
         builder: (isTap) => text
             ? _TextButton(child, type: type, round: round, block: block, disabled: disabled)
             : _BaseButton(

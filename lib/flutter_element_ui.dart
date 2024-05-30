@@ -7,7 +7,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart' hide TapBuilder;
 import 'package:super_sliver_list/super_sliver_list.dart';
 
 export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show BrightnessWidget, BrightnessContextExtension;
@@ -17,6 +17,8 @@ part 'src/app.dart';
 part 'src/extension.dart';
 
 part 'src/theme.dart';
+
+part 'src/components/basic/button/tap.dart';
 
 part 'src/components/basic/button/button.dart';
 

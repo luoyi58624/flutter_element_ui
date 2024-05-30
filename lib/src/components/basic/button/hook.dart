@@ -41,11 +41,13 @@ _BaseButtonStyle _useBaseButtonStyle(
                   ? primaryColor
                   : primaryColor.elThemeLightBg(context))
           : (isTap ? primaryColor : primaryColor.elThemeLightBg(context));
-      borderColor.value = isTap
-          ? primaryColor.elTap(context)
-          : isHover
-              ? primaryColor
-              : primaryColor.elThemeLightBorder(context);
+      borderColor.value = PlatformUtil.isDesktop
+          ? (isTap
+              ? primaryColor.elTap(context)
+              : isHover
+                  ? primaryColor
+                  : primaryColor.elThemeLightBorder(context))
+          : (isTap ? primaryColor : primaryColor.elThemeLightBorder(context));
     }
     // 主题按钮
     else {
