@@ -18,6 +18,13 @@ class _App extends StatelessWidget {
           return ElApp(
             routerConfig: router,
             brightness: value,
+            textStyle: TextStyle(
+              fontFamilyFallback: FlutterFont.fontFamilyFallback,
+            ),
+            builder: (context, child) => Theme(
+              data: ThemeData(),
+              child: child!,
+            ),
           );
         },
       ),
