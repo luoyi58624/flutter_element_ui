@@ -1,33 +1,65 @@
 part of flutter_element_ui;
 
-class ElTheme extends InheritedWidget {
-  ElTheme({
+class ElTheme extends StatelessWidget {
+  /// 注入 Element UI 主题系统
+  const ElTheme({
     super.key,
-    required super.child,
-    ElThemeData? theme,
-    ElThemeData? darkTheme,
-    ElConfigData? config,
-  }) {
-    _theme = theme ?? ElThemeData.theme;
-    _darkTheme = darkTheme ?? ElThemeData.darkTheme;
-    _config = config ?? ElConfigData.defaultConfig;
-  }
+    required this.child,
+    required this.config,
+    required this.theme,
+    required this.darkTheme,
+    this.brightness,
+    this.textStyle,
+  });
 
-  late final ElThemeData _theme;
-  late final ElThemeData _darkTheme;
-  late final ElConfigData _config;
+  final Widget child;
 
-  static ElTheme? _maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ElTheme>();
+  /// 全局配置
+  final ElConfigData config;
 
-  /// 通过上下文获取亮色主题
-  static ElThemeData theme(BuildContext context) => _maybeOf(context)?._theme ?? ElThemeData.theme;
+  /// 亮色主题
+  final ElThemeData theme;
 
-  /// 通过上下文获取暗色主题
-  static ElThemeData darkTheme(BuildContext context) => _maybeOf(context)?._darkTheme ?? ElThemeData.darkTheme;
+  /// 暗色主题
+  final ElThemeData darkTheme;
 
-  /// 通过上下文获取全局配置
-  static ElConfigData config(BuildContext context) => _maybeOf(context)?._config ?? ElConfigData.defaultConfig;
+  /// 指定暗色、亮色主题模式，如果为空，则跟随平台系统
+  final Brightness? brightness;
+
+  /// 全局[TextStyle]
+  final TextStyle? textStyle;
+
+  /// 通过上下文获取主题对象
+  static ElTheme of(BuildContext context) => _ElTheme.of(context);
 
   @override
-  bool updateShouldNotify(ElTheme oldWidget) => true;
+  Widget build(BuildContext context) {
+    return BrightnessWidget(
+      brightness: brightness,
+      child: Builder(builder: (context) {
+        TextStyle style = textStyle ?? const TextStyle();
+        return DefaultTextStyle(
+          style: style.copyWith(
+            color: context.isDark ? darkTheme.textColor : theme.textColor,
+          ),
+          child: _ElTheme(elTheme: this, child: child),
+        );
+      }),
+    );
+  }
+}
+
+class _ElTheme extends InheritedWidget {
+  const _ElTheme({required super.child, required this.elTheme});
+
+  final ElTheme elTheme;
+
+  static ElTheme of(BuildContext context) {
+    final result = context.dependOnInheritedWidgetOfExactType<_ElTheme>();
+    assert(result != null, 'No _ElTheme found in context');
+    return result!.elTheme;
+  }
+
+  @override
+  bool updateShouldNotify(_ElTheme oldWidget) => true;
 }

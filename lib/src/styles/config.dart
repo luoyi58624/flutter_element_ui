@@ -1,11 +1,6 @@
 part of flutter_element_ui;
 
 class ElConfigData {
-  static ElConfigData defaultConfig = ElConfigData();
-
-  /// 应用的字体
-  String? fontFamily;
-
   /// 默认的icon大小
   double iconSize;
 
@@ -28,7 +23,6 @@ class ElConfigData {
   double get buttonIconSize => buttonHeight / 2;
 
   ElConfigData({
-    this.fontFamily,
     this.iconSize = 20,
     this.buttonHeight = 32,
     this.buttonRadius = 4,
@@ -45,7 +39,6 @@ class ElConfigData {
     double? inputRadius,
   }) {
     return ElConfigData(
-      fontFamily: fontFamily ?? this.fontFamily,
       iconSize: iconSize ?? this.iconSize,
       buttonHeight: buttonHeight ?? this.buttonHeight,
       buttonRadius: buttonRadius ?? this.buttonRadius,

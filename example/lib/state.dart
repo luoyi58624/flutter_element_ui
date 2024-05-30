@@ -1,8 +1,7 @@
-import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
 class GlobalState {
-  static final ValueNotifier<ThemeMode> themeMode = ValueNotifier<ThemeMode>(ThemeMode.system);
+  static final ValueNotifier<Brightness?> brightness = ValueNotifier<Brightness?>(null);
   static final ValueNotifier<int> counter = ValueNotifier<int>(0);
   static final ValueNotifier<ElMenuStateModel> elMenu = ValueNotifier<ElMenuStateModel>(ElMenuStateModel());
 }

@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
 
 class ColorPage extends StatefulWidget {
   const ColorPage({super.key});
@@ -10,6 +9,14 @@ class ColorPage extends StatefulWidget {
 }
 
 class _ColorPageState extends State<ColorPage> {
+  Map<ElThemeType, Color> get themeColors => {
+        ElThemeType.primary: context.elTheme.primary,
+        ElThemeType.success: context.elTheme.success,
+        ElThemeType.info: context.elTheme.info,
+        ElThemeType.warning: context.elTheme.warning,
+        ElThemeType.error: context.elTheme.error,
+      };
+
   List<Color> generaColors(Color color) {
     List strengths = <double>[0.05];
     List<Color> colors = [];
@@ -32,15 +39,9 @@ class _ColorPageState extends State<ColorPage> {
 
   @override
   Widget build(BuildContext context) {
-    Map<ElThemeType, Color> themeColors = {
-      ElThemeType.primary: context.elTheme.primary,
-      ElThemeType.success: context.elTheme.success,
-      ElThemeType.info: context.elTheme.info,
-      ElThemeType.warning: context.elTheme.warning,
-      ElThemeType.error: context.elTheme.error,
-    };
     List<List<Color>> colors1 = [];
     List<List<Color>> colors2 = [];
+
     int count = 5;
     themeColors.forEach((key, value) {
       List<Color> themeColors = [];
@@ -102,8 +103,74 @@ class _ColorPageState extends State<ColorPage> {
                 )
                 .toList(),
           ),
+          const Gap(8),
+          buildLightElementColor(),
+          const Gap(8),
+          buildDarkElementColor(),
         ],
       ),
+    );
+  }
+
+  Widget buildLightElementColor() {
+    List<List<Color>> colors = [];
+    themeColors.forEach((key, value) {
+      List<Color> themeColors = [value];
+      for (int i = 1; i <= 9; i++) {
+        themeColors.add(value.brighten(8 * i));
+      }
+      colors.add(themeColors);
+    });
+    return Column(
+      children: colors
+          .map(
+            (e) => SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: e
+                    .map(
+                      (e) => Container(
+                        width: 50,
+                        height: 50,
+                        color: e,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Widget buildDarkElementColor() {
+    List<List<Color>> colors = [];
+    themeColors.forEach((key, value) {
+      List<Color> themeColors = [value];
+      for (int i = 1; i <= 9; i++) {
+        themeColors.add(value.darken(8 * i));
+      }
+      colors.add(themeColors);
+    });
+    return Column(
+      children: colors
+          .map(
+            (e) => SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: e
+                    .map(
+                      (e) => Container(
+                        width: 50,
+                        height: 50,
+                        color: e,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

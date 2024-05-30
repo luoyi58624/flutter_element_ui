@@ -103,8 +103,8 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
             iconColor = context.elTheme.primary;
           } else {
             bgColor = getThemeTypeColor(buttonGroupData.type!);
-            textColor = ElTheme.darkTheme(context).textColor;
-            iconColor = ElTheme.darkTheme(context).textColor;
+            textColor = context.darkTheme.textColor;
+            iconColor = context.darkTheme.textColor;
           }
         } else {
           bgColor = null;
@@ -133,8 +133,8 @@ abstract class _ButtonItemState<T extends _ButtonItem> extends _ButtonState<T> {
             iconColor = context.elTheme.primary;
           } else {
             bgColor = getThemeTypeColor(buttonGroupData.type!);
-            textColor = ElTheme.darkTheme(context).textColor;
-            iconColor = ElTheme.darkTheme(context).textColor;
+            textColor = context.darkTheme.textColor;
+            iconColor = context.darkTheme.textColor;
           }
         } else {
           bgColor = null;
@@ -371,7 +371,7 @@ class _ElButtonItemState extends _ButtonItemState<ElButtonItem> {
   @override
   void buildTypeTheme(ElThemeType type) {
     Color themeColor = getThemeTypeColor(type);
-    textColor = ElTheme.darkTheme(context).textColor;
+    textColor = context.darkTheme.textColor;
     iconColor = textColor;
     bgColor = themeColor;
     if (super.disabledButton) {
@@ -434,7 +434,7 @@ class _ElIconButtonItemState extends _ButtonItemState<ElIconButtonItem> {
   @override
   void buildTypeTheme(ElThemeType type) {
     bgColor = getThemeTypeColor(type);
-    textColor = ElTheme.darkTheme(context).textColor;
+    textColor = context.darkTheme.textColor;
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {

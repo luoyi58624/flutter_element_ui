@@ -11,12 +11,6 @@ enum ElThemeType {
 
 /// Element UI 主题对象
 class ElThemeData {
-  /// 默认亮色主题对象
-  static ElThemeData theme = ElThemeData();
-
-  /// 默认暗色主题对象
-  static ElThemeData darkTheme = ElThemeData.dark();
-
   /// 描述当前主题系统是否是亮色、暗色
   final Brightness brightness;
 
@@ -47,6 +41,9 @@ class ElThemeData {
   /// 模态弹窗背景色，亮色模式下默认使用[mainColor]
   late Color modalColor;
 
+  /// 标题颜色
+  Color titleColor;
+
   /// 文字颜色
   Color textColor;
 
@@ -68,13 +65,8 @@ class ElThemeData {
   /// 模态弹窗海拔高度
   double modalElevation;
 
-  /// 根据字体颜色自动创建一组次级颜色: 0 - 5
-  List<Color> get textColors =>
-      List.generate(6, (index) => textColor.deepen(4 * (index + 1), darkScale: 8 * (index + 1)));
-
   /// 根据图标颜色自动创建一组次级颜色: 0 - 5
-  List<Color> get iconColors =>
-      List.generate(6, (index) => iconColor.deepen(4 * (index + 1), darkScale: 8 * (index + 1)));
+  late final List<Color> iconColors;
 
   /// 默认的亮色主题构造函数
   ElThemeData({
@@ -88,7 +80,8 @@ class ElThemeData {
     Color? headerColor,
     this.cardColor = const Color(0xffffffff),
     Color? modalColor,
-    this.textColor = const Color(0xff1f1f1f),
+    this.titleColor = const Color(0xff262626),
+    this.textColor = const Color(0xff525252),
     this.iconColor = const Color(0xff1b1e23),
     this.borderColor = const Color(0xffdcdfe6),
     this.menuBackground = const Color(0xff565c64),
@@ -98,6 +91,7 @@ class ElThemeData {
   }) {
     this.headerColor = headerColor ?? primary;
     this.modalColor = modalColor ?? mainColor;
+    iconColors = List.generate(6, (index) => iconColor.brighten(8 * (index + 1)));
   }
 
   /// 默认的暗色主题构造函数
@@ -112,7 +106,8 @@ class ElThemeData {
     Color? headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xffffffff),
     Color? modalColor = const Color(0xff3c3f41),
-    this.textColor = const Color(0xfff6f6f6),
+    this.titleColor = const Color(0xfffafafa),
+    this.textColor = const Color(0xfff5f5f5),
     this.iconColor = const Color(0xfff6f6f6),
     this.borderColor = const Color(0xffa3a3a3),
     this.menuBackground = const Color(0xff374151),
@@ -122,6 +117,7 @@ class ElThemeData {
   }) {
     this.headerColor = headerColor ?? primary;
     this.modalColor = modalColor ?? mainColor;
+    iconColors = List.generate(6, (index) => iconColor.darken(4 * (index + 1)));
   }
 
   ElThemeData copyWith({
@@ -134,6 +130,7 @@ class ElThemeData {
     Color? headerColor,
     Color? cardColor,
     Color? modalColor,
+    Color? titleColor,
     Color? textColor,
     Color? iconColor,
     Color? borderColor,
@@ -152,6 +149,7 @@ class ElThemeData {
       headerColor: headerColor ?? this.headerColor,
       cardColor: cardColor ?? this.cardColor,
       modalColor: modalColor ?? this.modalColor,
+      titleColor: titleColor ?? this.titleColor,
       textColor: textColor ?? this.textColor,
       iconColor: iconColor ?? this.iconColor,
       borderColor: borderColor ?? this.borderColor,

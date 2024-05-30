@@ -14,16 +14,16 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
     return Row(
       children: [
         HoverBuilder(
-          builder: (isHover) => GestureDetector(
+          builder: (isHover) => TapBuilder(
             onTap: () {
               GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
                 isCollapse: !GlobalState.elMenu.value.isCollapse,
               );
             },
-            child: Container(
+            builder: (isTap) => Container(
               width: 64,
               height: double.infinity,
-              color: context.elTheme.headerColor.onHover(context, isHover),
+              color: context.elTheme.headerColor.onHover(isHover).onTap(isTap),
               child: Center(
                 child: ValueListenableBuilder(
                   valueListenable: GlobalState.elMenu,

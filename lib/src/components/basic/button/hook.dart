@@ -4,47 +4,105 @@ typedef _BaseButtonStyle = ({Color? bgColor, Color? textColor, Border? border});
 typedef _TextButtonStyle = ({Color? bgColor, Color? textColor});
 
 /// 计算基础按钮样式 Hook
-_BaseButtonStyle _useBaseButtonStyle(BuildContext context, {ElThemeType? type}) {
+_BaseButtonStyle _useBaseButtonStyle(
+  BuildContext context, {
+  ElThemeType? type,
+  bool plain = false,
+  bool disabled = false,
+}) {
   final bgColor = useState<Color?>(null);
   final textColor = useState<Color?>(null);
-  final border = useState<Border?>(null);
+  final borderColor = useState<Color?>(null);
 
-  final isHover = ElHoverBuilder.of(context);
-  final isTap = ElTapBuilder.of(context);
+  final isHover = HoverBuilder.of(context);
+  final isTap = TapBuilder.of(context);
 
+  // 计算默认按钮样式
   if (type == null) {
     final primaryColor = context.elTheme.primary;
-    bgColor.value = isHover ? primaryColor.withOpacity(0.1) : Colors.transparent;
-    textColor.value = isHover ? primaryColor : context.elTheme.textColor;
-    Color borderColor = isTap
+    bgColor.value = isHover || isTap ? primaryColor.elThemeLightBg(context) : context.elTheme.mainColor;
+    textColor.value = isHover || isTap ? primaryColor : context.elTheme.textColor;
+    borderColor.value = isTap
         ? primaryColor
         : isHover
-            ? primaryColor.withOpacity(0.38)
+            ? primaryColor.elThemeLightBorder(context)
             : context.elTheme.borderColor;
-    border.value = Border.all(color: borderColor);
-  } else {
-    final primaryColor = context.themeColors[type]!;
-    textColor.value = context.darkTheme.textColor;
-    bgColor.value = isTap
-        ? primaryColor.darken(16)
-        : isHover
-            ? primaryColor.brighten(16)
-            : primaryColor;
+  }
+  // 计算主题按钮样式
+  else {
+    // 镂空按钮
+    if (plain) {
+      final primaryColor = context.themeTypeColors[type]!;
+      textColor.value = isHover || isTap ? context.darkTheme.textColor : primaryColor;
+      bgColor.value = PlatformUtil.isDesktop
+          ? (isTap
+              ? primaryColor.elTap(context)
+              : isHover
+                  ? primaryColor
+                  : primaryColor.elThemeLightBg(context))
+          : (isTap ? primaryColor : primaryColor.elThemeLightBg(context));
+      borderColor.value = isTap
+          ? primaryColor.elTap(context)
+          : isHover
+              ? primaryColor
+              : primaryColor.elThemeLightBorder(context);
+    }
+    // 主题按钮
+    else {
+      final primaryColor = context.themeTypeColors[type]!;
+      textColor.value = context.darkTheme.textColor;
+      bgColor.value = isTap
+          ? primaryColor.elTap(context)
+          : isHover
+              ? primaryColor.elHover(context)
+              : primaryColor;
+    }
   }
 
-  return (bgColor: bgColor.value, textColor: textColor.value, border: border.value);
+  // 计算禁用样式
+  if (disabled) {
+    if (type == null) {
+      textColor.value = textColor.value!.withOpacity(0.6);
+      borderColor.value = borderColor.value!.withOpacity(0.6);
+    } else {
+      if (plain) {
+        bgColor.value = bgColor.value!.withOpacity(0.6);
+        textColor.value = textColor.value!.withOpacity(0.6);
+        borderColor.value = borderColor.value!.withOpacity(0.6);
+      } else {
+        bgColor.value = bgColor.value!.withOpacity(0.6);
+        textColor.value = textColor.value!.withOpacity(0.9);
+      }
+    }
+  }
+
+  return (
+    bgColor: bgColor.value,
+    textColor: textColor.value,
+    border: borderColor.value != null ? Border.all(color: borderColor.value!) : null
+  );
 }
 
 /// 计算文字按钮样式 Hook
-_TextButtonStyle _useTextButtonStyle(BuildContext context, {ElThemeType? type}) {
+_TextButtonStyle _useTextButtonStyle(
+  BuildContext context, {
+  ElThemeType? type,
+  bool disabled = false,
+}) {
   final bgColor = useState<Color?>(null);
   final textColor = useState<Color?>(null);
 
-  final isHover = ElHoverBuilder.of(context);
-  final isTap = ElTapBuilder.of(context);
+  final isHover = HoverBuilder.of(context);
+  final isTap = TapBuilder.of(context);
 
-  bgColor.value = context.elTheme.mainColor.onHover(context, isHover).onTap(context, isTap);
-  type == null ? textColor.value = context.elTheme.textColor : textColor.value = context.themeColors[type]!;
+  final mainColor = context.elTheme.mainColor;
+
+  bgColor.value = mainColor.onHover(isHover, 4).onTap(isTap, 4);
+  type == null ? textColor.value = context.elTheme.textColor : textColor.value = context.themeTypeColors[type]!;
+
+  if (disabled) {
+    textColor.value = textColor.value!.withOpacity(0.6);
+  }
 
   return (bgColor: bgColor.value, textColor: textColor.value);
 }

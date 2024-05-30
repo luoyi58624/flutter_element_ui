@@ -82,7 +82,7 @@ abstract class _ButtonState<T extends _Button> extends State<T> with ElMouseMixi
   Widget buildButton();
 
   Color getThemeTypeColor(ElThemeType type) {
-    return context.themeColors[type]!;
+    return context.themeTypeColors[type]!;
   }
 
   @override
@@ -180,11 +180,11 @@ class _ElButtonState extends _ButtonState<ElButton> {
   @override
   void buildTypeTheme(ElThemeType type) {
     Color themeColor = getThemeTypeColor(type);
-    textColor = ElTheme.darkTheme(context).textColor;
+    textColor = context.darkTheme.textColor;
     iconColor = textColor;
     if (widget.plain) {
-      textColor = super.isTap || super.onHover ? ElTheme.darkTheme(context).textColor : themeColor;
-      iconColor = super.isTap || super.onHover ? ElTheme.darkTheme(context).textColor : themeColor;
+      textColor = super.isTap || super.onHover ? context.darkTheme.textColor : themeColor;
+      iconColor = super.isTap || super.onHover ? context.darkTheme.textColor : themeColor;
       border = Border.all(color: themeColor.withOpacity(0.5));
       bgColor = super.isTap
           ? themeColor.darken(15)
@@ -451,7 +451,7 @@ class _ElIconButtonState extends _ButtonState<ElIconButton> {
   @override
   void buildTypeTheme(ElThemeType type) {
     bgColor = getThemeTypeColor(type);
-    textColor = ElTheme.darkTheme(context).textColor;
+    textColor = context.darkTheme.textColor;
     if (super.disabledButton) {
       bgColor = bgColor!.withOpacity(_disabledOpacity);
     } else {

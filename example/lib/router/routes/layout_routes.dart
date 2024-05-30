@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
+import '../../pages/components/basic/button2.dart';
 import '../../pages/components/basic/color.dart';
 import '../../pages/components/data/table.dart';
 import '../../pages/home.dart';
@@ -34,6 +35,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsBasic/button',
           builder: (context, state) => const ButtonPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsBasic/button2',
+          builder: (context, state) => const Button2Page(),
         ),
       ],
     ),

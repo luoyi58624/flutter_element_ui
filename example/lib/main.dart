@@ -13,26 +13,16 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: ValueListenableBuilder(
-        valueListenable: GlobalState.themeMode,
+        valueListenable: GlobalState.brightness,
         builder: (context, value, _) {
           return ElApp(
             routerConfig: router,
-            themeMode: value,
+            brightness: value,
           );
         },
       ),
     );
   }
-// Widget buildApp() {
-//   return WidgetsApp.router(
-//     color: const Color(0xffffffff),
-//     routerConfig: router,
-//     builder: (context, child) => ElConfigProvider(
-//       config: ElConfigData(radius: 8),
-//       child: child!,
-//     ),
-//   );
-// }
 }
 
 // theme: ElThemeData(
