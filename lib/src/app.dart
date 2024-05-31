@@ -51,7 +51,7 @@ class ElApp extends StatelessWidget {
       child: WidgetsApp.router(
         color: Colors.transparent,
         routerConfig: routerConfig,
-        builder: builder,
+        builder: DragScrollbarDisabledHover.builder(builder),
       ),
     );
   }

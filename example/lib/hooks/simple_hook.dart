@@ -8,8 +8,8 @@ import 'package:example/global.dart';
 }
 
 /// 开关 Hook
-(bool, void Function([bool? value])) useToggle() {
-  final flag = useState(false);
+(bool, void Function([bool? value])) useToggle([bool? initialValue]) {
+  final flag = useState(initialValue ?? false);
   void toggle([bool? value]) => flag.value = value ?? !flag.value;
   return (flag.value, toggle);
 }

@@ -101,6 +101,7 @@ class ElMenu extends StatefulWidget {
 
 class _ElMenuState extends State<ElMenu> {
   Color get background => widget.background ?? context.elTheme.menuBackground;
+  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -120,10 +121,14 @@ class _ElMenuState extends State<ElMenu> {
         collapseDuration: widget.collapseDuration,
         expandDuration: widget.expandDuration,
         onChange: widget.onChange,
-        child: SingleChildScrollView(
-          child: _MenuWidget(
-            menuList: widget.menuList,
-            gap: _defaultGap,
+        child: ElScrollbar(
+          controller: scrollController,
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: _MenuWidget(
+              menuList: widget.menuList,
+              gap: _defaultGap,
+            ),
           ),
         ),
       ),

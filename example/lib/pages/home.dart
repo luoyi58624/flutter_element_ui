@@ -1,24 +1,28 @@
 import 'package:example/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final (flag, toogle) = useToggle();
+    final (flag, toggle) = useToggle(true);
+    final controller = useScrollController();
     return Material(
-      child: CupertinoScrollbar(
+      child: ElScrollbar(
+        controller: controller,
+        always: true,
+        thumbColor: Colors.red,
         child: SingleChildScrollView(
+          controller: controller,
           physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Switch(value: flag, onChanged: toogle),
-                ...List.generate(10, (index) => flag ? _Button() : _Button2()),
+                Switch(value: flag, onChanged: toggle),
+                ...List.generate(100, (index) => flag ? _Button() : _Button2()),
                 // ...List.generate(100, (index) => const Text('text')),
               ],
             ),
@@ -30,7 +34,7 @@ class HomePage extends HookWidget {
 }
 
 class _Button extends HookWidget {
-  const _Button({super.key});
+  const _Button();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class _Button extends HookWidget {
 }
 
 class _Button2 extends HookWidget {
-  const _Button2({super.key});
+  const _Button2();
 
   @override
   Widget build(BuildContext context) {

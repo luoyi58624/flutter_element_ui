@@ -34,17 +34,19 @@ class ElTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BrightnessWidget(
-      brightness: brightness,
-      child: Builder(builder: (context) {
-        TextStyle style = textStyle ?? const TextStyle();
-        return DefaultTextStyle(
-          style: style.copyWith(
-            color: context.isDark ? darkTheme.textColor : theme.textColor,
-          ),
-          child: _ElTheme(elTheme: this, child: child),
-        );
-      }),
+    return NoDefaultScrollbarWidget(
+      child: BrightnessWidget(
+        brightness: brightness,
+        child: Builder(builder: (context) {
+          TextStyle style = textStyle ?? const TextStyle();
+          return DefaultTextStyle(
+            style: style.copyWith(
+              color: context.isDark ? darkTheme.textColor : theme.textColor,
+            ),
+            child: _ElTheme(elTheme: this, child: child),
+          );
+        }),
+      ),
     );
   }
 }

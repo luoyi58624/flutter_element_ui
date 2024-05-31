@@ -58,7 +58,7 @@ class ElButton2 extends HookWidget {
       builder: (isHover) => TapBuilder(
         onTap: onClick,
         disabled: disabled,
-        // delay: 50,
+        delay: PlatformUtil.isDesktop ? 0 : 50,
         builder: (isTap) => text
             ? _TextButton(child, type: type, round: round, block: block, disabled: disabled)
             : _BaseButton(
