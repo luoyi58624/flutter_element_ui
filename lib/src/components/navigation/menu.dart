@@ -123,6 +123,7 @@ class _ElMenuState extends State<ElMenu> {
         onChange: widget.onChange,
         child: ElScrollbar(
           controller: scrollController,
+          thumbColor: Colors.red,
           child: SingleChildScrollView(
             controller: scrollController,
             child: _MenuWidget(

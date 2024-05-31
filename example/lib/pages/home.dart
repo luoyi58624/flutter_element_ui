@@ -22,7 +22,7 @@ class HomePage extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Switch(value: flag, onChanged: toggle),
-                ...List.generate(100, (index) => flag ? _Button() : _Button2()),
+                ...List.generate(10, (index) => flag ? _Button() : _Button2()),
                 // ...List.generate(100, (index) => const Text('text')),
               ],
             ),
