@@ -87,51 +87,73 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     }
   }
 
+  /// 延迟处理拖动滚动条结束逻辑，如果你的鼠标hua
+  Timer? _delayHandlerDragEnd;
+
   /// 结束拖动滚动条
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
     DragScrollbarDisabledHover.setDisabled(context, false);
-    // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
-    if (isHover == false) {
-      isHover = false;
-      isScrollbarHover = false;
-      color1 = activeThumbColor;
-      color2 = hideThumbColor;
-      scrollbarAnimationController.forward(from: 0);
-    } else {
-      color1 = activeThumbColor;
-      color2 = hoverThumbColor;
-      scrollbarAnimationController.forward(from: 0);
+    _delayHandlerDragEnd = DartUtil.delay(() {
+      // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
+      if (isHover == false) {
+        isHover = false;
+        isScrollbarHover = false;
+        color1 = activeThumbColor;
+        color2 = hideThumbColor;
+        scrollbarAnimationController.forward(from: 0);
+      } else {
+        i('xxx');
+        color1 = activeThumbColor;
+        color2 = hoverThumbColor;
+        scrollbarAnimationController.forward(from: 0);
+      }
+    }, 200);
+  }
+
+  /// 延迟处理悬停滚动条，当用户快速从滚动条上划过时，不会对滚动条进行高亮
+  Timer? _delayHandlerHover;
+
+  void _cancelDelayHandlerHover() {
+    if (_delayHandlerHover != null) {
+      _delayHandlerHover!.cancel();
+      _delayHandlerHover = null;
     }
   }
 
-  /// 鼠标在滚动区域悬停事件
+  /// 鼠标在滚动区域悬停事件，当
   @override
   void handleHover(PointerHoverEvent event) {
-    if (DragScrollbarDisabledHover.disabled(context)) return;
     super.handleHover(event);
     // 优先处理鼠标悬停在滚动条上的事件
     if (isPointerOverThumb(event.position, event.kind)) {
       // 防止重复设置动画
       if (isScrollbarHover == false) {
         isScrollbarHover = true;
-        if (isHover) {
-          color1 = hoverThumbColor;
-        } else {
-          isHover = true;
-          color1 = hideThumbColor;
-        }
-        color2 = activeThumbColor;
-        scrollbarAnimationController.forward(from: 0);
+        _cancelDelayHandlerHover();
+        _delayHandlerHover = DartUtil.delay(() {
+          if (isHover) {
+            color1 = hoverThumbColor;
+          } else {
+            isHover = true;
+            color1 = hideThumbColor;
+          }
+          color2 = activeThumbColor;
+          scrollbarAnimationController.forward(from: 0);
+        }, 150);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover
     else if (isScrollbarHover) {
       isScrollbarHover = false;
-      color1 = activeThumbColor;
-      color2 = hoverThumbColor;
-      scrollbarAnimationController.forward(from: 0);
+      if (_delayHandlerHover == null) {
+        color1 = activeThumbColor;
+        color2 = hoverThumbColor;
+        scrollbarAnimationController.forward(from: 0);
+      } else {
+        _cancelDelayHandlerHover();
+      }
     }
     // 最后再判断鼠标是否是第一次进入悬停区域，如果是第一次进入，则从hide变成hover
     else if (isHover == false) {
@@ -145,10 +167,19 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 鼠标离开滚动区域事件
   @override
   void handleHoverExit(PointerExitEvent event) {
-    super.handleHoverExit(event);
     isHover = false;
     if (DragScrollbarDisabledHover.disabled(context)) return;
-    color1 = isScrollbarHover ? activeThumbColor : hoverThumbColor;
+    super.handleHoverExit(event);
+    if (isScrollbarHover) {
+      if (_delayHandlerHover == null) {
+        color1 = activeThumbColor;
+      } else {
+        color1 = hoverThumbColor;
+        _cancelDelayHandlerHover();
+      }
+    } else {
+      color1 = hoverThumbColor;
+    }
     color2 = hideThumbColor;
     scrollbarAnimationController.forward(from: 0);
     isScrollbarHover = false;

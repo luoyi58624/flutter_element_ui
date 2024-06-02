@@ -12,49 +12,49 @@ extension ElContextExtension on BuildContext {
 extension ElTypographyContextExtension on BuildContext {
   /// 标题1 - 28px
   TextStyle get h1 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 28,
         color: elTheme.titleColor,
       );
 
   /// 标题2 - 24px
   TextStyle get h2 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 24,
         color: elTheme.titleColor,
       );
 
   /// 标题3 - 20px
   TextStyle get h3 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 20,
         color: elTheme.titleColor,
       );
 
   /// 标题4 - 18px
   TextStyle get h4 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 18,
         color: elTheme.titleColor,
       );
 
   /// 标题5 - 16px
   TextStyle get h5 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 16,
         color: elTheme.titleColor,
       );
 
   /// 标题6 - 14px
   TextStyle get h6 => TextStyle(
-        fontWeight: FlutterFont.bold,
+        fontWeight: FontUtil.bold,
         fontSize: 14,
         color: elTheme.titleColor,
       );
 
   /// 普通段落文本 - 15px
   TextStyle get p => TextStyle(
-        fontWeight: FlutterFont.normal,
+        fontWeight: FontUtil.normal,
         fontSize: 15,
         color: elTheme.textColor,
       );

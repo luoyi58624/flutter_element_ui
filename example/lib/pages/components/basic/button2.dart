@@ -6,10 +6,13 @@ class Button2Page extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
     return RawScrollbar(
+      controller: controller,
       child: SingleChildScrollView(
+        controller: controller,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

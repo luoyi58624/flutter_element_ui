@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'global.dart';
 
 void main() async {
+  await FontUtil.init();
   runApp(const _App());
 }
 
@@ -19,7 +20,7 @@ class _App extends StatelessWidget {
             routerConfig: router,
             brightness: value,
             textStyle: TextStyle(
-              fontFamilyFallback: FlutterFont.fontFamilyFallback,
+              fontFamilyFallback: FontUtil.fontFamilyFallback,
             ),
             builder: (context, child) => Theme(
               data: ThemeData(),
