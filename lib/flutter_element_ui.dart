@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
 
-export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show BrightnessWidget, BrightnessContextExtension;
+export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show BrightnessContextExtension;
 
 part 'src/app.dart';
 
@@ -21,6 +21,8 @@ part 'src/theme.dart';
 part 'src/components/basic/button/button.dart';
 
 part 'src/components/basic/button/hook.dart';
+
+part 'src/components/basic/button/style.dart';
 
 part 'src/components/basic/button.dart';
 

@@ -11,6 +11,9 @@ enum ElThemeType {
 
 /// Element UI 主题对象
 class ElThemeData {
+  static ElThemeData theme = ElThemeData();
+  static ElThemeData darkTheme = ElThemeData.dark();
+
   /// 描述当前主题系统是否是亮色、暗色
   final Brightness brightness;
 

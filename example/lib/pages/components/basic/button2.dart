@@ -11,8 +11,6 @@ class Button2Page extends HookWidget {
     final (disabled, toggleDisabled) = useToggle();
     return ElScrollbar(
       controller: controller,
-      mainAxisMargin: 0,
-      crossAxisMargin: 0,
       child: SingleChildScrollView(
         controller: controller,
         child: Padding(
@@ -21,8 +19,14 @@ class Button2Page extends HookWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Gap(8),
-              ElButton2(disabled ? 'Enabled' : 'Disabled', onClick: toggleDisabled),
-              ElButton2('你好'),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ElButton2(disabled ? 'Enabled' : 'Disabled', onClick: toggleDisabled),
+                  ElButton2('你好'),
+                ],
+              ),
               const Gap(12),
               Text('普通按钮', style: context.h3),
               const Gap(8),
@@ -142,16 +146,12 @@ class Button2Page extends HookWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  ElButton2(null, icon: ElIcon.svg(ElIcons.document), disabled: disabled, onClick: addCount),
-                  ElButton2('Primary: $count',
-                      type: ElThemeType.primary, text: true, disabled: disabled, onClick: addCount),
-                  ElButton2('Success: $count',
-                      type: ElThemeType.success, text: true, disabled: disabled, onClick: addCount),
-                  ElButton2('Info: $count', type: ElThemeType.info, text: true, disabled: disabled, onClick: addCount),
-                  ElButton2('Warning: $count',
-                      type: ElThemeType.warning, text: true, disabled: disabled, onClick: addCount),
-                  ElButton2('Error: $count',
-                      type: ElThemeType.error, text: true, disabled: disabled, onClick: addCount),
+                  ElButton2(ElIcon.svg(ElIcons.aim), disabled: disabled),
+                  ElButton2(ElIcon.svg(ElIcons.aim), type: ElThemeType.primary, disabled: disabled),
+                  ElButton2(ElIcon.svg(ElIcons.aim), type: ElThemeType.success, disabled: disabled),
+                  ElButton2(ElIcon.svg(ElIcons.aim), type: ElThemeType.info, disabled: disabled),
+                  ElButton2(ElIcon.svg(ElIcons.aim), type: ElThemeType.warning, disabled: disabled),
+                  ElButton2(ElIcon.svg(ElIcons.aim), type: ElThemeType.error, disabled: disabled),
                 ],
               ),
               const Gap(12),

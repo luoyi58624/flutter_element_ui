@@ -12,13 +12,15 @@ class ElButton2 extends HookWidget {
     this.plain = false,
     this.round = false,
     this.block = false,
-    this.icon,
     this.rightIcon,
     this.circle = false,
     this.disabled = false,
   });
 
-  /// 支持任意类型子组件，如果是基础类型，则自动渲染为[Text]，如果是[Widget]，则直接渲染，如果为 null，则不做渲染
+  /// 支持任意类型子组件：
+  /// * 如果是基础类型，则自动渲染为[Text]
+  /// * 如果是[ElIcon]，则自动渲染为图标按钮
+  /// * 如果是[Widget]，则直接渲染，如果为 null，则不做渲染
   final dynamic child;
 
   /// 点击事件
@@ -38,9 +40,6 @@ class ElButton2 extends HookWidget {
 
   /// 块级按钮，宽度会充满容器
   final bool block;
-
-  /// 按钮图标，如果[child]为空，则渲染为按钮图标
-  final ElIcon? icon;
 
   /// 按钮右图标，[child]不能为空，否则抛出异常
   final ElIcon? rightIcon;
@@ -67,7 +66,6 @@ class ElButton2 extends HookWidget {
                 plain: plain,
                 round: round,
                 block: block,
-                icon: icon,
                 rightIcon: rightIcon,
                 circle: circle,
                 disabled: disabled,
@@ -85,7 +83,6 @@ class _BaseButton extends ElButton2 {
     super.plain,
     super.round,
     super.block,
-    super.icon,
     super.rightIcon,
     super.circle,
     super.disabled,
@@ -95,7 +92,7 @@ class _BaseButton extends ElButton2 {
   bool get isTextButton => DartUtil.isBaseType(child);
 
   /// 纯图标按钮
-  bool get isIconButton => child == null && icon != null;
+  bool get isIconButton => child is ElIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +128,7 @@ class _BaseButton extends ElButton2 {
       if (circle) {
         return const SizedBox();
       } else {
-        return icon!;
+        return child;
       }
     } else {
       return const SizedBox();

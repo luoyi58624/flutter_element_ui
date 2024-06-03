@@ -62,11 +62,11 @@ class _TableScrollBehavior extends ScrollBehavior {
     this.dragScroll = false,
   });
 
-  @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        dragScroll ? PointerDeviceKind.mouse : PointerDeviceKind.unknown,
-      };
+  // @override
+  // Set<PointerDeviceKind> get dragDevices => {
+  //       PointerDeviceKind.touch,
+  //       dragScroll ? PointerDeviceKind.mouse : PointerDeviceKind.unknown,
+  //     };
 
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {

@@ -17,7 +17,7 @@ class _App extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: GlobalState.brightness,
         builder: (context, value, _) {
-          return ElApp(
+          return ElApp.router(
             routerConfig: router,
             brightness: value,
             textStyle: TextStyle(
@@ -28,6 +28,10 @@ class _App extends StatelessWidget {
               child: child!,
             ),
           );
+          // return MaterialApp.router(
+          //   routerConfig: router,
+          //   builder: (context, child) => ElTheme(child: child!),
+          // );
         },
       ),
     );

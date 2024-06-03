@@ -1,6 +1,8 @@
 part of flutter_element_ui;
 
 class ElConfigData {
+  static ElConfigData config = ElConfigData();
+
   /// 默认的icon大小
   double iconSize;
 

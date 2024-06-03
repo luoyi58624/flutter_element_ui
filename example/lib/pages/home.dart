@@ -69,7 +69,18 @@ class _Button2 extends HookWidget {
         spacing: 8,
         runSpacing: 8,
         children: [
-          ElevatedButton(onPressed: addCount, child: Text('Default: $count')),
+          ElevatedButtonTheme(
+            data: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+            ),
+            child: ElevatedButton(onPressed: addCount, child: Text('Default: $count')),
+          ),
           TextButton(onPressed: addCount, child: Text('Default: $count')),
           FilledButton(onPressed: addCount, child: Text('Default: $count')),
           CupertinoButton.filled(onPressed: addCount, child: Text('Default: $count')),

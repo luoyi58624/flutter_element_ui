@@ -1,5 +1,4 @@
 import 'package:example/global.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ButtonPage extends StatefulWidget {
