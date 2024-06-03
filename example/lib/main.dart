@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'global.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await FontUtil.init();
   runApp(const _App());
 }

@@ -9,8 +9,10 @@ class Button2Page extends HookWidget {
     final controller = useScrollController();
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
-    return RawScrollbar(
+    return ElScrollbar(
       controller: controller,
+      mainAxisMargin: 0,
+      crossAxisMargin: 0,
       child: SingleChildScrollView(
         controller: controller,
         child: Padding(

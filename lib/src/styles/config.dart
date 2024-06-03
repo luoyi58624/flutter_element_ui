@@ -24,7 +24,7 @@ class ElConfigData {
 
   ElConfigData({
     this.iconSize = 20,
-    this.buttonHeight = 32,
+    this.buttonHeight = 36,
     this.buttonRadius = 4,
     this.cardRadius = 6,
     this.inputRadius = 6,
