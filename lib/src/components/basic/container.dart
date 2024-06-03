@@ -54,7 +54,7 @@ class ElMain extends ElChildContainer {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.elTheme.mainColor,
+      color: context.elTheme.bgColor,
       child: child,
     );
   }

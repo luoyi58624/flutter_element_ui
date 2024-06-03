@@ -17,21 +17,29 @@ class _App extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: GlobalState.brightness,
         builder: (context, value, _) {
-          return ElApp.router(
+          // return ElApp.router(
+          //   routerConfig: router,
+          //   brightness: value,
+          //   textStyle: TextStyle(
+          //     fontFamilyFallback: FontUtil.fontFamilyFallback,
+          //   ),
+          //   builder: (context, child) => Theme(
+          //     data: ThemeData(),
+          //     child: child!,
+          //   ),
+          // );
+          return MaterialApp.router(
             routerConfig: router,
-            brightness: value,
-            textStyle: TextStyle(
-              fontFamilyFallback: FontUtil.fontFamilyFallback,
-            ),
-            builder: (context, child) => Theme(
-              data: ThemeData(),
+            builder: (context, child) => ElTheme(
               child: child!,
+              config: ElConfigData(
+                buttonStyle: ElButtonStyle(
+                  height: 36,
+                  radius: BorderRadius.circular(4),
+                ),
+              ),
             ),
           );
-          // return MaterialApp.router(
-          //   routerConfig: router,
-          //   builder: (context, child) => ElTheme(child: child!),
-          // );
         },
       ),
     );

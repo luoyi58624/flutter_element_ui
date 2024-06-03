@@ -90,7 +90,7 @@ class _TableRowItemState extends State<_TableRowItem> {
           return DecoratedBox(
             decoration: BoxDecoration(
               color: _elTableData.highlightCurrentRow && value == widget.index
-                  ? context.elTheme.mainColor.deepen(5)
+                  ? context.elTheme.bgColor.deepen(5)
                   : null,
               border: Border(bottom: BorderSide(color: context.elTheme.borderColor)),
             ),

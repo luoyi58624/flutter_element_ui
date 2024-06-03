@@ -22,7 +22,7 @@ class HomePage extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Switch(value: flag, onChanged: toggle),
-                ...List.generate(10, (index) => flag ? _Button() : _Button2()),
+                ...List.generate(1, (index) => flag ? _Button() : _Button2()),
                 // ...List.generate(100, (index) => const Text('text')),
               ],
             ),
@@ -45,12 +45,32 @@ class _Button extends HookWidget {
         spacing: 8,
         runSpacing: 8,
         children: [
-          ElButton2('Default: $count', onClick: addCount),
-          ElButton2('Primary: $count', type: ElThemeType.primary, onClick: addCount),
-          ElButton2('Success: $count', type: ElThemeType.success, onClick: addCount),
-          ElButton2('Info: $count', type: ElThemeType.info, onClick: addCount),
-          ElButton2('Warning: $count', type: ElThemeType.warning, onClick: addCount),
-          ElButton2('Error: $count', type: ElThemeType.error, onClick: addCount),
+          ElButton('Default: $count', onClick: addCount),
+          ElButton(
+            'Primary: $count',
+            onClick: addCount,
+            style: ElButtonStyle(type: ElThemeType.primary),
+          ),
+          ElButton(
+            'Success: $count',
+            onClick: addCount,
+            style: ElButtonStyle(type: ElThemeType.success),
+          ),
+          ElButton(
+            'Info: $count',
+            onClick: addCount,
+            style: ElButtonStyle(type: ElThemeType.info),
+          ),
+          ElButton(
+            'Warning: $count',
+            onClick: addCount,
+            style: ElButtonStyle(type: ElThemeType.warning),
+          ),
+          ElButton(
+            'Error: $count',
+            onClick: addCount,
+            style: ElButtonStyle(type: ElThemeType.error),
+          ),
         ],
       ),
     );

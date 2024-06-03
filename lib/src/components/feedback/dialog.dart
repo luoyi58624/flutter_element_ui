@@ -50,27 +50,31 @@ class ElDialog extends StatelessWidget {
                   if (cancelText != '')
                     ElButton(
                       cancelText,
-                      type: cancelButtonType,
-                      disabled: loading,
-                      onPressed: () {
+                      onClick: () {
                         if (onCancel != null) onCancel();
                         if (context.mounted) Navigator.of(context).pop(false);
                       },
+                      style: ElButtonStyle(
+                        type: cancelButtonType,
+                        disabled: loading,
+                      ),
                     ),
                   const SizedBox(width: 8),
                   if (confirmText != '')
                     ElButton(
                       loading ? confirmLoadingText : confirmText,
-                      type: confirmButtonType,
-                      disabled: loading,
-                      loading: loading,
-                      onPressed: () async {
+                      onClick: () async {
                         if (onConfirm != null) {
                           setState(() => loading = true);
                           await onConfirm();
                         }
                         if (context.mounted) Navigator.of(context).pop(true);
                       },
+                      style: ElButtonStyle(
+                        type: confirmButtonType,
+                        disabled: loading,
+                        // loading: loading,
+                      ),
                     ),
                 ],
               ),

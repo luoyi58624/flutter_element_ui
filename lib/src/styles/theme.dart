@@ -32,16 +32,16 @@ class ElThemeData {
   /// 错误颜色
   Color error;
 
-  /// 主要背景色、全局背景色
-  Color mainColor;
+  /// 全局背景色
+  Color bgColor;
 
   /// 头部背景颜色，亮色模式下默认使用[primary]
   late Color headerColor;
 
-  /// 卡片背景色，默认使用[mainColor]更深的颜色
+  /// 卡片背景色，默认使用[bgColor]更深的颜色
   late Color cardColor;
 
-  /// 模态弹窗背景色，亮色模式下默认使用[mainColor]
+  /// 模态弹窗背景色，亮色模式下默认使用[bgColor]
   late Color modalColor;
 
   /// 标题颜色
@@ -79,7 +79,7 @@ class ElThemeData {
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffe6a23c),
     this.error = const Color(0xfff56c6c),
-    this.mainColor = const Color(0xfffafafa),
+    this.bgColor = const Color(0xfffafafa),
     Color? headerColor,
     this.cardColor = const Color(0xffffffff),
     Color? modalColor,
@@ -93,7 +93,7 @@ class ElThemeData {
     this.modalElevation = 2,
   }) {
     this.headerColor = headerColor ?? primary;
-    this.modalColor = modalColor ?? mainColor;
+    this.modalColor = modalColor ?? bgColor;
     iconColors = List.generate(6, (index) => iconColor.brighten(8 * (index + 1)));
   }
 
@@ -105,7 +105,7 @@ class ElThemeData {
     this.info = const Color(0xff64748B),
     this.warning = const Color(0xfffbbf24),
     this.error = const Color(0xfffb7185),
-    this.mainColor = const Color(0xff2b2b2b),
+    this.bgColor = const Color(0xff2b2b2b),
     Color? headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xffffffff),
     Color? modalColor = const Color(0xff3c3f41),
@@ -119,7 +119,7 @@ class ElThemeData {
     this.modalElevation = 4,
   }) {
     this.headerColor = headerColor ?? primary;
-    this.modalColor = modalColor ?? mainColor;
+    this.modalColor = modalColor ?? bgColor;
     iconColors = List.generate(6, (index) => iconColor.darken(4 * (index + 1)));
   }
 
@@ -129,7 +129,7 @@ class ElThemeData {
     Color? info,
     Color? warning,
     Color? error,
-    Color? mainColor,
+    Color? bgColor,
     Color? headerColor,
     Color? cardColor,
     Color? modalColor,
@@ -148,7 +148,7 @@ class ElThemeData {
       info: info ?? this.info,
       warning: warning ?? this.warning,
       error: error ?? this.error,
-      mainColor: mainColor ?? this.mainColor,
+      bgColor: bgColor ?? this.bgColor,
       headerColor: headerColor ?? this.headerColor,
       cardColor: cardColor ?? this.cardColor,
       modalColor: modalColor ?? this.modalColor,

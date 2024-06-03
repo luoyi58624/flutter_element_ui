@@ -27,10 +27,6 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   path: '/components/basic/button',
                 ),
                 ElMenuModel(
-                  title: 'Button 按钮2',
-                  path: '/components/basic/button2',
-                ),
-                ElMenuModel(
                   title: 'Color 颜色',
                   path: '/components/basic/color',
                 ),
