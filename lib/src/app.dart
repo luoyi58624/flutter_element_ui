@@ -1,8 +1,13 @@
-part of flutter_element_ui;
+import 'dart:ui';
+
+import 'package:flutter/widgets.dart';
+
+import 'theme.dart';
 
 class ElApp extends StatelessWidget {
-  /// Element UI 顶级小部件，此小部件并不强制你必须使用，你完全可以使用其他 App 构建应用，在这种情况下，所有小部件将应用默认的主题系统，
-  /// 如果你需要自定义全局主题，只需在任意 App 下插入[ElTheme]小部件即可：
+  /// Element UI 顶级小部件，此小部件并不强制你必须使用，你完全可以使用其他 App 构建应用，
+  /// 在这种情况下，所有小部件将应用默认的主题系统，如果你需要自定义全局主题，
+  /// 只需在任意 App 下插入[ElTheme]小部件即可：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElTheme(child: child!),
@@ -15,6 +20,7 @@ class ElApp extends StatelessWidget {
     this.theme,
     this.darkTheme,
     this.config,
+    this.responsive,
     this.brightness,
     this.textStyle,
     this.builder,
@@ -28,6 +34,7 @@ class ElApp extends StatelessWidget {
     this.theme,
     this.darkTheme,
     this.config,
+    this.responsive,
     this.brightness,
     this.textStyle,
     this.builder,
@@ -49,6 +56,9 @@ class ElApp extends StatelessWidget {
   /// 全局配置
   final ElConfigData? config;
 
+  /// 响应式配置
+  final ElResponsiveData? responsive;
+
   /// 指定 Element UI 小部件应用的主题模式，如果为空，则跟随平台系统
   final Brightness? brightness;
 
@@ -63,13 +73,13 @@ class ElApp extends StatelessWidget {
     return ElTheme(
       theme: theme,
       darkTheme: darkTheme,
-      config: config ?? ElConfigData(),
+      config: config,
+      responsive: responsive,
       brightness: brightness,
       textStyle: textStyle,
       child: WidgetsApp.router(
-        color: Colors.transparent,
+        color: const Color(0x00000000),
         routerConfig: routerConfig,
-        builder: DragScrollbarDisabledHover.builder(builder),
       ),
     );
   }

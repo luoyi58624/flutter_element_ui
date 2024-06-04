@@ -26,7 +26,7 @@ class _DialogPageState extends State<DialogPage> {
                 confirmButtonType: ElThemeType.error,
                 confirmLoadingText: '删除中...',
                 onConfirm: () async {
-                  await Future.delayed(Duration(seconds: 2));
+                  await Future.delayed(const Duration(seconds: 2));
                   ElMessage.show('删除成功');
                 },
               );
@@ -55,7 +55,7 @@ class _DialogPageState extends State<DialogPage> {
                         onClick: () {
                           context.pop();
                         },
-                        style: ElButtonStyle(
+                        style: const ElButtonStyle(
                           type: ElThemeType.primary,
                         ),
                       ),

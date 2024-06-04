@@ -1,4 +1,6 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElHoverBuilder extends HookWidget {
   /// hover构建器，仅在桌面端渲染，移动端不会渲染
@@ -26,7 +28,7 @@ class ElHoverBuilder extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $disabled = DragScrollbarDisabledHover.disabled(context);
+    final $disabled = ElGlobalHover.disabled(context);
     final isHover = useState(false);
     return PlatformUtil.isDesktop
         ? _HoverInheritedWidget(
@@ -65,33 +67,27 @@ class _HoverInheritedWidget extends InheritedWidget {
   }
 }
 
-/// 拖动滚动条滚动时禁用页面 hover 的效果，你必须自行重写[RawScrollbar]滚动条逻辑
-class DragScrollbarDisabledHover extends StatefulWidget {
-  const DragScrollbarDisabledHover({super.key, required this.child});
+/// 全局控制页面 hover 的效果
+class ElGlobalHover extends StatefulWidget {
+  const ElGlobalHover({super.key, required this.child});
 
   final Widget child;
 
-  /// 在App中插入监听滚动时禁用 hover 小部件
-  static Widget Function(BuildContext, Widget?) builder([TransitionBuilder? builder]) =>
-      (BuildContext context, Widget? child) {
-        Widget widget = DragScrollbarDisabledHover(child: child!);
-        return builder == null ? widget : builder(context, widget);
-      };
+  /// 是否全局禁用 hover 效果
+  static bool disabled(BuildContext context) {
+    return _DisabledHoverInheritedWidget.maybeOf(context)?.disabled ?? false;
+  }
 
-  /// 获取全局 hover 状态，如果用户拖动滚动条，页面元素将无法触发 hover 事件
-  static bool disabled(BuildContext context) => _ScrollHoverInheritedWidget.maybeOf(context)?.disabled ?? false;
-
-  /// 设置全局 hover 状态，此函数用于自定义滚动条
+  /// 设置全局 hover 禁用状态
   static void setDisabled(BuildContext context, bool value) {
-    _ScrollHoverInheritedWidget.maybeOf(context)?.setDisabled(value);
+    _DisabledHoverInheritedWidget.maybeOf(context)?.setDisabled(value);
   }
 
   @override
-  State<DragScrollbarDisabledHover> createState() => _DragScrollbarDisabledHoverState();
+  State<ElGlobalHover> createState() => _ElGlobalHoverState();
 }
 
-class _DragScrollbarDisabledHoverState extends State<DragScrollbarDisabledHover> {
-  /// 如果用户拖动滚动条，将禁止当前滚动元素下的hover
+class _ElGlobalHoverState extends State<ElGlobalHover> {
   bool disabled = false;
 
   void setDisabled(bool value) {
@@ -102,7 +98,7 @@ class _DragScrollbarDisabledHoverState extends State<DragScrollbarDisabledHover>
 
   @override
   Widget build(BuildContext context) {
-    return _ScrollHoverInheritedWidget(
+    return _DisabledHoverInheritedWidget(
       disabled: disabled,
       setDisabled: setDisabled,
       child: widget.child,
@@ -110,8 +106,8 @@ class _DragScrollbarDisabledHoverState extends State<DragScrollbarDisabledHover>
   }
 }
 
-class _ScrollHoverInheritedWidget extends InheritedWidget {
-  const _ScrollHoverInheritedWidget({
+class _DisabledHoverInheritedWidget extends InheritedWidget {
+  const _DisabledHoverInheritedWidget({
     required super.child,
     required this.disabled,
     required this.setDisabled,
@@ -120,9 +116,9 @@ class _ScrollHoverInheritedWidget extends InheritedWidget {
   final bool disabled;
   final void Function(bool value) setDisabled;
 
-  static _ScrollHoverInheritedWidget? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ScrollHoverInheritedWidget>();
+  static _DisabledHoverInheritedWidget? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_DisabledHoverInheritedWidget>();
 
   @override
-  bool updateShouldNotify(_ScrollHoverInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_DisabledHoverInheritedWidget oldWidget) => true;
 }

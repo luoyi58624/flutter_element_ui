@@ -14,7 +14,7 @@ class FontPage extends StatelessWidget {
                       style: TextStyle(fontWeight: e),
                     ))
                 .toList()),
-        SizedBox(width: 16),
+        const SizedBox(width: 16),
         Column(
             children: FontWeight.values
                 .map((e) => Text(

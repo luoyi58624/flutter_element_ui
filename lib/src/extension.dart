@@ -1,6 +1,10 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/components/basic/brightness.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-extension ElContextExtension on BuildContext {
+import 'theme.dart';
+
+extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
   ElConfigData get elConfig => ElTheme.config(this);
 
@@ -8,8 +12,22 @@ extension ElContextExtension on BuildContext {
   ElThemeData get elTheme => isDark ? darkTheme : theme;
 }
 
+extension ElResponsiveExtension on BuildContext {
+  /// 移动端设备
+  bool get sm => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).sm;
+
+  /// 平板设备
+  bool get md => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).md;
+
+  /// 桌面设备
+  bool get lg => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).lg;
+
+  /// 大屏桌面设备
+  bool get xl => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).xl;
+}
+
 /// 字体排版扩展
-extension ElTypographyContextExtension on BuildContext {
+extension ElTypographyExtension on BuildContext {
   /// 标题1 - 28px
   TextStyle get h1 => TextStyle(
         fontWeight: FontUtil.bold,
@@ -60,7 +78,8 @@ extension ElTypographyContextExtension on BuildContext {
       );
 }
 
-extension _ElContextExtension on BuildContext {
+/// Element UI 内部扩展函数
+extension ThemeExtension on BuildContext {
   ElThemeData get theme => ElTheme.theme(this);
 
   ElThemeData get darkTheme => ElTheme.darkTheme(this);
@@ -75,7 +94,7 @@ extension _ElContextExtension on BuildContext {
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗
-extension _ElColorExtension on Color {
+extension ColorExtension on Color {
   /// Element UI 一级渐变颜色
   Color elLight1(BuildContext context) => context.isDark ? darken(8) : brighten(10);
 

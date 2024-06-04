@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+part of 'table.dart';
 
 class _TableHeader extends StatelessWidget {
   const _TableHeader({required this.columns});

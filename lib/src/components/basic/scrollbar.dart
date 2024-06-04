@@ -1,7 +1,42 @@
-part of flutter_element_ui;
+import 'dart:async';
+
+import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
+import '../../builders/hover.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
+
+class ElDefaultScrollbar extends StatelessWidget {
+  /// Element UI全局默认滚动条
+  const ElDefaultScrollbar({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollConfiguration(behavior: const _NoScrollBehavior(), child: child);
+  }
+}
+
+class _NoScrollBehavior extends ScrollBehavior {
+  const _NoScrollBehavior();
+
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    switch (getPlatform(context)) {
+      case TargetPlatform.linux:
+      case TargetPlatform.macOS:
+      case TargetPlatform.windows:
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.iOS:
+        return child;
+    }
+  }
+}
 
 /// Element UI 滚动条
 class ElScrollbar extends RawScrollbar {
@@ -91,7 +126,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
-    DragScrollbarDisabledHover.setDisabled(context, true);
+    ElGlobalHover.setDisabled(context, true);
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
     if (isScrollbarHover == false) {
       color1 = isHover ? hoverThumbColor : hideThumbColor;
@@ -104,7 +139,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
-    DragScrollbarDisabledHover.setDisabled(context, false);
+    ElGlobalHover.setDisabled(context, false);
     // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
     if (isHover == false) {
       isHover = false;
@@ -167,12 +202,11 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 鼠标离开滚动区域事件
   @override
   void handleHoverExit(PointerExitEvent event) {
-    if (DragScrollbarDisabledHover.disabled(context)) {
+    if (ElGlobalHover.disabled(context)) {
       isHover = false;
       isScrollbarHover = false;
       return;
     }
-    i('xxx');
     super.handleHoverExit(event);
     isHover = false;
     if (isScrollbarHover) {
@@ -196,7 +230,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     return MouseRegion(
       onEnter: (event) {
         isHover = true;
-        if (DragScrollbarDisabledHover.disabled(context) == false) {
+        if (ElGlobalHover.disabled(context) == false) {
           color1 = hideThumbColor;
           color2 = hoverThumbColor;
           scrollbarAnimationController.forward(from: 0);

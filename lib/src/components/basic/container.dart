@@ -1,4 +1,5 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extension.dart';
 
 class ElContainer extends StatelessWidget {
   const ElContainer({super.key, required this.child});

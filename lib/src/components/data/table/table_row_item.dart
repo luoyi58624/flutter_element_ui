@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+part of 'table.dart';
 
 class _TableRowItem extends StatefulWidget {
   const _TableRowItem({
@@ -89,9 +89,8 @@ class _TableRowItemState extends State<_TableRowItem> {
         builder: (context, value, _) {
           return DecoratedBox(
             decoration: BoxDecoration(
-              color: _elTableData.highlightCurrentRow && value == widget.index
-                  ? context.elTheme.bgColor.deepen(5)
-                  : null,
+              color:
+                  _elTableData.highlightCurrentRow && value == widget.index ? context.elTheme.bgColor.deepen(5) : null,
               border: Border(bottom: BorderSide(color: context.elTheme.borderColor)),
             ),
             child: Row(children: children),

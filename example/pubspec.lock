@@ -134,7 +134,7 @@ packages:
     source: path
     version: "0.0.1"
   flutter_hooks:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_hooks
       sha256: cde36b12f7188c85286fba9b38cc5a902e7279f36dd676967106c041dc9dde70
@@ -168,7 +168,7 @@ packages:
     source: sdk
     version: "0.0.0"
   gap:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gap
       sha256: f19387d4e32f849394758b91377f9153a1b41d79513ef7668c088c77dbc6955d
@@ -268,7 +268,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3facd4d540bf3114307b937366d751e59bacc899"
+      resolved-ref: b39382d4818cbec4dbd01ff948dd91e7a07b9aae
       url: "https://github.com/luoyi58624/luoyi_flutter_base"
     source: git
     version: "2.1.0"

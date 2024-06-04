@@ -15,6 +15,8 @@ dependencies:
   go_router: ^14.0.1
   faker: ^2.1.0
   super_sliver_list: ^0.4.1
+  flutter_hooks: ^0.20.5
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:

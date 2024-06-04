@@ -1,4 +1,8 @@
-part of flutter_element_ui;
+import 'dart:ui';
+
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extension.dart';
 
 class ElInput extends StatefulWidget {
   const ElInput({super.key});

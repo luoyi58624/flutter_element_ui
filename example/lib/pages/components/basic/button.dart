@@ -24,7 +24,7 @@ class ButtonPage extends HookWidget {
                 runSpacing: 8,
                 children: [
                   ElButton(disabled ? 'Enabled' : 'Disabled', onClick: toggleDisabled),
-                  ElButton('你好'),
+                  const ElButton('你好'),
                 ],
               ),
               const Gap(12),
@@ -268,27 +268,27 @@ class ButtonPage extends HookWidget {
                 runSpacing: 8,
                 children: [
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(disabled: disabled),
                   ),
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(type: ElThemeType.primary, disabled: disabled),
                   ),
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(type: ElThemeType.success, disabled: disabled),
                   ),
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(type: ElThemeType.info, disabled: disabled),
                   ),
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(type: ElThemeType.warning, disabled: disabled),
                   ),
                   ElButton(
-                    ElIcon.svg(ElIcons.aim),
+                    const ElIcon.svg(ElIcons.aim),
                     style: ElButtonStyle(type: ElThemeType.error, disabled: disabled),
                   ),
                 ],

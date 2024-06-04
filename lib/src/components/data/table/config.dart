@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
 
 class ElTableColumn {
   /// 表格数据的key

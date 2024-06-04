@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
 
 /// label所在的位置
 enum ElFormLabelPosition {

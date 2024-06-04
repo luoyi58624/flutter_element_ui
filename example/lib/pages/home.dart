@@ -16,13 +16,13 @@ class HomePage extends HookWidget {
         thumbColor: Colors.red,
         child: SingleChildScrollView(
           controller: controller,
-          physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Switch(value: flag, onChanged: toggle),
-                ...List.generate(1, (index) => flag ? _Button() : _Button2()),
+                ...List.generate(20, (index) => flag ? const _Button() : const _Button2()),
                 // ...List.generate(100, (index) => const Text('text')),
               ],
             ),
@@ -49,27 +49,27 @@ class _Button extends HookWidget {
           ElButton(
             'Primary: $count',
             onClick: addCount,
-            style: ElButtonStyle(type: ElThemeType.primary),
+            style: const ElButtonStyle(type: ElThemeType.primary),
           ),
           ElButton(
             'Success: $count',
             onClick: addCount,
-            style: ElButtonStyle(type: ElThemeType.success),
+            style: const ElButtonStyle(type: ElThemeType.success),
           ),
           ElButton(
             'Info: $count',
             onClick: addCount,
-            style: ElButtonStyle(type: ElThemeType.info),
+            style: const ElButtonStyle(type: ElThemeType.info),
           ),
           ElButton(
             'Warning: $count',
             onClick: addCount,
-            style: ElButtonStyle(type: ElThemeType.warning),
+            style: const ElButtonStyle(type: ElThemeType.warning),
           ),
           ElButton(
             'Error: $count',
             onClick: addCount,
-            style: ElButtonStyle(type: ElThemeType.error),
+            style: const ElButtonStyle(type: ElThemeType.error),
           ),
         ],
       ),

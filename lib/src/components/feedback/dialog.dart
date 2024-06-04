@@ -1,4 +1,9 @@
-part of flutter_element_ui;
+import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extension.dart';
+
+import '../basic/button/button.dart';
+import '../basic/button/style.dart';
+import '../../theme.dart';
 
 /// Element 对话框组件
 class ElDialog extends StatelessWidget {
@@ -91,7 +96,7 @@ class ElDialog extends StatelessWidget {
         width: width,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: context.appTheme.cardColor,
+          color: context.elTheme.cardColor,
           borderRadius: BorderRadius.circular(context.elConfig.cardRadius),
         ),
         child: Column(

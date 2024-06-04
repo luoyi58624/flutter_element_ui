@@ -34,7 +34,7 @@ class _TablePageState extends State<TablePage> {
             label: '操作',
             width: 140,
             fixedRight: true,
-            render: (dataItem) => Row(
+            render: (dataItem) => const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElButton(

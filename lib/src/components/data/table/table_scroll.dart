@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+part of 'table.dart';
 
 /// 表格非固定列、左固定列、右固定列三个区域的联动滚动
 class _TableColumnScroll extends StatefulWidget {

@@ -1,28 +1,17 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
+include: package:flutter_lints/flutter.yaml
 
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
-include: package:flutter_base/flutter.yaml
-
+# 自定义语法校验规则
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # 关闭forEach的校验。很多情况下，dart推荐你使用for循环遍历数组而不是forEach，但dart并没有说明有什么性能问题、或其他缺陷
+    avoid_function_literals_in_foreach_calls: false
+    # 关闭以下划线分割变量名的校验，即：xxx_xxx，一个代码风格校验而已，没必要强制用户必须声明驼峰，尽量遵循即可
+    non_constant_identifier_names: false
+    # 关闭局部变量前导下划线的校验，即：_xxx
+    # 因为在dart中，以_开头的修饰的成员表示私有的，为了防止用户困惑，dart推荐不要在函数作用域中使用_作为变量前缀，但我们有时候习惯添加_用作变量的重命名，所以关闭此限制
+    no_leading_underscores_for_local_identifiers: false
+    # 关闭校验隐式依赖，即导入的包属于其他包的依赖，但用户并未在当前项目中显示声明此依赖，此校验不会出现严重问题，即使其他包删除了此依赖，用户只需在pubspec中添加缺失的依赖即可
+    depend_on_referenced_packages: false
+    # 允许part of直接指向库名，而不是强制字符串
+    use_string_in_part_of_directives: false
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options

@@ -1,4 +1,12 @@
-part of flutter_element_ui;
+import 'dart:math';
+
+import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extension.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
+import '../../builders/hover.dart';
+import '../basic/icon/icon.dart';
+import '../basic/scrollbar.dart';
 
 /// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 22;
@@ -311,7 +319,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                   width: 40,
                   margin: const EdgeInsets.only(left: 8),
                   child: AnimatedRotation(
-                    duration: Duration(milliseconds: math.max(_ElMenuData.of(context).expandDuration - 50, 0)),
+                    duration: Duration(milliseconds: max(_ElMenuData.of(context).expandDuration - 50, 0)),
                     turns: widget.expand ? 0.5 : 0,
                     child: ElIcon.svg(
                       ElIcons.arrowDown,
@@ -330,7 +338,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
 
 /// 收缩状态下的菜单
 class _CollapseMenuWidget extends StatefulWidget {
-  const _CollapseMenuWidget({super.key});
+  const _CollapseMenuWidget();
 
   @override
   State<_CollapseMenuWidget> createState() => _CollapseMenuWidgetState();
@@ -339,7 +347,7 @@ class _CollapseMenuWidget extends StatefulWidget {
 class _CollapseMenuWidgetState extends State<_CollapseMenuWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
       children: [],
     );

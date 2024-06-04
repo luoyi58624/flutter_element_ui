@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+part of 'button.dart';
 
 typedef _ButtonStyle = ({Color? bgColor, Color? textColor, Border? border});
 

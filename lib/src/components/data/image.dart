@@ -1,4 +1,4 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
 
 class ElImage extends StatelessWidget {
   const ElImage({super.key, required this.src});

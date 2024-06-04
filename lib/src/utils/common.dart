@@ -1,5 +1,3 @@
-part of flutter_element_ui;
-
-class _ElUtil {
-  _ElUtil._();
+class ElUtil {
+  ElUtil._();
 }

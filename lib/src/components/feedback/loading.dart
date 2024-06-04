@@ -1,4 +1,6 @@
-part of flutter_element_ui;
+import 'package:flutter/widgets.dart';
+
+import '../basic/icon/icon.dart';
 
 class ElLoading extends StatelessWidget {
   const ElLoading({super.key, required this.size, required this.color});
@@ -20,7 +22,6 @@ class ElLoading extends StatelessWidget {
 
 class _LoadingWidget extends StatefulWidget {
   const _LoadingWidget({
-    super.key,
     required this.child,
     this.loading = true,
   });

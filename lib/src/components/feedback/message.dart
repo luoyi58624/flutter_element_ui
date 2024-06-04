@@ -1,5 +1,3 @@
-part of flutter_element_ui;
-
 class ElMessage {
   ElMessage._();
 
