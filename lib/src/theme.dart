@@ -1,12 +1,11 @@
-import 'dart:ui';
-
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
-import 'components/basic/button/button.dart';
+import 'components/basic/button.dart';
 import 'components/basic/scrollbar.dart';
+import 'components/basic/text.dart';
 
 class ElTheme extends StatelessWidget {
   /// 注入 Element UI 主题系统
@@ -18,7 +17,6 @@ class ElTheme extends StatelessWidget {
     ElConfigData? config,
     ElResponsiveData? responsive,
     this.brightness,
-    this.textStyle,
   }) {
     _theme = theme ?? ElThemeData.theme;
     _darkTheme = darkTheme ?? ElThemeData.darkTheme;
@@ -34,9 +32,6 @@ class ElTheme extends StatelessWidget {
 
   /// 指定 Element UI 小部件应用的主题模式，如果为空，则跟随平台系统
   final Brightness? brightness;
-
-  /// 全局[TextStyle]
-  final TextStyle? textStyle;
 
   /// 亮色主题
   static ElThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElThemeData.theme;
@@ -58,12 +53,15 @@ class ElTheme extends StatelessWidget {
         child: ElBrightness(
           brightness: brightness,
           child: Builder(builder: (context) {
-            TextStyle style = textStyle ?? const TextStyle();
+            TextStyle textStyle = TextStyle(
+              color: context.isDark ? _darkTheme.textColor : _theme.textColor,
+            );
             return DefaultTextStyle(
-              style: style.copyWith(
-                color: context.isDark ? _darkTheme.textColor : _theme.textColor,
+              style: textStyle,
+              child: ElTextTheme(
+                style: ElTextStyle.style.copyWith(textStyle: textStyle).merge(_config.textStyle),
+                child: _ElTheme(elTheme: this, child: child),
               ),
-              child: _ElTheme(elTheme: this, child: child),
             );
           }),
         ),
@@ -257,6 +255,9 @@ class ElConfigData {
   /// 默认的icon大小
   double iconSize;
 
+  /// 文本全局样式
+  late ElTextStyle textStyle;
+
   /// 按钮全局样式
   late ElButtonStyle buttonStyle;
 
@@ -268,10 +269,12 @@ class ElConfigData {
 
   ElConfigData({
     this.iconSize = 20,
+    ElTextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     this.cardRadius = 6,
     this.inputRadius = 6,
   }) {
+    this.textStyle = ElTextStyle.style.merge(textStyle);
     this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
   }
 

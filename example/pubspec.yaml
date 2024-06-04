@@ -18,6 +18,7 @@ dependencies:
   flutter_hooks: ^0.20.5
   gap: ^3.0.1
   styled_widget: ^0.4.1
+  decimal: ^3.0.0
 
 dev_dependencies:
   flutter_test:

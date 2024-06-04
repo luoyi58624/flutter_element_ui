@@ -22,7 +22,6 @@ class ElApp extends StatelessWidget {
     this.config,
     this.responsive,
     this.brightness,
-    this.textStyle,
     this.builder,
   }) : routerConfig = null;
 
@@ -36,7 +35,6 @@ class ElApp extends StatelessWidget {
     this.config,
     this.responsive,
     this.brightness,
-    this.textStyle,
     this.builder,
   }) : home = null;
 
@@ -62,9 +60,6 @@ class ElApp extends StatelessWidget {
   /// 指定 Element UI 小部件应用的主题模式，如果为空，则跟随平台系统
   final Brightness? brightness;
 
-  /// 全局[TextStyle]
-  final TextStyle? textStyle;
-
   /// 在导航器上方插入自定义小部件
   final TransitionBuilder? builder;
 
@@ -76,7 +71,6 @@ class ElApp extends StatelessWidget {
       config: config,
       responsive: responsive,
       brightness: brightness,
-      textStyle: textStyle,
       child: WidgetsApp.router(
         color: const Color(0x00000000),
         routerConfig: routerConfig,

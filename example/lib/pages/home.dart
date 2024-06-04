@@ -7,18 +7,29 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final (count, addCount) = useCount();
     final (flag, toggle) = useToggle(true);
     final controller = useScrollController();
-    return Material(
-      child: ElScrollbar(
-          controller: controller,
-          child: ListView(
-            controller: controller,
-            children: [
-              Switch(value: flag, onChanged: toggle),
-              ...List.generate(500, (index) => flag ? const _Button() : const _Button2()),
-            ],
-          )),
+    return SelectionArea(
+      child: Builder(builder: (context) {
+        return Material(
+          child: ElScrollbar(
+              controller: controller,
+              child: ListView(
+                controller: controller,
+                children: [
+                  const Gap(16),
+                  const Center(child: ElText('hello, world')),
+                  // const Center(child: ElText('你好，世界')),
+                  const Text('text'),
+                  const Gap(16),
+                  ElButton('count: $count', onClick: addCount),
+                  UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
+                  ...List.generate(1000, (index) => flag ? const _Button() : const _Button2()),
+                ],
+              )),
+        );
+      }),
     );
   }
 }
@@ -35,11 +46,22 @@ class _Button extends HookWidget {
         spacing: 8,
         runSpacing: 8,
         children: [
-          ElButton('Default: $count', onClick: addCount),
-          ElButton(
-            'Primary: $count',
-            onClick: addCount,
-            style: const ElButtonStyle(type: ElThemeType.primary),
+          ElButtonImportantTheme(
+            style: const ElButtonStyle(
+              type: ElThemeType.error,
+              plain: true,
+            ),
+            child: ElButton('Default: $count', onClick: addCount),
+          ),
+          ElTextImportantTheme(
+            style: const ElTextStyle(
+              textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            child: ElButton(
+              'Primary: $count',
+              onClick: addCount,
+              style: const ElButtonStyle(type: ElThemeType.primary),
+            ),
           ),
           ElButton(
             'Success: $count',

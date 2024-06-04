@@ -60,54 +60,56 @@ class _ColorPageState extends State<ColorPage> {
     });
 
     return Center(
-      child: Column(
-        children: [
-          Column(
-            children: colors1
-                .map(
-                  (e) => SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: e
-                          .map(
-                            (e) => Container(
-                              width: 50,
-                              height: 50,
-                              color: e,
-                            ),
-                          )
-                          .toList(),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              children: colors1
+                  .map(
+                    (e) => SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: e
+                            .map(
+                              (e) => Container(
+                                width: 50,
+                                height: 50,
+                                color: e,
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-          const SizedBox(height: 8),
-          Column(
-            children: colors2
-                .map(
-                  (e) => SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: e
-                          .map(
-                            (e) => Container(
-                              width: 50,
-                              height: 50,
-                              color: e,
-                            ),
-                          )
-                          .toList(),
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: 8),
+            Column(
+              children: colors2
+                  .map(
+                    (e) => SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: e
+                            .map(
+                              (e) => Container(
+                                width: 50,
+                                height: 50,
+                                color: e,
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
-                  ),
-                )
-                .toList(),
-          ),
-          const Gap(8),
-          buildLightElementColor(),
-          const Gap(8),
-          buildDarkElementColor(),
-        ],
+                  )
+                  .toList(),
+            ),
+            const Gap(8),
+            buildLightElementColor(),
+            const Gap(8),
+            buildDarkElementColor(),
+          ],
+        ),
       ),
     );
   }
