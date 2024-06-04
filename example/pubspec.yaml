@@ -17,6 +17,7 @@ dependencies:
   super_sliver_list: ^0.4.1
   flutter_hooks: ^0.20.5
   gap: ^3.0.1
+  styled_widget: ^0.4.1
 
 dev_dependencies:
   flutter_test:

@@ -11,24 +11,14 @@ class HomePage extends HookWidget {
     final controller = useScrollController();
     return Material(
       child: ElScrollbar(
-        controller: controller,
-        always: true,
-        thumbColor: Colors.red,
-        child: SingleChildScrollView(
           controller: controller,
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Switch(value: flag, onChanged: toggle),
-                ...List.generate(20, (index) => flag ? const _Button() : const _Button2()),
-                // ...List.generate(100, (index) => const Text('text')),
-              ],
-            ),
-          ),
-        ),
-      ),
+          child: ListView(
+            controller: controller,
+            children: [
+              Switch(value: flag, onChanged: toggle),
+              ...List.generate(500, (index) => flag ? const _Button() : const _Button2()),
+            ],
+          )),
     );
   }
 }

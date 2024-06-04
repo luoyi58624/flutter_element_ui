@@ -1,24 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import '../../../theme.dart';
-import '../icon/icon.dart';
-
-/// 按钮局部默认样式
-class ElButtonTheme extends InheritedWidget {
-  const ElButtonTheme({
-    super.key,
-    required super.child,
-    required this.style,
-  });
-
-  final ElButtonStyle style;
-
-  static ElButtonStyle? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.style;
-
-  @override
-  bool updateShouldNotify(ElButtonTheme oldWidget) => true;
-}
+part of 'button.dart';
 
 /// 按钮样式
 class ElButtonStyle {
@@ -106,6 +86,7 @@ class ElButtonStyle {
     );
   }
 
+  /// 合并新的主题配置
   ElButtonStyle merge([ElButtonStyle? style]) {
     return ElButtonStyle(
       height: style?.height ?? height,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -127,6 +128,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
     ElGlobalHover.setDisabled(context, true);
+    HapticFeedback.vibrate();
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
     if (isScrollbarHover == false) {
       color1 = isHover ? hoverThumbColor : hideThumbColor;
@@ -183,7 +185,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
           }
           color2 = activeThumbColor;
           scrollbarAnimationController.forward(from: 0);
-        }, 150);
+        }, 100);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover

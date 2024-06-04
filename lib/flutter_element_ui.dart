@@ -8,7 +8,6 @@ export 'src/app.dart';
 export 'src/extension.dart' show ElThemeExtension, ElTypographyExtension, ElResponsiveExtension;
 export 'src/theme.dart';
 export 'src/components/basic/button/button.dart';
-export 'src/components/basic/button/style.dart';
 export 'src/components/basic/brightness.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon/icon.dart';

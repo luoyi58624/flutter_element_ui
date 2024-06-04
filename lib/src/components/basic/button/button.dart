@@ -5,8 +5,10 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../builders/hover.dart';
 import '../../../builders/tap.dart';
+import '../../../theme.dart';
 import '../icon/icon.dart';
-import 'style.dart';
+
+part 'style.dart';
 
 part 'hook.dart';
 
@@ -31,14 +33,19 @@ class ElButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $style = context.elConfig.buttonStyle.merge(style ?? ElButtonTheme.maybeOf(context));
+    final $style = ElButtonImportantTheme._merge(
+      context,
+      context.elConfig.buttonStyle.merge(
+        ElButtonTheme._merge(context, style),
+      ),
+    );
     final currentWidget = ElHoverBuilder(
       disabled: $style.disabled!,
       builder: (isHover) => ElTapBuilder(
         onTap: onClick,
         disabled: $style.disabled!,
         delay: PlatformUtil.isDesktop ? 0 : 50,
-        builder: (isTap) => _BaseButton(child, style: $style),
+        builder: (isTap) => _Button(child, style: $style),
       ),
     );
     return $style.block!
@@ -47,8 +54,8 @@ class ElButton extends HookWidget {
   }
 }
 
-class _BaseButton extends ElButton {
-  const _BaseButton(super.child, {super.style});
+class _Button extends ElButton {
+  const _Button(super.child, {super.style});
 
   /// 文字按钮
   bool get isTextButton => DartUtil.isBaseType(child);
@@ -96,4 +103,40 @@ class _BaseButton extends ElButton {
       return const SizedBox();
     }
   }
+}
+
+class ElButtonTheme extends InheritedWidget {
+  /// 局部默认样式小部件
+  const ElButtonTheme({
+    super.key,
+    required super.child,
+    required this.style,
+  });
+
+  final ElButtonStyle style;
+
+  static ElButtonStyle? _merge(BuildContext context, ElButtonStyle? style) {
+    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.style;
+    return defaultStyle == null ? style : defaultStyle.merge(style);
+  }
+
+  @override
+  bool updateShouldNotify(ElButtonTheme oldWidget) => true;
+}
+
+class ElButtonImportantTheme extends InheritedWidget {
+  /// 强制后代应用的主题样式，效果与 CSS !important 类似
+  const ElButtonImportantTheme({
+    super.key,
+    required super.child,
+    required this.style,
+  });
+
+  final ElButtonStyle style;
+
+  static ElButtonStyle _merge(BuildContext context, ElButtonStyle style) =>
+      style.merge(context.dependOnInheritedWidgetOfExactType<ElButtonImportantTheme>()?.style);
+
+  @override
+  bool updateShouldNotify(ElButtonImportantTheme oldWidget) => true;
 }

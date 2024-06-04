@@ -5,7 +5,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
-import 'components/basic/button/style.dart';
+import 'components/basic/button/button.dart';
 import 'components/basic/scrollbar.dart';
 
 class ElTheme extends StatelessWidget {
@@ -247,6 +247,10 @@ class ElThemeData {
   }
 }
 
+/// Element UI 全局配置，定义了所有组件的默认配置信息，每个组件的主题样式提取都遵循以下规则：
+/// 全局预设主题 -> 局部默认主题 -> 组件自身主题
+///
+/// 每一层主题都是基于上一级的默认配置进行合并，通过以上规则，你可以非常轻松地自定义所有组件样式风格
 class ElConfigData {
   static ElConfigData config = ElConfigData();
 
