@@ -18,6 +18,10 @@ part 'src/extension.dart';
 
 part 'src/theme.dart';
 
+part 'src/builders/hover.dart';
+
+part 'src/builders/tap.dart';
+
 part 'src/components/basic/button/button.dart';
 
 part 'src/components/basic/button/hook.dart';

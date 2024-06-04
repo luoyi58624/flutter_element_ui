@@ -172,6 +172,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       isScrollbarHover = false;
       return;
     }
+    i('xxx');
     super.handleHoverExit(event);
     isHover = false;
     if (isScrollbarHover) {

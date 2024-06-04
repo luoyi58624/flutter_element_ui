@@ -270,7 +270,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return HoverBuilder(
+    return ElHoverBuilder(
       builder: (isHover) => AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,

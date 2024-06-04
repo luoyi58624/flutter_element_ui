@@ -8,8 +8,8 @@ _ButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final isHover = HoverBuilder.of(context);
-  final isTap = TapBuilder.of(context);
+  final isHover = ElHoverBuilder.of(context);
+  final isTap = ElTapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
 
   // 计算文字按钮样式

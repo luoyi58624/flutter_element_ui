@@ -22,9 +22,9 @@ class ElButton extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final $style = context.elConfig.buttonStyle.merge(style ?? ElButtonTheme.maybeOf(context));
-    final currentWidget = HoverBuilder(
+    final currentWidget = ElHoverBuilder(
       disabled: $style.disabled!,
-      builder: (isHover) => TapBuilder(
+      builder: (isHover) => ElTapBuilder(
         onTap: onClick,
         disabled: $style.disabled!,
         delay: PlatformUtil.isDesktop ? 0 : 50,

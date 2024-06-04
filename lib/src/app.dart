@@ -35,8 +35,7 @@ class ElApp extends StatelessWidget {
 
   final Widget? home;
 
-  /// Element UI 是面向桌面端的组件库，你应当使用声明式路由去构建应用程序，例如官方推出的[go_router]，
-  /// 如果你非要使用命令式导航，请使用[MaterialApp]
+  /// Element UI 是面向桌面端的组件库
   final RouterConfig<Object>? routerConfig;
 
   final String? title;
