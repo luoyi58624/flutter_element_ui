@@ -3,9 +3,9 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
-import 'components/basic/button.dart';
 import 'components/basic/scrollbar.dart';
 import 'components/basic/text.dart';
+import 'styles/button.dart';
 
 class ElTheme extends StatelessWidget {
   /// 注入 Element UI 主题系统
