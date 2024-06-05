@@ -1,0 +1,36 @@
+name: flutter_element_ui
+description: "A new Flutter package project."
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  luoyi_flutter_base:
+    git:
+      url: https://github.com/luoyi58624/luoyi_flutter_base
+  flutter_element_ui:
+    git:
+      url: https://github.com/luoyi58624/flutter_element_ui
+      path: flutter_element_annotation
+  flutter_svg: ^2.0.10+1
+  super_sliver_list: ^0.4.1
+  flutter_hooks: ^0.20.5
+  gap: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_element_ui:
+    git:
+      url: https://github.com/luoyi58624/flutter_element_ui
+      path: flutter_element_generator
+
+flutter:
+  assets:
+    - assets/icons/

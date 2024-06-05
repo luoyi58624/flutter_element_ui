@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      source_gen:combining_builder:
+        options:
+          build_extensions:
+            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
+      flutter_element_generator|model:
+        generate_for:
+          include:
+            - lib/styles/**.dart
+            - lib/models/**.dart

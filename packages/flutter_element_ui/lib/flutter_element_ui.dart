@@ -33,5 +33,3 @@ export 'src/components/form/input.dart';
 export 'src/components/navigation/menu.dart';
 
 export 'src/styles/button.dart';
-
-export 'src/meta/model.dart';
