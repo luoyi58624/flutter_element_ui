@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-part '../generated/styles/button.g.dart';
-
-@ElModel()
+// part '../generates/styles/button.g.dart';
+//
+// @ElModel.copy()
 class ElButtonStyle {
   /// 默认按钮样式
   static const ElButtonStyle style = ElButtonStyle(
@@ -57,7 +57,4 @@ class ElButtonStyle {
     this.circle,
     this.disabled,
   });
-
-  @override
-  String toString() => _toString();
 }

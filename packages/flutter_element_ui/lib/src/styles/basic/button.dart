@@ -1,11 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-import '../components/basic/icon.dart';
-import '../theme.dart';
+import '../../components/basic/icon.dart';
+import '../../theme.dart';
 
-part 'button.gen.dart';
+part '../../generates/styles/basic/button.g.dart';
 
-/// 按钮样式
+@ElModel.copy()
 class ElButtonStyle {
   /// 默认按钮样式
   static const ElButtonStyle style = ElButtonStyle(

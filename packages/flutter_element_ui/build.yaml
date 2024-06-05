@@ -4,9 +4,8 @@ targets:
       source_gen:combining_builder:
         options:
           build_extensions:
-            '^lib/{{}}.dart': 'lib/generates/{{}}.g.dart'
+            '^lib/src/styles/{{}}.dart': 'lib/src/generates/styles/{{}}.g.dart'
       flutter_element_generator|model:
         generate_for:
           include:
-            - lib/styles/**.dart
-            - lib/models/**.dart
+            - lib/src/styles/**.dart

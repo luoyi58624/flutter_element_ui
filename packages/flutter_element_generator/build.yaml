@@ -4,7 +4,7 @@ targets:
       source_gen:combining_builder:
         options:
           build_extensions:
-            '^lib/{{}}.dart': 'lib/generated/{{}}.g.dart'
+            '^lib/styles/{{}}.dart': 'lib/generates/styles/{{}}.g.dart'
 
 builders:
   model:

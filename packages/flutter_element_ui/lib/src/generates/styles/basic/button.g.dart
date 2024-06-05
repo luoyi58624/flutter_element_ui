@@ -1,8 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: lint_alpha, lint_beta
-
-part of '../../styles/button.dart';
+part of '../../../styles/basic/button.dart';
 
 // **************************************************************************
 // ElModelGenerator
@@ -11,23 +9,27 @@ part of '../../styles/button.dart';
 extension ElButtonStyleExtension on ElButtonStyle {
   ElButtonStyle copyWith({
     double? height,
+    ElThemeType? type,
     bool? text,
     bool? plain,
     bool? round,
     bool? block,
     BorderRadiusGeometry? radius,
     EdgeInsetsGeometry? padding,
+    ElIcon? rightIcon,
     bool? circle,
     bool? disabled,
   }) {
     return ElButtonStyle(
       height: height ?? this.height,
+      type: type ?? this.type,
       text: text ?? this.text,
       plain: plain ?? this.plain,
       round: round ?? this.round,
       block: block ?? this.block,
       radius: radius ?? this.radius,
       padding: padding ?? this.padding,
+      rightIcon: rightIcon ?? this.rightIcon,
       circle: circle ?? this.circle,
       disabled: disabled ?? this.disabled,
     );
@@ -37,18 +39,16 @@ extension ElButtonStyleExtension on ElButtonStyle {
     if (style == null) return this;
     return copyWith(
       height: style.height,
+      type: style.type,
       text: style.text,
       plain: style.plain,
       round: style.round,
       block: style.block,
       radius: style.radius,
       padding: style.padding,
+      rightIcon: style.rightIcon,
       circle: style.circle,
       disabled: style.disabled,
     );
-  }
-
-  String _toString() {
-    return 'ElButtonStyle{height: $height,text: $text,plain: $plain,round: $round,block: $block,radius: $radius,padding: $padding,circle: $circle,disabled: $disabled}';
   }
 }

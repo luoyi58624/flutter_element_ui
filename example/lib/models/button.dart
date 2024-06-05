@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-part '../generated/models/button.g.dart';
+part '../generates/models/button.g.dart';
 
 @ElModel()
 class ElButtonStyle {

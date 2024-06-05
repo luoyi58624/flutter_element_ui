@@ -1,4 +1,4 @@
-Element UI模型代码生成
+Model Code Generate
 
 - Build
 

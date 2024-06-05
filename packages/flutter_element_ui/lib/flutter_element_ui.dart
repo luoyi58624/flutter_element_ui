@@ -1,6 +1,7 @@
 library flutter_element_ui;
 
 export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show FontUtil, FontModel;
+export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
@@ -32,4 +33,5 @@ export 'src/components/form/form.dart';
 export 'src/components/form/input.dart';
 export 'src/components/navigation/menu.dart';
 
-export 'src/styles/button.dart';
+export 'src/styles/basic/button.dart';
+export 'src/styles/basic/text.dart';

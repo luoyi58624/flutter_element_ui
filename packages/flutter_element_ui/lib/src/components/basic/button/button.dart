@@ -5,7 +5,8 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../builders/hover.dart';
 import '../../../builders/tap.dart';
-import '../../../styles/button.dart';
+import '../../../styles/basic/button.dart';
+import '../../../styles/basic/text.dart';
 import '../icon.dart';
 import '../text.dart';
 

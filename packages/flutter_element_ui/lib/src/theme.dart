@@ -5,7 +5,8 @@ import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
 import 'components/basic/scrollbar.dart';
 import 'components/basic/text.dart';
-import 'styles/button.dart';
+import 'styles/basic/button.dart';
+import 'styles/basic/text.dart';
 
 class ElTheme extends StatelessWidget {
   /// 注入 Element UI 主题系统
