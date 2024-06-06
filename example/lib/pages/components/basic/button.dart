@@ -14,7 +14,7 @@ class ButtonPage extends HookWidget {
     Widget buildTitle(String title) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Gap(12),
+            const Gap(36),
             Text(title, style: context.h3),
             const Gap(8),
           ],
@@ -101,35 +101,101 @@ class ButtonPage extends HookWidget {
                   style: ElButtonStyle(type: type, circle: true, disabled: disabled),
                 ),
               )),
+              buildTitle('左图标文字按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, leftIcon: const ElIcon(ElIcons.aim), disabled: disabled),
+                ),
+              )),
+              buildTitle('右图标文字按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, rightIcon: const ElIcon(ElIcons.aim), disabled: disabled),
+                ),
+              )),
+              buildTitle('自定义颜色按钮'),
+              buildWrap([Colors.cyan, Colors.purple, Colors.blue, Colors.lightGreen, Colors.yellow].map(
+                (bgColor) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(bgColor: bgColor, disabled: disabled),
+                ),
+              )),
+              buildTitle('自定义颜色镂空按钮'),
+              buildWrap([Colors.cyan, Colors.purple, Colors.blue, Colors.lightGreen, Colors.yellow].map(
+                (bgColor) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(bgColor: bgColor, color: Colors.black, plain: true, disabled: disabled),
+                ),
+              )),
               buildTitle('块级按钮'),
-              ElButton(
-                'Default',
-                style: ElButtonStyle(block: true, disabled: disabled),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: buttonTypes
+                    .map(
+                      (type) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElButton(
+                          'count: $count',
+                          onPressed: addCount,
+                          style: ElButtonStyle(type: type, block: true, disabled: disabled),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-              const Gap(8),
-              ElButton(
-                'Primary',
-                style: ElButtonStyle(type: ElThemeType.primary, block: true, disabled: disabled),
+              buildTitle('块级镂空按钮'),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: buttonTypes
+                    .map(
+                      (type) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElButton(
+                          'count: $count',
+                          onPressed: addCount,
+                          style: ElButtonStyle(type: type, block: true, plain: true, disabled: disabled),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-              const Gap(8),
-              ElButton(
-                'Success',
-                style: ElButtonStyle(type: ElThemeType.success, block: true, disabled: disabled),
+              buildTitle('块级圆角按钮'),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: buttonTypes
+                    .map(
+                      (type) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElButton(
+                          'count: $count',
+                          onPressed: addCount,
+                          style: ElButtonStyle(type: type, block: true, round: true, disabled: disabled),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-              const Gap(8),
-              ElButton(
-                'Info',
-                style: ElButtonStyle(type: ElThemeType.info, block: true, disabled: disabled),
-              ),
-              const Gap(8),
-              ElButton(
-                'Warning',
-                style: ElButtonStyle(type: ElThemeType.warning, block: true, disabled: disabled),
-              ),
-              const Gap(8),
-              ElButton(
-                'Error',
-                style: ElButtonStyle(type: ElThemeType.error, block: true, disabled: disabled),
+              buildTitle('块级镂空圆角按钮'),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: buttonTypes
+                    .map(
+                      (type) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElButton(
+                          'count: $count',
+                          onPressed: addCount,
+                          style: ElButtonStyle(type: type, block: true, plain: true, round: true, disabled: disabled),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
             ],
           ),

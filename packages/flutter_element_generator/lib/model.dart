@@ -19,7 +19,7 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     bool createToJson = annotation.read('toJson').boolValue;
     bool createCopyWith = annotation.read('copyWith').boolValue;
     bool createMerge = annotation.read('merge').boolValue;
-    bool createToString = annotation.read('createToString').boolValue;
+    bool createToString = annotation.read('generateToString').boolValue;
     if (createMerge) createCopyWith = true;
 
     return """
@@ -74,7 +74,7 @@ extension ${className}Extension on $className {
     for (int i = 0; i < classFields.length; i++) {
       if (classFields[i].declaration.isStatic == false) {
         final fieldInfo = classFields[i].declaration;
-        if (isIgnoreField('copyWith', fieldInfo)) continue;
+        if (isIgnoreField('merge', fieldInfo)) continue;
         final field = fieldInfo.name;
         if (isDeepCloneField(fieldInfo)) {
           mergeContent += '$field: $field?.merge(other.$field),';
@@ -102,7 +102,7 @@ extension ${className}Extension on $className {
     for (int i = 0; i < classFields.length; i++) {
       if (classFields[i].declaration.isStatic == false) {
         final fieldInfo = classFields[i].declaration;
-        if (isIgnoreField('copyWith', fieldInfo)) continue;
+        if (isIgnoreField('generateToString', fieldInfo)) continue;
         final field = fieldInfo.name;
         String toStringDot = '';
         if (i < classFields.length - 1) toStringDot = ',';

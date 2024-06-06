@@ -8,7 +8,7 @@ class ElModel {
     this.toJson = false,
     this.copyWith = false,
     this.merge = false,
-    this.createToString = false,
+    this.generateToString = false,
   });
 
   /// 默认开启所有功能
@@ -17,7 +17,7 @@ class ElModel {
     this.toJson = true,
     this.copyWith = true,
     this.merge = true,
-    this.createToString = true,
+    this.generateToString = true,
   });
 
   /// 默认生成 json 序列化方法
@@ -26,7 +26,7 @@ class ElModel {
     this.toJson = true,
     this.copyWith = false,
     this.merge = false,
-    this.createToString = false,
+    this.generateToString = false,
   });
 
   /// 默认生成 copyWith、merge 方法
@@ -35,7 +35,7 @@ class ElModel {
     this.toJson = false,
     this.copyWith = true,
     this.merge = true,
-    this.createToString = false,
+    this.generateToString = false,
   });
 
   /// 生成 formJson 方法
@@ -52,7 +52,7 @@ class ElModel {
   final bool merge;
 
   /// 生成 toString 方法
-  final bool createToString;
+  final bool generateToString;
 }
 
 /// 模型字段元数据，控制每个字段的生成逻辑

@@ -37,19 +37,14 @@ class ElButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $style = ElButtonImportantTheme._merge(
-      context,
-      context.elConfig.buttonStyle.merge(
-        ElButtonTheme._merge(context, style),
-      ),
-    );
+    final $style = _style(context, style);
     final currentWidget = SelectionContainer.disabled(
       child: ElHoverBuilder(
         disabled: $style.disabled!,
-        builder: (isHover) => ElTapBuilder(
+        builder: ($isHover) => ElTapBuilder(
           onTap: onPressed,
           disabled: $style.disabled!,
-          builder: (isTap) => _Button(child, style: $style),
+          builder: ($isTap) => _Button(child, style: $style),
         ),
       ),
     );
@@ -89,10 +84,7 @@ class _Button extends ElButton {
     late Widget childWidget;
     if (child is Widget) {
       if (child is ElIcon) {
-        childWidget = ElIconTheme(
-          style: ElIconStyle(color: buttonStyle.textColor),
-          child: child,
-        );
+        childWidget = buildIcon(child, buttonStyle);
       } else {
         childWidget = child;
       }
@@ -110,7 +102,24 @@ class _Button extends ElButton {
         ),
       );
     }
+    if (style!.leftIcon != null || style!.rightIcon != null) {
+      childWidget = Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (style!.leftIcon != null) buildIcon(style!.leftIcon!, buttonStyle),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: childWidget),
+          if (style!.rightIcon != null) buildIcon(style!.rightIcon!, buttonStyle)
+        ],
+      );
+    }
     return childWidget;
+  }
+
+  Widget buildIcon(Widget iconWidget, _ElButtonStyle buttonStyle) {
+    return ElIconTheme(
+      style: ElIconStyle(color: buttonStyle.textColor),
+      child: iconWidget,
+    );
   }
 }
 
@@ -122,13 +131,13 @@ _ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final isHover = ElHoverBuilder.of(context);
-  final isTap = ElTapBuilder.of(context);
+  final $isHover = ElHoverBuilder.of(context);
+  final $isTap = ElTapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
 
   // 计算文字按钮样式
   if (style.text!) {
-    bgColor.value = $bgColor.onHover(isHover, 4).onTap(isTap, 4);
+    bgColor.value = $bgColor.onHover($isHover, 4).onTap($isTap, 4);
     style.type == null
         ? textColor.value = context.elTheme.textColor
         : textColor.value = context.themeTypeColors[style.type]!;
@@ -138,46 +147,47 @@ _ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
     }
   } else {
     // 计算默认按钮样式
-    if (style.type == null) {
-      final primaryColor = context.elTheme.primary;
-      bgColor.value = isHover || isTap ? primaryColor.elThemeLightBg(context) : $bgColor;
-      textColor.value = isHover || isTap ? primaryColor : context.elTheme.textColor;
-      borderColor.value = isTap
-          ? primaryColor
-          : isHover
-              ? primaryColor.elThemeLightBorder(context)
+    if (style.type == null && style.bgColor == null) {
+      final $primaryColor = context.elTheme.primary;
+      bgColor.value = $isHover || $isTap ? $primaryColor.elThemeLightBg(context) : $bgColor;
+      textColor.value = $isHover || $isTap ? $primaryColor : context.elTheme.textColor;
+      borderColor.value = $isTap
+          ? $primaryColor
+          : $isHover
+              ? $primaryColor.elThemeLightBorder(context)
               : context.elTheme.borderColor;
     }
     // 计算主题按钮样式
     else {
+      final $primaryColor = style.bgColor ?? context.themeTypeColors[style.type]!;
+      final $textColor =
+          style.color ?? (style.bgColor == null ? context.darkTheme.textColor : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain!) {
-        final primaryColor = context.themeTypeColors[style.type]!;
-        textColor.value = isHover || isTap ? context.darkTheme.textColor : primaryColor;
+        textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
         bgColor.value = PlatformUtil.isDesktop
-            ? (isTap
-                ? primaryColor.elTap(context)
-                : isHover
-                    ? primaryColor
-                    : primaryColor.elThemeLightBg(context))
-            : (isTap ? primaryColor : primaryColor.elThemeLightBg(context));
+            ? ($isTap
+                ? $primaryColor.elTap(context)
+                : $isHover
+                    ? $primaryColor
+                    : $primaryColor.elThemeLightBg(context))
+            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
         borderColor.value = PlatformUtil.isDesktop
-            ? (isTap
-                ? primaryColor.elTap(context)
-                : isHover
-                    ? primaryColor
-                    : primaryColor.elThemeLightBorder(context))
-            : (isTap ? primaryColor : primaryColor.elThemeLightBorder(context));
+            ? ($isTap
+                ? $primaryColor.elTap(context)
+                : $isHover
+                    ? $primaryColor
+                    : $primaryColor.elThemeLightBorder(context))
+            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBorder(context));
       }
       // 主题按钮
       else {
-        final primaryColor = context.themeTypeColors[style.type]!;
-        textColor.value = context.darkTheme.textColor;
-        bgColor.value = isTap
-            ? primaryColor.elTap(context)
-            : isHover
-                ? primaryColor.elHover(context)
-                : primaryColor;
+        textColor.value = $textColor;
+        bgColor.value = $isTap
+            ? $primaryColor.elTap(context)
+            : $isHover
+                ? $primaryColor.elHover(context)
+                : $primaryColor;
       }
     }
 

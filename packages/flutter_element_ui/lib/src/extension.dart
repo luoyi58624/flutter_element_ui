@@ -134,4 +134,6 @@ extension ColorExtension on Color {
 
   /// 应用主题透明边框颜色
   Color elThemeLightBorder(BuildContext context) => elLight6(context);
+
+  Color elTextColor(BuildContext context) => isDark ? context.darkTheme.textColor : context.theme.textColor;
 }

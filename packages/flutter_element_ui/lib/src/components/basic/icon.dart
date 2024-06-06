@@ -20,25 +20,20 @@ class ElIcon extends StatelessWidget {
 
   /// 渲染图标，支持以下参数：
   /// * http svg 图标
-  /// * asset svg 图标
+  /// * asset svg 图标，如果字符串不是http，那么将直接加载 asset 下的图标
   /// * [IconData] 字体图标
-  /// * [Widget] 自定义图标，你可以通过[of]获取当前图标样式
+  /// * [Widget] 自定义图标
   final dynamic child;
 
   /// 图标样式
   final ElIconStyle? style;
 
-  /// 当 child 为 asset 字符串地址时，指定其他库的 asset 图标资产包
+  /// 当 child 为 asset 字符串地址时，你可以指定其他库的 asset 图标资产包
   final String package;
 
   @override
   Widget build(BuildContext context) {
-    final $style = ElIconImportantTheme._merge(
-      context,
-      context.elConfig.iconStyle.merge(
-        ElIconTheme._merge(context, style),
-      ),
-    );
+    final $style = _style(context, style);
     dynamic $icon = child ?? $style.icon;
     if ($icon is String) {
       return _SvgWidget($icon, style: $style, package: package);

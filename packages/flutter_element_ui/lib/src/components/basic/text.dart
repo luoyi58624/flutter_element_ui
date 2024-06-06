@@ -48,12 +48,7 @@ class ElText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $style = ElTextImportantTheme._merge(
-      context,
-      context.elConfig.textStyle.merge(
-        ElTextTheme._merge(context, style),
-      ),
-    );
+    final $style = _style(context, style);
     return Text(
       '$text',
       style: $style.textStyle,

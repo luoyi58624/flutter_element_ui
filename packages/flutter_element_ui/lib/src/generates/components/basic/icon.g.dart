@@ -6,6 +6,14 @@ part of '../../../components/basic/icon.dart';
 // ElComponentGenerator
 // **************************************************************************
 
+ElIconStyle _style(BuildContext context, ElIconStyle? style) =>
+    ElIconImportantTheme._merge(
+      context,
+      context.elConfig.iconStyle.merge(
+        ElIconTheme._merge(context, style),
+      ),
+    );
+
 class ElIconTheme extends InheritedWidget {
   /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElIconTheme({super.key, required super.child, required this.style});

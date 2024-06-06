@@ -12,14 +12,11 @@ class ElButtonStyle {
   /// 默认按钮样式
   static const ElButtonStyle style = ElButtonStyle(
     height: 36,
-    type: null,
     text: false,
     plain: false,
     round: false,
     block: false,
     radius: BorderRadius.all(Radius.circular(4)),
-    padding: null,
-    rightIcon: null,
     circle: false,
     disabled: false,
   );
@@ -54,14 +51,20 @@ class ElButtonStyle {
   /// 自定义按钮 padding，默认情况下，水平 padding 为高度一半
   final EdgeInsetsGeometry? padding;
 
+  /// 按钮左图标，默认null
+  final ElIcon? leftIcon;
+
   /// 按钮右图标，默认null
   final ElIcon? rightIcon;
 
-  /// 圆形图标按钮，当child为[ElIcon]时生效，默认false
+  /// 圆形按钮，默认false
   final bool? circle;
 
   /// 禁用按钮，默认false
   final bool? disabled;
+
+  /// 开启 loading
+  final bool? loading;
 
   const ElButtonStyle({
     this.height,
@@ -74,8 +77,10 @@ class ElButtonStyle {
     this.block,
     this.radius,
     this.padding,
+    this.leftIcon,
     this.rightIcon,
     this.circle,
     this.disabled,
+    this.loading,
   });
 }

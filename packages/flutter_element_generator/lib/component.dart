@@ -11,16 +11,32 @@ class ElComponentGenerator extends GeneratorForAnnotation<ElComponent> {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
 
-    bool createTheme = annotation.read('theme').boolValue;
-    bool createImportantTheme = annotation.read('importantTheme').boolValue;
+    bool $generateMergeStyleFun = annotation.read('generateMergeStyleFun').boolValue;
+    bool $generateLocalThemeWidget = annotation.read('generateLocalThemeWidget').boolValue;
+    bool $generateImportantThemeWidget = annotation.read('generateImportantThemeWidget').boolValue;
 
     return """
-${generateTheme(createTheme, className)}
-${generateImportantTheme(createImportantTheme, className)}
+${generateMergeStyleFun($generateMergeStyleFun, className)}
+${generateLocalThemeWidget($generateLocalThemeWidget, className)}
+${generateImportantThemeWidget($generateImportantThemeWidget, className)}
   """;
   }
 
-  String generateTheme(bool enable, String className) {
+  String generateMergeStyleFun(bool enable, String className) {
+    if (!enable) return '';
+    var elConfigField = className.replaceAll('El', '');
+    elConfigField = elConfigField.substring(0, 1).toLowerCase() + elConfigField.substring(1);
+    return """
+${className}Style _style(BuildContext context, ${className}Style? style) => ${className}ImportantTheme._merge(
+      context,
+      context.elConfig.${elConfigField}Style.merge(
+        ${className}Theme._merge(context, style),
+      ),
+    );
+    """;
+  }
+
+  String generateLocalThemeWidget(bool enable, String className) {
     if (!enable) return '';
     return """
 class ${className}Theme extends InheritedWidget {
@@ -40,7 +56,7 @@ class ${className}Theme extends InheritedWidget {
     """;
   }
 
-  String generateImportantTheme(bool enable, String className) {
+  String generateImportantThemeWidget(bool enable, String className) {
     if (!enable) return '';
     return """
 class ${className}ImportantTheme extends InheritedWidget {
