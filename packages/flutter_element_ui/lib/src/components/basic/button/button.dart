@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,7 +8,7 @@ import '../../../builders/hover.dart';
 import '../../../builders/tap.dart';
 import '../../../styles/basic/button.dart';
 import '../../../styles/basic/text.dart';
-import '../icon.dart';
+import '../icon/icon.dart';
 import '../text.dart';
 
 part 'hook.dart';
@@ -48,7 +49,7 @@ class ElButtonImportantTheme extends InheritedWidget {
   bool updateShouldNotify(ElButtonImportantTheme oldWidget) => true;
 }
 
-class ElButton extends StatelessWidget {
+class ElButton extends HookWidget {
   const ElButton(
     this.child, {
     super.key,
@@ -75,6 +76,7 @@ class ElButton extends StatelessWidget {
         ElButtonTheme._merge(context, style),
       ),
     );
+    bool isCircleButton = child is ElIcon && $style.circle == true;
     final currentWidget = SelectionContainer.disabled(
       child: ElHoverBuilder(
         disabled: $style.disabled!,
@@ -82,49 +84,49 @@ class ElButton extends StatelessWidget {
           onTap: onClick,
           disabled: $style.disabled!,
           delay: PlatformUtil.isDesktop ? 0 : 50,
-          builder: (isTap) => _Button(child, $style),
+          builder: (isTap) => _Button(child, style: $style, isCircleButton: isCircleButton),
         ),
       ),
     );
-    return $style.block!
+    return $style.block! && !isCircleButton
         ? SizedBox(width: double.maxFinite, child: currentWidget)
         : UnconstrainedBox(child: currentWidget);
   }
 }
 
-class _Button extends HookWidget {
-  const _Button(this.child, this.style);
+class _Button extends ElButton {
+  const _Button(super.child, {super.style, required this.isCircleButton});
 
-  final dynamic child;
-  final ElButtonStyle style;
+  final bool isCircleButton;
 
   /// child类型为基础类型
-  bool get isBaseType => DartUtil.isBaseType(child);
-
-  /// 纯图标按钮
-  bool get isIconButton => child is ElIcon;
+  bool get isBaseType => child == null || DartUtil.isBaseType(child);
 
   @override
   Widget build(BuildContext context) {
-    final buttonStyle = _useButtonStyle(context, style);
-    final buttonHeight = style.height!;
+    final buttonStyle = _useButtonStyle(context, style!);
+    final buttonHeight = style!.height!;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
+      width: isCircleButton ? buttonHeight : null,
       height: buttonHeight,
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: buttonHeight / 2),
       decoration: BoxDecoration(
         color: buttonStyle.bgColor,
         border: buttonStyle.border,
-        borderRadius: style.radius ?? BorderRadius.circular(style.round! ? buttonHeight / 2 : 4),
+        borderRadius: style!.radius ?? BorderRadius.circular(style!.round! ? buttonHeight / 2 : 4),
       ),
       child: buildChild(buttonStyle),
     );
   }
 
   Widget buildChild(_ButtonStyle buttonStyle) {
-    if (isBaseType) {
-      return ElText(
+    late Widget childWidget;
+    if (child is Widget) {
+      childWidget = child;
+    } else {
+      childWidget = ElText(
         child,
         style: ElTextStyle(
           textStyle: TextStyle(
@@ -136,14 +138,7 @@ class _Button extends HookWidget {
           ),
         ),
       );
-    } else if (isIconButton) {
-      if (style.circle!) {
-        return const SizedBox();
-      } else {
-        return child;
-      }
-    } else {
-      return const SizedBox();
     }
+    return childWidget;
   }
 }

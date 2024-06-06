@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-import '../../components/basic/icon.dart';
-import '../../theme.dart';
+import '../../components/basic/icon/icon.dart';
+import '../theme.dart';
 
 part '../../generates/styles/basic/button.g.dart';
 
@@ -25,6 +25,12 @@ class ElButtonStyle {
 
   /// 按钮高度，默认36
   final double? height;
+
+  /// 按钮背景颜色
+  final Color? bgColor;
+
+  /// 按钮文字、图标颜色，如果为空，则根据[bgColor]自动计算为全局默认的文字颜色
+  final Color? color;
 
   /// 主题类型，默认null
   final ElThemeType? type;
@@ -59,6 +65,8 @@ class ElButtonStyle {
   /// 自定义按钮样式，创建的样式会基于默认的[style]进行合并
   const ElButtonStyle({
     this.height,
+    this.bgColor,
+    this.color,
     this.type,
     this.text,
     this.plain,

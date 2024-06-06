@@ -17,11 +17,11 @@ extension ElTextStyleExtension on ElTextStyle {
     );
   }
 
-  ElTextStyle merge([ElTextStyle? style]) {
-    if (style == null) return this;
+  ElTextStyle merge([ElTextStyle? other]) {
+    if (other == null) return this;
     return copyWith(
-      textStyle: textStyle?.merge(style.textStyle),
-      strutStyle: style.strutStyle,
+      textStyle: textStyle?.merge(other.textStyle),
+      strutStyle: other.strutStyle,
     );
   }
 }

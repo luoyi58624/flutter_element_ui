@@ -9,6 +9,8 @@ part of '../../../styles/basic/button.dart';
 extension ElButtonStyleExtension on ElButtonStyle {
   ElButtonStyle copyWith({
     double? height,
+    Color? bgColor,
+    Color? color,
     ElThemeType? type,
     bool? text,
     bool? plain,
@@ -22,6 +24,8 @@ extension ElButtonStyleExtension on ElButtonStyle {
   }) {
     return ElButtonStyle(
       height: height ?? this.height,
+      bgColor: bgColor ?? this.bgColor,
+      color: color ?? this.color,
       type: type ?? this.type,
       text: text ?? this.text,
       plain: plain ?? this.plain,
@@ -35,20 +39,22 @@ extension ElButtonStyleExtension on ElButtonStyle {
     );
   }
 
-  ElButtonStyle merge([ElButtonStyle? style]) {
-    if (style == null) return this;
+  ElButtonStyle merge([ElButtonStyle? other]) {
+    if (other == null) return this;
     return copyWith(
-      height: style.height,
-      type: style.type,
-      text: style.text,
-      plain: style.plain,
-      round: style.round,
-      block: style.block,
-      radius: style.radius,
-      padding: style.padding,
-      rightIcon: style.rightIcon,
-      circle: style.circle,
-      disabled: style.disabled,
+      height: other.height,
+      bgColor: other.bgColor,
+      color: other.color,
+      type: other.type,
+      text: other.text,
+      plain: other.plain,
+      round: other.round,
+      block: other.block,
+      radius: other.radius,
+      padding: other.padding,
+      rightIcon: other.rightIcon,
+      circle: other.circle,
+      disabled: other.disabled,
     );
   }
 }

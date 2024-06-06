@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/basic/brightness.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
+import 'styles/theme.dart';
 import 'theme.dart';
 
 extension ElThemeExtension on BuildContext {

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 
+import 'styles/theme.dart';
 import 'theme.dart';
 
 class ElApp extends StatelessWidget {
