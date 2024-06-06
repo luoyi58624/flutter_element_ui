@@ -105,13 +105,13 @@ class _ElTableState extends State<ElTable> {
   /// 获取表格的总宽度
   double getColumnSumWidth(List<ElTableColumn> columns) {
     double width = 0;
-    columns.forEach((e) {
+    for (var e in columns) {
       if (e.width == null) {
         width += e.minWidth;
       } else {
         width += e.width!;
       }
-    });
+    }
     return width;
   }
 
@@ -138,7 +138,7 @@ class _ElTableState extends State<ElTable> {
     columnList = [];
     fixedLeftColumnList = [];
     fixedRightColumnList = [];
-    widget.columns.forEach((e) {
+    for (var e in widget.columns) {
       if (e.fixedLeft) {
         fixedLeftColumnList.add(e);
       } else if (e.fixedRight) {
@@ -146,7 +146,7 @@ class _ElTableState extends State<ElTable> {
       } else {
         columnList.add(e);
       }
-    });
+    }
 
     columnMinWidth = getColumnSumWidth(columnList);
 

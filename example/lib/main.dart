@@ -31,12 +31,6 @@ class _App extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: router,
             builder: (context, child) => ElTheme(
-              config: ElConfigData(
-                buttonStyle: ElButtonStyle(
-                  height: 36,
-                  radius: BorderRadius.circular(4),
-                ),
-              ),
               child: child!,
             ),
           );

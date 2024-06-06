@@ -5,6 +5,7 @@ import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
+import '../../styles/basic/icon.dart';
 import '../basic/icon/icon.dart';
 import '../basic/scrollbar.dart';
 
@@ -16,7 +17,7 @@ class ElMenuModel {
   String title;
 
   /// 菜单图标
-  ElIcon? icon;
+  dynamic icon;
 
   /// 菜单对应的路由地址
   String? path;
@@ -293,10 +294,12 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
             if (widget.menuItem.icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 8),
-                child: ElDefaultIconStyle(
-                  color: menuItemColor,
-                  size: _ElMenuData.of(context).iconSize,
-                  child: widget.menuItem.icon!,
+                child: ElIcon(
+                  widget.menuItem.icon!,
+                  style: ElIconStyle(
+                    color: menuItemColor,
+                    size: _ElMenuData.of(context).iconSize,
+                  ),
                 ),
               ),
             if (!_ElMenuData.of(context).collapse)
@@ -321,10 +324,12 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                   child: AnimatedRotation(
                     duration: Duration(milliseconds: max(_ElMenuData.of(context).expandDuration - 50, 0)),
                     turns: widget.expand ? 0.5 : 0,
-                    child: ElIcon.svg(
+                    child: ElIcon(
                       ElIcons.arrowDown,
-                      color: menuItemColor,
-                      size: 12,
+                      style: ElIconStyle(
+                        color: menuItemColor,
+                        size: 12,
+                      ),
                     ),
                   ),
                 ),

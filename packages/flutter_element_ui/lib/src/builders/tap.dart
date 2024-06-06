@@ -12,7 +12,7 @@ class ElTapBuilder extends HookWidget {
     super.key,
     required this.builder,
     this.onTap,
-    this.delay = 0,
+    this.delay = 16,
     this.disabled = false,
   }) : assert(delay >= 0);
 
@@ -20,7 +20,10 @@ class ElTapBuilder extends HookWidget {
 
   final GestureTapCallback? onTap;
 
-  /// 延迟多少毫秒更新点击状态
+  /// 延迟多少毫秒更新点击状态，默认 16 毫秒。
+  ///
+  /// 提示：如果在极短的时间内多次调用setState，flutter只会触发一次更新，例如用户手指轻按、鼠标轻点，这里其中的时间间隔极短，
+  /// 如果不设置一点延迟，那么依赖点击状态的动画可能会没有反应
   final int delay;
 
   /// 是否禁用，默认false

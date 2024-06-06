@@ -55,7 +55,7 @@ class ElDialog extends StatelessWidget {
                   if (cancelText != '')
                     ElButton(
                       cancelText,
-                      onClick: () {
+                      onPressed: () {
                         if (onCancel != null) onCancel();
                         if (context.mounted) Navigator.of(context).pop(false);
                       },
@@ -68,7 +68,7 @@ class ElDialog extends StatelessWidget {
                   if (confirmText != '')
                     ElButton(
                       loading ? confirmLoadingText : confirmText,
-                      onClick: () async {
+                      onPressed: () async {
                         if (onConfirm != null) {
                           setState(() => loading = true);
                           await onConfirm();

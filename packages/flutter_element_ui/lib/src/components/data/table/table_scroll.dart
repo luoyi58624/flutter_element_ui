@@ -27,11 +27,11 @@ class _TableColumnScrollState extends State<_TableColumnScroll> {
   void initState() {
     super.initState();
     widget.controller.addListener(() {
-      widget.linkageController.forEach((controller) {
+      for (var controller in widget.linkageController) {
         if (controller != null && controller.offset != widget.controller.offset) {
           controller.jumpTo(widget.controller.offset);
         }
-      });
+      }
     });
   }
 

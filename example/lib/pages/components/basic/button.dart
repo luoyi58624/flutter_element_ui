@@ -9,6 +9,18 @@ class ButtonPage extends HookWidget {
     final controller = useScrollController();
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
+    final buttonTypes = [null, ...ElThemeType.values];
+
+    Widget buildTitle(String title) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Gap(12),
+            Text(title, style: context.h3),
+            const Gap(8),
+          ],
+        );
+    Widget buildWrap(Iterable<Widget> children) => Wrap(spacing: 8, runSpacing: 8, children: children.toList());
+
     return ElScrollbar(
       controller: controller,
       child: SingleChildScrollView(
@@ -23,279 +35,73 @@ class ButtonPage extends HookWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  ElButton(disabled ? 'Enabled' : 'Disabled', onClick: toggleDisabled),
+                  ElButton(disabled ? 'Enabled' : 'Disabled', onPressed: toggleDisabled),
                   const ElButton('你好'),
                 ],
               ),
-              const Gap(12),
-              Text('普通按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.info, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('镂空按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, plain: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, plain: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.info, plain: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, plain: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, plain: true, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('圆角按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.info, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, round: true, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('圆角镂空按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, plain: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, plain: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    style: ElButtonStyle(type: ElThemeType.info, plain: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, plain: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, plain: true, round: true, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('文字按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(text: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, text: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, text: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.info, text: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, text: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, text: true, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('文字圆角按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    'Default: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(text: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Primary: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.primary, text: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Success: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.success, text: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Info: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.info, text: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Warning: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.warning, text: true, round: true, disabled: disabled),
-                  ),
-                  ElButton(
-                    'Error: $count',
-                    onClick: addCount,
-                    style: ElButtonStyle(type: ElThemeType.error, text: true, round: true, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('图标按钮', style: context.h3),
-              const Gap(8),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: [
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(disabled: disabled),
-                  ),
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(type: ElThemeType.primary, disabled: disabled),
-                  ),
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(type: ElThemeType.success, disabled: disabled),
-                  ),
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(type: ElThemeType.info, disabled: disabled),
-                  ),
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(type: ElThemeType.warning, disabled: disabled),
-                  ),
-                  ElButton(
-                    const ElIcon.svg(ElIcons.aim),
-                    style: ElButtonStyle(type: ElThemeType.error, disabled: disabled),
-                  ),
-                ],
-              ),
-              const Gap(12),
-              Text('块级按钮', style: context.h3),
-              const Gap(8),
+              buildTitle('普通按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, disabled: disabled),
+                ),
+              )),
+              buildTitle('镂空按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, plain: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('圆角按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, round: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('圆角镂空按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, plain: true, round: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('文字按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, text: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('文字圆角按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  'count: $count',
+                  onPressed: addCount,
+                  style: ElButtonStyle(type: type, text: true, round: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('图标按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  const ElIcon(ElIcons.aim),
+                  style: ElButtonStyle(type: type, disabled: disabled),
+                ),
+              )),
+              buildTitle('圆形图标按钮'),
+              buildWrap(buttonTypes.map(
+                (type) => ElButton(
+                  const ElIcon(ElIcons.aim),
+                  style: ElButtonStyle(type: type, circle: true, disabled: disabled),
+                ),
+              )),
+              buildTitle('块级按钮'),
               ElButton(
                 'Default',
                 style: ElButtonStyle(block: true, disabled: disabled),

@@ -63,7 +63,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
               valueListenable: GlobalState.counter,
               builder: (context, value, _) => ElButton(
                 'count: ${GlobalState.counter.value}',
-                onClick: () {
+                onPressed: () {
                   GlobalState.counter.value++;
                 },
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_annotation/component.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
@@ -7,54 +8,20 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../../builders/hover.dart';
 import '../../../builders/tap.dart';
 import '../../../styles/basic/button.dart';
+import '../../../styles/basic/icon.dart';
 import '../../../styles/basic/text.dart';
 import '../icon/icon.dart';
 import '../text.dart';
 
 part 'hook.dart';
 
-class ElButtonTheme extends InheritedWidget {
-  /// 局部默认样式小部件
-  const ElButtonTheme({
-    super.key,
-    required super.child,
-    required this.style,
-  });
-
-  final ElButtonStyle style;
-
-  static ElButtonStyle? _merge(BuildContext context, ElButtonStyle? style) {
-    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.style;
-    return defaultStyle == null ? style : defaultStyle.merge(style);
-  }
-
-  @override
-  bool updateShouldNotify(ElButtonTheme oldWidget) => true;
-}
-
-class ElButtonImportantTheme extends InheritedWidget {
-  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
-  const ElButtonImportantTheme({
-    super.key,
-    required super.child,
-    required this.style,
-  });
-
-  final ElButtonStyle style;
-
-  static ElButtonStyle _merge(BuildContext context, ElButtonStyle style) =>
-      style.merge(context.dependOnInheritedWidgetOfExactType<ElButtonImportantTheme>()?.style);
-
-  @override
-  bool updateShouldNotify(ElButtonImportantTheme oldWidget) => true;
-}
-
+@ElComponent.all()
 class ElButton extends HookWidget {
   const ElButton(
     this.child, {
     super.key,
     this.style,
-    this.onClick,
+    this.onPressed,
   });
 
   /// 支持任意类型子组件：
@@ -66,7 +33,7 @@ class ElButton extends HookWidget {
   final ElButtonStyle? style;
 
   /// 点击事件
-  final VoidCallback? onClick;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -76,28 +43,24 @@ class ElButton extends HookWidget {
         ElButtonTheme._merge(context, style),
       ),
     );
-    bool isCircleButton = child is ElIcon && $style.circle == true;
     final currentWidget = SelectionContainer.disabled(
       child: ElHoverBuilder(
         disabled: $style.disabled!,
         builder: (isHover) => ElTapBuilder(
-          onTap: onClick,
+          onTap: onPressed,
           disabled: $style.disabled!,
-          delay: PlatformUtil.isDesktop ? 0 : 50,
-          builder: (isTap) => _Button(child, style: $style, isCircleButton: isCircleButton),
+          builder: (isTap) => _Button(child, style: $style),
         ),
       ),
     );
-    return $style.block! && !isCircleButton
+    return $style.block! && $style.circle == false
         ? SizedBox(width: double.maxFinite, child: currentWidget)
         : UnconstrainedBox(child: currentWidget);
   }
 }
 
 class _Button extends ElButton {
-  const _Button(super.child, {super.style, required this.isCircleButton});
-
-  final bool isCircleButton;
+  const _Button(super.child, {super.style});
 
   /// child类型为基础类型
   bool get isBaseType => child == null || DartUtil.isBaseType(child);
@@ -106,25 +69,33 @@ class _Button extends ElButton {
   Widget build(BuildContext context) {
     final buttonStyle = _useButtonStyle(context, style!);
     final buttonHeight = style!.height!;
+    final isCircle = style!.circle == true;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
-      width: isCircleButton ? buttonHeight : null,
+      width: isCircle ? buttonHeight : null,
       height: buttonHeight,
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: buttonHeight / 2),
+      padding: isCircle ? null : style!.padding ?? EdgeInsets.symmetric(horizontal: buttonHeight / 2),
       decoration: BoxDecoration(
         color: buttonStyle.bgColor,
         border: buttonStyle.border,
-        borderRadius: style!.radius ?? BorderRadius.circular(style!.round! ? buttonHeight / 2 : 4),
+        borderRadius: style!.round! || isCircle ? BorderRadius.circular(buttonHeight / 2) : style!.radius,
       ),
       child: buildChild(buttonStyle),
     );
   }
 
-  Widget buildChild(_ButtonStyle buttonStyle) {
+  Widget buildChild(_ElButtonStyle buttonStyle) {
     late Widget childWidget;
     if (child is Widget) {
-      childWidget = child;
+      if (child is ElIcon) {
+        childWidget = ElIconTheme(
+          style: ElIconStyle(color: buttonStyle.textColor),
+          child: child,
+        );
+      } else {
+        childWidget = child;
+      }
     } else {
       childWidget = ElText(
         child,
@@ -141,4 +112,32 @@ class _Button extends ElButton {
     }
     return childWidget;
   }
+}
+
+class ElButtonTheme extends InheritedWidget {
+  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
+  const ElButtonTheme({super.key, required super.child, required this.style});
+
+  final ElButtonStyle style;
+
+  static ElButtonStyle? _merge(BuildContext context, ElButtonStyle? style) {
+    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.style;
+    return defaultStyle == null ? style : defaultStyle.merge(style);
+  }
+
+  @override
+  bool updateShouldNotify(ElButtonTheme oldWidget) => oldWidget.style != style;
+}
+
+class ElButtonImportantTheme extends InheritedWidget {
+  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important，但目前很简陋
+  const ElButtonImportantTheme({super.key, required super.child, required this.style});
+
+  final ElButtonStyle style;
+
+  static ElButtonStyle _merge(BuildContext context, ElButtonStyle style) =>
+      style.merge(context.dependOnInheritedWidgetOfExactType<ElButtonImportantTheme>()?.style);
+
+  @override
+  bool updateShouldNotify(ElButtonImportantTheme oldWidget) => oldWidget.style != style;
 }

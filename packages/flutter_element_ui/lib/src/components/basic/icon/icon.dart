@@ -1,164 +1,120 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/utils/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
+import '../../../styles/basic/icon.dart';
+
 part 'icons.dart';
 
-/// 默认的图标样式
-class ElDefaultIconStyle extends InheritedWidget {
-  const ElDefaultIconStyle({
-    super.key,
-    required super.child,
-    this.icon,
-    this.svgUrl,
-    this.size,
-    this.color,
-  }) : assert(
-            (icon == null && svgUrl == null) ||
-                (icon != null && svgUrl == null && svgUrl != '') ||
-                (icon == null && svgUrl != null && svgUrl != ''),
-            'icon和svgUrl不能同时存在');
-
-  /// 默认的icon
-  final IconData? icon;
-
-  /// 默认的svg图标地址
-  final String? svgUrl;
-  final double? size;
-  final Color? color;
-
-  static ElDefaultIconStyle? of(BuildContext context) {
-    final ElDefaultIconStyle? result = context.dependOnInheritedWidgetOfExactType<ElDefaultIconStyle>();
-    return result;
-  }
-
-  @override
-  bool updateShouldNotify(ElDefaultIconStyle oldWidget) {
-    return true;
-  }
-}
-
-/// Element UI 图标，它只是在[Icon]的基础上添加了[ElDefaultIconStyle]默认图标样式，同时扩展了svg图标，底层基于[flutter_svg]
+/// Element UI 图标
 class ElIcon extends StatelessWidget {
-  /// 渲染普通的icon
   const ElIcon(
-    this.icon, {
+    this.child, {
     super.key,
-    this.size,
-    this.fill,
-    this.weight,
-    this.grade,
-    this.opticalSize,
-    this.color,
-    this.shadows,
-    this.semanticLabel,
-    this.textDirection,
-    this.applyTextScaling,
-  })  : svgUrl = null,
-        assert(fill == null || (0.0 <= fill && fill <= 1.0)),
-        assert(weight == null || (0.0 < weight)),
-        assert(opticalSize == null || (0.0 < opticalSize));
-
-  /// 渲染svg图标
-  const ElIcon.svg(
-    this.svgUrl, {
-    super.key,
-    this.size,
-    this.color,
-  })  : icon = null,
-        fill = null,
-        weight = null,
-        grade = null,
-        opticalSize = null,
-        shadows = null,
-        semanticLabel = null,
-        textDirection = null,
-        applyTextScaling = null;
-
-  /// 渲染普通图标
-  final IconData? icon;
-
-  /// 渲染svg图标
-  final String? svgUrl;
-
-  final double? size;
-  final Color? color;
-  final double? fill;
-  final double? weight;
-  final double? grade;
-  final double? opticalSize;
-  final List<Shadow>? shadows;
-  final String? semanticLabel;
-  final TextDirection? textDirection;
-  final bool? applyTextScaling;
-
-  @override
-  Widget build(BuildContext context) {
-    ElDefaultIconStyle? style = ElDefaultIconStyle.of(context);
-    if (svgUrl != null || (style?.svgUrl != null && style!.svgUrl != '')) {
-      return _SvgWidget(
-        svgUrl,
-        size: size ?? style?.size ?? context.elConfig.iconSize,
-        color: color ?? style?.color,
-        package: 'flutter_element_ui',
-      );
-    } else {
-      return Icon(
-        icon ?? style?.icon,
-        size: size ?? style?.size ?? context.elConfig.iconSize,
-        color: color ?? style?.color,
-        fill: fill,
-        weight: weight,
-        grade: grade,
-        opticalSize: opticalSize,
-        shadows: shadows,
-        semanticLabel: semanticLabel,
-        textDirection: textDirection,
-        applyTextScaling: applyTextScaling,
-      );
-    }
-  }
-}
-
-class _SvgWidget extends StatelessWidget {
-  const _SvgWidget(
-    this.url, {
-    this.size,
-    this.color,
-    this.package,
+    this.style,
+    this.package = 'flutter_element_ui',
   });
 
-  /// svg地址路径，它根据地址前缀自动加载不同环境的svg：
-  /// * http、https - 加载网络上的svg
-  /// * asset、assets、/asset、/assets - 加载项目资产中的svg
-  final String? url;
+  /// 渲染图标，支持以下参数：
+  /// * http svg 图标
+  /// * asset svg 图标
+  /// * [IconData] 字体图标
+  /// * [Widget] 自定义图标，你可以通过[of]获取当前图标样式
+  final dynamic child;
 
-  final double? size;
+  /// 图标样式
+  final ElIconStyle? style;
 
-  final Color? color;
-
-  /// 指定其他库的asset资产包
-  final String? package;
+  /// 当 child 为 asset 字符串地址时，指定其他库的 asset 图标资产包
+  final String package;
 
   @override
   Widget build(BuildContext context) {
-    assert(url != null);
-    if (url!.startsWith('http')) {
-      return SvgPicture.network(
-        url!,
-        width: size,
-        height: size,
-        color: color,
+    final $style = ElIconImportantTheme._merge(
+      context,
+      context.elConfig.iconStyle.merge(
+        ElIconTheme._merge(context, style),
+      ),
+    );
+    dynamic $icon = child ?? $style.icon;
+    if ($icon is String) {
+      return _SvgWidget($icon, style: $style, package: package);
+    } else if ($icon is IconData) {
+      return Icon(
+        $icon,
+        size: $style.size!,
+        color: $style.color,
       );
-    } else if (url!.startsWith('asset') || url!.startsWith('/asset')) {
-      return SvgPicture.asset(
-        url!,
-        width: size,
-        height: size,
-        color: color,
-        package: package,
+    } else if ($icon is Widget) {
+      return UnconstrainedBox(
+        child: SizedBox(
+          width: $style.size!,
+          height: $style.size!,
+          child: Center(
+            child: $icon,
+          ),
+        ),
       );
+    } else {
+      return Placeholder(fallbackWidth: $style.size!, fallbackHeight: $style.size!);
     }
-    return const SizedBox();
   }
+}
+
+class _SvgWidget extends ElIcon {
+  const _SvgWidget(super.child, {super.style, super.package});
+
+  @override
+  Widget build(BuildContext context) {
+    double size = style!.size!;
+    ColorFilter? colorFilter = style!.color == null
+        ? null
+        : ColorFilter.mode(
+            style!.color!,
+            BlendMode.srcIn,
+          );
+    return ElUtil.isHttp(child as String)
+        ? SvgPicture.network(
+            child!,
+            width: size,
+            height: size,
+            colorFilter: colorFilter,
+          )
+        : SvgPicture.asset(
+            child!,
+            width: size,
+            height: size,
+            colorFilter: colorFilter,
+            package: package,
+          );
+  }
+}
+
+class ElIconTheme extends InheritedWidget {
+  /// 局部默认样式小部件
+  const ElIconTheme({super.key, required super.child, required this.style});
+
+  final ElIconStyle style;
+
+  static ElIconStyle? _merge(BuildContext context, ElIconStyle? style) {
+    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElIconTheme>()?.style;
+    return defaultStyle == null ? style : defaultStyle.merge(style);
+  }
+
+  @override
+  bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget.style != style;
+}
+
+class ElIconImportantTheme extends InheritedWidget {
+  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
+  const ElIconImportantTheme({super.key, required super.child, required this.style});
+
+  final ElIconStyle style;
+
+  static ElIconStyle _merge(BuildContext context, ElIconStyle style) =>
+      style.merge(context.dependOnInheritedWidgetOfExactType<ElIconImportantTheme>()?.style);
+
+  @override
+  bool updateShouldNotify(ElIconImportantTheme oldWidget) => oldWidget.style != style;
 }

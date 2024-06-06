@@ -12,10 +12,10 @@ class LayoutSidebarWidget extends StatefulWidget {
 
 class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   List<ElMenuModel> get menuList => [
-        ElMenuModel(title: '首页', icon: const ElIcon.svg(ElIcons.homeFilled), path: '/'),
+        ElMenuModel(title: '首页', icon: ElIcons.homeFilled, path: '/'),
         ElMenuModel(
           title: '组件',
-          icon: const ElIcon.svg(ElIcons.eleme),
+          icon: ElIcons.eleme,
           path: '/components',
           children: [
             ElMenuModel(
@@ -70,7 +70,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
         ),
         ElMenuModel(
           title: '测试',
-          icon: const ElIcon.svg(ElIcons.comment),
+          icon: ElIcons.comment,
           children: [
             ElMenuModel(
               title: '边框',
@@ -84,7 +84,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
         ),
         ElMenuModel(
           title: '嵌套菜单',
-          icon: const ElIcon.svg(ElIcons.folder),
+          icon: ElIcons.folder,
           children: [
             ElMenuModel(title: '子菜单1'),
             ElMenuModel(title: '子菜单2'),

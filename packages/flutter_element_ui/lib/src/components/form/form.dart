@@ -61,7 +61,6 @@ const Map<ElFormSize, double> _inputPadding = {
 /// 用于向子组件共享的表单数据
 class _FormInheritedWidget extends InheritedWidget {
   const _FormInheritedWidget({
-    super.key,
     required super.child,
     this.labelWidth,
     required this.labelPosition,

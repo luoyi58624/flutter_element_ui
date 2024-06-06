@@ -18,7 +18,7 @@ class _DialogPageState extends State<DialogPage> {
           const SizedBox(height: 8),
           ElButton(
             '确认提示框',
-            onClick: () {
+            onPressed: () {
               ElDialog.showConfirm(
                 context,
                 '警告',
@@ -35,7 +35,7 @@ class _DialogPageState extends State<DialogPage> {
           const SizedBox(height: 8),
           ElButton(
             '弹出Dialog',
-            onClick: () {
+            onPressed: () {
               showDialog(
                 context: context,
                 builder: (context) => ElDialog(
@@ -45,14 +45,14 @@ class _DialogPageState extends State<DialogPage> {
                     children: [
                       ElButton(
                         '取消',
-                        onClick: () {
+                        onPressed: () {
                           context.pop();
                         },
                       ),
                       const SizedBox(width: 8),
                       ElButton(
                         '确定',
-                        onClick: () {
+                        onPressed: () {
                           context.pop();
                         },
                         style: const ElButtonStyle(

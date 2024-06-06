@@ -19,8 +19,8 @@ class _TableRowItemState extends State<_TableRowItem> {
   @override
   Widget build(BuildContext context) {
     var borderSide = BorderSide(color: context.elTheme.borderColor);
-    var _elTableData = _ElTableData.of(context);
-    var rowHeight = _elTableData.rowHeight;
+    var $elTableData = _ElTableData.of(context);
+    var rowHeight = $elTableData.rowHeight;
     var column = widget.columns[0];
     late List<Widget> children;
     if (!column.fixedLeft && !column.fixedRight) {
@@ -90,7 +90,7 @@ class _TableRowItemState extends State<_TableRowItem> {
           return DecoratedBox(
             decoration: BoxDecoration(
               color:
-                  _elTableData.highlightCurrentRow && value == widget.index ? context.elTheme.bgColor.deepen(5) : null,
+                  $elTableData.highlightCurrentRow && value == widget.index ? context.elTheme.bgColor.deepen(5) : null,
               border: Border(bottom: BorderSide(color: context.elTheme.borderColor)),
             ),
             child: Row(children: children),

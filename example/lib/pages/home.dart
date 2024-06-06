@@ -23,7 +23,7 @@ class HomePage extends HookWidget {
                   // const Center(child: ElText('你好，世界')),
                   const Text('text'),
                   const Gap(16),
-                  ElButton('count: $count', onClick: addCount),
+                  ElButton('count: $count', onPressed: addCount),
                   UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
                   ...List.generate(1000, (index) => flag ? const _Button() : const _Button2()),
                 ],
@@ -51,7 +51,7 @@ class _Button extends HookWidget {
               type: ElThemeType.error,
               plain: true,
             ),
-            child: ElButton('Default: $count', onClick: addCount),
+            child: ElButton('Default: $count', onPressed: addCount),
           ),
           ElTextImportantTheme(
             style: const ElTextStyle(
@@ -59,28 +59,28 @@ class _Button extends HookWidget {
             ),
             child: ElButton(
               'Primary: $count',
-              onClick: addCount,
+              onPressed: addCount,
               style: const ElButtonStyle(type: ElThemeType.primary),
             ),
           ),
           ElButton(
             'Success: $count',
-            onClick: addCount,
+            onPressed: addCount,
             style: const ElButtonStyle(type: ElThemeType.success),
           ),
           ElButton(
             'Info: $count',
-            onClick: addCount,
+            onPressed: addCount,
             style: const ElButtonStyle(type: ElThemeType.info),
           ),
           ElButton(
             'Warning: $count',
-            onClick: addCount,
+            onPressed: addCount,
             style: const ElButtonStyle(type: ElThemeType.warning),
           ),
           ElButton(
             'Error: $count',
-            onClick: addCount,
+            onPressed: addCount,
             style: const ElButtonStyle(type: ElThemeType.error),
           ),
         ],

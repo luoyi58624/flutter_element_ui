@@ -4,6 +4,7 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'basic/button.dart';
+import 'basic/icon.dart';
 import 'basic/text.dart';
 
 part '../generates/styles/theme.g.dart';
@@ -133,46 +134,6 @@ class ElThemeData {
     this.modalColor = modalColor ?? bgColor;
     iconColors = List.generate(6, (index) => iconColor.darken(4 * (index + 1)));
   }
-
-  ElThemeData copyWith({
-    Color? primary,
-    Color? success,
-    Color? info,
-    Color? warning,
-    Color? error,
-    Color? bgColor,
-    Color? headerColor,
-    Color? cardColor,
-    Color? modalColor,
-    Color? titleColor,
-    Color? textColor,
-    Color? iconColor,
-    Color? borderColor,
-    Color? menuBackground,
-    Color? menuActiveColor,
-    double? cardElevation,
-    double? modalElevation,
-  }) {
-    return ElThemeData(
-      primary: primary ?? this.primary,
-      success: success ?? this.success,
-      info: info ?? this.info,
-      warning: warning ?? this.warning,
-      error: error ?? this.error,
-      bgColor: bgColor ?? this.bgColor,
-      headerColor: headerColor ?? this.headerColor,
-      cardColor: cardColor ?? this.cardColor,
-      modalColor: modalColor ?? this.modalColor,
-      titleColor: titleColor ?? this.titleColor,
-      textColor: textColor ?? this.textColor,
-      iconColor: iconColor ?? this.iconColor,
-      borderColor: borderColor ?? this.borderColor,
-      menuBackground: menuBackground ?? this.menuBackground,
-      menuActiveColor: menuActiveColor ?? this.menuActiveColor,
-      cardElevation: cardElevation ?? this.cardElevation,
-      modalElevation: modalElevation ?? this.modalElevation,
-    );
-  }
 }
 
 /// Element UI 全局配置，定义了所有组件的默认配置信息，每个组件的主题样式提取都遵循以下规则：
@@ -192,6 +153,8 @@ class ElConfigData {
   /// 按钮全局样式
   late ElButtonStyle buttonStyle;
 
+  late ElIconStyle iconStyle;
+
   /// 输入框全局圆角值
   double inputRadius;
 
@@ -202,11 +165,13 @@ class ElConfigData {
     this.iconSize = 20,
     ElTextStyle? textStyle,
     ElButtonStyle? buttonStyle,
+    ElIconStyle? iconStyle,
     this.cardRadius = 6,
     this.inputRadius = 6,
   }) {
     this.textStyle = ElTextStyle.style.merge(textStyle);
     this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
+    this.iconStyle = ElIconStyle.style.merge(iconStyle);
   }
 }
 

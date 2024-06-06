@@ -1,9 +1,9 @@
 part of 'button.dart';
 
-typedef _ButtonStyle = ({Color? bgColor, Color? textColor, Border? border});
+typedef _ElButtonStyle = ({Color? bgColor, Color? textColor, Border? border});
 
-/// 计算按钮样式 Hook
-_ButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
+/// 计算按钮样式 hook，抽离 hook 并非一定要是公用逻辑，只是为了核心逻辑更加简洁
+_ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
   final bgColor = useState<Color?>(null);
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);

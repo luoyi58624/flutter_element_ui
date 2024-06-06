@@ -3,42 +3,6 @@ import 'package:flutter_element_ui/src/extension.dart';
 
 import '../../styles/basic/text.dart';
 
-class ElTextTheme extends InheritedWidget {
-  /// 局部默认样式小部件
-  const ElTextTheme({
-    super.key,
-    required super.child,
-    required this.style,
-  });
-
-  final ElTextStyle style;
-
-  static ElTextStyle? _merge(BuildContext context, ElTextStyle? style) {
-    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElTextTheme>()?.style;
-    return defaultStyle == null ? style : defaultStyle.merge(style);
-  }
-
-  @override
-  bool updateShouldNotify(ElTextTheme oldWidget) => true;
-}
-
-class ElTextImportantTheme extends InheritedWidget {
-  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
-  const ElTextImportantTheme({
-    super.key,
-    required super.child,
-    required this.style,
-  });
-
-  final ElTextStyle style;
-
-  static ElTextStyle _merge(BuildContext context, ElTextStyle style) =>
-      style.merge(context.dependOnInheritedWidgetOfExactType<ElTextImportantTheme>()?.style);
-
-  @override
-  bool updateShouldNotify(ElTextImportantTheme oldWidget) => true;
-}
-
 class ElText extends StatelessWidget {
   /// 文本小部件，对[Text]进行的封装，支持如下功能：
   /// * 支持任意类型，并不局限String
@@ -103,4 +67,32 @@ class ElText extends StatelessWidget {
       selectionColor: selectionColor,
     );
   }
+}
+
+class ElTextTheme extends InheritedWidget {
+  /// 局部默认样式小部件
+  const ElTextTheme({super.key, required super.child, required this.style});
+
+  final ElTextStyle style;
+
+  static ElTextStyle? _merge(BuildContext context, ElTextStyle? style) {
+    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElTextTheme>()?.style;
+    return defaultStyle == null ? style : defaultStyle.merge(style);
+  }
+
+  @override
+  bool updateShouldNotify(ElTextTheme oldWidget) => oldWidget.style != style;
+}
+
+class ElTextImportantTheme extends InheritedWidget {
+  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
+  const ElTextImportantTheme({super.key, required super.child, required this.style});
+
+  final ElTextStyle style;
+
+  static ElTextStyle _merge(BuildContext context, ElTextStyle style) =>
+      style.merge(context.dependOnInheritedWidgetOfExactType<ElTextImportantTheme>()?.style);
+
+  @override
+  bool updateShouldNotify(ElTextImportantTheme oldWidget) => oldWidget.style != style;
 }

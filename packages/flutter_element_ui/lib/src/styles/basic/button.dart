@@ -1,3 +1,4 @@
+import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
@@ -16,7 +17,7 @@ class ElButtonStyle {
     plain: false,
     round: false,
     block: false,
-    radius: null,
+    radius: BorderRadius.all(Radius.circular(4)),
     padding: null,
     rightIcon: null,
     circle: false,
@@ -47,10 +48,10 @@ class ElButtonStyle {
   /// 块级按钮，宽度会充满容器，默认false
   final bool? block;
 
-  /// 自定义按钮圆角，如果[round]为true，则渲染圆角按钮，否则按钮默认圆角为 4 像素
+  /// 自定义按钮圆角，默认 4 像素，如果[round]为true，则强制渲染为圆角按钮
   final BorderRadiusGeometry? radius;
 
-  /// 定义按钮 padding，默认水平 padding 为高度一半
+  /// 自定义按钮 padding，默认情况下，水平 padding 为高度一半
   final EdgeInsetsGeometry? padding;
 
   /// 按钮右图标，默认null
@@ -62,7 +63,6 @@ class ElButtonStyle {
   /// 禁用按钮，默认false
   final bool? disabled;
 
-  /// 自定义按钮样式，创建的样式会基于默认的[style]进行合并
   const ElButtonStyle({
     this.height,
     this.bgColor,

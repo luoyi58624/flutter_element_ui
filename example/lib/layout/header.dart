@@ -28,9 +28,9 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
                 child: ValueListenableBuilder(
                   valueListenable: GlobalState.elMenu,
                   builder: (context, value, _) {
-                    return ElIcon.svg(
+                    return ElIcon(
                       value.isCollapse ? ElIcons.expand : ElIcons.fold,
-                      size: 22,
+                      style: const ElIconStyle(size: 22),
                     );
                   },
                 ),
