@@ -193,7 +193,7 @@ _ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
 
     // 计算禁用样式
     if (style.disabled!) {
-      if (style.type == null) {
+      if (style.type == null && style.bgColor == null) {
         textColor.value = textColor.value!.withOpacity(0.6);
         borderColor.value = borderColor.value!.withOpacity(0.6);
       } else {

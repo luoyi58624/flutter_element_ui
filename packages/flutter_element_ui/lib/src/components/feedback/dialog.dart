@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
 import '../../styles/basic/button.dart';
@@ -84,7 +85,7 @@ class ElDialog extends StatelessWidget {
                 ],
               ),
             ),
-            child: Text(content),
+            child: ElText(content),
           );
         });
   }
@@ -104,9 +105,9 @@ class ElDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (title != null)
-              Text(
+              ElText(
                 title!,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const ElTextStyle(textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),

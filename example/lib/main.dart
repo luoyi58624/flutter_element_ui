@@ -4,7 +4,7 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FontUtil.init();
+  await FontUtil.init(fontModel: FontUtil.notoSansSc([FontWeight.w500, FontWeight.w700]));
   runApp(const _App());
 }
 
@@ -31,6 +31,7 @@ class _App extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: router,
             builder: (context, child) => ElTheme(
+              textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
               child: child!,
             ),
           );

@@ -17,6 +17,7 @@ class ElTheme extends StatelessWidget {
     ElConfigData? config,
     ElResponsiveData? responsive,
     this.brightness,
+    this.textStyle,
   }) {
     _theme = theme ?? ElThemeData.theme;
     _darkTheme = darkTheme ?? ElThemeData.darkTheme;
@@ -33,6 +34,9 @@ class ElTheme extends StatelessWidget {
   /// 指定 Element UI 小部件应用的主题模式，如果为空，则跟随平台系统
   final Brightness? brightness;
 
+  /// 全局默认文字主题
+  final TextStyle? textStyle;
+
   /// 亮色主题
   static ElThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElThemeData.theme;
 
@@ -43,8 +47,7 @@ class ElTheme extends StatelessWidget {
   static ElConfigData config(BuildContext context) => _ElTheme.maybeOf(context)?._config ?? ElConfigData.config;
 
   /// 响应式配置
-  static ElResponsiveData responsive(BuildContext context) =>
-      _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
+  static ElResponsiveData responsive(BuildContext context) => _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +56,11 @@ class ElTheme extends StatelessWidget {
         child: ElBrightness(
           brightness: brightness,
           child: Builder(builder: (context) {
-            TextStyle textStyle = TextStyle(
+            TextStyle $textStyle = (textStyle ?? const TextStyle()).copyWith(
               color: context.isDark ? _darkTheme.textColor : _theme.textColor,
             );
             return DefaultTextStyle(
-              style: textStyle,
+              style: $textStyle,
               child: ElTextTheme(
                 style: ElTextStyle.style.copyWith(textStyle: textStyle).merge(_config.textStyle),
                 child: _ElTheme(elTheme: this, child: child),
