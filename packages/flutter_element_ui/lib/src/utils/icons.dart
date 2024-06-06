@@ -1,5 +1,3 @@
-part of 'icon.dart';
-
 class ElIcons {
   static const String addLocation = 'assets/icons/add-location.svg';
   static const String aim = 'assets/icons/aim.svg';

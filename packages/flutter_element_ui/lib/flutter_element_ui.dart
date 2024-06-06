@@ -9,10 +9,10 @@ export 'src/app.dart';
 export 'src/extension.dart' show ElThemeExtension, ElTypographyExtension, ElResponsiveExtension;
 export 'src/theme.dart';
 
-export 'src/components/basic/button/button.dart';
+export 'src/components/basic/button.dart';
 export 'src/components/basic/brightness.dart';
 export 'src/components/basic/container.dart';
-export 'src/components/basic/icon/icon.dart';
+export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
 export 'src/components/basic/text.dart';
 export 'src/components/data/table/table.dart';
@@ -37,3 +37,6 @@ export 'src/styles/theme.dart';
 export 'src/styles/basic/button.dart';
 export 'src/styles/basic/icon.dart';
 export 'src/styles/basic/text.dart';
+
+export 'src/utils/common.dart';
+export 'src/utils/icons.dart';

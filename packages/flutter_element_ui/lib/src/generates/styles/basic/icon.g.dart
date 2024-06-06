@@ -8,10 +8,12 @@ part of '../../../styles/basic/icon.dart';
 
 extension ElIconStyleExtension on ElIconStyle {
   ElIconStyle copyWith({
+    dynamic? icon,
     double? size,
     Color? color,
   }) {
     return ElIconStyle(
+      icon: icon ?? this.icon,
       size: size ?? this.size,
       color: color ?? this.color,
     );
@@ -20,6 +22,7 @@ extension ElIconStyleExtension on ElIconStyle {
   ElIconStyle merge([ElIconStyle? other]) {
     if (other == null) return this;
     return copyWith(
+      icon: other.icon,
       size: other.size,
       color: other.color,
     );

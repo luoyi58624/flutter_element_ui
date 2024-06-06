@@ -3,7 +3,7 @@ import 'package:flutter_element_ui/src/extension.dart';
 
 import '../../styles/basic/button.dart';
 import '../../styles/theme.dart';
-import '../basic/button/button.dart';
+import '../basic/button.dart';
 
 /// Element 对话框组件
 class ElDialog extends StatelessWidget {

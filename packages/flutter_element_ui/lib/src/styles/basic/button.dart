@@ -2,7 +2,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-import '../../components/basic/icon/icon.dart';
+import '../../components/basic/icon.dart';
 import '../theme.dart';
 
 part '../../generates/styles/basic/button.g.dart';

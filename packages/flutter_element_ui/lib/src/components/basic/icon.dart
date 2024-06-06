@@ -1,13 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_annotation/component.dart';
 import 'package:flutter_element_ui/src/utils/common.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
-import '../../../styles/basic/icon.dart';
+import '../../styles/basic/icon.dart';
 
-part 'icons.dart';
+part '../../generates/components/basic/icon.g.dart';
 
 /// Element UI 图标
+@ElComponent.all()
 class ElIcon extends StatelessWidget {
   const ElIcon(
     this.child, {
@@ -89,32 +91,4 @@ class _SvgWidget extends ElIcon {
             package: package,
           );
   }
-}
-
-class ElIconTheme extends InheritedWidget {
-  /// 局部默认样式小部件
-  const ElIconTheme({super.key, required super.child, required this.style});
-
-  final ElIconStyle style;
-
-  static ElIconStyle? _merge(BuildContext context, ElIconStyle? style) {
-    var defaultStyle = context.dependOnInheritedWidgetOfExactType<ElIconTheme>()?.style;
-    return defaultStyle == null ? style : defaultStyle.merge(style);
-  }
-
-  @override
-  bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget.style != style;
-}
-
-class ElIconImportantTheme extends InheritedWidget {
-  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
-  const ElIconImportantTheme({super.key, required super.child, required this.style});
-
-  final ElIconStyle style;
-
-  static ElIconStyle _merge(BuildContext context, ElIconStyle style) =>
-      style.merge(context.dependOnInheritedWidgetOfExactType<ElIconImportantTheme>()?.style);
-
-  @override
-  bool updateShouldNotify(ElIconImportantTheme oldWidget) => oldWidget.style != style;
 }
