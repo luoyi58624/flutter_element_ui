@@ -30,7 +30,8 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
                   builder: (context, value, _) {
                     return ElIcon(
                       value.isCollapse ? ElIcons.expand : ElIcons.fold,
-                      style: const ElIconStyle(size: 22, color: Colors.white),
+                      size: 22,
+                      color: Colors.white,
                     );
                   },
                 ),

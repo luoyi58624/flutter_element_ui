@@ -35,7 +35,6 @@ export 'src/components/navigation/menu.dart';
 
 export 'src/styles/theme.dart';
 export 'src/styles/basic/button.dart';
-export 'src/styles/basic/icon.dart';
 
 export 'src/utils/util.dart';
 export 'src/utils/icons.dart';

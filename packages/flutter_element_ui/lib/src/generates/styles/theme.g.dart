@@ -52,14 +52,12 @@ extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? iconSize,
     ElButtonStyle? buttonStyle,
-    ElIconStyle? iconStyle,
     double? inputRadius,
     double? cardRadius,
   }) {
     return ElConfigData(
       iconSize: iconSize ?? this.iconSize,
       buttonStyle: this.buttonStyle.merge(buttonStyle),
-      iconStyle: this.iconStyle.merge(iconStyle),
       inputRadius: inputRadius ?? this.inputRadius,
       cardRadius: cardRadius ?? this.cardRadius,
     );

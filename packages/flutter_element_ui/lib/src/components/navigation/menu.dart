@@ -5,7 +5,6 @@ import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
-import '../../styles/basic/icon.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
 import '../basic/scrollbar.dart';
@@ -297,10 +296,8 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                 padding: const EdgeInsets.only(right: 8),
                 child: ElIcon(
                   widget.menuItem.icon!,
-                  style: ElIconStyle(
-                    color: menuItemColor,
-                    size: _ElMenuData.of(context).iconSize,
-                  ),
+                  color: menuItemColor,
+                  size: _ElMenuData.of(context).iconSize,
                 ),
               ),
             if (!_ElMenuData.of(context).collapse)
@@ -327,10 +324,8 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                     turns: widget.expand ? 0.5 : 0,
                     child: ElIcon(
                       ElIcons.arrowDown,
-                      style: ElIconStyle(
-                        color: menuItemColor,
-                        size: 12,
-                      ),
+                      color: menuItemColor,
+                      size: 12,
                     ),
                   ),
                 ),

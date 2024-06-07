@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/styles/basic/icon.dart';
-
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
 
@@ -15,10 +13,8 @@ class ElLoading extends StatelessWidget {
     return _LoadingWidget(
       child: ElIcon(
         ElIcons.loading,
-        style: ElIconStyle(
-          size: size,
-          color: color,
-        ),
+        size: size,
+        color: color,
       ),
     );
   }

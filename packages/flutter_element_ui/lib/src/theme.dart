@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
@@ -45,7 +46,8 @@ class ElTheme extends StatelessWidget {
   static ElConfigData config(BuildContext context) => _ElTheme.maybeOf(context)?._config ?? ElConfigData.config;
 
   /// 响应式配置
-  static ElResponsiveData responsive(BuildContext context) => _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
+  static ElResponsiveData responsive(BuildContext context) =>
+      _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +56,15 @@ class ElTheme extends StatelessWidget {
         child: ElBrightness(
           brightness: brightness,
           child: Builder(builder: (context) {
-            TextStyle $textStyle = (textStyle ?? const TextStyle()).copyWith(
-              color: context.isDark ? _darkTheme.textColor : _theme.textColor,
-            );
+            final color = context.isDark ? _darkTheme.textColor : _theme.textColor;
+            TextStyle $textStyle = (textStyle ?? const TextStyle()).copyWith(color: color);
             return DefaultTextStyle(
               style: $textStyle,
-              child: _ElTheme(elTheme: this, child: child),
+              child: ElIconTheme(
+                size: 18,
+                color: color,
+                child: _ElTheme(elTheme: this, child: child),
+              ),
             );
           }),
         ),

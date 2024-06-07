@@ -4,7 +4,6 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'basic/button.dart';
-import 'basic/icon.dart';
 
 part '../generates/styles/theme.g.dart';
 
@@ -149,8 +148,6 @@ class ElConfigData {
   /// 按钮全局样式
   late ElButtonStyle buttonStyle;
 
-  late ElIconStyle iconStyle;
-
   /// 输入框全局圆角值
   double inputRadius;
 
@@ -160,12 +157,10 @@ class ElConfigData {
   ElConfigData({
     this.iconSize = 20,
     ElButtonStyle? buttonStyle,
-    ElIconStyle? iconStyle,
     this.cardRadius = 6,
     this.inputRadius = 6,
   }) {
     this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
-    this.iconStyle = ElIconStyle.style.merge(iconStyle);
   }
 }
 

@@ -1,20 +1,34 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_annotation/component.dart';
 import 'package:flutter_element_ui/src/utils/util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_element_ui/src/extension.dart';
 
-import '../../styles/basic/icon.dart';
+class ElIconTheme extends InheritedWidget {
+  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
+  const ElIconTheme({
+    super.key,
+    required super.child,
+    this.icon,
+    this.size,
+    this.color,
+  });
 
-part '../../generates/components/basic/icon.g.dart';
+  final dynamic icon;
+  final double? size;
+  final Color? color;
+
+  static ElIconTheme? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ElIconTheme>();
+
+  @override
+  bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget != this;
+}
 
 /// Element UI 图标
-@ElComponent.all()
 class ElIcon extends StatelessWidget {
   const ElIcon(
     this.child, {
     super.key,
-    this.style,
+    this.size,
+    this.color,
     this.package = 'flutter_element_ui',
   });
 
@@ -25,50 +39,44 @@ class ElIcon extends StatelessWidget {
   /// * [Widget] 自定义图标
   final dynamic child;
 
-  /// 图标样式
-  final ElIconStyle? style;
+  /// icon 尺寸
+  final double? size;
+
+  /// icon 颜色
+  final Color? color;
 
   /// 当 child 为 asset 字符串地址时，你可以指定其他库的 asset 图标资产包
   final String package;
 
   @override
   Widget build(BuildContext context) {
-    final $style = _style(context, style);
-    dynamic $icon = child ?? $style.icon;
+    final $theme = ElIconTheme.maybeOf(context);
+    final $icon = child ?? $theme?.icon;
+    final $size = size ?? $theme?.size ?? 18;
+    final $color = color ?? $theme?.color;
     if ($icon is String) {
-      return _SvgWidget($icon, style: $style, package: package);
+      return _SvgWidget($icon, size: $size, color: $color, package: package);
     } else if ($icon is IconData) {
-      return Icon(
-        $icon,
-        size: $style.size!,
-        color: $style.color,
-      );
+      return Icon($icon, size: $size, color: $color);
     } else if ($icon is Widget) {
       return UnconstrainedBox(
-        child: SizedBox(
-          width: $style.size!,
-          height: $style.size!,
-          child: Center(
-            child: $icon,
-          ),
-        ),
+        child: SizedBox(width: $size, height: $size, child: Center(child: $icon)),
       );
     } else {
-      return Placeholder(fallbackWidth: $style.size!, fallbackHeight: $style.size!);
+      return Placeholder(fallbackWidth: $size, fallbackHeight: $size);
     }
   }
 }
 
 class _SvgWidget extends ElIcon {
-  const _SvgWidget(super.child, {super.style, super.package});
+  const _SvgWidget(super.child, {super.size, super.color, super.package});
 
   @override
   Widget build(BuildContext context) {
-    double size = style!.size!;
-    ColorFilter? colorFilter = style!.color == null
+    ColorFilter? colorFilter = color == null
         ? null
         : ColorFilter.mode(
-            style!.color!,
+            color!,
             BlendMode.srcIn,
           );
     return ElUtil.isHttp(child as String)

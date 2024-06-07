@@ -8,7 +8,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../builders/hover.dart';
 import '../../builders/tap.dart';
 import '../../styles/basic/button.dart';
-import '../../styles/basic/icon.dart';
 import '../../utils/platform/platform.dart';
 import 'icon.dart';
 import 'text.dart';
@@ -110,7 +109,7 @@ class _Button extends ElButton {
 
   Widget buildIcon(Widget iconWidget, _ElButtonStyle buttonStyle) {
     return ElIconTheme(
-      style: ElIconStyle(color: buttonStyle.textColor),
+      color: buttonStyle.textColor,
       child: iconWidget,
     );
   }
