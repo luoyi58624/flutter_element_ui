@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
+import '../../utils/platform/platform.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
@@ -78,7 +79,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
 
   Color get thumbColor => widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
 
-  Color get hideThumbColor => PlatformUtil.isMobile || widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
+  Color get hideThumbColor => ElPlatform.isMobile || widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
 
   Color get hoverThumbColor => thumbColor.withOpacity(0.5);
 

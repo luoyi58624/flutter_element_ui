@@ -4,7 +4,7 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FontUtil.init(fontModel: FontUtil.notoSansSc([FontWeight.w500, FontWeight.w700]));
+  await ElFont.init(fontModel: ElFont.notoSansSc());
   runApp(const _App());
 }
 
@@ -21,7 +21,7 @@ class _App extends StatelessWidget {
           //   routerConfig: router,
           //   brightness: value,
           //   textStyle: TextStyle(
-          //     fontFamilyFallback: FontUtil.fontFamilyFallback,
+          //     fontFamilyFallback: ElFont.fontFamilyFallback,
           //   ),
           //   builder: (context, child) => Theme(
           //     data: ThemeData(),
@@ -31,7 +31,10 @@ class _App extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: router,
             builder: (context, child) => ElTheme(
-              textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
+              textStyle: TextStyle(
+                fontFamily: ElFont.fontFamily,
+                fontFamilyFallback: ElFont.fontFamilyFallback,
+              ),
               child: child!,
             ),
           );

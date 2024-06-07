@@ -37,3 +37,9 @@ dependency_overrides:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: NotoSansSC
+      fonts:
+        - asset: assets/fonts/NotoSansSC-Bold.ttf
+        - asset: assets/fonts/NotoSansSC-Medium.ttf
+        - asset: assets/fonts/NotoSansSC-Regular.ttf

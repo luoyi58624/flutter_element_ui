@@ -4,6 +4,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'styles/theme.dart';
 import 'theme.dart';
+import 'utils/font/font.dart';
 
 extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
@@ -31,49 +32,49 @@ extension ElResponsiveExtension on BuildContext {
 extension ElTypographyExtension on BuildContext {
   /// 标题1 - 28px
   TextStyle get h1 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 28,
         color: elTheme.titleColor,
       );
 
   /// 标题2 - 24px
   TextStyle get h2 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 24,
         color: elTheme.titleColor,
       );
 
   /// 标题3 - 20px
   TextStyle get h3 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 20,
         color: elTheme.titleColor,
       );
 
   /// 标题4 - 18px
   TextStyle get h4 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 18,
         color: elTheme.titleColor,
       );
 
   /// 标题5 - 16px
   TextStyle get h5 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 16,
         color: elTheme.titleColor,
       );
 
   /// 标题6 - 14px
   TextStyle get h6 => TextStyle(
-        fontWeight: FontUtil.bold,
+        fontWeight: ElFont.bold,
         fontSize: 14,
         color: elTheme.titleColor,
       );
 
   /// 普通段落文本 - 15px
   TextStyle get p => TextStyle(
-        fontWeight: FontUtil.normal,
+        fontWeight: ElFont.normal,
         fontSize: 15,
         color: elTheme.textColor,
       );

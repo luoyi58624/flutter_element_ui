@@ -10,6 +10,7 @@ import '../../builders/tap.dart';
 import '../../styles/basic/button.dart';
 import '../../styles/basic/icon.dart';
 import '../../styles/basic/text.dart';
+import '../../utils/platform/platform.dart';
 import 'icon.dart';
 import 'text.dart';
 
@@ -165,14 +166,14 @@ _ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
       // 镂空按钮
       if (style.plain!) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
-        bgColor.value = PlatformUtil.isDesktop
+        bgColor.value = ElPlatform.isDesktop
             ? ($isTap
                 ? $primaryColor.elTap(context)
                 : $isHover
                     ? $primaryColor
                     : $primaryColor.elThemeLightBg(context))
             : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
-        borderColor.value = PlatformUtil.isDesktop
+        borderColor.value = ElPlatform.isDesktop
             ? ($isTap
                 ? $primaryColor.elTap(context)
                 : $isHover

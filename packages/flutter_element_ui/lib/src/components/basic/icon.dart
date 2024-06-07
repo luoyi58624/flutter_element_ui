@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/component.dart';
-import 'package:flutter_element_ui/src/utils/common.dart';
+import 'package:flutter_element_ui/src/utils/util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 

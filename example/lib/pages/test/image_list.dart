@@ -1,5 +1,4 @@
 import 'package:example/global.dart';
-import 'package:example/utils/logger.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
@@ -25,7 +24,7 @@ class _ImageListPageState extends State<ImageListPage> {
     int start = DateTime.now().millisecondsSinceEpoch;
     var imageList = List.generate(1000000, (index) => faker.image.image(random: true)).toList();
     int end = DateTime.now().millisecondsSinceEpoch;
-    LoggerUtil('加载100万张图片耗时：${end - start} 毫秒');
+    i('加载100万张图片耗时：${end - start} 毫秒');
     return ElScrollbar(
       controller: controller,
       child: SuperListView.builder(

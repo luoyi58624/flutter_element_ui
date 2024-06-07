@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'package:luoyi_flutter_base/luoyi_flutter_base.dart' show FontUtil, FontModel;
+export 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/builders/hover.dart';
@@ -38,5 +38,9 @@ export 'src/styles/basic/button.dart';
 export 'src/styles/basic/icon.dart';
 export 'src/styles/basic/text.dart';
 
-export 'src/utils/common.dart';
+export 'src/utils/util.dart';
 export 'src/utils/icons.dart';
+export 'src/utils/device.dart';
+export 'src/utils/font/font.dart';
+export 'src/utils/font/model.dart';
+export 'src/utils/platform/platform.dart';
