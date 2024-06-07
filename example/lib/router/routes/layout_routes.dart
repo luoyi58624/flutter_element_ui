@@ -1,4 +1,5 @@
 import 'package:example/pages/components/basic/font.dart';
+import 'package:example/pages/components/data/badge.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
 import 'package:go_router/go_router.dart';
@@ -58,6 +59,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsForm/input',
           builder: (context, state) => const InputPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsData/badge',
+          builder: (context, state) => const BadgePage(),
         ),
       ],
     ),

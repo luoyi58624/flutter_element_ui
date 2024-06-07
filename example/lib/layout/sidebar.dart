@@ -51,6 +51,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
               path: '/components/data',
               children: [
                 ElMenuModel(
+                  title: 'Badge 徽章',
+                  path: '/components/data/badge',
+                ),
+                ElMenuModel(
                   title: 'Table 表格',
                   path: '/components/data/table',
                 ),
