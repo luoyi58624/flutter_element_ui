@@ -4876,7 +4876,6 @@ rational
 --------------------------------------------------------------------------------
 convert
 crypto
-source_gen
 vm_service
 
 Copyright 2015, the Dart project authors.
@@ -7462,7 +7461,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --------------------------------------------------------------------------------
 flutter_element_annotation
-flutter_element_generator
 flutter_element_ui
 
 TODO: Add your license here.
