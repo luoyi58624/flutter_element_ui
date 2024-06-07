@@ -110,7 +110,7 @@ class ElFont {
     if (allowLoadCustomFont) {
       fontModel != null && fontModel.fontFamily != ''
           ? await initFont(fontModel)
-          : await initFont(notoSansSc([FontWeight.normal]));
+          : await initFont(notoSansSc([FontWeight.w500]));
     } else {
       await initFont(systemFont);
     }

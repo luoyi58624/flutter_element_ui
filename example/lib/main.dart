@@ -4,7 +4,7 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ElFont.init(fontModel: ElFont.notoSansSc());
+  await ElFont.init();
   runApp(const _App());
 }
 
