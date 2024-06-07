@@ -6,6 +6,7 @@ export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
 export 'src/app.dart';
+export 'src/common.dart';
 export 'src/extension.dart' show ElThemeExtension, ElTypographyExtension, ElResponsiveExtension;
 export 'src/theme.dart';
 
@@ -25,7 +26,7 @@ export 'src/components/data/image.dart';
 export 'src/components/data/tag.dart';
 export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
-export 'src/components/feedback/loading.dart';
+export 'src/components/feedback/loading/loading.dart';
 export 'src/components/feedback/message.dart';
 export 'src/components/form/autocomplete.dart';
 export 'src/components/form/cascader.dart';
