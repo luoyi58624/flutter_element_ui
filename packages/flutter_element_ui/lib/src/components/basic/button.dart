@@ -9,7 +9,6 @@ import '../../builders/hover.dart';
 import '../../builders/tap.dart';
 import '../../styles/basic/button.dart';
 import '../../styles/basic/icon.dart';
-import '../../styles/basic/text.dart';
 import '../../utils/platform/platform.dart';
 import 'icon.dart';
 import 'text.dart';
@@ -92,15 +91,8 @@ class _Button extends ElButton {
     } else {
       childWidget = ElText(
         child,
-        style: ElTextStyle(
-          textStyle: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: buttonStyle.textColor,
-          ),
-          strutStyle: const StrutStyle(
-            forceStrutHeight: true,
-          ),
-        ),
+        style: TextStyle(fontWeight: FontWeight.w500, color: buttonStyle.textColor),
+        strutStyle: const StrutStyle(forceStrutHeight: true),
       );
     }
     if (style!.leftIcon != null || style!.rightIcon != null) {

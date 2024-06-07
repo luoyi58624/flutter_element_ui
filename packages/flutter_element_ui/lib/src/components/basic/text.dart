@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_annotation/component.dart';
-import 'package:flutter_element_ui/src/extension.dart';
 
-import '../../styles/basic/text.dart';
-
-part '../../generates/components/basic/text.g.dart';
-
-@ElComponent.all()
 class ElText extends StatelessWidget {
-  /// 文本小部件，对[Text]进行的封装，支持如下功能：
-  /// * 支持任意类型，并不局限String
-  /// * 支持覆盖后代样式
+  /// 文本小部件，对[Text]进行简单的封装
   const ElText(
     this.text, {
     super.key,
     this.style,
+    this.strutStyle,
     this.textAlign,
     this.textDirection,
     this.locale,
@@ -31,9 +23,8 @@ class ElText extends StatelessWidget {
   /// 文字内容，支持传递任意类型
   final dynamic text;
 
-  /// 文本样式
-  final ElTextStyle? style;
-
+  final TextStyle? style;
+  final StrutStyle? strutStyle;
   final TextAlign? textAlign;
   final TextDirection? textDirection;
   final Locale? locale;
@@ -48,11 +39,10 @@ class ElText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $style = _style(context, style);
     return Text(
       '$text',
-      style: $style.textStyle,
-      strutStyle: $style.strutStyle,
+      style: style,
+      strutStyle: strutStyle,
       textAlign: textAlign,
       textDirection: textDirection,
       locale: locale,

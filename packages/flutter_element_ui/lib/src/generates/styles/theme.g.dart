@@ -51,7 +51,6 @@ extension ElThemeDataExtension on ElThemeData {
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? iconSize,
-    ElTextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     ElIconStyle? iconStyle,
     double? inputRadius,
@@ -59,7 +58,6 @@ extension ElConfigDataExtension on ElConfigData {
   }) {
     return ElConfigData(
       iconSize: iconSize ?? this.iconSize,
-      textStyle: this.textStyle.merge(textStyle),
       buttonStyle: this.buttonStyle.merge(buttonStyle),
       iconStyle: this.iconStyle.merge(iconStyle),
       inputRadius: inputRadius ?? this.inputRadius,

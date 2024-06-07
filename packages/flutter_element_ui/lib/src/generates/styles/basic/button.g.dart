@@ -22,6 +22,7 @@ extension ElButtonStyleExtension on ElButtonStyle {
     ElIcon? rightIcon,
     bool? circle,
     bool? disabled,
+    bool? loading,
   }) {
     return ElButtonStyle(
       height: height ?? this.height,
@@ -38,6 +39,7 @@ extension ElButtonStyleExtension on ElButtonStyle {
       rightIcon: rightIcon ?? this.rightIcon,
       circle: circle ?? this.circle,
       disabled: disabled ?? this.disabled,
+      loading: loading ?? this.loading,
     );
   }
 
@@ -58,6 +60,7 @@ extension ElButtonStyleExtension on ElButtonStyle {
       rightIcon: other.rightIcon,
       circle: other.circle,
       disabled: other.disabled,
+      loading: other.loading,
     );
   }
 }

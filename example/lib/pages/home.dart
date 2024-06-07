@@ -52,22 +52,11 @@ class _Button extends HookWidget {
         spacing: 8,
         runSpacing: 8,
         children: [
-          ElButtonImportantTheme(
-            style: const ElButtonStyle(
-              type: ElThemeType.error,
-              plain: true,
-            ),
-            child: ElButton('Default: $count', onPressed: addCount),
-          ),
-          ElTextImportantTheme(
-            style: const ElTextStyle(
-              textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            child: ElButton(
-              'Primary: $count',
-              onPressed: addCount,
-              style: const ElButtonStyle(type: ElThemeType.primary),
-            ),
+          ElButton('Default: $count', onPressed: addCount),
+          ElButton(
+            'Primary: $count',
+            onPressed: addCount,
+            style: const ElButtonStyle(type: ElThemeType.primary),
           ),
           ElButton(
             'Success: $count',

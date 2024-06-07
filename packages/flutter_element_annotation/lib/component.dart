@@ -12,7 +12,7 @@ class ElComponent {
   const ElComponent.all({
     this.generateMergeStyleFun = true,
     this.generateLocalThemeWidget = true,
-    this.generateImportantThemeWidget = true,
+    this.generateImportantThemeWidget = false,
   });
 
   /// 生成合并最终主题样式函数
@@ -21,6 +21,6 @@ class ElComponent {
   /// 生成组件局部主题样式代码
   final bool generateLocalThemeWidget;
 
-  /// 生成覆盖后代组件主题样式代码
+  /// 生成覆盖后代组件主题样式代码，还不完善，暂时不使用
   final bool generateImportantThemeWidget;
 }

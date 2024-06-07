@@ -16,23 +16,33 @@ class ElComponentGenerator extends GeneratorForAnnotation<ElComponent> {
     bool $generateImportantThemeWidget = annotation.read('generateImportantThemeWidget').boolValue;
 
     return """
-${generateMergeStyleFun($generateMergeStyleFun, className)}
+${generateMergeStyleFun($generateMergeStyleFun, className, $generateImportantThemeWidget)}
 ${generateLocalThemeWidget($generateLocalThemeWidget, className)}
 ${generateImportantThemeWidget($generateImportantThemeWidget, className)}
   """;
   }
 
-  String generateMergeStyleFun(bool enable, String className) {
+  String generateMergeStyleFun(bool enable, String className, bool generateImportantThemeWidget) {
     if (!enable) return '';
     var elConfigField = className.replaceAll('El', '');
     elConfigField = elConfigField.substring(0, 1).toLowerCase() + elConfigField.substring(1);
+    String codeStr = """
+context.elConfig.${elConfigField}Style.merge(
+  ${className}Theme._merge(context, style),
+)
+    """;
+    if (generateImportantThemeWidget) {
+      codeStr = """
+${className}ImportantTheme._merge(
+  context,
+  $codeStr,
+);
+      """;
+    } else {
+      codeStr += ';';
+    }
     return """
-${className}Style _style(BuildContext context, ${className}Style? style) => ${className}ImportantTheme._merge(
-      context,
-      context.elConfig.${elConfigField}Style.merge(
-        ${className}Theme._merge(context, style),
-      ),
-    );
+${className}Style _style(BuildContext context, ${className}Style? style) => $codeStr
     """;
   }
 

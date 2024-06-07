@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
 import '../../styles/basic/button.dart';
 import '../../styles/theme.dart';
 import '../basic/button.dart';
+import '../basic/text.dart';
 
 /// Element 对话框组件
 class ElDialog extends StatelessWidget {
@@ -107,7 +107,7 @@ class ElDialog extends StatelessWidget {
             if (title != null)
               ElText(
                 title!,
-                style: const ElTextStyle(textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),

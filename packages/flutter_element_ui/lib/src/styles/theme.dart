@@ -5,7 +5,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'basic/button.dart';
 import 'basic/icon.dart';
-import 'basic/text.dart';
 
 part '../generates/styles/theme.g.dart';
 
@@ -147,9 +146,6 @@ class ElConfigData {
   /// 默认的icon大小
   double iconSize;
 
-  /// 文本全局样式
-  late ElTextStyle textStyle;
-
   /// 按钮全局样式
   late ElButtonStyle buttonStyle;
 
@@ -163,13 +159,11 @@ class ElConfigData {
 
   ElConfigData({
     this.iconSize = 20,
-    ElTextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     ElIconStyle? iconStyle,
     this.cardRadius = 6,
     this.inputRadius = 6,
   }) {
-    this.textStyle = ElTextStyle.style.merge(textStyle);
     this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
     this.iconStyle = ElIconStyle.style.merge(iconStyle);
   }

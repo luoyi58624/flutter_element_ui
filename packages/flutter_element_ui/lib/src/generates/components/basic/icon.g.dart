@@ -7,11 +7,8 @@ part of '../../../components/basic/icon.dart';
 // **************************************************************************
 
 ElIconStyle _style(BuildContext context, ElIconStyle? style) =>
-    ElIconImportantTheme._merge(
-      context,
-      context.elConfig.iconStyle.merge(
-        ElIconTheme._merge(context, style),
-      ),
+    context.elConfig.iconStyle.merge(
+      ElIconTheme._merge(context, style),
     );
 
 class ElIconTheme extends InheritedWidget {
@@ -28,21 +25,4 @@ class ElIconTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget.style != style;
-}
-
-class ElIconImportantTheme extends InheritedWidget {
-  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
-  const ElIconImportantTheme(
-      {super.key, required super.child, required this.style});
-
-  final ElIconStyle style;
-
-  static ElIconStyle _merge(BuildContext context, ElIconStyle style) =>
-      style.merge(context
-          .dependOnInheritedWidgetOfExactType<ElIconImportantTheme>()
-          ?.style);
-
-  @override
-  bool updateShouldNotify(ElIconImportantTheme oldWidget) =>
-      oldWidget.style != style;
 }

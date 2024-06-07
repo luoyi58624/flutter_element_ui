@@ -7,11 +7,8 @@ part of '../../../components/basic/button.dart';
 // **************************************************************************
 
 ElButtonStyle _style(BuildContext context, ElButtonStyle? style) =>
-    ElButtonImportantTheme._merge(
-      context,
-      context.elConfig.buttonStyle.merge(
-        ElButtonTheme._merge(context, style),
-      ),
+    context.elConfig.buttonStyle.merge(
+      ElButtonTheme._merge(context, style),
     );
 
 class ElButtonTheme extends InheritedWidget {
@@ -28,21 +25,4 @@ class ElButtonTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ElButtonTheme oldWidget) => oldWidget.style != style;
-}
-
-class ElButtonImportantTheme extends InheritedWidget {
-  /// 强制后代小部件应用的主题样式，效果类似于 CSS !important
-  const ElButtonImportantTheme(
-      {super.key, required super.child, required this.style});
-
-  final ElButtonStyle style;
-
-  static ElButtonStyle _merge(BuildContext context, ElButtonStyle style) =>
-      style.merge(context
-          .dependOnInheritedWidgetOfExactType<ElButtonImportantTheme>()
-          ?.style);
-
-  @override
-  bool updateShouldNotify(ElButtonImportantTheme oldWidget) =>
-      oldWidget.style != style;
 }

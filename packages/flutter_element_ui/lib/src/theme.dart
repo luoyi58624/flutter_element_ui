@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
 import 'components/basic/scrollbar.dart';
-import 'components/basic/text.dart';
-import 'styles/basic/text.dart';
 import 'styles/theme.dart';
 
 class ElTheme extends StatelessWidget {
@@ -61,10 +59,7 @@ class ElTheme extends StatelessWidget {
             );
             return DefaultTextStyle(
               style: $textStyle,
-              child: ElTextTheme(
-                style: ElTextStyle.style.copyWith(textStyle: textStyle).merge(_config.textStyle),
-                child: _ElTheme(elTheme: this, child: child),
-              ),
+              child: _ElTheme(elTheme: this, child: child),
             );
           }),
         ),
