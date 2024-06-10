@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 Timer? _timer;
@@ -46,7 +45,7 @@ class ElTapBuilder extends HookWidget {
                   _timer!.cancel();
                   _timer = null;
                   update(isTap, false);
-                  DartUtil.delay(() => update(isTap, true), 16);
+                  (() => update(isTap, true)).delay(16);
                 } else {
                   update(isTap, true);
                 }
@@ -54,18 +53,18 @@ class ElTapBuilder extends HookWidget {
         onTapUp: disabled
             ? null
             : (e) {
-                _timer = DartUtil.delay(() {
+                _timer = () {
                   update(isTap, false);
                   _timer = null;
-                }, delay);
+                }.delay(delay);
               },
         onTapCancel: disabled
             ? null
             : () {
-                _timer = DartUtil.delay(() {
+                _timer = () {
                   update(isTap, false);
                   _timer = null;
-                }, delay);
+                }.delay(delay);
               },
         child: builder(isTap.value),
       ),

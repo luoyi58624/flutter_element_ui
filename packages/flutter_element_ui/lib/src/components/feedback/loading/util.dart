@@ -24,10 +24,10 @@ class _LoadingUtil {
     close(true);
     _isShowLoading = true;
     _delayCloseTime = math.max(delayClose, 0);
-    _createLoadingStartTime = DartUtil.currentMilliseconds;
+    _createLoadingStartTime = currentMilliseconds;
     if (elRootContext.mounted) {
       showDialog(
-        context: rootContext,
+        context: elRootContext,
         barrierColor: Colors.black26,
         builder: (context) {
           return _LoadingModelWidget(
@@ -46,7 +46,7 @@ class _LoadingUtil {
         _pop();
       } else {
         var delayCloseLoadingTime = math.max<int>(
-            (_delayCloseTime - math.min(DartUtil.currentMilliseconds - _createLoadingStartTime, 1000)), 0);
+            (_delayCloseTime - math.min(currentMilliseconds - _createLoadingStartTime, 1000)), 0);
         if (delayCloseLoadingTime <= 0) {
           _pop();
         } else {
@@ -59,11 +59,11 @@ class _LoadingUtil {
 
   static void _pop() {
     // 如果有提示窗，则先关闭提示窗
-    if (_isShowConfirm) Navigator.of(rootContext).pop();
+    if (_isShowConfirm) Navigator.of(elRootContext).pop();
     _isShowConfirm = false;
     _delayCloseTime = 0;
     _isShowLoading = false;
-    if (rootContext.mounted) Navigator.of(rootContext).pop();
+    if (elRootContext.mounted) Navigator.of(elRootContext).pop();
   }
 }
 

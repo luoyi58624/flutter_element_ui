@@ -25,6 +25,7 @@ class ButtonPage extends HookWidget {
       controller: controller,
       child: SingleChildScrollView(
         controller: controller,
+        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

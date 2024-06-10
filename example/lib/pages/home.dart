@@ -28,7 +28,7 @@ class HomePage extends HookWidget {
                     controller: controller,
                     child: SuperListView.builder(
                       controller: controller,
-                      itemCount: 10000,
+                      itemCount: 1000000,
                       itemBuilder: (context, index) => flag ? const _Button() : const _Button2(),
                     )),
               ),
@@ -53,31 +53,32 @@ class _Button extends HookWidget {
         runSpacing: 8,
         children: [
           ElButton('Default: $count', onPressed: addCount),
-          ElButton(
-            'Primary: $count',
-            onPressed: addCount,
-            style: const ElButtonStyle(type: ElThemeType.primary),
-          ),
-          ElButton(
-            'Success: $count',
-            onPressed: addCount,
-            style: const ElButtonStyle(type: ElThemeType.success),
-          ),
-          ElButton(
-            'Info: $count',
-            onPressed: addCount,
-            style: const ElButtonStyle(type: ElThemeType.info),
-          ),
-          ElButton(
-            'Warning: $count',
-            onPressed: addCount,
-            style: const ElButtonStyle(type: ElThemeType.warning),
-          ),
-          ElButton(
-            'Error: $count',
-            onPressed: addCount,
-            style: const ElButtonStyle(type: ElThemeType.error),
-          ),
+          ElButton('Default: $count', onPressed: addCount),
+          // ElButton(
+          //   'Primary: $count',
+          //   onPressed: addCount,
+          //   style: const ElButtonStyle(type: ElThemeType.primary),
+          // ),
+          // ElButton(
+          //   'Success: $count',
+          //   onPressed: addCount,
+          //   style: const ElButtonStyle(type: ElThemeType.success),
+          // ),
+          // ElButton(
+          //   'Info: $count',
+          //   onPressed: addCount,
+          //   style: const ElButtonStyle(type: ElThemeType.info),
+          // ),
+          // ElButton(
+          //   'Warning: $count',
+          //   onPressed: addCount,
+          //   style: const ElButtonStyle(type: ElThemeType.warning),
+          // ),
+          // ElButton(
+          //   'Error: $count',
+          //   onPressed: addCount,
+          //   style: const ElButtonStyle(type: ElThemeType.error),
+          // ),
         ],
       ),
     );
@@ -110,11 +111,6 @@ class _Button2 extends HookWidget {
           // ),
           ElevatedButton(onPressed: addCount, child: Text('Default: $count')),
           ElevatedButton(onPressed: addCount, child: Text('Default: $count')),
-          TextButton(onPressed: addCount, child: Text('Default: $count')),
-          FilledButton(onPressed: addCount, child: Text('Default: $count')),
-          // CupertinoButton.filled(onPressed: addCount, child: Text('Default: $count')),
-          ElevatedButton(onPressed: addCount, child: Text('Default: $count')),
-          FilledButton(onPressed: addCount, child: Text('Default: $count')),
         ],
       ),
     );

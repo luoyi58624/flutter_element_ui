@@ -1,7 +1,6 @@
 import 'package:example/global.dart';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:super_sliver_list/super_sliver_list.dart';
 
 class ImageListPage extends StatefulWidget {
   const ImageListPage({super.key});
@@ -41,7 +40,10 @@ class _ImageListPageState extends State<ImageListPage> {
                     aspectRatio: 1,
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: ElImage(src: imageList[index * 5 + rowIndex]),
+                      // child: ElImage(src: imageList[index * 5 + rowIndex]),
+                      child: Container(
+                        child: const Text('虚拟卡时间你下课N想看就是想那是可能性卡死你新疆喀什你'),
+                      ),
                     ),
                   ),
                 ),

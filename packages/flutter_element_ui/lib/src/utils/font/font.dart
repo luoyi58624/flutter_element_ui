@@ -24,8 +24,7 @@ class ElFont {
   static ElFontModel notoSansSc([List<FontWeight>? fontWeights]) {
     return ElFontModel(
       fontFamily: 'NotoSansSC',
-      fontWeights:
-          DartUtil.mapFilterFromKeys(_GoogleFonts.notoSansSc, (fontWeights ?? []).map((e) => e.value).toList()),
+      fontWeights: _GoogleFonts.notoSansSc.filterFromKeys((fontWeights ?? []).map((e) => e.value).toList()),
     );
   }
 
@@ -108,9 +107,7 @@ class ElFont {
       linuxWeb: linuxWeb,
     );
     if (allowLoadCustomFont) {
-      fontModel != null && fontModel.fontFamily != ''
-          ? await initFont(fontModel)
-          : await initFont(notoSansSc([FontWeight.w500]));
+      fontModel != null && fontModel.fontFamily != '' ? await initFont(fontModel) : await initFont(notoSansSc([FontWeight.w500]));
     } else {
       await initFont(systemFont);
     }

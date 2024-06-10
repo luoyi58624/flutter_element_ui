@@ -177,7 +177,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       if (isScrollbarHover == false) {
         isScrollbarHover = true;
         _cancelDelayHandlerHover();
-        _delayHandlerHover = DartUtil.delay(() {
+        _delayHandlerHover = () {
           if (isHover) {
             color1 = hoverThumbColor;
           } else {
@@ -186,7 +186,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
           }
           color2 = activeThumbColor;
           scrollbarAnimationController.forward(from: 0);
-        }, 100);
+        }.delay(100);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover
