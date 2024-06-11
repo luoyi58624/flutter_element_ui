@@ -73,7 +73,7 @@ class _Button extends ElButton {
       decoration: BoxDecoration(
         color: buttonStyle.bgColor,
         border: buttonStyle.border,
-        borderRadius: style!.round! || isCircle ? BorderRadius.circular(buttonHeight / 2) : style!.radius,
+        borderRadius: style!.round! || isCircle ? BorderRadius.circular(buttonHeight / 2) : style!.borderRadius,
       ),
       child: buildChild(buttonStyle),
     );

@@ -16,7 +16,7 @@ class ElButtonStyle {
     plain: false,
     round: false,
     block: false,
-    radius: BorderRadius.all(Radius.circular(4)),
+    borderRadius: BorderRadius.all(Radius.circular(4)),
     circle: false,
     disabled: false,
   );
@@ -46,7 +46,7 @@ class ElButtonStyle {
   final bool? block;
 
   /// 自定义按钮圆角，默认 4 像素，如果[round]为true，则强制渲染为圆角按钮
-  final BorderRadiusGeometry? radius;
+  final BorderRadiusGeometry? borderRadius;
 
   /// 自定义按钮 padding，默认情况下，水平 padding 为高度一半
   final EdgeInsetsGeometry? padding;
@@ -75,7 +75,7 @@ class ElButtonStyle {
     this.plain,
     this.round,
     this.block,
-    this.radius,
+    this.borderRadius,
     this.padding,
     this.leftIcon,
     this.rightIcon,
