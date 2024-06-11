@@ -1,13 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
-import '../basic/scrollbar.dart';
 
 /// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 22;
@@ -110,7 +109,6 @@ class ElMenu extends StatefulWidget {
 
 class _ElMenuState extends State<ElMenu> {
   Color get background => widget.background ?? context.elTheme.menuBackground;
-  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -130,14 +128,10 @@ class _ElMenuState extends State<ElMenu> {
         collapseDuration: widget.collapseDuration,
         expandDuration: widget.expandDuration,
         onChange: widget.onChange,
-        child: ElScrollbar(
-          controller: scrollController,
-          child: SingleChildScrollView(
-            controller: scrollController,
-            child: _MenuWidget(
-              menuList: widget.menuList,
-              gap: _defaultGap,
-            ),
+        child: SingleChildScrollView(
+          child: _MenuWidget(
+            menuList: widget.menuList,
+            gap: _defaultGap,
           ),
         ),
       ),

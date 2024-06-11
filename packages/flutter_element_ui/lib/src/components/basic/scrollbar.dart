@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -11,23 +11,12 @@ import '../../builders/hover.dart';
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
-class ElScrollConfiguration extends StatelessWidget {
-  /// Element UI全局滚动配置
-  const ElScrollConfiguration({
-    super.key,
-    required this.child,
-  });
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return ScrollConfiguration(behavior: const _NoScrollBehavior(), child: child);
-  }
-}
-
-class _NoScrollBehavior extends ScrollBehavior {
-  const _NoScrollBehavior();
+class ElScrollBehavior extends ScrollBehavior {
+  /// Element UI 默认滚动行为，桌面端使用[ElScrollbar]，移动端使用[Scrollbar]
+  ///
+  /// 提示: 如果你需要用到自定义滚动条，你需要定义一个新的[ScrollConfiguration]并重写[buildScrollbar]方法，
+  /// 否则滚动条会出现重叠
+  const ElScrollBehavior();
 
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
@@ -35,35 +24,69 @@ class _NoScrollBehavior extends ScrollBehavior {
       case TargetPlatform.linux:
       case TargetPlatform.macOS:
       case TargetPlatform.windows:
+        return ElScrollbar(
+          controller: details.controller,
+          child: child,
+        );
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.iOS:
-        return child;
+        return Scrollbar(
+          controller: details.controller,
+          child: child,
+        );
     }
   }
 
   @override
   Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
-    var target = getPlatform(context);
-    if (target == TargetPlatform.android || target == TargetPlatform.fuchsia) {
-      return GlowingOverscrollIndicator(
-        // 去除滚动到顶部的水波纹
-        showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
-        // 去除滚动到底部的水波纹
-        showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
-        axisDirection: details.direction,
-        color: context.elConfig.scrollConfiguration.ripperColor,
-        child: child,
-      );
+    if (PlatformUtil.isAndroid) {
+      if (Theme.of(context).useMaterial3) {
+        return StretchingOverscrollIndicator(
+          axisDirection: details.direction,
+          child: child,
+        );
+      } else {
+        return GlowingOverscrollIndicator(
+          showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
+          showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
+          axisDirection: details.direction,
+          color: context.elConfig.scrollConfiguration.ripperColor,
+          child: child,
+        );
+      }
     } else {
       return child;
     }
   }
 }
 
+// class ElScrollbar extends HookWidget {
+//   /// 构建 Element UI 风格的滚动条
+//   const ElScrollbar({
+//     super.key,
+//     required this.builder,
+//     this.always = false,
+//   });
+//
+//   /// 滚动条会自动创建一个滚动控制器，
+//   final Widget Function(ScrollController controller) builder;
+//
+//   /// 是否总是显示滚动条，默认情况下，当鼠标离开滚动区域时，滚动条将消失
+//   final bool always;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final controller = useScrollController();
+//     return _ElScrollbar(
+//       always: always,
+//       child: builder(controller),
+//     );
+//   }
+// }
+
 /// Element UI 滚动条
 class ElScrollbar extends RawScrollbar {
-  /// 构建 Element UI 风格的滚动条
   const ElScrollbar({
     super.key,
     required super.child,

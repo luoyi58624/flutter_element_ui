@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 /// CupertinoTheme.of(context).brightness == Brightness.dark;
 ///
 /// // 使用小部件判断当前是否是暗黑主题
-/// ElBrightness.isDark(context);
+/// ElBrightness.isDark(context); // 扩展函数写法: context.isDark
 /// ```
 ///
 /// 定义方式：
@@ -33,6 +33,7 @@ import 'package:flutter/widgets.dart';
 /// );
 /// ```
 class ElBrightness extends InheritedWidget {
+  /// 平台亮度小部件，统一不同主题系统判断当前是否是暗黑模式
   const ElBrightness({
     super.key,
     required super.child,

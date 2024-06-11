@@ -67,8 +67,11 @@ class _HoverInheritedWidget extends InheritedWidget {
   }
 }
 
-/// 全局控制页面 hover 的效果
 class ElGlobalHover extends StatefulWidget {
+  /// 全局控制页面 hover 的效果，该组件目前配合[ElScrollConfiguration]使用，
+  /// 默认情况下，当用户拖动滚动条时，鼠标依旧会触发hover效果，这种行为在 Web 上是不会存在的，
+  /// 所以，ElScrollbar对此行为做了处理，当用户开始拖动滚动条时，会尝试获取[ElGlobalHover]组件并设置全局禁用，
+  /// [ElHoverBuilder]触发hover时会优先判断全局状态，防止用户拖动滚动条时触发元素hover
   const ElGlobalHover({super.key, required this.child});
 
   final Widget child;

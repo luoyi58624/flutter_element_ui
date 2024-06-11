@@ -25,7 +25,7 @@ class _ImageListPageState extends State<ImageListPage> {
     var imageList = List.generate(1000000, (index) => faker.image.image(random: true)).toList();
     int end = DateTime.now().millisecondsSinceEpoch;
     i('加载100万张图片耗时：${end - start} 毫秒');
-    return ElScrollbar(
+    return Scrollbar(
       controller: controller,
       child: SuperListView.builder(
         controller: controller,

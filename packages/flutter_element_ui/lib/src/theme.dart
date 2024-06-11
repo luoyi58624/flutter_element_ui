@@ -12,17 +12,23 @@ import 'styles/theme.dart';
 const List<String> elThemeTypes = ['primary', 'success', 'info', 'warning', 'error'];
 
 class ElTheme extends StatelessWidget {
-  /// Element UI的每个组件都可以直接开箱即用，Flutter提供的[MaterialApp]、[CupertinoApp]等顶级小部件已经包含了大量配置参数，
-  /// 我不想重复地去实现它们，
+  /// Element UI 全局主题小部件，这是可选的，但如果你要用到
+  /// ```dart
+  /// MaterialApp(
+  ///   builder: (context, child) => ElTheme(
+  ///     child: child!,
+  ///   ),
+  /// );
+  /// ```
   ElTheme({
     super.key,
     required this.child,
+    this.textStyle,
+    this.brightness,
     ElThemeData? theme,
     ElThemeData? darkTheme,
     ElConfigData? config,
     ElResponsiveData? responsive,
-    this.brightness,
-    this.textStyle,
   }) {
     _theme = theme ?? ElThemeData.theme;
     _darkTheme = darkTheme ?? ElThemeData.darkTheme;
@@ -31,16 +37,24 @@ class ElTheme extends StatelessWidget {
   }
 
   final Widget child;
+
+  /// 全局文字默认样式，Element UI 只处理文字颜色
+  final TextStyle? textStyle;
+
+  /// 定义平台应用的主题模式，如果为空则跟随系统，建议将该值和你的顶级 App 组件绑定，示例：
+  /// ```dart
+  /// MaterialApp(
+  ///   builder: (context, child) => ElTheme(
+  ///      brightness: Theme.of(context).brightness,
+  ///      child: child!,
+  ///   ),
+  /// );
+  /// ```
+  final Brightness? brightness;
   late final ElThemeData _theme;
   late final ElThemeData _darkTheme;
   late final ElConfigData _config;
   late final ElResponsiveData _responsive;
-
-  /// 指定 Element UI 小部件应用的主题模式，如果为空，则跟随平台系统
-  final Brightness? brightness;
-
-  /// 全局默认文字主题
-  final TextStyle? textStyle;
 
   /// 亮色主题
   static ElThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElThemeData.theme;
@@ -57,24 +71,28 @@ class ElTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElScrollConfiguration(
-      child: ElGlobalHover(
-        child: ElBrightness(
-          brightness: brightness,
-          child: Builder(builder: (context) {
-            final color = context.isDark ? _darkTheme.textColor : _theme.textColor;
-            TextStyle $textStyle = (textStyle ?? const TextStyle()).copyWith(color: color);
-            return DefaultTextStyle(
-              style: $textStyle,
-              child: ElIconTheme(
-                size: 18,
-                color: color,
-                child: _ElTheme(elTheme: this, child: child),
+    return ElBrightness(
+      brightness: brightness,
+      child: Builder(builder: (context) {
+        final color = context.isDark ? _darkTheme.textColor : _theme.textColor;
+        TextStyle $style = (textStyle ?? const TextStyle()).copyWith(color: color);
+        return DefaultTextStyle(
+          style: $style,
+          child: ElIconTheme(
+            size: 18,
+            color: color,
+            child: _ElTheme(
+              elTheme: this,
+              child: ScrollConfiguration(
+                behavior: const ElScrollBehavior(),
+                child: ElGlobalHover(
+                  child: child,
+                ),
               ),
-            );
-          }),
-        ),
-      ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

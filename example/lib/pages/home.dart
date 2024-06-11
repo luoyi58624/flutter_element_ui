@@ -9,7 +9,6 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final (count, addCount) = useCount();
     final (flag, toggle) = useToggle(true);
-    final controller = useScrollController();
     return SelectionArea(
       child: Builder(builder: (context) {
         return Material(
@@ -23,13 +22,10 @@ class HomePage extends HookWidget {
               ElButton('count: $count', onPressed: addCount),
               UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
               Expanded(
-                child: ElScrollbar(
-                    controller: controller,
-                    child: SuperListView.builder(
-                      controller: controller,
-                      itemCount: 1000000,
-                      itemBuilder: (context, index) => flag ? const _Button() : const _Button2(),
-                    )),
+                child: SuperListView.builder(
+                  itemCount: 1000000,
+                  itemBuilder: (context, index) => flag ? const _Button() : const _Button2(),
+                ),
               ),
             ],
           ),
