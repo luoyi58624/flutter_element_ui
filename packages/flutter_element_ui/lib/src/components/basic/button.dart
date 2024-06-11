@@ -8,7 +8,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../builders/hover.dart';
 import '../../builders/tap.dart';
 import '../../styles/basic/button.dart';
-import '../../utils/platform/platform.dart';
 import 'icon.dart';
 import 'text.dart';
 
@@ -157,14 +156,14 @@ _ElButtonStyle _useButtonStyle(BuildContext context, ElButtonStyle style) {
       // 镂空按钮
       if (style.plain!) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
-        bgColor.value = ElPlatform.isDesktop
+        bgColor.value = PlatformUtil.isDesktop
             ? ($isTap
                 ? $primaryColor.elTap(context)
                 : $isHover
                     ? $primaryColor
                     : $primaryColor.elThemeLightBg(context))
             : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
-        borderColor.value = ElPlatform.isDesktop
+        borderColor.value = PlatformUtil.isDesktop
             ? ($isTap
                 ? $primaryColor.elTap(context)
                 : $isHover

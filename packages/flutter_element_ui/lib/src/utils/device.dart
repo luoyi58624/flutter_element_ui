@@ -100,19 +100,19 @@ class ElDevice {
         webInfo = await instance.webBrowserInfo;
         deviceInfo = webInfo!.data;
       } else {
-        if (ElPlatform.isAndroid) {
+        if (PlatformUtil.isAndroid) {
           androidInfo = await instance.androidInfo;
           deviceInfo = androidInfo!.data;
-        } else if (ElPlatform.isIOS) {
+        } else if (PlatformUtil.isIOS) {
           iosInfo = await instance.iosInfo;
           deviceInfo = iosInfo!.data;
-        } else if (ElPlatform.isMacOS) {
+        } else if (PlatformUtil.isMacOS) {
           macInfo = await instance.macOsInfo;
           deviceInfo = macInfo!.data;
-        } else if (ElPlatform.isWindows) {
+        } else if (PlatformUtil.isWindows) {
           windowsInfo = await instance.windowsInfo;
           deviceInfo = windowsInfo!.data;
-        } else if (ElPlatform.isLinux) {
+        } else if (PlatformUtil.isLinux) {
           linuxInfo = await instance.linuxInfo;
           deviceInfo = linuxInfo!.data;
         }

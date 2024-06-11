@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../platform/platform.dart';
 import 'model.dart';
 
 /// 是否允许加载自定义字体，不允许的平台使用系统字体
@@ -20,11 +19,11 @@ bool getAllowLoadCustomFont({
   bool linuxWeb = true,
 }) {
   if (isCanvasKit && canvaskit) return true;
-  if (ElPlatform.isAndroid && androidWeb) return true;
-  if (ElPlatform.isIOS && iosWeb) return true;
-  if (ElPlatform.isMacOS && macosWeb) return true;
-  if (ElPlatform.isWindows && windowsWeb) return true;
-  if (ElPlatform.isLinux && linuxWeb) return true;
+  if (PlatformUtil.isAndroid && androidWeb) return true;
+  if (PlatformUtil.isIOS && iosWeb) return true;
+  if (PlatformUtil.isMacOS && macosWeb) return true;
+  if (PlatformUtil.isWindows && windowsWeb) return true;
+  if (PlatformUtil.isLinux && linuxWeb) return true;
   return false;
 }
 

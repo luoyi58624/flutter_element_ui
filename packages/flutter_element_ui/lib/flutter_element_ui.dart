@@ -44,4 +44,3 @@ export 'src/utils/icons.dart';
 export 'src/utils/device.dart';
 export 'src/utils/font/font.dart';
 export 'src/utils/font/model.dart';
-export 'src/utils/platform/platform.dart';

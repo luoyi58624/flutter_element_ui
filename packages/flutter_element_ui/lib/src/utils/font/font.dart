@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../device.dart';
-import '../platform/platform.dart';
 import 'font_web.dart' if (dart.library.io) 'font_io.dart';
 import 'model.dart';
 
@@ -107,7 +106,9 @@ class ElFont {
       linuxWeb: linuxWeb,
     );
     if (allowLoadCustomFont) {
-      fontModel != null && fontModel.fontFamily != '' ? await initFont(fontModel) : await initFont(notoSansSc([FontWeight.w500]));
+      fontModel != null && fontModel.fontFamily != ''
+          ? await initFont(fontModel)
+          : await initFont(notoSansSc([FontWeight.w500]));
     } else {
       await initFont(systemFont);
     }
@@ -154,9 +155,9 @@ class ElFont {
   /// 字体族列表，当我们的[fontFamily]为空时，flutter会根据此列表依次匹配字体
   static List<String>? get fontFamilyFallback {
     // 在 mac 上若不指定苹方字体，那么中文字重将失效
-    if (ElPlatform.isMacOS || ElPlatform.isIOS) {
+    if (PlatformUtil.isMacOS || PlatformUtil.isIOS) {
       return ['.AppleSystemUIFont', 'PingFang SC'];
-    } else if (ElPlatform.isWindows) {
+    } else if (PlatformUtil.isWindows) {
       return ['Microsoft YaHei', '微软雅黑'];
     } else {
       return null;
@@ -225,7 +226,7 @@ class ElFont {
     __normal = normal;
     __medium = medium;
     __bold = bold;
-    if (ElPlatform.isAndroid) {
+    if (PlatformUtil.isAndroid) {
       // 小米手机400字重太细了，将normal设置为500
       if (ElDevice.isXiaomi) {
         _setFontWeight(FontWeight.w500, FontWeight.w500, FontWeight.bold);
@@ -236,7 +237,7 @@ class ElFont {
       }
     }
     // Windows平台不包含w500字重，中等字重调整为400
-    else if (ElPlatform.isWindows) {
+    else if (PlatformUtil.isWindows) {
       _setFontWeight(FontWeight.normal, FontWeight.normal, FontWeight.bold);
     }
   }

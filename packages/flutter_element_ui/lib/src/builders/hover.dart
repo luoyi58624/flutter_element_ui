@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
-import '../utils/platform/platform.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElHoverBuilder extends HookWidget {
   /// hover构建器，仅在桌面端渲染，移动端不会渲染
@@ -31,7 +30,7 @@ class ElHoverBuilder extends HookWidget {
   Widget build(BuildContext context) {
     final $disabled = ElGlobalHover.disabled(context);
     final isHover = useState(false);
-    return ElPlatform.isDesktop
+    return PlatformUtil.isDesktop
         ? _HoverInheritedWidget(
             isHover: isHover.value,
             child: MouseRegion(
