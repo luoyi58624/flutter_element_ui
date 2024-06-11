@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
@@ -11,9 +12,12 @@ import '../../utils/platform/platform.dart';
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
-class ElDefaultScrollbar extends StatelessWidget {
-  /// Element UI全局默认滚动条
-  const ElDefaultScrollbar({super.key, required this.child});
+class ElScrollConfiguration extends StatelessWidget {
+  /// Element UI全局滚动配置
+  const ElScrollConfiguration({
+    super.key,
+    required this.child,
+  });
 
   final Widget child;
 
@@ -36,6 +40,24 @@ class _NoScrollBehavior extends ScrollBehavior {
       case TargetPlatform.fuchsia:
       case TargetPlatform.iOS:
         return child;
+    }
+  }
+
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    var target = getPlatform(context);
+    if (target == TargetPlatform.android || target == TargetPlatform.fuchsia) {
+      return GlowingOverscrollIndicator(
+        // 去除滚动到顶部的水波纹
+        showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
+        // 去除滚动到底部的水波纹
+        showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
+        axisDirection: details.direction,
+        color: context.elConfig.scrollConfiguration.ripperColor,
+        child: child,
+      );
+    } else {
+      return child;
     }
   }
 }

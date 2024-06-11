@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/src/styles/basic/scroll.dart';
 
 import 'basic/button.dart';
 
@@ -104,7 +104,6 @@ class ElThemeData {
   }) {
     this.headerColor = headerColor ?? primary;
     this.modalColor = modalColor ?? bgColor;
-    iconColors = List.generate(6, (index) => iconColor.brighten(8 * (index + 1)));
   }
 
   /// 默认的暗色主题构造函数
@@ -130,7 +129,6 @@ class ElThemeData {
   }) {
     this.headerColor = headerColor ?? primary;
     this.modalColor = modalColor ?? bgColor;
-    iconColors = List.generate(6, (index) => iconColor.darken(4 * (index + 1)));
   }
 }
 
@@ -144,6 +142,7 @@ class ElConfigData {
 
   /// 按钮全局样式
   late ElButtonStyle buttonStyle;
+  late ElScrollConfigurationData scrollConfiguration;
 
   /// 输入框全局圆角值
   double inputRadius;
@@ -154,10 +153,12 @@ class ElConfigData {
   ElConfigData({
     this.iconSize = 20,
     ElButtonStyle? buttonStyle,
+    ElScrollConfigurationData? scrollConfiguration,
     this.cardRadius = 6,
     this.inputRadius = 6,
   }) {
     this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
+    this.scrollConfiguration = ElScrollConfigurationData().merge(scrollConfiguration);
   }
 }
 

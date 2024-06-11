@@ -52,7 +52,7 @@ class ElTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElDefaultScrollbar(
+    return ElScrollConfiguration(
       child: ElGlobalHover(
         child: ElBrightness(
           brightness: brightness,
