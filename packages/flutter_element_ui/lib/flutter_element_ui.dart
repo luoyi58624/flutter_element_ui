@@ -5,7 +5,6 @@ export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
-export 'src/app.dart';
 export 'src/common.dart';
 export 'src/extension.dart' show ElThemeExtension, ElBrightnessExtension, ElResponsiveExtension, ElTypographyExtension;
 export 'src/theme.dart';
