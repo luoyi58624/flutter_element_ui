@@ -41,9 +41,7 @@ class _ImageListPageState extends State<ImageListPage> {
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8),
                       // child: ElImage(src: imageList[index * 5 + rowIndex]),
-                      child: Container(
-                        child: const Text('虚拟卡时间你下课N想看就是想那是可能性卡死你新疆喀什你'),
-                      ),
+                      child: const Text('虚拟卡时间你下课N想看就是想那是可能性卡死你新疆喀什你'),
                     ),
                   ),
                 ),

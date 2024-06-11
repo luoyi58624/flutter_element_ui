@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class BadgePage extends HookWidget {
   const BadgePage({super.key});

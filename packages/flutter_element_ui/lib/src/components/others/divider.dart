@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/components/basic/brightness.dart';
+import 'package:flutter_element_ui/src/extension.dart';
 
-class DividerWidget extends StatelessWidget {
-  /// 构建通用分割线Widget
-  const DividerWidget({
+class ElDivider extends StatelessWidget {
+  const ElDivider({
     super.key,
     this.vertical = false,
     this.size,
@@ -27,6 +26,15 @@ class DividerWidget extends StatelessWidget {
   /// 自定义分割线的颜色
   final Color? color;
 
+  /// 构建列表分割线widget
+  static IndexedWidgetBuilder buildSeparatorWidget(
+    BuildContext context, {
+    double indent = 0,
+    Color? color,
+  }) {
+    return (ctx, index) => ElDivider(indent: indent, color: color);
+  }
+
   @override
   Widget build(BuildContext context) {
     return vertical
@@ -43,13 +51,4 @@ class DividerWidget extends StatelessWidget {
             color: color ?? (context.isDark ? Colors.grey.shade700 : Colors.grey.shade300),
           );
   }
-}
-
-/// 构建通用的列表分割线widget
-IndexedWidgetBuilder buildSeparatorWidget(
-  BuildContext context, {
-  double indent = 0,
-  Color? color,
-}) {
-  return (ctx, index) => DividerWidget(indent: indent, color: color);
 }

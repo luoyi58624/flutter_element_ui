@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/extension.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
+import 'components/basic/icon.dart';
 import 'components/basic/scrollbar.dart';
 import 'styles/theme.dart';
 

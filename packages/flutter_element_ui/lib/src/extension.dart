@@ -14,6 +14,11 @@ extension ElThemeExtension on BuildContext {
   ElThemeData get elTheme => isDark ? darkTheme : theme;
 }
 
+extension ElBrightnessExtension on BuildContext {
+  /// 当前环境是否是暗黑模式，默认跟随系统
+  bool get isDark => ElBrightness.isDark(this);
+}
+
 extension ElResponsiveExtension on BuildContext {
   /// 移动端设备
   bool get sm => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).sm;
