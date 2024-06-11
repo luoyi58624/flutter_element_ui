@@ -9,14 +9,6 @@ class ColorPage extends StatefulWidget {
 }
 
 class _ColorPageState extends State<ColorPage> {
-  Map<ElThemeType, Color> get themeColors => {
-        ElThemeType.primary: context.elTheme.primary,
-        ElThemeType.success: context.elTheme.success,
-        ElThemeType.info: context.elTheme.info,
-        ElThemeType.warning: context.elTheme.warning,
-        ElThemeType.error: context.elTheme.error,
-      };
-
   List<Color> generaColors(Color color) {
     List strengths = <double>[0.05];
     List<Color> colors = [];
@@ -43,7 +35,7 @@ class _ColorPageState extends State<ColorPage> {
     List<List<Color>> colors2 = [];
 
     int count = 5;
-    themeColors.forEach((key, value) {
+    context.elThemeTypeColors.forEach((key, value) {
       List<Color> themeColors = [];
       for (int i = count; i >= 1; i--) {
         themeColors.add(value.brighten(15 * i));
@@ -55,7 +47,7 @@ class _ColorPageState extends State<ColorPage> {
       colors1.add(themeColors);
     });
 
-    themeColors.forEach((key, value) {
+    context.elThemeTypeColors.forEach((key, value) {
       colors2.add(generaColors(value));
     });
 
@@ -116,7 +108,7 @@ class _ColorPageState extends State<ColorPage> {
 
   Widget buildLightElementColor() {
     List<List<Color>> colors = [];
-    themeColors.forEach((key, value) {
+    context.elThemeTypeColors.forEach((key, value) {
       List<Color> themeColors = [value];
       for (int i = 1; i <= 9; i++) {
         themeColors.add(value.brighten(8 * i));
@@ -147,7 +139,7 @@ class _ColorPageState extends State<ColorPage> {
 
   Widget buildDarkElementColor() {
     List<List<Color>> colors = [];
-    themeColors.forEach((key, value) {
+    context.elThemeTypeColors.forEach((key, value) {
       List<Color> themeColors = [value];
       for (int i = 1; i <= 9; i++) {
         themeColors.add(value.darken(8 * i));

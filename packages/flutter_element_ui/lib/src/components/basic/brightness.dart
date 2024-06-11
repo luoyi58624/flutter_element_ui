@@ -16,7 +16,7 @@ import 'package:flutter/widgets.dart';
 /// ElBrightness.isDark(context);
 /// ```
 ///
-/// 使用时需要将当前平台定义的brightness传递给该组件：
+/// 定义方式：
 /// ```dart
 /// MaterialApp(
 ///   builder: (context, child) => ElBrightness(
@@ -43,10 +43,10 @@ class ElBrightness extends InheritedWidget {
   final Brightness? brightness;
 
   /// 判断当前是否是黑暗模式
-  static bool isDark(BuildContext context) => _of(context) == Brightness.dark;
+  static bool isDark(BuildContext context) => of(context) == Brightness.dark;
 
-  /// 通过上下文获取[Brightness]，如果你没有注入此小部件，则跟随系统
-  static Brightness _of(BuildContext context) =>
+  /// 通过上下文获取当前[Brightness]，如果你没有注入此小部件，则跟随系统
+  static Brightness of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ElBrightness>()?.brightness ??
       MediaQuery.of(context).platformBrightness;
 

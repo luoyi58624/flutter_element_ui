@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
-import '../../styles/basic/button.dart';
-import '../../styles/theme.dart';
 import '../basic/button.dart';
 import '../basic/text.dart';
 
@@ -38,8 +36,8 @@ class ElDialog extends StatelessWidget {
     String cancelText = '取消',
     String confirmText = '确定',
     String confirmLoadingText = '加载中...',
-    ElThemeType? cancelButtonType,
-    ElThemeType confirmButtonType = ElThemeType.primary,
+    String? cancelButtonType,
+    String confirmButtonType = 'primary',
     Function? onCancel,
     Function? onConfirm,
   }) async {
@@ -60,10 +58,8 @@ class ElDialog extends StatelessWidget {
                         if (onCancel != null) onCancel();
                         if (context.mounted) Navigator.of(context).pop(false);
                       },
-                      style: ElButtonStyle(
-                        type: cancelButtonType,
-                        disabled: loading,
-                      ),
+                      type: cancelButtonType,
+                      disabled: loading,
                     ),
                   const SizedBox(width: 8),
                   if (confirmText != '')
@@ -76,11 +72,8 @@ class ElDialog extends StatelessWidget {
                         }
                         if (context.mounted) Navigator.of(context).pop(true);
                       },
-                      style: ElButtonStyle(
-                        type: confirmButtonType,
-                        disabled: loading,
-                        // loading: loading,
-                      ),
+                      type: confirmButtonType,
+                      disabled: loading,
                     ),
                 ],
               ),

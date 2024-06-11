@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
@@ -7,8 +8,12 @@ import 'components/basic/icon.dart';
 import 'components/basic/scrollbar.dart';
 import 'styles/theme.dart';
 
+/// Element UI 颜色主题类型集合
+const List<String> elThemeTypes = ['primary', 'success', 'info', 'warning', 'error'];
+
 class ElTheme extends StatelessWidget {
-  /// 注入 Element UI 主题系统
+  /// Element UI的每个组件都可以直接开箱即用，Flutter提供的[MaterialApp]、[CupertinoApp]等顶级小部件已经包含了大量配置参数，
+  /// 我不想重复地去实现它们，
   ElTheme({
     super.key,
     required this.child,

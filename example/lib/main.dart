@@ -13,41 +13,33 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ValueListenableBuilder(
-        valueListenable: GlobalState.brightness,
-        builder: (context, value, _) {
-          // return ElApp.router(
-          //   routerConfig: router,
-          //   brightness: value,
-          //   textStyle: TextStyle(
-          //     fontFamilyFallback: ElFont.fontFamilyFallback,
-          //   ),
-          //   builder: (context, child) => Theme(
-          //     data: ThemeData(),
-          //     child: child!,
-          //   ),
-          // );
-          return MaterialApp.router(
-            routerConfig: router,
-            builder: (context, child) => ElTheme(
-              textStyle: TextStyle(
-                fontFamily: ElFont.fontFamily,
-                fontFamilyFallback: ElFont.fontFamilyFallback,
-              ),
-              theme: ElThemeData(
-                primary: const Color.fromARGB(255, 0, 120, 212),
-                success: const Color.fromARGB(255, 16, 185, 129),
-                info: const Color.fromARGB(255, 127, 137, 154),
-                warning: const Color.fromARGB(255, 245, 158, 11),
-                error: const Color.fromARGB(255, 239, 68, 68),
-              ),
-              child: child!,
-            ),
-          );
-        },
-      ),
+    return const MaterialApp(
+      home: HomePage(),
     );
+    // return SafeArea(
+    //   child: ValueListenableBuilder(
+    //     valueListenable: GlobalState.brightness,
+    //     builder: (context, value, _) {
+    //       return MaterialApp.router(
+    //         routerConfig: router,
+    //         builder: (context, child) => ElTheme(
+    //           textStyle: TextStyle(
+    //             fontFamily: ElFont.fontFamily,
+    //             fontFamilyFallback: ElFont.fontFamilyFallback,
+    //           ),
+    //           theme: ElThemeData(
+    //             primary: const Color.fromARGB(255, 0, 120, 212),
+    //             success: const Color.fromARGB(255, 16, 185, 129),
+    //             info: const Color.fromARGB(255, 127, 137, 154),
+    //             warning: const Color.fromARGB(255, 245, 158, 11),
+    //             error: const Color.fromARGB(255, 239, 68, 68),
+    //           ),
+    //           child: child!,
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }
 
@@ -59,3 +51,31 @@ class _App extends StatelessWidget {
 //   error: const Color(0xffe11d48),
 //   radius: 8,
 // ),
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('首页'),
+      ),
+      body: const Row(
+        children: [
+          Gap(16),
+          ElButton('hello'),
+          Gap(16),
+          ElButton('hello', type: 'primary'),
+          Gap(16),
+          ElButton('hello', type: 'success'),
+        ],
+      ),
+    );
+  }
+}

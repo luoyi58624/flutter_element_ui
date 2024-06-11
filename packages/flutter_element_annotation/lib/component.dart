@@ -10,7 +10,7 @@ class ElComponent {
   });
 
   const ElComponent.all({
-    this.generateMergeStyleFun = true,
+    this.generateMergeStyleFun = false,
     this.generateLocalThemeWidget = true,
     this.generateImportantThemeWidget = false,
   });

@@ -18,9 +18,7 @@ class BadgePage extends HookWidget {
               onPressed: () {
                 badgeValue.value++;
               },
-              style: const ElButtonStyle(
-                type: ElThemeType.primary,
-              ),
+              type: 'primary',
             ),
           ),
           const Gap(8),
@@ -31,9 +29,7 @@ class BadgePage extends HookWidget {
               onPressed: () {
                 if (badgeValue.value > 0) badgeValue.value--;
               },
-              style: const ElButtonStyle(
-                type: ElThemeType.info,
-              ),
+              type: 'info',
             ),
           ),
           const Gap(8),
@@ -44,9 +40,7 @@ class BadgePage extends HookWidget {
               onPressed: () {
                 badgeValue.value = 0;
               },
-              style: const ElButtonStyle(
-                type: ElThemeType.error,
-              ),
+              type: 'error',
             ),
           ),
         ],

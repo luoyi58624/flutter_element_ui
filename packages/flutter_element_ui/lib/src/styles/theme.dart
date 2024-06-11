@@ -7,15 +7,6 @@ import 'basic/button.dart';
 
 part '../generates/styles/theme.g.dart';
 
-/// Element UI 主题类型
-enum ElThemeType {
-  primary,
-  success,
-  info,
-  warning,
-  error,
-}
-
 /// Element UI 主题对象
 @ElModel(copyWith: true)
 class ElThemeData {
