@@ -15,10 +15,10 @@ import 'utils/font/font.dart';
 
 extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
-  ElConfigData get elConfig => ElTheme.config(this);
+  ElConfigData get elConfig => ElTheme.of(this).config;
 
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme => isDark ? darkTheme : theme;
+  ElColorThemeData get elTheme => isDark ? darkTheme : theme;
 
   /// Element UI 主题类型颜色集合
   Map<String, Color> get elThemeTypeColors => {
@@ -37,16 +37,16 @@ extension ElBrightnessExtension on BuildContext {
 
 extension ElResponsiveExtension on BuildContext {
   /// 移动端设备
-  bool get sm => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).sm;
+  bool get sm => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.sm;
 
   /// 平板设备
-  bool get md => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).md;
+  bool get md => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.md;
 
   /// 桌面设备
-  bool get lg => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).lg;
+  bool get lg => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.lg;
 
   /// 大屏桌面设备
-  bool get xl => MediaQuery.sizeOf(this).width < ElTheme.responsive(this).xl;
+  bool get xl => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.xl;
 }
 
 /// 字体排版扩展
@@ -102,9 +102,9 @@ extension ElTypographyExtension on BuildContext {
 }
 
 extension ThemeExtension on BuildContext {
-  ElThemeData get theme => ElTheme.theme(this);
+  ElColorThemeData get theme => ElTheme.of(this).theme;
 
-  ElThemeData get darkTheme => ElTheme.darkTheme(this);
+  ElColorThemeData get darkTheme => ElTheme.of(this).darkTheme;
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗

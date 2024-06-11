@@ -11,6 +11,21 @@ import 'styles/theme.dart';
 /// Element UI 颜色主题类型集合
 const List<String> elThemeTypes = ['primary', 'success', 'info', 'warning', 'error'];
 
+/// Element UI 全局主题
+class ElThemeData {
+  ElColorThemeData? theme;
+  ElColorThemeData? darkTheme;
+  ElConfigData? config;
+  ElResponsiveData? responsive;
+
+  ElThemeData({
+    this.theme,
+    this.darkTheme,
+    this.config,
+    this.responsive,
+  });
+}
+
 class ElTheme extends StatelessWidget {
   /// Element UI 全局主题小部件，这是可选的，但如果你要用到
   /// ```dart
@@ -20,23 +35,18 @@ class ElTheme extends StatelessWidget {
   ///   ),
   /// );
   /// ```
-  ElTheme({
+  const ElTheme({
     super.key,
     required this.child,
+    this.data,
     this.textStyle,
     this.brightness,
-    ElThemeData? theme,
-    ElThemeData? darkTheme,
-    ElConfigData? config,
-    ElResponsiveData? responsive,
-  }) {
-    _theme = theme ?? ElThemeData.theme;
-    _darkTheme = darkTheme ?? ElThemeData.darkTheme;
-    _config = config ?? ElConfigData.config;
-    _responsive = responsive ?? ElResponsiveData.responsive;
-  }
+  });
 
   final Widget child;
+
+  /// 主题数据，默认[defaultThemeData]
+  final ElThemeData? data;
 
   /// 全局文字默认样式，Element UI 只处理文字颜色
   final TextStyle? textStyle;
@@ -51,30 +61,37 @@ class ElTheme extends StatelessWidget {
   /// );
   /// ```
   final Brightness? brightness;
-  late final ElThemeData _theme;
-  late final ElThemeData _darkTheme;
-  late final ElConfigData _config;
-  late final ElResponsiveData _responsive;
 
-  /// 亮色主题
-  static ElThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElThemeData.theme;
+  static ElThemeData defaultThemeData = ElThemeData(
+    theme: ElColorThemeData.theme,
+    darkTheme: ElColorThemeData.darkTheme,
+    config: ElConfigData.config,
+    responsive: ElResponsiveData.responsive,
+  );
 
-  /// 暗色主题
-  static ElThemeData darkTheme(BuildContext context) => _ElTheme.maybeOf(context)?._darkTheme ?? ElThemeData.darkTheme;
+  /// 通过上下文获取全局主题
+  static ElThemeData of(BuildContext context) => _ElTheme.maybeOf(context)?.data ?? defaultThemeData;
 
-  /// 全局配置
-  static ElConfigData config(BuildContext context) => _ElTheme.maybeOf(context)?._config ?? ElConfigData.config;
-
-  /// 响应式配置
-  static ElResponsiveData responsive(BuildContext context) =>
-      _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
+  // /// 亮色主题
+  // static ElColorThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElColorThemeData.theme;
+  //
+  // /// 暗色主题
+  // static ElColorThemeData darkTheme(BuildContext context) => _ElTheme.maybeOf(context)?._darkTheme ?? ElColorThemeData.darkTheme;
+  //
+  // /// 全局配置
+  // static ElConfigData config(BuildContext context) => _ElTheme.maybeOf(context)?._config ?? ElConfigData.config;
+  //
+  // /// 响应式配置
+  // static ElResponsiveData responsive(BuildContext context) =>
+  //     _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
 
   @override
   Widget build(BuildContext context) {
+    final $data = data ?? defaultThemeData;
     return ElBrightness(
       brightness: brightness,
       child: Builder(builder: (context) {
-        final color = context.isDark ? _darkTheme.textColor : _theme.textColor;
+        final color = context.isDark ? $data.darkTheme.textColor : $data.theme.textColor;
         TextStyle $style = (textStyle ?? const TextStyle()).copyWith(color: color);
         return DefaultTextStyle(
           style: $style,

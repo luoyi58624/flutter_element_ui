@@ -9,9 +9,9 @@ part '../generates/styles/theme.g.dart';
 
 /// Element UI 主题对象
 @ElModel(copyWith: true)
-class ElThemeData {
-  static ElThemeData theme = ElThemeData();
-  static ElThemeData darkTheme = ElThemeData.dark();
+class ElColorThemeData {
+  static ElColorThemeData theme = ElColorThemeData();
+  static ElColorThemeData darkTheme = ElColorThemeData.dark();
 
   /// 描述当前主题系统是否是亮色、暗色
   @ElModelField(ignore: ElModel.all())
@@ -73,7 +73,7 @@ class ElThemeData {
   late final List<Color> iconColors;
 
   /// 默认的亮色主题构造函数
-  ElThemeData({
+  ElColorThemeData({
     this.brightness = Brightness.light,
     this.primary = const Color(0xff409eff),
     this.success = const Color(0xff67c23a),
@@ -98,7 +98,7 @@ class ElThemeData {
   }
 
   /// 默认的暗色主题构造函数
-  ElThemeData.dark({
+  ElColorThemeData.dark({
     this.brightness = Brightness.dark,
     this.primary = const Color(0xff0ea5e9),
     this.success = const Color(0xff14b8a6),
