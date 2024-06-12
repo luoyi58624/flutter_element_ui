@@ -34,14 +34,11 @@ class ElColorThemeData {
   /// 全局背景色
   Color bgColor;
 
-  /// 头部背景颜色，亮色模式下默认使用[primary]
-  late Color headerColor;
+  /// 头部背景颜色
+  Color headerColor;
 
-  /// 卡片背景色，默认使用[bgColor]更深的颜色
-  late Color cardColor;
-
-  /// 模态弹窗背景色，亮色模式下默认使用[bgColor]
-  late Color modalColor;
+  /// 卡片背景色
+  Color cardColor;
 
   /// 标题颜色
   Color titleColor;
@@ -80,9 +77,8 @@ class ElColorThemeData {
     this.warning = const Color(0xffe6a23c),
     this.error = const Color(0xfff56c6c),
     this.bgColor = const Color(0xfffafafa),
-    Color? headerColor,
+    this.headerColor = const Color(0xffffffff),
     this.cardColor = const Color(0xffffffff),
-    Color? modalColor,
     this.titleColor = const Color(0xff262626),
     this.textColor = const Color(0xff525252),
     this.iconColor = const Color(0xff1b1e23),
@@ -91,10 +87,7 @@ class ElColorThemeData {
     this.menuActiveColor = const Color(0xffffd04b),
     this.cardElevation = 0,
     this.modalElevation = 2,
-  }) {
-    this.headerColor = headerColor ?? primary;
-    this.modalColor = modalColor ?? bgColor;
-  }
+  });
 
   /// 默认的暗色主题构造函数
   ElColorThemeData.dark({
@@ -105,9 +98,8 @@ class ElColorThemeData {
     this.warning = const Color(0xfffbbf24),
     this.error = const Color(0xfffb7185),
     this.bgColor = const Color(0xff2b2b2b),
-    Color? headerColor = const Color(0xff404040),
+    this.headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xffffffff),
-    Color? modalColor = const Color(0xff3c3f41),
     this.titleColor = const Color(0xfffafafa),
     this.textColor = const Color(0xfff5f5f5),
     this.iconColor = const Color(0xfff6f6f6),
@@ -116,10 +108,7 @@ class ElColorThemeData {
     this.menuActiveColor = const Color(0xff6ee7b7),
     this.cardElevation = 2,
     this.modalElevation = 4,
-  }) {
-    this.headerColor = headerColor ?? primary;
-    this.modalColor = modalColor ?? bgColor;
-  }
+  });
 }
 
 /// Element UI 全局配置，定义了所有组件的默认配置信息
