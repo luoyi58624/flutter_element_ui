@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_annotation/component.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../builders/hover.dart';
 import '../../builders/tap.dart';
-import '../../styles/basic/button.dart';
 import '../../theme.dart';
 import '../../utils/assets.dart';
 import 'icon.dart';
 import 'text.dart';
-
-part '../../generates/components/basic/button.g.dart';
 
 typedef _ButtonStyle = ({
   double height,
@@ -25,6 +21,7 @@ typedef _ButtonStyle = ({
   bool round,
   bool block,
   BorderRadiusGeometry borderRadius,
+  EdgeInsetsGeometry? margin,
   EdgeInsetsGeometry? padding,
   ElIcon? leftIcon,
   ElIcon? rightIcon,
@@ -33,7 +30,6 @@ typedef _ButtonStyle = ({
   bool loading,
 });
 
-@ElComponent.all()
 class ElButton extends StatelessWidget {
   const ElButton(
     this.child, {
@@ -48,6 +44,7 @@ class ElButton extends StatelessWidget {
     this.round = false,
     this.block = false,
     this.borderRadius,
+    this.margin,
     this.padding,
     this.leftIcon,
     this.rightIcon,
@@ -91,7 +88,10 @@ class ElButton extends StatelessWidget {
   /// 自定义按钮圆角，默认 4 像素，如果[round]为true，则强制渲染为圆角按钮
   final BorderRadiusGeometry? borderRadius;
 
-  /// 自定义按钮 padding，默认情况下，水平 padding 为高度一半
+  /// 按钮外边距，默认为 4 像素
+  final EdgeInsetsGeometry? margin;
+
+  /// 按钮内边距，默认设置水平内边距为高度一半
   final EdgeInsetsGeometry? padding;
 
   /// 按钮左图标，默认null
@@ -114,7 +114,7 @@ class ElButton extends StatelessWidget {
     themeTypeAssets(type);
     final defaultStyle = context.elConfig.buttonStyle;
     _ButtonStyle style = (
-      height: height ?? defaultStyle.height!,
+      height: height ?? defaultStyle.height,
       bgColor: bgColor,
       color: color,
       type: type,
@@ -123,6 +123,7 @@ class ElButton extends StatelessWidget {
       round: round,
       block: block,
       borderRadius: borderRadius ?? defaultStyle.borderRadius!,
+      margin: margin ?? defaultStyle.margin,
       padding: padding ?? defaultStyle.padding,
       leftIcon: leftIcon,
       rightIcon: rightIcon,
@@ -163,7 +164,8 @@ class _Button extends HookWidget {
       width: style.circle ? style.height : null,
       height: style.height,
       alignment: Alignment.center,
-      padding: style.circle ? null : style.padding ?? EdgeInsets.symmetric(horizontal: style.height / 2),
+      margin: style.margin,
+      padding: style.circle ? null : style.padding,
       decoration: BoxDecoration(
         color: buttonStyle.bgColor,
         border: buttonStyle.border,

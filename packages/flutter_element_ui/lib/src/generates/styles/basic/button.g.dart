@@ -10,11 +10,13 @@ extension ElButtonStyleExtension on ElButtonStyle {
   ElButtonStyle copyWith({
     double? height,
     BorderRadiusGeometry? borderRadius,
+    EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
   }) {
     return ElButtonStyle(
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
+      margin: margin ?? this.margin,
       padding: padding ?? this.padding,
     );
   }
@@ -24,6 +26,7 @@ extension ElButtonStyleExtension on ElButtonStyle {
     return copyWith(
       height: other.height,
       borderRadius: other.borderRadius,
+      margin: other.margin,
       padding: other.padding,
     );
   }

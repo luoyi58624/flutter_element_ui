@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'builders/hover.dart';
 import 'components/basic/brightness.dart';
@@ -9,7 +10,13 @@ import 'components/basic/scrollbar.dart';
 import 'styles/theme.dart';
 
 /// Element UI 颜色主题类型集合
-const List<String> elThemeTypes = ['primary', 'success', 'info', 'warning', 'error'];
+const List<String> elThemeTypes = [
+  'primary',
+  'success',
+  'info',
+  'warning',
+  'error'
+];
 
 /// Element UI 全局主题
 class ElThemeData {
@@ -75,7 +82,8 @@ class ElTheme extends StatelessWidget {
   );
 
   /// 通过上下文获取全局主题
-  static ElThemeData of(BuildContext context) => _ElTheme.maybeOf(context)?.data ?? defaultThemeData;
+  static ElThemeData of(BuildContext context) =>
+      _ElTheme.maybeOf(context)?.data ?? defaultThemeData;
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +91,12 @@ class ElTheme extends StatelessWidget {
     return ElBrightness(
       brightness: brightness,
       child: Builder(builder: (context) {
-        final color = context.isDark ? $data.darkTheme.textColor : $data.theme.textColor;
-        TextStyle $style = (textStyle ?? const TextStyle()).copyWith(color: color);
+        i(DefaultTextStyle.of(context).style.fontFamily);
+        final color =
+            context.isDark ? $data.darkTheme.textColor : $data.theme.textColor;
+        TextStyle $style =
+            (textStyle ?? const TextStyle()).copyWith(color: color);
+        i($style.fontFamily);
         return DefaultTextStyle(
           style: $style,
           child: ElIconTheme(
@@ -112,7 +124,8 @@ class _ElTheme extends InheritedWidget {
 
   final ElTheme elTheme;
 
-  static ElTheme? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_ElTheme>()?.elTheme;
+  static ElTheme? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElTheme>()?.elTheme;
 
   @override
   bool updateShouldNotify(_ElTheme oldWidget) => true;

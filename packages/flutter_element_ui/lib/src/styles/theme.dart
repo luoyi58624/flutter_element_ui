@@ -132,8 +132,10 @@ class ElConfigData {
   double iconSize;
 
   /// 按钮全局样式
-  late ElButtonStyle buttonStyle;
-  late ElScrollConfigurationData scrollConfiguration;
+  ElButtonStyle buttonStyle;
+
+  /// 滚动配置
+  ElScrollConfigurationData scrollConfiguration;
 
   /// 输入框全局圆角值
   double inputRadius;
@@ -143,14 +145,11 @@ class ElConfigData {
 
   ElConfigData({
     this.iconSize = 20,
-    ElButtonStyle? buttonStyle,
-    ElScrollConfigurationData? scrollConfiguration,
+    this.buttonStyle = const ElButtonStyle(),
+    this.scrollConfiguration = const ElScrollConfigurationData(),
     this.cardRadius = 6,
     this.inputRadius = 6,
-  }) {
-    this.buttonStyle = ElButtonStyle.style.merge(buttonStyle);
-    this.scrollConfiguration = ElScrollConfigurationData().merge(scrollConfiguration);
-  }
+  });
 }
 
 @ElModel(copyWith: true)

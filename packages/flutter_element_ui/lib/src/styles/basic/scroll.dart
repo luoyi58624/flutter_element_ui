@@ -11,7 +11,7 @@ class ElScrollConfigurationData {
   /// 波纹颜色 - Material2
   final Color ripperColor;
 
-  ElScrollConfigurationData({
+  const ElScrollConfigurationData({
     this.disabledRipper = false,
     this.ripperColor = Colors.grey,
   });

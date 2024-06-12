@@ -18,13 +18,13 @@ class HomePage extends HookWidget {
               const Center(child: ElText('hello, world')),
               const Center(child: ElText('你好，世界')),
               const Text('text'),
-              const Gap(16),
               ElButton('count: $count', onPressed: addCount),
               UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
               Expanded(
                 child: SuperListView.builder(
-                  itemCount: 1000000,
-                  itemBuilder: (context, index) => flag ? const _Button() : const _Button2(),
+                  itemCount: 1,
+                  itemBuilder: (context, index) =>
+                      flag ? const _Button('x2xx') : const _Button2(),
                 ),
               ),
             ],
@@ -36,46 +36,18 @@ class HomePage extends HookWidget {
 }
 
 class _Button extends HookWidget {
-  const _Button();
+  const _Button(this.demo);
+
+  final String demo;
 
   @override
   Widget build(BuildContext context) {
     final (count, addCount) = useCount();
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          ElButton('Default: $count', onPressed: addCount),
-          ElButton('Default: $count', onPressed: addCount),
-          // ElButton(
-          //   'Primary: $count',
-          //   onPressed: addCount,
-          //   style: const ElButtonStyle(type: ElThemeType.primary),
-          // ),
-          // ElButton(
-          //   'Success: $count',
-          //   onPressed: addCount,
-          //   style: const ElButtonStyle(type: ElThemeType.success),
-          // ),
-          // ElButton(
-          //   'Info: $count',
-          //   onPressed: addCount,
-          //   style: const ElButtonStyle(type: ElThemeType.info),
-          // ),
-          // ElButton(
-          //   'Warning: $count',
-          //   onPressed: addCount,
-          //   style: const ElButtonStyle(type: ElThemeType.warning),
-          // ),
-          // ElButton(
-          //   'Error: $count',
-          //   onPressed: addCount,
-          //   style: const ElButtonStyle(type: ElThemeType.error),
-          // ),
-        ],
-      ),
+    return Wrap(
+      children: [
+        ElButton('Default: $count', type: 'primary', onPressed: addCount),
+        ElButton('Default: $count', onPressed: addCount),
+      ],
     );
   }
 }
