@@ -24,8 +24,8 @@ class _App extends StatelessWidget {
                 fontFamily: ElFont.fontFamily,
                 fontFamilyFallback: ElFont.fontFamilyFallback,
               ),
-              data: (
-                theme: ElThemeData(
+              data: ElThemeData(
+                theme: ElColorThemeData(
                   primary: const Color.fromARGB(255, 0, 120, 212),
                   success: const Color.fromARGB(255, 16, 185, 129),
                   info: const Color.fromARGB(255, 127, 137, 154),

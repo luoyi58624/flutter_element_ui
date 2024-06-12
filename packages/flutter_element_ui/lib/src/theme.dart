@@ -13,17 +13,22 @@ const List<String> elThemeTypes = ['primary', 'success', 'info', 'warning', 'err
 
 /// Element UI 全局主题
 class ElThemeData {
-  ElColorThemeData? theme;
-  ElColorThemeData? darkTheme;
-  ElConfigData? config;
-  ElResponsiveData? responsive;
+  late final ElColorThemeData theme;
+  late final ElColorThemeData darkTheme;
+  late final ElConfigData config;
+  late final ElResponsiveData responsive;
 
   ElThemeData({
-    this.theme,
-    this.darkTheme,
-    this.config,
-    this.responsive,
-  });
+    ElColorThemeData? theme,
+    ElColorThemeData? darkTheme,
+    ElConfigData? config,
+    ElResponsiveData? responsive,
+  }) {
+    this.theme = theme ?? ElColorThemeData.theme;
+    this.darkTheme = darkTheme ?? ElColorThemeData.darkTheme;
+    this.config = config ?? ElConfigData.config;
+    this.responsive = responsive ?? ElResponsiveData.responsive;
+  }
 }
 
 class ElTheme extends StatelessWidget {
@@ -71,19 +76,6 @@ class ElTheme extends StatelessWidget {
 
   /// 通过上下文获取全局主题
   static ElThemeData of(BuildContext context) => _ElTheme.maybeOf(context)?.data ?? defaultThemeData;
-
-  // /// 亮色主题
-  // static ElColorThemeData theme(BuildContext context) => _ElTheme.maybeOf(context)?._theme ?? ElColorThemeData.theme;
-  //
-  // /// 暗色主题
-  // static ElColorThemeData darkTheme(BuildContext context) => _ElTheme.maybeOf(context)?._darkTheme ?? ElColorThemeData.darkTheme;
-  //
-  // /// 全局配置
-  // static ElConfigData config(BuildContext context) => _ElTheme.maybeOf(context)?._config ?? ElConfigData.config;
-  //
-  // /// 响应式配置
-  // static ElResponsiveData responsive(BuildContext context) =>
-  //     _ElTheme.maybeOf(context)?._responsive ?? ElResponsiveData.responsive;
 
   @override
   Widget build(BuildContext context) {
