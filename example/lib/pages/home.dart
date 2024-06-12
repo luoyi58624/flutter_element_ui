@@ -12,6 +12,7 @@ class HomePage extends HookWidget {
     return SelectionArea(
       child: Builder(builder: (context) {
         return Material(
+          textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
           child: Column(
             children: [
               const Gap(16),

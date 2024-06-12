@@ -53,6 +53,7 @@ class ElTheme extends StatelessWidget {
     this.data,
     this.textStyle,
     this.brightness,
+    this.behavior,
   });
 
   final Widget child;
@@ -60,7 +61,11 @@ class ElTheme extends StatelessWidget {
   /// 主题数据，默认[defaultThemeData]
   final ElThemeData? data;
 
-  /// 全局文字默认样式，Element UI 只处理文字颜色
+  /// 全局文字默认样式，Element UI只应用文字颜色
+  ///
+  /// 注意：Flutter Material组件会基于 ThemeData 的 textTheme 再创建一层 DefaultTextStyle，
+  /// 如果你的应用程序以 Material 为主，设置全局默认文本主题时最好应用 Material 的文本主题，
+  /// 包括下方的 brightness 属性，最好一律从 Theme.of 继承
   final TextStyle? textStyle;
 
   /// 定义平台应用的主题模式，如果为空则跟随系统，建议将该值和你的顶级 App 组件绑定，示例：
@@ -73,6 +78,9 @@ class ElTheme extends StatelessWidget {
   /// );
   /// ```
   final Brightness? brightness;
+
+  /// 自定义全局滚动行为
+  final ScrollBehavior? behavior;
 
   static ElThemeData defaultThemeData = ElThemeData(
     theme: ElColorThemeData.theme,
@@ -91,12 +99,10 @@ class ElTheme extends StatelessWidget {
     return ElBrightness(
       brightness: brightness,
       child: Builder(builder: (context) {
-        i(DefaultTextStyle.of(context).style.fontFamily);
         final color =
             context.isDark ? $data.darkTheme.textColor : $data.theme.textColor;
         TextStyle $style =
             (textStyle ?? const TextStyle()).copyWith(color: color);
-        i($style.fontFamily);
         return DefaultTextStyle(
           style: $style,
           child: ElIconTheme(
@@ -105,7 +111,7 @@ class ElTheme extends StatelessWidget {
             child: _ElTheme(
               elTheme: this,
               child: ScrollConfiguration(
-                behavior: const ElScrollBehavior(),
+                behavior: behavior ?? const ElScrollBehavior(),
                 child: ElGlobalHover(
                   child: child,
                 ),

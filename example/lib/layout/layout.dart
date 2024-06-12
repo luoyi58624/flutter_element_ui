@@ -25,11 +25,9 @@ class _LayoutPageState extends State<LayoutPage> {
         Expanded(
           child: Column(
             children: [
-              const ElHeader(child: LayoutHeaderWidget()),
+              const LayoutHeaderWidget(),
               Expanded(
-                child: ElMain(
-                  child: widget.navigationShell,
-                ),
+                child: widget.navigationShell,
               ),
             ],
           ),

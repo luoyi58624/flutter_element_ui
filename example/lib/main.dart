@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'global.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await FontUtil.init();
   runApp(const _App());
 }
@@ -18,19 +19,22 @@ class _App extends StatelessWidget {
         builder: (context, value, _) {
           return MaterialApp.router(
             routerConfig: router,
+            theme: ThemeData(
+              textTheme: TextTheme(),
+            ),
             builder: (context, child) => ElTheme(
               textStyle: TextStyle(
                 fontFamily: FontUtil.fontFamily,
                 fontFamilyFallback: FontUtil.fontFamilyFallback,
               ),
               data: ElThemeData(
-                theme: ElColorThemeData(
-                  primary: const Color.fromARGB(255, 0, 120, 212),
-                  success: const Color.fromARGB(255, 16, 185, 129),
-                  info: const Color.fromARGB(255, 127, 137, 154),
-                  warning: const Color.fromARGB(255, 245, 158, 11),
-                  error: const Color.fromARGB(255, 239, 68, 68),
-                ),
+                // theme: ElColorThemeData(
+                //   primary: const Color.fromARGB(255, 0, 120, 212),
+                //   success: const Color.fromARGB(255, 16, 185, 129),
+                //   info: const Color.fromARGB(255, 127, 137, 154),
+                //   warning: const Color.fromARGB(255, 245, 158, 11),
+                //   error: const Color.fromARGB(255, 239, 68, 68),
+                // ),
                 config: ElConfigData(
                   buttonStyle: const ElButtonStyle(height: 36),
                 ),

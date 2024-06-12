@@ -12,14 +12,17 @@ const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
 class ElScrollBehavior extends ScrollBehavior {
-  /// Element UI 默认滚动行为，桌面端使用[ElScrollbar]，移动端使用[Scrollbar]
-  ///
-  /// 提示: 如果你需要用到自定义滚动条，你需要定义一个新的[ScrollConfiguration]并重写[buildScrollbar]方法，
-  /// 否则滚动条会出现重叠
   const ElScrollBehavior();
 
+  /// 桌面端默认使用[ElScrollbar]，移动端则使用[Scrollbar]
+  ///
+  /// 注意：大多数情况下你不需要再嵌套一个滚动条，如果你需要自定义全局滚动条，最好的方式是
+  /// 新建一个类并继承[ElScrollBehavior]，重写[buildScrollbar]方法即可；
+  /// 如果你想实现局部自定义滚动条，那么你必须在当前滚动容器上嵌套新的[ScrollConfiguration]，
+  /// 否则滚动条会出现重叠，还有，自定义滚动条必须创建滚动控制器，否则桌面端无法拖动。
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
     switch (getPlatform(context)) {
       case TargetPlatform.linux:
       case TargetPlatform.macOS:
@@ -39,21 +42,20 @@ class ElScrollBehavior extends ScrollBehavior {
   }
 
   @override
-  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
     if (PlatformUtil.isAndroid) {
+      final config = context.elConfig.scrollConfiguration;
+      if (config.forceM2) {
+        return _buildM2OverscrollIndicator(context, child, details);
+      }
       if (Theme.of(context).useMaterial3) {
-        return StretchingOverscrollIndicator(
-          axisDirection: details.direction,
-          child: child,
-        );
+        return _buildM3OverscrollIndicator(context, child, details);
+      }
+      if (Theme.of(context).useMaterial3) {
+        return _buildM3OverscrollIndicator(context, child, details);
       } else {
-        return GlowingOverscrollIndicator(
-          showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
-          showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
-          axisDirection: details.direction,
-          color: context.elConfig.scrollConfiguration.ripperColor,
-          child: child,
-        );
+        return _buildM2OverscrollIndicator(context, child, details);
       }
     } else {
       return child;
@@ -61,29 +63,24 @@ class ElScrollBehavior extends ScrollBehavior {
   }
 }
 
-// class ElScrollbar extends HookWidget {
-//   /// 构建 Element UI 风格的滚动条
-//   const ElScrollbar({
-//     super.key,
-//     required this.builder,
-//     this.always = false,
-//   });
-//
-//   /// 滚动条会自动创建一个滚动控制器，
-//   final Widget Function(ScrollController controller) builder;
-//
-//   /// 是否总是显示滚动条，默认情况下，当鼠标离开滚动区域时，滚动条将消失
-//   final bool always;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final controller = useScrollController();
-//     return _ElScrollbar(
-//       always: always,
-//       child: builder(controller),
-//     );
-//   }
-// }
+Widget _buildM2OverscrollIndicator(
+    BuildContext context, Widget child, ScrollableDetails details) {
+  return GlowingOverscrollIndicator(
+    showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
+    showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
+    axisDirection: details.direction,
+    color: context.elConfig.scrollConfiguration.ripperColor,
+    child: child,
+  );
+}
+
+Widget _buildM3OverscrollIndicator(
+    BuildContext context, Widget child, ScrollableDetails details) {
+  return StretchingOverscrollIndicator(
+    axisDirection: details.direction,
+    child: child,
+  );
+}
 
 /// Element UI 滚动条
 class ElScrollbar extends RawScrollbar {
@@ -121,9 +118,12 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 鼠标悬停在滚动条上
   bool isScrollbarHover = false;
 
-  Color get thumbColor => widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
+  Color get thumbColor =>
+      widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
 
-  Color get hideThumbColor => PlatformUtil.isMobile || widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
+  Color get hideThumbColor => PlatformUtil.isMobile || widget.always
+      ? hoverThumbColor
+      : thumbColor.withOpacity(0);
 
   Color get hoverThumbColor => thumbColor.withOpacity(0.5);
 
@@ -141,7 +141,8 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void initState() {
     super.initState();
-    scrollbarAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200))
+    scrollbarAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
       ..addListener(updateScrollbarPainter);
   }
 

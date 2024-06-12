@@ -4,11 +4,7 @@ export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
 export 'src/common.dart';
 export 'src/extension.dart'
-    show
-        ElThemeExtension,
-        ElBrightnessExtension,
-        ElResponsiveExtension,
-        ElTypographyExtension;
+    show ElThemeExtension, ElBrightnessExtension, ElResponsiveExtension;
 export 'src/theme.dart';
 
 export 'src/components/basic/button.dart';
@@ -34,6 +30,9 @@ export 'src/components/form/cascader.dart';
 export 'src/components/form/checkbox.dart';
 export 'src/components/form/form.dart';
 export 'src/components/form/input.dart';
+export 'src/components/layout/body.dart';
+export 'src/components/layout/header.dart';
+export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu.dart';
 export 'src/components/others/divider.dart';
 
