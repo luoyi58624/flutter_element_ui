@@ -45,41 +45,14 @@ class ElScrollBehavior extends ScrollBehavior {
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details) {
     if (PlatformUtil.isAndroid) {
-      final config = context.elConfig.scrollConfiguration;
-      if (config.forceM2) {
-        return _buildM2OverscrollIndicator(context, child, details);
-      }
-      if (Theme.of(context).useMaterial3) {
-        return _buildM3OverscrollIndicator(context, child, details);
-      }
-      if (Theme.of(context).useMaterial3) {
-        return _buildM3OverscrollIndicator(context, child, details);
-      } else {
-        return _buildM2OverscrollIndicator(context, child, details);
-      }
+      return StretchingOverscrollIndicator(
+        axisDirection: details.direction,
+        child: child,
+      );
     } else {
       return child;
     }
   }
-}
-
-Widget _buildM2OverscrollIndicator(
-    BuildContext context, Widget child, ScrollableDetails details) {
-  return GlowingOverscrollIndicator(
-    showLeading: !context.elConfig.scrollConfiguration.disabledRipper,
-    showTrailing: !context.elConfig.scrollConfiguration.disabledRipper,
-    axisDirection: details.direction,
-    color: context.elConfig.scrollConfiguration.ripperColor,
-    child: child,
-  );
-}
-
-Widget _buildM3OverscrollIndicator(
-    BuildContext context, Widget child, ScrollableDetails details) {
-  return StretchingOverscrollIndicator(
-    axisDirection: details.direction,
-    child: child,
-  );
 }
 
 /// Element UI 滚动条

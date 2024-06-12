@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:flutter_element_ui/src/styles/basic/scroll.dart';
 
 import 'basic/button.dart';
 
@@ -134,9 +133,6 @@ class ElConfigData {
   /// 按钮全局样式
   ElButtonStyle buttonStyle;
 
-  /// 滚动配置
-  ElScrollConfigurationData scrollConfiguration;
-
   /// 输入框全局圆角值
   double inputRadius;
 
@@ -146,7 +142,6 @@ class ElConfigData {
   ElConfigData({
     this.iconSize = 20,
     this.buttonStyle = const ElButtonStyle(),
-    this.scrollConfiguration = const ElScrollConfigurationData(),
     this.cardRadius = 6,
     this.inputRadius = 6,
   });
