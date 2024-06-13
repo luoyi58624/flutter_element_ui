@@ -104,20 +104,15 @@ class ElTheme extends StatelessWidget {
           final color = context.isDark
               ? $data.darkTheme.textColor
               : $data.theme.textColor;
-          TextStyle $style =
-              (textStyle ?? const TextStyle()).copyWith(color: color);
-          return DefaultTextStyle(
-            style: $style,
-            child: ElIconTheme(
-              size: 18,
-              color: color,
-              child: _ElTheme(
-                elTheme: this,
-                child: ScrollConfiguration(
-                  behavior: behavior ?? const ElScrollBehavior(),
-                  child: GlobalHoverWidget(
-                    child: child,
-                  ),
+          return ElIconTheme(
+            size: 18,
+            color: color,
+            child: _ElTheme(
+              elTheme: this,
+              child: ScrollConfiguration(
+                behavior: behavior ?? const ElScrollBehavior(),
+                child: GlobalHoverWidget(
+                  child: child,
                 ),
               ),
             ),

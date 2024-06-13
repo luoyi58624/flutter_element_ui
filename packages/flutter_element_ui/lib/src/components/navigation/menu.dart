@@ -305,15 +305,12 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
               ),
             if (!_ElMenuData.of(context).collapse)
               Expanded(
-                child: Text(
+                child: P(
                   widget.menuItem.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(
-                    color: menuItemColor,
-                    fontSize: 14,
-                    // fontWeight: FontWeight.w400,
-                  ),
+                  size: 14,
+                  color: menuItemColor,
+                  // maxLines: 1,
+                  // overflow: TextOverflow.clip,
                 ),
               ),
             if (widget.hasChild && !_ElMenuData.of(context).collapse)
