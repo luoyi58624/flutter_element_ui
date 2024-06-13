@@ -5,12 +5,18 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 class ElHeader extends StatelessWidget {
   const ElHeader({
     super.key,
-    this.title,
     this.height,
+    this.title,
+    this.leading,
   });
 
-  final dynamic title;
   final double? height;
+
+  /// 标题，如果是[Widget]，则直接渲染，否则自动渲染成文字
+  final dynamic title;
+
+  /// 标题前缀小部件
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {

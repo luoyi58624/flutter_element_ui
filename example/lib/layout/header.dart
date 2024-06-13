@@ -22,7 +22,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
             },
             builder: (isTap) => Container(
               width: 64,
-              height: double.infinity,
+              height: 64,
               color: context.elTheme.headerColor.onHover(isHover).onTap(isTap),
               child: Center(
                 child: ValueListenableBuilder(

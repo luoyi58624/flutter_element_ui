@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/components/basic/brightness.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'styles/theme.dart';
@@ -16,11 +15,6 @@ extension ElThemeExtension on BuildContext {
 
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
   ElColorThemeData get elTheme => isDark ? darkTheme : theme;
-}
-
-extension ElBrightnessExtension on BuildContext {
-  /// 当前环境是否是暗黑模式，默认跟随系统
-  bool get isDark => ElBrightness.isDark(this);
 }
 
 extension ElResponsiveExtension on BuildContext {

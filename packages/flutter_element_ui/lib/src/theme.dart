@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/common.dart';
-import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'builders/hover.dart';
-import 'components/basic/brightness.dart';
 import 'components/basic/icon.dart';
 import 'components/basic/scrollbar.dart';
 import 'styles/theme.dart';
@@ -103,7 +101,7 @@ class ElTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = data ?? defaultThemeData;
-    return ElBrightness(
+    return BrightnessWidget(
       brightness: brightness,
       child: Builder(builder: (context) {
         final color =

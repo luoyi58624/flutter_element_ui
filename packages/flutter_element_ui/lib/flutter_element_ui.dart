@@ -3,12 +3,10 @@ library flutter_element_ui;
 export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
 export 'src/common.dart' hide elRootNavigatorKey;
-export 'src/extension.dart'
-    show ElThemeExtension, ElBrightnessExtension, ElResponsiveExtension;
+export 'src/extension.dart' show ElThemeExtension, ElResponsiveExtension;
 export 'src/theme.dart';
 
 export 'src/components/basic/button.dart';
-export 'src/components/basic/brightness.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
