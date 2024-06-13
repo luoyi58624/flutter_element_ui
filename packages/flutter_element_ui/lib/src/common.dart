@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// 根节点导航key，此变量不对外开放，用户通过[ElTheme]传递navigatorKey，会直接赋值到elRootNavigatorKey
-late final GlobalKey<NavigatorState>? elRootNavigatorKey;
+late GlobalKey<NavigatorState>? elRootNavigatorKey;
 
 /// 根节点context
 BuildContext get elRootContext {
