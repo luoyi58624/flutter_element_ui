@@ -2,7 +2,7 @@ library flutter_element_ui;
 
 export 'src/builders/hover.dart';
 export 'src/builders/tap.dart';
-export 'src/common.dart' hide elRootNavigatorKey, elRootContext;
+export 'src/common.dart' hide elRootNavigatorKey;
 export 'src/extension.dart'
     show ElThemeExtension, ElBrightnessExtension, ElResponsiveExtension;
 export 'src/theme.dart';
