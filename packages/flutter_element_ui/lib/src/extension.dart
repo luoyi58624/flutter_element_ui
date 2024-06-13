@@ -5,30 +5,15 @@ import 'styles/theme.dart';
 import 'theme.dart';
 
 // ===============================================================
-// 扩展函数虽然可以让你更方便地使用Api, 但是很容易与其他扩展函数引起冲突，所以我尽量只提供少量、必需的扩展函数;
-// Element UI 公开的扩展函数均以 El 命名开头，以 Extension 作为结尾，如果发现冲突，请使用 hide 关键字隐藏;
+// 扩展函数虽然很方便, 但很容易引起冲突，而且我个人非常讨厌一些来历不明的各种方法，
+// 所以除了以 El 开头命名的扩展，我不会对外提供任何扩展，若有需要请自行封装。
 // ===============================================================
-
 extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
   ElConfigData get elConfig => ElTheme.of(this).config;
 
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
   ElColorThemeData get elTheme => isDark ? darkTheme : theme;
-}
-
-extension ElResponsiveExtension on BuildContext {
-  /// 移动端设备
-  bool get sm => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.sm;
-
-  /// 平板设备
-  bool get md => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.md;
-
-  /// 桌面设备
-  bool get lg => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.lg;
-
-  /// 大屏桌面设备
-  bool get xl => MediaQuery.sizeOf(this).width < ElTheme.of(this).responsive.xl;
 }
 
 extension ThemeExtension on BuildContext {

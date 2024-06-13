@@ -1,8 +1,8 @@
+import 'package:example/global.dart';
 import 'package:example/pages/components/basic/font.dart';
 import 'package:example/pages/components/data/badge.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
@@ -20,7 +20,8 @@ const String _componentsFeedBack = '$_components/feedback';
 const String _tests = '/tests';
 
 final layoutRoutes = StatefulShellRoute.indexedStack(
-  builder: (context, state, navigationShell) => LayoutPage(navigationShell: navigationShell),
+  builder: (context, state, navigationShell) =>
+      LayoutPage(navigationShell: navigationShell),
   branches: [
     StatefulShellBranch(
       routes: [

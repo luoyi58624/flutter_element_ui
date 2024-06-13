@@ -20,6 +20,8 @@ class HomePage extends HookWidget {
               const Center(child: ElText('你好，世界')),
               const Text('text'),
               ElButton('count: $count', onPressed: addCount),
+              const H1('一级标题'),
+              const P('正文'),
               UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
               Expanded(
                 child: SuperListView.builder(

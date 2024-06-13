@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../builders/hover.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
 
@@ -53,7 +52,8 @@ class _ElMenuData extends InheritedWidget {
   final void Function(ElMenuModel menu)? onChange;
 
   static _ElMenuData of(BuildContext context) {
-    final _ElMenuData? result = context.dependOnInheritedWidgetOfExactType<_ElMenuData>();
+    final _ElMenuData? result =
+        context.dependOnInheritedWidgetOfExactType<_ElMenuData>();
     return result!;
   }
 
@@ -187,7 +187,8 @@ class _MenuItemWidget extends StatefulWidget {
 class _MenuItemWidgetState extends State<_MenuItemWidget> {
   bool _expand = false;
 
-  bool get hasChild => widget.menuItem.children != null && widget.menuItem.children!.isNotEmpty;
+  bool get hasChild =>
+      widget.menuItem.children != null && widget.menuItem.children!.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +202,8 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
                 _expand = !_expand;
               });
             } else {
-              if (_ElMenuData.of(context).onChange != null) _ElMenuData.of(context).onChange!(widget.menuItem);
+              if (_ElMenuData.of(context).onChange != null)
+                _ElMenuData.of(context).onChange!(widget.menuItem);
             }
           },
           child: _MenuItemContentWidget(
@@ -226,7 +228,8 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
       firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
       secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
       sizeCurve: Curves.fastOutSlowIn,
-      crossFadeState: _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      crossFadeState:
+          _expand ? CrossFadeState.showSecond : CrossFadeState.showFirst,
       duration: Duration(milliseconds: _ElMenuData.of(context).expandDuration),
     );
   }
@@ -256,24 +259,30 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
 
   String? get currentPath => widget.menuItem.path;
 
-  Color get _textColor => parentBgColor.isDark ? context.darkTheme.textColor : context.theme.textColor;
+  Color get _textColor => parentBgColor.isDark
+      ? context.darkTheme.textColor
+      : context.theme.textColor;
 
   Color get menuItemColor {
     if (currentPath == '/') {
       return activePath == '/' ? context.elTheme.menuActiveColor : _textColor;
     } else {
-      if (activePath != null && currentPath != null && activePath!.contains(currentPath!)) {
+      if (activePath != null &&
+          currentPath != null &&
+          activePath!.contains(currentPath!)) {
         return context.elTheme.menuActiveColor;
       }
     }
     return _textColor;
   }
 
-  Color get hoverColor => parentBgColor.hsp < 50 ? parentBgColor.brighten(15) : parentBgColor.darken(15);
+  Color get hoverColor => parentBgColor.hsp < 50
+      ? parentBgColor.brighten(15)
+      : parentBgColor.darken(15);
 
   @override
   Widget build(BuildContext context) {
-    return ElHoverBuilder(
+    return HoverBuilder(
       builder: (isHover) => AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
@@ -314,7 +323,9 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                   width: 40,
                   margin: const EdgeInsets.only(left: 8),
                   child: AnimatedRotation(
-                    duration: Duration(milliseconds: max(_ElMenuData.of(context).expandDuration - 50, 0)),
+                    duration: Duration(
+                        milliseconds: max(
+                            _ElMenuData.of(context).expandDuration - 50, 0)),
                     turns: widget.expand ? 0.5 : 0,
                     child: ElIcon(
                       ElIcons.arrowDown,

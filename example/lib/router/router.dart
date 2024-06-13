@@ -1,13 +1,13 @@
-import 'package:example/state.dart';
+import 'package:example/global.dart';
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 
 import 'routes/layout_routes.dart';
 
 final router = GoRouter(
   initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
-    if (state.fullPath != null) GlobalState.elMenu.value.activePath = state.fullPath!;
+    if (state.fullPath != null)
+      GlobalState.elMenu.value.activePath = state.fullPath!;
     return state.fullPath;
   },
   routes: [

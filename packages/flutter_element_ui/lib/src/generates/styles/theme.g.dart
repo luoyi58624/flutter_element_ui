@@ -61,19 +61,3 @@ extension ElConfigDataExtension on ElConfigData {
     );
   }
 }
-
-extension ElResponsiveDataExtension on ElResponsiveData {
-  ElResponsiveData copyWith({
-    double? sm,
-    double? md,
-    double? lg,
-    double? xl,
-  }) {
-    return ElResponsiveData(
-      sm: sm ?? this.sm,
-      md: md ?? this.md,
-      lg: lg ?? this.lg,
-      xl: xl ?? this.xl,
-    );
-  }
-}

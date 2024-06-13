@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/common.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'builders/hover.dart';
 import 'components/basic/icon.dart';
 import 'components/basic/scrollbar.dart';
 import 'styles/theme.dart';
@@ -22,18 +21,15 @@ class ElThemeData {
   late final ElColorThemeData theme;
   late final ElColorThemeData darkTheme;
   late final ElConfigData config;
-  late final ElResponsiveData responsive;
 
   ElThemeData({
     ElColorThemeData? theme,
     ElColorThemeData? darkTheme,
     ElConfigData? config,
-    ElResponsiveData? responsive,
   }) {
     this.theme = theme ?? ElColorThemeData.theme;
     this.darkTheme = darkTheme ?? ElColorThemeData.darkTheme;
     this.config = config ?? ElConfigData.config;
-    this.responsive = responsive ?? ElResponsiveData.responsive;
   }
 }
 
@@ -91,7 +87,6 @@ class ElTheme extends StatelessWidget {
     theme: ElColorThemeData.theme,
     darkTheme: ElColorThemeData.darkTheme,
     config: ElConfigData.config,
-    responsive: ElResponsiveData.responsive,
   );
 
   /// 通过上下文获取全局主题
@@ -101,30 +96,34 @@ class ElTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = data ?? defaultThemeData;
-    return BrightnessWidget(
-      brightness: brightness,
-      child: Builder(builder: (context) {
-        final color =
-            context.isDark ? $data.darkTheme.textColor : $data.theme.textColor;
-        TextStyle $style =
-            (textStyle ?? const TextStyle()).copyWith(color: color);
-        return DefaultTextStyle(
-          style: $style,
-          child: ElIconTheme(
-            size: 18,
-            color: color,
-            child: _ElTheme(
-              elTheme: this,
-              child: ScrollConfiguration(
-                behavior: behavior ?? const ElScrollBehavior(),
-                child: ElGlobalHover(
-                  child: child,
+    return ResponsiveWidget(
+      data: const ResponsiveData(),
+      child: BrightnessWidget(
+        brightness: brightness,
+        child: Builder(builder: (context) {
+          final color = context.isDark
+              ? $data.darkTheme.textColor
+              : $data.theme.textColor;
+          TextStyle $style =
+              (textStyle ?? const TextStyle()).copyWith(color: color);
+          return DefaultTextStyle(
+            style: $style,
+            child: ElIconTheme(
+              size: 18,
+              color: color,
+              child: _ElTheme(
+                elTheme: this,
+                child: ScrollConfiguration(
+                  behavior: behavior ?? const ElScrollBehavior(),
+                  child: GlobalHoverWidget(
+                    child: child,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

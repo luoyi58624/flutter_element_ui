@@ -135,28 +135,3 @@ class ElConfigData {
     this.inputRadius = 6,
   });
 }
-
-@ElModel(copyWith: true)
-class ElResponsiveData {
-  /// 默认的响应式配置
-  static ElResponsiveData responsive = ElResponsiveData();
-
-  /// 手机最大尺寸
-  final double sm;
-
-  /// 平板最大尺寸
-  final double md;
-
-  /// 桌面最大尺寸
-  final double lg;
-
-  /// 大屏桌面最大尺寸
-  final double xl;
-
-  ElResponsiveData({
-    this.sm = 640,
-    this.md = 1024,
-    this.lg = 1920,
-    this.xl = 2560,
-  });
-}
