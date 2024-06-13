@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/common.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -47,14 +48,17 @@ class ElTheme extends StatelessWidget {
   ///   ),
   /// );
   /// ```
-  const ElTheme({
+  ElTheme({
     super.key,
     required this.child,
     this.data,
     this.textStyle,
     this.brightness,
     this.behavior,
-  });
+    this.navigatorKey,
+  }) {
+    elRootNavigatorKey = navigatorKey;
+  }
 
   final Widget child;
 
@@ -81,6 +85,9 @@ class ElTheme extends StatelessWidget {
 
   /// 自定义全局滚动行为
   final ScrollBehavior? behavior;
+
+  /// 根节点导航key，如果你用到一些依赖路由的Api，请设置它，因为 Element UI 内部需要通过它实现无 context 跳转
+  final GlobalKey<NavigatorState>? navigatorKey;
 
   static ElThemeData defaultThemeData = ElThemeData(
     theme: ElColorThemeData.theme,

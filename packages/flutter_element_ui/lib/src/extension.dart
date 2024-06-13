@@ -6,9 +6,8 @@ import 'styles/theme.dart';
 import 'theme.dart';
 
 // ===============================================================
-// 扩展函数虽然可以让你更方便地使用Api, 但是很容易与其他扩展函数引起冲突;
-// Element UI 公开的扩展函数均以 El 命名开头，以 Extension 作为结尾;
-// 使用过程中如果发现冲突，你可以使用 hide 关键字隐藏冲突的扩展函数。
+// 扩展函数虽然可以让你更方便地使用Api, 但是很容易与其他扩展函数引起冲突，所以我尽量只提供少量、必需的扩展函数;
+// Element UI 公开的扩展函数均以 El 命名开头，以 Extension 作为结尾，如果发现冲突，请使用 hide 关键字隐藏;
 // ===============================================================
 
 extension ElThemeExtension on BuildContext {
@@ -17,15 +16,6 @@ extension ElThemeExtension on BuildContext {
 
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
   ElColorThemeData get elTheme => isDark ? darkTheme : theme;
-
-  /// Element UI 主题类型颜色集合
-  Map<String, Color> get elThemeTypeColors => {
-        'primary': elTheme.primary,
-        'success': elTheme.success,
-        'info': elTheme.info,
-        'warning': elTheme.warning,
-        'error': elTheme.error,
-      };
 }
 
 extension ElBrightnessExtension on BuildContext {
@@ -51,6 +41,15 @@ extension ThemeExtension on BuildContext {
   ElColorThemeData get theme => ElTheme.of(this).theme;
 
   ElColorThemeData get darkTheme => ElTheme.of(this).darkTheme;
+
+  /// Element UI 主题类型颜色集合
+  Map<String, Color> get themeTypeColors => {
+        'primary': elTheme.primary,
+        'success': elTheme.success,
+        'info': elTheme.info,
+        'warning': elTheme.warning,
+        'error': elTheme.error,
+      };
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗

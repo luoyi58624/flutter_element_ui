@@ -169,7 +169,9 @@ class _Button extends HookWidget {
       decoration: BoxDecoration(
         color: buttonStyle.bgColor,
         border: buttonStyle.border,
-        borderRadius: style.round || style.circle ? BorderRadius.circular(style.height / 2) : style.borderRadius,
+        borderRadius: style.round || style.circle
+            ? BorderRadius.circular(style.height / 2)
+            : style.borderRadius,
       ),
       child: buildChild(buttonStyle),
     );
@@ -186,7 +188,8 @@ class _Button extends HookWidget {
     } else {
       childWidget = ElText(
         child,
-        style: TextStyle(fontWeight: FontWeight.w500, color: buttonStyle.textColor),
+        style: TextStyle(
+            fontWeight: FontWeight.w500, color: buttonStyle.textColor),
         strutStyle: const StrutStyle(forceStrutHeight: true),
       );
     }
@@ -195,7 +198,9 @@ class _Button extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (style.leftIcon != null) buildIcon(style.leftIcon!, buttonStyle),
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: childWidget),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: childWidget),
           if (style.rightIcon != null) buildIcon(style.rightIcon!, buttonStyle)
         ],
       );
@@ -228,7 +233,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
   if (style.text) {
     bgColor.value = $bgColor.onHover($isHover, 4).onTap($isTap, 4);
     $isThemeType
-        ? textColor.value = context.elThemeTypeColors[style.type]!
+        ? textColor.value = context.themeTypeColors[style.type]!
         : textColor.value = context.elTheme.textColor;
 
     if (style.disabled) {
@@ -238,8 +243,10 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
     // 计算默认按钮样式
     if ($isThemeType == false && style.bgColor == null) {
       final $primaryColor = context.elTheme.primary;
-      bgColor.value = $isHover || $isTap ? $primaryColor.elThemeLightBg(context) : $bgColor;
-      textColor.value = $isHover || $isTap ? $primaryColor : context.elTheme.textColor;
+      bgColor.value =
+          $isHover || $isTap ? $primaryColor.elThemeLightBg(context) : $bgColor;
+      textColor.value =
+          $isHover || $isTap ? $primaryColor : context.elTheme.textColor;
       borderColor.value = $isTap
           ? $primaryColor
           : $isHover
@@ -248,9 +255,12 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
     }
     // 计算主题按钮样式
     else {
-      final $primaryColor = style.bgColor ?? context.elThemeTypeColors[style.type]!;
-      final $textColor =
-          style.color ?? (style.bgColor == null ? context.darkTheme.textColor : style.bgColor!.elTextColor(context));
+      final $primaryColor =
+          style.bgColor ?? context.themeTypeColors[style.type]!;
+      final $textColor = style.color ??
+          (style.bgColor == null
+              ? context.darkTheme.textColor
+              : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
@@ -267,7 +277,9 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
                 : $isHover
                     ? $primaryColor
                     : $primaryColor.elThemeLightBorder(context))
-            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBorder(context));
+            : ($isTap
+                ? $primaryColor
+                : $primaryColor.elThemeLightBorder(context));
       }
       // 主题按钮
       else {
@@ -301,6 +313,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
   return (
     bgColor: bgColor.value,
     textColor: textColor.value,
-    border: borderColor.value != null ? Border.all(color: borderColor.value!) : null
+    border:
+        borderColor.value != null ? Border.all(color: borderColor.value!) : null
   );
 }
