@@ -2,6 +2,7 @@ import 'package:example/controller/global.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_getx/mini_getx.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../home.dart';
 
@@ -121,6 +122,48 @@ class ButtonPage extends HookWidget {
                   link: true,
                   disabled: disabled),
             )),
+            buildTitle('链接按钮 - 自定义样式'),
+            buildWrap([
+              ElButton(
+                onPressed: () {
+                  launchUrl(Uri.parse('https://www.baidu.com'));
+                },
+                link: true,
+                type: 'primary',
+                child: const Text(
+                  'https://www.baidu.com',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              const ElButton(
+                link: true,
+                type: 'error',
+                child: Text(
+                  'https://www.baidu.com',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              const ElButton(
+                link: true,
+                type: 'primary',
+                child: 'https://www.baidu.com',
+              ),
+              const ElButton(
+                link: true,
+                type: 'primary',
+                child: P('https://www.baidu.com'),
+              ),
+              const ElButton(
+                link: true,
+                type: 'primary',
+                child: A('https://www.baidu.com'),
+              ),
+            ]),
             buildTitle('图标按钮'),
             buildWrap(buttonTypes.map(
               (type) => ElButton(

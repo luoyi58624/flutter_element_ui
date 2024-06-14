@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 
 import '../basic/button.dart';
-import '../basic/text.dart';
 
 /// Element 对话框组件
 class ElDialog extends StatelessWidget {
@@ -78,7 +77,7 @@ class ElDialog extends StatelessWidget {
                 ],
               ),
             ),
-            child: ElText(content),
+            child: Text(content),
           );
         });
   }
@@ -98,7 +97,7 @@ class ElDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (title != null)
-              ElText(
+              Text(
                 title!,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -6,7 +6,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../theme.dart';
 import '../../utils/assert.dart';
 import 'icon.dart';
-import 'text.dart';
 
 typedef _ButtonStyleProp = ({
   double? width,
@@ -194,7 +193,12 @@ class _Button extends HookWidget {
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
-      child: buildChild(buttonStyle),
+      child: DefaultTextStyle.merge(
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: buttonStyle.textColor,
+          ),
+          child: buildChild(buttonStyle)),
     );
   }
 
@@ -207,13 +211,12 @@ class _Button extends HookWidget {
         childWidget = child;
       }
     } else {
-      childWidget = ElText(
-        child,
-        style: TextStyle(
-            fontWeight: FontWeight.w500, color: buttonStyle.textColor),
+      childWidget = Text(
+        '$child',
         strutStyle: const StrutStyle(forceStrutHeight: true),
       );
     }
+
     if (styleProp.leftIcon != null || styleProp.rightIcon != null) {
       childWidget = Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -263,10 +266,10 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     $isThemeType
         ? textColor.value = $themeTypeColor!
             .onHover($isHover, $themeTypeColor.withOpacity(_opacity))
-            .onTap($isTap, $themeTypeColor)
+            .onTap($isTap, $themeTypeColor.elTap(context))
         : textColor.value = $defaultTextColor
             .onHover($isHover, $defaultTextColor.withOpacity(_opacity))
-            .onTap($isTap, $defaultTextColor);
+            .onTap($isTap, $defaultTextColor.elTap(context));
     if (style.disabled) {
       textColor.value = textColor.value!.withOpacity(_opacity);
     }
