@@ -8,7 +8,8 @@ import '../../utils/assert.dart';
 import 'icon.dart';
 import 'text.dart';
 
-typedef _ButtonStyle = ({
+typedef _ButtonStyleProp = ({
+  double? width,
   double height,
   Color? bgColor,
   Color? color,
@@ -32,6 +33,7 @@ class ElButton extends StatelessWidget {
     super.key,
     required this.child,
     this.onPressed,
+    this.width,
     this.height,
     this.bgColor,
     this.color,
@@ -57,6 +59,9 @@ class ElButton extends StatelessWidget {
 
   /// 点击事件
   final VoidCallback? onPressed;
+
+  /// 指定按钮宽度，如果[block]或[circle]为true，那么将失效
+  final double? width;
 
   /// 按钮高度，默认36
   final double? height;
@@ -110,7 +115,8 @@ class ElButton extends StatelessWidget {
   Widget build(BuildContext context) {
     themeTypeAssets(type);
     final defaultStyle = context.elConfig.buttonStyle;
-    _ButtonStyle style = (
+    _ButtonStyleProp styleProp = (
+      width: width,
       height: height ?? defaultStyle.height,
       bgColor: bgColor,
       color: color,
@@ -134,42 +140,47 @@ class ElButton extends StatelessWidget {
         builder: ($isHover) => TapBuilder(
           onTap: onPressed,
           disabled: disabled,
-          builder: ($isTap) => _Button(child, style),
+          delay: 100,
+          builder: ($isTap) => _Button(child, styleProp),
         ),
       ),
     );
     return block && !circle
-        ? SizedBox(width: double.maxFinite, child: currentWidget)
+        ? currentWidget
         : UnconstrainedBox(child: currentWidget);
   }
 }
 
 class _Button extends HookWidget {
-  const _Button(this.child, this.style);
+  const _Button(this.child, this.styleProp);
 
   final dynamic child;
-  final _ButtonStyle style;
+  final _ButtonStyleProp styleProp;
 
   /// child类型为基础类型
   bool get isBaseType => child == null || DartUtil.isBaseType(child);
 
   @override
   Widget build(BuildContext context) {
-    final buttonStyle = _useButtonStyle(context, style);
+    final buttonStyle = _useButtonStyle(context, styleProp);
+    final $width = styleProp.circle ? styleProp.height : styleProp.width;
+    final $padding = styleProp.circle ? null : styleProp.padding;
+    final $decoration = BoxDecoration(
+      color: buttonStyle.bgColor,
+      border: buttonStyle.border,
+      borderRadius: styleProp.round || styleProp.circle
+          ? BorderRadius.circular(styleProp.height / 2)
+          : styleProp.borderRadius,
+    );
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
-      width: style.circle ? style.height : null,
-      height: style.height,
+      width: $width,
+      height: styleProp.height,
       alignment: Alignment.center,
-      margin: style.margin,
-      padding: style.circle ? null : style.padding,
-      decoration: BoxDecoration(
-        color: buttonStyle.bgColor,
-        border: buttonStyle.border,
-        borderRadius: style.round || style.circle
-            ? BorderRadius.circular(style.height / 2)
-            : style.borderRadius,
-      ),
+      margin: styleProp.margin,
+      padding: $padding,
+      decoration: $decoration,
       child: buildChild(buttonStyle),
     );
   }
@@ -190,15 +201,17 @@ class _Button extends HookWidget {
         strutStyle: const StrutStyle(forceStrutHeight: true),
       );
     }
-    if (style.leftIcon != null || style.rightIcon != null) {
+    if (styleProp.leftIcon != null || styleProp.rightIcon != null) {
       childWidget = Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (style.leftIcon != null) buildIcon(style.leftIcon!, buttonStyle),
+          if (styleProp.leftIcon != null)
+            buildIcon(styleProp.leftIcon!, buttonStyle),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: childWidget),
-          if (style.rightIcon != null) buildIcon(style.rightIcon!, buttonStyle)
+          if (styleProp.rightIcon != null)
+            buildIcon(styleProp.rightIcon!, buttonStyle)
         ],
       );
     }
@@ -216,7 +229,7 @@ class _Button extends HookWidget {
 typedef _ButtonStyleHook = ({Color? bgColor, Color? textColor, Border? border});
 
 /// 计算按钮样式 hook
-_ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyle style) {
+_ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final bgColor = useState<Color?>(null);
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);

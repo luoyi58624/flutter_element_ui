@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:super_sliver_list/super_sliver_list.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
@@ -9,32 +10,42 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final (count, addCount) = useCount();
     final (flag, toggle) = useToggle(true);
-    return SelectionArea(
-      child: Builder(builder: (context) {
-        return Material(
-          textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
-          child: Column(
-            children: [
-              const Gap(16),
-              const Center(child: ElText('hello, world')),
-              const Center(child: ElText('你好，世界')),
-              const Text('text'),
-              ElButton(child: 'count: $count', onPressed: addCount),
-              const H1('一级标题'),
-              const P('正文'),
-              UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
-              Expanded(
-                child: SuperListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (context, index) =>
-                      flag ? const _Button('x2xx') : const _Button2(),
-                ),
+    return Builder(builder: (context) {
+      return Material(
+        textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
+        child: Column(
+          children: [
+            ElButton(child: 'count: $count', onPressed: addCount),
+            ElButton(
+              child: 'count: $count',
+              onPressed: addCount,
+              type: 'primary',
+            ),
+            SelectionArea(
+              child: Column(
+                children: [
+                  const H3('选中区域'),
+                  ElButton(child: 'count: $count', onPressed: addCount),
+                  ElButton(
+                    child: 'count: $count',
+                    onPressed: addCount,
+                    type: 'primary',
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
-      }),
-    );
+            ),
+            UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
+            Expanded(
+              child: SuperListView.builder(
+                itemCount: 1000,
+                itemBuilder: (context, index) =>
+                    flag ? const _Button('x2xx') : const _Button2(),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 

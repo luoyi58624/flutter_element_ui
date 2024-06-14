@@ -4,10 +4,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import 'styles/theme.dart';
 import 'theme.dart';
 
-// ===============================================================
-// 扩展函数虽然很方便, 但很容易引起冲突，而且我个人非常讨厌一些来历不明的各种方法，
-// 所以除了以 El 开头命名的扩展，我不会对外提供任何扩展，若有需要请自行封装。
-// ===============================================================
 extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
   ElConfigData get elConfig => ElTheme.of(this).config;
@@ -31,100 +27,69 @@ extension ThemeExtension on BuildContext {
       };
 }
 
+/// 颜色渐变因子
+const int brightenRatio = 10;
+const int darkenRatio = 8;
+
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗
 extension ColorExtension on Color {
+  Color _light(BuildContext context, int level, bool reverse) {
+    final darkenColor = darken(level * darkenRatio);
+    final brightenColor = brighten(level * brightenRatio);
+    if (!reverse) {
+      return context.isDark ? darkenColor : brightenColor;
+    } else {
+      return context.isDark ? brightenColor : darkenColor;
+    }
+  }
+
   /// Element UI 一级渐变颜色
-  Color elLight1(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(8) : brighten(10))
-          : (context.isDark ? brighten(10) : darken(8));
+  Color _elLight1(BuildContext context, {bool reverse = false}) =>
+      _light(context, 1, reverse);
 
   /// Element UI 二级渐变颜色
-  Color elLight2(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(16) : brighten(20))
-          : (context.isDark ? brighten(20) : darken(16));
+  Color _elLight2(BuildContext context, {bool reverse = false}) =>
+      _light(context, 2, reverse);
 
   /// Element UI 三级渐变颜色
-  Color elLight3(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(24) : brighten(30))
-          : (context.isDark ? brighten(30) : darken(24));
+  Color _elLight3(BuildContext context, {bool reverse = false}) =>
+      _light(context, 3, reverse);
 
   /// Element UI 四级渐变颜色
-  Color elLight4(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(32) : brighten(40))
-          : (context.isDark ? brighten(40) : darken(32));
+  Color _elLight4(BuildContext context, {bool reverse = false}) =>
+      _light(context, 4, reverse);
 
   /// Element UI 五级渐变颜色
-  Color elLight5(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(40) : brighten(50))
-          : (context.isDark ? brighten(50) : darken(40));
+  Color _elLight5(BuildContext context, {bool reverse = false}) =>
+      _light(context, 5, reverse);
 
   /// Element UI 六级渐变颜色
-  Color elLight6(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(48) : brighten(60))
-          : (context.isDark ? brighten(60) : darken(48));
+  Color _elLight6(BuildContext context, {bool reverse = false}) =>
+      _light(context, 6, reverse);
 
   /// Element UI 七级渐变颜色
-  Color elLight7(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(56) : brighten(70))
-          : (context.isDark ? brighten(70) : darken(56));
+  Color _elLight7(BuildContext context, {bool reverse = false}) =>
+      _light(context, 7, reverse);
 
   /// Element UI 八级渐变颜色
-  Color elLight8(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(64) : brighten(80))
-          : (context.isDark ? brighten(80) : darken(64));
+  Color _elLight8(BuildContext context, {bool reverse = false}) =>
+      _light(context, 8, reverse);
 
   /// Element UI 九级渐变颜色
-  Color elLight9(
-    BuildContext context, {
-    bool reverse = false,
-  }) =>
-      !reverse
-          ? (context.isDark ? darken(72) : brighten(90))
-          : (context.isDark ? brighten(90) : darken(72));
+  Color _elLight9(BuildContext context, {bool reverse = false}) =>
+      _light(context, 9, reverse);
 
   /// hover 悬停颜色，颜色会变得更浅
-  Color elHover(BuildContext context) => elLight2(context);
+  Color elHover(BuildContext context) => _elLight2(context);
 
   /// tap 按下颜色，颜色会变得更深
-  Color elTap(BuildContext context) => elLight3(context, reverse: true);
+  Color elTap(BuildContext context) => _elLight3(context, reverse: true);
 
   /// 应用主题透明背景颜色
-  Color elThemeLightBg(BuildContext context) => elLight9(context);
+  Color elThemeLightBg(BuildContext context) => _elLight9(context);
 
   /// 应用主题透明边框颜色
-  Color elThemeLightBorder(BuildContext context) => elLight6(context);
+  Color elThemeLightBorder(BuildContext context) => _elLight6(context);
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) =>

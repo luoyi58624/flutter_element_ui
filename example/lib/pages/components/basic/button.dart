@@ -1,6 +1,8 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
+import '../../home.dart';
+
 class ButtonPage extends HookWidget {
   const ButtonPage({super.key});
 
@@ -28,7 +30,7 @@ class ButtonPage extends HookWidget {
 
     return SingleChildScrollView(
       controller: controller,
-      physics: const NeverScrollableScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
