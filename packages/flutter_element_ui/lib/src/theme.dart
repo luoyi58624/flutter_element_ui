@@ -59,11 +59,10 @@ class ElTheme extends StatelessWidget {
   /// 主题数据，默认[defaultThemeData]
   final ElThemeData? data;
 
-  /// 全局文字默认样式，Element UI只应用文字颜色
-  ///
-  /// 注意：Flutter Material组件会基于 ThemeData 的 textTheme 再创建一层 DefaultTextStyle，
-  /// 如果你的应用程序以 Material 为主，设置全局默认文本主题时最好应用 Material 的文本主题，
-  /// 包括下方的 brightness 属性，最好一律从 Theme.of 继承
+  /// 全局文字默认样式，[ElTheme]会创建一个全新的[DefaultTextStyle]，但不会继承父级的默认样式，
+  /// 因为[MaterialApp]存在一个自以为是的错误文本样式[_errorTextStyle]，具体行为就是如果你
+  /// 没有在[Material]组件下使用文字小部件，那么文字将变成黄色、双下划线样式，这种行为是Flutter官方刻意为之，
+  /// 所以我决定在所有设计系统的根节点下创建一个新的默认文本，而不是继承父级，否则对于新手而言，可能会造成一脸懵逼。
   final TextStyle? textStyle;
 
   /// 定义平台应用的主题模式，如果为空则跟随系统，建议将该值和你的顶级 App 组件绑定，示例：
@@ -101,18 +100,32 @@ class ElTheme extends StatelessWidget {
       child: BrightnessWidget(
         brightness: brightness,
         child: Builder(builder: (context) {
-          final color = context.isDark
-              ? $data.darkTheme.textColor
-              : $data.theme.textColor;
-          return ElIconTheme(
-            size: 18,
-            color: color,
-            child: _ElTheme(
-              elTheme: this,
-              child: ScrollConfiguration(
-                behavior: behavior ?? const ElScrollBehavior(),
-                child: GlobalHoverWidget(
-                  child: child,
+          TextStyle $style = (textStyle ?? const TextStyle()).copyWith(
+              color: context.isDark
+                  ? $data.darkTheme.textColor
+                  : $data.theme.textColor);
+          return DefaultTextStyle(
+            style: $style,
+            child: ElIconTheme(
+              size: 18,
+              color: context.isDark
+                  ? $data.darkTheme.iconColor
+                  : $data.theme.iconColor,
+              child: TypographyInheritedWidget(
+                model: TypographyModel(
+                  titleColor: $data.theme.titleColor,
+                  titleDarkColor: $data.darkTheme.titleColor,
+                  textColor: $data.theme.textColor,
+                  textDarkColor: $data.darkTheme.textColor,
+                ),
+                child: _ElTheme(
+                  elTheme: this,
+                  child: ScrollConfiguration(
+                    behavior: behavior ?? const ElScrollBehavior(),
+                    child: GlobalHoverWidget(
+                      child: child,
+                    ),
+                  ),
                 ),
               ),
             ),

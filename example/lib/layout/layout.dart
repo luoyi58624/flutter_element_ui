@@ -27,7 +27,9 @@ class _LayoutPageState extends State<LayoutPage> {
             children: [
               const LayoutHeaderWidget(),
               Expanded(
-                child: widget.navigationShell,
+                child: ElBody(
+                  child: widget.navigationShell,
+                ),
               ),
             ],
           ),
