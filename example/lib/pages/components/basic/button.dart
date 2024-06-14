@@ -1,5 +1,7 @@
+import 'package:example/controller/global.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
+import 'package:mini_getx/mini_getx.dart';
 
 import '../../home.dart';
 
@@ -42,8 +44,16 @@ class ButtonPage extends HookWidget {
               runSpacing: 8,
               children: [
                 ElButton(
-                    child: disabled ? 'Enabled' : 'Disabled',
-                    onPressed: toggleDisabled),
+                  onPressed: toggleDisabled,
+                  child: disabled ? '开启' : '禁用',
+                ),
+                Obx(() {
+                  return ElButton(
+                    onPressed: () => GlobalController.of.isDark.value =
+                        !GlobalController.of.isDark.value,
+                    child: GlobalController.of.isDark.value ? '亮色模式' : '暗色模式',
+                  );
+                }),
                 const ElButton(child: '你好'),
               ],
             ),
@@ -100,6 +110,15 @@ class ButtonPage extends HookWidget {
                   type: type,
                   text: true,
                   round: true,
+                  disabled: disabled),
+            )),
+            buildTitle('链接按钮'),
+            buildWrap(buttonTypes.map(
+              (type) => ElButton(
+                  child: 'count: $count',
+                  onPressed: addCount,
+                  type: type,
+                  link: true,
                   disabled: disabled),
             )),
             buildTitle('图标按钮'),
@@ -164,7 +183,6 @@ class ButtonPage extends HookWidget {
                 child: 'count: $count',
                 onPressed: addCount,
                 bgColor: bgColor,
-                color: Colors.black,
                 plain: true,
                 disabled: disabled,
               ),

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 

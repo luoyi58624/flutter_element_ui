@@ -15,6 +15,7 @@ typedef _ButtonStyleProp = ({
   Color? color,
   String? type,
   bool text,
+  bool link,
   bool plain,
   bool round,
   bool block,
@@ -39,6 +40,7 @@ class ElButton extends StatelessWidget {
     this.color,
     this.type,
     this.text = false,
+    this.link = false,
     this.plain = false,
     this.round = false,
     this.block = false,
@@ -78,6 +80,9 @@ class ElButton extends StatelessWidget {
   /// 文字按钮，默认false
   final bool text;
 
+  /// 链接按钮，默认false，若为true，[child]将强制渲染成文字
+  final bool link;
+
   /// 镂空按钮，默认false
   final bool plain;
 
@@ -90,7 +95,7 @@ class ElButton extends StatelessWidget {
   /// 自定义按钮圆角，默认 4 像素，如果[round]为true，则强制渲染为圆角按钮
   final BorderRadiusGeometry? borderRadius;
 
-  /// 按钮外边距，默认为 4 像素
+  /// 按钮外边距，默认为 4 像素，可以通过全局配置自定义
   final EdgeInsetsGeometry? margin;
 
   /// 按钮内边距，默认设置水平内边距为高度一半
@@ -122,6 +127,7 @@ class ElButton extends StatelessWidget {
       color: color,
       type: type,
       text: text,
+      link: link,
       plain: plain,
       round: round,
       block: block,
@@ -134,20 +140,22 @@ class ElButton extends StatelessWidget {
       disabled: disabled,
       loading: loading,
     );
-    final currentWidget = SelectionContainer.disabled(
+    var currentWidget = SelectionContainer.disabled(
       child: HoverBuilder(
         disabled: disabled,
         builder: ($isHover) => TapBuilder(
           onTap: onPressed,
           disabled: disabled,
-          delay: 100,
           builder: ($isTap) => _Button(child, styleProp),
         ),
       ),
     );
-    return block && !circle
-        ? currentWidget
-        : UnconstrainedBox(child: currentWidget);
+    return Padding(
+      padding: styleProp.margin ?? EdgeInsets.zero,
+      child: block && !circle
+          ? currentWidget
+          : UnconstrainedBox(child: currentWidget),
+    );
   }
 }
 
@@ -163,8 +171,14 @@ class _Button extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final buttonStyle = _useButtonStyle(context, styleProp);
-    final $width = styleProp.circle ? styleProp.height : styleProp.width;
-    final $padding = styleProp.circle ? null : styleProp.padding;
+    final $width = styleProp.link
+        ? null
+        : styleProp.circle
+            ? styleProp.height
+            : styleProp.width;
+    final $height = styleProp.link ? null : styleProp.height;
+    final $padding =
+        styleProp.circle || styleProp.link ? null : styleProp.padding;
     final $decoration = BoxDecoration(
       color: buttonStyle.bgColor,
       border: buttonStyle.border,
@@ -176,9 +190,8 @@ class _Button extends HookWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
       width: $width,
-      height: styleProp.height,
+      height: $height,
       alignment: Alignment.center,
-      margin: styleProp.margin,
       padding: $padding,
       decoration: $decoration,
       child: buildChild(buttonStyle),
@@ -228,6 +241,9 @@ class _Button extends HookWidget {
 
 typedef _ButtonStyleHook = ({Color? bgColor, Color? textColor, Border? border});
 
+/// 改变按钮透明度样式值
+const double _opacity = 0.6;
+
 /// 计算按钮样式 hook
 _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final bgColor = useState<Color?>(null);
@@ -238,16 +254,34 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final $isTap = TapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = elThemeTypes.contains(style.type);
+  final $defaultTextColor =
+      context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
+  Color? $themeTypeColor;
+  if ($isThemeType) $themeTypeColor = context.themeTypeColors[style.type]!;
 
+  if (style.link) {
+    $isThemeType
+        ? textColor.value = $themeTypeColor!
+            .onHover($isHover, $themeTypeColor.withOpacity(_opacity))
+            .onTap($isTap, $themeTypeColor)
+        : textColor.value = $defaultTextColor
+            .onHover($isHover, $defaultTextColor.withOpacity(_opacity))
+            .onTap($isTap, $defaultTextColor);
+    if (style.disabled) {
+      textColor.value = textColor.value!.withOpacity(_opacity);
+    }
+  }
   // 计算文字按钮样式
-  if (style.text) {
-    bgColor.value = $bgColor.onHover($isHover, 4).onTap($isTap, 4);
+  else if (style.text) {
+    bgColor.value = $bgColor
+        .onHover($isHover, $bgColor.deepen(4))
+        .onTap($isTap, $bgColor.deepen(10));
     $isThemeType
         ? textColor.value = context.themeTypeColors[style.type]!
-        : textColor.value = context.elTheme.textColor;
+        : textColor.value = $defaultTextColor;
 
     if (style.disabled) {
-      textColor.value = textColor.value!.withOpacity(0.6);
+      textColor.value = textColor.value!.withOpacity(_opacity);
     }
   } else {
     // 计算默认按钮样式
@@ -255,8 +289,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = context.elTheme.primary;
       bgColor.value =
           $isHover || $isTap ? $primaryColor.elThemeLightBg(context) : $bgColor;
-      textColor.value =
-          $isHover || $isTap ? $primaryColor : context.elTheme.textColor;
+      textColor.value = $isHover || $isTap ? $primaryColor : $defaultTextColor;
       borderColor.value = $isTap
           ? $primaryColor
           : $isHover
@@ -305,16 +338,18 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     // 计算禁用样式
     if (style.disabled) {
       if ($isThemeType == false && style.bgColor == null) {
-        textColor.value = textColor.value!.withOpacity(0.6);
-        borderColor.value = borderColor.value!.withOpacity(0.6);
+        textColor.value = textColor.value!.withOpacity(_opacity);
+        borderColor.value = borderColor.value!.withOpacity(_opacity);
       } else {
         if (style.plain) {
-          bgColor.value = bgColor.value!.withOpacity(0.6);
-          textColor.value = textColor.value!.withOpacity(0.6);
-          borderColor.value = borderColor.value!.withOpacity(0.6);
+          bgColor.value = bgColor.value!.withOpacity(_opacity);
+          textColor.value = textColor.value!.withOpacity(_opacity);
+          borderColor.value = borderColor.value!.withOpacity(_opacity);
         } else {
-          bgColor.value = bgColor.value!.withOpacity(0.6);
-          textColor.value = textColor.value!.withOpacity(0.9);
+          bgColor.value = bgColor.value!.withOpacity(_opacity);
+          textColor.value = textColor.value!.isDark
+              ? textColor.value!.withOpacity(_opacity)
+              : textColor.value!.withOpacity(0.9);
         }
       }
     }

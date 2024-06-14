@@ -32,13 +32,14 @@ class _TablePageState extends State<TablePage> {
           ElTableColumn(prop: 'email', label: '邮箱', minWidth: 280),
           ElTableColumn(
             label: '操作',
-            width: 140,
+            width: 100,
             fixedRight: true,
             render: (dataItem) => const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElButton(child: '编辑', text: true, type: 'primary'),
-                ElButton(child: '删除', text: true, type: 'error'),
+                ElButton(child: '编辑', link: true, type: 'primary'),
+                Gap(4),
+                ElButton(child: '删除', link: true, type: 'error'),
               ],
             ),
           ),

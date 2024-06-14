@@ -459,7 +459,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: be9e86fc1eb203f03cc9dc150a3908f5addf6e73
+      resolved-ref: "53b65f8f0206e0a1e51ea298f2b2b9735c6fff68"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.2.0"
@@ -496,7 +496,7 @@ packages:
     source: hosted
     version: "1.0.5"
   mini_getx:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mini_getx
       sha256: f3b81e9ce549927292122f372d3e6170e9a4a4ebbafe84696ed0fe074f2492b8
