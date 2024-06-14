@@ -14,7 +14,7 @@ class BadgePage extends HookWidget {
           ElBadge(
             badge: badgeValue.value,
             child: ElButton(
-              '徽章 +1',
+              child: '徽章 +1',
               onPressed: () {
                 badgeValue.value++;
               },
@@ -25,7 +25,7 @@ class BadgePage extends HookWidget {
           ElBadge(
             badge: badgeValue.value,
             child: ElButton(
-              '徽章 -1',
+              child: '徽章 -1',
               onPressed: () {
                 if (badgeValue.value > 0) badgeValue.value--;
               },
@@ -36,7 +36,7 @@ class BadgePage extends HookWidget {
           ElBadge(
             badge: badgeValue.value,
             child: ElButton(
-              '清空徽章',
+              child: '清空徽章',
               onPressed: () {
                 badgeValue.value = 0;
               },

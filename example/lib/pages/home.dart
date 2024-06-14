@@ -19,7 +19,7 @@ class HomePage extends HookWidget {
               const Center(child: ElText('hello, world')),
               const Center(child: ElText('你好，世界')),
               const Text('text'),
-              ElButton('count: $count', onPressed: addCount),
+              ElButton(child: 'count: $count', onPressed: addCount),
               const H1('一级标题'),
               const P('正文'),
               UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
@@ -48,8 +48,9 @@ class _Button extends HookWidget {
     final (count, addCount) = useCount();
     return Wrap(
       children: [
-        ElButton('Default: $count', type: 'primary', onPressed: addCount),
-        ElButton('Default: $count', onPressed: addCount),
+        ElButton(
+            child: 'Default: $count', type: 'primary', onPressed: addCount),
+        ElButton(child: 'Default: $count', onPressed: addCount),
       ],
     );
   }

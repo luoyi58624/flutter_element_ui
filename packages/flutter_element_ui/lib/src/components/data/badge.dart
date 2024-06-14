@@ -27,7 +27,7 @@ class ElBadge extends StatelessWidget {
     if (ElUtil.isEmpty(badge)) return child;
     if (badge is num) {
       return Badge(
-        label: Container(
+        label: ConstrainedBox(
           constraints: const BoxConstraints(minWidth: 16),
           child: Center(
             child: Text(badge > max ? '$max+' : badge.toString()),

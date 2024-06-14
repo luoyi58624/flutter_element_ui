@@ -16,7 +16,7 @@ class _DialogPageState extends State<DialogPage> {
         children: [
           const SizedBox(height: 8),
           ElButton(
-            '确认提示框',
+            child: '确认提示框',
             onPressed: () {
               ElDialog.showConfirm(
                 context,
@@ -33,7 +33,7 @@ class _DialogPageState extends State<DialogPage> {
           ),
           const SizedBox(height: 8),
           ElButton(
-            '弹出Dialog',
+            child: '弹出Dialog',
             onPressed: () {
               showDialog(
                 context: context,
@@ -43,14 +43,14 @@ class _DialogPageState extends State<DialogPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElButton(
-                        '取消',
+                        child: '取消',
                         onPressed: () {
                           context.pop();
                         },
                       ),
                       const SizedBox(width: 8),
                       ElButton(
-                        '确定',
+                        child: '确定',
                         onPressed: () {
                           context.pop();
                         },

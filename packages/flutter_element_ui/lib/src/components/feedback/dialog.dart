@@ -53,18 +53,17 @@ class ElDialog extends StatelessWidget {
                 children: [
                   if (cancelText != '')
                     ElButton(
-                      cancelText,
                       onPressed: () {
                         if (onCancel != null) onCancel();
                         if (context.mounted) Navigator.of(context).pop(false);
                       },
                       type: cancelButtonType,
                       disabled: loading,
+                      child: cancelText,
                     ),
                   const SizedBox(width: 8),
                   if (confirmText != '')
                     ElButton(
-                      loading ? confirmLoadingText : confirmText,
                       onPressed: () async {
                         if (onConfirm != null) {
                           setState(() => loading = true);
@@ -74,6 +73,7 @@ class ElDialog extends StatelessWidget {
                       },
                       type: confirmButtonType,
                       disabled: loading,
+                      child: loading ? confirmLoadingText : confirmText,
                     ),
                 ],
               ),
@@ -100,7 +100,8 @@ class ElDialog extends StatelessWidget {
             if (title != null)
               ElText(
                 title!,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),

@@ -11,53 +11,39 @@ class LayoutHeaderWidget extends StatefulWidget {
 class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        HoverBuilder(
-          builder: (isHover) => TapBuilder(
-            onTap: () {
-              GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
-                isCollapse: !GlobalState.elMenu.value.isCollapse,
-              );
-            },
-            builder: (isTap) => Container(
-              width: 64,
-              height: 64,
-              color: context.elTheme.headerColor.onHover(isHover).onTap(isTap),
-              child: Center(
-                child: ValueListenableBuilder(
-                  valueListenable: GlobalState.elMenu,
-                  builder: (context, value, _) {
-                    return ElIcon(
-                      value.isCollapse ? ElIcons.expand : ElIcons.fold,
-                      size: 22,
-                      color: Colors.white,
-                    );
-                  },
-                ),
+    return ElHeader(
+      leading: Center(
+        child: ValueListenableBuilder(
+          valueListenable: GlobalState.elMenu,
+          builder: (context, value, _) {
+            return ElButton(
+              child: ElIcon(
+                value.isCollapse ? ElIcons.expand : ElIcons.fold,
+                size: 22,
               ),
-            ),
-          ),
+              onPressed: () {
+                GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
+                  isCollapse: !GlobalState.elMenu.value.isCollapse,
+                );
+              },
+            );
+          },
         ),
-        const Expanded(child: SizedBox()),
-        // ElIconButton(
-        //   ElIcon.svg(ElIcons.setting),
-        //   type: ElThemeType.info,
-        //   circle: true,
-        //   onPressed: () {},
-        // ),
-        // ValueListenableBuilder(
-        //   valueListenable: GlobalState.isDark,
-        //   builder: (context, value, child) => Material(
-        //     child: Switch(
-        //       value: value,
-        //       onChanged: (v) {
-        //         GlobalState.isDark.value = v;
-        //       },
-        //     ),
-        //   ),
-        // ),
-      ],
+      ),
+      title: const Demo(
+        Text('text'),
+      ),
     );
+  }
+}
+
+class Demo extends StatelessWidget {
+  const Demo(this.child, {super.key});
+
+  final dynamic child;
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
   }
 }

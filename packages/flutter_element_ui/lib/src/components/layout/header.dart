@@ -30,6 +30,7 @@ class ElHeader extends StatelessWidget {
           height: height ?? 56,
           child: Row(
             children: [
+              if (leading != null) leading!,
               if (titleWidget != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

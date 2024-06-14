@@ -28,9 +28,9 @@ typedef _ButtonStyle = ({
 });
 
 class ElButton extends StatelessWidget {
-  const ElButton(
-    this.child, {
+  const ElButton({
     super.key,
+    required this.child,
     this.onPressed,
     this.height,
     this.bgColor,

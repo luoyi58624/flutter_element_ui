@@ -39,19 +39,24 @@ class ButtonPage extends HookWidget {
               spacing: 8,
               runSpacing: 8,
               children: [
-                ElButton(disabled ? 'Enabled' : 'Disabled',
+                ElButton(
+                    child: disabled ? 'Enabled' : 'Disabled',
                     onPressed: toggleDisabled),
-                const ElButton('你好'),
+                const ElButton(child: '你好'),
               ],
             ),
             buildTitle('普通按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
-                  onPressed: addCount, type: type, disabled: disabled),
+              (type) => ElButton(
+                  child: 'count: $count',
+                  onPressed: addCount,
+                  type: type,
+                  disabled: disabled),
             )),
             buildTitle('镂空按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
+              (type) => ElButton(
+                  child: 'count: $count',
                   onPressed: addCount,
                   type: type,
                   plain: true,
@@ -59,7 +64,8 @@ class ButtonPage extends HookWidget {
             )),
             buildTitle('圆角按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
+              (type) => ElButton(
+                  child: 'count: $count',
                   onPressed: addCount,
                   type: type,
                   round: true,
@@ -67,7 +73,8 @@ class ButtonPage extends HookWidget {
             )),
             buildTitle('圆角镂空按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
+              (type) => ElButton(
+                  child: 'count: $count',
                   onPressed: addCount,
                   type: type,
                   plain: true,
@@ -76,7 +83,8 @@ class ButtonPage extends HookWidget {
             )),
             buildTitle('文字按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
+              (type) => ElButton(
+                  child: 'count: $count',
                   onPressed: addCount,
                   type: type,
                   text: true,
@@ -84,7 +92,8 @@ class ButtonPage extends HookWidget {
             )),
             buildTitle('文字圆角按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton('count: $count',
+              (type) => ElButton(
+                  child: 'count: $count',
                   onPressed: addCount,
                   type: type,
                   text: true,
@@ -93,18 +102,23 @@ class ButtonPage extends HookWidget {
             )),
             buildTitle('图标按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton(const ElIcon(ElIcons.aim),
-                  type: type, disabled: disabled),
+              (type) => ElButton(
+                  type: type,
+                  disabled: disabled,
+                  child: const ElIcon(ElIcons.aim)),
             )),
             buildTitle('圆形图标按钮'),
             buildWrap(buttonTypes.map(
-              (type) => ElButton(const ElIcon(ElIcons.aim),
-                  type: type, circle: true, disabled: disabled),
+              (type) => ElButton(
+                  type: type,
+                  circle: true,
+                  disabled: disabled,
+                  child: const ElIcon(ElIcons.aim)),
             )),
             buildTitle('左图标文字按钮'),
             buildWrap(buttonTypes.map(
               (type) => ElButton(
-                'count: $count',
+                child: 'count: $count',
                 onPressed: addCount,
                 type: type,
                 leftIcon: const ElIcon(ElIcons.aim),
@@ -114,7 +128,7 @@ class ButtonPage extends HookWidget {
             buildTitle('右图标文字按钮'),
             buildWrap(buttonTypes.map(
               (type) => ElButton(
-                'count: $count',
+                child: 'count: $count',
                 onPressed: addCount,
                 type: type,
                 rightIcon: const ElIcon(ElIcons.aim),
@@ -130,7 +144,7 @@ class ButtonPage extends HookWidget {
               Colors.yellow
             ].map(
               (bgColor) => ElButton(
-                'count: $count',
+                child: 'count: $count',
                 onPressed: addCount,
                 bgColor: bgColor,
                 disabled: disabled,
@@ -145,7 +159,7 @@ class ButtonPage extends HookWidget {
               Colors.yellow
             ].map(
               (bgColor) => ElButton(
-                'count: $count',
+                child: 'count: $count',
                 onPressed: addCount,
                 bgColor: bgColor,
                 color: Colors.black,
@@ -161,7 +175,7 @@ class ButtonPage extends HookWidget {
                     (type) => Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ElButton(
-                        'count: $count',
+                        child: 'count: $count',
                         onPressed: addCount,
                         type: type,
                         block: true,
@@ -179,7 +193,7 @@ class ButtonPage extends HookWidget {
                     (type) => Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ElButton(
-                        'count: $count',
+                        child: 'count: $count',
                         onPressed: addCount,
                         type: type,
                         block: true,
@@ -198,7 +212,7 @@ class ButtonPage extends HookWidget {
                     (type) => Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ElButton(
-                        'count: $count',
+                        child: 'count: $count',
                         onPressed: addCount,
                         type: type,
                         block: true,
@@ -217,7 +231,7 @@ class ButtonPage extends HookWidget {
                     (type) => Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: ElButton(
-                        'count: $count',
+                        child: 'count: $count',
                         onPressed: addCount,
                         type: type,
                         block: true,
