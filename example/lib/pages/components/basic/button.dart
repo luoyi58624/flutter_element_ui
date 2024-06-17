@@ -161,6 +161,11 @@ class ButtonPage extends HookWidget {
               const ElButton(
                 link: true,
                 type: 'primary',
+                child: H1('https://www.baidu.com'),
+              ),
+              const ElButton(
+                link: true,
+                type: 'primary',
                 child: A('https://www.baidu.com'),
               ),
             ]),

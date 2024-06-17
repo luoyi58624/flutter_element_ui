@@ -111,20 +111,12 @@ class ElTheme extends StatelessWidget {
               color: context.isDark
                   ? $data.darkTheme.iconColor
                   : $data.theme.iconColor,
-              child: TypographyInheritedWidget(
-                model: TypographyModel(
-                  titleColor: $data.theme.titleColor,
-                  titleDarkColor: $data.darkTheme.titleColor,
-                  textColor: $data.theme.textColor,
-                  textDarkColor: $data.darkTheme.textColor,
-                ),
-                child: _ElTheme(
-                  elTheme: this,
-                  child: ScrollConfiguration(
-                    behavior: behavior ?? const ElScrollBehavior(),
-                    child: GlobalHoverWidget(
-                      child: child,
-                    ),
+              child: _ElTheme(
+                elTheme: this,
+                child: ScrollConfiguration(
+                  behavior: behavior ?? const ElScrollBehavior(),
+                  child: GlobalHoverWidget(
+                    child: child,
                   ),
                 ),
               ),
