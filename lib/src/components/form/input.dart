@@ -1,167 +1,133 @@
-import 'dart:ui';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extension.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-class ElInput extends StatefulWidget {
-  const ElInput({super.key});
+typedef _InputStyleProp = ({
+  double height,
+  BorderRadiusGeometry borderRadius,
+  EdgeInsetsGeometry? margin,
+  EdgeInsetsGeometry? padding,
+});
 
-  @override
-  State<ElInput> createState() => _ElInputState();
-}
+class ElInput extends HookWidget {
+  const ElInput({
+    super.key,
+    this.value,
+    this.height,
+    this.borderRadius,
+    this.margin,
+    this.padding,
+    this.onChanged,
+  });
 
-class _ElInputState extends State<ElInput> {
-  final TextEditingController controller = TextEditingController(text: '初始文本');
-  final FocusNode focusNode = FocusNode();
+  /// input初始值，你可以传递任意类型的数据，但是，它们都会统一转成字符串，因为输入框本身只接收字符串，
+  /// 我推荐你使用[flutter_hooks]，传递[useState]响应式变量可以很方便的实现双向绑定，示例：
+  /// ```dart
+  /// final inputValue = useState('');
+  /// ElInput(value: inputValue);
+  /// ```
+  final dynamic value;
 
-  bool hasFocus = false;
+  /// 输入框高度
+  final double? height;
 
-  @override
-  void initState() {
-    super.initState();
-    focusNode.addListener(() {
-      if (focusNode.hasFocus) {
-        if (hasFocus == false) {
-          setState(() {
-            hasFocus = true;
-          });
-        }
-      } else {
-        if (hasFocus == true) {
-          setState(() {
-            hasFocus = false;
-          });
-        }
-      }
-    });
-  }
+  /// 自定义圆角
+  final BorderRadiusGeometry? borderRadius;
 
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-    focusNode.dispose();
-  }
+  /// 自定义外边距
+  final EdgeInsetsGeometry? margin;
+
+  /// 自定义内边距
+  final EdgeInsetsGeometry? padding;
+
+  /// 监听输入框内容更新事件
+  final ValueChanged<String>? onChanged;
+
+  /// 是否是响应式
+  bool get isModelValue => value is ValueNotifier;
 
   @override
   Widget build(BuildContext context) {
-    // return TextField();
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      height: 36,
-      // padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        border: Border.all(
-            width: 1,
-            color: hasFocus
-                ? context.elTheme.primary
-                : context.elTheme.borderColor),
-        borderRadius: BorderRadius.circular(context.elConfig.inputRadius),
-      ),
-      child: RepaintBoundary(
-        child: EditableText(
-          controller: controller,
-          focusNode: focusNode,
-          expands: true,
-          minLines: null,
-          maxLines: null,
-          style: TextStyle(
-            color: context.elTheme.textColor,
-            // height: 1.8,
+    final elConfig = context.elConfig;
+    final defaultStyle = elConfig.inputStyle;
+    _InputStyleProp styleProp = (
+      height: height ?? defaultStyle.height,
+      borderRadius: borderRadius ??
+          defaultStyle.borderRadius ??
+          BorderRadius.circular(elConfig.radius),
+      margin: margin ?? defaultStyle.margin,
+      padding: padding ?? defaultStyle.padding,
+    );
+    final textController = useTextEditingController(
+        text: value == null ? '' : (isModelValue ? value.value : '$value'));
+    final focusNode = useFocusNode();
+    return Container(
+      height: styleProp.height,
+      margin: styleProp.margin,
+      child: Theme(
+        data: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(
+            selectionColor: context.elTheme.primary.withAlpha(100),
+            selectionHandleColor: context.elTheme.primary,
           ),
-          // strutStyle: const StrutStyle(
-          //   forceStrutHeight: true,
-          // ),
-          textHeightBehavior: const TextHeightBehavior(
-            applyHeightToFirstAscent: false,
-            applyHeightToLastDescent: false,
-          ),
-          cursorColor: context.elTheme.textColor,
-          cursorWidth: 1,
-          // cursorHeight: 18,
-          // cursorOffset: const Offset(0, 3),
-          backgroundCursorColor: context.elTheme.info.withOpacity(0.6),
-          selectionColor: context.elTheme.primary.withOpacity(0.6),
-          // enableInteractiveSelection: true,
-          // enableSuggestions: false,
-          // enableIMEPersonalizedLearning: true,
-          // showSelectionHandles: false,
-          // selectionControls: MaterialTextSelectionControls(),
-          // selectionHeightStyle: BoxHeightStyle.includeLineSpacingMiddle,
-          // dragStartBehavior: DragStartBehavior.start,
-          onSelectionChanged: (selection, cause) {},
+        ),
+        child: HoverBuilder(
+          builder: (isHover) {
+            return Builder(builder: (context) {
+              return TextField(
+                controller: textController,
+                focusNode: focusNode,
+                style: TextStyle(
+                  color: context.elTheme.textColor,
+                  fontSize: context.elConfig.fonSize,
+                ),
+                decoration: _buildInputDecoration(context, styleProp),
+                cursorColor: context.elTheme.textColor,
+                cursorWidth: 1,
+                onChanged: (v) {
+                  if (isModelValue) (value as ValueNotifier).value = v;
+                  if (onChanged != null) onChanged!(v);
+                },
+              );
+            });
+          },
         ),
       ),
     );
   }
-}
 
-// class CustomTextSelected extends TextSelectionControls {
-//   /// Fluent has no text selection handles.
-//   @override
-//   Size getHandleSize(double textLineHeight) {
-//     return Size.zero;
-//   }
-//
-//   @override
-//   Widget buildToolbar(
-//     BuildContext context,
-//     Rect globalEditableRegion,
-//     double textLineHeight,
-//     Offset selectionMidpoint,
-//     List<TextSelectionPoint> endpoints,
-//     TextSelectionDelegate delegate,
-//     ValueListenable<ClipboardStatus>? clipboardStatus,
-//     Offset? lastSecondaryTapDownPosition,
-//   ) {
-//     return SizedBox();
-//     // return _FluentTextSelectionControlsToolbar(
-//     //   clipboardStatus: clipboardStatus,
-//     //   endpoints: endpoints,
-//     //   globalEditableRegion: globalEditableRegion,
-//     //   handleCut: canCut(delegate) ? () => handleCut(delegate) : null,
-//     //   handleCopy: canCopy(delegate) ? () => handleCopy(delegate) : null,
-//     //   handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
-//     //   handleSelectAll:
-//     //   canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
-//     //   selectionMidpoint: selectionMidpoint,
-//     //   lastSecondaryTapDownPosition: lastSecondaryTapDownPosition,
-//     //   textLineHeight: textLineHeight,
-//     // );
-//   }
-//
-//   /// Builds the text selection handles, but desktop has none.
-//   @override
-//   Widget buildHandle(
-//     BuildContext context,
-//     TextSelectionHandleType type,
-//     double textLineHeight, [
-//     VoidCallback? onTap,
-//     double? startGlyphHeight,
-//     double? endGlyphHeight,
-//   ]) {
-//     return SizedBox();
-//   }
-//
-//   /// Gets the position for the text selection handles, but desktop has none.
-//   @override
-//   Offset getHandleAnchor(
-//     TextSelectionHandleType type,
-//     double textLineHeight, [
-//     double? startGlyphHeight,
-//     double? endGlyphHeight,
-//   ]) {
-//     return Offset.zero;
-//   }
-//
-//   @override
-//   bool canSelectAll(TextSelectionDelegate delegate) {
-//     // Allow SelectAll when selection is not collapsed, unless everything has
-//     // already been selected. Same behavior as Android.
-//     final value = delegate.textEditingValue;
-//     return delegate.selectAllEnabled &&
-//         value.text.isNotEmpty &&
-//         !(value.selection.start == 0 && value.selection.end == value.text.length);
-//   }
-// }
+  InputDecoration _buildInputDecoration(
+      BuildContext context, _InputStyleProp styleProp) {
+    return InputDecoration(
+      contentPadding: styleProp.padding,
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: HoverBuilder.of(context)
+              ? context.elTheme.borderHoverColor
+              : context.elTheme.borderColor,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: context.elTheme.primary,
+        ),
+      ),
+      // suffixIcon: currentValue != ''
+      //     ? GestureDetector(
+      //   onTap: () {
+      //     FlutterUtil.unFocus();
+      //     controller.clear();
+      //     setState(() {
+      //       currentValue = '';
+      //     });
+      //     if (widget.onSearch != null) widget.onSearch!('');
+      //   },
+      //   child: const Icon(
+      //     Icons.clear,
+      //     size: 18,
+      //   ),
+      // )
+      //     : null,
+    );
+  }
+}

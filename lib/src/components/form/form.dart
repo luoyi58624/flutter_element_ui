@@ -16,13 +16,6 @@ enum ElFormLabelAlign {
   end, // 右对齐
 }
 
-/// 表单尺寸
-enum ElFormSize {
-  small, // 小
-  medium, // 中
-  large, // 大
-}
-
 /// 文本框输入类型
 enum ElFormTextInputType {
   text, // 允许所有文字
@@ -30,53 +23,24 @@ enum ElFormTextInputType {
   password, // 密码，注意：若文本框为密码类型，则不会显示清除图标
 }
 
-/// 标签文字大小
-const Map<ElFormSize, double> _labelFontSize = {
-  ElFormSize.small: 12.0,
-  ElFormSize.medium: 14.0,
-  ElFormSize.large: 16.0,
-};
-
-/// 提示文字大小
-const Map<ElFormSize, double> _hintFontSize = {
-  ElFormSize.small: 10.0,
-  ElFormSize.medium: 12.0,
-  ElFormSize.large: 14.0,
-};
-
-/// 前缀图标大小
-const Map<ElFormSize, double> _formIconSize = {
-  ElFormSize.small: 16.0,
-  ElFormSize.medium: 18.0,
-  ElFormSize.large: 20.0,
-};
-
-/// 文本框上下内边距
-const Map<ElFormSize, double> _inputPadding = {
-  ElFormSize.small: 10.0,
-  ElFormSize.medium: 12.0,
-  ElFormSize.large: 14.0,
-};
-
 /// 用于向子组件共享的表单数据
-class _FormInheritedWidget extends InheritedWidget {
-  const _FormInheritedWidget({
+class ElFormInheritedWidget extends InheritedWidget {
+  const ElFormInheritedWidget({
+    super.key,
     required super.child,
     this.labelWidth,
     required this.labelPosition,
     required this.labelAlign,
-    required this.size,
   });
 
   final double? labelWidth;
   final ElFormLabelPosition labelPosition;
   final ElFormLabelAlign labelAlign;
-  final ElFormSize size;
 
   /// 子孙组件通过of获取的数据，当父组件发生更改时将会自动重建，
   /// dependOnInheritedWidgetOfExactType表示通知依赖它的组件重新构建
-  static _FormInheritedWidget? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<_FormInheritedWidget>();
+  static ElFormInheritedWidget? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ElFormInheritedWidget>();
   }
 
   @override
@@ -89,17 +53,16 @@ class ElForm extends StatefulWidget {
   const ElForm({
     super.key,
     required this.child,
-    required this.data,
+    required this.model,
     this.labelWidth,
     this.labelPosition = ElFormLabelPosition.left,
     this.labelAlign = ElFormLabelAlign.start,
-    this.size = ElFormSize.medium,
   });
 
   final Widget child;
 
   /// 表单数据
-  final Map<String, dynamic> data;
+  final dynamic model;
 
   /// [FormItemWidget] label的默认宽度
   final double? labelWidth;
@@ -110,9 +73,6 @@ class ElForm extends StatefulWidget {
   /// [FormItemWidget] label的默认对齐方式
   final ElFormLabelAlign labelAlign;
 
-  /// 表单整体大小
-  final ElFormSize size;
-
   @override
   State<ElForm> createState() => _ElFormState();
 }
@@ -122,11 +82,10 @@ class _ElFormState extends State<ElForm> {
 
   @override
   Widget build(BuildContext context) {
-    return _FormInheritedWidget(
+    return ElFormInheritedWidget(
       labelWidth: widget.labelWidth,
       labelPosition: widget.labelPosition,
       labelAlign: widget.labelAlign,
-      size: widget.size,
       child: Form(
         key: formKey,
         child: widget.child,

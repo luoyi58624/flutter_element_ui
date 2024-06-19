@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mini_getx/mini_getx.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../home.dart';
-
 class ButtonPage extends HookWidget {
   const ButtonPage({super.key});
 
@@ -55,7 +53,7 @@ class ButtonPage extends HookWidget {
                     child: GlobalController.of.isDark.value ? '亮色模式' : '暗色模式',
                   );
                 }),
-                const ElButton(child: '你好'),
+                const ElButton(onPressed: null, child: '你好'),
               ],
             ),
             buildTitle('普通按钮'),
@@ -138,6 +136,7 @@ class ButtonPage extends HookWidget {
                 ),
               ),
               const ElButton(
+                onPressed: null,
                 link: true,
                 type: 'error',
                 child: Text(
@@ -149,21 +148,25 @@ class ButtonPage extends HookWidget {
                 ),
               ),
               const ElButton(
+                onPressed: null,
                 link: true,
                 type: 'primary',
                 child: 'https://www.baidu.com',
               ),
               const ElButton(
+                onPressed: null,
                 link: true,
                 type: 'primary',
                 child: P('https://www.baidu.com'),
               ),
               const ElButton(
+                onPressed: null,
                 link: true,
                 type: 'primary',
                 child: H1('https://www.baidu.com'),
               ),
               const ElButton(
+                onPressed: null,
                 link: true,
                 type: 'primary',
                 child: A('https://www.baidu.com'),
@@ -172,17 +175,21 @@ class ButtonPage extends HookWidget {
             buildTitle('图标按钮'),
             buildWrap(buttonTypes.map(
               (type) => ElButton(
-                  type: type,
-                  disabled: disabled,
-                  child: const ElIcon(ElIcons.aim)),
+                onPressed: null,
+                type: type,
+                disabled: disabled,
+                child: const ElIcon(ElIcons.aim),
+              ),
             )),
             buildTitle('圆形图标按钮'),
             buildWrap(buttonTypes.map(
               (type) => ElButton(
-                  type: type,
-                  circle: true,
-                  disabled: disabled,
-                  child: const ElIcon(ElIcons.aim)),
+                onPressed: null,
+                type: type,
+                circle: true,
+                disabled: disabled,
+                child: const ElIcon(ElIcons.aim),
+              ),
             )),
             buildTitle('左图标文字按钮'),
             buildWrap(buttonTypes.map(

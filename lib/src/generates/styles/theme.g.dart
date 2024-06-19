@@ -48,16 +48,18 @@ extension ElColorThemeDataExtension on ElColorThemeData {
 
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
+    double? fonSize,
     double? iconSize,
-    ElButtonStyle? buttonStyle,
-    double? inputRadius,
+    double? radius,
     double? cardRadius,
+    ElButtonStyle? buttonStyle,
   }) {
     return ElConfigData(
+      fonSize: fonSize ?? this.fonSize,
       iconSize: iconSize ?? this.iconSize,
-      buttonStyle: this.buttonStyle.merge(buttonStyle),
-      inputRadius: inputRadius ?? this.inputRadius,
+      radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
+      buttonStyle: this.buttonStyle.merge(buttonStyle),
     );
   }
 }

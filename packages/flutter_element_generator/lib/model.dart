@@ -10,7 +10,8 @@ const _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
   @override
-  generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
+  generateForAnnotatedElement(
+      Element element, ConstantReader annotation, BuildStep buildStep) {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
     final List<FieldElement> classFields = classInfo.fields;
@@ -31,16 +32,23 @@ extension ${className}Extension on $className {
   """;
   }
 
-  String generateCopyWidth(bool enable, String className, List<FieldElement> classFields) {
+  bool allowCopy(FieldElement fieldInfo) {
+    return !(fieldInfo.isSynthetic ||
+        fieldInfo.isStatic ||
+        fieldInfo.isLate ||
+        fieldInfo.isConst);
+  }
+
+  String generateCopyWidth(
+      bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
 
     String copyWithArgument = '';
     String copyWithContent = '';
 
     for (int i = 0; i < classFields.length; i++) {
-      // 排除静态类型字段
-      if (classFields[i].declaration.isStatic == false) {
-        final fieldInfo = classFields[i].declaration;
+      final fieldInfo = classFields[i].declaration;
+      if (allowCopy(fieldInfo)) {
         if (isIgnoreField('copyWith', fieldInfo)) continue;
         String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
         String field = fieldInfo.name;
@@ -48,7 +56,8 @@ extension ${className}Extension on $className {
 
         if (isDeepCloneField(fieldInfo)) {
           bool isAllowNull = fieldInfo.type.toString().endsWith('?');
-          copyWithContent += '$field: this.$field${isAllowNull ? '?' : ''}.merge($field),';
+          copyWithContent +=
+              '$field: this.$field${isAllowNull ? '?' : ''}.merge($field),';
         } else {
           copyWithContent += '$field: $field ?? this.$field,\n';
         }
@@ -66,14 +75,15 @@ extension ${className}Extension on $className {
     """;
   }
 
-  String generateMerge(bool enable, String className, List<FieldElement> classFields) {
+  String generateMerge(
+      bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
 
     String mergeContent = '';
 
     for (int i = 0; i < classFields.length; i++) {
-      if (classFields[i].declaration.isStatic == false) {
-        final fieldInfo = classFields[i].declaration;
+      final fieldInfo = classFields[i].declaration;
+      if (allowCopy(fieldInfo)) {
         if (isIgnoreField('merge', fieldInfo)) continue;
         final field = fieldInfo.name;
         if (isDeepCloneField(fieldInfo)) {
@@ -94,7 +104,8 @@ extension ${className}Extension on $className {
     """;
   }
 
-  String generateToString(bool enable, String className, List<FieldElement> classFields) {
+  String generateToString(
+      bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
 
     String toStringContent = '';
@@ -123,7 +134,9 @@ extension ${className}Extension on $className {
   bool isIgnoreField(String typeString, FieldElement fieldInfo) {
     bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
     if (isElModelField) {
-      var target = _modelFieldChecker.firstAnnotationOfExact(fieldInfo)!.getField('ignore')!;
+      var target = _modelFieldChecker
+          .firstAnnotationOfExact(fieldInfo)!
+          .getField('ignore')!;
       return target.getField(typeString)?.toBoolValue() ?? false;
     }
     return false;
@@ -136,7 +149,11 @@ extension ${className}Extension on $className {
       // 判断当前字段类型是否声明了 ElModel 注解，如果声明了 merge 方法，则属于深克隆字段
       bool isElModelField = _modelChecker.hasAnnotationOfExact(fieldElement);
       if (isElModelField) {
-        return _modelChecker.firstAnnotationOfExact(fieldElement)!.getField('merge')!.toBoolValue() ?? false;
+        return _modelChecker
+                .firstAnnotationOfExact(fieldElement)!
+                .getField('merge')!
+                .toBoolValue() ??
+            false;
       }
       // 判断当前字段类型是否包含了 merge 方法
       if (fieldElement.methods.map((method) => method.name).contains('merge')) {

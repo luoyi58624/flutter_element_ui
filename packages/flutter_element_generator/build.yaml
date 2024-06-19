@@ -4,20 +4,20 @@ targets:
       source_gen:combining_builder:
         options:
           build_extensions:
-            '^lib/styles/{{}}.dart': 'lib/generates/styles/{{}}.g.dart'
+            '^lib/{{}}.dart': 'lib/generates/{{}}.g.dart'
 
 builders:
   model:
     import: "package:flutter_element_generator/builder.dart"
     builder_factories: [ "modelBuilder" ]
     build_extensions: {".dart": [".g.part"]}
-    auto_apply: root_package
+    auto_apply: dependents
     build_to: cache
     applies_builders: ["source_gen:combining_builder"]
   component:
     import: "package:flutter_element_generator/builder.dart"
     builder_factories: [ "componentBuilder" ]
     build_extensions: { ".dart": [ ".g.part" ] }
-    auto_apply: root_package
+    auto_apply: dependents
     build_to: cache
     applies_builders: [ "source_gen:combining_builder" ]

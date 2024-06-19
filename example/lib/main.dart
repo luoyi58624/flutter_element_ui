@@ -16,25 +16,22 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Obx(() {
-        return MaterialApp.router(
-          routerConfig: router,
-          themeMode: GlobalController.of.isDark.value
-              ? ThemeMode.dark
-              : ThemeMode.light,
-          theme: ThemeData(),
-          darkTheme: ThemeData(brightness: Brightness.dark),
-          builder: (context, child) => ElTheme(
-            brightness: Theme.of(context).brightness,
-            textStyle: TextStyle(
-              fontFamily: FontUtil.fontFamily,
-              fontFamilyFallback: FontUtil.fontFamilyFallback,
-            ),
-            child: child!,
+    return Obx(() {
+      return MaterialApp.router(
+        routerConfig: router,
+        themeMode:
+            GlobalController.of.isDark.value ? ThemeMode.dark : ThemeMode.light,
+        theme: ThemeData(),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        builder: (context, child) => ElTheme(
+          brightness: Theme.of(context).brightness,
+          textStyle: TextStyle(
+            fontFamily: FontUtil.fontFamily,
+            fontFamilyFallback: FontUtil.fontFamilyFallback,
           ),
-        );
-      }),
-    );
+          child: child!,
+        ),
+      );
+    });
   }
 }

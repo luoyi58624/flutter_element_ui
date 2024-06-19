@@ -31,8 +31,8 @@ typedef _ButtonStyleProp = ({
 class ElButton extends StatelessWidget {
   const ElButton({
     super.key,
+    required this.onPressed,
     required this.child,
-    this.onPressed,
     this.width,
     this.height,
     this.bgColor,
@@ -91,13 +91,13 @@ class ElButton extends StatelessWidget {
   /// 块级按钮，宽度会充满容器，默认false
   final bool block;
 
-  /// 自定义按钮圆角，默认 4 像素，如果[round]为true，则强制渲染为圆角按钮
+  /// 自定义圆角
   final BorderRadiusGeometry? borderRadius;
 
-  /// 按钮外边距，默认为 4 像素，可以通过全局配置自定义
+  /// 自定义外边距
   final EdgeInsetsGeometry? margin;
 
-  /// 按钮内边距，默认水平间距 18 像素，可以通过全局配置自定义
+  /// 自定义内边距
   final EdgeInsetsGeometry? padding;
 
   /// 按钮左图标，默认null
@@ -118,7 +118,8 @@ class ElButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     themeTypeAssets(type);
-    final defaultStyle = context.elConfig.buttonStyle;
+    final elConfig = context.elConfig;
+    final defaultStyle = elConfig.buttonStyle;
     _ButtonStyleProp styleProp = (
       width: width,
       height: height ?? defaultStyle.height,
@@ -130,7 +131,9 @@ class ElButton extends StatelessWidget {
       plain: plain,
       round: round,
       block: block,
-      borderRadius: borderRadius ?? defaultStyle.borderRadius!,
+      borderRadius: borderRadius ??
+          defaultStyle.borderRadius ??
+          BorderRadius.circular(elConfig.radius),
       margin: margin ?? defaultStyle.margin,
       padding: padding ?? defaultStyle.padding,
       leftIcon: leftIcon,

@@ -19,6 +19,11 @@ class HomePage extends HookWidget {
               onPressed: addCount,
               type: 'primary',
             ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
             SelectionArea(
               child: Column(
                 children: [

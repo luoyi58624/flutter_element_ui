@@ -116,20 +116,22 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: GlobalState.elMenu,
-      builder: (context, value, child) => ElMenu(
-        menuList,
-        activePath: value.activePath,
-        collapse: value.isCollapse,
-        onChange: (menu) {
-          if (menu.path != null &&
-              menu.path != GlobalState.elMenu.value.activePath) {
-            context.go(menu.path!);
-            GlobalState.elMenu.value =
-                GlobalState.elMenu.value.copyWith(activePath: menu.path!);
-          }
-        },
+    return SafeArea(
+      child: ValueListenableBuilder(
+        valueListenable: GlobalState.elMenu,
+        builder: (context, value, child) => ElMenu(
+          menuList,
+          activePath: value.activePath,
+          collapse: value.isCollapse,
+          onChange: (menu) {
+            if (menu.path != null &&
+                menu.path != GlobalState.elMenu.value.activePath) {
+              context.go(menu.path!);
+              GlobalState.elMenu.value =
+                  GlobalState.elMenu.value.copyWith(activePath: menu.path!);
+            }
+          },
+        ),
       ),
     );
   }

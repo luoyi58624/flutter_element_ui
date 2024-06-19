@@ -1,40 +1,42 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class InputPage extends StatefulWidget {
+class InputPage extends HookWidget {
   const InputPage({super.key});
 
   @override
-  State<InputPage> createState() => _InputPageState();
-}
-
-class _InputPageState extends State<InputPage> {
-  Map<String, dynamic> formData = {};
-
-  @override
   Widget build(BuildContext context) {
-    // f.TextBox();
-    return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: SizedBox(
-            width: 640,
-            child: ElForm(
-              data: formData,
-              child: const SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 8),
-                    ElInput(),
-                    SizedBox(height: 8),
-                    TextField(),
-                  ],
+    final inputValue = useState('初始文本');
+    final inputValue2 = useState('hello');
+    final formData = useRef({'username': 'luoyi'});
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                ElInput(value: inputValue),
+                ElText('input: ${inputValue.value}'),
+                ElInput(
+                  value: 'hello',
+                  onChanged: (v) => inputValue2.value = v,
                 ),
-              ),
+                ElText('input: ${inputValue2.value}'),
+                const ElInput(value: {'username': 'luoyi'}),
+                const ElInput(),
+                ElInput(value: formData.value['username']),
+                ElButton(
+                  onPressed: () {
+                    formData.value['username'] = 'xxx';
+                  },
+                  child: '更新',
+                ),
+                ElText('input: ${formData.value}'),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

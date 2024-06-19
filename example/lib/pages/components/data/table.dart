@@ -37,9 +37,19 @@ class _TablePageState extends State<TablePage> {
             render: (dataItem) => const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElButton(child: '编辑', link: true, type: 'primary'),
+                ElButton(
+                  onPressed: null,
+                  child: '编辑',
+                  link: true,
+                  type: 'primary',
+                ),
                 Gap(4),
-                ElButton(child: '删除', link: true, type: 'error'),
+                ElButton(
+                  onPressed: null,
+                  child: '删除',
+                  link: true,
+                  type: 'error',
+                ),
               ],
             ),
           ),

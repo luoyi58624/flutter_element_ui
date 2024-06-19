@@ -65,7 +65,7 @@ class ElTheme extends StatelessWidget {
   /// 所以我决定在所有设计系统的根节点下创建一个新的默认文本，而不是继承父级，否则对于新手而言，可能会造成一脸懵逼。
   final TextStyle? textStyle;
 
-  /// 定义平台应用的主题模式，如果为空则跟随系统，建议将该值和你的顶级 App 组件绑定，示例：
+  /// 定义平台应用的主题模式，如果为空则跟随系统，建议将该值和你的顶级 App 组件进行绑定，示例：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElTheme(
@@ -76,7 +76,13 @@ class ElTheme extends StatelessWidget {
   /// ```
   final Brightness? brightness;
 
-  /// 自定义全局滚动行为
+  /// 自定义全局滚动行为，默认使用[ElScrollBehavior]
+  /// * 在桌面端，滚动容器会自动应用[ElScrollbar]
+  /// * 在移动端，滚动容器会自动应用[Scrollbar]
+  ///
+  /// 注意：如果你在某个滚动容器上应用自定义滚动条，你必须嵌套[ScrollConfiguration]移除默认的滚动条，
+  /// 否则 Flutter 将绘制两个重叠的滚动条，这种行为是正常现象，新建空白项目嵌套自定义滚动条在桌面端同样存在问题，
+  /// Flutter桌面端默认使用[Scrollbar]，请使用[CupertinoScrollbar]进行测试。
   final ScrollBehavior? behavior;
 
   /// 根节点导航key，如果你用到一些依赖路由的Api，请设置它，因为 Element UI 内部需要通过它实现无 context 跳转
@@ -101,13 +107,15 @@ class ElTheme extends StatelessWidget {
         brightness: brightness,
         child: Builder(builder: (context) {
           TextStyle $style = (textStyle ?? const TextStyle()).copyWith(
+              fontSize: $data.config.fonSize,
               color: context.isDark
                   ? $data.darkTheme.textColor
                   : $data.theme.textColor);
-          return DefaultTextStyle(
-            style: $style,
+          return Material(
+            surfaceTintColor: Colors.transparent,
+            textStyle: $style,
             child: ElIconTheme(
-              size: 18,
+              size: $data.config.iconSize,
               color: context.isDark
                   ? $data.darkTheme.iconColor
                   : $data.theme.iconColor,

@@ -20,10 +20,7 @@ dependencies:
   url_launcher: ^6.3.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
   flutter_lints: ^4.0.0
-  build_runner: ^2.4.10
 
 dependency_overrides:
   luoyi_flutter_base:

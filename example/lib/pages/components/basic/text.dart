@@ -35,6 +35,7 @@ class TextPage extends StatelessWidget {
             const ElText('呃呃呃'),
             const ElText('xxx'),
             const ElButton(
+              onPressed: null,
               child: 'https://www.baidu.com',
               link: true,
             ),

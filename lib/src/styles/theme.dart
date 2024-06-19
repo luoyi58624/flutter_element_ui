@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'basic/button.dart';
+import 'basic/input.dart';
 
 part '../generates/styles/theme.g.dart';
 
@@ -52,6 +54,9 @@ class ElColorThemeData {
   /// 边框颜色
   Color borderColor;
 
+  /// 边框悬停颜色
+  Color get borderHoverColor => borderColor.deepen(16);
+
   /// 菜单栏背景色
   Color menuBackground;
 
@@ -63,10 +68,6 @@ class ElColorThemeData {
 
   /// 模态弹窗海拔高度
   double modalElevation;
-
-  /// 根据图标颜色自动创建一组次级颜色: 0 - 5
-  @ElModelField(ignore: ElModel.all())
-  late final List<Color> iconColors;
 
   /// 默认的亮色主题构造函数
   ElColorThemeData({
@@ -116,22 +117,30 @@ class ElColorThemeData {
 class ElConfigData {
   static ElConfigData config = ElConfigData();
 
-  /// 默认的icon大小
+  /// 全局默认文字大小
+  double fonSize;
+
+  /// 全局默认图标大小，仅限[ElIcon]
   double iconSize;
+
+  /// 全局基础控件圆角值: button、input
+  double radius;
+
+  /// 全局卡片圆角值
+  double cardRadius;
 
   /// 按钮全局样式
   ElButtonStyle buttonStyle;
 
-  /// 输入框全局圆角值
-  double inputRadius;
-
-  /// 卡片全局圆角值
-  double cardRadius;
+  /// 输入框全局样式
+  ElInputStyle inputStyle;
 
   ElConfigData({
+    this.fonSize = 14,
     this.iconSize = 20,
-    this.buttonStyle = const ElButtonStyle(),
+    this.radius = 4,
     this.cardRadius = 6,
-    this.inputRadius = 4,
+    this.buttonStyle = const ElButtonStyle(),
+    this.inputStyle = const ElInputStyle(),
   });
 }

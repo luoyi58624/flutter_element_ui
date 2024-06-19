@@ -12,11 +12,6 @@ class ElScrollBehavior extends ScrollBehavior {
   const ElScrollBehavior();
 
   /// 桌面端默认使用[ElScrollbar]，移动端则使用[Scrollbar]
-  ///
-  /// 注意：大多数情况下你不需要再嵌套一个滚动条，如果你需要自定义全局滚动条，最好的方式是
-  /// 新建一个类并继承[ElScrollBehavior]，重写[buildScrollbar]方法即可；
-  /// 如果你想实现局部自定义滚动条，那么你必须在当前滚动容器上嵌套新的[ScrollConfiguration]，
-  /// 否则滚动条会出现重叠，还有，自定义滚动条必须创建滚动控制器，否则桌面端无法拖动。
   @override
   Widget buildScrollbar(
       BuildContext context, Widget child, ScrollableDetails details) {
@@ -41,6 +36,7 @@ class ElScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details) {
+    // 如果是安卓平台，统一使用 M3 的过度滚动效果
     if (PlatformUtil.isAndroid) {
       return StretchingOverscrollIndicator(
         axisDirection: details.direction,
