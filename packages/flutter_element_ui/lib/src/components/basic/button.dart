@@ -97,7 +97,7 @@ class ElButton extends StatelessWidget {
   /// 按钮外边距，默认为 4 像素，可以通过全局配置自定义
   final EdgeInsetsGeometry? margin;
 
-  /// 按钮内边距，默认设置水平内边距为高度一半
+  /// 按钮内边距，默认水平间距 18 像素，可以通过全局配置自定义
   final EdgeInsetsGeometry? padding;
 
   /// 按钮左图标，默认null
@@ -140,12 +140,14 @@ class ElButton extends StatelessWidget {
       loading: loading,
     );
     var currentWidget = SelectionContainer.disabled(
-      child: HoverBuilder(
-        disabled: disabled,
-        builder: ($isHover) => TapBuilder(
-          onTap: onPressed,
+      child: Focus(
+        child: HoverBuilder(
           disabled: disabled,
-          builder: ($isTap) => _Button(child, styleProp),
+          builder: ($isHover) => TapBuilder(
+            onTap: onPressed,
+            disabled: disabled,
+            builder: ($isTap) => _Button(child, styleProp),
+          ),
         ),
       ),
     );
@@ -270,6 +272,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
         : textColor.value = $defaultTextColor
             .onHover($isHover, $defaultTextColor.withOpacity(_opacity))
             .onTap($isTap, $defaultTextColor.elTap(context));
+    borderColor.value = null;
     if (style.disabled) {
       textColor.value = textColor.value!.withOpacity(_opacity);
     }
@@ -282,7 +285,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     $isThemeType
         ? textColor.value = context.themeTypeColors[style.type]!
         : textColor.value = $defaultTextColor;
-
+    borderColor.value = null;
     if (style.disabled) {
       textColor.value = textColor.value!.withOpacity(_opacity);
     }
@@ -335,6 +338,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
             : $isHover
                 ? $primaryColor.elHover(context)
                 : $primaryColor;
+        borderColor.value = null;
       }
     }
 
@@ -361,7 +365,12 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   return (
     bgColor: bgColor.value,
     textColor: textColor.value,
-    border:
-        borderColor.value != null ? Border.all(color: borderColor.value!) : null
+    border: borderColor.value != null
+        ? Border.all(
+            color: borderColor.value!,
+            width: 1,
+            // strokeAlign: BorderSide.strokeAlignOutside,
+          )
+        : null
   );
 }

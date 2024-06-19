@@ -27,6 +27,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   path: '/components/basic/button',
                 ),
                 ElMenuModel(
+                  title: 'Text 文字',
+                  path: '/components/basic/text',
+                ),
+                ElMenuModel(
                   title: 'Color 颜色',
                   path: '/components/basic/color',
                 ),
@@ -100,7 +104,8 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   title: '子菜单3-${index + 1}',
                   children: List.generate(
                     10,
-                    (secondIndex) => ElMenuModel(title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
+                    (secondIndex) => ElMenuModel(
+                        title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
                   ).toList(),
                 ),
               ).toList(),
@@ -118,9 +123,11 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
         activePath: value.activePath,
         collapse: value.isCollapse,
         onChange: (menu) {
-          if (menu.path != null && menu.path != GlobalState.elMenu.value.activePath) {
+          if (menu.path != null &&
+              menu.path != GlobalState.elMenu.value.activePath) {
             context.go(menu.path!);
-            GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(activePath: menu.path!);
+            GlobalState.elMenu.value =
+                GlobalState.elMenu.value.copyWith(activePath: menu.path!);
           }
         },
       ),

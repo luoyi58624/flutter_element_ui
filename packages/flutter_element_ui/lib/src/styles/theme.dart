@@ -132,6 +132,6 @@ class ElConfigData {
     this.iconSize = 20,
     this.buttonStyle = const ElButtonStyle(),
     this.cardRadius = 6,
-    this.inputRadius = 6,
+    this.inputRadius = 4,
   });
 }

@@ -14,20 +14,23 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     // f.TextBox();
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Center(
-        child: SizedBox(
-          width: 640,
-          child: ElForm(
-            data: formData,
-            child: const SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 8),
-                  ElInput(),
-                  SizedBox(height: 8),
-                ],
+    return Material(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: SizedBox(
+            width: 640,
+            child: ElForm(
+              data: formData,
+              child: const SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 8),
+                    ElInput(),
+                    SizedBox(height: 8),
+                    TextField(),
+                  ],
+                ),
               ),
             ),
           ),

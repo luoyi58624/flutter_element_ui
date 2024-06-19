@@ -47,41 +47,49 @@ class _ElInputState extends State<ElInput> {
   @override
   Widget build(BuildContext context) {
     // return TextField();
-    return Container(
-      height: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: 36,
+      // padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        border: Border.all(width: 1, color: hasFocus ? context.elTheme.primary : context.elTheme.borderColor),
+        border: Border.all(
+            width: 1,
+            color: hasFocus
+                ? context.elTheme.primary
+                : context.elTheme.borderColor),
         borderRadius: BorderRadius.circular(context.elConfig.inputRadius),
       ),
       child: RepaintBoundary(
         child: EditableText(
           controller: controller,
           focusNode: focusNode,
+          expands: true,
+          minLines: null,
+          maxLines: null,
           style: TextStyle(
             color: context.elTheme.textColor,
-            height: 1.8,
+            // height: 1.8,
           ),
-          strutStyle: const StrutStyle(
-            forceStrutHeight: true,
-          ),
+          // strutStyle: const StrutStyle(
+          //   forceStrutHeight: true,
+          // ),
           textHeightBehavior: const TextHeightBehavior(
             applyHeightToFirstAscent: false,
             applyHeightToLastDescent: false,
           ),
           cursorColor: context.elTheme.textColor,
           cursorWidth: 1,
-          cursorHeight: 18,
-          cursorOffset: const Offset(0, 3),
+          // cursorHeight: 18,
+          // cursorOffset: const Offset(0, 3),
           backgroundCursorColor: context.elTheme.info.withOpacity(0.6),
           selectionColor: context.elTheme.primary.withOpacity(0.6),
-          enableInteractiveSelection: true,
-          enableSuggestions: false,
-          enableIMEPersonalizedLearning: true,
-          showSelectionHandles: false,
-          selectionControls: MaterialTextSelectionControls(),
-          selectionHeightStyle: BoxHeightStyle.includeLineSpacingMiddle,
-          dragStartBehavior: DragStartBehavior.start,
+          // enableInteractiveSelection: true,
+          // enableSuggestions: false,
+          // enableIMEPersonalizedLearning: true,
+          // showSelectionHandles: false,
+          // selectionControls: MaterialTextSelectionControls(),
+          // selectionHeightStyle: BoxHeightStyle.includeLineSpacingMiddle,
+          // dragStartBehavior: DragStartBehavior.start,
           onSelectionChanged: (selection, cause) {},
         ),
       ),

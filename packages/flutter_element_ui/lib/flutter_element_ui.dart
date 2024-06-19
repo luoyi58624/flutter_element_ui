@@ -10,6 +10,7 @@ export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
+export 'src/components/basic/text.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/table/config.dart';
 export 'src/components/data/avatar.dart';

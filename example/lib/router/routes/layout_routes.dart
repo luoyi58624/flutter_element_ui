@@ -7,6 +7,7 @@ import 'package:example/pages/components/form/input.dart';
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
 import '../../pages/components/basic/color.dart';
+import '../../pages/components/basic/text.dart';
 import '../../pages/components/data/table.dart';
 import '../../pages/home.dart';
 import '../../pages/test/border.dart';
@@ -36,6 +37,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsBasic/button',
           builder: (context, state) => const ButtonPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsBasic/text',
+          builder: (context, state) => const TextPage(),
         ),
       ],
     ),
