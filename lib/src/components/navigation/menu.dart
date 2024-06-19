@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extension.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -305,10 +306,12 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
               ),
             if (!_ElMenuData.of(context).collapse)
               Expanded(
-                child: P(
+                child: ElText(
                   widget.menuItem.title,
-                  size: 14,
-                  color: menuItemColor,
+                  style: TextStyle(
+                    color: menuItemColor,
+                    fontSize: 14,
+                  ),
                   // maxLines: 1,
                   // overflow: TextOverflow.clip,
                 ),

@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_element_ui:
-    path: ../packages/flutter_element_ui
+    path: ..
   faker: ^2.1.0
   super_sliver_list: ^0.4.1
   decimal: ^3.0.0

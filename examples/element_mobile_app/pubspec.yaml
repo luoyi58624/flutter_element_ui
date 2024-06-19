@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_element_ui:
-    path: ../../packages/flutter_element_ui
+    path: ../..
   luoyi_flutter_base:
     git:
       url: https://github.com/luoyi58624/luoyi_flutter_base.git

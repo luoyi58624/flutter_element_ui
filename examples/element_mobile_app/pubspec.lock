@@ -128,7 +128,7 @@ packages:
   flutter_element_ui:
     dependency: "direct main"
     description:
-      path: "../../packages/flutter_element_ui"
+      path: "../.."
       relative: true
     source: path
     version: "0.0.1"
