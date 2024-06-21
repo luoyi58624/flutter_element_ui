@@ -52,8 +52,8 @@ class ElFormInheritedWidget extends InheritedWidget {
 class ElForm extends StatefulWidget {
   const ElForm({
     super.key,
-    required this.child,
     required this.model,
+    required this.child,
     this.labelWidth,
     this.labelPosition = ElFormLabelPosition.left,
     this.labelAlign = ElFormLabelAlign.start,
@@ -62,7 +62,7 @@ class ElForm extends StatefulWidget {
   final Widget child;
 
   /// 表单数据
-  final dynamic model;
+  final Map<String, dynamic> model;
 
   /// [FormItemWidget] label的默认宽度
   final double? labelWidth;

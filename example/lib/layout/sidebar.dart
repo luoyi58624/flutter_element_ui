@@ -48,6 +48,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   title: 'Input 输入框',
                   path: '/components/form/input',
                 ),
+                ElMenuModel(
+                  title: 'Form 表单',
+                  path: '/components/form/form',
+                ),
               ],
             ),
             ElMenuModel(
