@@ -20,12 +20,7 @@ class ElInput extends HookWidget {
     this.onChanged,
   });
 
-  /// input初始值，你可以传递任意类型的数据，但是，它们都会统一转成字符串，因为输入框本身只接收字符串，
-  /// 我推荐你使用[flutter_hooks]，传递[useState]响应式变量可以很方便的实现双向绑定，示例：
-  /// ```dart
-  /// final inputValue = useState('');
-  /// ElInput(value: inputValue);
-  /// ```
+  /// input初始值，你可以传递任意类型的数据，如果传递的是[ValueNotifier]，那么会自动同步
   final dynamic value;
 
   /// 输入框高度

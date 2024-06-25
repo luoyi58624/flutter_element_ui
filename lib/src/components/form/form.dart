@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 /// label所在的位置
 enum ElFormLabelPosition {
@@ -23,32 +24,6 @@ enum ElFormTextInputType {
   password, // 密码，注意：若文本框为密码类型，则不会显示清除图标
 }
 
-/// 用于向子组件共享的表单数据
-class ElFormInheritedWidget extends InheritedWidget {
-  const ElFormInheritedWidget({
-    super.key,
-    required super.child,
-    this.labelWidth,
-    required this.labelPosition,
-    required this.labelAlign,
-  });
-
-  final double? labelWidth;
-  final ElFormLabelPosition labelPosition;
-  final ElFormLabelAlign labelAlign;
-
-  /// 子孙组件通过of获取的数据，当父组件发生更改时将会自动重建，
-  /// dependOnInheritedWidgetOfExactType表示通知依赖它的组件重新构建
-  static ElFormInheritedWidget? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ElFormInheritedWidget>();
-  }
-
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-  }
-}
-
 class ElForm extends StatefulWidget {
   const ElForm({
     super.key,
@@ -62,7 +37,7 @@ class ElForm extends StatefulWidget {
   final Widget child;
 
   /// 表单数据
-  final Map<String, dynamic> model;
+  final Obs<Map<String, dynamic>> model;
 
   /// [FormItemWidget] label的默认宽度
   final double? labelWidth;
@@ -73,6 +48,10 @@ class ElForm extends StatefulWidget {
   /// [FormItemWidget] label的默认对齐方式
   final ElFormLabelAlign labelAlign;
 
+  /// 从当前上下文获取表单数据
+  static ElFormData of(BuildContext context) =>
+      _ElFormInheritedWidget.of(context);
+
   @override
   State<ElForm> createState() => _ElFormState();
 }
@@ -82,14 +61,57 @@ class _ElFormState extends State<ElForm> {
 
   @override
   Widget build(BuildContext context) {
-    return ElFormInheritedWidget(
-      labelWidth: widget.labelWidth,
-      labelPosition: widget.labelPosition,
-      labelAlign: widget.labelAlign,
+    return _ElFormInheritedWidget(
+      data: ElFormData(
+        model: widget.model,
+        labelWidth: widget.labelWidth,
+        labelPosition: widget.labelPosition,
+        labelAlign: widget.labelAlign,
+      ),
       child: Form(
         key: formKey,
         child: widget.child,
       ),
     );
   }
+}
+
+class ElFormData {
+  /// 表单模型数据
+  final Obs<Map<String, dynamic>> model;
+
+  /// [FormItemWidget] label的默认宽度
+  final double? labelWidth;
+
+  /// [FormItemWidget] label的默认位置
+  final ElFormLabelPosition labelPosition;
+
+  /// [FormItemWidget] label的默认对齐方式
+  final ElFormLabelAlign labelAlign;
+
+  ElFormData({
+    required this.model,
+    required this.labelWidth,
+    required this.labelPosition,
+    required this.labelAlign,
+  });
+}
+
+class _ElFormInheritedWidget extends InheritedWidget {
+  const _ElFormInheritedWidget({
+    required super.child,
+    required this.data,
+  });
+
+  final ElFormData data;
+
+  static ElFormData of(BuildContext context) {
+    final _ElFormInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_ElFormInheritedWidget>();
+    assert(result != null, 'No _ElFormInheritedWidget found in context');
+    return result!.data;
+  }
+
+  @override
+  bool updateShouldNotify(_ElFormInheritedWidget oldWidget) => true;
 }

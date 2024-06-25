@@ -1,7 +1,7 @@
 library flutter_element_ui;
 
 export 'package:luoyi_flutter_base/luoyi_flutter_base.dart'
-    show BrightnessWidget;
+    show BrightnessWidget, Obs, ObsBuilder, useObs;
 export 'src/common.dart' hide elRootNavigatorKey;
 export 'src/extension.dart' show ElThemeExtension;
 export 'src/theme.dart';

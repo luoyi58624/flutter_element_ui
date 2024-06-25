@@ -9,6 +9,7 @@ class InputPage extends HookWidget {
     final inputValue = useState('初始文本');
     final inputValue2 = useState('hello');
     final formData = useRef({'username': 'luoyi'});
+    final inputValue3 = Obs('name');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -33,6 +34,10 @@ class InputPage extends HookWidget {
                   child: '更新',
                 ),
                 ElText('input: ${formData.value}'),
+                ElInput(value: inputValue3),
+                ObsBuilder(builder: (context) {
+                  return Text('obs input: ${inputValue3.value}');
+                }),
               ],
             ),
           ),
