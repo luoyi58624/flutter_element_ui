@@ -19,15 +19,9 @@ class HomePage extends HookWidget {
               onPressed: addCount,
               type: 'primary',
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-              ),
-            ),
             SelectionArea(
               child: Column(
                 children: [
-                  const H3('选中区域'),
                   ElButton(child: 'count: $count', onPressed: addCount),
                   ElButton(
                     child: 'count: $count',
