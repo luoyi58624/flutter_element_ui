@@ -49,6 +49,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   path: '/components/form/input',
                 ),
                 ElMenuModel(
+                  title: 'Radio 单选框',
+                  path: '/components/form/radio',
+                ),
+                ElMenuModel(
                   title: 'Form 表单',
                   path: '/components/form/form',
                 ),

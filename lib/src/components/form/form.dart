@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/src/components/form/form_item.dart';
 
 /// label所在的位置
 enum ElFormLabelPosition {
@@ -28,16 +28,17 @@ class ElForm extends StatefulWidget {
   const ElForm({
     super.key,
     required this.model,
-    required this.child,
+    required this.children,
     this.labelWidth,
     this.labelPosition = ElFormLabelPosition.left,
     this.labelAlign = ElFormLabelAlign.start,
+    this.inline = false,
   });
 
-  final Widget child;
+  final List<ElFormItem> children;
 
-  /// 表单数据
-  final Obs<Map<String, dynamic>> model;
+  /// 表单模型数据
+  final Map<String, dynamic> model;
 
   /// [FormItemWidget] label的默认宽度
   final double? labelWidth;
@@ -47,6 +48,9 @@ class ElForm extends StatefulWidget {
 
   /// [FormItemWidget] label的默认对齐方式
   final ElFormLabelAlign labelAlign;
+
+  /// 是否为行内表单，当表单内容很简单时，设置一行展示可以节省空间
+  final bool inline;
 
   /// 从当前上下文获取表单数据
   static ElFormData of(BuildContext context) =>
@@ -70,7 +74,13 @@ class _ElFormState extends State<ElForm> {
       ),
       child: Form(
         key: formKey,
-        child: widget.child,
+        child: widget.inline
+            ? Row(
+                children: widget.children,
+              )
+            : Column(
+                children: widget.children,
+              ),
       ),
     );
   }
@@ -78,7 +88,7 @@ class _ElFormState extends State<ElForm> {
 
 class ElFormData {
   /// 表单模型数据
-  final Obs<Map<String, dynamic>> model;
+  final Map<String, dynamic> model;
 
   /// [FormItemWidget] label的默认宽度
   final double? labelWidth;
@@ -105,12 +115,9 @@ class _ElFormInheritedWidget extends InheritedWidget {
 
   final ElFormData data;
 
-  static ElFormData of(BuildContext context) {
-    final _ElFormInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_ElFormInheritedWidget>();
-    assert(result != null, 'No _ElFormInheritedWidget found in context');
-    return result!.data;
-  }
+  static ElFormData of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElFormInheritedWidget>()!
+      .data;
 
   @override
   bool updateShouldNotify(_ElFormInheritedWidget oldWidget) => true;

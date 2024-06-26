@@ -12,7 +12,7 @@ class ElButtonStyle {
     this.height = 36,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
-    this.padding = const EdgeInsets.symmetric(horizontal: 18),
+    this.padding = const EdgeInsets.symmetric(horizontal: 20),
   }) : assert(height >= 24, 'button min height is 24');
 
   /// 按钮高度

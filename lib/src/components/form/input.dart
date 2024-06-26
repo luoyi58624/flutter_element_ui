@@ -9,6 +9,13 @@ typedef _InputStyleProp = ({
   EdgeInsetsGeometry? padding,
 });
 
+/// Element UI 输入框组件
+/// ```dart
+/// ElInput(
+///   value: inputValue,
+///   onChanged: (v) => setState(() => inputValue = v),
+/// ),
+/// ```
 class ElInput extends StatefulWidget {
   const ElInput({
     super.key,

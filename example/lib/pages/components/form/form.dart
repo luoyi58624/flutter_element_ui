@@ -3,15 +3,21 @@ import 'dart:core';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class FormPage extends HookWidget {
+class FormPage extends StatefulWidget {
   const FormPage({super.key});
 
   @override
+  State<FormPage> createState() => _FormPageState();
+}
+
+class _FormPageState extends State<FormPage> {
+  final formData = {
+    'username': '',
+    'count': 0,
+  };
+
+  @override
   Widget build(BuildContext context) {
-    final formData = useObs({
-      'count': 0,
-      'username': '',
-    });
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -19,20 +25,36 @@ class FormPage extends HookWidget {
           children: [
             ElForm(
               model: formData,
-              child: Column(
-                children: [
-                  ObsBuilder(builder: (context) {
-                    return ElButton(
-                      onPressed: () {
-                        formData.value['count'] =
-                            (formData.value['count'] as int) + 1;
-                        formData.notify();
-                      },
-                      child: 'count：${formData.value['count']}',
-                    );
-                  }),
-                ],
-              ),
+              children: [
+                const ElFormItem(
+                  label: '用户名: ',
+                  prop: 'username',
+                  child: ElInput(),
+                ),
+                const ElFormItem(
+                  label: '用户名: ',
+                  prop: 'username',
+                  child: ElInput(),
+                ),
+                ElFormItem(
+                  child: Row(
+                    children: [
+                      ElButton(
+                        onPressed: () {},
+                        type: 'primary',
+                        child: '提 交',
+                      ),
+                      ElButton(
+                        onPressed: () {
+                          formData['count'] = (formData['count'] as int) + 1;
+                          setState(() {});
+                        },
+                        child: '重 置',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
