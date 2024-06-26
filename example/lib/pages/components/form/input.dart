@@ -1,15 +1,20 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class InputPage extends HookWidget {
+class InputPage extends StatefulHookWidget {
   const InputPage({super.key});
 
   @override
+  State<InputPage> createState() => _InputPageState();
+}
+
+class _InputPageState extends State<InputPage> {
+  String inputValue = 'StatefulWidget';
+
+  @override
   Widget build(BuildContext context) {
-    final inputValue = useState('初始文本');
-    final inputValue2 = useState('hello');
-    final formData = useRef({'username': 'luoyi'});
-    final inputValue3 = Obs('name');
+    final stateValue = useState('useState');
+    final obsValue = useObs('obs');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -17,26 +22,47 @@ class InputPage extends HookWidget {
           SingleChildScrollView(
             child: Column(
               children: [
-                ElInput(value: inputValue),
-                ElText('input: ${inputValue.value}'),
+                const ElText('========== StatefulWidget 传统写法 ==========='),
+                const Gap(24),
+                ElText(inputValue),
                 ElInput(
-                  value: 'hello',
-                  onChanged: (v) => inputValue2.value = v,
+                  value: inputValue,
+                  height: 50,
+                  onChanged: (v) => setState(() => inputValue = v),
                 ),
-                ElText('input: ${inputValue2.value}'),
-                const ElInput(value: {'username': 'luoyi'}),
-                const ElInput(),
-                ElInput(value: formData.value['username']),
-                ElButton(
-                  onPressed: () {
-                    formData.value['username'] = 'xxx';
-                  },
-                  child: '更新',
+                ElInput(
+                  value: inputValue,
+                  onChanged: (v) => setState(() => inputValue = v),
                 ),
-                ElText('input: ${formData.value}'),
-                ElInput(value: inputValue3),
+                const Gap(50),
+                const ElText('========== Hook 写法 ==========='),
+                const Gap(24),
+                ElText(stateValue.value),
+                ElInput(
+                  value: stateValue.value,
+                  onChanged: (v) => stateValue.value = v,
+                ),
+                ElInput(
+                  value: stateValue.value,
+                  onChanged: (v) => stateValue.value = v,
+                ),
+                const Gap(50),
+                const ElText('========== Obs 写法 ==========='),
+                const Gap(24),
                 ObsBuilder(builder: (context) {
-                  return Text('obs input: ${inputValue3.value}');
+                  return ElText(obsValue.value);
+                }),
+                ObsBuilder(builder: (context) {
+                  return ElInput(
+                    value: obsValue.value,
+                    onChanged: (v) => obsValue.value = v,
+                  );
+                }),
+                ObsBuilder(builder: (context) {
+                  return ElInput(
+                    value: obsValue.value,
+                    onChanged: (v) => obsValue.value = v,
+                  );
                 }),
               ],
             ),

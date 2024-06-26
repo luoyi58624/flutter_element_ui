@@ -9,10 +9,11 @@ typedef _InputStyleProp = ({
   EdgeInsetsGeometry? padding,
 });
 
-class ElInput extends HookWidget {
+class ElInput extends StatefulWidget {
   const ElInput({
     super.key,
     this.value,
+    this.controller,
     this.height,
     this.borderRadius,
     this.margin,
@@ -20,8 +21,11 @@ class ElInput extends HookWidget {
     this.onChanged,
   });
 
-  /// input初始值，你可以传递任意类型的数据，如果传递的是[ValueNotifier]，那么会自动同步
-  final dynamic value;
+  /// input输入框内容，当它发生改变时会实时同步到Input
+  final String? value;
+
+  /// 自定义输入框控制器
+  final TextEditingController? controller;
 
   /// 输入框高度
   final double? height;
@@ -38,24 +42,41 @@ class ElInput extends HookWidget {
   /// 监听输入框内容更新事件
   final ValueChanged<String>? onChanged;
 
-  /// 是否是响应式
-  bool get isModelValue => value is ValueNotifier;
+  @override
+  State<ElInput> createState() => _ElInputState();
+}
+
+class _ElInputState extends State<ElInput> {
+  late final TextEditingController controller =
+      widget.controller ?? TextEditingController(text: widget.value);
+  final focusNode = FocusNode();
+
+  get elConfig => context.elConfig;
+
+  get defaultStyle => elConfig.inputStyle;
+
+  _InputStyleProp get styleProp => (
+        height: widget.height ?? defaultStyle.height,
+        borderRadius: widget.borderRadius ??
+            defaultStyle.borderRadius ??
+            BorderRadius.circular(elConfig.radius),
+        margin: widget.margin ?? defaultStyle.margin,
+        padding: widget.padding ?? defaultStyle.padding,
+      );
+
+  @override
+  void didUpdateWidget(covariant ElInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      final String newText = widget.value ?? '';
+      controller.value = controller.value.copyWith(
+        text: newText,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final elConfig = context.elConfig;
-    final defaultStyle = elConfig.inputStyle;
-    _InputStyleProp styleProp = (
-      height: height ?? defaultStyle.height,
-      borderRadius: borderRadius ??
-          defaultStyle.borderRadius ??
-          BorderRadius.circular(elConfig.radius),
-      margin: margin ?? defaultStyle.margin,
-      padding: padding ?? defaultStyle.padding,
-    );
-    final textController = useTextEditingController(
-        text: value == null ? '' : (isModelValue ? value.value : '$value'));
-    final focusNode = useFocusNode();
     return Container(
       height: styleProp.height,
       margin: styleProp.margin,
@@ -70,18 +91,17 @@ class ElInput extends HookWidget {
           builder: (isHover) {
             return Builder(builder: (context) {
               return TextField(
-                controller: textController,
+                controller: controller,
                 focusNode: focusNode,
                 style: TextStyle(
                   color: context.elTheme.textColor,
                   fontSize: context.elConfig.fonSize,
                 ),
-                decoration: _buildInputDecoration(context, styleProp),
+                decoration: _buildInputDecoration(context),
                 cursorColor: context.elTheme.textColor,
                 cursorWidth: 1,
                 onChanged: (v) {
-                  if (isModelValue) (value as ValueNotifier).value = v;
-                  if (onChanged != null) onChanged!(v);
+                  if (widget.onChanged != null) widget.onChanged!(v);
                 },
               );
             });
@@ -91,12 +111,12 @@ class ElInput extends HookWidget {
     );
   }
 
-  InputDecoration _buildInputDecoration(
-      BuildContext context, _InputStyleProp styleProp) {
+  InputDecoration _buildInputDecoration(BuildContext context) {
     return InputDecoration(
       contentPadding: styleProp.padding,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
+          width: HoverBuilder.of(context) ? 1.2 : 1,
           color: HoverBuilder.of(context)
               ? context.elTheme.borderHoverColor
               : context.elTheme.borderColor,
@@ -104,6 +124,7 @@ class ElInput extends HookWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
+          width: 2,
           color: context.elTheme.primary,
         ),
       ),
