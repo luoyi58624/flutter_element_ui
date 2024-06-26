@@ -4,6 +4,7 @@ import 'package:example/pages/components/data/badge.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
 import 'package:example/pages/components/form/radio.dart';
+import 'package:example/pages/components/form/switch.dart';
 
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
@@ -79,6 +80,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '$_componentsForm/radio',
           builder: (context, state) => const RadioPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsForm/switch',
+          builder: (context, state) => const SwitchPage(),
         ),
       ],
     ),

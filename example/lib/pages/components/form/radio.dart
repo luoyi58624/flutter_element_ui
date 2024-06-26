@@ -18,17 +18,18 @@ class _RadioPageState extends State<RadioPage> {
       child: Column(
         children: [
           ElRadioGroup(
-              onChanged: (v) {
-                setState(() {
-                  selected = v;
-                });
-              },
-              value: selected,
-              children: const [
-                ElRadio(label: '选项一', value: 1),
-                ElRadio(label: '选项二', value: 2),
-                ElRadio(label: '选项三', value: 3),
-              ]),
+            onChanged: (v) {
+              setState(() {
+                selected = v;
+              });
+            },
+            value: selected,
+            children: const [
+              ElRadio(label: '选项一', value: 1),
+              ElRadio(label: '选项二', value: 2),
+              ElRadio(label: '选项三', value: 3),
+            ],
+          ),
         ],
       ),
     );

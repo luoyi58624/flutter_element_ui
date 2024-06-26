@@ -33,6 +33,7 @@ class ElForm extends StatefulWidget {
     this.labelPosition = ElFormLabelPosition.left,
     this.labelAlign = ElFormLabelAlign.start,
     this.inline = false,
+    this.padding = EdgeInsets.zero,
   });
 
   final List<ElFormItem> children;
@@ -52,15 +53,18 @@ class ElForm extends StatefulWidget {
   /// 是否为行内表单，当表单内容很简单时，设置一行展示可以节省空间
   final bool inline;
 
+  /// 表单内边距
+  final EdgeInsetsGeometry padding;
+
   /// 从当前上下文获取表单数据
-  static ElFormData of(BuildContext context) =>
+  static ElFormData? of(BuildContext context) =>
       _ElFormInheritedWidget.of(context);
 
   @override
-  State<ElForm> createState() => _ElFormState();
+  State<ElForm> createState() => ElFormState();
 }
 
-class _ElFormState extends State<ElForm> {
+class ElFormState extends State<ElForm> {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -74,15 +78,28 @@ class _ElFormState extends State<ElForm> {
       ),
       child: Form(
         key: formKey,
-        child: widget.inline
-            ? Row(
-                children: widget.children,
-              )
-            : Column(
-                children: widget.children,
-              ),
+        child: Padding(
+          padding: widget.padding,
+          child: widget.inline
+              ? Row(
+                  children: widget.children,
+                )
+              : Column(
+                  children: widget.children,
+                ),
+        ),
       ),
     );
+  }
+
+  /// 验证表单
+  bool validate() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  /// 重置表单
+  void reset() {
+    formKey.currentState?.reset();
   }
 }
 
@@ -115,9 +132,9 @@ class _ElFormInheritedWidget extends InheritedWidget {
 
   final ElFormData data;
 
-  static ElFormData of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<_ElFormInheritedWidget>()!
-      .data;
+  static ElFormData? of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElFormInheritedWidget>()
+      ?.data;
 
   @override
   bool updateShouldNotify(_ElFormInheritedWidget oldWidget) => true;

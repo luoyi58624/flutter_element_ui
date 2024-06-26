@@ -11,8 +11,9 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
+  final formKey = GlobalKey<ElFormState>();
   final formData = {
-    'username': '',
+    'username': 'luoyi',
     'count': 0,
   };
 
@@ -24,13 +25,9 @@ class _FormPageState extends State<FormPage> {
         child: Column(
           children: [
             ElForm(
+              key: formKey,
               model: formData,
               children: [
-                const ElFormItem(
-                  label: '用户名: ',
-                  prop: 'username',
-                  child: ElInput(),
-                ),
                 const ElFormItem(
                   label: '用户名: ',
                   prop: 'username',
@@ -40,7 +37,9 @@ class _FormPageState extends State<FormPage> {
                   child: Row(
                     children: [
                       ElButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          i(formData);
+                        },
                         type: 'primary',
                         child: '提 交',
                       ),
@@ -48,6 +47,7 @@ class _FormPageState extends State<FormPage> {
                         onPressed: () {
                           formData['count'] = (formData['count'] as int) + 1;
                           setState(() {});
+                          formKey.currentState!.reset();
                         },
                         child: '重 置',
                       ),

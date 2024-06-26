@@ -51,6 +51,9 @@ class ElRadio<T> extends StatelessWidget {
               return ElText(
                 label,
                 style: TextStyle(
+                  fontWeight: $value == $data.value
+                      ? FontWeight.w500
+                      : FontWeight.normal,
                   color: $value == $data.value ? $primaryColor : null,
                 ),
               );

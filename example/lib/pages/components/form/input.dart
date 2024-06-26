@@ -28,10 +28,12 @@ class _InputPageState extends State<InputPage> {
                 ElInput(
                   value: inputValue,
                   height: 50,
+                  round: true,
                   onChanged: (v) => setState(() => inputValue = v),
                 ),
                 ElInput(
                   value: inputValue,
+                  round: true,
                   onChanged: (v) => setState(() => inputValue = v),
                 ),
                 const Gap(50),

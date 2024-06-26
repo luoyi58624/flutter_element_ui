@@ -38,19 +38,20 @@ class ElFormItem extends StatelessWidget {
   final ElFormLabelAlign? labelAlign;
 
   /// 从当前上下文获取表单项数据
-  static ElFormItemData of(BuildContext context) =>
+  static ElFormItemData? of(BuildContext context) =>
       _ElFormItemInheritedWidget.of(context);
 
   @override
   Widget build(BuildContext context) {
-    final ElFormData formData = ElForm.of(context);
+    final formData = ElForm.of(context);
+    assert(formData != null, 'ElFormItem 必须包裹在 ElForm 里面');
     final data = ElFormItemData(
       label: label,
       prop: prop,
       required: required,
-      labelWidth: labelWidth ?? formData.labelWidth,
-      labelPosition: labelPosition ?? formData.labelPosition,
-      labelAlign: labelAlign ?? formData.labelAlign,
+      labelWidth: labelWidth ?? formData!.labelWidth,
+      labelPosition: labelPosition ?? formData!.labelPosition,
+      labelAlign: labelAlign ?? formData!.labelAlign,
     );
     return _ElFormItemInheritedWidget(
       data: data,
@@ -128,9 +129,9 @@ class _ElFormItemInheritedWidget extends InheritedWidget {
 
   final ElFormItemData data;
 
-  static ElFormItemData of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<_ElFormItemInheritedWidget>()!
-      .data;
+  static ElFormItemData? of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElFormItemInheritedWidget>()
+      ?.data;
 
   @override
   bool updateShouldNotify(_ElFormItemInheritedWidget oldWidget) => true;
