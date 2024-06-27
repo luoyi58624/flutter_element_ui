@@ -1,11 +1,11 @@
 import 'package:example/global.dart';
 import 'package:example/pages/components/basic/font.dart';
-import 'package:example/pages/components/basic/layout.dart';
 import 'package:example/pages/components/data/badge.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
 import 'package:example/pages/components/form/radio.dart';
 import 'package:example/pages/components/form/switch.dart';
+import 'package:example/pages/components/layout/basic.dart';
 
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
@@ -13,11 +13,13 @@ import '../../pages/components/basic/color.dart';
 import '../../pages/components/basic/text.dart';
 import '../../pages/components/data/table.dart';
 import '../../pages/components/form/form.dart';
+import '../../pages/components/layout/drag.dart';
 import '../../pages/home.dart';
 import '../../pages/test/border.dart';
 import '../../pages/test/image_list.dart';
 
 const String _components = '/components';
+const String _componentsLayout = '$_components/layout';
 const String _componentsBasic = '$_components/basic';
 const String _componentsForm = '$_components/form';
 const String _componentsData = '$_components/data';
@@ -39,8 +41,16 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsBasic/layout',
-          builder: (context, state) => const LayoutTestPage(),
+          path: '$_componentsLayout/basic',
+          builder: (context, state) => const LayoutBasicPage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsLayout/drag',
+          builder: (context, state) => const LayoutDragPage(),
         ),
       ],
     ),

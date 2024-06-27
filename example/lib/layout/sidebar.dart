@@ -19,13 +19,23 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
           path: '/components',
           children: [
             ElMenuModel(
+              title: 'Layout 布局组件',
+              path: '/components/layout',
+              children: [
+                ElMenuModel(
+                  title: '基础布局',
+                  path: '/components/layout/basic',
+                ),
+                ElMenuModel(
+                  title: '拖拽尺寸',
+                  path: '/components/layout/drag',
+                ),
+              ],
+            ),
+            ElMenuModel(
               title: 'Basic 基础组件',
               path: '/components/basic',
               children: [
-                ElMenuModel(
-                  title: 'Layout 布局',
-                  path: '/components/basic/layout',
-                ),
                 ElMenuModel(
                   title: 'Button 按钮',
                   path: '/components/basic/button',

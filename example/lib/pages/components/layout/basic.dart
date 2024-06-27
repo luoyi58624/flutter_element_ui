@@ -2,8 +2,8 @@ import 'package:example/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
-class LayoutTestPage extends StatelessWidget {
-  const LayoutTestPage({super.key});
+class LayoutBasicPage extends StatelessWidget {
+  const LayoutBasicPage({super.key});
 
   @override
   Widget build(BuildContext context) {
