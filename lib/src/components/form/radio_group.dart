@@ -1,6 +1,7 @@
 part of 'radio.dart';
 
 class ElRadioGroup<T> extends StatelessWidget {
+  /// 单选框组，通过[value]、[onChanged]用来明确当前选中的值，
   const ElRadioGroup({
     super.key,
     required this.onChanged,
@@ -8,9 +9,6 @@ class ElRadioGroup<T> extends StatelessWidget {
     required this.children,
     this.border = false,
   });
-
-  /// 选中的值发生变化事件
-  final ValueChanged<T?> onChanged;
 
   /// 选中的值
   final T? value;
@@ -20,6 +18,9 @@ class ElRadioGroup<T> extends StatelessWidget {
 
   /// 是否显示边框
   final bool border;
+
+  /// 选中的值发生变化事件
+  final ValueChanged<T?> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +46,8 @@ class _ElRadioGroupInheritedWidget<T> extends InheritedWidget {
 
   final ValueChanged<T?>? onChanged;
 
-  static _ElRadioGroupInheritedWidget<T> of<T>(BuildContext context) {
-    final _ElRadioGroupInheritedWidget<T>? result = context
-        .dependOnInheritedWidgetOfExactType<_ElRadioGroupInheritedWidget<T>>();
-    assert(result != null, 'No _ElRadioGroupInheritedWidget found in context');
-    return result!;
-  }
+  static _ElRadioGroupInheritedWidget<T>? of<T>(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElRadioGroupInheritedWidget<T>>();
 
   @override
   bool updateShouldNotify(_ElRadioGroupInheritedWidget oldWidget) => true;
