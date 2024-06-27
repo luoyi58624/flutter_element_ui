@@ -16,7 +16,8 @@ class ElIconTheme extends InheritedWidget {
   final double? size;
   final Color? color;
 
-  static ElIconTheme? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<ElIconTheme>();
+  static ElIconTheme? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElIconTheme>();
 
   @override
   bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget != this;
@@ -60,7 +61,8 @@ class ElIcon extends StatelessWidget {
       return Icon($icon, size: $size, color: $color);
     } else if ($icon is Widget) {
       return UnconstrainedBox(
-        child: SizedBox(width: $size, height: $size, child: Center(child: $icon)),
+        child:
+            SizedBox(width: $size, height: $size, child: Center(child: $icon)),
       );
     } else {
       return Placeholder(fallbackWidth: $size, fallbackHeight: $size);
@@ -79,6 +81,7 @@ class _SvgWidget extends ElIcon {
             color!,
             BlendMode.srcIn,
           );
+    // return SizedBox();
     return ElUtil.isHttp(child as String)
         ? SvgPicture.network(
             child!,

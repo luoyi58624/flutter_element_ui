@@ -1,4 +1,3 @@
-import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
 class ComponentsPage extends StatefulWidget {
@@ -20,7 +19,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
           minWidth: 320,
         ),
         // color: Colors.green,
-        child: Column(
+        child: const Column(
           children: [
             // const SizedBox(height: 8),
             // fluent.Button(
@@ -38,7 +37,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
             //   onPressed: () {},
             //   child: const Text('Hello'),
             // ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             // ElevatedButton(
             //   onPressed: () {
             //     overlayPortalController.toggle();
@@ -58,16 +57,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
             //         GlobalController.of.useDark.value = !GlobalController.of.useDark.value;
             //       },
             //     )),
-            const Text('Overview 组件总览'),
-            ValueListenableBuilder(
-              valueListenable: GlobalState.counter,
-              builder: (context, value, _) => ElButton(
-                child: 'count: ${GlobalState.counter.value}',
-                onPressed: () {
-                  GlobalState.counter.value++;
-                },
-              ),
-            ),
+            Text('Overview 组件总览'),
           ],
         ),
       ),

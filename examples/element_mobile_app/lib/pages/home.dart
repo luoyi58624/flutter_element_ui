@@ -6,10 +6,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElPage(
-      header: ElHeader(
-        title: '首页',
-      ),
-    );
+    return SizedBox();
   }
 }

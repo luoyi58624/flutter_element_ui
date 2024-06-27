@@ -1,5 +1,6 @@
 import 'package:example/global.dart';
 import 'package:example/pages/components/basic/font.dart';
+import 'package:example/pages/components/basic/layout.dart';
 import 'package:example/pages/components/data/badge.dart';
 import 'package:example/pages/components/feedback/dialog.dart';
 import 'package:example/pages/components/form/input.dart';
@@ -32,6 +33,14 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
         GoRoute(
           path: '/',
           builder: (context, state) => const HomePage(),
+        ),
+      ],
+    ),
+    StatefulShellBranch(
+      routes: [
+        GoRoute(
+          path: '$_componentsBasic/layout',
+          builder: (context, state) => const LayoutTestPage(),
         ),
       ],
     ),

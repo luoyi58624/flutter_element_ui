@@ -84,7 +84,7 @@ class ElMenu extends StatefulWidget {
   /// 菜单栏宽度
   final double width;
 
-  /// 菜单栏背景颜色
+  /// 菜单栏背景颜色，默认跟随侧边栏背景色
   final Color? background;
 
   /// 激活的路由地址
@@ -109,7 +109,7 @@ class ElMenu extends StatefulWidget {
 }
 
 class _ElMenuState extends State<ElMenu> {
-  Color get background => widget.background ?? context.elTheme.menuBackground;
+  Color get background => widget.background ?? context.elTheme.asideBgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -118,9 +118,6 @@ class _ElMenuState extends State<ElMenu> {
       curve: Curves.linear,
       width: widget.collapse ? _defaultGap * 2 + widget.iconSize : widget.width,
       height: double.infinity,
-      decoration: BoxDecoration(
-        color: background,
-      ),
       child: _ElMenuData(
         background: background,
         activePath: widget.activePath,
@@ -203,8 +200,9 @@ class _MenuItemWidgetState extends State<_MenuItemWidget> {
                 _expand = !_expand;
               });
             } else {
-              if (_ElMenuData.of(context).onChange != null)
+              if (_ElMenuData.of(context).onChange != null) {
                 _ElMenuData.of(context).onChange!(widget.menuItem);
+              }
             }
           },
           child: _MenuItemContentWidget(
@@ -285,7 +283,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
   Widget build(BuildContext context) {
     return HoverBuilder(
       builder: (isHover) => AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: Duration(milliseconds: context.elConfig.bgColorTransition),
         curve: Curves.easeOut,
         height: 56,
         padding: const EdgeInsets.only(right: 8),

@@ -39,6 +39,9 @@ class ElColorThemeData {
   /// 头部背景颜色
   Color headerColor;
 
+  /// 侧边栏背景色
+  Color asideBgColor;
+
   /// 卡片背景色
   Color cardColor;
 
@@ -56,9 +59,6 @@ class ElColorThemeData {
 
   /// 边框悬停颜色
   Color get borderHoverColor => borderColor.deepen(16);
-
-  /// 菜单栏背景色
-  Color menuBackground;
 
   /// 菜单栏激活文字颜色
   Color menuActiveColor;
@@ -84,7 +84,7 @@ class ElColorThemeData {
     this.textColor = const Color(0xff222222),
     this.iconColor = const Color(0xff404040),
     this.borderColor = const Color(0xffdcdfe6),
-    this.menuBackground = const Color(0xff565c64),
+    this.asideBgColor = const Color(0xff565c64),
     this.menuActiveColor = const Color(0xffffd04b),
     this.cardElevation = 0,
     this.modalElevation = 2,
@@ -105,7 +105,7 @@ class ElColorThemeData {
     this.textColor = const Color(0xfff2f2f2),
     this.iconColor = const Color(0xfff6f6f6),
     this.borderColor = const Color(0xffa3a3a3),
-    this.menuBackground = const Color(0xff374151),
+    this.asideBgColor = const Color(0xff374151),
     this.menuActiveColor = const Color(0xff6ee7b7),
     this.cardElevation = 2,
     this.modalElevation = 4,
@@ -129,6 +129,9 @@ class ElConfigData {
   /// 全局卡片圆角值
   double cardRadius;
 
+  /// 背景颜色全局过渡持续时间(毫秒)
+  int bgColorTransition;
+
   /// 按钮全局样式
   ElButtonStyle buttonStyle;
 
@@ -140,6 +143,7 @@ class ElConfigData {
     this.iconSize = 20,
     this.radius = 4,
     this.cardRadius = 6,
+    this.bgColorTransition = 100,
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
   });

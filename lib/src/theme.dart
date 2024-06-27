@@ -106,19 +106,17 @@ class ElTheme extends StatelessWidget {
       child: BrightnessWidget(
         brightness: brightness,
         child: Builder(builder: (context) {
+          ElColorThemeData $theme =
+              context.isDark ? $data.darkTheme : $data.theme;
           TextStyle $style = (textStyle ?? const TextStyle()).copyWith(
-              fontSize: $data.config.fonSize,
-              color: context.isDark
-                  ? $data.darkTheme.textColor
-                  : $data.theme.textColor);
+              fontSize: $data.config.fonSize, color: $theme.textColor);
           return Material(
             surfaceTintColor: Colors.transparent,
+            color: $theme.bgColor,
             textStyle: $style,
             child: ElIconTheme(
               size: $data.config.iconSize,
-              color: context.isDark
-                  ? $data.darkTheme.iconColor
-                  : $data.theme.iconColor,
+              color: $theme.iconColor,
               child: _ElTheme(
                 elTheme: this,
                 child: ScrollConfiguration(

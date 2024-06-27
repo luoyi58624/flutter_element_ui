@@ -1,27 +1,23 @@
 part of 'layout.dart';
 
-/// Element UI 头部布局组件
-class ElHeader extends ElLayoutWidget {
-  const ElHeader({
+class ElMain extends ElLayoutWidget {
+  const ElMain({
     super.key,
     required this.child,
-    this.height = 56,
     this.bgColor,
   });
 
   final Widget child;
-  final double height;
   final Color? bgColor;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
+    return Expanded(
       child: AnimatedContainer(
         duration: Duration(milliseconds: context.elConfig.bgColorTransition),
-        color: bgColor ?? context.elTheme.headerColor,
-        height: height,
         width: double.infinity,
+        height: double.infinity,
+        color: bgColor ?? context.elTheme.bgColor,
         child: child,
       ),
     );

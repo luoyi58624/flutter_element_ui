@@ -32,7 +32,7 @@ export 'src/components/form/radio.dart';
 export 'src/components/form/input.dart';
 export 'src/components/form/switch.dart';
 export 'src/components/layout/body.dart';
-export 'src/components/layout/header.dart';
+export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu.dart';
 export 'src/components/others/divider.dart';

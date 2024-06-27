@@ -23,6 +23,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
               path: '/components/basic',
               children: [
                 ElMenuModel(
+                  title: 'Layout 布局',
+                  path: '/components/basic/layout',
+                ),
+                ElMenuModel(
                   title: 'Button 按钮',
                   path: '/components/basic/button',
                 ),
@@ -128,13 +132,12 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ValueListenableBuilder(
-        valueListenable: GlobalState.elMenu,
-        builder: (context, value, child) => ElMenu(
+    return ObsBuilder(
+      builder: (context) {
+        return ElMenu(
           menuList,
-          activePath: value.activePath,
-          collapse: value.isCollapse,
+          activePath: GlobalState.elMenu.value.activePath,
+          collapse: GlobalState.elMenu.value.isCollapse,
           onChange: (menu) {
             if (menu.path != null &&
                 menu.path != GlobalState.elMenu.value.activePath) {
@@ -143,8 +146,8 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   GlobalState.elMenu.value.copyWith(activePath: menu.path!);
             }
           },
-        ),
-      ),
+        );
+      },
     );
   }
 }
