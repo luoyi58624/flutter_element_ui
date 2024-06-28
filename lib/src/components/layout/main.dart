@@ -1,6 +1,7 @@
 part of 'layout.dart';
 
 class ElMain extends ElLayoutWidget {
+  /// Element UI 主页面布局组件，它会分配[ElLayout]内部所有的剩余空间
   const ElMain({
     super.key,
     required this.child,
