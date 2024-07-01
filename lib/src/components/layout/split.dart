@@ -5,30 +5,44 @@ abstract class _SplitLayoutData {
   /// 当前布局的偏移值，这是一个响应式变量，当发生更改时会自动重建绑定的相关组件
   final Obs<double> offset;
 
-  _SplitLayoutData({required this.offset});
+  /// 控件本身占据的空间
+  final double size;
+
+  /// 可拖拽控件触发范围
+  final double triggerSize;
+
+  _SplitLayoutData({
+    required this.offset,
+    required this.size,
+    required this.triggerSize,
+  });
 }
 
 /// 水平布局分割数据
 class _RowSplitLayoutData extends _SplitLayoutData {
-  final double? minWidth;
+  final double minWidth;
   final double? maxWidth;
 
   _RowSplitLayoutData({
     required this.minWidth,
     required this.maxWidth,
     required super.offset,
+    required super.size,
+    required super.triggerSize,
   });
 }
 
 /// 垂直布局分割数据
 class _ColumnSplitLayoutData extends _SplitLayoutData {
-  final double? minHeight;
+  final double minHeight;
   final double? maxHeight;
 
   _ColumnSplitLayoutData({
     required this.minHeight,
     required this.maxHeight,
     required super.offset,
+    required super.size,
+    required super.triggerSize,
   });
 }
 
@@ -38,7 +52,7 @@ class ElSplit extends ElLayoutWidget {
   const ElSplit({
     super.key,
     this.size = 0,
-    this.triggerSize = 100,
+    this.triggerSize = 4,
     this.builder,
   });
 
@@ -55,51 +69,14 @@ class ElSplit extends ElLayoutWidget {
   Widget build(BuildContext context) {
     final $data = _ElLayoutInheritedWidget.of(context);
     final $isColumn = $data.isColumn;
-    final triggerPosition = triggerSize / 2;
-    return DeferredPointerHandler(
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          SizedBox(
-            width: $isColumn ? double.infinity : size,
-            height: $isColumn ? size : double.infinity,
-          ),
-          Positioned(
-            // left: $isColumn ? 0 : -triggerPosition,
-            // right: $isColumn ? 0 : triggerPosition,
-            // top: $isColumn ? -triggerPosition : 0,
-            // bottom: $isColumn ? triggerPosition : 0,
-            left: 0,
-            right: -10,
-            top: 0,
-            bottom: 0,
-            child: DeferPointer(
-              child: GestureDetector(
-                onTap: () {
-                  i('dian');
-                },
-                child: HoverBuilder(
-                  cursor: $isColumn
-                      ? SystemMouseCursors.resizeRow
-                      : SystemMouseCursors.resizeColumn,
-                  builder: (isHover) => Container(
-                    // width: $isColumn ? double.infinity : triggerSize,
-                    // height: $isColumn ? triggerSize : double.infinity,
-                    // width: 100,
-                    height: 400,
-                    color: context.elTheme.error,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return SizedBox(
+      width: $isColumn ? double.infinity : size,
+      height: $isColumn ? size : double.infinity,
     );
   }
 }
 
-class _SplitWidget extends StatelessWidget {
+class _SplitWidget extends HookWidget {
   const _SplitWidget({
     required this.layoutKey,
     required this.splitWidget,
@@ -111,61 +88,132 @@ class _SplitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = _ElLayoutInheritedWidget.of(context);
-    final $splitData = $data.splitLayoutData![layoutKey]!;
-    return Positioned(
-      top: 0,
-      bottom: 0,
-      left: $splitData.offset.value - (splitTriggerSize - splitSize) / 2,
-      child: GestureDetector(
-        onHorizontalDragStart: (e) {
-          setState(() {
-            isStartDrag = true;
-          });
-        },
-        onHorizontalDragUpdate: (e) {
-          if (isStartDrag) {
-            i(e);
-            setState(() {
-              left += e.delta.dx;
-            });
-          }
-        },
-        onHorizontalDragEnd: (e) {
-          setState(() {
-            isStartDrag = false;
-          });
-        },
-        onHorizontalDragCancel: () {
-          setState(() {
-            isStartDrag = false;
-          });
-        },
-        child: HoverBuilder(
-          cursor: SystemMouseCursors.resizeColumn,
-          onlyCursor: true,
-          builder: (context) {
-            return Stack(
-              children: [
-                SizedBox(width: splitTriggerSize),
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  left: isStartDrag ? 0 : (splitTriggerSize - splitSize) / 2,
-                  right: isStartDrag ? 0 : (splitTriggerSize - splitSize) / 2,
-                  top: 0,
-                  bottom: 0,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: isStartDrag ? splitTriggerSize : splitSize,
-                    decoration: BoxDecoration(
-                      color: isStartDrag ? Colors.cyan : null,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+    return $data.isColumn
+        ? _buildColumnSplit(
+            $data.splitLayoutData![layoutKey]! as _ColumnSplitLayoutData)
+        : _buildRowSplit(
+            $data.splitLayoutData![layoutKey]! as _RowSplitLayoutData);
+  }
+
+  Widget _buildColumnSplit(_ColumnSplitLayoutData splitData) {
+    final isStartDrag = useObs(false);
+    return ObsBuilder(builder: (context) {
+      return Positioned(
+        top: max(
+          splitData.offset.value - (splitData.triggerSize - splitData.size) / 2,
+          splitData.minHeight,
         ),
-      ),
-    );
+        left: 0,
+        right: 0,
+        child: GestureDetector(
+          onVerticalDragStart: (e) {
+            isStartDrag.value = true;
+          },
+          onVerticalDragUpdate: (e) {
+            if (isStartDrag.value) splitData.offset.value += e.delta.dy;
+          },
+          onVerticalDragEnd: (e) {
+            isStartDrag.value = false;
+          },
+          onVerticalDragCancel: () {
+            isStartDrag.value = false;
+          },
+          child: HoverBuilder(
+            cursor: SystemMouseCursors.resizeRow,
+            onlyCursor: true,
+            builder: (context) {
+              return Stack(
+                children: [
+                  SizedBox(height: splitData.triggerSize),
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 300),
+                    left: 0,
+                    right: 0,
+                    top: isStartDrag.value
+                        ? 0
+                        : (splitData.triggerSize - splitData.size) / 2,
+                    bottom: isStartDrag.value
+                        ? 0
+                        : (splitData.triggerSize - splitData.size) / 2,
+                    child: ObsBuilder(builder: (context) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        height: isStartDrag.value
+                            ? splitData.triggerSize
+                            : splitData.size,
+                        decoration: BoxDecoration(
+                          color: isStartDrag.value ? Colors.cyan : null,
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    });
+  }
+
+  Widget _buildRowSplit(_RowSplitLayoutData splitData) {
+    final isStartDrag = useObs(false);
+    return ObsBuilder(builder: (context) {
+      return Positioned(
+        top: 0,
+        bottom: 0,
+        left: max(
+          splitData.offset.value - (splitData.triggerSize - splitData.size) / 2,
+          splitData.minWidth,
+        ),
+        child: GestureDetector(
+          onHorizontalDragStart: (e) {
+            isStartDrag.value = true;
+          },
+          onHorizontalDragUpdate: (e) {
+            if (isStartDrag.value) splitData.offset.value += e.delta.dx;
+          },
+          onHorizontalDragEnd: (e) {
+            isStartDrag.value = false;
+          },
+          onHorizontalDragCancel: () {
+            isStartDrag.value = false;
+          },
+          child: HoverBuilder(
+            cursor: SystemMouseCursors.resizeColumn,
+            onlyCursor: true,
+            builder: (context) {
+              return Stack(
+                children: [
+                  SizedBox(width: splitData.triggerSize),
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 300),
+                    left: isStartDrag.value
+                        ? 0
+                        : (splitData.triggerSize - splitData.size) / 2,
+                    right: isStartDrag.value
+                        ? 0
+                        : (splitData.triggerSize - splitData.size) / 2,
+                    top: 0,
+                    bottom: 0,
+                    child: ObsBuilder(builder: (context) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: isStartDrag.value
+                            ? splitData.triggerSize
+                            : splitData.size,
+                        decoration: BoxDecoration(
+                          color: isStartDrag.value ? Colors.cyan : null,
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      );
+    });
   }
 }

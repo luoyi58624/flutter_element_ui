@@ -15,20 +15,21 @@ class LayoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElLayout(
       children: [
-        // const ElAside(child: LayoutSidebarWidget()),
-        ElAside(
-          child: Container(
-            width: 200,
-            color: Colors.grey,
-          ),
-        ),
+        const ElAside(child: LayoutSidebarWidget()),
+        // ElAside(
+        //   child: Container(width: 200, color: Colors.grey),
+        // ),
         const ElSplit(),
-        ElMain(
-          child: Container(
-            color: Colors.green,
-            // child: Text('xx'),
-            child: LayoutDragPage(),
-          ),
+        ElLayout(
+          children: [
+            ElHeader(child: Container(color: Colors.purple)),
+            const ElSplit(),
+            ElLayout(children: [
+              ElMain(child: Container(color: Colors.green)),
+              const ElSplit(),
+              ElMain(child: Container(color: Colors.grey)),
+            ]),
+          ],
         ),
         // ElLayout(children: [
         //   const ElHeader(child: LayoutHeaderWidget()),
