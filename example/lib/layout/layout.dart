@@ -13,29 +13,41 @@ class LayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElLayout(
-      children: [
-        const ElAside(child: LayoutSidebarWidget()),
-        // ElAside(
-        //   child: Container(width: 200, color: Colors.grey),
-        // ),
-        const ElSplit(),
-        ElLayout(
-          children: [
-            ElHeader(child: Container(color: Colors.purple)),
-            const ElSplit(),
-            ElLayout(children: [
-              ElMain(child: Container(color: Colors.green)),
-              const ElSplit(),
-              ElMain(child: Container(color: Colors.grey)),
-            ]),
-          ],
-        ),
-        // ElLayout(children: [
-        //   const ElHeader(child: LayoutHeaderWidget()),
-        //   ElMain(child: navigationShell),
-        // ]),
-      ],
-    );
+    return LayoutDragPage();
+    // return ElLayout(
+    //   children: [
+    //     const ElAside(child: LayoutSidebarWidget()),
+    //     const ElSplit(size: 1),
+    //     ElLayout(
+    //       children: [
+    //         ElHeader(child: Container(color: Colors.purple)),
+    //         const ElSplit(),
+    //         ElLayout(children: [
+    //           ElMain(child: Container(color: Colors.green)),
+    //           const ElSplit(),
+    //           ElMain(child: Container(color: Colors.grey)),
+    //         ]),
+    //       ],
+    //     ),
+    //     ElLayout(children: [
+    //
+    //       const ElSplit(size: 1),
+    //       ElAside(
+    //         layoutKey: 'aside-3',
+    //         child: Container(color: Colors.grey),
+    //       ),
+    //     ]),
+    //     ElMain(child: Container(color: Colors.green)),
+    //     const ElSplit(size: 1),
+    //     ElAside(
+    //       child: Container(width: 200, color: Colors.grey),
+    //     ),
+    //
+    //     ElLayout(children: [
+    //       const ElHeader(child: LayoutHeaderWidget()),
+    //       ElMain(child: navigationShell),
+    //     ]),
+    //   ],
+    // );
   }
 }

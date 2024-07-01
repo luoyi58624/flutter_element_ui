@@ -2,7 +2,7 @@ part of 'layout.dart';
 
 /// 保存分割布局数据
 abstract class _SplitLayoutData {
-  /// 当前布局的偏移值，这是一个响应式变量，当发生更改时会自动重建绑定的相关组件
+  /// 拖拽控件的偏移值，这是一个响应式变量，当发生更改时会自动重建绑定的相关组件
   final Obs<double> offset;
 
   /// 控件本身占据的空间
@@ -20,10 +20,12 @@ abstract class _SplitLayoutData {
 
 /// 水平布局分割数据
 class _RowSplitLayoutData extends _SplitLayoutData {
+  final Obs<double> width;
   final double minWidth;
-  final double? maxWidth;
+  final double maxWidth;
 
   _RowSplitLayoutData({
+    required this.width,
     required this.minWidth,
     required this.maxWidth,
     required super.offset,
@@ -34,10 +36,12 @@ class _RowSplitLayoutData extends _SplitLayoutData {
 
 /// 垂直布局分割数据
 class _ColumnSplitLayoutData extends _SplitLayoutData {
+  final Obs<double> height;
   final double minHeight;
   final double? maxHeight;
 
   _ColumnSplitLayoutData({
+    required this.height,
     required this.minHeight,
     required this.maxHeight,
     required super.offset,
@@ -46,17 +50,21 @@ class _ColumnSplitLayoutData extends _SplitLayoutData {
   });
 }
 
-class ElSplit extends ElLayoutWidget {
-  /// Element UI 分割布局组件，它可以在两个布局中嵌入可拖拽控件，调整布局组件的尺寸大小，
-  /// 如果你需要构建自定义风格样式的拖拽控件，请继承它并覆写内部的配置、方法。
-  const ElSplit({
+class ElLayoutSplit extends ElLayoutWidget {
+  /// Element UI 布局分割组件，它在两个布局中嵌入可拖拽控件，用于调整布局组件的尺寸大小，
+  /// 作为 [ElLayout] 布局组件的一部分，它会自动计算如何处理两个布局之间的调整。
+  ///
+  ///
+  /// 注意：由于 [ElLayout] 只接受 [ElLayoutWidget] 子类作为子组件，
+  /// 所以如果你需要构建统一的公共拖拽组件，你只能继承它并覆写内部的配置、方法。
+  const ElLayoutSplit({
     super.key,
     this.size = 0,
     this.triggerSize = 4,
     this.builder,
   });
 
-  /// 控件本身占据的空间，默认0
+  /// 控件占据页面的空间，默认0
   final double size;
 
   /// 可拖拽控件触发范围，默认10
@@ -65,17 +73,17 @@ class ElSplit extends ElLayoutWidget {
   /// 自定义构建拖拽控件
   final WidgetBuilder? builder;
 
+  /// 构建分割组件样式，默认情况下它不包含任何样式，如果你想自定义任何外观，例如分割线，
+  /// 请继承并重写 build 方法即可。
   @override
-  Widget build(BuildContext context) {
-    final $data = _ElLayoutInheritedWidget.of(context);
-    final $isColumn = $data.isColumn;
-    return SizedBox(
-      width: $isColumn ? double.infinity : size,
-      height: $isColumn ? size : double.infinity,
-    );
-  }
+  Widget build(BuildContext context) => ElLayout.isColumn(context)
+      ? SizedBox(height: size)
+      : SizedBox(width: size);
 }
 
+/// 分隔条组件的偏移计算实现很丑陋，究其原因就是 Flutter 残缺的绝对定位系统，相对定位的元素如果
+/// 超出目标元素的范围，那么命中事件将不会生效，我这里用到的办法就是让响应拖拽的组件相对于[ElLayout]，
+/// 而不是[ElSplit]，带来的后果就是要做很多额外的计算。
 class _SplitWidget extends HookWidget {
   const _SplitWidget({
     required this.layoutKey,
@@ -83,19 +91,17 @@ class _SplitWidget extends HookWidget {
   });
 
   final String layoutKey;
-  final ElSplit splitWidget;
+  final ElLayoutSplit splitWidget;
 
   @override
   Widget build(BuildContext context) {
     final $data = _ElLayoutInheritedWidget.of(context);
-    return $data.isColumn
-        ? _buildColumnSplit(
-            $data.splitLayoutData![layoutKey]! as _ColumnSplitLayoutData)
-        : _buildRowSplit(
-            $data.splitLayoutData![layoutKey]! as _RowSplitLayoutData);
+    return $data.isColumn ? _buildColumnSplit($data) : _buildRowSplit($data);
   }
 
-  Widget _buildColumnSplit(_ColumnSplitLayoutData splitData) {
+  Widget _buildColumnSplit(_ElLayoutInheritedWidget data) {
+    final splitData =
+        data.splitLayoutData![layoutKey]! as _ColumnSplitLayoutData;
     final isStartDrag = useObs(false);
     return ObsBuilder(builder: (context) {
       return Positioned(
@@ -156,14 +162,18 @@ class _SplitWidget extends HookWidget {
     });
   }
 
-  Widget _buildRowSplit(_RowSplitLayoutData splitData) {
+  Widget _buildRowSplit(_ElLayoutInheritedWidget data) {
+    final splitData = data.splitLayoutData![layoutKey]! as _RowSplitLayoutData;
     final isStartDrag = useObs(false);
     return ObsBuilder(builder: (context) {
       return Positioned(
         top: 0,
         bottom: 0,
+        // 计算水平布局垂直拖拽分隔条的位置，左侧布局组件offset + 宽度 - 分隔条中间偏移值
         left: max(
-          splitData.offset.value - (splitData.triggerSize - splitData.size) / 2,
+          splitData.offset.value +
+              splitData.width.value -
+              (splitData.triggerSize - splitData.size) / 2,
           splitData.minWidth,
         ),
         child: GestureDetector(
@@ -171,7 +181,10 @@ class _SplitWidget extends HookWidget {
             isStartDrag.value = true;
           },
           onHorizontalDragUpdate: (e) {
-            if (isStartDrag.value) splitData.offset.value += e.delta.dx;
+            if (isStartDrag.value) {
+              splitData.width.value += e.delta.dx;
+              data.notifyAllOffsetFun!(layoutKey);
+            }
           },
           onHorizontalDragEnd: (e) {
             isStartDrag.value = false;

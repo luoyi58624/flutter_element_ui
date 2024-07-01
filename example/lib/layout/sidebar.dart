@@ -1,7 +1,5 @@
-import 'package:example/state.dart';
+import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:go_router/go_router.dart';
 
 class LayoutSidebarWidget extends StatefulWidget {
   const LayoutSidebarWidget({super.key});
@@ -125,7 +123,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
             ElMenuModel(
               title: '子菜单3',
               children: List.generate(
-                5,
+                100,
                 (index) => ElMenuModel(
                   title: '子菜单3-${index + 1}',
                   children: List.generate(
@@ -142,6 +140,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    i('sidebar build');
     return ObsBuilder(
       builder: (context) {
         return ElMenu(
