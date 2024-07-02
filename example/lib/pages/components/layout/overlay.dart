@@ -15,8 +15,12 @@ class _OverlayPageState extends State<OverlayPage> {
     return const ElSplitLayout(
       children: [
         SidebarWidget(),
+        ElSplitResizer(size: 1),
+        SidebarWidget(),
         ElSplitResizer(),
         MainWidget(),
+        ElSplitResizer(),
+        SidebarWidget(),
       ],
     );
   }
@@ -30,7 +34,7 @@ class SidebarWidget extends ElSplitLayoutWidget {
     return SingleChildScrollView(
       child: Column(
         children: List.generate(
-          1000,
+          100,
           (index) => ElButton(
             onPressed: () {},
             child: '按钮 - ${index + 1}',
