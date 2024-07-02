@@ -1,3 +1,4 @@
+import 'package:example/pages/components/layout/overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +14,10 @@ class LayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutDragPage();
+    return ElSplitPanel(
+      children: [],
+    );
+    // return LayoutDragPage();
     // return ElLayout(
     //   children: [
     //     const ElAside(child: LayoutSidebarWidget()),

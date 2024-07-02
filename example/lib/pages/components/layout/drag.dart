@@ -1,3 +1,5 @@
+import 'package:defer_pointer/defer_pointer.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +17,8 @@ class _LayoutDragPageState extends State<LayoutDragPage> {
       children: [
         buildLayout('布局1', layout1()),
         // buildLayout('布局2', layout2()),
-        buildLayout('布局3', layout3()),
-        // buildLayout('布局4', layout4()),
+        // buildLayout('布局3', layout3()),
+        buildLayout('布局4', layout4()),
         buildLayout('布局5', layout5()),
       ],
     );
@@ -45,7 +47,12 @@ class _LayoutDragPageState extends State<LayoutDragPage> {
           const ElLayoutSplit(size: 1),
           ElMain(flex: 1, child: Container(color: Colors.purple)),
           const ElLayoutSplit(size: 1),
-          ElMain(flex: 2, child: Container(color: Colors.green)),
+          ElMain(flex: 1, child: Container(color: Colors.purple)),
+          // ElLayout(children: [
+          //   ElMain(flex: 1, child: Container(color: Colors.green)),
+          //   const ElLayoutSplit(size: 1),
+          //   ElMain(flex: 1, child: Container(color: Colors.green)),
+          // ]),
         ],
       ),
     );
@@ -82,21 +89,18 @@ class _LayoutDragPageState extends State<LayoutDragPage> {
       child: ElLayout(
         children: [
           ElAside(
-            layoutKey: 'aside-1',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.grey),
           ),
           const ElLayoutSplit(size: 1),
           ElAside(
-            layoutKey: 'aside-2',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.purple),
           ),
           const ElLayoutSplit(size: 1),
           ElAside(
-            layoutKey: 'aside-3',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.green),
@@ -113,18 +117,21 @@ class _LayoutDragPageState extends State<LayoutDragPage> {
       child: ElLayout(
         children: [
           ElAside(
+            layoutKey: 'aside-1',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.grey),
           ),
           const ElLayoutSplit(size: 1),
           ElAside(
+            layoutKey: 'aside-2',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.purple),
           ),
           const ElLayoutSplit(size: 1),
           ElAside(
+            layoutKey: 'aside-3',
             width: 150,
             minWidth: 0,
             child: Container(color: Colors.green),

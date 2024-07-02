@@ -20,6 +20,7 @@ dependencies:
   url_launcher: ^6.3.0
   flutter_animate: ^4.5.0
   defer_pointer: ^0.0.2
+  custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
   flutter_lints: ^4.0.0
