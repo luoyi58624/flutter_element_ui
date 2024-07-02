@@ -14,9 +14,7 @@ class LayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElSplitPanel(
-      children: [],
-    );
+    return const OverlayPage();
     // return LayoutDragPage();
     // return ElLayout(
     //   children: [
