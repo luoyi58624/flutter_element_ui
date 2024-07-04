@@ -1,6 +1,7 @@
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/service.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../utils/assert.dart';
@@ -51,7 +52,7 @@ abstract class ElSplitSizePanel extends _ElSplitPanelWidget {
 /// 以 [Expanded] 为基础的弹性分割面板组件，它按比例来计算拖拽的尺寸。
 ///
 /// 注意：如果分割面板容器已存在[ElSplitSizePanel]，那么弹性分割面板最多只能有一个，
-/// 因为二者的计算方式差距非常大，弹性分割面板要处理的逻辑更多，如果混用会令代码变得更加复杂。
+/// 因为二者的计算方式不同，如果混用会令代码变得更加复杂。
 abstract class ElSplitFlexPanel extends _ElSplitPanelWidget {
   const ElSplitFlexPanel({
     super.key,

@@ -25,9 +25,9 @@ class _LoadingUtil {
     _isShowLoading = true;
     _delayCloseTime = math.max(delayClose, 0);
     _createLoadingStartTime = currentMilliseconds;
-    if (elRootContext.mounted) {
+    if ($el.context.mounted) {
       showDialog(
-        context: elRootContext,
+        context: $el.context,
         barrierColor: Colors.black26,
         builder: (context) {
           return _LoadingModelWidget(
@@ -46,7 +46,9 @@ class _LoadingUtil {
         _pop();
       } else {
         var delayCloseLoadingTime = math.max<int>(
-            (_delayCloseTime - math.min(currentMilliseconds - _createLoadingStartTime, 1000)), 0);
+            (_delayCloseTime -
+                math.min(currentMilliseconds - _createLoadingStartTime, 1000)),
+            0);
         if (delayCloseLoadingTime <= 0) {
           _pop();
         } else {
@@ -59,17 +61,18 @@ class _LoadingUtil {
 
   static void _pop() {
     // 如果有提示窗，则先关闭提示窗
-    if (_isShowConfirm) Navigator.of(elRootContext).pop();
+    if (_isShowConfirm) Navigator.of($el.context).pop();
     _isShowConfirm = false;
     _delayCloseTime = 0;
     _isShowLoading = false;
-    if (elRootContext.mounted) Navigator.of(elRootContext).pop();
+    if ($el.context.mounted) Navigator.of($el.context).pop();
   }
 }
 
 /// 构建loading组件
 class _LoadingModelWidget extends StatelessWidget {
-  const _LoadingModelWidget({required this.title, required this.cancelText, this.onCancel});
+  const _LoadingModelWidget(
+      {required this.title, required this.cancelText, this.onCancel});
 
   final String title;
   final String cancelText;
@@ -111,11 +114,15 @@ class _LoadingModelWidget extends StatelessWidget {
                 const CircularProgressIndicator(color: Colors.white),
                 const SizedBox(height: 24),
                 Container(
-                  constraints: const BoxConstraints(minWidth: 120, maxWidth: 150),
+                  constraints:
+                      const BoxConstraints(minWidth: 120, maxWidth: 150),
                   child: Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

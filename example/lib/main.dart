@@ -1,8 +1,10 @@
 import 'package:example/controller/global.dart';
+import 'package:example/layout/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:mini_getx/mini_getx.dart';
 
 import 'global.dart';
+import 'pages/components/layout/overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +18,10 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: OverlayPage(),
+      builder: (context, child) => ElTheme(child: child!),
+    );
     return Obx(() {
       return MaterialApp.router(
         routerConfig: router,

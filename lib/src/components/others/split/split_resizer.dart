@@ -4,12 +4,18 @@ part of 'split.dart';
 typedef ElSplitResizerActiveBuilder = Widget Function(
   BuildContext context,
   Obs<bool> isActive,
+  bool isRow,
 );
 
-/// 分割条触发位置
-enum ElSplitResizerTriggerPosition {
+/// 分割条触发偏移位置
+enum ElSplitResizerPosition {
+  /// 左偏移，如果是垂直分割布局，则上偏移
   left,
+
+  /// 居中偏移
   center,
+
+  /// 右偏移，如果是垂直分割布局，则下偏移
   right,
 }
 
@@ -22,6 +28,7 @@ class ElSplitResizer extends ElSplitWidget {
     this.triggerSize = 8,
     this.activeSize = 4,
     this.activeColor,
+    this.position = ElSplitResizerPosition.center,
     this.activeBuilder,
   })  : assert(size >= 0),
         assert(triggerSize >= 1),
@@ -39,6 +46,12 @@ class ElSplitResizer extends ElSplitWidget {
   /// 分割条激活颜色，默认为全局主题色
   final Color? activeColor;
 
+  /// 分割条触发位置，默认居中。
+  ///
+  /// 如果你设置了较大触发范围，但可能会遮挡了左右部分空间，
+  /// 你可以根据需求调整触发位置。
+  final ElSplitResizerPosition position;
+
   /// 自定义构建激活样式
   final ElSplitResizerActiveBuilder? activeBuilder;
 
@@ -50,7 +63,7 @@ class ElSplitResizer extends ElSplitWidget {
   }
 
   /// 默认的激活样式分割条
-  Widget activeWidget(BuildContext context, Obs<bool> isActive) {
+  Widget activeWidget(BuildContext context, Obs<bool> isActive, bool isRow) {
     return ColoredBox(
       color: isActive.value
           ? (activeColor ?? context.elTheme.primary)
@@ -69,71 +82,108 @@ abstract class _ResizerWidget extends HookWidget {
   Widget buildResizer(BuildContext context, _UpdateFun updateFun) {
     final isActive = useObs(false);
     final isRow = ElSplitPanel.isRow(context);
-    final activeSize = child.activeSize;
-    final triggerSize = child.triggerSize;
-    final triggerOffsetSize = -((triggerSize / 2) + (child.size / 2));
+    var triggerOffsetSize = -(child.triggerSize / 2);
+    var activeOffsetSize = -(child.activeSize / 2);
 
-    final activeWidget = Center(
-      child: SizedBox(
-        width: isRow ? activeSize : double.infinity,
-        height: isRow ? double.infinity : activeSize,
-        child: ObsBuilder(builder: (context) {
-          if (child.activeBuilder == null) {
-            return child.activeWidget(context, isActive);
-          } else {
-            return child.activeBuilder!(context, isActive);
-          }
-        }),
-      ),
-    );
+    late double top;
+    late double bottom;
+    late double left;
+    late double right;
+
+    if (isRow) {
+      top = 0;
+      bottom = 0;
+      left = child.position == ElSplitResizerPosition.center
+          ? triggerOffsetSize
+          : child.position == ElSplitResizerPosition.left
+              ? triggerOffsetSize * 2
+              : 0;
+      right = child.position == ElSplitResizerPosition.center
+          ? triggerOffsetSize
+          : child.position == ElSplitResizerPosition.left
+              ? 0
+              : triggerOffsetSize * 2;
+    } else {
+      left = 0;
+      right = 0;
+      top = child.position == ElSplitResizerPosition.center
+          ? triggerOffsetSize
+          : child.position == ElSplitResizerPosition.left
+              ? triggerOffsetSize * 2
+              : 0;
+      bottom = child.position == ElSplitResizerPosition.center
+          ? triggerOffsetSize
+          : child.position == ElSplitResizerPosition.left
+              ? 0
+              : triggerOffsetSize * 2;
+    }
 
     return Stack(
       clipBehavior: Clip.none,
       children: [
         child,
         Positioned(
-          top: isRow ? 0 : triggerOffsetSize,
-          bottom: isRow ? 0 : triggerOffsetSize,
-          left: isRow ? triggerOffsetSize : 0,
-          right: isRow ? triggerOffsetSize : 0,
+          top: isRow ? 0 : activeOffsetSize,
+          bottom: isRow ? 0 : activeOffsetSize,
+          left: isRow ? activeOffsetSize : 0,
+          right: isRow ? activeOffsetSize : 0,
           child: DeferPointer(
+            paintOnTop: true,
+            child: ObsBuilder(builder: (context) {
+              return child.activeBuilder == null
+                  ? child.activeWidget(context, isActive, isRow)
+                  : child.activeBuilder!(context, isActive, isRow);
+            }),
+          ),
+        ),
+        Positioned(
+          top: top,
+          bottom: bottom,
+          left: left,
+          right: right,
+          child: DeferPointer(
+            paintOnTop: true,
             child: isRow
                 ? GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onHorizontalDragStart: (e) {
+                      $el.cursor.value = SystemMouseCursors.resizeColumn;
                       isActive.value = true;
                     },
                     onHorizontalDragUpdate: (e) {
                       if (isActive.value) updateFun(e.delta.dx);
                     },
                     onHorizontalDragEnd: (e) {
+                      $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onHorizontalDragCancel: () {
+                      $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
-                    child: HoverBuilder(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeColumn,
-                      builder: (isHover) => activeWidget,
                     ),
                   )
                 : GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onVerticalDragStart: (e) {
+                      $el.cursor.value = SystemMouseCursors.resizeRow;
                       isActive.value = true;
                     },
                     onVerticalDragUpdate: (e) {
                       if (isActive.value) updateFun(e.delta.dy);
                     },
                     onVerticalDragEnd: (e) {
+                      $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onVerticalDragCancel: () {
+                      $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
-                    child: HoverBuilder(
+                    child: const MouseRegion(
                       cursor: SystemMouseCursors.resizeRow,
-                      builder: (isHover) => activeWidget,
                     ),
                   ),
           ),

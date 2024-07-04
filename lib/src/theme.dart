@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/common.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/icon.dart';
 import 'components/basic/scrollbar.dart';
+import 'service.dart';
 import 'styles/theme.dart';
 
 /// Element UI 颜色主题类型集合
@@ -121,8 +121,10 @@ class ElTheme extends StatelessWidget {
                 elTheme: this,
                 child: ScrollConfiguration(
                   behavior: behavior ?? const ElScrollBehavior(),
-                  child: GlobalHoverWidget(
-                    child: child,
+                  child: _ElGlobalHoverWidget(
+                    child: GlobalHoverWidget(
+                      child: child,
+                    ),
                   ),
                 ),
               ),
@@ -145,4 +147,20 @@ class _ElTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElTheme oldWidget) => true;
+}
+
+class _ElGlobalHoverWidget extends StatelessWidget {
+  const _ElGlobalHoverWidget({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ObsBuilder(builder: (context) {
+      return MouseRegion(
+        cursor: $el.cursor.value,
+        child: child,
+      );
+    });
+  }
 }

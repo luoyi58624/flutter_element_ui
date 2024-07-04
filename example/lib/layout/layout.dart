@@ -65,64 +65,32 @@ class Demo extends StatefulWidget {
 }
 
 class _DemoState extends State<Demo> {
-  bool isActive = false;
-  double offset = 10;
+  int count = 10;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: DeferredPointerHandler(
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                width: 10,
-                height: 100,
-                color: Colors.blue,
-              ),
-              Positioned(
-                left: offset,
-                top: 50,
-                child: DeferPointer(
-                  paintOnTop: true,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onHorizontalDragStart: (e) {
-                      i('点击');
-                      setState(() {
-                        isActive = true;
-                      });
-                    },
-                    onHorizontalDragUpdate: (e) {
-                      if (isActive) {
-                        setState(() {
-                          offset += e.delta.dx;
-                        });
-                      }
-                    },
-                    onHorizontalDragEnd: (e) {
-                      setState(() {
-                        isActive = false;
-                      });
-                    },
-                    onHorizontalDragCancel: () {
-                      setState(() {
-                        isActive = false;
-                      });
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      color: isActive ? Colors.green : null,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+    return Column(
+      children: [
+        ElButton(
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
+          child: 'count: $count',
         ),
-      ),
+        RepaintBoundary(child: Demo2()),
+      ],
     );
+  }
+}
+
+class Demo2 extends StatelessWidget {
+  const Demo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    i('demo2 build');
+    return Text('xxx');
   }
 }

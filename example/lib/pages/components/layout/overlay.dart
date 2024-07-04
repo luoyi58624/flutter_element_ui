@@ -11,7 +11,7 @@ class OverlayPage extends StatefulWidget {
 class _OverlayPageState extends State<OverlayPage> {
   @override
   Widget build(BuildContext context) {
-    return layout5();
+    return layout3();
   }
 
   Widget layout1() {
@@ -32,7 +32,9 @@ class _OverlayPageState extends State<OverlayPage> {
   Widget layout3() {
     return const ElSplitPanel(children: [
       SidebarWidget(),
-      ElSplitResizer(size: 1),
+      ElSplitResizer(
+          // position: ElSplitResizerPosition.right,
+          ),
       ElSplitPanel(
         axis: Axis.vertical,
         children: [
@@ -122,14 +124,19 @@ class FooterWidget extends ElSplitSizePanel {
 }
 
 class SidebarWidget extends ElSplitSizePanel {
-  const SidebarWidget({super.key, super.size = 100});
+  const SidebarWidget({
+    super.key,
+    super.size = 200,
+    super.minSize = 150,
+    super.maxSize = 300,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
-      child: const Text('Sidebar'),
-    );
+    // return Container(
+    //   color: Colors.green,
+    //   child: const Text('Sidebar'),
+    // );
     return SingleChildScrollView(
       child: Column(
         children: List.generate(
