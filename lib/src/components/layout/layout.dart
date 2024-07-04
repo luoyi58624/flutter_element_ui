@@ -25,7 +25,7 @@ typedef _NotifyAllOffsetFun = void Function(String layoutKey);
 /// * [ElAside] 侧边栏布局，用于左侧、右侧导航，它会占据全部高度，宽度自定义
 /// * [ElMain] 主页面布局，它会分配剩余的全部空间，你可以设置 flex 调整它的比例
 /// * [ElFooter] 底部布局，和[ElHeader]效果一样，仅做语义化
-/// * [ElLayoutSplit] 分割布局组件，它可以调整两个布局容器的尺寸
+/// * [ElLayoutSplit] 分割面板组件，它可以调整两个布局容器的尺寸
 abstract class ElLayoutWidget extends StatelessWidget {
   const ElLayoutWidget({super.key, this.layoutKey});
 
@@ -119,7 +119,7 @@ class ElLayout extends _ElFlexLayoutWidget {
   @override
   Widget build(BuildContext context) {
     assert(children.first is! ElLayoutSplit && children.last is! ElLayoutSplit,
-        'ElLayoutSplit分割布局组件必须存在两个布局组件之间');
+        'ElLayoutSplit分割面板组件必须存在两个布局组件之间');
 
     bool isRow =
         children.any((e) => e is ElHeader || e is ElFooter || e is ElNavTab) ==
@@ -262,7 +262,7 @@ class _ElLayoutInheritedWidget extends InheritedWidget {
   /// [ElLayout]的context
   final BuildContext layoutContext;
 
-  /// 如果设置了分割界面组件，则会注入分割布局数据
+  /// 如果设置了分割界面组件，则会注入分割面板数据
   final Map<String, _SplitLayoutData>? splitLayoutData;
 
   /// 当拖拽某个分割组件时，通知其他所有的分割组件更新位置

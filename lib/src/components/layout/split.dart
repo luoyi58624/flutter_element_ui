@@ -1,6 +1,6 @@
 part of 'layout.dart';
 
-/// 保存分割布局数据
+/// 保存分割面板数据
 abstract class _SplitLayoutData {
   /// 拖拽控件的偏移值，这是一个响应式变量，当发生更改时会自动重建绑定的相关组件
   final Obs<double> offset;

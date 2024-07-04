@@ -36,7 +36,7 @@ export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu.dart';
 export 'src/components/others/divider.dart';
-export 'src/components/others/split.dart';
+export 'src/components/others/split/split.dart';
 
 export 'src/styles/theme.dart';
 export 'src/styles/basic/button.dart';
