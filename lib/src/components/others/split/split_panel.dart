@@ -70,6 +70,10 @@ class ElSplitPanel extends ElSplitFlexPanel {
       final split = children[i];
       final previous = children[i - 1];
       if (split is ElSplitResizer) {
+        assert(
+            children[i - 1] is! ElSplitResizer &&
+                children[i + 1] is! ElSplitResizer,
+            '发现重复的分割条组件，请移除多余的ElSplitResizer');
         assert(previous is! ObsBuilder, '弹性盒子后面只能存在一个固定尺寸的分割面板');
         if (previous is ElSplitSizePanel) {
           final size = Obs(previous.size);
@@ -174,7 +178,16 @@ class ElSplitPanel extends ElSplitFlexPanel {
     if (child is ElSplitFlexPanel) {
       final flex = child.flex * _flexSplitFactor;
       final obsFlex = Obs(flex);
+      final minFlex = (child.minFlex ?? 0) * _flexSplitFactor;
+      int? maxFlex;
+      if (child.maxFlex != null) {
+        maxFlex = child.maxFlex! * _flexSplitFactor;
+      }
       final $child = ObsBuilder(builder: (context) {
+        var $flex = max(obsFlex.value, minFlex);
+        if (maxFlex != null) {
+          $flex = min($flex, maxFlex);
+        }
         return Expanded(
           flex: obsFlex.value,
           child: SizedBox.expand(child: child),
@@ -184,8 +197,8 @@ class ElSplitPanel extends ElSplitFlexPanel {
         $child,
         _FlexSplitData(
           flex: obsFlex,
-          minFlex: (child.minFlex ?? 0) * _flexSplitFactor,
-          maxFlex: (child.maxFlex ?? 0) * _flexSplitFactor,
+          minFlex: minFlex,
+          maxFlex: maxFlex,
         )
       );
     } else {
@@ -213,9 +226,11 @@ class ElSplitPanel extends ElSplitFlexPanel {
 
   Widget _obsBaseLayout(ElSplitSizePanel child, bool isRow, Obs<double> size) {
     return ObsBuilder(builder: (context) {
+      var $size = max(size.value, child.minSize ?? 0);
+      if (child.maxSize != null) $size = min($size, child.maxSize!);
       return SizedBox(
-        width: isRow ? size.value : double.infinity,
-        height: isRow ? double.infinity : size.value,
+        width: isRow ? $size : double.infinity,
+        height: isRow ? double.infinity : $size,
         child: child,
       );
     });

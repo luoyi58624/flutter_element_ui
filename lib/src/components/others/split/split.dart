@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
@@ -37,15 +39,15 @@ abstract class ElSplitSizePanel extends _ElSplitPanelWidget {
     this.minSize,
     this.maxSize,
     super.cacheKey,
-  });
+  }) : assert(minSize == null || minSize >= 0);
 
   /// 布局默认尺寸
   final double size;
 
-  /// 最小尺寸
+  /// 最小尺寸，要么为空，要么必须大于等于0
   final double? minSize;
 
-  /// 最大尺寸
+  /// 最大尺寸，该值必须由你根据业务手动指定，如果不传，几乎必定引起边界异常
   final double? maxSize;
 }
 

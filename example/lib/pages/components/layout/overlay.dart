@@ -32,14 +32,12 @@ class _OverlayPageState extends State<OverlayPage> {
   Widget layout3() {
     return const ElSplitPanel(children: [
       SidebarWidget(),
-      ElSplitResizer(
-          // position: ElSplitResizerPosition.right,
-          ),
+      ElSplitResizer(),
       ElSplitPanel(
         axis: Axis.vertical,
         children: [
           HeaderWidget(),
-          ElSplitResizer(size: 1),
+          ElSplitResizer(),
           MainWidget(),
         ],
       ),
