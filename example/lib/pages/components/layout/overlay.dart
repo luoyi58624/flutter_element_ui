@@ -73,7 +73,14 @@ class _OverlayPageState extends State<OverlayPage> {
         HeaderWidget(),
         ElSplitResizer(),
         ElSplitPanel(children: [
-          MainWidget(),
+          ElSplitPanel(
+            axis: Axis.vertical,
+            children: [
+              MainWidget(),
+              ElSplitResizer(size: 1),
+              MainWidget(),
+            ],
+          ),
           ElSplitResizer(size: 1),
           MainWidget(),
           ElSplitResizer(size: 1),

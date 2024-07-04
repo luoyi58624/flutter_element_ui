@@ -1,10 +1,11 @@
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../utils/assert.dart';
 
-part 'split_layout.dart';
+part 'split_panel.dart';
 
 part 'split_resizer.dart';
 
@@ -13,7 +14,7 @@ abstract class ElSplitWidget extends StatelessWidget {
   const ElSplitWidget({super.key});
 }
 
-/// 分割面板抽象类
+/// 分割面板抽象类，它支持两种分割布局：SizedBox、Flex
 abstract class _ElSplitPanelWidget extends ElSplitWidget {
   const _ElSplitPanelWidget({
     super.key,

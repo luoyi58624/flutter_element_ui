@@ -18,6 +18,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
   /// 具体使用只需在布局类之间插入分割条组件即可完成分割，在使用的过程你可能会出现一些断言错误，
   /// 例如：
   /// * 分割条组件不能出现在首尾
+  /// * 分割条组件不能重复
   /// * 弹性布局子组件是基于比例计算，但如果存在多个就不可以存在固定尺寸的子组件
   /// * 弹性盒子后面只能存在一个固定尺寸的分割面板
   final List<ElSplitWidget> children;
@@ -38,18 +39,18 @@ class ElSplitPanel extends ElSplitFlexPanel {
     _assertCheck();
     bool isRow = axis == Axis.horizontal;
     List<Widget> $children = List.from(children);
-    // 如果没有分割组件，则直接将结果进行简单地返回
+    // 如果没有分割条组件，则直接将结果进行简单地返回
     if (children.whereType<ElSplitResizer>().isEmpty) {
-      $children = $children.map((e) => _splitLayout(e, isRow)).toList();
+      $children = $children.map((e) => _splitPanel(e, isRow)).toList();
       return isRow ? Row(children: $children) : Column(children: $children);
     }
 
     late Widget currentWidget;
-    // 如果有多个弹性分割面板，那么将不允许存在 ElSplitSizePanel 布局
+    // 如果弹性分割面板存在多个，则使用弹性分割布局计算，否则使用常规布局计算
     if (children.whereType<ElSplitFlexPanel>().length > 1) {
       currentWidget = _calcFlexSplitLayout(context, $children, isRow);
     } else {
-      currentWidget = _calcSizedBoxSplitLayout($children, isRow);
+      currentWidget = _calcSizeSplitLayout($children, isRow);
     }
 
     return _SplitPanelInheritedWidget(
@@ -59,11 +60,11 @@ class ElSplitPanel extends ElSplitFlexPanel {
     );
   }
 
-  Widget _calcSizedBoxSplitLayout(List<Widget> children, bool isRow) {
+  Widget _calcSizeSplitLayout(List<Widget> children, bool isRow) {
     Map<String, _SizedBoxSplitData> splitData = {};
     // 处理边缘情况，当第一、第二节点之间不存在分割组件，第一个布局要进行转换
     if (children[1] is! ElSplitResizer) {
-      children[0] = _splitLayout(children[0], isRow);
+      children[0] = _splitPanel(children[0], isRow);
     }
     for (int i = 1; i < children.length - 1; i++) {
       final split = children[i];
@@ -77,9 +78,9 @@ class ElSplitPanel extends ElSplitFlexPanel {
             reversal: false,
           );
           children[i - 1] = _obsBaseLayout(previous, isRow, size);
-          children[i] = _SizedBoxSplitWidget(split, previous.id);
+          children[i] = _SizeResizerWidget(split, previous.id);
           if (i == children.length - 2) {
-            children[i + 1] = _splitLayout(children[i + 1], isRow);
+            children[i + 1] = _splitPanel(children[i + 1], isRow);
           }
         } else if (previous is ElSplitFlexPanel) {
           // 上一个组件若是弹性盒子，那么这里需要处理两种情况：
@@ -92,17 +93,17 @@ class ElSplitPanel extends ElSplitFlexPanel {
               size: size,
               reversal: true,
             );
-            children[i - 1] = _splitLayout(previous, isRow);
+            children[i - 1] = _splitPanel(previous, isRow);
             children[i + 1] = _obsBaseLayout(next, isRow, size);
-            children[i] = _SizedBoxSplitWidget(split, next.id);
+            children[i] = _SizeResizerWidget(split, next.id);
           }
         }
       } else {
         if (children[i + 1] is! ElSplitResizer) {
-          children[i] = _splitLayout(split, isRow);
+          children[i] = _splitPanel(split, isRow);
         }
         if (i == children.length - 2) {
-          children[i + 1] = _splitLayout(children[i + 1], isRow);
+          children[i + 1] = _splitPanel(children[i + 1], isRow);
         }
       }
     }
@@ -130,7 +131,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
             children[i - 1] is! ElSplitResizer &&
                 children[i + 1] is! ElSplitResizer,
             '发现重复的分割条组件，请移除多余的ElSplitResizer');
-        final splitWidget = _FlexSplitWidget(child);
+        final splitWidget = _FlexResizerWidget(child);
         final previous = _buildObsFlexWidget(children[i - 1]);
         final next = _buildObsFlexWidget(children[i + 1]);
         late _FlexSplitData data1;
@@ -148,6 +149,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
           data2 = next.$2;
           sumFlex += next.$2.flex.value;
         } else {
+          assert(previousSplit != null, elInternalError);
           data2 = splitData[previousSplit!]!.$2;
         }
         children[i] = splitWidget;
@@ -167,6 +169,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
     );
   }
 
+  /// 构建响应式弹性分割布局小部件，并返回弹性分割布局配置数据
   (Widget, _FlexSplitData)? _buildObsFlexWidget(Widget child) {
     if (child is ElSplitFlexPanel) {
       final flex = child.flex * _flexSplitFactor;
@@ -190,7 +193,8 @@ class ElSplitPanel extends ElSplitFlexPanel {
     }
   }
 
-  Widget _splitLayout(Widget child, bool isRow) {
+  /// 包装原始小部件，填充内部所有空间
+  Widget _splitPanel(Widget child, bool isRow) {
     if (child is ElSplitSizePanel) {
       return SizedBox(
         width: isRow ? child.size : double.infinity,
@@ -199,7 +203,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
       );
     } else if (child is ElSplitFlexPanel) {
       return Expanded(
-        flex: child.flex * _flexSplitFactor,
+        flex: child.flex,
         child: SizedBox.expand(child: child),
       );
     } else {
