@@ -32,7 +32,9 @@ class _OverlayPageState extends State<OverlayPage> {
   Widget layout3() {
     return const ElSplitPanel(children: [
       SidebarWidget(),
-      ElSplitResizer(),
+      ElSplitResizer(
+        position: ElSplitResizerPosition.right,
+      ),
       ElSplitPanel(
         axis: Axis.vertical,
         children: [
@@ -98,7 +100,12 @@ class _OverlayPageState extends State<OverlayPage> {
 }
 
 class HeaderWidget extends ElSplitSizePanel {
-  const HeaderWidget({super.key, super.size = 56});
+  const HeaderWidget({
+    super.key,
+    super.size = 56,
+    super.minSize = 56,
+    super.maxSize = 72,
+  });
 
   @override
   Widget build(BuildContext context) {

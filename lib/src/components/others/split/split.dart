@@ -36,16 +36,16 @@ abstract class ElSplitSizePanel extends _ElSplitPanelWidget {
   const ElSplitSizePanel({
     super.key,
     required this.size,
-    this.minSize,
+    this.minSize = 0,
     this.maxSize,
     super.cacheKey,
-  }) : assert(minSize == null || minSize >= 0);
+  }) : assert(minSize >= 0);
 
   /// 布局默认尺寸
   final double size;
 
-  /// 最小尺寸，要么为空，要么必须大于等于0
-  final double? minSize;
+  /// 最小尺寸，必须大于等于0
+  final double minSize;
 
   /// 最大尺寸，该值必须由你根据业务手动指定，如果不传，几乎必定引起边界异常
   final double? maxSize;

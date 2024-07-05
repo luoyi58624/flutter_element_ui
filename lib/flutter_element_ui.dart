@@ -2,6 +2,7 @@ library flutter_element_ui;
 
 export 'package:luoyi_flutter_base/luoyi_flutter_base.dart'
     show BrightnessWidget, Obs, ObsBuilder, useObs;
+export 'src/service.dart' show $el;
 export 'src/extension.dart' show ElThemeExtension;
 export 'src/theme.dart';
 

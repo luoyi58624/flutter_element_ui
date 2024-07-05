@@ -79,6 +79,8 @@ class ElSplitPanel extends ElSplitFlexPanel {
           final size = Obs(previous.size);
           splitData[previous.id] = _SizedBoxSplitData(
             size: size,
+            minSize: previous.minSize,
+            maxSize: previous.maxSize,
             reversal: false,
           );
           children[i - 1] = _obsBaseLayout(previous, isRow, size);
@@ -95,6 +97,8 @@ class ElSplitPanel extends ElSplitFlexPanel {
             final size = Obs(next.size);
             splitData[next.id] = _SizedBoxSplitData(
               size: size,
+              minSize: next.minSize,
+              maxSize: next.maxSize,
               reversal: true,
             );
             children[i - 1] = _splitPanel(previous, isRow);
@@ -226,7 +230,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
 
   Widget _obsBaseLayout(ElSplitSizePanel child, bool isRow, Obs<double> size) {
     return ObsBuilder(builder: (context) {
-      var $size = max(size.value, child.minSize ?? 0);
+      var $size = max(size.value, child.minSize);
       if (child.maxSize != null) $size = min($size, child.maxSize!);
       return SizedBox(
         width: isRow ? $size : double.infinity,
@@ -311,9 +315,16 @@ class _FlexSplitInheritedWidget extends InheritedWidget {
 
 class _SizedBoxSplitData {
   final Obs<double> size;
+  final double minSize;
+  final double? maxSize;
   final bool reversal;
 
-  _SizedBoxSplitData({required this.size, required this.reversal});
+  _SizedBoxSplitData({
+    required this.size,
+    required this.reversal,
+    required this.minSize,
+    required this.maxSize,
+  });
 }
 
 typedef _FlexSplitDataType = Map<int, (_FlexSplitData, _FlexSplitData)>;

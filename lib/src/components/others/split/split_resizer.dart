@@ -79,7 +79,11 @@ abstract class _ResizerWidget extends HookWidget {
 
   final ElSplitResizer child;
 
-  Widget buildResizer(BuildContext context, _UpdateFun updateFun) {
+  Widget buildResizer(
+    BuildContext context, {
+    required _UpdateFun updateFun,
+    required VoidCallback endFun,
+  }) {
     final isActive = useObs(false);
     final isRow = ElSplitPanel.isRow(context);
     var triggerOffsetSize = -(child.triggerSize / 2);
@@ -154,10 +158,12 @@ abstract class _ResizerWidget extends HookWidget {
                       if (isActive.value) updateFun(e.delta.dx);
                     },
                     onHorizontalDragEnd: (e) {
+                      endFun();
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onHorizontalDragCancel: () {
+                      endFun();
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
@@ -175,10 +181,12 @@ abstract class _ResizerWidget extends HookWidget {
                       if (isActive.value) updateFun(e.delta.dy);
                     },
                     onVerticalDragEnd: (e) {
+                      endFun();
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onVerticalDragCancel: () {
+                      endFun();
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
@@ -202,10 +210,32 @@ class _SizeResizerWidget extends _ResizerWidget {
   @override
   Widget build(BuildContext context) {
     final data = _SizedBoxSplitInheritedWidget.of(context).splitData[layoutId]!;
-
-    return buildResizer(context, (e) {
-      data.reversal ? data.size.value -= e : data.size.value += e;
-    });
+    final isRow = ElSplitPanel.isRow(context);
+    return buildResizer(
+      context,
+      updateFun: (e) {
+        data.reversal ? data.size.value -= e : data.size.value += e;
+        if (data.size.value <= data.minSize) {
+          $el.cursor.value = isRow
+              ? SystemMouseCursors.resizeRight
+              : SystemMouseCursors.resizeDown;
+        } else if (data.maxSize != null && data.size.value >= data.maxSize!) {
+          $el.cursor.value = isRow
+              ? SystemMouseCursors.resizeLeft
+              : SystemMouseCursors.resizeUp;
+        } else {
+          $el.cursor.value = isRow
+              ? SystemMouseCursors.resizeColumn
+              : SystemMouseCursors.resizeRow;
+        }
+      },
+      endFun: () {
+        var size = data.size.value;
+        size = max(size, data.minSize);
+        if (data.maxSize != null) size = min(size, data.maxSize!);
+        data.size.value = size;
+      },
+    );
   }
 }
 
@@ -219,17 +249,21 @@ class _FlexResizerWidget extends _ResizerWidget {
     final data = _FlexSplitInheritedWidget.of(context);
     final (data1, data2) = data.splitData[hashCode]!;
 
-    return buildResizer(context, (e) {
-      final sumFlex = data1.flex.value + data2.flex.value;
-      var value = (e /
-          (sumFlex /
-              data.sumFlex *
-              (isRow
-                  ? ElSplitPanel.splitPanelContext(context).size!.width
-                  : ElSplitPanel.splitPanelContext(context).size!.height)));
-      final flexValue = (sumFlex * value).floor();
-      data1.flex.value += flexValue;
-      data2.flex.value -= flexValue;
-    });
+    return buildResizer(
+      context,
+      updateFun: (e) {
+        final sumFlex = data1.flex.value + data2.flex.value;
+        var value = (e /
+            (sumFlex /
+                data.sumFlex *
+                (isRow
+                    ? ElSplitPanel.splitPanelContext(context).size!.width
+                    : ElSplitPanel.splitPanelContext(context).size!.height)));
+        final flexValue = (sumFlex * value).floor();
+        data1.flex.value += flexValue;
+        data2.flex.value -= flexValue;
+      },
+      endFun: () {},
+    );
   }
 }
