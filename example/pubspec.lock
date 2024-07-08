@@ -184,10 +184,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_obs
-      sha256: "1cc7b2428048dbdb6f5d1e4e7df38b0ecd2a5d60528db7233a37401380c7cb64"
+      sha256: "88ba1cb03d20d173518c1840923469fe750bc9f8edea132bda3d21dbea98f59c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.2.2"
   flutter_shaders:
     dependency: transitive
     description:
@@ -217,14 +217,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
-  go_router:
-    dependency: transitive
-    description:
-      name: go_router
-      sha256: cdae1b9c8bd7efadcef6112e81c903662ef2ce105cbd220a04bbb7c3425b5554
-      url: "https://pub.dev"
-    source: hosted
-    version: "14.2.0"
   http:
     dependency: transitive
     description:
@@ -294,7 +286,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c77872b65fe59f890f77ad9bed5ae2a9cd2d59d9
+      resolved-ref: "96a7bdfcbe29b9666988f6f72dc3a4b93bdc908b"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.2.0"

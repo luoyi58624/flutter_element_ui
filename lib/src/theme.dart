@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/components/basic/brightness.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/icon.dart';
+import 'components/basic/responsive.dart';
 import 'components/basic/scrollbar.dart';
 import 'service.dart';
 import 'styles/theme.dart';
@@ -21,11 +23,13 @@ class ElThemeData {
   late final ElColorThemeData theme;
   late final ElColorThemeData darkTheme;
   late final ElConfigData config;
+  final ElResponsiveData responsive;
 
   ElThemeData({
     ElColorThemeData? theme,
     ElColorThemeData? darkTheme,
     ElConfigData? config,
+    this.responsive = const ElResponsiveData(),
   }) {
     this.theme = theme ?? ElColorThemeData.theme;
     this.darkTheme = darkTheme ?? ElColorThemeData.darkTheme;
@@ -101,9 +105,9 @@ class ElTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = data ?? defaultThemeData;
-    return ResponsiveWidget(
-      data: const ResponsiveData(),
-      child: BrightnessWidget(
+    return ElResponsive(
+      data: $data.responsive,
+      child: ElBrightness(
         brightness: brightness,
         child: Builder(builder: (context) {
           ElColorThemeData $theme =
