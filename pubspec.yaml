@@ -10,9 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  luoyi_flutter_base:
-    git:
-      url: https://github.com/luoyi58624/luoyi_flutter_base.git
+  luoyi_flutter_base: ^2.3.0
   flutter_element_annotation:
     path: ./packages/flutter_element_annotation
   flutter_svg: ^2.0.10+1
