@@ -30,51 +30,6 @@ class _ElResponsiveWidget extends InheritedWidget {
   bool updateShouldNotify(_ElResponsiveWidget oldWidget) => false;
 }
 
-/// Element UI 文字排版配置
-class _ElTypography extends InheritedWidget {
-  const _ElTypography({
-    required super.child,
-    required this.h1,
-    required this.h2,
-    required this.h3,
-    required this.h4,
-    required this.h5,
-    required this.h6,
-    required this.p,
-  });
-
-  /// 一级标题
-  final TextStyle h1;
-
-  /// 二级标题
-  final TextStyle h2;
-
-  /// 三级标题
-  final TextStyle h3;
-
-  /// 四级标题
-  final TextStyle h4;
-
-  /// 五级标题
-  final TextStyle h5;
-
-  /// 六级标题
-  final TextStyle h6;
-
-  /// 普通段落
-  final TextStyle p;
-
-  static _ElTypography of(BuildContext context) {
-    final _ElTypography? result =
-        context.dependOnInheritedWidgetOfExactType<_ElTypography>();
-    assert(result != null, 'No ElTypography found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_ElTypography oldWidget) => true;
-}
-
 /// 平台亮度小部件，抹平[MaterialApp]、[CupertinoApp]等不同主题系统获取暗黑主题的差异
 ///
 /// 示例：

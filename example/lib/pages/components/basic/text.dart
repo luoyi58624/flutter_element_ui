@@ -8,8 +8,21 @@ class TextPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const ElText('hello'),
+        const H1('一级标题'),
+        const H2('二级标题'),
+        const H3('三级标题'),
+        const H4('四级标题'),
+        const H5('五级标题'),
+        const H6('六级标题'),
+        const ElText('普通文本'),
         const ElText(false),
+        const H1([
+          '标题',
+          H4(
+            '四级标题',
+            style: TextStyle(color: Colors.red),
+          ),
+        ]),
         ElText(
           [
             'xxx',
@@ -30,6 +43,10 @@ class TextPage extends StatelessWidget {
             const TextSpan(
               text: 'ccc',
               style: TextStyle(color: Colors.green),
+            ),
+            const H1(
+              '一级标题',
+              style: TextStyle(color: Colors.red),
             ),
             const Icon(Icons.home),
             'xxx',

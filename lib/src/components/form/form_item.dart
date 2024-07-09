@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../basic/text.dart';
+import '../basic/typography.dart';
 import 'form.dart';
 
 class ElFormItem extends StatelessWidget {

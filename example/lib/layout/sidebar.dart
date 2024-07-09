@@ -140,7 +140,6 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    i('sidebar build');
     return ObsBuilder(
       builder: (context) {
         return ElMenu(

@@ -1,5 +1,5 @@
-import 'dart:ui';
-
+import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
@@ -115,7 +115,7 @@ class ElBrightnessData {
 /// Element UI 全局配置，定义了所有组件的默认配置信息
 @ElModel(copyWith: true)
 class ElConfigData {
-  static ElConfigData config = ElConfigData();
+  static ElConfigData data = ElConfigData();
 
   /// 全局默认文字大小
   double fonSize;
@@ -149,20 +149,21 @@ class ElConfigData {
   });
 }
 
+/// Element UI 响应式配置
 class ElResponsiveData {
-  /// 特小号手机最大尺寸
+  /// 特小号设备最大尺寸
   final double xs;
 
-  /// 手机最大尺寸
+  /// 移动设备最大尺寸
   final double sm;
 
-  /// 平板最大尺寸
+  /// 平板设备最大尺寸
   final double md;
 
-  /// 桌面最大尺寸
+  /// 桌面设备最大尺寸
   final double lg;
 
-  /// 大屏桌面最大尺寸
+  /// 大屏桌面设备最大尺寸
   final double xl;
 
   const ElResponsiveData({
@@ -186,6 +187,116 @@ class ElResponsiveData {
       md: md ?? this.md,
       lg: lg ?? this.lg,
       xl: xl ?? this.xl,
+    );
+  }
+}
+
+/// Element UI 字体排版配置
+class ElTypographyData {
+  /// 默认的字体排版配置
+  static final data = ElTypographyData(
+    h1: const TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    ),
+    h2: const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+    ),
+    h3: const TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+    h4: const TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+    ),
+    h5: const TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+    ),
+    h6: const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.bold,
+    ),
+    p: const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+    ),
+  );
+
+  /// 一级标题
+  final TextStyle h1;
+
+  /// 二级标题
+  final TextStyle h2;
+
+  /// 三级标题
+  final TextStyle h3;
+
+  /// 四级标题
+  final TextStyle h4;
+
+  /// 五级标题
+  final TextStyle h5;
+
+  /// 六级标题
+  final TextStyle h6;
+
+  /// 普通文本，它直接作用于[ElText]
+  final TextStyle p;
+
+  ElTypographyData({
+    required this.h1,
+    required this.h2,
+    required this.h3,
+    required this.h4,
+    required this.h5,
+    required this.h6,
+    required this.p,
+  });
+
+  ElTypographyData copyWith({
+    TextStyle? h1,
+    TextStyle? h2,
+    TextStyle? h3,
+    TextStyle? h4,
+    TextStyle? h5,
+    TextStyle? h6,
+    TextStyle? p,
+  }) {
+    return ElTypographyData(
+      h1: h1 ?? this.h1,
+      h2: h2 ?? this.h2,
+      h3: h3 ?? this.h3,
+      h4: h4 ?? this.h4,
+      h5: h5 ?? this.h5,
+      h6: h6 ?? this.h6,
+      p: p ?? this.p,
+    );
+  }
+
+  /// 接受一个文本样式，将其应用于所有文本
+  ElTypographyData merge(TextStyle style) {
+    return mergeTitle(style)..mergeNormal(style);
+  }
+
+  /// 接受一个文本样式，将其应用于所有标题
+  ElTypographyData mergeTitle(TextStyle style) {
+    return copyWith(
+      h1: h1.merge(style),
+      h2: h2.merge(style),
+      h3: h3.merge(style),
+      h4: h4.merge(style),
+      h5: h5.merge(style),
+      h6: h6.merge(style),
+    );
+  }
+
+  /// 接受一个文本样式，将其应用于所有普通文本
+  ElTypographyData mergeNormal(TextStyle style) {
+    return copyWith(
+      p: p.merge(style),
     );
   }
 }

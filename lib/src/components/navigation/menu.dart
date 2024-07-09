@@ -6,7 +6,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
-import '../basic/text.dart';
+import '../basic/typography.dart';
 
 /// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 22;

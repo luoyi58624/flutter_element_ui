@@ -16,11 +16,7 @@ class ButtonPage extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Gap(36),
-            Text(title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                )),
+            H3(title),
             const Gap(8),
           ],
         );

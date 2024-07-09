@@ -9,7 +9,8 @@ extension ElThemeExtension on BuildContext {
 }
 
 extension ElResponsiveExtension on BuildContext {
-  /// 极小设备，最大宽度默认320
+  /// 极小设备，最大宽度默认320，它表示当前处于一种极端环境，设备屏幕宽度非常狭窄
+  ///
   bool get xs =>
       MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).xs;
 
