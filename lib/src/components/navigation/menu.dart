@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_element_ui/src/extension.dart';
+import 'package:flutter_element_ui/src/theme.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
+import '../basic/text.dart';
 
 /// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 22;

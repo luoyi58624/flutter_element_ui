@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extension.dart';
+import 'package:flutter_element_ui/src/theme.dart';
+
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../../service.dart';
 import '../../../utils/icons.dart';
@@ -47,7 +48,8 @@ class ElLoading extends StatelessWidget {
     // 当loading被手动关闭时的回调函数
     void Function()? onCancel,
   }) {
-    _LoadingUtil.show(text, delayClose: delayClose, cancelText: cancelText, onCancel: onCancel);
+    _LoadingUtil.show(text,
+        delayClose: delayClose, cancelText: cancelText, onCancel: onCancel);
   }
 
   /// 如果页面上存在loading弹窗，则关闭。
@@ -82,13 +84,15 @@ class _LoadingWidget extends StatefulWidget {
   State<_LoadingWidget> createState() => _LoadingWidgetState();
 }
 
-class _LoadingWidgetState extends State<_LoadingWidget> with SingleTickerProviderStateMixin {
+class _LoadingWidgetState extends State<_LoadingWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
     if (widget.loading) start();
   }
 

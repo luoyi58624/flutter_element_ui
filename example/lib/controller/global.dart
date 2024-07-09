@@ -1,4 +1,4 @@
-import 'package:mini_getx/mini_getx.dart';
+import 'package:example/global.dart';
 
 class GlobalController extends GetxController {
   static GlobalController get of => Get.find();

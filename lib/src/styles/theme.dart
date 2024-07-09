@@ -10,9 +10,9 @@ part '../generates/styles/theme.g.dart';
 
 /// Element UI 主题对象
 @ElModel(copyWith: true)
-class ElColorThemeData {
-  static ElColorThemeData theme = ElColorThemeData();
-  static ElColorThemeData darkTheme = ElColorThemeData.dark();
+class ElBrightnessData {
+  static ElBrightnessData lightTheme = ElBrightnessData();
+  static ElBrightnessData darkTheme = ElBrightnessData.dark();
 
   /// 描述当前主题系统是否是亮色、暗色
   @ElModelField(ignore: ElModel.all())
@@ -70,7 +70,7 @@ class ElColorThemeData {
   double modalElevation;
 
   /// 默认的亮色主题构造函数
-  ElColorThemeData({
+  ElBrightnessData({
     this.brightness = Brightness.light,
     this.primary = const Color(0xff409eff),
     this.success = const Color(0xff67c23a),
@@ -91,7 +91,7 @@ class ElColorThemeData {
   });
 
   /// 默认的暗色主题构造函数
-  ElColorThemeData.dark({
+  ElBrightnessData.dark({
     this.brightness = Brightness.dark,
     this.primary = const Color(0xff0ea5e9),
     this.success = const Color(0xff14b8a6),
@@ -147,4 +147,45 @@ class ElConfigData {
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
   });
+}
+
+class ElResponsiveData {
+  /// 特小号手机最大尺寸
+  final double xs;
+
+  /// 手机最大尺寸
+  final double sm;
+
+  /// 平板最大尺寸
+  final double md;
+
+  /// 桌面最大尺寸
+  final double lg;
+
+  /// 大屏桌面最大尺寸
+  final double xl;
+
+  const ElResponsiveData({
+    this.xs = 320,
+    this.sm = 640,
+    this.md = 1024,
+    this.lg = 1920,
+    this.xl = 2560,
+  });
+
+  ElResponsiveData copyWith({
+    double? xs,
+    double? sm,
+    double? md,
+    double? lg,
+    double? xl,
+  }) {
+    return ElResponsiveData(
+      xs: xs ?? this.xs,
+      sm: sm ?? this.sm,
+      md: md ?? this.md,
+      lg: lg ?? this.lg,
+      xl: xl ?? this.xl,
+    );
+  }
 }

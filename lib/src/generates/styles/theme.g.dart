@@ -6,8 +6,8 @@ part of '../../styles/theme.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElColorThemeDataExtension on ElColorThemeData {
-  ElColorThemeData copyWith({
+extension ElColorThemeDataExtension on ElBrightnessData {
+  ElBrightnessData copyWith({
     Color? primary,
     Color? success,
     Color? info,
@@ -25,7 +25,7 @@ extension ElColorThemeDataExtension on ElColorThemeData {
     double? cardElevation,
     double? modalElevation,
   }) {
-    return ElColorThemeData(
+    return ElBrightnessData(
       primary: primary ?? this.primary,
       success: success ?? this.success,
       info: info ?? this.info,

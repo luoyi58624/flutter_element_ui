@@ -11,13 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_element_ui:
-    path: ..
-  faker: ^2.1.0
-  super_sliver_list: ^0.4.1
   decimal: ^3.0.0
-  mini_getx: ^5.0.0
-  url_launcher: ^6.3.0
   flutter_animate: ^4.5.0
   defer_pointer: ^0.0.2
   custom_pop_up_menu: ^1.2.4
@@ -26,9 +20,16 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 dependency_overrides:
-  luoyi_flutter_base:
+  flutter_element_ui:
+    path: ..
+  flutter_base:
     git:
-      url: https://github.com/luoyi58624/luoyi_flutter_base.git
+      url: https://gitee.com/luoyi666/flutter_base.git
 
 flutter:
   uses-material-design: true
+#  fonts:
+#    - family: NotoSansSC
+#      fonts:
+#        - asset: packages/luoyi_flutter_font/fonts/NotoSansSC/700.ttf
+#        - asset: packages/luoyi_flutter_font/fonts/NotoSansSC/500.ttf

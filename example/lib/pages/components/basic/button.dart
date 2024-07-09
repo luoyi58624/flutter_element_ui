@@ -1,8 +1,6 @@
 import 'package:example/controller/global.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_getx/mini_getx.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ButtonPage extends HookWidget {
   const ButtonPage({super.key});
@@ -19,8 +17,8 @@ class ButtonPage extends HookWidget {
           children: [
             const Gap(36),
             Text(title,
-                style: TextStyle(
-                  fontWeight: FontUtil.bold,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontSize: 18,
                 )),
             const Gap(8),

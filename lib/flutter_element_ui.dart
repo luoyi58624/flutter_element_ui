@@ -1,9 +1,8 @@
 library flutter_element_ui;
 
 export 'src/service.dart' show $el;
-export 'src/extension.dart'
-    show ElThemeExtension, ElResponsiveExtension, ElBrightnessExtension;
-export 'src/theme.dart';
+
+export 'src/theme.dart' hide ThemeExtension, ColorExtension;
 
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';

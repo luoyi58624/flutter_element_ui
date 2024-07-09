@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extension.dart';
+import 'package:flutter_element_ui/src/theme.dart';
 
 class ElTag extends StatelessWidget {
   const ElTag(
@@ -34,7 +34,9 @@ class ElTag extends StatelessWidget {
       decoration: BoxDecoration(
         color: fill ? color : color.withAlpha(10),
         borderRadius: BorderRadius.circular(2),
-        border: fill ? Border.all(color: const Color(0x00000000), width: 1) : Border.all(color: color, width: 1),
+        border: fill
+            ? Border.all(color: const Color(0x00000000), width: 1)
+            : Border.all(color: color, width: 1),
       ),
       child: Center(
         child: Text(

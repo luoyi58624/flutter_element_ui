@@ -1,45 +1,44 @@
-import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-
-import 'components/basic/brightness.dart';
-import 'components/basic/responsive.dart';
-import 'styles/theme.dart';
-import 'theme.dart';
+part of '../theme.dart';
 
 extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置数据
   ElConfigData get elConfig => ElTheme.of(this).config;
 
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElColorThemeData get elTheme => isDark ? darkTheme : theme;
+  ElBrightnessData get elTheme => isDark ? darkTheme : theme;
 }
 
 extension ElResponsiveExtension on BuildContext {
   /// 极小设备，最大宽度默认320
-  bool get xs => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).xs;
+  bool get xs =>
+      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).xs;
 
   /// 移动端设备，最大宽度默认640
-  bool get sm => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).sm;
+  bool get sm =>
+      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).sm;
 
   /// 平板设备，最大宽度默认1024
-  bool get md => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).md;
+  bool get md =>
+      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).md;
 
   /// 桌面设备，最大宽度默认1920
-  bool get lg => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).lg;
+  bool get lg =>
+      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).lg;
 
   /// 大屏桌面设备，最大宽度默认2560
-  bool get xl => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).xl;
+  bool get xl =>
+      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).xl;
 }
 
 extension ElBrightnessExtension on BuildContext {
-  /// 当前环境是否是暗黑模式，默认跟随系统
-  bool get isDark => ElBrightness.isDark(this);
+  /// 当前环境是否是暗黑模式，默认跟随平台系统
+  bool get isDark => _ElBrightness.isDark(this);
 }
 
 extension ThemeExtension on BuildContext {
-  ElColorThemeData get theme => ElTheme.of(this).theme;
+  ElBrightnessData get theme => ElTheme.of(this).theme;
 
-  ElColorThemeData get darkTheme => ElTheme.of(this).darkTheme;
+  ElBrightnessData get darkTheme => ElTheme.of(this).darkTheme;
 
   /// Element UI 主题类型颜色集合
   Map<String, Color> get themeTypeColors => {
@@ -52,14 +51,14 @@ extension ThemeExtension on BuildContext {
 }
 
 /// 颜色渐变因子
-const int brightenRatio = 10;
-const int darkenRatio = 8;
+const int _brightenRatio = 10;
+const int _darkenRatio = 8;
 
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗
 extension ColorExtension on Color {
   Color _light(BuildContext context, int level, bool reverse) {
-    final darkenColor = darken(level * darkenRatio);
-    final brightenColor = brighten(level * brightenRatio);
+    final darkenColor = darken(level * _darkenRatio);
+    final brightenColor = brighten(level * _brightenRatio);
     if (!reverse) {
       return context.isDark ? darkenColor : brightenColor;
     } else {

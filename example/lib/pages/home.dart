@@ -10,7 +10,6 @@ class HomePage extends HookWidget {
     final (flag, toggle) = useToggle(true);
     return Builder(builder: (context) {
       return Material(
-        textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
         child: Column(
           children: [
             ElButton(child: 'count: $count', onPressed: addCount),

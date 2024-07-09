@@ -32,7 +32,7 @@ class Demo extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: DefaultTextStyle.merge(
-                  style: TextStyle(
+                  style: const TextStyle(
                       // color: headerColor.elTextColor(context),
                       ),
                   child: titleWidget,
@@ -48,8 +48,8 @@ class Demo extends StatelessWidget {
     if (DartUtil.isBaseType(title)) {
       return Text(
         '$title',
-        style: TextStyle(
-          fontWeight: FontUtil.bold,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
           fontSize: 20,
         ),
       );

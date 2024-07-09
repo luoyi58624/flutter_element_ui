@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extension.dart';
 
 import 'body.dart';
 

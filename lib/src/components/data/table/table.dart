@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extension.dart';
+import 'package:flutter_element_ui/src/theme.dart';
+
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-import 'package:super_sliver_list/super_sliver_list.dart';
 import 'config.dart';
 
 part 'table_header.dart';
@@ -25,7 +25,8 @@ class _ElTableData extends InheritedWidget {
   final ValueNotifier<int> hoverIndex;
 
   static _ElTableData of(BuildContext context) {
-    final _ElTableData? result = context.dependOnInheritedWidgetOfExactType<_ElTableData>();
+    final _ElTableData? result =
+        context.dependOnInheritedWidgetOfExactType<_ElTableData>();
     assert(result != null, 'No _ElTableData found in context');
     return result!;
   }
@@ -168,7 +169,8 @@ class _ElTableState extends State<ElTable> {
   }
 
   /// 构建水平横向滚动容器组件
-  Widget buildHorizontalScrollWidget({required Widget child, bool enable = true}) {
+  Widget buildHorizontalScrollWidget(
+      {required Widget child, bool enable = true}) {
     return enable
         ? ScrollConfiguration(
             key: ValueKey(widget.dragScroll),
@@ -194,14 +196,18 @@ class _ElTableState extends State<ElTable> {
     return buildHorizontalScrollWidget(
       enable: true,
       child: SizedBox(
-        width: columnMaxWidth <= columnMinWidth ? columnMinWidth : columnMaxWidth,
+        width:
+            columnMaxWidth <= columnMinWidth ? columnMinWidth : columnMaxWidth,
         child: Column(
           children: [
             _TableHeader(columns: columnList),
             Expanded(
               child: _TableColumnScroll(
                 controller: scrollController,
-                linkageController: [fixedLeftScrollController, fixedRightScrollController],
+                linkageController: [
+                  fixedLeftScrollController,
+                  fixedRightScrollController
+                ],
                 enableScrollbar: fixedRightColumnList.isEmpty,
                 dragScroll: widget.dragScroll,
                 itemCount: widget.data.length,
@@ -308,7 +314,8 @@ class _ElTableState extends State<ElTable> {
 }
 
 /// 构建列的每一项
-Widget _buildColumnItemWidget({required Widget child, required ElTableColumn column}) {
+Widget _buildColumnItemWidget(
+    {required Widget child, required ElTableColumn column}) {
   if (column.width != null) {
     return SizedBox(width: column.width, child: child);
   } else {
