@@ -114,28 +114,28 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
             ),
           ],
         ),
-        ElMenuModel(
-          title: '嵌套菜单',
-          icon: ElIcons.folder,
-          children: [
-            ElMenuModel(title: '子菜单1'),
-            ElMenuModel(title: '子菜单2'),
-            ElMenuModel(
-              title: '子菜单3',
-              children: List.generate(
-                100,
-                (index) => ElMenuModel(
-                  title: '子菜单3-${index + 1}',
-                  children: List.generate(
-                    10,
-                    (secondIndex) => ElMenuModel(
-                        title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
-                  ).toList(),
-                ),
-              ).toList(),
-            ),
-          ],
-        ),
+        // ElMenuModel(
+        //   title: '嵌套菜单',
+        //   icon: ElIcons.folder,
+        //   children: [
+        //     ElMenuModel(title: '子菜单1'),
+        //     ElMenuModel(title: '子菜单2'),
+        //     ElMenuModel(
+        //       title: '子菜单3',
+        //       children: List.generate(
+        //         100,
+        //         (index) => ElMenuModel(
+        //           title: '子菜单3-${index + 1}',
+        //           children: List.generate(
+        //             10,
+        //             (secondIndex) => ElMenuModel(
+        //                 title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
+        //           ).toList(),
+        //         ),
+        //       ).toList(),
+        //     ),
+        //   ],
+        // ),
       ];
 
   @override

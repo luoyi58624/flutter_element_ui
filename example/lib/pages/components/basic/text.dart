@@ -16,6 +16,10 @@ class TextPage extends StatelessWidget {
         const H6('六级标题'),
         const ElText('普通文本'),
         const ElText(false),
+        const ElText(
+          '嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻嘻',
+          overflow: TextOverflow.ellipsis,
+        ),
         const H1([
           '标题',
           H4(

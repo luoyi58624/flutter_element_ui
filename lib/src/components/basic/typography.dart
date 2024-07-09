@@ -15,10 +15,7 @@ class ElTypographyInheritedWidget extends InheritedWidget {
   final ElTypographyData data;
 
   static ElTypographyData of(BuildContext context) {
-    return context
-            .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
-            ?.data ??
-        ElTheme.of(context).typography;
+    return context.dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()?.data ?? ElTheme.of(context).typography;
   }
 
   @override
@@ -70,7 +67,7 @@ abstract class ElTypography extends StatelessWidget {
   /// 是否自动换行
   final bool? softWrap;
 
-  /// 如果[softWrap]为false，控制文本超出样式
+  /// 文本超出样式
   final TextOverflow? overflow;
 
   /// 文本缩放倍数，如果要放大2倍，设置 TextScaler.linear(2) 即可

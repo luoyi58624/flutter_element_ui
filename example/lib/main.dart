@@ -5,7 +5,7 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FontUtil.init();
+  await FontUtil.init(windowsWeb: false);
   Get.put(GlobalController());
   runApp(const _App());
 }
