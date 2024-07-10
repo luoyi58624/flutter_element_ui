@@ -246,6 +246,15 @@ class ElTypographyData {
   /// 普通文本
   final TextStyle text;
 
+  /// 超链接文本颜色，默认跟随主题色
+  final Color? hrefColor;
+
+  /// 超链接是否显示下划线
+  final bool underline;
+
+  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
+  final bool hoverUnderline;
+
   ElTypographyData({
     required this.h1,
     required this.h2,
@@ -254,6 +263,9 @@ class ElTypographyData {
     required this.h5,
     required this.h6,
     required this.text,
+    this.hrefColor,
+    this.underline = true,
+    this.hoverUnderline = false,
   });
 
   ElTypographyData copyWith({
@@ -264,6 +276,9 @@ class ElTypographyData {
     TextStyle? h5,
     TextStyle? h6,
     TextStyle? text,
+    Color? hrefColor,
+    bool? underline,
+    bool? hoverUnderline,
   }) {
     return ElTypographyData(
       h1: h1 ?? this.h1,
@@ -273,6 +288,9 @@ class ElTypographyData {
       h5: h5 ?? this.h5,
       h6: h6 ?? this.h6,
       text: text ?? this.text,
+      hrefColor: hrefColor ?? this.hrefColor,
+      underline: underline ?? this.underline,
+      hoverUnderline: hoverUnderline ?? this.hoverUnderline,
     );
   }
 

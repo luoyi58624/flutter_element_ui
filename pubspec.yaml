@@ -16,6 +16,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   super_sliver_list: ^0.4.1
   defer_pointer: ^0.0.2
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
