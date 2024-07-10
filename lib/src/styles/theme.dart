@@ -196,30 +196,30 @@ class ElTypographyData {
   /// 默认的字体排版配置
   static final data = ElTypographyData(
     h1: const TextStyle(
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: FontWeight.bold,
     ),
     h2: const TextStyle(
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: FontWeight.bold,
     ),
     h3: const TextStyle(
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: FontWeight.bold,
     ),
     h4: const TextStyle(
-      fontSize: 16,
+      fontSize: 18,
       fontWeight: FontWeight.bold,
     ),
     h5: const TextStyle(
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: FontWeight.bold,
     ),
     h6: const TextStyle(
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: FontWeight.bold,
     ),
-    p: const TextStyle(
+    text: const TextStyle(
       fontSize: 15,
       fontWeight: FontWeight.normal,
     ),
@@ -243,8 +243,8 @@ class ElTypographyData {
   /// 六级标题
   final TextStyle h6;
 
-  /// 普通文本，它直接作用于[ElText]
-  final TextStyle p;
+  /// 普通文本
+  final TextStyle text;
 
   ElTypographyData({
     required this.h1,
@@ -253,7 +253,7 @@ class ElTypographyData {
     required this.h4,
     required this.h5,
     required this.h6,
-    required this.p,
+    required this.text,
   });
 
   ElTypographyData copyWith({
@@ -263,7 +263,7 @@ class ElTypographyData {
     TextStyle? h4,
     TextStyle? h5,
     TextStyle? h6,
-    TextStyle? p,
+    TextStyle? text,
   }) {
     return ElTypographyData(
       h1: h1 ?? this.h1,
@@ -272,13 +272,16 @@ class ElTypographyData {
       h4: h4 ?? this.h4,
       h5: h5 ?? this.h5,
       h6: h6 ?? this.h6,
-      p: p ?? this.p,
+      text: text ?? this.text,
     );
   }
 
   /// 接受一个文本样式，将其应用于所有文本
   ElTypographyData merge(TextStyle style) {
-    return mergeTitle(style)..mergeNormal(style);
+    return mergeTitle(style)
+      ..copyWith(
+        text: text.merge(style),
+      );
   }
 
   /// 接受一个文本样式，将其应用于所有标题
@@ -290,13 +293,6 @@ class ElTypographyData {
       h4: h4.merge(style),
       h5: h5.merge(style),
       h6: h6.merge(style),
-    );
-  }
-
-  /// 接受一个文本样式，将其应用于所有普通文本
-  ElTypographyData mergeNormal(TextStyle style) {
-    return copyWith(
-      p: p.merge(style),
     );
   }
 }

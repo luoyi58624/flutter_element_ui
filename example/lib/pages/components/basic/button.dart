@@ -17,7 +17,7 @@ class ButtonPage extends HookWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Gap(36),
-            H3(title),
+            H4(title),
             const Gap(8),
           ],
         );

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
@@ -45,13 +46,15 @@ abstract class ElTypography extends StatelessWidget {
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
+    this.mouseCursor,
+    this.onTap,
   });
 
   /// * 如果是[List]，则当做富文本渲染，你可以插入任意类型的内容。
   /// * 否则统一渲染为[Text]，无论是字符串还是其他类型，都会自动转成String类型。
   ///
-  /// 提示：构建富文本你可能会遇到对齐问题，默认情况下所有内容为底部对齐，如果你想垂直居中，
-  /// 请传递[WidgetSpan]并设置 alignment 属性。
+  /// 提示：构建富文本时如果你插入的不是文本组件，那么你可能会遇到对齐问题，
+  /// 默认情况下所有内容为底部对齐，如果你想垂直居中，请传递[WidgetSpan]并设置 alignment 属性。
   final dynamic data;
 
   /// 文本样式
@@ -89,6 +92,12 @@ abstract class ElTypography extends StatelessWidget {
   /// 文本选中颜色
   final Color? selectionColor;
 
+  /// 鼠标悬停样式
+  final MouseCursor? mouseCursor;
+
+  /// 点击事件
+  final GestureTapCallback? onTap;
+
   /// 构建文本样式抽象方法
   TextStyle buildTextStyle(BuildContext context);
 
@@ -102,49 +111,35 @@ abstract class ElTypography extends StatelessWidget {
       overflow: overflow,
       maxLines: maxLines,
       textWidthBasis: textWidthBasis,
-      child: data is List
-          ? Builder(builder: (context) {
-              return _buildRichTextWidget(
-                context,
-                TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: _buildRichText(context, data),
-                ),
-              );
-            })
-          : Text(
-              '$data',
-              strutStyle: strutStyle,
-              textDirection: textDirection,
-              locale: locale,
-              textScaler: textScaler,
-              semanticsLabel: semanticsLabel,
-              textHeightBehavior: textHeightBehavior,
-              selectionColor: selectionColor,
-            ),
+      child: _buildTextWidget(context),
     );
   }
 
-  /// 构建富文本组件
-  Widget _buildRichTextWidget(BuildContext context, InlineSpan child) {
+  /// 构建文本组件
+  Widget _buildTextWidget(BuildContext context) {
     final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
-    Widget result = RichText(
-      text: child,
-      textAlign: textAlign ?? TextAlign.start,
-      textDirection: textDirection,
-      softWrap: softWrap,
-      overflow: overflow ?? TextOverflow.clip,
-      textScaler: textScaler ?? TextScaler.noScaling,
-      maxLines: maxLines,
-      locale: locale,
-      strutStyle: strutStyle,
-      textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
-      textHeightBehavior: textHeightBehavior,
-      selectionRegistrar: registrar,
-      selectionColor: selectionColor ??
-          DefaultSelectionStyle.of(context).selectionColor ??
-          DefaultSelectionStyle.defaultColor,
-    );
+    Widget result = Builder(builder: (context) {
+      return RichText(
+        text: TextSpan(
+          style: DefaultTextStyle.of(context).style,
+          children: _buildRichText(context, data is List ? data : [data]),
+        ),
+        textAlign: textAlign ?? TextAlign.start,
+        textDirection: textDirection,
+        softWrap: softWrap,
+        overflow: overflow ?? TextOverflow.clip,
+        textScaler: textScaler ?? TextScaler.noScaling,
+        maxLines: maxLines,
+        locale: locale,
+        strutStyle: strutStyle,
+        textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
+        textHeightBehavior: textHeightBehavior,
+        selectionRegistrar: registrar,
+        selectionColor: selectionColor ??
+            DefaultSelectionStyle.of(context).selectionColor ??
+            DefaultSelectionStyle.defaultColor,
+      );
+    });
     if (registrar != null) {
       result = MouseRegion(
         cursor: DefaultSelectionStyle.of(context).mouseCursor ??
@@ -167,7 +162,21 @@ abstract class ElTypography extends StatelessWidget {
   /// 使用递归构建单个富文本片段
   InlineSpan _buildInlineSpan(BuildContext context, dynamic data,
       [List<InlineSpan>? children]) {
-    if (DartUtil.isBaseType(data)) return TextSpan(text: '$data');
+    if (DartUtil.isBaseType(data)) {
+      GestureRecognizer? recognizer;
+      if (onTap != null) {
+        recognizer = TapGestureRecognizer()
+          ..onTap = () {
+            onTap!();
+          };
+      }
+      return TextSpan(
+        text: '$data',
+        recognizer: recognizer,
+        semanticsLabel: semanticsLabel,
+        mouseCursor: mouseCursor,
+      );
+    }
     if (data is TextSpan || data is WidgetSpan) return data;
     if (data is ElTypography) {
       if (data.data is List) {
@@ -185,9 +194,19 @@ abstract class ElTypography extends StatelessWidget {
         );
       } else {
         if (DartUtil.isBaseType(data.data)) {
+          GestureRecognizer? recognizer;
+          if (data.onTap != null) {
+            recognizer = TapGestureRecognizer()
+              ..onTap = () {
+                data.onTap!();
+              };
+          }
           return TextSpan(
             text: data.data,
             style: data.buildTextStyle(context),
+            recognizer: recognizer,
+            mouseCursor: data.mouseCursor,
+            semanticsLabel: data.semanticsLabel,
             children: children != null && children.isNotEmpty ? children : null,
           );
         } else {
@@ -217,14 +236,17 @@ class ElText extends ElTypography {
     super.textWidthBasis,
     super.textHeightBehavior,
     super.selectionColor,
+    super.mouseCursor,
+    super.onTap,
   });
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).p.merge(style);
+    return ElTypographyInheritedWidget.of(context).text.merge(style);
   }
 }
 
+/// 一级标题
 class H1 extends ElTypography {
   const H1(
     super.data, {
@@ -238,6 +260,8 @@ class H1 extends ElTypography {
     super.overflow,
     super.textScaler,
     super.maxLines,
+    super.mouseCursor,
+    super.onTap,
   }) : super(semanticsLabel: 'H1');
 
   @override
@@ -246,8 +270,23 @@ class H1 extends ElTypography {
   }
 }
 
+/// 二级标题
 class H2 extends ElTypography {
-  const H2(super.data, {super.key, super.style}) : super(semanticsLabel: 'H2');
+  const H2(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+    super.mouseCursor,
+    super.onTap,
+  }) : super(semanticsLabel: 'H2');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
@@ -255,8 +294,23 @@ class H2 extends ElTypography {
   }
 }
 
+/// 三级标题
 class H3 extends ElTypography {
-  const H3(super.data, {super.key, super.style}) : super(semanticsLabel: 'H3');
+  const H3(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+    super.mouseCursor,
+    super.onTap,
+  }) : super(semanticsLabel: 'H3');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
@@ -264,8 +318,23 @@ class H3 extends ElTypography {
   }
 }
 
+/// 四级标题
 class H4 extends ElTypography {
-  const H4(super.data, {super.key, super.style}) : super(semanticsLabel: 'H4');
+  const H4(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+    super.mouseCursor,
+    super.onTap,
+  }) : super(semanticsLabel: 'H4');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
@@ -273,8 +342,23 @@ class H4 extends ElTypography {
   }
 }
 
+/// 五级标题
 class H5 extends ElTypography {
-  const H5(super.data, {super.key, super.style}) : super(semanticsLabel: 'H5');
+  const H5(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+    super.mouseCursor,
+    super.onTap,
+  }) : super(semanticsLabel: 'H5');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
@@ -282,11 +366,36 @@ class H5 extends ElTypography {
   }
 }
 
+/// 六级标题
 class H6 extends ElTypography {
-  const H6(super.data, {super.key, super.style}) : super(semanticsLabel: 'H6');
+  const H6(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+    super.mouseCursor,
+    super.onTap,
+  }) : super(semanticsLabel: 'H6');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
     return ElTypographyInheritedWidget.of(context).h6.merge(style);
+  }
+}
+
+/// 超链接
+class A extends ElTypography {
+  const A(super.data, {super.key, super.style}) : super(semanticsLabel: 'A');
+
+  @override
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).text.merge(style);
   }
 }
