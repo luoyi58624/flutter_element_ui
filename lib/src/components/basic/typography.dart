@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -14,8 +15,12 @@ class ElTypographyInheritedWidget extends InheritedWidget {
 
   final ElTypographyData data;
 
+  /// 从上下文拿到注入的排版配置数据
   static ElTypographyData of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()?.data ?? ElTheme.of(context).typography;
+    return context
+            .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
+            ?.data ??
+        ElTheme.of(context).typography;
   }
 
   @override
@@ -32,7 +37,7 @@ abstract class ElTypography extends StatelessWidget {
     this.textAlign,
     this.textDirection,
     this.locale,
-    this.softWrap,
+    this.softWrap = true,
     this.overflow,
     this.textScaler,
     this.maxLines,
@@ -65,7 +70,7 @@ abstract class ElTypography extends StatelessWidget {
   final Locale? locale;
 
   /// 是否自动换行
-  final bool? softWrap;
+  final bool softWrap;
 
   /// 文本超出样式
   final TextOverflow? overflow;
@@ -84,10 +89,14 @@ abstract class ElTypography extends StatelessWidget {
   /// 文本选中颜色
   final Color? selectionColor;
 
-  /// 构建文本
-  Widget buildTypography(BuildContext context, [TextStyle? $style]) {
+  /// 构建文本样式抽象方法
+  TextStyle buildTextStyle(BuildContext context);
+
+  /// 构建文本小部件，如果[data]是[List]，则构建富文本，否则渲染普通[Text]小部件
+  @override
+  Widget build(BuildContext context) {
     return DefaultTextStyle.merge(
-      style: $style,
+      style: buildTextStyle(context),
       textAlign: textAlign,
       softWrap: softWrap,
       overflow: overflow,
@@ -95,16 +104,11 @@ abstract class ElTypography extends StatelessWidget {
       textWidthBasis: textWidthBasis,
       child: data is List
           ? Builder(builder: (context) {
-              return RichText(
-                strutStyle: strutStyle,
-                textDirection: textDirection,
-                locale: locale,
-                textScaler: textScaler ?? TextScaler.noScaling,
-                textHeightBehavior: textHeightBehavior,
-                selectionColor: selectionColor,
-                text: TextSpan(
+              return _buildRichTextWidget(
+                context,
+                TextSpan(
                   style: DefaultTextStyle.of(context).style,
-                  children: _buildRichText(data),
+                  children: _buildRichText(context, data),
                 ),
               );
             })
@@ -121,17 +125,48 @@ abstract class ElTypography extends StatelessWidget {
     );
   }
 
+  /// 构建富文本组件
+  Widget _buildRichTextWidget(BuildContext context, InlineSpan child) {
+    final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+    Widget result = RichText(
+      text: child,
+      textAlign: textAlign ?? TextAlign.start,
+      textDirection: textDirection,
+      softWrap: softWrap,
+      overflow: overflow ?? TextOverflow.clip,
+      textScaler: textScaler ?? TextScaler.noScaling,
+      maxLines: maxLines,
+      locale: locale,
+      strutStyle: strutStyle,
+      textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
+      textHeightBehavior: textHeightBehavior,
+      selectionRegistrar: registrar,
+      selectionColor: selectionColor ??
+          DefaultSelectionStyle.of(context).selectionColor ??
+          DefaultSelectionStyle.defaultColor,
+    );
+    if (registrar != null) {
+      result = MouseRegion(
+        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+            SystemMouseCursors.text,
+        child: result,
+      );
+    }
+    return result;
+  }
+
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(List children) {
+  List<InlineSpan> _buildRichText(BuildContext context, List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
-      richChildren.add(_buildInlineSpan(child));
+      richChildren.add(_buildInlineSpan(context, child));
     }
     return richChildren;
   }
 
   /// 使用递归构建单个富文本片段
-  InlineSpan _buildInlineSpan(dynamic data, [List<InlineSpan>? children]) {
+  InlineSpan _buildInlineSpan(BuildContext context, dynamic data,
+      [List<InlineSpan>? children]) {
     if (DartUtil.isBaseType(data)) return TextSpan(text: '$data');
     if (data is TextSpan || data is WidgetSpan) return data;
     if (data is ElTypography) {
@@ -140,18 +175,19 @@ abstract class ElTypography extends StatelessWidget {
         List<InlineSpan> $children = [];
         if (richTexts.length > 1) {
           $children.addAll(
-            _buildRichText(richTexts.sublist(1, richTexts.length)),
+            _buildRichText(context, richTexts.sublist(1, richTexts.length)),
           );
         }
         return _buildInlineSpan(
-          ElText(richTexts[0], style: data.style),
+          context,
+          ElText(richTexts[0], style: data.buildTextStyle(context)),
           $children,
         );
       } else {
         if (DartUtil.isBaseType(data.data)) {
           return TextSpan(
             text: data.data,
-            style: data.style,
+            style: data.buildTextStyle(context),
             children: children != null && children.isNotEmpty ? children : null,
           );
         } else {
@@ -163,7 +199,7 @@ abstract class ElTypography extends StatelessWidget {
   }
 }
 
-/// Element UI 文本小部件，它是 [ElTypography] 抽象类的直接实现
+/// Element UI 普通文本小部件
 class ElText extends ElTypography {
   const ElText(
     super.data, {
@@ -184,23 +220,29 @@ class ElText extends ElTypography {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).p.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).p.merge(style);
   }
 }
 
-// ======================================================================
-// h1-h6 只提供 style 属性，如果需要更多参数请直接使用 [ElText]
-// ======================================================================
-
 class H1 extends ElTypography {
-  const H1(super.data, {super.key, super.style}) : super(semanticsLabel: 'H1');
+  const H1(
+    super.data, {
+    super.key,
+    super.style,
+    super.strutStyle,
+    super.textAlign,
+    super.textDirection,
+    super.locale,
+    super.softWrap,
+    super.overflow,
+    super.textScaler,
+    super.maxLines,
+  }) : super(semanticsLabel: 'H1');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h1.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h1.merge(style);
   }
 }
 
@@ -208,9 +250,8 @@ class H2 extends ElTypography {
   const H2(super.data, {super.key, super.style}) : super(semanticsLabel: 'H2');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h2.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h2.merge(style);
   }
 }
 
@@ -218,9 +259,8 @@ class H3 extends ElTypography {
   const H3(super.data, {super.key, super.style}) : super(semanticsLabel: 'H3');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h3.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h3.merge(style);
   }
 }
 
@@ -228,9 +268,8 @@ class H4 extends ElTypography {
   const H4(super.data, {super.key, super.style}) : super(semanticsLabel: 'H4');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h4.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h4.merge(style);
   }
 }
 
@@ -238,9 +277,8 @@ class H5 extends ElTypography {
   const H5(super.data, {super.key, super.style}) : super(semanticsLabel: 'H5');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h5.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h5.merge(style);
   }
 }
 
@@ -248,8 +286,7 @@ class H6 extends ElTypography {
   const H6(super.data, {super.key, super.style}) : super(semanticsLabel: 'H6');
 
   @override
-  Widget build(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context).h6.merge(style);
-    return buildTypography(context, $style);
+  TextStyle buildTextStyle(BuildContext context) {
+    return ElTypographyInheritedWidget.of(context).h6.merge(style);
   }
 }
