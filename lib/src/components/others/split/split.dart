@@ -60,12 +60,23 @@ abstract class ElSplitFlexPanel extends _ElSplitPanelWidget {
     this.flex = 1,
     this.minFlex,
     this.maxFlex,
+    this.minSize = 0,
+    this.maxSize,
     super.cacheKey,
-  });
+  }) : assert(minSize >= 0);
 
   /// 定义弹性盒子分配的空间比例
   final int flex;
 
+  /// 最大flex
   final int? minFlex;
+
+  /// 最小flex
   final int? maxFlex;
+
+  /// 最小尺寸，必须大于等于0
+  final double minSize;
+
+  /// 最大尺寸
+  final double? maxSize;
 }

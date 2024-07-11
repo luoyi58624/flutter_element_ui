@@ -13,11 +13,12 @@ enum ElSplitResizerPosition {
 }
 
 class ElSplitResizer extends ElSplitWidget {
-  /// 分割条组件，它用于调整两个布局之间的尺寸，该小部件被设计为配置文件，它并不处理拖拽逻辑，
-  /// 你可以继承它重写内部的方法实现统一风格的自定义分割条。
+  /// 分割条组件，它用于调整两个布局之间的尺寸，该小部件非常简单，它被定义为配置类，
+  /// 实际拖拽逻辑由内部私有类实现。
   const ElSplitResizer({
     super.key,
     this.size = 0,
+    this.color,
     this.triggerSize = 8,
     this.position = ElSplitResizerPosition.center,
   })  : assert(size >= 0),
@@ -26,20 +27,30 @@ class ElSplitResizer extends ElSplitWidget {
   /// 控件占据页面的空间
   final double size;
 
+  /// 控件颜色
+  final Color? color;
+
   /// 可拖拽控件触发范围
   final double triggerSize;
 
   /// 分割条触发位置，默认居中。
   ///
-  /// 如果你设置了较大触发范围，但可能会遮挡了左右部分空间，
-  /// 你可以根据需求调整触发位置。
+  /// 如果你设置了较大触发范围，可能会遮挡了页面中的滚动条，你可以设置此参数调整触发位置。
   final ElSplitResizerPosition position;
 
+  /// 默认的分割条实现，它不会占据页面上的任何空间，你可以重写它实现任意风格的分隔条
   @override
   Widget build(BuildContext context) {
-    return ElSplitPanel.isRow(context)
+    Widget result = ElSplitPanel.isRow(context)
         ? SizedBox(width: size, height: double.infinity)
         : SizedBox(height: size, width: double.infinity);
+    if (color != null) {
+      result = ColoredBox(
+        color: color!,
+        child: result,
+      );
+    }
+    return result;
   }
 }
 

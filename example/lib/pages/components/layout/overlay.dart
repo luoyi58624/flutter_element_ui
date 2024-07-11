@@ -79,7 +79,10 @@ class _OverlayPageState extends State<OverlayPage> {
             axis: Axis.vertical,
             children: [
               MainWidget(),
-              ElSplitResizer(size: 1),
+              ElSplitResizer(
+                size: 1,
+                color: Colors.red,
+              ),
               MainWidget(),
             ],
           ),
@@ -97,6 +100,14 @@ class _OverlayPageState extends State<OverlayPage> {
       ],
     );
   }
+
+  Widget layout6() {
+    return const ElSplitPanel(children: [
+      MainWidget(flex: 1),
+      ElSplitResizer(size: 1),
+      MainWidget(flex: 2, maxFlex: 9),
+    ]);
+  }
 }
 
 class HeaderWidget extends ElSplitSizePanel {
@@ -104,7 +115,7 @@ class HeaderWidget extends ElSplitSizePanel {
     super.key,
     super.size = 56,
     super.minSize = 56,
-    super.maxSize = 72,
+    super.maxSize = 150,
   });
 
   @override
@@ -156,7 +167,7 @@ class SidebarWidget extends ElSplitSizePanel {
 }
 
 class MainWidget extends ElSplitFlexPanel {
-  const MainWidget({super.key});
+  const MainWidget({super.key, super.flex, super.minFlex, super.maxFlex});
 
   @override
   Widget build(BuildContext context) {

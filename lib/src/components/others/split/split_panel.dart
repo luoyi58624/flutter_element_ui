@@ -4,23 +4,24 @@ part of 'split.dart';
 const int _flexSplitFactor = 1000000;
 
 class ElSplitPanel extends ElSplitFlexPanel {
-  /// 分割面板，内部基于 [Row]、[Column] 组件进行排版，它支持嵌套自身
+  /// 分割面板，内部基于 [Row]、[Column] 组件进行排版
   const ElSplitPanel({
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
   });
 
-  /// 分割面板子节点，只接受 [ElSplitWidget] 抽象类的子类作为子组件：
-  /// * ElSplitLayoutWidget - 分割面板，需要继承
-  /// * ElSplitResizer - 分割条
+  /// 分割面板子组件，只接受 [ElSplitWidget] 抽象类的子类作为子组件：
+  /// * [ElSplitSizePanel] - 基础尺寸的分割面板
+  /// * [ElSplitFlexPanel] - 弹性布局的分割面板
+  /// * [ElSplitResizer] - 分割条组件
   ///
   /// 具体使用只需在布局类之间插入分割条组件即可完成分割，在使用的过程你可能会出现一些断言错误，
   /// 例如：
-  /// * 分割条组件不能出现在首尾
-  /// * 分割条组件不能重复
-  /// * 弹性布局子组件是基于比例计算，但如果存在多个就不可以存在固定尺寸的子组件
-  /// * 弹性盒子后面只能存在一个固定尺寸的分割面板
+  /// * [ElSplitResizer]分割条组件不能出现在首尾
+  /// * [ElSplitResizer]分割条组件不能重复
+  /// * [ElSplitFlexPanel]子组件是基于比例计算，但如果存在多个就不可以存在 [ElSplitSizePanel] 的子组件
+  /// * [ElSplitFlexPanel]子组件后面只能存在一个固定尺寸的分割面板
   final List<ElSplitWidget> children;
 
   /// 布局方向，默认水平布局
