@@ -127,7 +127,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                 (index) => ElMenuModel(
                   title: '子菜单3-${index + 1}',
                   children: List.generate(
-                    1000,
+                    100,
                     (secondIndex) => ElMenuModel(
                         title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
                   ).toList(),
