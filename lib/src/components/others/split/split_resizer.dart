@@ -1,12 +1,5 @@
 part of 'split.dart';
 
-/// 自定义构建分割条激活样式小部件
-typedef ElSplitResizerActiveBuilder = Widget Function(
-  BuildContext context,
-  Obs<bool> isActive,
-  bool isRow,
-);
-
 /// 分割条触发偏移位置
 enum ElSplitResizerPosition {
   /// 左偏移，如果是垂直分割布局，则上偏移
@@ -26,13 +19,9 @@ class ElSplitResizer extends ElSplitWidget {
     super.key,
     this.size = 0,
     this.triggerSize = 8,
-    this.activeSize = 0,
-    this.activeColor,
     this.position = ElSplitResizerPosition.center,
-    this.activeBuilder,
   })  : assert(size >= 0),
-        assert(triggerSize >= 1),
-        assert(activeSize >= 0 && activeSize <= triggerSize);
+        assert(triggerSize >= 1);
 
   /// 控件占据页面的空间
   final double size;
@@ -40,35 +29,17 @@ class ElSplitResizer extends ElSplitWidget {
   /// 可拖拽控件触发范围
   final double triggerSize;
 
-  /// 分割条激活样式大小，不能超过触发范围
-  final double activeSize;
-
-  /// 分割条激活颜色，默认为全局主题色
-  final Color? activeColor;
-
   /// 分割条触发位置，默认居中。
   ///
   /// 如果你设置了较大触发范围，但可能会遮挡了左右部分空间，
   /// 你可以根据需求调整触发位置。
   final ElSplitResizerPosition position;
 
-  /// 自定义构建激活样式
-  final ElSplitResizerActiveBuilder? activeBuilder;
-
   @override
   Widget build(BuildContext context) {
     return ElSplitPanel.isRow(context)
         ? SizedBox(width: size, height: double.infinity)
         : SizedBox(height: size, width: double.infinity);
-  }
-
-  /// 默认的激活样式分割条
-  Widget activeWidget(BuildContext context, Obs<bool> isActive, bool isRow) {
-    return ColoredBox(
-      color: isActive.value
-          ? (activeColor ?? context.elTheme.primary)
-          : Colors.transparent,
-    );
   }
 }
 
@@ -87,7 +58,6 @@ abstract class _ResizerWidget extends HookWidget {
     final isActive = useObs(false);
     final isRow = ElSplitPanel.isRow(context);
     var triggerOffsetSize = -(child.triggerSize / 2);
-    var activeOffsetSize = -(child.activeSize / 2);
 
     late double top;
     late double bottom;
@@ -126,20 +96,6 @@ abstract class _ResizerWidget extends HookWidget {
       clipBehavior: Clip.none,
       children: [
         child,
-        Positioned(
-          top: isRow ? 0 : activeOffsetSize,
-          bottom: isRow ? 0 : activeOffsetSize,
-          left: isRow ? activeOffsetSize : 0,
-          right: isRow ? activeOffsetSize : 0,
-          child: DeferPointer(
-            paintOnTop: true,
-            child: ObsBuilder(builder: (context) {
-              return child.activeBuilder == null
-                  ? child.activeWidget(context, isActive, isRow)
-                  : child.activeBuilder!(context, isActive, isRow);
-            }),
-          ),
-        ),
         Positioned(
           top: top,
           bottom: bottom,
