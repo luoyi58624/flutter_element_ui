@@ -160,10 +160,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_obs
-      sha256: e694385b314e5747c699292a5c4b78ce1976aa06ff37b17514e61dd679e15ea7
+      sha256: "3204f934baee2abe9a59b80350e6735d3102250c29ea1581fc37a6b318a3f9ee"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   flutter_shaders:
     dependency: transitive
     description:
