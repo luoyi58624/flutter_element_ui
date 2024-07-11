@@ -29,6 +29,7 @@ jobs:
             flutter --version
             flutter pub upgrade
             cd example
+            flutter clean
             flutter pub upgrade
             flutter build web --web-renderer=html --pwa-strategy none
             sh ./docker_shell.sh
