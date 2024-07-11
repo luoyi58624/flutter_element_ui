@@ -26,7 +26,7 @@ class ElSplitResizer extends ElSplitWidget {
     super.key,
     this.size = 0,
     this.triggerSize = 8,
-    this.activeSize = 4,
+    this.activeSize = 0,
     this.activeColor,
     this.position = ElSplitResizerPosition.center,
     this.activeBuilder,
@@ -40,7 +40,7 @@ class ElSplitResizer extends ElSplitWidget {
   /// 可拖拽控件触发范围
   final double triggerSize;
 
-  /// 分割条激活大小，不能超过触发范围
+  /// 分割条激活样式大小，不能超过触发范围
   final double activeSize;
 
   /// 分割条激活颜色，默认为全局主题色
@@ -151,6 +151,7 @@ abstract class _ResizerWidget extends HookWidget {
                 ? GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onHorizontalDragStart: (e) {
+                      $el.disabledHover.value = true;
                       $el.cursor.value = SystemMouseCursors.resizeColumn;
                       isActive.value = true;
                     },
@@ -159,11 +160,13 @@ abstract class _ResizerWidget extends HookWidget {
                     },
                     onHorizontalDragEnd: (e) {
                       endFun();
+                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onHorizontalDragCancel: () {
                       endFun();
+                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
@@ -174,6 +177,7 @@ abstract class _ResizerWidget extends HookWidget {
                 : GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onVerticalDragStart: (e) {
+                      $el.disabledHover.value = true;
                       $el.cursor.value = SystemMouseCursors.resizeRow;
                       isActive.value = true;
                     },
@@ -182,11 +186,13 @@ abstract class _ResizerWidget extends HookWidget {
                     },
                     onVerticalDragEnd: (e) {
                       endFun();
+                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onVerticalDragCancel: () {
                       endFun();
+                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },

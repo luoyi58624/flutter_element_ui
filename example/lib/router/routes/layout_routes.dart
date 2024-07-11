@@ -6,6 +6,7 @@ import 'package:example/pages/components/form/input.dart';
 import 'package:example/pages/components/form/radio.dart';
 import 'package:example/pages/components/form/switch.dart';
 import 'package:example/pages/components/layout/basic.dart';
+import 'package:example/pages/components/layout/overlay.dart';
 
 import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
@@ -50,7 +51,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
       routes: [
         GoRoute(
           path: '$_componentsLayout/drag',
-          builder: (context, state) => const LayoutDragPage(),
+          builder: (context, state) => const OverlayPage(),
         ),
       ],
     ),

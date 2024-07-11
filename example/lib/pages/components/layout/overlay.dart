@@ -133,7 +133,6 @@ class SidebarWidget extends ElSplitSizePanel {
     super.key,
     super.size = 200,
     super.minSize = 150,
-    super.maxSize = 300,
   });
 
   @override
