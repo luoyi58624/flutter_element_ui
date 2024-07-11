@@ -7,6 +7,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
 import '../basic/typography.dart';
+import '../others/hover.dart';
 
 /// 嵌套子菜单距离上一层级的间距
 const double _defaultGap = 22;
@@ -281,7 +282,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return HoverBuilder(
+    return ElHover(
       builder: (isHover) => AnimatedContainer(
         duration: Duration(milliseconds: context.elConfig.bgColorTransition),
         curve: Curves.easeOut,

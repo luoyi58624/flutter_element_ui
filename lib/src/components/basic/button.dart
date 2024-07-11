@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../theme.dart';
 import '../../utils/assert.dart';
+import '../others/hover.dart';
+import '../others/tap.dart';
 import 'icon.dart';
 
 typedef _ButtonStyleProp = ({
@@ -144,9 +147,9 @@ class ElButton extends StatelessWidget {
     );
     var currentWidget = SelectionContainer.disabled(
       child: Focus(
-        child: HoverBuilder(
+        child: ElHover(
           disabled: disabled,
-          builder: ($isHover) => TapBuilder(
+          builder: ($isHover) => ElTap(
             onTap: onPressed,
             disabled: disabled,
             builder: ($isTap) => _Button(child, styleProp),
@@ -258,8 +261,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final $isHover = HoverBuilder.of(context);
-  final $isTap = TapBuilder.of(context);
+  final $isHover = ElHover.of(context);
+  final $isTap = ElTap.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = elThemeTypes.contains(style.type);
   final $defaultTextColor =
@@ -270,11 +273,11 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   if (style.link) {
     $isThemeType
         ? textColor.value = $themeTypeColor!
-            .onHover($isHover, $themeTypeColor.withOpacity(_opacity))
-            .onTap($isTap, $themeTypeColor.elTap(context))
+            .on($isHover, color: $themeTypeColor.withOpacity(_opacity))
+            .on($isTap, color: $themeTypeColor.elTap(context))
         : textColor.value = $defaultTextColor
-            .onHover($isHover, $defaultTextColor.withOpacity(_opacity))
-            .onTap($isTap, $defaultTextColor.elTap(context));
+            .on($isHover, color: $defaultTextColor.withOpacity(_opacity))
+            .on($isTap, color: $defaultTextColor.elTap(context));
     borderColor.value = null;
     if (style.disabled) {
       textColor.value = textColor.value!.withOpacity(_opacity);
@@ -283,8 +286,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   // 计算文字按钮样式
   else if (style.text) {
     bgColor.value = $bgColor
-        .onHover($isHover, $bgColor.deepen(4))
-        .onTap($isTap, $bgColor.deepen(10));
+        .on($isHover, color: $bgColor.deepen(4))
+        .on($isTap, color: $bgColor.deepen(10));
     $isThemeType
         ? textColor.value = context.themeTypeColors[style.type]!
         : textColor.value = $defaultTextColor;

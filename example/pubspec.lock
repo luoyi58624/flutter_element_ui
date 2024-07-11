@@ -81,22 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
-  device_info_plus:
-    dependency: transitive
-    description:
-      name: device_info_plus
-      sha256: eead12d1a1ed83d8283ab4c2f3fca23ac4082f29f25f29dff0f758f57d06ec91
-      url: "https://pub.dev"
-    source: hosted
-    version: "10.1.0"
-  device_info_plus_platform_interface:
-    dependency: transitive
-    description:
-      name: device_info_plus_platform_interface
-      sha256: d3b01d5868b50ae571cd1dc6e502fc94d956b665756180f7b16ead09e836fd64
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   equatable:
     dependency: transitive
     description:
@@ -121,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  file:
-    dependency: transitive
-    description:
-      name: file
-      sha256: "5fc22d7c25582e38ad9a8515372cd9a93834027aacf1801cf01164dac0ffa08c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   fixnum:
     dependency: transitive
     description:
@@ -165,7 +141,7 @@ packages:
     source: path
     version: "0.0.1"
   flutter_hooks:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_hooks
       sha256: cde36b12f7188c85286fba9b38cc5a902e7279f36dd676967106c041dc9dde70
@@ -181,13 +157,13 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_obs:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_obs
-      sha256: "35f6ca1ab2abc4f5358538edda4467632558fb5a330ad590c852b2805a507736"
+      sha256: e694385b314e5747c699292a5c4b78ce1976aa06ff37b17514e61dd679e15ea7
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.4"
   flutter_shaders:
     dependency: transitive
     description:
@@ -210,7 +186,7 @@ packages:
     source: sdk
     version: "0.0.0"
   gap:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: gap
       sha256: f19387d4e32f849394758b91377f9153a1b41d79513ef7668c088c77dbc6955d
@@ -301,10 +277,10 @@ packages:
     dependency: transitive
     description:
       name: luoyi_flutter_base
-      sha256: e9ebbf9bdabb51d6a5284b33a646fb38aaa07047a0eb5aaff01bf1818ba0e2ac
+      sha256: "042e38b31595cbb5f83a66438e0876e6527160083ba1a3948103dc326ab62b13"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   luoyi_flutter_font:
     dependency: "direct main"
     description:
@@ -455,7 +431,7 @@ packages:
     source: hosted
     version: "1.2.0"
   super_sliver_list:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: super_sliver_list
       sha256: b1e1e64d08ce40e459b9bb5d9f8e361617c26b8c9f3bb967760b0f436b6e3f56
@@ -590,22 +566,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  win32:
-    dependency: transitive
-    description:
-      name: win32
-      sha256: a79dbe579cb51ecd6d30b17e0cae4e0ea15e2c0e66f69ad4198f22a6789e94f4
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.5.1"
-  win32_registry:
-    dependency: transitive
-    description:
-      name: win32_registry
-      sha256: "10589e0d7f4e053f2c61023a31c9ce01146656a70b7b7f0828c0b46d7da2a9bb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.3"
   xdg_directories:
     dependency: transitive
     description:

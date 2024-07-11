@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../styles/theme.dart';
 import '../../theme.dart';
+import '../others/hover.dart';
 
 /// Element UI 文字排版继承小部件
 class ElTypographyInheritedWidget extends InheritedWidget {
@@ -114,7 +115,7 @@ abstract class ElTypographyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
-    return HoverBuilder(
+    return ElHover(
       onlyCursor: disabledHoverBuilder,
       cursor: registrar == null
           ? MouseCursor.defer
@@ -308,7 +309,11 @@ class H6 extends ElTypographyWidget {
 }
 
 class A extends ElTypographyWidget {
-  /// 超链接
+  /// 超链接小部件。
+  ///
+  /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
+  /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
+  /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
   const A(
     super.data, {
     super.key,
@@ -324,11 +329,7 @@ class A extends ElTypographyWidget {
   /// 是否显示下划线
   final bool? underline;
 
-  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效。
-  ///
-  /// 注意：如果将A标签当做富文本的一部分，那么此属性不会生效，因为这样做必须要在内部渲染[HoverBuilder]小部件，
-  /// 它不属于[InlineSpan]，所以必须用[WidgetSpan]进行包裹，但这会破坏文字之间的垂直对齐，
-  /// 这是 Flutter 的文本底层实现限制，我无法打破。
+  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
   final bool? hoverUnderline;
 
   @override
@@ -345,16 +346,16 @@ class A extends ElTypographyWidget {
   @override
   TextStyle buildTextStyle(BuildContext context) {
     final $data = ElTypographyInheritedWidget.of(context);
+    final color = context.elTheme.primary;
+    final isHover = ElHover.of(context);
     return $data.text.merge((style ?? const TextStyle()).copyWith(
-      color: context.elTheme.primary,
+      color: color,
       decoration: hoverUnderline ?? $data.hoverUnderline
-          ? (HoverBuilder.of(context)
-              ? TextDecoration.underline
-              : TextDecoration.none)
+          ? (isHover ? TextDecoration.underline : TextDecoration.none)
           : underline ?? $data.underline
               ? TextDecoration.underline
               : TextDecoration.none,
-      decorationColor: context.elTheme.primary,
+      decorationColor: color,
     ));
   }
 }

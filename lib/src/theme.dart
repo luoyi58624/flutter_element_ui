@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/icon.dart';
@@ -131,10 +132,8 @@ class ElTheme extends StatelessWidget {
                 elTheme: this,
                 child: ScrollConfiguration(
                   behavior: behavior ?? const ElScrollBehavior(),
-                  child: _ElGlobalHoverWidget(
-                    child: GlobalHoverWidget(
-                      child: child,
-                    ),
+                  child: _ElGlobalCursor(
+                    child: child,
                   ),
                 ),
               ),

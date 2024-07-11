@@ -82,8 +82,9 @@ class _ElBrightness extends InheritedWidget {
   bool updateShouldNotify(_ElBrightness oldWidget) => true;
 }
 
-class _ElGlobalHoverWidget extends StatelessWidget {
-  const _ElGlobalHoverWidget({required this.child});
+/// Element UI 全局鼠标光标样式
+class _ElGlobalCursor extends StatelessWidget {
+  const _ElGlobalCursor({required this.child});
 
   final Widget child;
 

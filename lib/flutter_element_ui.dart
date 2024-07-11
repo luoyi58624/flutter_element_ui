@@ -34,6 +34,8 @@ export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu.dart';
 export 'src/components/others/divider.dart';
+export 'src/components/others/hover.dart';
+export 'src/components/others/tap.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/styles/theme.dart';

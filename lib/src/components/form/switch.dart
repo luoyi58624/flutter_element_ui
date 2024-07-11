@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/theme.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../basic/icon.dart';
+import '../others/hover.dart';
 
 class ElSwitch extends StatefulWidget {
   const ElSwitch({
@@ -122,7 +122,7 @@ class _ElSwitchState extends State<ElSwitch>
           widget.onChanged!(!widget.value);
         }
       },
-      child: HoverBuilder(
+      child: ElHover(
         disabled: widget.disabled,
         builder: (isHover) {
           return AnimatedContainer(

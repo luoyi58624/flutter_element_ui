@@ -8,6 +8,11 @@ void main() async {
 
   Get.put(GlobalController());
   runApp(const _App());
+
+  // ((int n) {
+  //   print(n);
+  //   print('我是自执行方法');
+  // })(12);
 }
 
 class _App extends StatelessWidget {

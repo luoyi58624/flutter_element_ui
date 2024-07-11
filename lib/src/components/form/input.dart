@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/theme.dart';
 
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-
 import '../../styles/theme.dart';
 import '../basic/icon.dart';
+import '../others/hover.dart';
 import 'form.dart';
 import 'form_item.dart';
 
@@ -150,7 +149,7 @@ class _ElInputState extends State<ElInput> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: HoverBuilder(
+        child: ElHover(
           builder: (isHover) {
             return Builder(builder: (context) {
               return TextFormField(
@@ -187,8 +186,8 @@ class _ElInputState extends State<ElInput> {
       enabledBorder: OutlineInputBorder(
         borderRadius: styleProp.borderRadius,
         borderSide: BorderSide(
-          width: HoverBuilder.of(context) ? 1.2 : 1,
-          color: HoverBuilder.of(context)
+          width: ElHover.of(context) ? 1.2 : 1,
+          color: ElHover.of(context)
               ? context.elTheme.borderHoverColor
               : context.elTheme.borderColor,
         ),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_element_ui/src/service.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 const double _defaultThickness = 6.0;
@@ -139,7 +140,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
-    GlobalHoverWidget.setDisabled(context, true);
+    $el.disabledHover.value = true;
     HapticFeedback.vibrate();
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
     if (isScrollbarHover == false) {
@@ -153,7 +154,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
-    GlobalHoverWidget.setDisabled(context, false);
+    $el.disabledHover.value = false;
     // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
     if (isHover == false) {
       isHover = false;
@@ -216,7 +217,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 鼠标离开滚动区域事件
   @override
   void handleHoverExit(PointerExitEvent event) {
-    if (GlobalHoverWidget.disabled(context)) {
+    if ($el.disabledHover.value) {
       isHover = false;
       isScrollbarHover = false;
       return;
@@ -244,7 +245,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     return MouseRegion(
       onEnter: (event) {
         isHover = true;
-        if (GlobalHoverWidget.disabled(context) == false) {
+        if ($el.disabledHover.value == false) {
           color1 = hideThumbColor;
           color2 = hoverThumbColor;
           scrollbarAnimationController.forward(from: 0);
