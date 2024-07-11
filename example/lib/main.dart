@@ -1,11 +1,11 @@
 import 'package:example/controller/global.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   Get.put(GlobalController());
   runApp(const _App());
 
