@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart' show Badge;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/theme.dart';
-
-import '../../utils/util.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElBadge extends StatelessWidget {
   const ElBadge({
@@ -24,7 +23,7 @@ class ElBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (ElUtil.isEmpty(badge)) return child;
+    if (DartUtil.isEmpty(badge)) return child;
     if (badge is num) {
       return Badge(
         label: ConstrainedBox(

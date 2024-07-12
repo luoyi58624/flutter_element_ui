@@ -14,8 +14,8 @@ class _ElThemeWidget extends InheritedWidget {
 }
 
 /// 响应式全局配置小部件
-class _ElResponsiveWidget extends InheritedWidget {
-  const _ElResponsiveWidget({
+class _ElResponsive extends InheritedWidget {
+  const _ElResponsive({
     required super.child,
     required this.data,
   });
@@ -23,11 +23,11 @@ class _ElResponsiveWidget extends InheritedWidget {
   final ElResponsiveData data;
 
   static ElResponsiveData of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ElResponsiveWidget>()?.data ??
+      context.dependOnInheritedWidgetOfExactType<_ElResponsive>()?.data ??
       const ElResponsiveData();
 
   @override
-  bool updateShouldNotify(_ElResponsiveWidget oldWidget) => false;
+  bool updateShouldNotify(_ElResponsive oldWidget) => false;
 }
 
 /// 平台亮度小部件，抹平[MaterialApp]、[CupertinoApp]等不同主题系统获取暗黑主题的差异

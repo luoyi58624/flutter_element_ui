@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/utils/util.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElIconTheme extends InheritedWidget {
-  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
+  /// icon
   const ElIconTheme({
     super.key,
     required super.child,
@@ -53,8 +54,8 @@ class ElIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElIconTheme.maybeOf(context);
     final $icon = child ?? $theme?.icon;
-    final $size = size ?? $theme?.size ?? 18;
-    final $color = color ?? $theme?.color;
+    final $size = size ?? $theme?.size ?? context.elConfig.iconStyle.size;
+    final $color = color ?? $theme?.color ?? context.elTheme.iconColor;
     if ($icon is String) {
       return _SvgWidget($icon, size: $size, color: $color, package: package);
     } else if ($icon is IconData) {
@@ -82,7 +83,7 @@ class _SvgWidget extends ElIcon {
             BlendMode.srcIn,
           );
     // return SizedBox();
-    return ElUtil.isHttp(child as String)
+    return DartUtil.isHttp(child as String)
         ? SvgPicture.network(
             child!,
             width: size,

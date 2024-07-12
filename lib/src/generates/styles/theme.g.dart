@@ -56,7 +56,6 @@ extension ElConfigDataExtension on ElConfigData {
   }) {
     return ElConfigData(
       fonSize: fonSize ?? this.fonSize,
-      iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
       buttonStyle: this.buttonStyle.merge(buttonStyle),

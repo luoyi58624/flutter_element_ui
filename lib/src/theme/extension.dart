@@ -9,30 +9,24 @@ extension ElThemeExtension on BuildContext {
 }
 
 extension ElResponsiveExtension on BuildContext {
-  /// 极小设备，最大宽度默认320，它表示当前处于一种极端环境，设备屏幕宽度非常狭窄
-  ///
-  bool get xs =>
-      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).xs;
+  /// 极小设备，最大宽度默认320
+  bool get xs => MediaQuery.sizeOf(this).width <= _ElResponsive.of(this).xs;
 
   /// 移动端设备，最大宽度默认640
-  bool get sm =>
-      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).sm;
+  bool get sm => MediaQuery.sizeOf(this).width <= _ElResponsive.of(this).sm;
 
   /// 平板设备，最大宽度默认1024
-  bool get md =>
-      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).md;
+  bool get md => MediaQuery.sizeOf(this).width <= _ElResponsive.of(this).md;
 
   /// 桌面设备，最大宽度默认1920
-  bool get lg =>
-      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).lg;
+  bool get lg => MediaQuery.sizeOf(this).width <= _ElResponsive.of(this).lg;
 
   /// 大屏桌面设备，最大宽度默认2560
-  bool get xl =>
-      MediaQuery.sizeOf(this).width <= _ElResponsiveWidget.of(this).xl;
+  bool get xl => MediaQuery.sizeOf(this).width <= _ElResponsive.of(this).xl;
 }
 
 extension ElBrightnessExtension on BuildContext {
-  /// 当前环境是否是暗黑模式，默认跟随平台系统
+  /// 当前环境是否是暗黑模式
   bool get isDark => _ElBrightness.isDark(this);
 }
 

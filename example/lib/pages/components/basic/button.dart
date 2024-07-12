@@ -11,7 +11,7 @@ class ButtonPage extends HookWidget {
     final controller = useScrollController();
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
-    final buttonTypes = [null, ...elThemeTypes];
+    final buttonTypes = [null, ...$el.themeTypes];
 
     Widget buildTitle(String title) => Column(
           mainAxisSize: MainAxisSize.min,

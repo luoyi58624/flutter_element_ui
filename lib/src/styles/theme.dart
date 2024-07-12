@@ -2,16 +2,20 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/styles/basic/icon.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'basic/input.dart';
 
 part '../generates/styles/theme.g.dart';
 
-/// Element UI 主题对象
+/// Element UI 根据平台亮度应用的主题对象
 @ElModel(copyWith: true)
 class ElBrightnessData {
+  /// 亮色默认主题
   static ElBrightnessData lightTheme = ElBrightnessData();
+
+  /// 暗色默认主题
   static ElBrightnessData darkTheme = ElBrightnessData.dark();
 
   /// 描述当前主题系统是否是亮色、暗色
@@ -120,9 +124,6 @@ class ElConfigData {
   /// 全局默认文字大小
   double fonSize;
 
-  /// 全局默认图标大小，仅限[ElIcon]
-  double iconSize;
-
   /// 全局基础控件圆角值: button、input
   double radius;
 
@@ -138,14 +139,17 @@ class ElConfigData {
   /// 输入框全局样式
   ElInputStyle inputStyle;
 
+  /// 图标全局样式
+  ElIconStyle iconStyle;
+
   ElConfigData({
     this.fonSize = 14,
-    this.iconSize = 20,
     this.radius = 4,
     this.cardRadius = 6,
     this.bgColorTransition = 100,
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
+    this.iconStyle = const ElIconStyle(),
   });
 }
 

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
+import '../../service.dart';
 import '../../theme.dart';
 import '../../utils/assert.dart';
 import '../others/hover.dart';
@@ -264,7 +265,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final $isHover = ElHover.of(context);
   final $isTap = ElTap.of(context);
   final $bgColor = context.elTheme.bgColor;
-  final $isThemeType = elThemeTypes.contains(style.type);
+  final $isThemeType = $el.themeTypes.contains(style.type);
   final $defaultTextColor =
       context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
   Color? $themeTypeColor;

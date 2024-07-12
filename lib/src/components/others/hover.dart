@@ -40,32 +40,26 @@ class _HoverBuilderState extends State<ElHover> {
     return PlatformUtil.isDesktop
         ? _HoverInheritedWidget(
             isHover: isHover,
-            child: ObsBuilder(builder: (context) {
-              final $disabled = $el.disabledHover.value || widget.disabled;
-              return MouseRegion(
-                onHover: ($disabled || widget.onlyCursor)
-                    ? null
-                    : (event) => _update(true),
-                onExit: ($disabled || widget.onlyCursor)
-                    ? null
-                    : (event) => _update(false),
-                cursor: $el.disabledHover.value
-                    ? MouseCursor.defer
-                    : widget.disabled
-                        ? SystemMouseCursors.forbidden
-                        : widget.cursor,
-                child: widget.builder(isHover),
-              );
-            }),
+            child: MouseRegion(
+              onHover: (event) => _update(true),
+              onExit: (event) => _update(false),
+              child: widget.builder(isHover),
+            ),
           )
         : widget.builder(isHover);
   }
 
   void _update(bool value) {
-    if (isHover != value) {
-      setState(() {
-        isHover = value;
-      });
+    if (widget.disabled) {
+      $el.cursor.value =
+          value ? SystemMouseCursors.forbidden : MouseCursor.defer;
+    } else if (isHover != value) {
+      $el.cursor.value = value ? widget.cursor : MouseCursor.defer;
+      if (!widget.onlyCursor) {
+        setState(() {
+          isHover = value;
+        });
+      }
     }
   }
 }
