@@ -277,10 +277,10 @@ packages:
     dependency: transitive
     description:
       name: luoyi_flutter_base
-      sha256: "76556b724a5fb623866aba0d2fda17db0784f15a51de67b4fe9e5997f869fb9e"
+      sha256: "2f4bdd3fb136f1c4d1b8f69b8b8a48f816b0290fd04984c901f37cf1147d47d9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.5.0"
   luoyi_flutter_font:
     dependency: "direct main"
     description:

@@ -49,6 +49,9 @@ class ElBrightnessData {
   /// 卡片背景色
   Color cardColor;
 
+  /// 模态框、弹出层背景色
+  Color modalColor;
+
   /// 标题颜色
   Color titleColor;
 
@@ -84,6 +87,7 @@ class ElBrightnessData {
     this.bgColor = const Color(0xfffafafa),
     this.headerColor = const Color(0xffffffff),
     this.cardColor = const Color(0xffffffff),
+    this.modalColor = const Color(0xffffffff),
     this.titleColor = const Color(0xff181818),
     this.textColor = const Color(0xff222222),
     this.iconColor = const Color(0xff404040),
@@ -105,6 +109,7 @@ class ElBrightnessData {
     this.bgColor = const Color(0xff2b2b2b),
     this.headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xffffffff),
+    this.modalColor = const Color(0xffffffff),
     this.titleColor = const Color(0xfffafafa),
     this.textColor = const Color(0xfff2f2f2),
     this.iconColor = const Color(0xfff6f6f6),

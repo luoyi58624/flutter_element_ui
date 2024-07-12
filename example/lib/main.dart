@@ -1,4 +1,5 @@
 import 'package:example/controller/global.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -19,21 +20,25 @@ class _App extends StatelessWidget {
           brightness: GlobalController.of.isDark.value
               ? Brightness.dark
               : Brightness.light,
-          data: ElThemeData(
-            theme: ElBrightnessData(
-              primary: Colors.purple,
-            ),
-          ),
           child: Builder(builder: (context) {
             return MaterialApp.router(
               routerConfig: router,
               themeMode: context.isDark ? ThemeMode.dark : ThemeMode.light,
-              theme: ThemeData(),
-              darkTheme: ThemeData(brightness: Brightness.dark),
+              theme: ElThemeUtil.buildMaterialTheme(context),
+              darkTheme: ElThemeUtil.buildMaterialTheme(
+                context,
+                brightness: Brightness.dark,
+              ),
               builder: (context, child) => Material(
-                child: ScrollConfiguration(
-                  behavior: const ElScrollBehavior(),
-                  child: child!,
+                child: CupertinoTheme(
+                  data: ElThemeUtil.buildCupertinoThemeData(
+                    context,
+                    brightness: context.brightness,
+                  ),
+                  child: ScrollConfiguration(
+                    behavior: const ElScrollBehavior(),
+                    child: child!,
+                  ),
                 ),
               ),
             );

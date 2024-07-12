@@ -41,5 +41,7 @@ export 'src/components/others/split/split.dart';
 export 'src/styles/theme.dart';
 export 'src/styles/basic/button.dart';
 
-export 'src/utils/util.dart';
+export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
+export 'src/utils/theme_util.dart';
+export 'src/utils/util.dart';

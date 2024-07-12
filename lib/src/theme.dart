@@ -32,7 +32,7 @@ part 'theme/extension.dart';
 /// ),
 /// ```
 ///
-/// 提示：你也可以直接使用 [WidgetsApp] 去构建应用，几乎所有顶级 App 都是基于它进行的封装。
+/// 提示：你也可以直接使用 [WidgetsApp] 去构建应用，所有顶级 App 都是基于它的封装。
 class ElTheme extends StatelessWidget {
   /// Element UI 主题系统小部件（可选）
   ElTheme({

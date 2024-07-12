@@ -26,8 +26,11 @@ extension ElResponsiveExtension on BuildContext {
 }
 
 extension ElBrightnessExtension on BuildContext {
+  /// 当前平台亮度模式
+  Brightness get brightness => _ElBrightness.of(this);
+
   /// 当前环境是否是暗黑模式
-  bool get isDark => _ElBrightness.isDark(this);
+  bool get isDark => brightness == Brightness.dark;
 }
 
 extension ThemeExtension on BuildContext {
