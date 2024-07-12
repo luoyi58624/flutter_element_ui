@@ -43,6 +43,8 @@ class ElMaterialThemeData {
 }
 
 class ElThemeUtil {
+  ElThemeUtil._();
+
   /// 基于 Element UI 主题系统构建 Material 主题
   ///
   /// * context 通过上下文获取 [ElTheme] 配置，请注意传递正确的[context]，
@@ -58,7 +60,7 @@ class ElThemeUtil {
     final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = context.elConfig;
-    final textStyle = DefaultTextStyle.of(context).style;
+    final textStyle = elConfig.textStyle;
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -85,6 +87,7 @@ class ElThemeUtil {
               primarySwatch: elTheme.primary.toMaterialColor()),
       // 设置全局默认文字主题
       textTheme: _textTheme(textStyle, elTheme),
+      fontFamilyFallback: textStyle.fontFamilyFallback,
       // 是否禁用波纹
       splashFactory:
           data.enableRipple ? InkRipple.splashFactory : noRipperFactory,
@@ -113,8 +116,9 @@ class ElThemeUtil {
         backgroundColor: elTheme.headerColor,
         titleTextStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
           fontSize: 18,
-          fontWeight: ElFontWeight.bold,
+          fontWeight: ElFont.bold,
           color: elTheme.headerColor.isDark
               ? darkTheme.textColor
               : lightTheme.textColor,
@@ -128,12 +132,14 @@ class ElThemeUtil {
       tabBarTheme: TabBarTheme(
         unselectedLabelStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.bold,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.bold,
           fontSize: 15,
         ),
         labelStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.bold,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.bold,
           fontSize: 15,
           color: elTheme.primary,
         ),
@@ -146,11 +152,9 @@ class ElThemeUtil {
         type: BottomNavigationBarType.fixed,
         backgroundColor: elTheme.headerColor,
         unselectedLabelStyle:
-            TextStyle(fontSize: 12, fontWeight: ElFontWeight.medium),
+            TextStyle(fontSize: 12, fontWeight: ElFont.medium),
         selectedLabelStyle: TextStyle(
-            fontSize: 12,
-            fontWeight: ElFontWeight.bold,
-            color: elTheme.primary),
+            fontSize: 12, fontWeight: ElFont.bold, color: elTheme.primary),
         unselectedIconTheme: const IconThemeData(size: 26),
         selectedIconTheme: IconThemeData(color: elTheme.primary, size: 26),
       ),
@@ -173,30 +177,33 @@ class ElThemeUtil {
       listTileTheme: ListTileThemeData(
         titleTextStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.medium,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.medium,
           color: elTheme.textColor,
           fontSize: 15,
         ),
         subtitleTextStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.normal,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.normal,
           color: elTheme.textColor.deepen(10),
           fontSize: 13,
         ),
         iconColor: elTheme.iconColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        // border: const OutlineInputBorder(
-        //   borderSide: BorderSide(color: Colors.grey),
-        // ),
         labelStyle: TextStyle(
-            fontFamily: textStyle.fontFamily,
-            fontSize: 16,
-            fontWeight: ElFontWeight.medium),
+          fontFamily: textStyle.fontFamily,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontSize: 16,
+          fontWeight: ElFont.medium,
+        ),
         hintStyle: TextStyle(
-            fontFamily: textStyle.fontFamily,
-            fontSize: 14,
-            fontWeight: ElFontWeight.medium),
+          fontFamily: textStyle.fontFamily,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontSize: 14,
+          fontWeight: ElFont.medium,
+        ),
       ),
       expansionTileTheme: ExpansionTileThemeData(
         textColor: elTheme.primary,
@@ -210,7 +217,8 @@ class ElThemeUtil {
         enableFeedback: true,
         textStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.normal,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.normal,
           color: elTheme.textColor,
           fontSize: 14,
         ),
@@ -220,19 +228,18 @@ class ElThemeUtil {
         titleTextStyle: TextStyle(
           color: elTheme.textColor,
           fontSize: 18,
-          fontWeight: ElFontWeight.bold,
+          fontWeight: ElFont.bold,
         ),
         contentTextStyle: TextStyle(
           color: elTheme.textColor.deepen(16),
           fontSize: 15,
-          fontWeight: ElFontWeight.normal,
+          fontWeight: ElFont.normal,
         ),
         elevation: elTheme.modalElevation,
-        backgroundColor: elTheme.modalColor,
+        backgroundColor: elTheme.bgColor,
         surfaceTintColor: Colors.transparent,
         shape: cardBorder,
         actionsPadding: const EdgeInsets.all(8),
-        insetPadding: EdgeInsets.zero,
       ),
       progressIndicatorTheme: ProgressIndicatorThemeData(
         refreshBackgroundColor:
@@ -258,7 +265,9 @@ class ElThemeUtil {
     final lightTheme = context.theme;
     final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = DefaultTextStyle.of(context).style;
+    final elConfig = context.elConfig;
+    final textStyle = elConfig.textStyle;
+
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 
     return themeData.copyWith(
@@ -266,27 +275,32 @@ class ElThemeUtil {
       textTheme: CupertinoTextThemeData(
         textStyle: themeData.textTheme.textStyle.copyWith(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.normal,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.normal,
         ),
         tabLabelTextStyle: themeData.textTheme.tabLabelTextStyle.copyWith(
           fontSize: 12,
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.normal,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.normal,
         ),
         navActionTextStyle: themeData.textTheme.navActionTextStyle.copyWith(
           color: elTheme.primary,
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.medium,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.medium,
           fontSize: 16,
         ),
         navTitleTextStyle: themeData.textTheme.navTitleTextStyle.copyWith(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.medium,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.medium,
         ),
         navLargeTitleTextStyle:
             themeData.textTheme.navLargeTitleTextStyle.copyWith(
           fontFamily: textStyle.fontFamily,
-          fontWeight: ElFontWeight.normal,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.normal,
         ),
       ),
     );
@@ -295,95 +309,65 @@ class ElThemeUtil {
 
 TextTheme _textTheme(TextStyle style, ElBrightnessData elTheme) {
   return TextTheme(
-    displayLarge: TextStyle(
-      fontWeight: ElFontWeight.bold,
+    displayLarge: style.copyWith(
+      fontWeight: ElFont.bold,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    displayMedium: TextStyle(
-      fontWeight: ElFontWeight.medium,
+    displayMedium: style.copyWith(
+      fontWeight: ElFont.medium,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    displaySmall: TextStyle(
-      fontWeight: ElFontWeight.medium,
+    displaySmall: style.copyWith(
+      fontWeight: ElFont.medium,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    headlineLarge: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    headlineLarge: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    headlineMedium: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    headlineMedium: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    headlineSmall: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    headlineSmall: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    titleLarge: TextStyle(
-      fontWeight: ElFontWeight.bold,
-      color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
+    titleLarge: style.copyWith(
+      fontWeight: ElFont.bold,
+      color: elTheme.titleColor,
     ),
-    titleMedium: TextStyle(
-      fontWeight: ElFontWeight.bold,
-      color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
+    titleMedium: style.copyWith(
+      fontWeight: ElFont.bold,
+      color: elTheme.titleColor,
     ),
-    titleSmall: TextStyle(
-      fontWeight: ElFontWeight.bold,
-      color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
+    titleSmall: style.copyWith(
+      fontWeight: ElFont.bold,
+      color: elTheme.titleColor,
     ),
-    bodyLarge: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    bodyLarge: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    bodyMedium: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    bodyMedium: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    bodySmall: TextStyle(
-      fontWeight: ElFontWeight.normal,
+    bodySmall: style.copyWith(
+      fontWeight: ElFont.normal,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    labelLarge: TextStyle(
-      fontWeight: ElFontWeight.medium,
+    labelLarge: style.copyWith(
+      fontWeight: ElFont.medium,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    labelMedium: TextStyle(
-      fontWeight: ElFontWeight.medium,
+    labelMedium: style.copyWith(
+      fontWeight: ElFont.medium,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
-    labelSmall: TextStyle(
-      fontWeight: ElFontWeight.medium,
+    labelSmall: style.copyWith(
+      fontWeight: ElFont.medium,
       color: elTheme.textColor,
-      fontFamily: style.fontFamily,
-      fontFamilyFallback: style.fontFamilyFallback,
     ),
   );
 }

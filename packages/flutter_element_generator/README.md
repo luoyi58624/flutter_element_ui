@@ -2,7 +2,7 @@ Element UI 代码生成库，用来生成一些通用的代码，注意：这个
 
 - Build
 
-> dart run build_runner build
+> dart run build_runner build --delete-conflicting-outputs
 
 - Dev
 

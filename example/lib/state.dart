@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'global.dart';
 
 class GlobalState {
-  static final brightness = Obs<Brightness?>(null);
+  static final isDark = Obs(false);
   static final counter = Obs(0);
   static final elMenu = Obs<ElMenuStateModel>(ElMenuStateModel());
 }

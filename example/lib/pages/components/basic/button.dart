@@ -1,4 +1,3 @@
-import 'package:example/controller/global.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -41,11 +40,11 @@ class ButtonPage extends HookWidget {
                   onPressed: toggleDisabled,
                   child: disabled ? '开启' : '禁用',
                 ),
-                Obx(() {
+                ObsBuilder(builder: (context) {
                   return ElButton(
-                    onPressed: () => GlobalController.of.isDark.value =
-                        !GlobalController.of.isDark.value,
-                    child: GlobalController.of.isDark.value ? '亮色模式' : '暗色模式',
+                    onPressed: () =>
+                        GlobalState.isDark.value = !GlobalState.isDark.value,
+                    child: GlobalState.isDark.value ? '亮色模式' : '暗色模式',
                   );
                 }),
                 const ElButton(onPressed: null, child: '你好'),

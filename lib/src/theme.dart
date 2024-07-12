@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'service.dart';
 import 'styles/theme.dart';
 
 part 'theme/data.dart';
 
-part 'theme/theme_widget.dart';
-
 part 'theme/extension.dart';
+
+part 'theme/service.dart';
+
+part 'theme/theme_widget.dart';
 
 /// Element UI 主题小部件，在设计上即使你不使用它也能使用所有的小部件，同时，为了保证兼容性，
 /// 我没有提供 ElApp 这样的顶级小部件，相反，你可以使用任意顶级小部件去构建应用程序：
@@ -42,7 +43,7 @@ class ElTheme extends StatelessWidget {
     this.brightness,
     this.navigatorKey,
   }) {
-    elRootNavigatorKey = navigatorKey;
+    _elRootNavigatorKey = navigatorKey;
   }
 
   final Widget child;
@@ -56,22 +57,34 @@ class ElTheme extends StatelessWidget {
   /// 根节点导航key，如果你用到一些依赖路由的Api，请设置它
   final GlobalKey<NavigatorState>? navigatorKey;
 
+  /// 默认的主题数据
+  static final ElThemeData _defaultThemeData = ElThemeData();
+
   /// 通过上下文获取全局主题
   static ElThemeData of(BuildContext context) =>
-      _ElThemeWidget.maybeOf(context)?.data ?? $el.defaultThemeData;
+      _ElThemeWidget.maybeOf(context)?.data ?? _defaultThemeData;
 
   @override
   Widget build(BuildContext context) {
-    final $data = data ?? $el.defaultThemeData;
+    final $data = data ?? _defaultThemeData;
     return _ElResponsive(
       data: $data.responsive,
       child: _ElBrightness(
         brightness: brightness,
         child: _ElGlobalCursor(
-          child: _ElThemeWidget(
-            elTheme: this,
-            child: child,
-          ),
+          child: Builder(builder: (context) {
+            ElBrightnessData $theme =
+                context.isDark ? $data.darkTheme : $data.theme;
+            TextStyle $style =
+                $data.config.textStyle.copyWith(color: $theme.textColor);
+            return DefaultTextStyle(
+              style: $style,
+              child: _ElThemeWidget(
+                elTheme: this,
+                child: child,
+              ),
+            );
+          }),
         ),
       ),
     );

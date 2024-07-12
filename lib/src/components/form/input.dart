@@ -157,7 +157,7 @@ class _ElInputState extends State<ElInput> {
                 focusNode: focusNode,
                 style: TextStyle(
                   color: context.elTheme.textColor,
-                  fontSize: context.elConfig.fonSize,
+                  fontSize: context.elConfig.textStyle.fontSize,
                 ),
                 decoration: _buildInputDecoration(context, styleProp),
                 textInputAction: widget.textInputAction,

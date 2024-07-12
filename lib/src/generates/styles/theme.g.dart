@@ -6,7 +6,7 @@ part of '../../styles/theme.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElColorThemeDataExtension on ElBrightnessData {
+extension ElBrightnessDataExtension on ElBrightnessData {
   ElBrightnessData copyWith({
     Color? primary,
     Color? success,
@@ -15,12 +15,13 @@ extension ElColorThemeDataExtension on ElBrightnessData {
     Color? error,
     Color? bgColor,
     Color? headerColor,
+    Color? asideBgColor,
     Color? cardColor,
+    Color? modalColor,
     Color? titleColor,
     Color? textColor,
     Color? iconColor,
     Color? borderColor,
-    Color? asideBgColor,
     Color? menuActiveColor,
     double? cardElevation,
     double? modalElevation,
@@ -33,12 +34,13 @@ extension ElColorThemeDataExtension on ElBrightnessData {
       error: error ?? this.error,
       bgColor: bgColor ?? this.bgColor,
       headerColor: headerColor ?? this.headerColor,
+      asideBgColor: asideBgColor ?? this.asideBgColor,
       cardColor: cardColor ?? this.cardColor,
+      modalColor: modalColor ?? this.modalColor,
       titleColor: titleColor ?? this.titleColor,
       textColor: textColor ?? this.textColor,
       iconColor: iconColor ?? this.iconColor,
       borderColor: borderColor ?? this.borderColor,
-      asideBgColor: asideBgColor ?? this.asideBgColor,
       menuActiveColor: menuActiveColor ?? this.menuActiveColor,
       cardElevation: cardElevation ?? this.cardElevation,
       modalElevation: modalElevation ?? this.modalElevation,
@@ -48,17 +50,22 @@ extension ElColorThemeDataExtension on ElBrightnessData {
 
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
-    double? fonSize,
     double? iconSize,
     double? radius,
     double? cardRadius,
+    int? bgColorTransition,
+    TextStyle? textStyle,
     ElButtonStyle? buttonStyle,
+    ElInputStyle? inputStyle,
   }) {
     return ElConfigData(
-      fonSize: fonSize ?? this.fonSize,
+      iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
+      bgColorTransition: bgColorTransition ?? this.bgColorTransition,
+      textStyle: this.textStyle.merge(textStyle),
       buttonStyle: this.buttonStyle.merge(buttonStyle),
+      inputStyle: this.inputStyle.merge(inputStyle),
     );
   }
 }

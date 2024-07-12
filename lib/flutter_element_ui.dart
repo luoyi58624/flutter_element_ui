@@ -1,7 +1,5 @@
 library flutter_element_ui;
 
-export 'src/service.dart' show $el;
-
 export 'src/theme.dart' hide ThemeExtension, ColorExtension;
 
 export 'src/components/basic/button.dart';
@@ -43,5 +41,5 @@ export 'src/styles/basic/button.dart';
 
 export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
-export 'src/utils/theme_util.dart';
+export 'src/utils/app_theme.dart';
 export 'src/utils/util.dart';

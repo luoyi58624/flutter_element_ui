@@ -4,7 +4,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../service.dart';
 import '../../theme.dart';
 import '../../utils/assert.dart';
 import '../others/hover.dart';

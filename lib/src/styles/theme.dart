@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_element_ui/src/styles/basic/icon.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'basic/input.dart';
@@ -126,8 +125,8 @@ class ElBrightnessData {
 class ElConfigData {
   static ElConfigData data = ElConfigData();
 
-  /// 全局默认文字大小
-  double fonSize;
+  /// 全局默认图标大小
+  double iconSize;
 
   /// 全局基础控件圆角值: button、input
   double radius;
@@ -138,23 +137,23 @@ class ElConfigData {
   /// 背景颜色全局过渡持续时间(毫秒)
   int bgColorTransition;
 
+  /// 全局文本样式
+  TextStyle textStyle;
+
   /// 按钮全局样式
   ElButtonStyle buttonStyle;
 
   /// 输入框全局样式
   ElInputStyle inputStyle;
 
-  /// 图标全局样式
-  ElIconStyle iconStyle;
-
   ElConfigData({
-    this.fonSize = 14,
+    this.iconSize = 18,
     this.radius = 4,
     this.cardRadius = 6,
     this.bgColorTransition = 100,
+    this.textStyle = const TextStyle(fontSize: 15),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
-    this.iconStyle = const ElIconStyle(),
   });
 }
 
