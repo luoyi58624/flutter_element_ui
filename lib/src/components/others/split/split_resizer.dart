@@ -118,7 +118,6 @@ abstract class _ResizerWidget extends HookWidget {
                 ? GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onHorizontalDragStart: (e) {
-                      $el.disabledHover.value = true;
                       $el.cursor.value = SystemMouseCursors.resizeColumn;
                       isActive.value = true;
                     },
@@ -127,13 +126,11 @@ abstract class _ResizerWidget extends HookWidget {
                     },
                     onHorizontalDragEnd: (e) {
                       endFun();
-                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onHorizontalDragCancel: () {
                       endFun();
-                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
@@ -144,7 +141,6 @@ abstract class _ResizerWidget extends HookWidget {
                 : GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onVerticalDragStart: (e) {
-                      $el.disabledHover.value = true;
                       $el.cursor.value = SystemMouseCursors.resizeRow;
                       isActive.value = true;
                     },
@@ -153,13 +149,11 @@ abstract class _ResizerWidget extends HookWidget {
                     },
                     onVerticalDragEnd: (e) {
                       endFun();
-                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },
                     onVerticalDragCancel: () {
                       endFun();
-                      $el.disabledHover.value = false;
                       $el.cursor.value = SystemMouseCursors.basic;
                       isActive.value = false;
                     },

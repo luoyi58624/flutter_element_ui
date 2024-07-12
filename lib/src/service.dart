@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/components/others/hover.dart';
 import 'package:flutter_element_ui/src/theme.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
@@ -26,9 +25,6 @@ class ElService {
   ///
   /// 提示：[MouseRegion]的重建不会触发内部的子组件build。
   final cursor = Obs(MouseCursor.defer);
-
-  /// 全局禁用hover，它作用于 [ElHover] 小部件
-  final disabledHover = Obs(false);
 
   /// 根节点context，使用前必须在 App 中配置 navigatorKey
   BuildContext get context {

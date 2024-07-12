@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../service.dart';
@@ -53,9 +52,9 @@ class _HoverBuilderState extends State<ElHover> {
     if (widget.disabled) {
       $el.cursor.value =
           value ? SystemMouseCursors.forbidden : MouseCursor.defer;
-    } else if (isHover != value) {
+    } else {
       $el.cursor.value = value ? widget.cursor : MouseCursor.defer;
-      if (!widget.onlyCursor) {
+      if (!widget.onlyCursor && isHover != value) {
         setState(() {
           isHover = value;
         });
