@@ -1,14 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 
 class ElHover extends StatefulWidget {
   /// hover构建器，仅在桌面端渲染，移动端不会渲染
   const ElHover({
     super.key,
     required this.builder,
-    this.cursor = SystemMouseCursors.click,
+    this.cursor = MouseCursor.defer,
     this.disabled = false,
     this.onlyCursor = false,
   });
@@ -21,7 +22,7 @@ class ElHover extends StatefulWidget {
   /// 是否开启禁用样式，默认false
   final bool disabled;
 
-  /// 是否仅更新显示的光标，但不触发状态，默认false
+  /// 是否仅更新显示的光标，但不触发状态
   final bool onlyCursor;
 
   /// 根据上下文获取最近的悬停状态
@@ -50,10 +51,17 @@ class _HoverBuilderState extends State<ElHover> {
 
   void _update(bool value) {
     if (widget.disabled) {
-      $el.cursor.value =
-          value ? SystemMouseCursors.forbidden : MouseCursor.defer;
+      if (value == true) {
+        $el.setCursor(SystemMouseCursors.forbidden);
+      } else {
+        $el.resetCursor();
+      }
     } else {
-      $el.cursor.value = value ? widget.cursor : MouseCursor.defer;
+      if (value == true) {
+        $el.setCursor(widget.cursor);
+      } else {
+        $el.resetCursor();
+      }
       if (!widget.onlyCursor && isHover != value) {
         setState(() {
           isHover = value;

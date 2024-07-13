@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_element_ui/src/components/layout/nav_tab.dart';
-import 'package:flutter_element_ui/src/theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';

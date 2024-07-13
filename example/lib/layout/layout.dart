@@ -34,14 +34,6 @@ class LayoutPage extends HookWidget {
             ),
             body: navigationShell,
           )
-        // Column(
-        //         children: [
-        //           Container(
-        //             child: const Text('Element UI'),
-        //           ),
-        //           Expanded(child: navigationShell),
-        //         ],
-        //       )
         : ElLayout(
             children: [
               const ElAside(child: LayoutSidebarWidget()),

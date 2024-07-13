@@ -1,4 +1,4 @@
-import '../theme.dart';
+import '../app.dart';
 
 const String elInternalError = 'Element UI内部程序错误，此错误并非用户问题，请提交ISSUE';
 

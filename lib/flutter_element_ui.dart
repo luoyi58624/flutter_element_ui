@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'src/theme.dart' hide ThemeExtension, ColorExtension;
+export 'src/app.dart' hide ThemeExtension, ColorExtension;
 
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';

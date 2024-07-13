@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/src/theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../styles/theme.dart';
@@ -307,7 +307,7 @@ class ElThemeUtil {
   }
 }
 
-TextTheme _textTheme(TextStyle style, ElBrightnessData elTheme) {
+TextTheme _textTheme(TextStyle style, ElThemeData elTheme) {
   return TextTheme(
     displayLarge: style.copyWith(
       fontWeight: ElFont.bold,

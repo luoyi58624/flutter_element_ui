@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 
 class ElDivider extends StatelessWidget {
   const ElDivider({

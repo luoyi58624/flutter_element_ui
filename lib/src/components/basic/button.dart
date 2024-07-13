@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import '../../utils/assert.dart';
 import '../others/hover.dart';
 import '../others/tap.dart';
@@ -149,6 +149,7 @@ class ElButton extends StatelessWidget {
       child: Focus(
         child: ElHover(
           disabled: disabled,
+          cursor: SystemMouseCursors.click,
           builder: ($isHover) => ElTap(
             onTap: onPressed,
             disabled: disabled,

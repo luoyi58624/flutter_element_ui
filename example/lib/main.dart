@@ -16,10 +16,10 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      return ElTheme(
+      return ElApp(
         brightness:
             GlobalState.isDark.value ? Brightness.dark : Brightness.light,
-        data: ElThemeData(
+        data: ElAppData(
           config: ElConfigData(
             textStyle: TextStyle(
               fontFamily: FlutterFont.fontFamily,

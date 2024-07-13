@@ -8,14 +8,14 @@ import 'basic/input.dart';
 
 part '../generates/styles/theme.g.dart';
 
-/// Element UI 根据平台亮度应用的主题对象
+/// 根据平台亮度应用的主题对象
 @ElModel(copyWith: true)
-class ElBrightnessData {
+class ElThemeData {
   /// 亮色默认主题
-  static ElBrightnessData lightTheme = ElBrightnessData();
+  static ElThemeData lightTheme = ElThemeData();
 
   /// 暗色默认主题
-  static ElBrightnessData darkTheme = ElBrightnessData.dark();
+  static ElThemeData darkTheme = ElThemeData.dark();
 
   /// 描述当前主题系统是否是亮色、暗色
   @ElModelField(ignore: ElModel.all())
@@ -76,7 +76,7 @@ class ElBrightnessData {
   double modalElevation;
 
   /// 默认的亮色主题构造函数
-  ElBrightnessData({
+  ElThemeData({
     this.brightness = Brightness.light,
     this.primary = const Color(0xff409eff),
     this.success = const Color(0xff67c23a),
@@ -98,7 +98,7 @@ class ElBrightnessData {
   });
 
   /// 默认的暗色主题构造函数
-  ElBrightnessData.dark({
+  ElThemeData.dark({
     this.brightness = Brightness.dark,
     this.primary = const Color(0xff0ea5e9),
     this.success = const Color(0xff14b8a6),
@@ -120,7 +120,7 @@ class ElBrightnessData {
   });
 }
 
-/// Element UI 全局配置，定义了所有组件的默认配置信息
+/// 全局配置，定义了所有组件的默认配置信息
 @ElModel(copyWith: true)
 class ElConfigData {
   static ElConfigData data = ElConfigData();
@@ -157,7 +157,7 @@ class ElConfigData {
   });
 }
 
-/// Element UI 响应式配置
+/// 响应式配置
 class ElResponsiveData {
   /// 特小号设备最大尺寸
   final double xs;
@@ -199,7 +199,7 @@ class ElResponsiveData {
   }
 }
 
-/// Element UI 字体排版配置
+/// 字体排版配置
 class ElTypographyData {
   /// 默认的字体排版配置
   static final data = ElTypographyData(

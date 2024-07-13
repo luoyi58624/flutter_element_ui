@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 

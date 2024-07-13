@@ -5,7 +5,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../styles/theme.dart';
-import '../../theme.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import '../others/hover.dart';
 
 /// Element UI 文字排版继承小部件
@@ -23,7 +23,7 @@ class ElTypographyInheritedWidget extends InheritedWidget {
     return context
             .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
             ?.data ??
-        ElTheme.of(context).typography;
+        ElApp.of(context).typography;
   }
 
   @override

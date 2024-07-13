@@ -113,55 +113,56 @@ abstract class _ResizerWidget extends HookWidget {
           left: left,
           right: right,
           child: DeferPointer(
-            paintOnTop: true,
-            child: isRow
-                ? GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onHorizontalDragStart: (e) {
-                      $el.cursor.value = SystemMouseCursors.resizeColumn;
-                      isActive.value = true;
-                    },
-                    onHorizontalDragUpdate: (e) {
-                      if (isActive.value) updateFun(e.delta.dx);
-                    },
-                    onHorizontalDragEnd: (e) {
-                      endFun();
-                      $el.cursor.value = SystemMouseCursors.basic;
-                      isActive.value = false;
-                    },
-                    onHorizontalDragCancel: () {
-                      endFun();
-                      $el.cursor.value = SystemMouseCursors.basic;
-                      isActive.value = false;
-                    },
-                    child: const MouseRegion(
-                      cursor: SystemMouseCursors.resizeColumn,
-                    ),
-                  )
-                : GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onVerticalDragStart: (e) {
-                      $el.cursor.value = SystemMouseCursors.resizeRow;
-                      isActive.value = true;
-                    },
-                    onVerticalDragUpdate: (e) {
-                      if (isActive.value) updateFun(e.delta.dy);
-                    },
-                    onVerticalDragEnd: (e) {
-                      endFun();
-                      $el.cursor.value = SystemMouseCursors.basic;
-                      isActive.value = false;
-                    },
-                    onVerticalDragCancel: () {
-                      endFun();
-                      $el.cursor.value = SystemMouseCursors.basic;
-                      isActive.value = false;
-                    },
-                    child: const MouseRegion(
-                      cursor: SystemMouseCursors.resizeRow,
-                    ),
-                  ),
-          ),
+              paintOnTop: true,
+              child: ElHover(
+                onlyCursor: true,
+                cursor: isRow
+                    ? SystemMouseCursors.resizeColumn
+                    : SystemMouseCursors.resizeRow,
+                builder: (isHover) => isRow
+                    ? GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onHorizontalDragStart: (e) {
+                          $el.setCursor(SystemMouseCursors.resizeColumn,
+                              'drag_split_column');
+                          isActive.value = true;
+                        },
+                        onHorizontalDragUpdate: (e) {
+                          if (isActive.value) updateFun(e.delta.dx);
+                        },
+                        onHorizontalDragEnd: (e) {
+                          endFun();
+                          $el.resetCursor('drag_split_column');
+                          isActive.value = false;
+                        },
+                        onHorizontalDragCancel: () {
+                          endFun();
+                          $el.resetCursor('drag_split_column');
+                          isActive.value = false;
+                        },
+                      )
+                    : GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onVerticalDragStart: (e) {
+                          $el.setCursor(
+                              SystemMouseCursors.resizeRow, 'darg_split_row');
+                          isActive.value = true;
+                        },
+                        onVerticalDragUpdate: (e) {
+                          if (isActive.value) updateFun(e.delta.dy);
+                        },
+                        onVerticalDragEnd: (e) {
+                          endFun();
+                          $el.resetCursor('darg_split_row');
+                          isActive.value = false;
+                        },
+                        onVerticalDragCancel: () {
+                          endFun();
+                          $el.resetCursor('darg_split_row');
+                          isActive.value = false;
+                        },
+                      ),
+              )),
         ),
       ],
     );
@@ -177,24 +178,10 @@ class _SizeResizerWidget extends _ResizerWidget {
   @override
   Widget build(BuildContext context) {
     final data = _SizedBoxSplitInheritedWidget.of(context).splitData[layoutId]!;
-    final isRow = ElSplitPanel.isRow(context);
     return buildResizer(
       context,
       updateFun: (e) {
         data.reversal ? data.size.value -= e : data.size.value += e;
-        if (data.size.value <= data.minSize) {
-          $el.cursor.value = isRow
-              ? SystemMouseCursors.resizeRight
-              : SystemMouseCursors.resizeDown;
-        } else if (data.maxSize != null && data.size.value >= data.maxSize!) {
-          $el.cursor.value = isRow
-              ? SystemMouseCursors.resizeLeft
-              : SystemMouseCursors.resizeUp;
-        } else {
-          $el.cursor.value = isRow
-              ? SystemMouseCursors.resizeColumn
-              : SystemMouseCursors.resizeRow;
-        }
       },
       endFun: () {
         var size = data.size.value;
