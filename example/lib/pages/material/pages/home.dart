@@ -1,4 +1,5 @@
 import 'package:example/global.dart';
+import 'package:example/pages/material/pages/slider_test.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/button.dart';
@@ -24,8 +25,16 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: ColumnWidget(children: [
           buildCardWidget(context, title: '通用组件', children: [
-            buildCellWidget(context,
-                title: 'Hook 测试', page: const HookDemoPage()),
+            buildCellWidget(
+              context,
+              title: 'Hook 测试',
+              page: const HookDemoPage(),
+            ),
+            buildCellWidget(
+              context,
+              title: '1000个Slider 测试',
+              page: const SliderTestPage(),
+            ),
           ]),
           const Gap(8),
           const ButtonWidgets(),
