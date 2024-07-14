@@ -63,14 +63,12 @@ class LayoutPage extends LayoutPageBase {
           },
           selectedIndex: navigationShell.currentIndex,
           labelType: NavigationRailLabelType.all,
-          trailing: ObsBuilder(
-            builder: (context) {
-              return Switch(
-                value: GlobalState.isDark.value,
-                onChanged: (v) => GlobalState.isDark.value = v,
-              );
-            }
-          ),
+          trailing: ObsBuilder(builder: (context) {
+            return Switch(
+              value: GlobalState.isDark.value,
+              onChanged: (v) => GlobalState.isDark.value = v,
+            );
+          }),
           destinations: const [
             NavigationRailDestination(
               icon: Icon(Icons.home),

@@ -1,10 +1,10 @@
 import 'package:example/global.dart';
-import 'package:example/pages/cupertino/cupertino.dart';
-import 'package:example/pages/material/material.dart';
+import 'package:example/routes/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'pages/layout.dart';
 import 'pages/home/home.dart';
+import 'routes/cupertino.dart';
 import 'routes/element.dart';
 
 final router = GoRouter(
@@ -24,35 +24,15 @@ final router = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: Routes.home,
+              path: '/',
               builder: (context, state) => const HomePage(),
             ),
           ],
         ),
-        StatefulShellBranch(routes: [elementRoutes]),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: Routes.material,
-              builder: (context, state) => const MaterialPage(),
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: Routes.cupertino,
-              builder: (context, state) => const CupertinoPage(),
-            ),
-          ],
-        ),
+        elementRoute,
+        materialRoute,
+        cupertinoRoute,
       ],
     ),
   ],
 );
-
-class Routes {
-  static const String home = '/';
-  static const String material = '/material';
-  static const String cupertino = '/cupertino';
-}

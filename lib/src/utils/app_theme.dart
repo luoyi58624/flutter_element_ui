@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/src/app.dart';
+import 'package:flutter_element_ui/src/extensions/theme.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../styles/theme.dart';

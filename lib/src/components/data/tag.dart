@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/app.dart';
+import 'package:flutter_element_ui/src/extensions/theme.dart';
 
 class ElTag extends StatelessWidget {
   const ElTag(

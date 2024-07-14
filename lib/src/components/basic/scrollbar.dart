@@ -9,9 +9,9 @@ const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
 class ElScrollBehavior extends ScrollBehavior {
+  /// Element UI 滚动行为，桌面端默认使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
   const ElScrollBehavior();
 
-  /// 桌面端默认使用[ElScrollbar]，移动端则使用[Scrollbar]
   @override
   Widget buildScrollbar(
       BuildContext context, Widget child, ScrollableDetails details) {

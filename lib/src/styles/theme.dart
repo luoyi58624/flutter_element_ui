@@ -91,7 +91,7 @@ class ElThemeData {
     this.textColor = const Color(0xff222222),
     this.iconColor = const Color(0xff404040),
     this.borderColor = const Color(0xffdcdfe6),
-    this.asideBgColor = const Color(0xfffafafa),
+    this.asideBgColor = const Color(0xffffffff),
     this.menuActiveColor = const Color(0xff409eff),
     this.cardElevation = 0,
     this.modalElevation = 2,

@@ -11,15 +11,29 @@ class ElementLayoutPage extends LayoutPageBase {
 
   @override
   Widget buildDesktopLayout(context) {
-    return ElLayout(
+    return Row(
       children: [
-        const ElAside(child: LayoutSidebarWidget()),
-        ElLayout(children: [
-          const ElHeader(child: LayoutHeaderWidget()),
-          ElMain(child: navigationShell),
-        ]),
+        const LayoutSidebarWidget(),
+        const ElDivider(vertical: true),
+        Expanded(
+          child: Column(
+            children: [
+              const LayoutHeaderWidget(),
+              Expanded(child: navigationShell),
+            ],
+          ),
+        ),
       ],
     );
+    // return ElLayout(
+    //   children: [
+    //     const ElAside(child: LayoutSidebarWidget()),
+    //     ElLayout(children: [
+    //       const ElHeader(child: LayoutHeaderWidget()),
+    //       ElMain(child: navigationShell),
+    //     ]),
+    //   ],
+    // );
   }
 
   @override

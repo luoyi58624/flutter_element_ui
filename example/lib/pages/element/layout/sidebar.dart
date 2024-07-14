@@ -14,7 +14,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
         ElMenuModel(
           title: '首页',
           icon: ElIcons.homeFilled,
-          path: ElementRoutes.root,
+          path: '${ElementRoutes.root}/home',
         ),
         ElMenuModel(
           title: '组件',
@@ -147,18 +147,21 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   Widget build(BuildContext context) {
     return ObsBuilder(
       builder: (context) {
-        return ElMenu(
-          menuList,
-          activePath: GlobalState.elMenu.value.activePath,
-          collapse: GlobalState.elMenu.value.isCollapse,
-          onChange: (menu) {
-            if (menu.path != null &&
-                menu.path != GlobalState.elMenu.value.activePath) {
-              context.go(menu.path!);
-              GlobalState.elMenu.value =
-                  GlobalState.elMenu.value.copyWith(activePath: menu.path!);
-            }
-          },
+        return Container(
+          color: context.elTheme.asideBgColor,
+          child: ElMenu(
+            menuList,
+            activePath: GlobalState.elMenu.value.activePath,
+            collapse: GlobalState.elMenu.value.isCollapse,
+            onChange: (menu) {
+              if (menu.path != null &&
+                  menu.path != GlobalState.elMenu.value.activePath) {
+                context.go(menu.path!);
+                GlobalState.elMenu.value =
+                    GlobalState.elMenu.value.copyWith(activePath: menu.path!);
+              }
+            },
+          ),
         );
       },
     );

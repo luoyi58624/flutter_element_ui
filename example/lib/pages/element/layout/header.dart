@@ -12,8 +12,9 @@ class LayoutHeaderWidget extends StatefulWidget {
 class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      color: context.elTheme.headerColor,
       child: Row(
         children: [
           ElButton(

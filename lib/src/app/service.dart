@@ -3,9 +3,6 @@ part of '../app.dart';
 /// Element UI 全局实例变量
 final $el = _ElService();
 
-/// 根节点导航key，请通过[ElTheme]传递navigatorKey
-late GlobalKey<NavigatorState>? _elRootNavigatorKey;
-
 class _ElService {
   /// Element UI 颜色主题类型集合
   final List<String> themeTypes = const [
@@ -36,13 +33,16 @@ class _ElService {
     }
   }
 
-  /// 根节点context，使用前必须在 App 中配置 navigatorKey
+  /// 根节点导航key，请通过[ElTheme]传递navigatorKey
+  late GlobalKey<NavigatorState>? _elRootNavigatorKey;
+
+  /// 根节点路由 context 对象
   BuildContext get context {
     assert(_elRootNavigatorKey != null, '请在 ElTheme 中设置 navigatorKey');
     assert(
         _elRootNavigatorKey!.currentWidget != null &&
             _elRootNavigatorKey!.currentWidget is Navigator,
-        '请在 App 组件中设置 navigatorKey');
+        '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
     return _elRootNavigatorKey!.currentContext!;
   }
 }

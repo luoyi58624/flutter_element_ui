@@ -1,6 +1,5 @@
 part of '../app.dart';
 
-
 /// 响应式全局配置小部件
 class _ElResponsive extends InheritedWidget {
   const _ElResponsive({
