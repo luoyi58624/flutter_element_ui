@@ -217,14 +217,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
-  get:
-    dependency: "direct main"
-    description:
-      name: get
-      sha256: "2841187ac3a30c8042c91d95738c17369c79792971cc3166222be8cede72e10c"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "5.0.0-release-candidate-6"
   go_router:
     dependency: "direct main"
     description:

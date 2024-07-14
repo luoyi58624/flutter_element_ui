@@ -16,10 +16,8 @@ dependencies:
   flutter_hooks: ^0.20.5
   flutter_obs: ^1.2.2
   super_sliver_list: ^0.4.1
-  get: ^5.0.0-release-candidate-6
   go_router: ^14.1.4
   decimal: ^3.0.0
-  flutter_animate: ^4.5.0
   defer_pointer: ^0.0.2
   custom_pop_up_menu: ^1.2.4
   faker: ^2.1.0

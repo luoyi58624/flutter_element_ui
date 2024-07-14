@@ -7,34 +7,37 @@ import 'package:example/pages/components/form/radio.dart';
 import 'package:example/pages/components/form/switch.dart';
 import 'package:example/pages/components/layout/basic.dart';
 import 'package:example/pages/components/layout/overlay.dart';
+import 'package:example/pages/element/layout/layout.dart';
 
-import '../../layout/layout.dart';
 import '../../pages/components/basic/button.dart';
 import '../../pages/components/basic/color.dart';
 import '../../pages/components/basic/text.dart';
 import '../../pages/components/data/table.dart';
 import '../../pages/components/form/form.dart';
-import '../../pages/components/layout/drag.dart';
-import '../../pages/home.dart';
+import '../pages/element/home.dart';
 import '../../pages/test/border.dart';
 import '../../pages/test/image_list.dart';
 
-const String _components = '/components';
-const String _componentsLayout = '$_components/layout';
-const String _componentsBasic = '$_components/basic';
-const String _componentsForm = '$_components/form';
-const String _componentsData = '$_components/data';
-const String _componentsFeedBack = '$_components/feedback';
+class ElementRoutes {
+  static const String root = '/element';
+  static const String component = '$root/components';
+  static const String componentLayout = '$component/layout';
+  static const String componentBasic = '$component/basic';
+  static const String componentForm = '$component/form';
+  static const String componentData = '$component/data';
+  static const String componentFeedBack = '$component/feedback';
+}
+
 const String _tests = '/tests';
 
-final layoutRoutes = StatefulShellRoute.indexedStack(
+final elementRoutes = StatefulShellRoute.indexedStack(
   builder: (context, state, navigationShell) =>
-      LayoutPage(navigationShell: navigationShell),
+      ElementLayoutPage(navigationShell),
   branches: [
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '/',
+          path: ElementRoutes.root,
           builder: (context, state) => const HomePage(),
         ),
       ],
@@ -42,7 +45,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsLayout/basic',
+          path: '${ElementRoutes.componentLayout}/basic',
           builder: (context, state) => const LayoutBasicPage(),
         ),
       ],
@@ -50,7 +53,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsLayout/drag',
+          path: '${ElementRoutes.componentLayout}/drag',
           builder: (context, state) => const OverlayPage(),
         ),
       ],
@@ -58,7 +61,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsBasic/button',
+          path: '${ElementRoutes.componentBasic}/button',
           builder: (context, state) => const ButtonPage(),
         ),
       ],
@@ -66,7 +69,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsBasic/text',
+          path: '${ElementRoutes.componentBasic}/text',
           builder: (context, state) => const TextPage(),
         ),
       ],
@@ -74,7 +77,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsBasic/color',
+          path: '${ElementRoutes.componentBasic}/color',
           builder: (context, state) => const ColorPage(),
         ),
       ],
@@ -82,7 +85,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsBasic/font',
+          path: '${ElementRoutes.componentBasic}/font',
           builder: (context, state) => const FontPage(),
         ),
       ],
@@ -90,7 +93,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsForm/input',
+          path: '${ElementRoutes.componentForm}/input',
           builder: (context, state) => const InputPage(),
         ),
       ],
@@ -98,7 +101,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsForm/radio',
+          path: '${ElementRoutes.componentForm}/radio',
           builder: (context, state) => const RadioPage(),
         ),
       ],
@@ -106,7 +109,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsForm/switch',
+          path: '${ElementRoutes.componentForm}/switch',
           builder: (context, state) => const SwitchPage(),
         ),
       ],
@@ -114,7 +117,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsForm/form',
+          path: '${ElementRoutes.componentForm}/form',
           builder: (context, state) => const FormPage(),
         ),
       ],
@@ -122,7 +125,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsData/badge',
+          path: '${ElementRoutes.componentData}/badge',
           builder: (context, state) => const BadgePage(),
         ),
       ],
@@ -130,7 +133,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsData/table',
+          path: '${ElementRoutes.componentData}/table',
           builder: (context, state) => const TablePage(),
         ),
       ],
@@ -138,7 +141,7 @@ final layoutRoutes = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [
         GoRoute(
-          path: '$_componentsFeedBack/dialog',
+          path: '${ElementRoutes.componentFeedBack}/dialog',
           builder: (context, state) => const DialogPage(),
         ),
       ],

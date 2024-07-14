@@ -25,7 +25,7 @@ class ElApp extends StatelessWidget {
   /// ```
   ///
   /// 注意：使用 [MaterialApp] 你肯定会遇到字体下方有黄色的双下划线的错误，
-  /// 这个错误实际上是官方 "鼓励" 你必须在 [Material] 组件中使用文本组件，解决方案：
+  /// 这个错误实际上是官方希望你在 [Material] 组件中使用文本组件，解决方案：
   /// ```
   /// MaterialApp(
   ///   builder: (context, child) => Material(
@@ -60,7 +60,7 @@ class ElApp extends StatelessWidget {
 
   /// 通过上下文获取全局主题
   static ElAppData of(BuildContext context) =>
-      _AppInheritedWidget.maybeOf(context)?.data ?? _defaultAppData;
+      _AppInheritedWidget.maybeOf(context) ?? _defaultAppData;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class ElApp extends StatelessWidget {
           child: DefaultTextStyle(
             style: $style,
             child: _AppInheritedWidget(
-              elTheme: this,
+              data: $data,
               child: child,
             ),
           ),
@@ -119,13 +119,13 @@ class ElAppData {
 
 /// 全局主题注入实例
 class _AppInheritedWidget extends InheritedWidget {
-  const _AppInheritedWidget({required super.child, required this.elTheme});
+  const _AppInheritedWidget({required super.child, required this.data});
 
-  final ElApp elTheme;
+  final ElAppData data;
 
-  static ElApp? maybeOf(BuildContext context) => context
+  static ElAppData? maybeOf(BuildContext context) => context
       .dependOnInheritedWidgetOfExactType<_AppInheritedWidget>()
-      ?.elTheme;
+      ?.data;
 
   @override
   bool updateShouldNotify(_AppInheritedWidget oldWidget) => true;

@@ -151,10 +151,17 @@ class ElThemeUtil {
         elevation: 2,
         type: BottomNavigationBarType.fixed,
         backgroundColor: elTheme.headerColor,
-        unselectedLabelStyle:
-            TextStyle(fontSize: 12, fontWeight: ElFont.medium),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 12,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.medium,
+        ),
         selectedLabelStyle: TextStyle(
-            fontSize: 12, fontWeight: ElFont.bold, color: elTheme.primary),
+          fontSize: 12,
+          fontFamilyFallback: textStyle.fontFamilyFallback,
+          fontWeight: ElFont.medium,
+          color: elTheme.primary,
+        ),
         unselectedIconTheme: const IconThemeData(size: 26),
         selectedIconTheme: IconThemeData(color: elTheme.primary, size: 26),
       ),

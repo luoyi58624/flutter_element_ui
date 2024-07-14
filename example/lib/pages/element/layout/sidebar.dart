@@ -1,4 +1,5 @@
 import 'package:example/global.dart';
+import 'package:example/routes/element.dart';
 import 'package:flutter/material.dart';
 
 class LayoutSidebarWidget extends StatefulWidget {
@@ -10,91 +11,95 @@ class LayoutSidebarWidget extends StatefulWidget {
 
 class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
   List<ElMenuModel> get menuList => [
-        ElMenuModel(title: '首页', icon: ElIcons.homeFilled, path: '/'),
+        ElMenuModel(
+          title: '首页',
+          icon: ElIcons.homeFilled,
+          path: ElementRoutes.root,
+        ),
         ElMenuModel(
           title: '组件',
           icon: ElIcons.eleme,
-          path: '/components',
+          path: ElementRoutes.component,
           children: [
             ElMenuModel(
               title: 'Layout 布局组件',
-              path: '/components/layout',
+              path: ElementRoutes.componentLayout,
               children: [
                 ElMenuModel(
                   title: '基础布局',
-                  path: '/components/layout/basic',
+                  path: '${ElementRoutes.componentLayout}/basic',
                 ),
                 ElMenuModel(
                   title: '拖拽尺寸',
-                  path: '/components/layout/drag',
+                  path: '${ElementRoutes.componentLayout}/drag',
                 ),
               ],
             ),
             ElMenuModel(
               title: 'Basic 基础组件',
-              path: '/components/basic',
+              path: ElementRoutes.componentBasic,
               children: [
                 ElMenuModel(
                   title: 'Button 按钮',
-                  path: '/components/basic/button',
+                  path: '${ElementRoutes.componentBasic}/button',
                 ),
                 ElMenuModel(
                   title: 'Text 文字',
-                  path: '/components/basic/text',
+                  path: '${ElementRoutes.componentBasic}/text',
                 ),
                 ElMenuModel(
                   title: 'Color 颜色',
-                  path: '/components/basic/color',
+                  path: '${ElementRoutes.componentBasic}/color',
                 ),
                 ElMenuModel(
                   title: 'Font 字体',
-                  path: '/components/basic/font',
+                  path: '${ElementRoutes.componentBasic}/font',
                 ),
               ],
             ),
             ElMenuModel(
               title: 'Form 表单组件',
-              path: '/components/form',
+              path: ElementRoutes.componentForm,
               children: [
                 ElMenuModel(
                   title: 'Input 输入框',
-                  path: '/components/form/input',
+                  path: '${ElementRoutes.componentForm}/input',
                 ),
                 ElMenuModel(
                   title: 'Radio 单选框',
-                  path: '/components/form/radio',
+                  path: '${ElementRoutes.componentForm}/radio',
                 ),
                 ElMenuModel(
                   title: 'Switch 开关',
-                  path: '/components/form/switch',
+                  path: '${ElementRoutes.componentForm}/switch',
                 ),
                 ElMenuModel(
                   title: 'Form 表单',
-                  path: '/components/form/form',
+                  path: '${ElementRoutes.componentForm}/form',
                 ),
               ],
             ),
             ElMenuModel(
               title: 'Data 数据展示',
-              path: '/components/data',
+              path: ElementRoutes.componentData,
               children: [
                 ElMenuModel(
                   title: 'Badge 徽章',
-                  path: '/components/data/badge',
+                  path: '${ElementRoutes.componentData}/badge',
                 ),
                 ElMenuModel(
                   title: 'Table 表格',
-                  path: '/components/data/table',
+                  path: '${ElementRoutes.componentData}/table',
                 ),
               ],
             ),
             ElMenuModel(
               title: 'FeedBack 反馈组件',
-              path: '/components/feedback',
+              path: ElementRoutes.componentFeedBack,
               children: [
                 ElMenuModel(
                   title: 'Dialog 对话框',
-                  path: '/components/feedback/dialog',
+                  path: '${ElementRoutes.componentFeedBack}/dialog',
                 ),
               ],
             ),

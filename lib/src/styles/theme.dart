@@ -91,8 +91,8 @@ class ElThemeData {
     this.textColor = const Color(0xff222222),
     this.iconColor = const Color(0xff404040),
     this.borderColor = const Color(0xffdcdfe6),
-    this.asideBgColor = const Color(0xff565c64),
-    this.menuActiveColor = const Color(0xffffd04b),
+    this.asideBgColor = const Color(0xfffafafa),
+    this.menuActiveColor = const Color(0xff409eff),
     this.cardElevation = 0,
     this.modalElevation = 2,
   });
@@ -113,8 +113,10 @@ class ElThemeData {
     this.textColor = const Color(0xfff2f2f2),
     this.iconColor = const Color(0xfff6f6f6),
     this.borderColor = const Color(0xffa3a3a3),
-    this.asideBgColor = const Color(0xff374151),
-    this.menuActiveColor = const Color(0xff6ee7b7),
+    this.asideBgColor = const Color(0xff565c64),
+    this.menuActiveColor = const Color(0xffffd04b),
+    // this.asideBgColor = const Color(0xff374151),
+    // this.menuActiveColor = const Color(0xff6ee7b7),
     this.cardElevation = 2,
     this.modalElevation = 4,
   });
