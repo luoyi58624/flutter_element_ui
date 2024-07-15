@@ -6,8 +6,10 @@ import 'pages/layout.dart';
 import 'pages/home/home.dart';
 import 'routes/cupertino.dart';
 import 'routes/element.dart';
+import 'routes/test.dart';
 
 final router = GoRouter(
+  navigatorKey: $el.navigatorKey,
   initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
     if (state.fullPath != null) {
@@ -32,6 +34,7 @@ final router = GoRouter(
         elementRoute,
         materialRoute,
         cupertinoRoute,
+        testRoute,
       ],
     ),
   ],

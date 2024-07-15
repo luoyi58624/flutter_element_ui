@@ -1,4 +1,3 @@
-import 'package:example/utils/font/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +5,8 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+  await CacheInterceptor.init();
   await FontUtil.init();
   runApp(const _App());
 }
@@ -23,7 +24,7 @@ class _App extends StatelessWidget {
           config: ElConfigData(
             textStyle: TextStyle(
               fontFamily: FlutterFont.fontFamily,
-              fontFamilyFallback: FlutterFont.fontFamilyFallback,
+              fontFamilyFallback: ElFont.fontFamilyFallback,
             ),
           ),
         ),

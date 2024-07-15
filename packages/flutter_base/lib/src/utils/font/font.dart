@@ -1,7 +1,6 @@
-import 'package:example/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../device.dart';
+import 'package:flutter_base/flutter_base.dart';
 import 'font_web.dart' if (dart.library.io) 'font_io.dart';
 
 class FontUtil {

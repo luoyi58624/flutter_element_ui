@@ -4,6 +4,18 @@ part of '../app.dart';
 final $el = _ElService();
 
 class _ElService {
+  /// 根节点导航key
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  /// 根节点路由 context 对象
+  BuildContext get context {
+    assert(
+        navigatorKey.currentWidget != null &&
+            navigatorKey.currentWidget is Navigator,
+        '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
+    return navigatorKey.currentContext!;
+  }
+
   /// Element UI 颜色主题类型集合
   final List<String> themeTypes = const [
     'primary',
@@ -31,18 +43,5 @@ class _ElService {
       _cursor.value = MouseCursor.defer;
       _cursorKey = null;
     }
-  }
-
-  /// 根节点导航key，请通过[ElTheme]传递navigatorKey
-  late GlobalKey<NavigatorState>? _elRootNavigatorKey;
-
-  /// 根节点路由 context 对象
-  BuildContext get context {
-    assert(_elRootNavigatorKey != null, '请在 ElTheme 中设置 navigatorKey');
-    assert(
-        _elRootNavigatorKey!.currentWidget != null &&
-            _elRootNavigatorKey!.currentWidget is Navigator,
-        '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
-    return _elRootNavigatorKey!.currentContext!;
   }
 }

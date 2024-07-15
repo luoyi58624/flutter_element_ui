@@ -37,7 +37,7 @@ class LayoutPage extends LayoutPageBase {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: ElIcon(ElIcons.eleme),
+            icon: Icon(Icons.ac_unit),
             label: 'Element UI',
           ),
           BottomNavigationBarItem(
@@ -47,6 +47,10 @@ class LayoutPage extends LayoutPageBase {
           BottomNavigationBarItem(
             icon: Icon(Icons.apple),
             label: 'Cupertino',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Test',
           ),
         ],
       ),
@@ -75,7 +79,7 @@ class LayoutPage extends LayoutPageBase {
               label: Text('Home'),
             ),
             NavigationRailDestination(
-              icon: ElIcon(ElIcons.eleme),
+              icon: Icon(Icons.ac_unit),
               label: Text('Element UI'),
             ),
             NavigationRailDestination(
@@ -85,6 +89,10 @@ class LayoutPage extends LayoutPageBase {
             NavigationRailDestination(
               icon: Icon(Icons.apple),
               label: Text('Cupertino'),
+            ),
+            NavigationRailDestination(
+              icon: Icon(Icons.settings),
+              label: Text('Test'),
             ),
           ],
         ),

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/theme.dart';
 import 'package:flutter_obs/flutter_obs.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'styles/theme.dart';
 
@@ -34,15 +33,12 @@ class ElApp extends StatelessWidget {
   ///   ),
   /// ),
   /// ```
-  ElApp({
+  const ElApp({
     super.key,
     required this.child,
     this.data,
     this.brightness,
-    this.navigatorKey,
-  }) {
-    $el._elRootNavigatorKey = navigatorKey;
-  }
+  });
 
   final Widget child;
 
@@ -51,9 +47,6 @@ class ElApp extends StatelessWidget {
 
   /// 设置平台明亮、暗色主题模式，如果为空则跟随系统
   final Brightness? brightness;
-
-  /// 根节点导航key，如果你用到一些依赖路由的Api，请设置它
-  final GlobalKey<NavigatorState>? navigatorKey;
 
   /// 默认的主题数据
   static final ElAppData _defaultAppData = ElAppData();
@@ -123,9 +116,8 @@ class _AppInheritedWidget extends InheritedWidget {
 
   final ElAppData data;
 
-  static ElAppData? maybeOf(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<_AppInheritedWidget>()
-      ?.data;
+  static ElAppData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>()?.data;
 
   @override
   bool updateShouldNotify(_AppInheritedWidget oldWidget) => true;
