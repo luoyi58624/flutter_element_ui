@@ -66,7 +66,7 @@ class ElMain extends _ElFlexLayoutWidget {
 
   Widget _buildColorBox(BuildContext context, Widget child) {
     return AnimatedColoredBox(
-      duration: Duration(milliseconds: context.elConfig.bgColorTransition),
+      duration: Duration(milliseconds: context.elConfig.bgTransition),
       color: bgColor ?? context.elTheme.bgColor,
       child: child,
     );

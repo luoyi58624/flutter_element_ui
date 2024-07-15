@@ -285,7 +285,7 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
   Widget build(BuildContext context) {
     return ElHover(
       builder: (isHover) => AnimatedContainer(
-        duration: Duration(milliseconds: context.elConfig.bgColorTransition),
+        duration: Duration(milliseconds: context.elConfig.bgTransition),
         curve: Curves.easeOut,
         height: 56,
         padding: const EdgeInsets.only(right: 8),

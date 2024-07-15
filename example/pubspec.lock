@@ -98,7 +98,7 @@ packages:
     source: hosted
     version: "3.0.2"
   defer_pointer:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: defer_pointer
       sha256: d69e6f8c1d0f052d2616cc1db3782e0ea73f42e4c6f6122fd1a548dfe79faf02

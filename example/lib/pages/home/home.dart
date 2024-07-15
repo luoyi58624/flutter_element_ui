@@ -1,27 +1,26 @@
+import 'package:example/extensions/int.dart';
+import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends HookWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final flag = useState(true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('首页'),
       ),
-      body: Container(
-        width: 500,
-        height: 300,
-        color: Colors.grey,
-        child: Row(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // FractionallySizedBox(
-            //   widthFactor: 0.3,
-            //   heightFactor: 1.0,
-            //   child: Container(
-            //     color: Colors.blue,
-            //   ),
-            // ),
+            ElSwitch(
+              value: flag.value,
+              onChanged: (v) => flag.value = v,
+            ),
+            // Overlay(),
           ],
         ),
       ),

@@ -3,7 +3,6 @@ import 'package:example/pages/material/pages/slider_test.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/button.dart';
-import '../widgets/cupertino.dart';
 import '../widgets/form.dart';
 import '../widgets/simple_widgets.dart';
 import '../widgets/tab.dart';
@@ -40,15 +39,15 @@ class HomePage extends StatelessWidget {
           const ButtonWidgets(),
           const FormWidgets(),
           const TabWidget(),
-          const CupertinoWidgets(),
-          ...List.generate(
-            20,
-            (index) => buildCellWidget(
-              context,
-              onTap: () {},
-              title: '列表 - ${index + 1}',
-            ),
-          ),
+          // const CupertinoWidgets(),
+          // ...List.generate(
+          //   20,
+          //   (index) => buildCellWidget(
+          //     context,
+          //     onTap: () {},
+          //     title: '列表 - ${index + 1}',
+          //   ),
+          // ),
         ]),
       ),
     );

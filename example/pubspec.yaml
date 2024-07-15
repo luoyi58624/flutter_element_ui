@@ -14,7 +14,6 @@ dependencies:
   flutter_base:
     path: ../packages/flutter_base
   decimal: ^3.0.0
-  defer_pointer: ^0.0.2
   custom_pop_up_menu: ^1.2.4
   url_launcher: ^6.3.0
 

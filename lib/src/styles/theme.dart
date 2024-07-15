@@ -148,8 +148,11 @@ class ElConfigData {
   /// 全局卡片圆角值
   double cardRadius;
 
-  /// 背景颜色全局过渡持续时间(毫秒)
-  int bgColorTransition;
+  /// 背景颜色过渡持续时间(毫秒)
+  int bgTransition;
+
+  /// 折叠动画持续时间(毫秒)
+  int collapseDuration;
 
   /// 全局文本样式
   TextStyle textStyle;
@@ -164,7 +167,8 @@ class ElConfigData {
     this.iconSize = 18,
     this.radius = 4,
     this.cardRadius = 6,
-    this.bgColorTransition = 100,
+    this.bgTransition = 100,
+    this.collapseDuration = 250,
     this.textStyle = const TextStyle(fontSize: 15),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
