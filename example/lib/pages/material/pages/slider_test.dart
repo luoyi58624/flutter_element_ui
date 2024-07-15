@@ -17,12 +17,12 @@ class _SliderTestPageState extends State<SliderTestPage> {
         title: const Text('1000个Slider'),
       ),
       body: SingleChildScrollView(
-        child: Wrap(
+        child: Column(
           children: [
             ...List.generate(
-              1000,
-              (index) => SizedBox(
-                width: 200,
+              50,
+              (index) => Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     Text((sliderValue.floor()).toString()),

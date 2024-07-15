@@ -33,9 +33,9 @@ class HomePage extends HookWidget {
             UnconstrainedBox(child: Switch(value: flag, onChanged: toggle)),
             Expanded(
               child: SuperListView.builder(
-                itemCount: 1000,
+                itemCount: 100000,
                 itemBuilder: (context, index) =>
-                    flag ? const _Button('x2xx') : const _Button2(),
+                    flag ? _Button('x2xx', index) : const _Button2(),
               ),
             ),
           ],
@@ -46,9 +46,10 @@ class HomePage extends HookWidget {
 }
 
 class _Button extends HookWidget {
-  const _Button(this.demo);
+  const _Button(this.demo, this.index);
 
   final String demo;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class _Button extends HookWidget {
     return Wrap(
       children: [
         ElButton(
-            child: 'Default: $count', type: 'primary', onPressed: addCount),
+            child: '$index - Default: $count', type: 'primary', onPressed: addCount),
         ElButton(child: 'Default: $count', onPressed: addCount),
       ],
     );

@@ -1,6 +1,11 @@
-import 'package:flutter/widgets.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/extensions/color.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_obs/flutter_obs.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 part 'menu_modal.dart';
 
@@ -13,7 +18,7 @@ class ElMenu extends StatelessWidget {
     this.width = 240,
     this.collapseWidth = 64,
     this.gap = 20,
-    this.background,
+    this.bgColor,
     this.activePath,
     this.collapse = false,
     this.iconSize = 20,
@@ -32,7 +37,7 @@ class ElMenu extends StatelessWidget {
   final double gap;
 
   /// 菜单栏背景颜色，默认跟随侧边栏背景色
-  final Color? background;
+  final Color? bgColor;
 
   /// 激活的路由地址
   final String? activePath;
@@ -47,22 +52,25 @@ class ElMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: context.elConfig.collapseDuration),
-      curve: Curves.linear,
-      width: collapse ? gap * 2 + iconSize : width,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: background ?? context.elTheme.asideBgColor,
-      ),
-      child: _ElMenuData(
-        activePath: activePath,
-        collapse: collapse,
-        iconSize: iconSize,
-        gap: gap,
-        onChange: onChange,
-        child: SingleChildScrollView(
-          child: _Menu(menuList, gap),
+    final $bgColor = bgColor ?? context.elTheme.asideBgColor;
+    return AnimatedColoredBox(
+      duration: Duration(milliseconds: context.elConfig.bgTransition),
+      color: $bgColor,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: context.elConfig.collapseDuration),
+        curve: Curves.linear,
+        width: collapse ? gap * 2 + iconSize : width,
+        height: double.infinity,
+        child: _ElMenuData(
+          activePath: activePath,
+          bgColor: $bgColor,
+          collapse: collapse,
+          iconSize: iconSize,
+          gap: gap,
+          onChange: onChange,
+          child: SingleChildScrollView(
+            child: _Menu(menuList, gap),
+          ),
         ),
       ),
     );

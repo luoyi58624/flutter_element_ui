@@ -1,4 +1,3 @@
-import 'package:example/extensions/int.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
@@ -7,20 +6,24 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('首页'),
+        actions: [
+          if (context.sm)
+            ObsBuilder(builder: (context) {
+              return Switch(
+                value: GlobalState.isDark.value,
+                onChanged: (v) => GlobalState.isDark.value = v,
+              );
+            }),
+        ],
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElSwitch(
-              value: flag.value,
-              onChanged: (v) => flag.value = v,
-            ),
-            // Overlay(),
+
           ],
         ),
       ),

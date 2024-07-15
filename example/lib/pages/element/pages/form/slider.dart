@@ -10,12 +10,12 @@ class SliderPage extends HookWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8),
-        child: Wrap(
+        child: Column(
           children: [
             ...List.generate(
-              1000,
-              (index) => SizedBox(
-                width: 200,
+              50,
+              (index) => Padding(
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   children: [
                     Expanded(child: ElSlider(progress)),
