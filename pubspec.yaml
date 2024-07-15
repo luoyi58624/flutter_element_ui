@@ -20,6 +20,8 @@ dependencies:
   super_sliver_list: ^0.4.1
   defer_pointer: ^0.0.2
   url_launcher: ^6.3.0
+  flutter_spinkit: ^5.2.0
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

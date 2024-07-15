@@ -9,7 +9,22 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('首页'),
       ),
-      body: Container(),
+      body: Container(
+        width: 500,
+        height: 300,
+        color: Colors.grey,
+        child: Row(
+          children: [
+            // FractionallySizedBox(
+            //   widthFactor: 0.3,
+            //   heightFactor: 1.0,
+            //   child: Container(
+            //     color: Colors.blue,
+            //   ),
+            // ),
+          ],
+        ),
+      ),
     );
   }
 }

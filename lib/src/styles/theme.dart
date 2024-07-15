@@ -69,6 +69,12 @@ class ElThemeData {
   /// 菜单栏激活文字颜色
   Color menuActiveColor;
 
+  /// 滑块激活颜色，默认跟随主题
+  Color? sliderActiveColor;
+
+  /// 滑块未激活颜色
+  Color sliderInactiveColor;
+
   /// 卡片海拔高度，设置较低的海拔能让应用更加扁平化，设置较高的海拔则让应用更具层级感
   double cardElevation;
 
@@ -93,9 +99,12 @@ class ElThemeData {
     this.borderColor = const Color(0xffdcdfe6),
     this.asideBgColor = const Color(0xffffffff),
     this.menuActiveColor = const Color(0xff409eff),
+    this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
     this.cardElevation = 0,
     this.modalElevation = 2,
-  });
+  }) {
+    sliderActiveColor ??= primary;
+  }
 
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
@@ -117,9 +126,12 @@ class ElThemeData {
     this.menuActiveColor = const Color(0xffffd04b),
     // this.asideBgColor = const Color(0xff374151),
     // this.menuActiveColor = const Color(0xff6ee7b7),
+    this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
     this.cardElevation = 2,
     this.modalElevation = 4,
-  });
+  }) {
+    sliderActiveColor ??= primary;
+  }
 }
 
 /// 全局配置，定义了所有组件的默认配置信息

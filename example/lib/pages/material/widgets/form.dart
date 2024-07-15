@@ -165,6 +165,7 @@ class FormWidgets extends HookWidget {
       Slider(
         max: 100,
         value: sliderValue.value,
+        label: sliderValue.value.round().toString(),
         onChanged: (v) => sliderValue.value = v,
       ),
       Slider(
@@ -223,6 +224,7 @@ class _SliderWidget extends HookWidget {
         Slider(
           max: 100,
           value: sliderValue.value,
+          label: sliderValue.value.round().toString(),
           onChanged: (v) => sliderValue.value = v,
         ),
         Slider(

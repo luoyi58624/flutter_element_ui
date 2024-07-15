@@ -134,13 +134,13 @@ class ElThemeUtil {
         unselectedLabelStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
           fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.bold,
+          fontWeight: ElFont.medium,
           fontSize: 15,
         ),
         labelStyle: TextStyle(
           fontFamily: textStyle.fontFamily,
           fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.bold,
+          fontWeight: ElFont.medium,
           fontSize: 15,
           color: elTheme.primary,
         ),
@@ -261,6 +261,9 @@ class ElThemeUtil {
           ),
           side: WidgetStatePropertyAll(BorderSide(color: Colors.grey)),
         ),
+      ),
+      sliderTheme: const SliderThemeData(
+        showValueIndicator: ShowValueIndicator.always,
       ),
     );
   }

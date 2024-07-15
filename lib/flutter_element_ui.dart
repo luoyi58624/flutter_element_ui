@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'src/app.dart' ;
+export 'src/app.dart';
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
@@ -26,6 +26,7 @@ export 'src/components/form/form_item.dart';
 export 'src/components/form/radio.dart';
 export 'src/components/form/input.dart';
 export 'src/components/form/switch.dart';
+export 'src/components/form/slider.dart';
 export 'src/components/layout/body.dart';
 export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';

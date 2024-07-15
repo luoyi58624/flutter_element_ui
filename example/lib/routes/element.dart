@@ -1,22 +1,23 @@
 import 'package:example/global.dart';
-import 'package:example/pages/components/basic/font.dart';
-import 'package:example/pages/components/data/badge.dart';
-import 'package:example/pages/components/feedback/dialog.dart';
-import 'package:example/pages/components/form/input.dart';
-import 'package:example/pages/components/form/radio.dart';
-import 'package:example/pages/components/form/switch.dart';
-import 'package:example/pages/components/layout/basic.dart';
-import 'package:example/pages/components/layout/overlay.dart';
-import 'package:example/pages/element/layout/layout.dart';
+import 'package:example/pages/element/pages/form/slider.dart';
 
-import '../../pages/components/basic/button.dart';
-import '../../pages/components/basic/color.dart';
-import '../../pages/components/basic/text.dart';
-import '../../pages/components/data/table.dart';
-import '../../pages/components/form/form.dart';
+import '../../pages/element/pages/basic/button.dart';
+import '../../pages/element/pages/basic/color.dart';
+import '../../pages/element/pages/basic/text.dart';
+import '../../pages/element/pages/data/table.dart';
+import '../../pages/element/pages/form/form.dart';
 import '../pages/element/home.dart';
-import '../../pages/test/border.dart';
-import '../../pages/test/image_list.dart';
+import '../pages/element/layout/layout.dart';
+import '../pages/element/pages/basic/font.dart';
+import '../pages/element/pages/data/badge.dart';
+import '../pages/element/pages/data/image.dart';
+import '../pages/element/pages/feedback/dialog.dart';
+import '../pages/element/pages/form/input.dart';
+import '../pages/element/pages/form/radio.dart';
+import '../pages/element/pages/form/switch.dart';
+import '../pages/element/pages/layout/basic.dart';
+import '../pages/element/pages/layout/overlay.dart';
+import '../pages/element/test/border.dart';
 
 class ElementRoutes {
   static const String root = '/element';
@@ -118,6 +119,14 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
+            path: '${ElementRoutes.componentForm}/slider',
+            builder: (context, state) => const SliderPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
             path: '${ElementRoutes.componentForm}/form',
             builder: (context, state) => const FormPage(),
           ),
@@ -128,6 +137,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.componentData}/badge',
             builder: (context, state) => const BadgePage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.componentData}/image',
+            builder: (context, state) => const ImagePage(),
           ),
         ],
       ),
@@ -152,14 +169,6 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '$_tests/border',
             builder: (context, state) => const BorderTestPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '$_tests/image_list',
-            builder: (context, state) => const ImageListPage(),
           ),
         ],
       ),

@@ -9,7 +9,11 @@ class LayoutSidebarWidget extends StatefulWidget {
   State<LayoutSidebarWidget> createState() => _LayoutSidebarWidgetState();
 }
 
-class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
+class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   List<ElMenuModel> get menuList => [
         ElMenuModel(
           title: '首页',
@@ -74,6 +78,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                   path: '${ElementRoutes.componentForm}/switch',
                 ),
                 ElMenuModel(
+                  title: 'Slider 滑块',
+                  path: '${ElementRoutes.componentForm}/slider',
+                ),
+                ElMenuModel(
                   title: 'Form 表单',
                   path: '${ElementRoutes.componentForm}/form',
                 ),
@@ -86,6 +94,10 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
                 ElMenuModel(
                   title: 'Badge 徽章',
                   path: '${ElementRoutes.componentData}/badge',
+                ),
+                ElMenuModel(
+                  title: 'Image 图片',
+                  path: '${ElementRoutes.componentData}/image',
                 ),
                 ElMenuModel(
                   title: 'Table 表格',
@@ -145,6 +157,7 @@ class _LayoutSidebarWidgetState extends State<LayoutSidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ObsBuilder(
       builder: (context) {
         return Container(
