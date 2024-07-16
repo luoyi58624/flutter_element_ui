@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
 import 'package:go_router/go_router.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 part 'menu_modal.dart';
 
@@ -94,7 +93,7 @@ class _ElMenuState extends State<ElMenu> {
   void initState() {
     super.initState();
     if (widget.router != null) {
-      setActiveMenu(routeKey);
+      setActiveKey(routeKey);
       widget.router!.routerDelegate.addListener(_routerListen);
     }
   }
@@ -125,30 +124,24 @@ class _ElMenuState extends State<ElMenu> {
     if (path.startsWith(widget.rootRouterPath)) {
       if (activeKeyList.last != path) {
         setState(() {
-          setActiveMenu(path);
+          setActiveKey(path);
         });
       }
-      // i(activeKeyList);
     }
   }
 
-  /// 设置激活的菜单
-  void setActiveMenu(String key) {
+  /// 设置激活的菜单key
+  void setActiveKey(String key) {
     activeKeyList = _getKeys(widget.menuList, key, []);
   }
 
-  /// 设置激活的菜单
-  List<String> _getKeys(
-    List<ElMenuModel> menuList,
-    String key,
-    List<String> parent,
-  ) {
-    for (final $menu in menuList) {
+  _getKeys(List<ElMenuModel> list, String key, List<String> parent) {
+    for (final $menu in list) {
       if ($menu.children.isEmpty) {
         if ($menu.key == key) {
           parent.add($menu.key);
           break;
-        } else if ($menu == menuList.last) {
+        } else if ($menu == list.last) {
           parent.removeLast();
         }
       } else {
@@ -162,7 +155,7 @@ class _ElMenuState extends State<ElMenu> {
   @override
   Widget build(BuildContext context) {
     final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
-    if (widget.router == null) setActiveMenu(widget.activeKey!);
+    if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedColoredBox(
       duration: Duration(milliseconds: context.elConfig.bgTransition),
       color: $bgColor,

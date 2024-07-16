@@ -2,13 +2,26 @@ import 'package:example/global.dart';
 import 'package:example/routes/element.dart';
 import 'package:flutter/material.dart';
 
-List<ElMenuModel> menuList = const [
-  ElMenuModel(
+class LayoutSidebarWidget extends StatelessWidget {
+  const LayoutSidebarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElMenu.router(
+      menuList,
+      router: router,
+      rootRouterPath: ElementRoutes.root,
+    );
+  }
+}
+
+List<ElMenuModel> menuList = [
+  const ElMenuModel(
     title: '首页',
     icon: ElIcons.homeFilled,
     key: '${ElementRoutes.root}/home',
   ),
-  ElMenuModel(
+  const ElMenuModel(
     title: '组件',
     icon: ElIcons.eleme,
     key: ElementRoutes.component,
@@ -115,7 +128,7 @@ List<ElMenuModel> menuList = const [
       ),
     ],
   ),
-  ElMenuModel(
+  const ElMenuModel(
     title: '测试',
     key: '/tests',
     icon: ElIcons.comment,
@@ -130,50 +143,31 @@ List<ElMenuModel> menuList = const [
       ),
     ],
   ),
-  // ElMenuModel(
-  //   title: '嵌套菜单',
-  //   icon: ElIcons.folder,
-  //   children: [
-  //     ElMenuModel(title: '子菜单1'),
-  //     ElMenuModel(title: '子菜单2'),
-  //     ElMenuModel(
-  //       title: '子菜单3',
-  //       children: List.generate(
-  //         10,
-  //         (index) => ElMenuModel(
-  //           title: '子菜单3-${index + 1}',
-  //           children: List.generate(
-  //             100,
-  //             (secondIndex) => ElMenuModel(
-  //                 title: '子菜单3 - ${index + 1} - ${secondIndex + 1}'),
-  //           ).toList(),
-  //         ),
-  //       ).toList(),
-  //     ),
-  //   ],
-  // ),
+  ElMenuModel(
+    title: '嵌套菜单',
+    icon: ElIcons.folder,
+    key: '1',
+    children: [
+      const ElMenuModel(title: '子菜单1', key: '1-1'),
+      const ElMenuModel(title: '子菜单2', key: '1-2'),
+      ElMenuModel(
+        title: '子菜单3',
+        key: '1-3',
+        children: List.generate(
+          10,
+          (index) => ElMenuModel(
+            title: '子菜单3-${index + 1}',
+            key: '1-3-$index',
+            children: List.generate(
+              100,
+              (secondIndex) => ElMenuModel(
+                title: '子菜单3 - ${index + 1} - ${secondIndex + 1}',
+                key: '1-3-$index-$secondIndex',
+              ),
+            ).toList(),
+          ),
+        ).toList(),
+      ),
+    ],
+  ),
 ];
-
-class LayoutSidebarWidget extends StatelessWidget {
-  const LayoutSidebarWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ObsBuilder(
-      builder: (context) {
-        return ElMenu.router(
-          menuList,
-          router: router,
-          rootRouterPath: ElementRoutes.root,
-        );
-      },
-    );
-  }
-}
-
-/// 将go_router的路由转换成菜单
-// List<ElMenuModel> routerToMenu(ShellRoute shellRoute) {
-//   for (var route in shellRoute.routes) {
-//     if (route is GoRoute) {}
-//   }
-// }
