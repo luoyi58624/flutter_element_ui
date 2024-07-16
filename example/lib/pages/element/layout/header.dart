@@ -15,28 +15,28 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       color: context.elTheme.headerColor,
-      child: Row(
+      child: const Row(
         children: [
-          ElButton(
-            onPressed: () {
-              GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
-                isCollapse: !GlobalState.elMenu.value.isCollapse,
-              );
-            },
-            width: 72,
-            height: 56,
-            margin: EdgeInsets.zero,
-            borderRadius: BorderRadius.zero,
-            bgColor: context.elTheme.headerColor,
-            child: ObsBuilder(builder: (context) {
-              return ElIcon(
-                GlobalState.elMenu.value.isCollapse
-                    ? ElIcons.expand
-                    : ElIcons.fold,
-                size: 22,
-              );
-            }),
-          ),
+          // ElButton(
+          //   onPressed: () {
+          //     GlobalState.elMenu.value = GlobalState.elMenu.value.copyWith(
+          //       isCollapse: !GlobalState.elMenu.value.isCollapse,
+          //     );
+          //   },
+          //   width: 72,
+          //   height: 56,
+          //   margin: EdgeInsets.zero,
+          //   borderRadius: BorderRadius.zero,
+          //   bgColor: context.elTheme.headerColor,
+          //   child: ObsBuilder(builder: (context) {
+          //     return ElIcon(
+          //       GlobalState.elMenu.value.isCollapse
+          //           ? ElIcons.expand
+          //           : ElIcons.fold,
+          //       size: 22,
+          //     );
+          //   }),
+          // ),
         ],
       ),
     );

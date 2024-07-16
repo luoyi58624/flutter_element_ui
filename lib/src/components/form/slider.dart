@@ -51,7 +51,7 @@ class ElSlider extends HookWidget {
                 height: thumbSize,
                 decoration: BoxDecoration(
                   color: $activeColor,
-                  // borderRadius: $borderRadius,
+                  borderRadius: $borderRadius,
                 ),
               ),
             ),

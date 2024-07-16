@@ -128,46 +128,46 @@ List<ElMenuModel> menuList = [
       ),
     ],
   ),
-  const ElMenuModel(
-    title: '测试',
-    key: '/tests',
-    icon: ElIcons.comment,
-    children: [
-      ElMenuModel(
-        title: '边框',
-        key: '/tests/border',
-      ),
-      ElMenuModel(
-        title: '图片列表',
-        key: '/tests/image_list',
-      ),
-    ],
-  ),
-  ElMenuModel(
-    title: '嵌套菜单',
-    icon: ElIcons.folder,
-    key: '1',
-    children: [
-      const ElMenuModel(title: '子菜单1', key: '1-1'),
-      const ElMenuModel(title: '子菜单2', key: '1-2'),
-      ElMenuModel(
-        title: '子菜单3',
-        key: '1-3',
-        children: List.generate(
-          10,
-          (index) => ElMenuModel(
-            title: '子菜单3-${index + 1}',
-            key: '1-3-$index',
-            children: List.generate(
-              100,
-              (secondIndex) => ElMenuModel(
-                title: '子菜单3 - ${index + 1} - ${secondIndex + 1}',
-                key: '1-3-$index-$secondIndex',
-              ),
-            ).toList(),
-          ),
-        ).toList(),
-      ),
-    ],
-  ),
+  // const ElMenuModel(
+  //   title: '测试',
+  //   key: '/tests',
+  //   icon: ElIcons.comment,
+  //   children: [
+  //     ElMenuModel(
+  //       title: '边框',
+  //       key: '/tests/border',
+  //     ),
+  //     ElMenuModel(
+  //       title: '图片列表',
+  //       key: '/tests/image_list',
+  //     ),
+  //   ],
+  // ),
+  // ElMenuModel(
+  //   title: '嵌套菜单',
+  //   icon: ElIcons.folder,
+  //   key: '1',
+  //   children: [
+  //     const ElMenuModel(title: '子菜单1', key: '1-1'),
+  //     const ElMenuModel(title: '子菜单2', key: '1-2'),
+  //     ElMenuModel(
+  //       title: '子菜单3',
+  //       key: '1-3',
+  //       children: List.generate(
+  //         10,
+  //         (index) => ElMenuModel(
+  //           title: '子菜单3-${index + 1}',
+  //           key: '1-3-$index',
+  //           children: List.generate(
+  //             100,
+  //             (secondIndex) => ElMenuModel(
+  //               title: '子菜单3 - ${index + 1} - ${secondIndex + 1}',
+  //               key: '1-3-$index-$secondIndex',
+  //             ),
+  //           ).toList(),
+  //         ),
+  //       ).toList(),
+  //     ),
+  //   ],
+  // ),
 ];

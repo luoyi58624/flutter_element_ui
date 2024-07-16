@@ -6,7 +6,6 @@ import 'package:flutter_element_ui/src/components/layout/nav_tab.dart';
 import 'package:flutter_element_ui/src/app.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../../widgets/animation.dart';
 import '../others/hover.dart';

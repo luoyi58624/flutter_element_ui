@@ -158,6 +158,7 @@ class _ElMenuState extends State<ElMenu> {
     }
     return (flag, parent);
   }
+
   @override
   Widget build(BuildContext context) {
     final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
