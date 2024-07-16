@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 /// 缓存拦截器
 class CacheInterceptor extends Interceptor {

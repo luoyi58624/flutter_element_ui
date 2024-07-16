@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import 'basic/input.dart';
 
@@ -122,10 +122,10 @@ class ElThemeData {
     this.textColor = const Color(0xfff2f2f2),
     this.iconColor = const Color(0xfff6f6f6),
     this.borderColor = const Color(0xffa3a3a3),
-    this.asideBgColor = const Color(0xff565c64),
-    this.menuActiveColor = const Color(0xffffd04b),
-    // this.asideBgColor = const Color(0xff374151),
-    // this.menuActiveColor = const Color(0xff6ee7b7),
+    // this.asideBgColor = const Color(0xff565c64),
+    // this.menuActiveColor = const Color(0xffffd04b),
+    this.asideBgColor = const Color(0xff374151),
+    this.menuActiveColor = const Color(0xff6ee7b7),
     this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
     this.cardElevation = 2,
     this.modalElevation = 4,

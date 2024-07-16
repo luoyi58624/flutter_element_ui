@@ -15,7 +15,7 @@ dependencies:
   flutter_element_ui:
     path: ../..
   flutter_obs: ^1.2.2
-  luoyi_flutter_base: ^2.5.0
+  luoyi_dart_base: ^1.11.0
   luoyi_flutter_font: ^1.1.0
   dio: ^5.4.2
   dio_smart_retry: ^6.0.0

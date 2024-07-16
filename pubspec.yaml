@@ -12,11 +12,12 @@ dependencies:
     sdk: flutter
   flutter_element_annotation:
     path: ./packages/flutter_element_annotation
-  luoyi_flutter_base: ^2.5.0
+  luoyi_dart_base: ^1.11.0
   gap: ^3.0.1
   flutter_hooks: ^0.20.5
   flutter_obs: ^1.2.2
   flutter_svg: ^2.0.10+1
+  go_router: ^14.1.4
   super_sliver_list: ^0.4.1
   defer_pointer: ^0.0.2
   url_launcher: ^6.3.0

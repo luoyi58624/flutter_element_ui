@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../styles/theme.dart';

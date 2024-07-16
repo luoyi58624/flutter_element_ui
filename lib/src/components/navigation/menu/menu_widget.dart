@@ -5,7 +5,6 @@ class _Menu extends StatelessWidget {
   const _Menu(this.menuList, this.gap);
 
   final List<ElMenuModel> menuList;
-
   final double gap;
 
   @override
@@ -17,119 +16,94 @@ class _Menu extends StatelessWidget {
   }
 }
 
-class _MenuItem extends HookWidget {
+class _MenuItem extends StatefulWidget {
   const _MenuItem(this.menuItem, this.gap);
 
   final ElMenuModel menuItem;
   final double gap;
 
-  bool get hasChild =>
-      menuItem.children != null && menuItem.children!.isNotEmpty;
+  @override
+  State<_MenuItem> createState() => _MenuItemState();
+}
+
+class _MenuItemState extends State<_MenuItem> {
+  bool expanded = false;
+
+  // 是否手动操作了折叠开关，因为在build中，如果当前菜单被激活，会自动展开折叠菜单，
+  // 所以，当手动关闭折叠菜单时需要在短时间内禁止自动展开菜单
+  bool isManual = false;
+  late _ElMenuData $data;
+  late bool hasChild;
+  late bool isActive;
 
   @override
   Widget build(BuildContext context) {
-    if (hasChild) {
-      assert(menuItem.collapse != null, 'ElMenu存在子菜单，请设置 collapse 状态变量');
+    $data = _ElMenuData.of(context);
+    hasChild = widget.menuItem.children.isNotEmpty;
+    isActive = $data.activeKeyList.contains(widget.menuItem.key);
+    if (isActive && !expanded) {
+      if (isManual) {
+        isManual = false;
+      } else {
+        expanded = true;
+      }
     }
-    final $data = _ElMenuData.of(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
           onTap: () {
             if (hasChild) {
-              menuItem.collapse!.value = !menuItem.collapse!.value;
+              setState(() {
+                isManual = true;
+                expanded = !expanded;
+              });
+              ElUtil.nextTick(() async {
+                isManual = false;
+              });
             } else {
-              if ($data.onChange != null) {
-                $data.onChange!(menuItem);
+              if ($data.router != null) {
+                $data.router!.go(widget.menuItem.key);
+              } else {
+                if ($data.onChange != null) {
+                  $data.onChange!(widget.menuItem);
+                }
               }
             }
           },
-          child: _MenuItemContentWidget(
-            menuItem: menuItem,
-            hasChild: hasChild,
-            gap: gap,
-          ),
+          child: buildItem(),
         ),
-        if (hasChild && !$data.collapse)
-          ValueListenableBuilder(
-            valueListenable: menuItem.collapse!,
-            builder: (context, value, child) {
-              return AnimatedCrossFade(
-                firstChild: const SizedBox(width: double.infinity, height: 0),
-                secondChild: _Menu(
-                  menuItem.children!,
-                  gap + $data.gap,
-                ),
-                firstCurve:
-                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
-                secondCurve:
-                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
-                sizeCurve: Curves.fastOutSlowIn,
-                crossFadeState: value
-                    ? CrossFadeState.showSecond
-                    : CrossFadeState.showFirst,
-                duration:
-                    Duration(milliseconds: context.elConfig.collapseDuration),
-              );
-            },
-          ),
+        if (hasChild)
+          AnimatedCrossFade(
+            firstChild: const SizedBox(width: double.infinity, height: 0),
+            secondChild: _Menu(
+              widget.menuItem.children,
+              widget.gap + $data.gap,
+            ),
+            firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+            secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+            sizeCurve: Curves.fastOutSlowIn,
+            crossFadeState:
+                expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            duration: context.elConfig.collapseDuration.ms,
+          )
       ],
     );
   }
-}
 
-class _MenuItemContentWidget extends StatefulWidget {
-  const _MenuItemContentWidget({
-    required this.menuItem,
-    required this.hasChild,
-    required this.gap,
-  });
-
-  final ElMenuModel menuItem;
-  final bool hasChild;
-  final double gap;
-
-  @override
-  State<_MenuItemContentWidget> createState() => _MenuItemContentWidgetState();
-}
-
-class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
-  Color get parentBgColor => _ElMenuData.of(context).bgColor;
-
-  String? get activePath => _ElMenuData.of(context).activePath;
-
-  String? get currentPath => widget.menuItem.path;
-
-  Color get _textColor => parentBgColor.elTextColor(context);
-
-  Color get menuItemColor {
-    if (currentPath == '/') {
-      return activePath == '/' ? context.elTheme.menuActiveColor : _textColor;
-    } else {
-      if (activePath != null &&
-          currentPath != null &&
-          activePath!.contains(currentPath!)) {
-        return context.elTheme.menuActiveColor;
-      }
-    }
-    return _textColor;
-  }
-
-  Color get hoverColor => parentBgColor.hsp < 50
-      ? parentBgColor.brighten(16)
-      : parentBgColor.darken(8);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildItem() {
+    Color bgColor = $data.bgColor;
+    Color menuItemColor = isActive
+        ? context.elTheme.menuActiveColor
+        : bgColor.elTextColor(context);
     return ElHover(
       builder: (isHover) => AnimatedContainer(
-        duration: Duration(milliseconds: context.elConfig.bgTransition),
-        curve: Curves.easeOut,
+        duration: context.elConfig.bgTransition.ms,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
-          color: isHover ? hoverColor : parentBgColor,
+          color: bgColor.on(isHover),
         ),
         child: Row(
           children: [
@@ -155,27 +129,20 @@ class _MenuItemContentWidgetState extends State<_MenuItemContentWidget> {
                   // overflow: TextOverflow.clip,
                 ),
               ),
-            if (widget.hasChild && !_ElMenuData.of(context).collapse)
+            if (hasChild && !_ElMenuData.of(context).collapse)
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
                   width: 40,
                   margin: const EdgeInsets.only(left: 8),
-                  child: ValueListenableBuilder(
-                    valueListenable: widget.menuItem.collapse!,
-                    builder: (context, value, child) {
-                      return AnimatedRotation(
-                        duration: Duration(
-                            milliseconds:
-                                max(context.elConfig.collapseDuration - 50, 0)),
-                        turns: widget.menuItem.collapse!.value ? 0.5 : 0,
-                        child: ElIcon(
-                          ElIcons.arrowDown,
-                          color: menuItemColor,
-                          size: 12,
-                        ),
-                      );
-                    },
+                  child: AnimatedRotation(
+                    duration: max(context.elConfig.collapseDuration - 50, 0).ms,
+                    turns: expanded ? 0.5 : 0,
+                    child: ElIcon(
+                      ElIcons.arrowDown,
+                      color: menuItemColor,
+                      size: 12,
+                    ),
                   ),
                 ),
               ),

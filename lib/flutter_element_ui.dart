@@ -36,6 +36,10 @@ export 'src/components/others/hover.dart';
 export 'src/components/others/tap.dart';
 export 'src/components/others/split/split.dart';
 
+export 'src/extensions/color.dart'
+    show ElColorExtension, ElColorStringExtension;
+export 'src/extensions/int.dart';
+
 export 'src/styles/theme.dart';
 export 'src/styles/basic/button.dart';
 
@@ -43,3 +47,5 @@ export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/util.dart';
+
+export 'src/widgets/animation.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 /// 是否允许加载自定义字体，不允许的平台使用系统字体
 bool getAllowLoadCustomFont({

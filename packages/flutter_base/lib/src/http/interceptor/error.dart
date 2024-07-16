@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_base/flutter_base.dart';
 
 class ErrorInterceptor extends Interceptor {

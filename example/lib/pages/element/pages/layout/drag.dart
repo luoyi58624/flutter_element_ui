@@ -1,5 +1,3 @@
-import 'package:defer_pointer/defer_pointer.dart';
-import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 

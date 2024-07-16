@@ -17,6 +17,7 @@ import '../pages/element/pages/form/radio.dart';
 import '../pages/element/pages/form/switch.dart';
 import '../pages/element/pages/layout/basic.dart';
 import '../pages/element/pages/layout/overlay.dart';
+import '../pages/element/pages/navigation/menu.dart';
 import '../pages/element/test/border.dart';
 
 class ElementRoutes {
@@ -26,6 +27,7 @@ class ElementRoutes {
   static const String componentBasic = '$component/basic';
   static const String componentForm = '$component/form';
   static const String componentData = '$component/data';
+  static const String componentNavigation = '$component/navigation';
   static const String componentFeedBack = '$component/feedback';
 }
 
@@ -153,6 +155,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.componentData}/table',
             builder: (context, state) => const TablePage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.componentNavigation}/menu',
+            builder: (context, state) => const MenuPage(),
           ),
         ],
       ),

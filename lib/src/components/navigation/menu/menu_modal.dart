@@ -2,34 +2,35 @@ part of 'menu.dart';
 
 class ElMenuModel {
   /// 菜单名字
-  String title;
+  final String title;
+
+  /// 菜单唯一标识，如果是路由菜单，key将为跳转地址
+  final String key;
 
   /// 菜单图标
-  dynamic icon;
-
-  /// 菜单对应的路由地址
-  String? path;
-
-  /// 控制菜单项折叠状态，折叠状态不应由控件内部去维护，因为当收缩[Drawer]、
-  /// 响应式缩放均会导致状态丢失
-  ValueNotifier<bool>? collapse;
+  final dynamic icon;
 
   /// 子菜单
-  List<ElMenuModel>? children;
+  final List<ElMenuModel> children;
 
-  ElMenuModel({
+  const ElMenuModel({
     required this.title,
+    required this.key,
     this.icon,
-    this.path,
-    this.collapse,
-    this.children,
+    this.children = const [],
   });
+
+  @override
+  String toString() {
+    return 'ElMenuModel{title: $title, key: $key, icon: $icon, children: $children}';
+  }
 }
 
 class _ElMenuData extends InheritedWidget {
   const _ElMenuData({
     required super.child,
-    required this.activePath,
+    required this.activeKeyList,
+    required this.router,
     required this.bgColor,
     required this.collapse,
     required this.iconSize,
@@ -37,7 +38,8 @@ class _ElMenuData extends InheritedWidget {
     required this.onChange,
   });
 
-  final String? activePath;
+  final List<String> activeKeyList;
+  final GoRouter? router;
   final Color bgColor;
   final bool collapse;
   final double iconSize;

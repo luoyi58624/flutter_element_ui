@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter_element_ui/src/extensions/int.dart';
 import 'package:flutter_element_ui/src/extensions/theme.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import 'package:flutter_element_ui/src/app.dart';
 import '../../utils/assert.dart';
@@ -198,7 +199,7 @@ class _Button extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 100),
+      duration: 100.ms,
       width: $width,
       height: $height,
       alignment: Alignment.center,

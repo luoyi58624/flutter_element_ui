@@ -2,110 +2,114 @@ import 'package:example/global.dart';
 import 'package:example/routes/element.dart';
 import 'package:flutter/material.dart';
 
-List<ElMenuModel> menuList = [
+List<ElMenuModel> menuList = const [
   ElMenuModel(
     title: '首页',
     icon: ElIcons.homeFilled,
-    path: '${ElementRoutes.root}/home',
+    key: '${ElementRoutes.root}/home',
   ),
   ElMenuModel(
     title: '组件',
     icon: ElIcons.eleme,
-    path: ElementRoutes.component,
-    collapse: Obs(true),
+    key: ElementRoutes.component,
     children: [
       ElMenuModel(
         title: 'Layout 布局组件',
-        path: ElementRoutes.componentLayout,
-        collapse: ValueNotifier(false),
+        key: ElementRoutes.componentLayout,
         children: [
           ElMenuModel(
             title: '基础布局',
-            path: '${ElementRoutes.componentLayout}/basic',
+            key: '${ElementRoutes.componentLayout}/basic',
           ),
           ElMenuModel(
             title: '拖拽尺寸',
-            path: '${ElementRoutes.componentLayout}/drag',
+            key: '${ElementRoutes.componentLayout}/drag',
           ),
         ],
       ),
       ElMenuModel(
         title: 'Basic 基础组件',
-        path: ElementRoutes.componentBasic,
-        collapse: ValueNotifier(false),
+        key: ElementRoutes.componentBasic,
         children: [
           ElMenuModel(
             title: 'Button 按钮',
-            path: '${ElementRoutes.componentBasic}/button',
+            key: '${ElementRoutes.componentBasic}/button',
           ),
           ElMenuModel(
             title: 'Text 文字',
-            path: '${ElementRoutes.componentBasic}/text',
+            key: '${ElementRoutes.componentBasic}/text',
           ),
           ElMenuModel(
             title: 'Color 颜色',
-            path: '${ElementRoutes.componentBasic}/color',
+            key: '${ElementRoutes.componentBasic}/color',
           ),
           ElMenuModel(
             title: 'Font 字体',
-            path: '${ElementRoutes.componentBasic}/font',
+            key: '${ElementRoutes.componentBasic}/font',
           ),
         ],
       ),
       ElMenuModel(
         title: 'Form 表单组件',
-        path: ElementRoutes.componentForm,
-        collapse: ValueNotifier(false),
+        key: ElementRoutes.componentForm,
         children: [
           ElMenuModel(
             title: 'Input 输入框',
-            path: '${ElementRoutes.componentForm}/input',
+            key: '${ElementRoutes.componentForm}/input',
           ),
           ElMenuModel(
             title: 'Radio 单选框',
-            path: '${ElementRoutes.componentForm}/radio',
+            key: '${ElementRoutes.componentForm}/radio',
           ),
           ElMenuModel(
             title: 'Switch 开关',
-            path: '${ElementRoutes.componentForm}/switch',
+            key: '${ElementRoutes.componentForm}/switch',
           ),
           ElMenuModel(
             title: 'Slider 滑块',
-            path: '${ElementRoutes.componentForm}/slider',
+            key: '${ElementRoutes.componentForm}/slider',
           ),
           ElMenuModel(
             title: 'Form 表单',
-            path: '${ElementRoutes.componentForm}/form',
+            key: '${ElementRoutes.componentForm}/form',
           ),
         ],
       ),
       ElMenuModel(
         title: 'Data 数据展示',
-        path: ElementRoutes.componentData,
-        collapse: ValueNotifier(false),
+        key: ElementRoutes.componentData,
         children: [
           ElMenuModel(
             title: 'Badge 徽章',
-            path: '${ElementRoutes.componentData}/badge',
+            key: '${ElementRoutes.componentData}/badge',
           ),
           ElMenuModel(
             title: 'Image 图片',
-            path: '${ElementRoutes.componentData}/image',
+            key: '${ElementRoutes.componentData}/image',
           ),
           ElMenuModel(
             title: 'Table 表格',
-            path: '${ElementRoutes.componentData}/table',
+            key: '${ElementRoutes.componentData}/table',
+          ),
+        ],
+      ),
+      ElMenuModel(
+        title: 'Navigation 导航',
+        key: ElementRoutes.componentNavigation,
+        children: [
+          ElMenuModel(
+            title: 'Menu 菜单',
+            key: '${ElementRoutes.componentNavigation}/menu',
           ),
         ],
       ),
       ElMenuModel(
         title: 'FeedBack 反馈组件',
-        path: ElementRoutes.componentFeedBack,
-        collapse: ValueNotifier(false),
+        key: ElementRoutes.componentFeedBack,
         children: [
           ElMenuModel(
             title: 'Dialog 对话框',
-            path: '${ElementRoutes.componentFeedBack}/dialog',
+            key: '${ElementRoutes.componentFeedBack}/dialog',
           ),
         ],
       ),
@@ -113,16 +117,16 @@ List<ElMenuModel> menuList = [
   ),
   ElMenuModel(
     title: '测试',
+    key: '/tests',
     icon: ElIcons.comment,
-    collapse: ValueNotifier(false),
     children: [
       ElMenuModel(
         title: '边框',
-        path: '/tests/border',
+        key: '/tests/border',
       ),
       ElMenuModel(
         title: '图片列表',
-        path: '/tests/image_list',
+        key: '/tests/image_list',
       ),
     ],
   ),
@@ -157,18 +161,10 @@ class LayoutSidebarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ObsBuilder(
       builder: (context) {
-        return ElMenu(
+        return ElMenu.router(
           menuList,
-          activePath: GlobalState.elMenu.value.activePath,
-          collapse: GlobalState.elMenu.value.isCollapse,
-          onChange: (menu) {
-            if (menu.path != null &&
-                menu.path != GlobalState.elMenu.value.activePath) {
-              context.go(menu.path!);
-              GlobalState.elMenu.value =
-                  GlobalState.elMenu.value.copyWith(activePath: menu.path!);
-            }
-          },
+          router: router,
+          rootRouterPath: ElementRoutes.root,
         );
       },
     );

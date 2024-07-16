@@ -1,7 +1,7 @@
 library flutter_base;
 
 export 'package:flutter_localizations/flutter_localizations.dart';
-export 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+export 'package:luoyi_dart_base/luoyi_dart_base.dart';
 export 'package:luoyi_flutter_font/luoyi_flutter_font.dart';
 export 'package:flutter_element_ui/flutter_element_ui.dart';
 export 'package:collection/collection.dart';

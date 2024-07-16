@@ -30,7 +30,8 @@ class _TableRowItemState extends State<_TableRowItem> {
             height: rowHeight,
             child: Align(
               alignment: Alignment.center,
-              child: _buildTableBodyItemContainer(widget.dataItem, widget.columns[0]),
+              child: _buildTableBodyItemContainer(
+                  widget.dataItem, widget.columns[0]),
             ),
           ),
           column: widget.columns[0],
@@ -44,7 +45,8 @@ class _TableRowItemState extends State<_TableRowItem> {
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: _buildTableBodyItemContainer(widget.dataItem, column),
+                    child:
+                        _buildTableBodyItemContainer(widget.dataItem, column),
                   ),
                 ),
                 column: column,
@@ -89,9 +91,11 @@ class _TableRowItemState extends State<_TableRowItem> {
         builder: (context, value, _) {
           return DecoratedBox(
             decoration: BoxDecoration(
-              color:
-                  $elTableData.highlightCurrentRow && value == widget.index ? context.elTheme.bgColor.deepen(5) : null,
-              border: Border(bottom: BorderSide(color: context.elTheme.borderColor)),
+              color: $elTableData.highlightCurrentRow && value == widget.index
+                  ? context.elTheme.bgColor.deepen(5)
+                  : null,
+              border: Border(
+                  bottom: BorderSide(color: context.elTheme.borderColor)),
             ),
             child: Row(children: children),
           );
