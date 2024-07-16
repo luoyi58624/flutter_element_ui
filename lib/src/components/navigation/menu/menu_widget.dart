@@ -121,7 +121,7 @@ class _MenuItemState extends State<_MenuItem> {
               Expanded(
                 child: ElText(
                   widget.menuItem.title,
-                  style: TextStyle(
+                  style: context.elConfig.textStyle.copyWith(
                     color: menuItemColor,
                     fontSize: 14,
                   ),

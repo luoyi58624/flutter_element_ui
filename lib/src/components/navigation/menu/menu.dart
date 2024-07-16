@@ -132,26 +132,32 @@ class _ElMenuState extends State<ElMenu> {
 
   /// 设置激活的菜单key
   void setActiveKey(String key) {
-    activeKeyList = _getKeys(widget.menuList, key, []);
+    activeKeyList = _getKeys(widget.menuList, key, []).$2;
   }
 
-  _getKeys(List<ElMenuModel> list, String key, List<String> parent) {
+  (bool, List<String>) _getKeys(
+      List<ElMenuModel> list, String key, List<String> parent) {
+    bool flag = false;
     for (final $menu in list) {
       if ($menu.children.isEmpty) {
         if ($menu.key == key) {
           parent.add($menu.key);
+          flag = true;
           break;
         } else if ($menu == list.last) {
           parent.removeLast();
         }
       } else {
         parent.add($menu.key);
-        _getKeys($menu.children, key, parent);
+        final result = _getKeys($menu.children, key, parent);
+        if (result.$1) {
+          flag = true;
+          break;
+        }
       }
     }
-    return parent;
+    return (flag, parent);
   }
-
   @override
   Widget build(BuildContext context) {
     final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
