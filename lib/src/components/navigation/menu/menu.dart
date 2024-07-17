@@ -122,7 +122,7 @@ class _ElMenuState extends State<ElMenu> {
   void _routerListen() {
     final path = routeKey;
     if (path.startsWith(widget.rootRouterPath)) {
-      if (activeKeyList.last != path) {
+      if (activeKeyList.isEmpty || activeKeyList.last != path) {
         setState(() {
           setActiveKey(path);
         });
