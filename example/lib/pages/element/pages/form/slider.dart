@@ -13,7 +13,7 @@ class SliderPage extends HookWidget {
         child: Column(
           children: [
             ...List.generate(
-              10,
+              500,
               (index) => Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(

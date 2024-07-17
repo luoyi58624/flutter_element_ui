@@ -16,33 +16,31 @@ class _SliderTestPageState extends State<SliderTestPage> {
       appBar: AppBar(
         title: const Text('1000个Slider'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ...List.generate(
-              50,
-              (index) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text((sliderValue.floor()).toString()),
-                    Expanded(
-                      child: Slider(
-                        max: 100,
-                        value: sliderValue,
-                        onChanged: (v) {
-                          setState(() {
-                            sliderValue = v;
-                          });
-                        },
-                      ),
+      body: ListView(
+        children: [
+          ...List.generate(
+            1000,
+            (index) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Text((sliderValue.floor()).toString()),
+                  Expanded(
+                    child: Slider(
+                      max: 100,
+                      value: sliderValue,
+                      onChanged: (v) {
+                        setState(() {
+                          sliderValue = v;
+                        });
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
