@@ -151,13 +151,15 @@ class ElButton extends StatelessWidget {
     );
     var currentWidget = SelectionContainer.disabled(
       child: Focus(
-        child: ElHover(
-          disabled: disabled,
-          cursor: SystemMouseCursors.click,
-          builder: ($isHover) => ElTap(
-            onTap: onPressed,
+        child: RepaintBoundary(
+          child: ElHover(
             disabled: disabled,
-            builder: ($isTap) => _Button(child, styleProp),
+            cursor: SystemMouseCursors.click,
+            builder: ($isHover) => ElTap(
+              onTap: onPressed,
+              disabled: disabled,
+              builder: ($isTap) => _Button(child, styleProp),
+            ),
           ),
         ),
       ),

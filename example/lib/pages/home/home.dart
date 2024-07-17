@@ -6,6 +6,8 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final direction = useState(AxisDirection.up);
+    final slider = useState(20.0);
     return Scaffold(
       appBar: AppBar(
         title: const Text('首页'),
@@ -19,13 +21,37 @@ class HomePage extends HookWidget {
             }),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElTriangle(),
-          ],
-        ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElSlider2(
+            value: slider.value,
+            onChanged: (v) => slider.value = v,
+          ),
+          // ElButton(
+          //   onPressed: () {
+          //     switch (direction.value) {
+          //       case AxisDirection.up:
+          //         direction.value = AxisDirection.right;
+          //         break;
+          //       case AxisDirection.right:
+          //         direction.value = AxisDirection.down;
+          //         break;
+          //       case AxisDirection.down:
+          //         direction.value = AxisDirection.left;
+          //         break;
+          //       case AxisDirection.left:
+          //         direction.value = AxisDirection.up;
+          //         break;
+          //     }
+          //   },
+          //   child: '${direction.value}',
+          // ),
+          // const Gap(16),
+          // ElTriangle(
+          //   direction: direction.value,
+          // ),
+        ],
       ),
     );
   }
