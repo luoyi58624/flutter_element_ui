@@ -22,12 +22,12 @@ class HomePage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: ColumnWidget(children: [
-          buildCardWidget(context, title: '通用组件', children: [
-            const CellWidget(
+          const CardWidget( title: '通用组件', children: [
+            CellWidget(
               title: 'Hook 测试',
               page: HookDemoPage(),
             ),
-            const CellWidget(
+            CellWidget(
               title: '1000个Slider 测试',
               page: SliderTestPage(),
             ),
@@ -37,14 +37,13 @@ class HomePage extends StatelessWidget {
           const FormWidgets(),
           const TabWidget(),
           // const CupertinoWidgets(),
-          // ...List.generate(
-          //   20,
-          //   (index) => buildCellWidget(
-          //     context,
-          //     onTap: () {},
-          //     title: '列表 - ${index + 1}',
-          //   ),
-          // ),
+          ...List.generate(
+            20,
+            (index) => CellWidget(
+              onTap: () {},
+              title: '列表 - ${index + 1}',
+            ),
+          ),
         ]),
       ),
     );

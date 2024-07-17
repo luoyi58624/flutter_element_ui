@@ -193,19 +193,21 @@ class FormWidgets extends HookWidget {
           },
         ),
         Expanded(
-          child: Row(
-            children: <Widget>[
-              const Gap(16),
-              CircularProgressIndicator(
-                value: progressValue,
-              ),
-              const Gap(16),
-              Expanded(
-                child: LinearProgressIndicator(
+          child: RepaintBoundary(
+            child: Row(
+              children: <Widget>[
+                const Gap(16),
+                CircularProgressIndicator(
                   value: progressValue,
                 ),
-              ),
-            ],
+                const Gap(16),
+                Expanded(
+                  child: LinearProgressIndicator(
+                    value: progressValue,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
