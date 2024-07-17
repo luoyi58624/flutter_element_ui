@@ -30,7 +30,6 @@ class _ElMenuData extends InheritedWidget {
   const _ElMenuData({
     required super.child,
     required this.activeKeyList,
-    required this.router,
     required this.bgColor,
     required this.collapse,
     required this.iconSize,
@@ -39,7 +38,6 @@ class _ElMenuData extends InheritedWidget {
   });
 
   final List<String> activeKeyList;
-  final GoRouter? router;
   final Color bgColor;
   final bool collapse;
   final double iconSize;

@@ -63,12 +63,8 @@ class _MenuItemState extends State<_MenuItem> {
                 isManual = false;
               });
             } else {
-              if ($data.router != null) {
-                $data.router!.go(widget.menuItem.key);
-              } else {
-                if ($data.onChange != null) {
-                  $data.onChange!(widget.menuItem);
-                }
+              if ($data.onChange != null) {
+                $data.onChange!(widget.menuItem);
               }
             }
           },

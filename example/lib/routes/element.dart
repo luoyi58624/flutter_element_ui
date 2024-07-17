@@ -6,7 +6,6 @@ import '../../pages/element/pages/basic/color.dart';
 import '../../pages/element/pages/basic/text.dart';
 import '../../pages/element/pages/data/table.dart';
 import '../../pages/element/pages/form/form.dart';
-import '../pages/element/home.dart';
 import '../pages/element/layout/layout.dart';
 import '../pages/element/pages/basic/font.dart';
 import '../pages/element/pages/data/badge.dart';
@@ -18,20 +17,16 @@ import '../pages/element/pages/form/switch.dart';
 import '../pages/element/pages/layout/basic.dart';
 import '../pages/element/pages/layout/overlay.dart';
 import '../pages/element/pages/navigation/menu.dart';
-import '../pages/element/test/border.dart';
 
 class ElementRoutes {
   static const String root = '/element';
-  static const String component = '$root/components';
-  static const String componentLayout = '$component/layout';
-  static const String componentBasic = '$component/basic';
-  static const String componentForm = '$component/form';
-  static const String componentData = '$component/data';
-  static const String componentNavigation = '$component/navigation';
-  static const String componentFeedBack = '$component/feedback';
+  static const String layout = '$root/layout';
+  static const String basic = '$root/basic';
+  static const String form = '$root/form';
+  static const String data = '$root/data';
+  static const String navigation = '$root/navigation';
+  static const String feedBack = '$root/feedback';
 }
-
-const String _tests = '/tests';
 
 final elementRoute = StatefulShellBranch(routes: [
   StatefulShellRoute.indexedStack(
@@ -41,31 +36,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.root}/home',
-            builder: (context, state) => const HomePage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.componentLayout}/basic',
-            builder: (context, state) => const LayoutBasicPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.componentLayout}/drag',
-            builder: (context, state) => const OverlayPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.componentBasic}/button',
+            path: '${ElementRoutes.basic}/button',
             builder: (context, state) => const ButtonPage(),
           ),
         ],
@@ -73,7 +44,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentBasic}/text',
+            path: '${ElementRoutes.basic}/text',
             builder: (context, state) => const TextPage(),
           ),
         ],
@@ -81,7 +52,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentBasic}/color',
+            path: '${ElementRoutes.basic}/color',
             builder: (context, state) => const ColorPage(),
           ),
         ],
@@ -89,7 +60,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentBasic}/font',
+            path: '${ElementRoutes.basic}/font',
             builder: (context, state) => const FontPage(),
           ),
         ],
@@ -97,7 +68,23 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentForm}/input',
+            path: '${ElementRoutes.layout}/basic',
+            builder: (context, state) => const LayoutBasicPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.layout}/drag',
+            builder: (context, state) => const OverlayPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.form}/input',
             builder: (context, state) => const InputPage(),
           ),
         ],
@@ -105,7 +92,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentForm}/radio',
+            path: '${ElementRoutes.form}/radio',
             builder: (context, state) => const RadioPage(),
           ),
         ],
@@ -113,7 +100,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentForm}/switch',
+            path: '${ElementRoutes.form}/switch',
             builder: (context, state) => const SwitchPage(),
           ),
         ],
@@ -121,7 +108,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentForm}/slider',
+            path: '${ElementRoutes.form}/slider',
             builder: (context, state) => const SliderPage(),
           ),
         ],
@@ -129,7 +116,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentForm}/form',
+            path: '${ElementRoutes.form}/form',
             builder: (context, state) => const FormPage(),
           ),
         ],
@@ -137,7 +124,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentData}/badge',
+            path: '${ElementRoutes.data}/badge',
             builder: (context, state) => const BadgePage(),
           ),
         ],
@@ -145,7 +132,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentData}/image',
+            path: '${ElementRoutes.data}/image',
             builder: (context, state) => const ImagePage(),
           ),
         ],
@@ -153,7 +140,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentData}/table',
+            path: '${ElementRoutes.data}/table',
             builder: (context, state) => const TablePage(),
           ),
         ],
@@ -161,7 +148,7 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentNavigation}/menu',
+            path: '${ElementRoutes.navigation}/menu',
             builder: (context, state) => const MenuPage(),
           ),
         ],
@@ -169,16 +156,8 @@ final elementRoute = StatefulShellBranch(routes: [
       StatefulShellBranch(
         routes: [
           GoRoute(
-            path: '${ElementRoutes.componentFeedBack}/dialog',
+            path: '${ElementRoutes.feedBack}/dialog',
             builder: (context, state) => const DialogPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '$_tests/border',
-            builder: (context, state) => const BorderTestPage(),
           ),
         ],
       ),

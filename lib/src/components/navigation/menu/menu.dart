@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
-import 'package:go_router/go_router.dart';
 
 part 'menu_modal.dart';
 
@@ -26,7 +25,7 @@ class ElMenu extends StatefulWidget {
         router = null,
         rootRouterPath = '/';
 
-  /// 创建路由菜单导航，注意：ElMenu 只支持官方实现的声明式路由[go_router]
+  /// 创建路由菜单导航，你必须使用声明式路由构建App: [MaterialApp.router]
   const ElMenu.router(
     this.menuList, {
     super.key,
@@ -38,16 +37,16 @@ class ElMenu extends StatefulWidget {
     this.bgColor,
     this.collapse = false,
     this.iconSize = 20,
+    this.onChange,
   })  : assert(router != null),
         assert(rootRouterPath != ''),
-        activeKey = null,
-        onChange = null;
+        activeKey = null;
 
   /// 菜单模型集合
   final List<ElMenuModel> menuList;
 
-  /// 启用路由模式，接收路由实例对象，内部将监听 url 的变化
-  final GoRouter? router;
+  /// 声明式路由实例对象，内部将监听 url 的变化，并将 url 作为菜单 key
+  final RouterConfig? router;
 
   /// 当前菜单支持的根路由地址，如果当前路由菜单属于某个路由的子级，设置它可以缩小监听的范围
   final String rootRouterPath;
@@ -178,7 +177,6 @@ class _ElMenuState extends State<ElMenu> {
         height: double.infinity,
         child: _ElMenuData(
           activeKeyList: activeKeyList,
-          router: widget.router,
           bgColor: $bgColor,
           collapse: widget.collapse,
           iconSize: widget.iconSize,

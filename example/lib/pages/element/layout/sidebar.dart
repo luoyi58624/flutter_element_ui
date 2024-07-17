@@ -11,138 +11,115 @@ class LayoutSidebarWidget extends StatelessWidget {
       menuList,
       router: router,
       rootRouterPath: ElementRoutes.root,
+      onChange: (e) {
+        context.go(e.key);
+      },
     );
   }
 }
 
-List<ElMenuModel> menuList = [
-  const ElMenuModel(
-    title: '首页',
-    icon: ElIcons.homeFilled,
-    key: '${ElementRoutes.root}/home',
-  ),
-  const ElMenuModel(
-    title: '组件',
-    icon: ElIcons.eleme,
-    key: ElementRoutes.component,
+List<ElMenuModel> menuList = const [
+  ElMenuModel(
+    title: 'Basic 基础组件',
+    key: ElementRoutes.basic,
     children: [
       ElMenuModel(
-        title: 'Layout 布局组件',
-        key: ElementRoutes.componentLayout,
-        children: [
-          ElMenuModel(
-            title: '基础布局',
-            key: '${ElementRoutes.componentLayout}/basic',
-          ),
-          ElMenuModel(
-            title: '拖拽尺寸',
-            key: '${ElementRoutes.componentLayout}/drag',
-          ),
-        ],
+        title: 'Button 按钮',
+        key: '${ElementRoutes.basic}/button',
       ),
       ElMenuModel(
-        title: 'Basic 基础组件',
-        key: ElementRoutes.componentBasic,
-        children: [
-          ElMenuModel(
-            title: 'Button 按钮',
-            key: '${ElementRoutes.componentBasic}/button',
-          ),
-          ElMenuModel(
-            title: 'Text 文字',
-            key: '${ElementRoutes.componentBasic}/text',
-          ),
-          ElMenuModel(
-            title: 'Color 颜色',
-            key: '${ElementRoutes.componentBasic}/color',
-          ),
-          ElMenuModel(
-            title: 'Font 字体',
-            key: '${ElementRoutes.componentBasic}/font',
-          ),
-        ],
+        title: 'Text 文字',
+        key: '${ElementRoutes.basic}/text',
       ),
       ElMenuModel(
-        title: 'Form 表单组件',
-        key: ElementRoutes.componentForm,
-        children: [
-          ElMenuModel(
-            title: 'Input 输入框',
-            key: '${ElementRoutes.componentForm}/input',
-          ),
-          ElMenuModel(
-            title: 'Radio 单选框',
-            key: '${ElementRoutes.componentForm}/radio',
-          ),
-          ElMenuModel(
-            title: 'Switch 开关',
-            key: '${ElementRoutes.componentForm}/switch',
-          ),
-          ElMenuModel(
-            title: 'Slider 滑块',
-            key: '${ElementRoutes.componentForm}/slider',
-          ),
-          ElMenuModel(
-            title: 'Form 表单',
-            key: '${ElementRoutes.componentForm}/form',
-          ),
-        ],
+        title: 'Color 颜色',
+        key: '${ElementRoutes.basic}/color',
       ),
       ElMenuModel(
-        title: 'Data 数据展示',
-        key: ElementRoutes.componentData,
-        children: [
-          ElMenuModel(
-            title: 'Badge 徽章',
-            key: '${ElementRoutes.componentData}/badge',
-          ),
-          ElMenuModel(
-            title: 'Image 图片',
-            key: '${ElementRoutes.componentData}/image',
-          ),
-          ElMenuModel(
-            title: 'Table 表格',
-            key: '${ElementRoutes.componentData}/table',
-          ),
-        ],
-      ),
-      ElMenuModel(
-        title: 'Navigation 导航',
-        key: ElementRoutes.componentNavigation,
-        children: [
-          ElMenuModel(
-            title: 'Menu 菜单',
-            key: '${ElementRoutes.componentNavigation}/menu',
-          ),
-        ],
-      ),
-      ElMenuModel(
-        title: 'FeedBack 反馈组件',
-        key: ElementRoutes.componentFeedBack,
-        children: [
-          ElMenuModel(
-            title: 'Dialog 对话框',
-            key: '${ElementRoutes.componentFeedBack}/dialog',
-          ),
-        ],
+        title: 'Font 字体',
+        key: '${ElementRoutes.basic}/font',
       ),
     ],
   ),
-  // const ElMenuModel(
-  //   title: '测试',
-  //   key: '/tests',
-  //   icon: ElIcons.comment,
-  //   children: [
-  //     ElMenuModel(
-  //       title: '边框',
-  //       key: '/tests/border',
-  //     ),
-  //     ElMenuModel(
-  //       title: '图片列表',
-  //       key: '/tests/image_list',
-  //     ),
-  //   ],
-  // ),
+  ElMenuModel(
+    title: 'Layout 布局组件',
+    key: ElementRoutes.layout,
+    children: [
+      ElMenuModel(
+        title: '基础布局',
+        key: '${ElementRoutes.layout}/basic',
+      ),
+      ElMenuModel(
+        title: '拖拽尺寸',
+        key: '${ElementRoutes.layout}/drag',
+      ),
+    ],
+  ),
+
+  ElMenuModel(
+    title: 'Form 表单组件',
+    key: ElementRoutes.form,
+    children: [
+      ElMenuModel(
+        title: 'Input 输入框',
+        key: '${ElementRoutes.form}/input',
+      ),
+      ElMenuModel(
+        title: 'Radio 单选框',
+        key: '${ElementRoutes.form}/radio',
+      ),
+      ElMenuModel(
+        title: 'Switch 开关',
+        key: '${ElementRoutes.form}/switch',
+      ),
+      ElMenuModel(
+        title: 'Slider 滑块',
+        key: '${ElementRoutes.form}/slider',
+      ),
+      ElMenuModel(
+        title: 'Form 表单',
+        key: '${ElementRoutes.form}/form',
+      ),
+    ],
+  ),
+  ElMenuModel(
+    title: 'Data 数据展示',
+    key: ElementRoutes.data,
+    children: [
+      ElMenuModel(
+        title: 'Badge 徽章',
+        key: '${ElementRoutes.data}/badge',
+      ),
+      ElMenuModel(
+        title: 'Image 图片',
+        key: '${ElementRoutes.data}/image',
+      ),
+      ElMenuModel(
+        title: 'Table 表格',
+        key: '${ElementRoutes.data}/table',
+      ),
+    ],
+  ),
+  ElMenuModel(
+    title: 'Navigation 导航',
+    key: ElementRoutes.navigation,
+    children: [
+      ElMenuModel(
+        title: 'Menu 菜单',
+        key: '${ElementRoutes.navigation}/menu',
+      ),
+    ],
+  ),
+  ElMenuModel(
+    title: 'FeedBack 反馈组件',
+    key: ElementRoutes.feedBack,
+    children: [
+      ElMenuModel(
+        title: 'Dialog 对话框',
+        key: '${ElementRoutes.feedBack}/dialog',
+      ),
+    ],
+  ),
   // ElMenuModel(
   //   title: '嵌套菜单',
   //   icon: ElIcons.folder,

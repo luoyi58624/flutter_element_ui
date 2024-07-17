@@ -1,6 +1,8 @@
-import 'package:example/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/src/extensions/router.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:super_sliver_list/super_sliver_list.dart';
 
 const Widget arrowRightWidget = Icon(Icons.keyboard_arrow_right);
 
@@ -24,38 +26,50 @@ class LoadingWidget extends StatelessWidget {
   }
 }
 
-/// 构建通用的[ListTile]组件
-Widget buildCellWidget(
-  BuildContext context, {
-  required String title,
-  bool dense = true,
-  Widget trailing = arrowRightWidget,
-  GestureTapCallback? onTap,
-  Widget? page,
-  Widget? leading,
-  Color? tileColor,
-}) {
-  return ListTile(
-    onTap: onTap == null && page == null
-        ? null
-        : () {
-            if (onTap != null) {
-              onTap();
-            } else {
-              context.push(page!);
-            }
-          },
-    dense: dense,
-    leading: leading,
-    trailing: arrowRightWidget,
-    tileColor: tileColor,
-    title: Text(
-      title,
-      style: TextStyle(
-        fontSize: Theme.of(context).listTileTheme.titleTextStyle?.fontSize,
+class CellWidget extends StatelessWidget {
+  const CellWidget({
+    super.key,
+    required this.title,
+    this.dense = true,
+    this.trailing = arrowRightWidget,
+    this.leading,
+    this.tileColor,
+    this.page,
+    this.onTap,
+  });
+
+  final String title;
+  final bool dense;
+  final Widget trailing;
+  final Widget? leading;
+  final Color? tileColor;
+  final Widget? page;
+  final GestureTapCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap == null && page == null
+          ? null
+          : () {
+              if (onTap != null) {
+                onTap!();
+              } else {
+                context.push(page!);
+              }
+            },
+      dense: dense,
+      leading: leading,
+      trailing: arrowRightWidget,
+      tileColor: tileColor,
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: Theme.of(context).listTileTheme.titleTextStyle?.fontSize,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class ListViewDemoWidget extends HookWidget {
@@ -75,8 +89,7 @@ class ListViewDemoWidget extends HookWidget {
       controller: controller,
       itemCount: itemCount,
       physics: physics,
-      itemBuilder: (context, index) => buildCellWidget(
-        context,
+      itemBuilder: (context, index) => CellWidget(
         onTap: () {},
         title: '列表-${index + 1}',
       ),
@@ -134,24 +147,33 @@ Widget buildPopupMenuButton({
 }
 
 class ColumnWidget extends StatelessWidget {
-  const ColumnWidget({super.key, required this.children, this.center = true});
+  const ColumnWidget({
+    super.key,
+    required this.children,
+    this.center = true,
+    this.scroll = false,
+  });
 
   final List<Widget> children;
   final bool center;
+  final bool scroll;
 
   @override
   Widget build(BuildContext context) {
-    return center
-        ? Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: children,
-            ),
-          )
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            children: children,
-          );
+    Widget result = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: children,
+    );
+    if (scroll) {
+      result = SingleChildScrollView(
+        child: result,
+      );
+    } else if (center) {
+      result = Center(
+        child: result,
+      );
+    }
+    return result;
   }
 }
 

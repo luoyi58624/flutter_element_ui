@@ -24,3 +24,5 @@ export 'src/utils/animation.dart';
 export 'src/utils/device.dart';
 export 'src/utils/toast.dart';
 export 'src/utils/use_local_obs.dart';
+
+export 'src/widgets/simple_widgets.dart';

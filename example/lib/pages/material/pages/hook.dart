@@ -1,8 +1,6 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/simple_widgets.dart';
-
 class HookDemoPage extends HookWidget {
   const HookDemoPage({super.key});
 
