@@ -41,14 +41,7 @@ class _MenuItemState extends State<_MenuItem> {
     $data = _ElMenuData.of(context);
     hasChild = widget.menuItem.children.isNotEmpty;
     isActive = $data.activeKeyList.contains(widget.menuItem.key);
-    if (isActive && !expanded) {
-      if (isManual) {
-        isManual = false;
-      } else {
-        expanded = true;
-      }
-    }
-
+    if (isActive && !expanded && !isManual) expanded = true;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

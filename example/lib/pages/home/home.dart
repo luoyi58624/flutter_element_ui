@@ -23,16 +23,7 @@ class HomePage extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            MouseRegion(
-              onEnter: (e) {
-                i(e);
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.green,
-              ),
-            ),
+            ElTriangle(),
           ],
         ),
       ),

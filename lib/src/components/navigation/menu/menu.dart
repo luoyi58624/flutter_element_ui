@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
 
 part 'menu_modal.dart';
 
@@ -48,10 +49,10 @@ class ElMenu extends StatefulWidget {
   /// 声明式路由实例对象，内部将监听 url 的变化，并将 url 作为菜单 key
   final RouterConfig? router;
 
-  /// 当前菜单支持的根路由地址，如果当前路由菜单属于某个路由的子级，设置它可以缩小监听的范围
+  /// 当前菜单所对应的根路由，设置它可以缩小监听的范围
   final String rootRouterPath;
 
-  /// 激活的菜单key
+  /// 普通菜单激活的key
   final String? activeKey;
 
   /// 菜单栏宽度

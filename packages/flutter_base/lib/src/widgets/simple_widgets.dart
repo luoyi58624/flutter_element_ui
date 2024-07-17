@@ -36,6 +36,8 @@ class CellWidget extends StatelessWidget {
     this.tileColor,
     this.page,
     this.onTap,
+    this.value,
+    this.onChanged,
   });
 
   final String title;
@@ -46,21 +48,34 @@ class CellWidget extends StatelessWidget {
   final Widget? page;
   final GestureTapCallback? onTap;
 
+  /// Switch 开关 Cell
+  final bool? value;
+  final ValueChanged? onChanged;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: onTap == null && page == null
-          ? null
-          : () {
-              if (onTap != null) {
-                onTap!();
-              } else {
-                context.push(page!);
-              }
-            },
+      onTap: onChanged != null && value != null
+          ? () {
+              onChanged!(!value!);
+            }
+          : (onTap == null && page == null
+              ? null
+              : () {
+                  if (onTap != null) {
+                    onTap!();
+                  } else {
+                    context.push(page!);
+                  }
+                }),
       dense: dense,
       leading: leading,
-      trailing: arrowRightWidget,
+      trailing: value == null
+          ? trailing
+          : Switch.adaptive(
+              value: value!,
+              onChanged: onChanged,
+            ),
       tileColor: tileColor,
       title: Text(
         title,

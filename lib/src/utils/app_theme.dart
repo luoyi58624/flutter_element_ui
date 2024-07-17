@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/src/app.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
-import 'package:flutter_element_ui/src/extensions/theme.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../styles/theme.dart';

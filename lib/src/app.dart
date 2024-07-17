@@ -1,17 +1,41 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/theme.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 
+import 'components/basic/typography.dart';
+import 'components/others/brightness.dart';
+import 'components/others/responsive.dart';
 import 'styles/theme.dart';
+import 'service.dart';
 
-part 'app/extension.dart';
+/// Element UI 全局主题数据
+class ElAppData {
+  /// 亮色主题
+  late final ElThemeData theme;
 
-part 'app/service.dart';
+  /// 暗色主题
+  late final ElThemeData darkTheme;
 
-part 'app/theme.dart';
+  /// 组件配置
+  late final ElConfigData config;
 
-part 'app/inherited_widget.dart';
+  /// 响应式断点配置
+  final ElResponsiveData responsive;
+
+  /// 文本排版配置
+  late final ElTypographyData typography;
+
+  ElAppData({
+    ElThemeData? theme,
+    ElThemeData? darkTheme,
+    ElConfigData? config,
+    this.responsive = const ElResponsiveData(),
+    ElTypographyData? typography,
+  }) {
+    this.theme = theme ?? ElThemeData.lightTheme;
+    this.darkTheme = darkTheme ?? ElThemeData.darkTheme;
+    this.config = config ?? ElConfigData.data;
+    this.typography = typography ?? ElTypographyData.data;
+  }
+}
 
 class ElApp extends StatelessWidget {
   /// Element UI 顶级小部件，它只负责注入一些全局配置，和 [MaterialApp] 以及其他顶级 App 不同，
@@ -61,10 +85,10 @@ class ElApp extends StatelessWidget {
     final $isDark = brightness == Brightness.dark;
     ElThemeData $theme = $isDark ? $data.darkTheme : $data.theme;
     TextStyle $style = $data.config.textStyle.copyWith(color: $theme.textColor);
-    return _ElGlobalCursor(
-      child: _ElResponsive(
+    return ElGlobalCursor(
+      child: ElResponsive(
         data: $data.responsive,
-        child: _ElBrightness(
+        child: ElBrightness(
           brightness: brightness,
           child: DefaultTextStyle(
             style: $style,
@@ -76,37 +100,6 @@ class ElApp extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-/// Element UI 全局主题数据
-class ElAppData {
-  /// 亮色主题
-  late final ElThemeData theme;
-
-  /// 暗色主题
-  late final ElThemeData darkTheme;
-
-  /// 组件配置
-  late final ElConfigData config;
-
-  /// 响应式断点配置
-  final ElResponsiveData responsive;
-
-  /// 文本排版配置
-  late final ElTypographyData typography;
-
-  ElAppData({
-    ElThemeData? theme,
-    ElThemeData? darkTheme,
-    ElConfigData? config,
-    this.responsive = const ElResponsiveData(),
-    ElTypographyData? typography,
-  }) {
-    this.theme = theme ?? ElThemeData.lightTheme;
-    this.darkTheme = darkTheme ?? ElThemeData.darkTheme;
-    this.config = config ?? ElConfigData.data;
-    this.typography = typography ?? ElTypographyData.data;
   }
 }
 

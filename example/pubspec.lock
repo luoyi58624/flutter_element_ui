@@ -244,10 +244,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_obs
-      sha256: "3204f934baee2abe9a59b80350e6735d3102250c29ea1581fc37a6b318a3f9ee"
+      sha256: "641d52ab9d0505c9f6b01a28a2b9a99d18c415952505812e4136484575815f41"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.5"
+    version: "1.2.6"
   flutter_spinkit:
     dependency: transitive
     description:

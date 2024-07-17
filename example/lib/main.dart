@@ -28,11 +28,12 @@ class _App extends StatelessWidget {
             ),
           ),
         ),
-        child: Builder(builder: (context) {
+        child: ObsBuilder(builder: (context) {
           return MaterialApp.router(
             routerConfig: router,
             themeMode: context.isDark ? ThemeMode.dark : ThemeMode.light,
             theme: ElThemeUtil.buildMaterialTheme(context),
+            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
             darkTheme: ElThemeUtil.buildMaterialTheme(
               context,
               brightness: Brightness.dark,

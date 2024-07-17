@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/int.dart';
-import 'package:flutter_element_ui/src/extensions/theme.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import 'package:flutter_element_ui/src/app.dart';
+import '../../service.dart';
 import '../../utils/assert.dart';
 import '../others/hover.dart';
 import '../others/tap.dart';

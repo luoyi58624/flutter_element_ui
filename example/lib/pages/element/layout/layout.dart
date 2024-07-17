@@ -1,5 +1,4 @@
 import 'package:example/global.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../layout.dart';
@@ -38,20 +37,9 @@ class ElementLayoutPage extends LayoutPageBase {
 
   @override
   Widget buildMobileLayout(context) {
-    final enableResampling = useState(false);
-    useEffect(() {
-      GestureBinding.instance.resamplingEnabled = enableResampling.value;
-      return null;
-    }, [enableResampling.value]);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Element UI'),
-        actions: [
-          Switch(
-            value: enableResampling.value,
-            onChanged: (v) => enableResampling.value = v,
-          ),
-        ],
       ),
       drawer: Drawer(
         backgroundColor: context.elTheme.asideBgColor,

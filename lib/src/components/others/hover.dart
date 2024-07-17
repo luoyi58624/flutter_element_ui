@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import 'package:flutter_element_ui/src/app.dart';
+import '../../service.dart';
 
 class ElHover extends StatefulWidget {
   /// hover构建器，仅在桌面端渲染，移动端不会渲染
@@ -12,6 +13,9 @@ class ElHover extends StatefulWidget {
     this.cursor = MouseCursor.defer,
     this.disabled = false,
     this.onlyCursor = false,
+    this.onEnter,
+    this.onExit,
+    this.onHover,
   });
 
   final Widget Function(bool isHover) builder;
@@ -24,6 +28,15 @@ class ElHover extends StatefulWidget {
 
   /// 是否仅更新显示的光标，但不触发状态
   final bool onlyCursor;
+
+  /// 鼠标进入事件
+  final PointerEnterEventListener? onEnter;
+
+  /// 鼠标离开事件
+  final PointerExitEventListener? onExit;
+
+  /// hover事件
+  final PointerHoverEventListener? onHover;
 
   /// 根据上下文获取最近的悬停状态
   static bool of(BuildContext context) => _HoverInheritedWidget.of(context);
@@ -41,33 +54,38 @@ class _HoverBuilderState extends State<ElHover> {
         ? _HoverInheritedWidget(
             isHover: isHover,
             child: MouseRegion(
-              onEnter: (event) => _update(true),
-              onExit: (event) => _update(false),
+              onEnter: _onEnter,
+              onExit: _upExit,
+              onHover: widget.disabled ? null : widget.onHover,
               child: widget.builder(isHover),
             ),
           )
         : widget.builder(isHover);
   }
 
-  void _update(bool value) {
+  void _onEnter(PointerEnterEvent event) {
     if (widget.disabled) {
-      if (value == true) {
-        $el.setCursor(SystemMouseCursors.forbidden);
-      } else {
-        $el.resetCursor();
-      }
+      $el.setCursor(SystemMouseCursors.forbidden);
     } else {
-      late bool flag;
-      if (value == true) {
-        flag = $el.setCursor(widget.cursor);
-      } else {
-        flag = $el.resetCursor();
+      if (widget.onEnter != null) widget.onEnter!(event);
+      bool flag = $el.setCursor(widget.cursor);
+      if (flag && !isHover) {
+        if (!widget.onlyCursor) {
+          setState(() {
+            isHover = true;
+          });
+        }
       }
-      if (flag && !widget.onlyCursor && isHover != value) {
-        setState(() {
-          isHover = value;
-        });
-      }
+    }
+  }
+
+  void _upExit(PointerExitEvent event) {
+    if (widget.onExit != null) widget.onExit!(event);
+    bool flag = $el.resetCursor();
+    if (flag && isHover && !widget.onlyCursor) {
+      setState(() {
+        isHover = false;
+      });
     }
   }
 }

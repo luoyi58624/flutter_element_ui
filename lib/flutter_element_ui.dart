@@ -1,6 +1,7 @@
 library flutter_element_ui;
 
 export 'src/app.dart';
+export 'src/service.dart' show $el;
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
@@ -18,6 +19,7 @@ export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
 export 'src/components/feedback/loading/loading.dart';
 export 'src/components/feedback/message.dart';
+export 'src/components/feedback/tooltip.dart';
 export 'src/components/form/autocomplete.dart';
 export 'src/components/form/cascader.dart';
 export 'src/components/form/checkbox.dart';
@@ -31,13 +33,16 @@ export 'src/components/layout/body.dart';
 export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu/menu.dart';
+export 'src/components/others/brightness.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/hover.dart';
+export 'src/components/others/responsive.dart';
 export 'src/components/others/tap.dart';
+export 'src/components/others/triangle.dart';
 export 'src/components/others/split/split.dart';
 
-export 'src/extensions/color.dart'
-    show ElColorExtension, ElColorStringExtension;
+export 'src/extensions/color.dart';
+export 'src/extensions/element.dart';
 export 'src/extensions/int.dart';
 
 export 'src/styles/theme.dart';
