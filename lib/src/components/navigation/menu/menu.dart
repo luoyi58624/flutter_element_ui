@@ -83,7 +83,7 @@ class _ElMenuState extends State<ElMenu> {
   /// 激活的菜单层级链
   List<String> activeKeyList = [];
 
-  /// 以路由地址作为菜单key
+  /// 以路由地址作为菜单key，使用此变量前必须用 router 构造函数
   String get routeKey {
     assert(widget.router != null);
     return widget.router!.routerDelegate.currentConfiguration.uri.path;
@@ -135,16 +135,20 @@ class _ElMenuState extends State<ElMenu> {
     activeKeyList = _getKeys(widget.menuList, key, []).$2;
   }
 
+  /// 使用递归找到当前 key，并返回完整的的菜单层级链
   (bool, List<String>) _getKeys(
-      List<ElMenuModel> list, String key, List<String> parent) {
+    List<ElMenuModel> menuList,
+    String key,
+    List<String> parent,
+  ) {
     bool flag = false;
-    for (final $menu in list) {
+    for (final $menu in menuList) {
       if ($menu.children.isEmpty) {
         if ($menu.key == key) {
           parent.add($menu.key);
           flag = true;
           break;
-        } else if ($menu == list.last) {
+        } else if ($menu == menuList.last) {
           parent.removeLast();
         }
       } else {

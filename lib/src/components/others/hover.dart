@@ -41,7 +41,7 @@ class _HoverBuilderState extends State<ElHover> {
         ? _HoverInheritedWidget(
             isHover: isHover,
             child: MouseRegion(
-              onHover: (event) => _update(true),
+              onEnter: (event) => _update(true),
               onExit: (event) => _update(false),
               child: widget.builder(isHover),
             ),
@@ -57,12 +57,13 @@ class _HoverBuilderState extends State<ElHover> {
         $el.resetCursor();
       }
     } else {
+      late bool flag;
       if (value == true) {
-        $el.setCursor(widget.cursor);
+        flag = $el.setCursor(widget.cursor);
       } else {
-        $el.resetCursor();
+        flag = $el.resetCursor();
       }
-      if (!widget.onlyCursor && isHover != value) {
+      if (flag && !widget.onlyCursor && isHover != value) {
         setState(() {
           isHover = value;
         });

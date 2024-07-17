@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 const double _defaultThickness = 6.0;
@@ -142,6 +143,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
+    $el.setCursor(null, 'darg_scrollbar');
     activeScroll = true;
     HapticFeedback.vibrate();
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
@@ -156,6 +158,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
+    $el.resetCursor('darg_scrollbar');
     activeScroll = false;
     // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
     if (isHover == false) {
