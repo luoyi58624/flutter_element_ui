@@ -138,11 +138,15 @@ class _DialogWidgetState extends State<DialogWidget> {
   bool get hasContent => widget.content != null || widget.contentWidget != null;
 
   /// 弹窗的边框圆角
-  double get radius => context.sm
-      ? (widget.roundButton
-          ? 16
-          : (widget.radius ?? context.elConfig.cardRadius))
-      : (widget.radius ?? context.elConfig.cardRadius);
+  BorderRadius get radius => context.sm
+      ? widget.roundButton
+          ? BorderRadius.circular(16)
+          : widget.radius != null
+              ? BorderRadius.circular(widget.radius!)
+              : context.elConfig.cardRadius
+      : widget.radius != null
+          ? BorderRadius.circular(widget.radius!)
+          : context.elConfig.cardRadius;
 
   /// 弹窗的垂直内边距
   double get horizontalPadding => context.sm ? 16 : 20;
@@ -501,7 +505,7 @@ class _DialogWidgetState extends State<DialogWidget> {
           elevation: context.elTheme.modalElevation,
           color: context.elTheme.cardColor,
           surfaceTintColor: Colors.transparent,
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: radius,
           clipBehavior: Clip.hardEdge,
           child: context.sm ? buildMobileWidget() : buildDesktopWidget(),
         ),

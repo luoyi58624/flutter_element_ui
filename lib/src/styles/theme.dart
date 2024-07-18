@@ -102,12 +102,13 @@ class ElThemeData {
     this.borderColor = const Color(0xffdcdfe6),
     this.asideBgColor = const Color(0xffffffff),
     this.menuActiveColor = const Color(0xff409eff),
+    Color? sliderActiveColor,
     this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
     this.tooltipColor = const Color(0xFF616161),
     this.cardElevation = 0,
     this.modalElevation = 2,
   }) {
-    sliderActiveColor ??= primary;
+    this.sliderActiveColor = sliderActiveColor ?? primary;
   }
 
   /// 默认的暗色主题构造函数
@@ -130,12 +131,13 @@ class ElThemeData {
     // this.menuActiveColor = const Color(0xffffd04b),
     this.asideBgColor = const Color(0xff374151),
     this.menuActiveColor = const Color(0xff6ee7b7),
+    Color? sliderActiveColor,
     this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
     this.tooltipColor = const Color(0xFF757575),
     this.cardElevation = 2,
     this.modalElevation = 4,
   }) {
-    sliderActiveColor ??= primary;
+    this.sliderActiveColor = sliderActiveColor ?? primary;
   }
 }
 
@@ -148,10 +150,10 @@ class ElConfigData {
   double iconSize;
 
   /// 全局基础控件圆角值: button、input
-  double radius;
+  BorderRadius radius;
 
   /// 全局卡片圆角值
-  double cardRadius;
+  BorderRadius cardRadius;
 
   /// 背景颜色过渡持续时间(毫秒)
   int bgTransition;
@@ -170,8 +172,8 @@ class ElConfigData {
 
   ElConfigData({
     this.iconSize = 18,
-    this.radius = 4,
-    this.cardRadius = 6,
+    this.radius = const BorderRadius.all(Radius.circular(4)),
+    this.cardRadius = const BorderRadius.all(Radius.circular(6)),
     this.bgTransition = 100,
     this.collapseDuration = 250,
     this.textStyle = const TextStyle(fontSize: 15),

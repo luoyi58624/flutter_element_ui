@@ -17,12 +17,18 @@ class OverlayPage extends HookWidget {
               children: [
                 ...List.generate(
                   25,
-                  (index) => CellWidget(title: '列表 - ${index + 1}'),
+                  (index) => CellWidget(
+                    title: '列表 - ${index + 1}',
+                    onTap: () {},
+                  ),
                 ),
                 const _OverlayWidget(),
                 ...List.generate(
                   20,
-                  (index) => CellWidget(title: '列表 - ${index + 1}'),
+                  (index) => CellWidget(
+                    title: '列表 - ${index + 1}',
+                    onTap: () {},
+                  ),
                 ),
               ],
             ),
@@ -41,28 +47,41 @@ class _OverlayWidget extends StatefulWidget {
 }
 
 class _OverlayWidgetState extends State<_OverlayWidget> {
+  bool flag = true;
+
   @override
   Widget build(BuildContext context) {
     return ElTooltip(
-      // content: 'hello，this is a tooltip test',
-      content: SizedBox(
-        width: 300,
-        height: 200,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ...List.generate(
-                100,
-                (index) => CellWidget(title: '列表- ${index + 1}'),
-              )
-            ],
-          ),
-        ),
-      ),
+      // content: 'hello，this is a tooltip test2',
+      content: flag
+          ? 'hello，this is a tooltip test2'
+          : Material(
+              child: SizedBox(
+                width: 300,
+                height: 200,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ...List.generate(
+                        100,
+                        (index) => CellWidget(
+                          title: '列表- ${index + 1}',
+                          onTap: () {},
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
       selected: true,
       bgColor: context.elTheme.bgColor.deepen(10),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            flag = !flag;
+          });
+        },
         child: const Text('插入 Overlay'),
       ),
     );

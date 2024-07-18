@@ -6,7 +6,7 @@ part of '../../styles/theme.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElBrightnessDataExtension on ElThemeData {
+extension ElThemeDataExtension on ElThemeData {
   ElThemeData copyWith({
     Color? primary,
     Color? success,
@@ -23,6 +23,9 @@ extension ElBrightnessDataExtension on ElThemeData {
     Color? iconColor,
     Color? borderColor,
     Color? menuActiveColor,
+    Color? sliderActiveColor,
+    Color? sliderInactiveColor,
+    Color? tooltipColor,
     double? cardElevation,
     double? modalElevation,
   }) {
@@ -42,6 +45,9 @@ extension ElBrightnessDataExtension on ElThemeData {
       iconColor: iconColor ?? this.iconColor,
       borderColor: borderColor ?? this.borderColor,
       menuActiveColor: menuActiveColor ?? this.menuActiveColor,
+      sliderActiveColor: sliderActiveColor ?? this.sliderActiveColor,
+      sliderInactiveColor: sliderInactiveColor ?? this.sliderInactiveColor,
+      tooltipColor: tooltipColor ?? this.tooltipColor,
       cardElevation: cardElevation ?? this.cardElevation,
       modalElevation: modalElevation ?? this.modalElevation,
     );
@@ -51,9 +57,10 @@ extension ElBrightnessDataExtension on ElThemeData {
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? iconSize,
-    double? radius,
-    double? cardRadius,
+    BorderRadius? radius,
+    BorderRadius? cardRadius,
     int? bgTransition,
+    int? collapseDuration,
     TextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     ElInputStyle? inputStyle,
@@ -63,6 +70,7 @@ extension ElConfigDataExtension on ElConfigData {
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
       bgTransition: bgTransition ?? this.bgTransition,
+      collapseDuration: collapseDuration ?? this.collapseDuration,
       textStyle: this.textStyle.merge(textStyle),
       buttonStyle: this.buttonStyle.merge(buttonStyle),
       inputStyle: this.inputStyle.merge(inputStyle),

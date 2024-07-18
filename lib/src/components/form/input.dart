@@ -132,7 +132,7 @@ class _ElInputState extends State<ElInput> {
           ? BorderRadius.circular($height / 2)
           : (widget.borderRadius ??
               defaultStyle.borderRadius ??
-              BorderRadius.circular(elConfig.radius)),
+              elConfig.radius),
       margin: widget.margin ?? defaultStyle.margin,
       padding: widget.padding ??
           (widget.round == true

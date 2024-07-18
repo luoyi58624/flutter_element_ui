@@ -9,10 +9,10 @@ class ElUtil {
     WidgetsBinding.instance.reassembleApplication();
   }
 
-  /// 添加下一帧执行的函数，当 Flutter 更新完页面后立即执行
-  static void nextTick(Future<void> Function() fun) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await fun();
+  /// 添加下一帧执行的回调函数，它会在 build 完成后执行
+  static void nextTick(VoidCallback fun) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fun();
     });
   }
 

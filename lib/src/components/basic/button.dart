@@ -138,9 +138,8 @@ class ElButton extends StatelessWidget {
       plain: plain,
       round: round,
       block: block,
-      borderRadius: borderRadius ??
-          defaultStyle.borderRadius ??
-          BorderRadius.circular(elConfig.radius),
+      borderRadius:
+          borderRadius ?? defaultStyle.borderRadius ?? elConfig.radius,
       margin: margin ?? defaultStyle.margin,
       padding: padding ?? defaultStyle.padding,
       leftIcon: leftIcon,
