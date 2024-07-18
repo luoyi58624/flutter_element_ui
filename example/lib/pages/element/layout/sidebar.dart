@@ -118,6 +118,10 @@ List<ElMenuModel> menuList = const [
         title: 'Dialog 对话框',
         key: '${ElementRoutes.feedBack}/dialog',
       ),
+      ElMenuModel(
+        title: 'Tooltip 文字提示',
+        key: '${ElementRoutes.feedBack}/tooltip',
+      ),
     ],
   ),
   // ElMenuModel(

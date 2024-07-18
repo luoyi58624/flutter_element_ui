@@ -113,10 +113,14 @@ class ElTypographyData {
 
   /// 接受一个文本样式，将其应用于所有文本
   ElTypographyData merge(TextStyle style) {
-    return mergeTitle(style)
-      ..copyWith(
-        text: text.merge(style),
-      );
+    return mergeTitle(style)..mergeText(style);
+  }
+
+  /// 接受一个文本样式，将其应用于所有标题
+  ElTypographyData mergeText(TextStyle style) {
+    return copyWith(
+      text: text.merge(style),
+    );
   }
 
   /// 接受一个文本样式，将其应用于所有标题

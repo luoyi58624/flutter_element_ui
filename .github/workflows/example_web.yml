@@ -31,6 +31,6 @@ jobs:
             cd example
             flutter clean
             flutter pub upgrade
-            flutter build web --web-renderer=canvaskit --pwa-strategy none
+            flutter build web --web-renderer=html --pwa-strategy none
             sh ./docker_shell.sh
             

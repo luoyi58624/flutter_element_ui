@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'pages/http.dart';
 import 'pages/overlay.dart';
+import 'pages/render.dart';
 
 class TestHomePage extends HookWidget {
   const TestHomePage({super.key});
@@ -20,6 +21,7 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Debug 开发设置', page: DebugSettingPage()),
           CellWidget(title: 'Http 测试', page: HttpPage()),
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
+          CellWidget(title: 'Render 自定义渲染', page: RenderTestPage()),
         ],
       ),
     );

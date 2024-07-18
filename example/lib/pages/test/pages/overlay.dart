@@ -1,4 +1,3 @@
-import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +44,23 @@ class _OverlayWidgetState extends State<_OverlayWidget> {
   @override
   Widget build(BuildContext context) {
     return ElTooltip(
-      content: const ElText('hello'),
+      // content: 'hello，this is a tooltip test',
+      content: SizedBox(
+        width: 300,
+        height: 200,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ...List.generate(
+                100,
+                (index) => CellWidget(title: '列表- ${index + 1}'),
+              )
+            ],
+          ),
+        ),
+      ),
+      selected: true,
+      bgColor: context.elTheme.bgColor.deepen(10),
       child: ElevatedButton(
         onPressed: () {},
         child: const Text('插入 Overlay'),

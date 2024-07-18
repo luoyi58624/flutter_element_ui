@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
@@ -10,29 +12,27 @@ class ElSlider extends HookWidget {
   const ElSlider(
     this.modelValue, {
     super.key,
-    this.trackSize = 4,
-    this.thumbSize = 18,
+    this.sliderSize = 18,
+    this.thumbSize = 4,
   });
 
   final ValueNotifier<double> modelValue;
 
-  /// 轨道尺寸
-  final double trackSize;
+  /// 整体滑块尺寸
+  final double sliderSize;
 
-  /// 滑块尺寸
+  /// 滑块轨道尺寸
   final double thumbSize;
 
   @override
   Widget build(BuildContext context) {
-    final $activeColor = context.elTheme.sliderActiveColor;
-    final $borderRadius = BorderRadius.circular(thumbSize / 2);
     return Stack(
       children: [
         SizedBox(
-          height: thumbSize,
+          height: sliderSize,
           child: Center(
             child: Container(
-              height: trackSize,
+              height: thumbSize,
               color: context.elTheme.sliderInactiveColor,
             ),
           ),
@@ -48,11 +48,11 @@ class ElSlider extends HookWidget {
                 modelValue.value = max(modelValue.value, 0);
               },
               child: Container(
-                width: thumbSize,
-                height: thumbSize,
+                width: sliderSize,
+                height: sliderSize,
                 decoration: BoxDecoration(
-                  color: $activeColor,
-                  borderRadius: $borderRadius,
+                  color: context.elTheme.sliderActiveColor,
+                  borderRadius: BorderRadius.circular(sliderSize / 2),
                 ),
               ),
             ),
@@ -63,100 +63,118 @@ class ElSlider extends HookWidget {
   }
 }
 
-class ElSlider2 extends StatelessWidget {
+class ElSlider2 extends LeafRenderObjectWidget {
   const ElSlider2({
     super.key,
     required this.value,
     required this.onChanged,
-    this.trackSize = 4,
-    this.thumbSize = 18,
+    this.sliderSize = 18,
+    this.thumbSize = 4,
   });
 
   final double value;
 
-  /// 轨道尺寸
-  final double trackSize;
+  /// 整体滑块尺寸
+  final double sliderSize;
 
-  /// 滑块尺寸
+  /// 滑块轨道尺寸
   final double thumbSize;
 
-  final ValueChanged<double> onChanged;
+  final ValueChanged<double>? onChanged;
 
   @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: GestureDetector(
-        onHorizontalDragUpdate: (e) {
-          i(e.delta.dx, 'xxx');
-          onChanged(value + e.delta.dx);
-        },
-        child: CustomPaint(
-          size: Size(double.infinity, thumbSize),
-          painter: _ThumbPainter(trackSize),
-          foregroundPainter: _SliderPainter(value),
-          // child: Container(
-          //   height: 8,
-          //   color: Colors.red,
-          // ),
-        ),
-      ),
+  RenderObject createRenderObject(BuildContext context) {
+    return _SliderRender(
+      value: value,
+      sliderSize: sliderSize,
+      thumbSize: thumbSize,
+      onChanged: onChanged,
     );
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _SliderRender renderObject) {
+    if (value != renderObject.value) {
+      renderObject
+        ..value = value
+        ..sliderSize = sliderSize;
+    }
   }
 }
 
-class _ThumbPainter extends CustomPainter {
-  final double trackSize;
+class _SliderRender extends RenderBox {
+  _SliderRender({
+    required this.value,
+    required this.sliderSize,
+    required this.thumbSize,
+    this.onChanged,
+  });
 
-  _ThumbPainter(this.trackSize);
+  double value;
+  double sliderSize;
+  double thumbSize;
+  ValueChanged<double>? onChanged;
+
+  late final HorizontalDragGestureRecognizer _drag =
+      HorizontalDragGestureRecognizer()
+        ..onUpdate = (e) {
+          if (onChanged != null) {
+            onChanged!(value + e.delta.dx);
+            markNeedsPaint();
+          }
+        };
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void performLayout() {
+    size = Size(constraints.maxWidth, sliderSize);
+  }
+
+  @override
+  bool hitTestSelf(Offset position) {
+    return true;
+  }
+
+  @override
+  void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
+    // assert(debugHandleEvent(event, entry));
+    if (event is PointerDownEvent) {
+      _drag.addPointer(event);
+      // i(event);
+    }
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    final rect = offset & size;
+    paintThumb(context, rect);
+    paintSlider(context, rect);
+  }
+
+  /// 绘制滑块轨道
+  void paintThumb(PaintingContext context, Rect rect) {
     var paint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.grey.shade300;
-    canvas.drawRect(
+    context.canvas.drawRect(
       Rect.fromLTWH(
         0,
-        (size.height / 2 - trackSize / 2),
+        (size.height / 2 - thumbSize / 2),
         size.width,
-        trackSize,
+        thumbSize,
       ),
       paint,
     );
   }
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-
-  @override
-  bool? hitTest(Offset position) {
-    return false;
-  }
-}
-
-class _SliderPainter extends CustomPainter {
-  final double value;
-
-  _SliderPainter(this.value);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    i(value);
+  /// 绘制滑块拖拽控件
+  void paintSlider(PaintingContext context, Rect rect) {
     var paint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.green;
-    canvas.drawCircle(Offset(value, size.height / 2), size.height / 2, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SliderPainter oldDelegate) {
-    return oldDelegate.value != value;
-  }
-
-  @override
-  bool? hitTest(Offset position) {
-    return true;
+    context.canvas.drawCircle(
+      Offset(value, size.height / 2),
+      size.height / 2,
+      paint,
+    );
   }
 }

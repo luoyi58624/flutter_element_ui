@@ -75,6 +75,9 @@ class ElThemeData {
   /// 滑块未激活颜色
   Color sliderInactiveColor;
 
+  /// 文字提示浮窗背景颜色
+  Color tooltipColor;
+
   /// 卡片海拔高度，设置较低的海拔能让应用更加扁平化，设置较高的海拔则让应用更具层级感
   double cardElevation;
 
@@ -100,6 +103,7 @@ class ElThemeData {
     this.asideBgColor = const Color(0xffffffff),
     this.menuActiveColor = const Color(0xff409eff),
     this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
+    this.tooltipColor = const Color(0xFF616161),
     this.cardElevation = 0,
     this.modalElevation = 2,
   }) {
@@ -127,6 +131,7 @@ class ElThemeData {
     this.asideBgColor = const Color(0xff374151),
     this.menuActiveColor = const Color(0xff6ee7b7),
     this.sliderInactiveColor = const Color.fromRGBO(225, 226, 232, 1.0),
+    this.tooltipColor = const Color(0xFF757575),
     this.cardElevation = 2,
     this.modalElevation = 4,
   }) {
