@@ -38,8 +38,8 @@ class ElAppData {
 }
 
 class ElApp extends StatelessWidget {
-  /// Element UI 顶级小部件，它只负责注入一些全局配置，和 [MaterialApp] 以及其他顶级 App 不同，
-  /// 它没有基于 [WidgetsApp] 进行包装，所以，你必须使用其他顶级 App 去构建完整的应用：
+  /// Element UI 顶级小部件，为了尽可能地减少上手成本，它只负责注入一些全局配置，
+  /// 没有对 [WidgetsApp] 进行包装，所以你可以配合任意顶级 App 去构建应用：
   /// ```dart
   /// ElApp(
   ///   child: MaterialApp(
@@ -85,27 +85,20 @@ class ElApp extends StatelessWidget {
     final $isDark = brightness == Brightness.dark;
     ElThemeData $theme = $isDark ? $data.darkTheme : $data.theme;
     TextStyle $style = $data.config.textStyle.copyWith(color: $theme.textColor);
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Overlay(initialEntries: [
-        OverlayEntry(
-          builder: (context) => ElGlobalCursor(
-            child: ElResponsive(
-              data: $data.responsive,
-              child: ElBrightness(
-                brightness: brightness,
-                child: DefaultTextStyle(
-                  style: $style,
-                  child: _AppInheritedWidget(
-                    data: $data,
-                    child: child,
-                  ),
-                ),
-              ),
+    return ElGlobalCursor(
+      child: ElResponsive(
+        data: $data.responsive,
+        child: ElBrightness(
+          brightness: brightness,
+          child: DefaultTextStyle(
+            style: $style,
+            child: _AppInheritedWidget(
+              data: $data,
+              child: child,
             ),
           ),
         ),
-      ]),
+      ),
     );
   }
 }

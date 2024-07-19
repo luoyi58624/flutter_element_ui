@@ -16,12 +16,15 @@ class ToastPage extends HookWidget {
             },
             child: 'Toast',
           ),
-          ElButton(
-            onPressed: () {
-              $el.showToast('default toast');
-            },
-            type: 'primary',
-            child: 'Primary Toast',
+          ...$el.themeTypes.map(
+            (type) => ElButton(
+              onPressed: () {
+                $el.showToast('$type toast', type: type);
+              },
+              type: type,
+              child:
+                  '${type.substring(0, 1).toUpperCase() + type.substring(1)} Toast',
+            ),
           ),
         ],
       ),

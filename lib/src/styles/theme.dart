@@ -122,7 +122,7 @@ class ElThemeData {
     this.bgColor = const Color(0xff2b2b2b),
     this.headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xff3f3f46),
-    this.modalColor = const Color(0xffffffff),
+    this.modalColor = const Color(0xff3f3f46),
     this.titleColor = const Color(0xfffafafa),
     this.textColor = const Color(0xfff2f2f2),
     this.iconColor = const Color(0xfff6f6f6),

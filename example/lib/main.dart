@@ -46,7 +46,12 @@ class _App extends StatelessWidget {
                 ),
                 child: ScrollConfiguration(
                   behavior: const ElScrollBehavior(),
-                  child: child!,
+                  child: Overlay(initialEntries: [
+                    OverlayEntry(builder: (context) {
+                      $el.overlayContext = context;
+                      return child!;
+                    }),
+                  ]),
                 ),
               ),
             ),

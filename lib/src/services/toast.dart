@@ -1,49 +1,107 @@
 part of '../service.dart';
 
 mixin _ToastService {
-  OverlayEntry? _overlayEntry;
+  OverlayEntry? _toastOverlayEntry;
   Timer? _removeToastTimer;
 
   /// 在页面上显示轻提示，[ElToast] 适用于移动端，[ElMessage] 适合桌面端
+  /// * duration 持续时间，单位毫秒
+  /// * type 主题类型，默认在屏幕中间显示半透明深色提示
+  /// * child 自定义构建 toast 小部件
   void showToast(
     dynamic content, {
     int duration = 3000,
+    String? type,
+    Widget? child,
   }) async {
-    hideToast();
+    removeToast();
     if (_removeToastTimer != null) {
       _removeToastTimer!.cancel();
       _removeToastTimer = null;
     }
     await 0.05.delay();
-    _overlayEntry = OverlayEntry(builder: (context) {
-      return Center(
+    _toastOverlayEntry = OverlayEntry(builder: (context) {
+      return child ??
+          (type == null ? _Toast(content) : _ThemeToast(content, type));
+    });
+    if ($el.overlayContext.mounted) {
+      Overlay.of($el.overlayContext).insert(_toastOverlayEntry!);
+      _removeToastTimer = removeToast.delay(duration);
+    }
+  }
+
+  void removeToast() {
+    if (_toastOverlayEntry != null) {
+      _toastOverlayEntry!.remove();
+      _toastOverlayEntry = null;
+    }
+  }
+}
+
+class _Toast extends StatelessWidget {
+  const _Toast(this.content);
+
+  final dynamic content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        onTap: $el.removeToast,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
             color: context.isDark
-                ? const Color.fromRGBO(82, 82, 82, 0.75)
-                : const Color.fromRGBO(0, 0, 0, 0.75),
+                ? const Color.fromRGBO(82, 82, 82, 0.85)
+                : const Color.fromRGBO(0, 0, 0, 0.65),
             borderRadius: BorderRadius.circular(6),
           ),
           child: ElText(
-            '$content',
+            content,
             style: const TextStyle(
               color: Color(0xFFFFFFFF),
             ),
           ),
         ),
-      );
-    });
-    if ($el.context.mounted) {
-      Overlay.of($el.context, rootOverlay: true).insert(_overlayEntry!);
-      _removeToastTimer = hideToast.delay(duration);
-    }
+      ),
+    );
   }
+}
 
-  void hideToast() {
-    if (_overlayEntry != null) {
-      _overlayEntry!.remove();
-      _overlayEntry = null;
-    }
+class _ThemeToast extends StatelessWidget {
+  const _ThemeToast(this.content, this.type);
+
+  final dynamic content;
+  final String type;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(50),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: GestureDetector(
+          onTap: $el.removeToast,
+          child: UnconstrainedBox(
+            child: Material(
+              elevation: 2,
+              borderRadius: BorderRadius.circular(200.0),
+              clipBehavior: Clip.antiAlias,
+              child: Container(
+                  padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
+                  alignment: Alignment.center,
+                  decoration:
+                      BoxDecoration(color: context.themeTypeColors[type]),
+                  child: ElText(
+                    content,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
