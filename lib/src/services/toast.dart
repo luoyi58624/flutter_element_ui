@@ -10,10 +10,11 @@ mixin _ToastService {
   /// * bottomOffset 当使用 type 时，自定义 toast 的底部偏移值
   /// * builder 自定义构建 toast 小部件
   void showToast(
+    BuildContext context,
     dynamic content, {
     int duration = 3000,
     String? type,
-    double bottomOffset = 80,
+    double bottomOffset = 20,
     Widget Function(dynamic content)? builder,
   }) async {
     removeToast();
@@ -32,7 +33,7 @@ mixin _ToastService {
       }
     });
     if ($el.overlayContext.mounted) {
-      Overlay.of($el.overlayContext).insert(_toastOverlayEntry!);
+      Overlay.of(context).insert(_toastOverlayEntry!);
       _removeToastTimer = removeToast.delay(duration);
     }
   }

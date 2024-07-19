@@ -12,23 +12,25 @@ class ToastPage extends HookWidget {
         children: [
           ElButton(
             onPressed: () {
-              $el.showToast('default toast');
+              $el.showToast(context, 'default toast');
             },
             child: 'Toast',
           ),
           ...$el.themeTypes.map(
             (type) => ElButton(
               onPressed: () {
-                $el.showToast('$type toast', type: type);
+                $el.showToast(context, '$type toast', type: type);
               },
               type: type,
               child:
                   '${type.substring(0, 1).toUpperCase() + type.substring(1)} Toast',
             ),
           ),
+          // 自定义 toast 使用全局 context，它的层级非常高
           ElButton(
             onPressed: () {
               $el.showToast(
+                $el.overlayContext,
                 'Custom Toast',
                 builder: (content) => _CustomToast(content),
               );

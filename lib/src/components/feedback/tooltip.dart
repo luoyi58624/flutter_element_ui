@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:flutter_element_ui/src/mixins/overlay.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 

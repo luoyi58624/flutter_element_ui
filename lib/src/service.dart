@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_obs/flutter_obs.dart';
@@ -27,12 +26,15 @@ class _ElService with _HoverService, _ToastService {
     return navigatorKey.currentContext!;
   }
 
+  // 全局 context 和局部 context 的区别：
+  // 使用全局 context 弹窗会相对于整个 App 界面，它的层级非常高，几乎在所有页面元素之上
+  // 使用局部 context 弹窗会相对于当前路由页面，因为 Navigator 会自动插入 Overlay 组件
   BuildContext? _overlayContext;
 
-  /// 全局遮罩 context 对象，当使用全局弹窗 api 时你必须手动设置它
+  /// 全局遮罩 context 对象
   BuildContext get overlayContext {
     assert(
-        _overlayContext != null, 'overlayContext 为空，请在顶级 App 组件中构建 Overlay 组件');
+        _overlayContext != null, 'overlayContext 为空，请在顶级 App 中构建 Overlay 组件');
     return _overlayContext!;
   }
 
