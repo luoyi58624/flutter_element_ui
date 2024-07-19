@@ -3,17 +3,9 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
-import '../../utils/util.dart';
+import '../utils/util.dart';
 
-/// Element UI 弹窗组件基类
-abstract class ElOverlay extends StatefulWidget {
-  const ElOverlay({super.key});
-
-  @override
-  State<ElOverlay> createState();
-}
-
-abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
+mixin ElOverlayMixin<T extends StatefulWidget, D> on State<T> {
   /// 是否显示弹窗
   final showOverlay = Obs(false);
 
@@ -46,14 +38,11 @@ abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
         });
         return Offstage(
           offstage: !showOverlay.value,
-          child: UnconstrainedBox(
-            child: CompositedTransformFollower(
-              link: layerLink,
-              targetAnchor: isUp ? Alignment.topCenter : Alignment.bottomCenter,
-              followerAnchor:
-                  isUp ? Alignment.bottomCenter : Alignment.topCenter,
-              child: buildContent(context),
-            ),
+          child: CompositedTransformFollower(
+            link: layerLink,
+            targetAnchor: isUp ? Alignment.topCenter : Alignment.bottomCenter,
+            followerAnchor: isUp ? Alignment.bottomCenter : Alignment.topCenter,
+            child: buildContent(context),
           ),
         );
       });
@@ -69,16 +58,5 @@ abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
     contentSize = contentBox.size;
   }
 
-  Widget buildChild(BuildContext context);
-
   Widget buildContent(BuildContext context);
-
-  @override
-  Widget build(BuildContext context) {
-    buildCount.value++;
-    return CompositedTransformTarget(
-      link: layerLink,
-      child: buildChild(context),
-    );
-  }
 }

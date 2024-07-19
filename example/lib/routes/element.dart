@@ -11,6 +11,7 @@ import '../pages/element/pages/basic/font.dart';
 import '../pages/element/pages/data/badge.dart';
 import '../pages/element/pages/data/image.dart';
 import '../pages/element/pages/feedback/dialog.dart';
+import '../pages/element/pages/feedback/drawer.dart';
 import '../pages/element/pages/feedback/tooltip.dart';
 import '../pages/element/pages/form/input.dart';
 import '../pages/element/pages/form/radio.dart';
@@ -159,6 +160,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.feedBack}/dialog',
             builder: (context, state) => const DialogPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.feedBack}/drawer',
+            builder: (context, state) => const DrawerPage(),
           ),
         ],
       ),

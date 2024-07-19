@@ -17,6 +17,7 @@ export 'src/components/data/image.dart';
 export 'src/components/data/tag.dart';
 export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
+export 'src/components/feedback/drawer.dart';
 export 'src/components/feedback/loading/loading.dart';
 export 'src/components/feedback/message.dart';
 export 'src/components/feedback/tooltip.dart';

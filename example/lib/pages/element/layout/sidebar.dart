@@ -119,6 +119,10 @@ List<ElMenuModel> menuList = const [
         key: '${ElementRoutes.feedBack}/dialog',
       ),
       ElMenuModel(
+        title: 'Drawer 抽屉',
+        key: '${ElementRoutes.feedBack}/drawer',
+      ),
+      ElMenuModel(
         title: 'Tooltip 文字提示',
         key: '${ElementRoutes.feedBack}/tooltip',
       ),

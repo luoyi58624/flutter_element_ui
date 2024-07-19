@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
+import 'package:flutter_element_ui/src/mixins/overlay.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
@@ -27,33 +28,34 @@ class ElTooltip extends StatefulWidget {
 }
 
 class _ElTooltipState extends State<ElTooltip> {
-  final _showOverlay = Obs(false);
+  final showOverlay = Obs(false);
 
   /// 监听 build 函数的更新，同步构建 Overlay 组件
-  final _buildCount = Obs(0);
-  final LayerLink _layerLink = LayerLink();
-  final GlobalKey _contentKey = GlobalKey();
-  late final OverlayEntry _overlayEntry;
-  Timer? _delayHideOverlay;
-  Size? _contentSize;
+  final buildCount = Obs(0);
+  final LayerLink layerLink = LayerLink();
+  final GlobalKey contentKey = GlobalKey();
+  late final OverlayEntry overlayEntry;
+  Timer? delayHideOverlay;
+  Size? contentSize;
+
+  Color get bgColor => widget.bgColor ?? context.elTheme.tooltipColor;
 
   /// 将 Overlay 组件永久插入小部件树中，这样做可以保留内部状态
   late final Widget _overlayWidget = ObsBuilder(
-      watch: [_buildCount],
+      watch: [buildCount],
       builder: (_) {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        final bgColor = widget.bgColor ?? context.elTheme.tooltipColor;
         ElUtil.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });
         return Offstage(
-          offstage: !_showOverlay.value,
+          offstage: !showOverlay.value,
           child: UnconstrainedBox(
             child: CompositedTransformFollower(
-              link: _layerLink,
+              link: layerLink,
               targetAnchor: isUp ? Alignment.topCenter : Alignment.bottomCenter,
               followerAnchor:
                   isUp ? Alignment.bottomCenter : Alignment.topCenter,
@@ -63,13 +65,13 @@ class _ElTooltipState extends State<ElTooltip> {
                     ElTriangle(direction: AxisDirection.up, color: bgColor),
                   MouseRegion(
                     onEnter: (e) {
-                      if (_delayHideOverlay != null) {
-                        _delayHideOverlay!.cancel();
-                        _delayHideOverlay = null;
+                      if (delayHideOverlay != null) {
+                        delayHideOverlay!.cancel();
+                        delayHideOverlay = null;
                       }
                     },
                     onExit: (e) {
-                      _delayHideOverlay = _hideOverlay.delay(100);
+                      delayHideOverlay = _hideOverlay.delay(100);
                     },
                     child: _buildContentWidget(bgColor),
                   ),
@@ -86,28 +88,28 @@ class _ElTooltipState extends State<ElTooltip> {
   void initState() {
     super.initState();
     ElUtil.nextTick(() async {
-      _overlayEntry = OverlayEntry(builder: (_) {
+      overlayEntry = OverlayEntry(builder: (_) {
         return _overlayWidget;
       });
-      Overlay.of(context, rootOverlay: true).insert(_overlayEntry);
+      Overlay.of(context, rootOverlay: true).insert(overlayEntry);
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _overlayEntry.remove();
+    overlayEntry.remove();
   }
 
   void _hideOverlay() {
-    _showOverlay.value = false;
-    _delayHideOverlay = null;
+    showOverlay.value = false;
+    delayHideOverlay = null;
   }
 
   void _setContentSize() {
     final RenderBox contentBox =
-        _contentKey.currentContext!.findRenderObject()! as RenderBox;
-    _contentSize = contentBox.size;
+        contentKey.currentContext!.findRenderObject()! as RenderBox;
+    contentSize = contentBox.size;
   }
 
   Widget _buildContentWidget(Color bgColor) {
@@ -129,7 +131,7 @@ class _ElTooltipState extends State<ElTooltip> {
       }
     }
     result = Container(
-      key: _contentKey,
+      key: contentKey,
       padding: isTextWidget ? const EdgeInsets.fromLTRB(12, 6, 12, 8) : null,
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -153,23 +155,23 @@ class _ElTooltipState extends State<ElTooltip> {
   @override
   Widget build(BuildContext context) {
     ElUtil.nextTick(() {
-      _buildCount.value++;
+      buildCount.value++;
     });
     return ElHover(
       onlyCursor: true,
       onEnter: (e) {
-        if (_delayHideOverlay == null) {
-          _showOverlay.value = true;
+        if (delayHideOverlay == null) {
+          showOverlay.value = true;
         } else {
-          _delayHideOverlay!.cancel();
-          _delayHideOverlay = null;
+          delayHideOverlay!.cancel();
+          delayHideOverlay = null;
         }
       },
       onExit: (e) {
-        _delayHideOverlay = _hideOverlay.delay(100);
+        delayHideOverlay = _hideOverlay.delay(100);
       },
       builder: (isHover) => CompositedTransformTarget(
-        link: _layerLink,
+        link: layerLink,
         child: widget.child,
       ),
     );
