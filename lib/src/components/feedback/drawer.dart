@@ -4,6 +4,7 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 const int _duration = 225;
 
+/// Element UI 抽屉组件，当显示、关闭时可以保留内部的状态
 class ElDrawer extends StatefulWidget {
   const ElDrawer(
     this.modelValue, {

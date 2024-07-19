@@ -6,12 +6,14 @@ mixin _ToastService {
 
   /// 在页面上显示轻提示，[ElToast] 适用于移动端，[ElMessage] 适合桌面端
   /// * duration 持续时间，单位毫秒
-  /// * type 主题类型，默认在屏幕中间显示半透明深色提示
+  /// * type 主题类型，默认在屏幕中间显示半透明深色提示，而主题类型 toast 则显示在底部
+  /// * bottomOffset 当使用 type 时，自定义 toast 的底部偏移值
   /// * child 自定义构建 toast 小部件
   void showToast(
     dynamic content, {
     int duration = 3000,
     String? type,
+    double bottomOffset = 80,
     Widget? child,
   }) async {
     removeToast();
@@ -22,7 +24,9 @@ mixin _ToastService {
     await 0.05.delay();
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       return child ??
-          (type == null ? _Toast(content) : _ThemeToast(content, type));
+          (type == null
+              ? _Toast(content)
+              : _ThemeToast(content, type, bottomOffset));
     });
     if ($el.overlayContext.mounted) {
       Overlay.of($el.overlayContext).insert(_toastOverlayEntry!);
@@ -56,8 +60,8 @@ class _Toast extends StatelessWidget {
                 : const Color.fromRGBO(0, 0, 0, 0.65),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: ElText(
-            content,
+          child: Text(
+            '$content',
             style: const TextStyle(
               color: Color(0xFFFFFFFF),
             ),
@@ -69,22 +73,29 @@ class _Toast extends StatelessWidget {
 }
 
 class _ThemeToast extends StatelessWidget {
-  const _ThemeToast(this.content, this.type);
+  const _ThemeToast(this.content, this.type, this.bottomOffset);
 
   final dynamic content;
   final String type;
+  final double bottomOffset;
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
-      padding: const EdgeInsets.all(50),
+      padding: EdgeInsets.symmetric(
+        horizontal: 50,
+        vertical: bottomPadding >= bottomOffset
+            ? bottomPadding + bottomOffset / 2
+            : bottomOffset,
+      ),
       child: Align(
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           onTap: $el.removeToast,
           child: UnconstrainedBox(
             child: Material(
-              elevation: 2,
+              elevation: 1,
               borderRadius: BorderRadius.circular(200.0),
               clipBehavior: Clip.antiAlias,
               child: Container(
@@ -92,8 +103,8 @@ class _ThemeToast extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration:
                       BoxDecoration(color: context.themeTypeColors[type]),
-                  child: ElText(
-                    content,
+                  child: Text(
+                    '$content',
                     style: const TextStyle(
                       color: Colors.white,
                     ),
