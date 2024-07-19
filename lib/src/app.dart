@@ -92,9 +92,12 @@ class ElApp extends StatelessWidget {
           brightness: brightness,
           child: DefaultTextStyle(
             style: $style,
-            child: _AppInheritedWidget(
-              data: $data,
-              child: child,
+            child: ElTypographyInheritedWidget(
+              data: ElTypographyData.data.merge($style),
+              child: _AppInheritedWidget(
+                data: $data,
+                child: child,
+              ),
             ),
           ),
         ),

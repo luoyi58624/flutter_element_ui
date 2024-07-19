@@ -123,7 +123,11 @@ List<ElMenuModel> menuList = const [
         key: '${ElementRoutes.feedBack}/drawer',
       ),
       ElMenuModel(
-        title: 'toast 轻提示',
+        title: 'Message 消息提示',
+        key: '${ElementRoutes.feedBack}/message',
+      ),
+      ElMenuModel(
+        title: 'Toast 轻提示',
         key: '${ElementRoutes.feedBack}/toast',
       ),
       ElMenuModel(
