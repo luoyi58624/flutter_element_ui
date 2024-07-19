@@ -85,20 +85,27 @@ class ElApp extends StatelessWidget {
     final $isDark = brightness == Brightness.dark;
     ElThemeData $theme = $isDark ? $data.darkTheme : $data.theme;
     TextStyle $style = $data.config.textStyle.copyWith(color: $theme.textColor);
-    return ElGlobalCursor(
-      child: ElResponsive(
-        data: $data.responsive,
-        child: ElBrightness(
-          brightness: brightness,
-          child: DefaultTextStyle(
-            style: $style,
-            child: _AppInheritedWidget(
-              data: $data,
-              child: child,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Overlay(initialEntries: [
+        OverlayEntry(
+          builder: (context) => ElGlobalCursor(
+            child: ElResponsive(
+              data: $data.responsive,
+              child: ElBrightness(
+                brightness: brightness,
+                child: DefaultTextStyle(
+                  style: $style,
+                  child: _AppInheritedWidget(
+                    data: $data,
+                    child: child,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
-      ),
+      ]),
     );
   }
 }

@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_obs/flutter_obs.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 part 'services/hover.dart';
+
+part 'services/toast.dart';
 
 /// Element UI 全局服务对象
 final $el = _ElService();
 
-class _ElService with _HoverService {
+class _ElService with _HoverService, _ToastService {
   /// 根节点导航key
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
