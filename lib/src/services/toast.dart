@@ -8,13 +8,13 @@ mixin _ToastService {
   /// * duration 持续时间，单位毫秒
   /// * type 主题类型，默认在屏幕中间显示半透明深色提示，而主题类型 toast 则显示在底部
   /// * bottomOffset 当使用 type 时，自定义 toast 的底部偏移值
-  /// * child 自定义构建 toast 小部件
+  /// * builder 自定义构建 toast 小部件
   void showToast(
     dynamic content, {
     int duration = 3000,
     String? type,
     double bottomOffset = 80,
-    Widget? child,
+    Widget Function(dynamic content)? builder,
   }) async {
     removeToast();
     if (_removeToastTimer != null) {
@@ -23,10 +23,13 @@ mixin _ToastService {
     }
     await 0.05.delay();
     _toastOverlayEntry = OverlayEntry(builder: (context) {
-      return child ??
-          (type == null
-              ? _Toast(content)
-              : _ThemeToast(content, type, bottomOffset));
+      if (builder == null) {
+        return type == null
+            ? _Toast(content)
+            : _ThemeToast(content, type, bottomOffset);
+      } else {
+        return builder(content);
+      }
     });
     if ($el.overlayContext.mounted) {
       Overlay.of($el.overlayContext).insert(_toastOverlayEntry!);

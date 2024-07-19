@@ -26,8 +26,52 @@ class ToastPage extends HookWidget {
                   '${type.substring(0, 1).toUpperCase() + type.substring(1)} Toast',
             ),
           ),
+          ElButton(
+            onPressed: () {
+              $el.showToast(
+                'Custom Toast',
+                builder: (content) => _CustomToast(content),
+              );
+            },
+            child: 'Custom Toast',
+          ),
           const ElInput(),
         ],
+      ),
+    );
+  }
+}
+
+/// 自定义 Toast 样式
+class _CustomToast extends StatelessWidget {
+  const _CustomToast(this.content);
+
+  final dynamic content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          $el.removeToast();
+        },
+        child: Container(
+          width: 200,
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            gradient: const LinearGradient(colors: [
+              Colors.blue,
+              Colors.purple,
+            ]),
+          ),
+          child: Center(
+            child: Text(
+              '$content',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
       ),
     );
   }
