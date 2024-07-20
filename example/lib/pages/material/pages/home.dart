@@ -21,30 +21,32 @@ class HomePage extends StatelessWidget {
         child: ListViewDemoWidget(),
       ),
       body: SingleChildScrollView(
-        child: ColumnWidget(children: [
-          const CardWidget( title: '通用组件', children: [
-            CellWidget(
-              title: 'Hook 测试',
-              page: HookDemoPage(),
-            ),
-            CellWidget(
-              title: '1000个Slider 测试',
-              page: SliderTestPage(),
+        child: RepaintBoundary(
+          child: ColumnWidget(children: [
+            const CardWidget( title: '通用组件', children: [
+              CellWidget(
+                title: 'Hook 测试',
+                page: HookDemoPage(),
+              ),
+              CellWidget(
+                title: '1000个Slider 测试',
+                page: SliderTestPage(),
+              ),
+            ]),
+            const Gap(8),
+            const ButtonWidgets(),
+            const FormWidgets(),
+            const TabWidget(),
+            // const CupertinoWidgets(),
+            ...List.generate(
+              20,
+              (index) => CellWidget(
+                onTap: () {},
+                title: '列表 - ${index + 1}',
+              ),
             ),
           ]),
-          const Gap(8),
-          const ButtonWidgets(),
-          const FormWidgets(),
-          const TabWidget(),
-          // const CupertinoWidgets(),
-          ...List.generate(
-            20,
-            (index) => CellWidget(
-              onTap: () {},
-              title: '列表 - ${index + 1}',
-            ),
-          ),
-        ]),
+        ),
       ),
     );
   }

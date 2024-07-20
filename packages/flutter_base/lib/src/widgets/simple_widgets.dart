@@ -55,35 +55,33 @@ class CellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: ListTile(
-        onTap: onChanged != null && value != null
-            ? () {
-                onChanged!(!value!);
-              }
-            : (onTap == null && page == null
-                ? null
-                : () {
-                    if (onTap != null) {
-                      onTap!();
-                    } else {
-                      context.push(page!);
-                    }
-                  }),
-        dense: dense,
-        leading: leading,
-        trailing: value == null
-            ? trailing
-            : Switch.adaptive(
-                value: value!,
-                onChanged: onChanged,
-              ),
-        tileColor: tileColor,
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: Theme.of(context).listTileTheme.titleTextStyle?.fontSize,
-          ),
+    return ListTile(
+      onTap: onChanged != null && value != null
+          ? () {
+              onChanged!(!value!);
+            }
+          : (onTap == null && page == null
+              ? null
+              : () {
+                  if (onTap != null) {
+                    onTap!();
+                  } else {
+                    context.push(page!);
+                  }
+                }),
+      dense: dense,
+      leading: leading,
+      trailing: value == null
+          ? trailing
+          : Switch.adaptive(
+              value: value!,
+              onChanged: onChanged,
+            ),
+      tileColor: tileColor,
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: Theme.of(context).listTileTheme.titleTextStyle?.fontSize,
         ),
       ),
     );
