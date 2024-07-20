@@ -20,13 +20,11 @@ class HomePage extends StatelessWidget {
       drawer: const Drawer(
         child: ListViewDemoWidget(),
       ),
-      body: ObsBuilder(
-        builder: (context) {
-          return ColumnWidget(
-            scroll: true,
-            repaintBoundary: GlobalState.scrollRepaintBoundary.value,
-            children: [
-              const CardWidget(title: '通用组件', children: [
+      body: ObsBuilder(builder: (context) {
+        return CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: CardWidget(title: '通用组件', children: [
                 CellWidget(
                   title: 'Hook 测试',
                   page: HookDemoPage(),
@@ -36,22 +34,21 @@ class HomePage extends StatelessWidget {
                   page: SliderTestPage(),
                 ),
               ]),
-              const Gap(8),
-              const ButtonWidgets(),
-              const FormWidgets(),
-              const TabWidget(),
-              // const CupertinoWidgets(),
-              ...List.generate(
-                20,
-                (index) => CellWidget(
-                  onTap: () {},
-                  title: '列表 - ${index + 1}',
-                ),
+            ),
+            const SliverToBoxAdapter(child: Gap(8)),
+            const SliverToBoxAdapter(child: ButtonWidgets()),
+            const SliverToBoxAdapter(child: FormWidgets()),
+            const SliverToBoxAdapter(child: TabWidget()),
+            // const CupertinoWidgets(),
+            SliverList.builder(
+              itemCount: 20,
+              itemBuilder: (context, index) => ListTile(
+                title: Text('列表 - ${index + 1}'),
               ),
-            ],
-          );
-        }
-      ),
+            )
+          ],
+        );
+      }),
     );
   }
 }

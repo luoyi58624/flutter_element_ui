@@ -25,5 +25,5 @@ class GlobalState {
   static final showPerformanceOverlay = Obs(false);
 
   /// 滚动组件下方是否插入[RepaintBoundary]
-  static final scrollRepaintBoundary = Obs(false);
+  static final scrollRepaintBoundary = Obs(true);
 }
