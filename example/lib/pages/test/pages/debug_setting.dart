@@ -40,6 +40,15 @@ class DebugSettingPage extends StatelessWidget {
               },
             );
           }),
+          ObsBuilder(builder: (context) {
+            return CellWidget(
+              title: '滚动设置 RepaintBoundary',
+              value: GlobalState.scrollRepaintBoundary.value,
+              onChanged: (v) {
+                GlobalState.scrollRepaintBoundary.value = v;
+              },
+            );
+          }),
         ],
       ),
     );

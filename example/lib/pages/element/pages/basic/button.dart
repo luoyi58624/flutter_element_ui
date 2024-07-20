@@ -6,7 +6,6 @@ class ButtonPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useScrollController();
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
     final buttonTypes = [null, ...$el.themeTypes];
@@ -22,13 +21,12 @@ class ButtonPage extends HookWidget {
     Widget buildWrap(Iterable<Widget> children) =>
         Wrap(spacing: 8, runSpacing: 8, children: children.toList());
 
-    return SingleChildScrollView(
-      controller: controller,
-      // physics: const NeverScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return ObsBuilder(
+      builder: (context) {
+        return ColumnWidget(
+          scroll: true,
+          repaintBoundary: GlobalState.scrollRepaintBoundary.value,
+          padding: const EdgeInsets.all(8.0),
           children: [
             const Gap(8),
             Wrap(
@@ -312,8 +310,8 @@ class ButtonPage extends HookWidget {
                   .toList(),
             ),
           ],
-        ),
-      ),
+        );
+      }
     );
   }
 }

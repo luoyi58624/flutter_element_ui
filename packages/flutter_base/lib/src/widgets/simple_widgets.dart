@@ -178,11 +178,18 @@ class ColumnWidget extends StatelessWidget {
     required this.children,
     this.center = true,
     this.scroll = false,
+    this.repaintBoundary = true,
+    this.padding,
   });
 
   final List<Widget> children;
   final bool center;
   final bool scroll;
+
+  /// 添加滚动绘制边界，滚动过程中会导致内部所有元素引起重绘，开启此属性可以提升滚动性能
+  final bool repaintBoundary;
+
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
@@ -190,10 +197,17 @@ class ColumnWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: children,
     );
-    if (scroll) {
-      result = SingleChildScrollView(
+    if (padding != null) {
+      result = Padding(
+        padding: padding!,
         child: result,
       );
+    }
+    if (scroll) {
+      if (repaintBoundary) {
+        result = RepaintBoundary(child: result);
+      }
+      result = SingleChildScrollView(child: result);
     } else if (center) {
       result = Center(
         child: result,

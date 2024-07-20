@@ -20,33 +20,37 @@ class HomePage extends StatelessWidget {
       drawer: const Drawer(
         child: ListViewDemoWidget(),
       ),
-      body: SingleChildScrollView(
-        child: RepaintBoundary(
-          child: ColumnWidget(children: [
-            const CardWidget( title: '通用组件', children: [
-              CellWidget(
-                title: 'Hook 测试',
-                page: HookDemoPage(),
+      body: ObsBuilder(
+        builder: (context) {
+          return ColumnWidget(
+            scroll: true,
+            repaintBoundary: GlobalState.scrollRepaintBoundary.value,
+            children: [
+              const CardWidget(title: '通用组件', children: [
+                CellWidget(
+                  title: 'Hook 测试',
+                  page: HookDemoPage(),
+                ),
+                CellWidget(
+                  title: '1000个Slider 测试',
+                  page: SliderTestPage(),
+                ),
+              ]),
+              const Gap(8),
+              const ButtonWidgets(),
+              const FormWidgets(),
+              const TabWidget(),
+              // const CupertinoWidgets(),
+              ...List.generate(
+                20,
+                (index) => CellWidget(
+                  onTap: () {},
+                  title: '列表 - ${index + 1}',
+                ),
               ),
-              CellWidget(
-                title: '1000个Slider 测试',
-                page: SliderTestPage(),
-              ),
-            ]),
-            const Gap(8),
-            const ButtonWidgets(),
-            const FormWidgets(),
-            const TabWidget(),
-            // const CupertinoWidgets(),
-            ...List.generate(
-              20,
-              (index) => CellWidget(
-                onTap: () {},
-                title: '列表 - ${index + 1}',
-              ),
-            ),
-          ]),
-        ),
+            ],
+          );
+        }
       ),
     );
   }
