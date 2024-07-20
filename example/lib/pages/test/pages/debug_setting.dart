@@ -1,4 +1,5 @@
 import 'package:example/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DebugSettingPage extends StatelessWidget {
@@ -13,15 +14,16 @@ class DebugSettingPage extends StatelessWidget {
       body: ColumnWidget(
         scroll: true,
         children: [
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '开启边界重绘',
-              value: GlobalState.enabledRepaintRainbow.value,
-              onChanged: (v) {
-                GlobalState.enabledRepaintRainbow.value = v;
-              },
-            );
-          }),
+          if (isRelease == false)
+            ObsBuilder(builder: (context) {
+              return CellWidget(
+                title: '开启边界重绘',
+                value: GlobalState.enabledRepaintRainbow.value,
+                onChanged: (v) {
+                  GlobalState.enabledRepaintRainbow.value = v;
+                },
+              );
+            }),
           ObsBuilder(builder: (context) {
             return CellWidget(
               title: '开启重采用',
@@ -31,15 +33,16 @@ class DebugSettingPage extends StatelessWidget {
               },
             );
           }),
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '开启性能视图',
-              value: GlobalState.showPerformanceOverlay.value,
-              onChanged: (v) {
-                GlobalState.showPerformanceOverlay.value = v;
-              },
-            );
-          }),
+          if (kIsWeb == false)
+            ObsBuilder(builder: (context) {
+              return CellWidget(
+                title: '开启性能视图',
+                value: GlobalState.showPerformanceOverlay.value,
+                onChanged: (v) {
+                  GlobalState.showPerformanceOverlay.value = v;
+                },
+              );
+            }),
           ObsBuilder(builder: (context) {
             return CellWidget(
               title: '滚动设置 RepaintBoundary',
