@@ -1,6 +1,7 @@
 import 'package:example/global.dart';
 import 'package:example/pages/material/pages/slider_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base/flutter_base.dart';
 
 import '../widgets/button.dart';
 import '../widgets/form.dart';
@@ -40,9 +41,10 @@ class HomePage extends StatelessWidget {
             const SliverToBoxAdapter(child: FormWidgets()),
             const SliverToBoxAdapter(child: TabWidget()),
             // const CupertinoWidgets(),
-            SliverList.builder(
-              itemCount: 20,
+            SuperSliverList.builder(
+              itemCount: 10000,
               itemBuilder: (context, index) => ListTile(
+                onTap: (){},
                 title: Text('列表 - ${index + 1}'),
               ),
             )

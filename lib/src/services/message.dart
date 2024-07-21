@@ -1,5 +1,6 @@
 part of '../service.dart';
 
+const double _messageHeight = 36;
 mixin _MessageService {
   /// 消息列表
   final Map<String, OverlayEntry> _messageMap = {};
@@ -14,8 +15,14 @@ mixin _MessageService {
     String? type,
   }) {
     final id = uuidStr;
+    final length = _messageMap.length;
     final overlayEntry = OverlayEntry(
-      builder: (context) => _Message(id, _messageMap.length, content, duration),
+      builder: (context) => _Message(
+        id,
+        length * 50 + 20,
+        content,
+        duration,
+      ),
     );
     _messageMap[id] = overlayEntry;
     Overlay.of(context).insert(overlayEntry);
@@ -31,10 +38,10 @@ mixin _MessageService {
 }
 
 class _Message extends StatefulWidget {
-  const _Message(this.id, this.index, this.content, this.duration);
+  const _Message(this.id, this.top, this.content, this.duration);
 
   final String id;
-  final int index;
+  final double top;
   final dynamic content;
   final int duration;
 
@@ -62,16 +69,18 @@ class _MessageState extends State<_Message>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: widget.index * 50 + 20,
+      top: widget.top,
       child: GestureDetector(
         onTap: $el.removeToast,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: context.isDark
                 ? const Color.fromRGBO(82, 82, 82, 0.85)
-                : const Color.fromRGBO(0, 0, 0, 0.65),
-            borderRadius: BorderRadius.circular(6),
+                : const Color.fromRGBO(0, 0, 0, 0.25),
+            borderRadius: context.elConfig.radius,
           ),
           child: Text(
             '${widget.content}',

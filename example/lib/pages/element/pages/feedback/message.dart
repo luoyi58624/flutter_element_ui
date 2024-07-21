@@ -6,13 +6,15 @@ class MessagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int count = 0;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           ElButton(
             onPressed: () {
-              $el.showMessage(context, 'default message');
+              $el.showMessage(context, '消息 - $count');
+              count++;
             },
             child: 'default message',
           ),
