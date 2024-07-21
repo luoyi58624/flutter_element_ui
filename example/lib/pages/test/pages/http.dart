@@ -69,8 +69,9 @@ class _HttpPageState extends State<HttpPage> {
                 var resData = await myHttp.get(
                   '/todos/1',
                   getRequestExtra: GetRequestExtra(
-                    errorMessageFun: ToastUtil.primary,
-                  ),
+                      errorMessageFun: (errorMsg) => $el.showToast(
+                          $el.overlayContext, errorMsg,
+                          type: 'error')),
                 );
                 setState(() {
                   text = resData.toString();

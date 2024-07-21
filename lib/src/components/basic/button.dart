@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import 'package:flutter_element_ui/src/extensions/int.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_element_ui/src/extensions/color.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 
 part 'menu_modal.dart';

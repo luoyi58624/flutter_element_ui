@@ -10,6 +10,8 @@ export 'package:gap/gap.dart';
 export 'package:localstorage/localstorage.dart';
 export 'package:flutter_obs/flutter_obs.dart';
 export 'package:super_sliver_list/super_sliver_list.dart';
+export 'package:flutter_animate/flutter_animate.dart';
+export 'package:tinycolor2/tinycolor2.dart' hide TinyColorExtension;
 
 export 'package:faker/faker.dart';
 export 'package:url_launcher/url_launcher.dart';
@@ -22,7 +24,6 @@ export 'src/pages/child_page.dart';
 export 'src/utils/font/font.dart';
 export 'src/utils/animation.dart';
 export 'src/utils/device.dart';
-export 'src/utils/toast.dart';
 export 'src/utils/use_local_obs.dart';
 
 export 'src/widgets/simple_widgets.dart';

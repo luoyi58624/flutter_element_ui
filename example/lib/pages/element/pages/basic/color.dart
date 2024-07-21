@@ -55,47 +55,47 @@ class _ColorPageState extends State<ColorPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Column(
-              children: colors1
-                  .map(
-                    (e) => SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: e
-                            .map(
-                              (e) => Container(
-                                width: 50,
-                                height: 50,
-                                color: e,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 8),
-            Column(
-              children: colors2
-                  .map(
-                    (e) => SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: e
-                            .map(
-                              (e) => Container(
-                                width: 50,
-                                height: 50,
-                                color: e,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
+            // Column(
+            //   children: colors1
+            //       .map(
+            //         (e) => SingleChildScrollView(
+            //           scrollDirection: Axis.horizontal,
+            //           child: Row(
+            //             children: e
+            //                 .map(
+            //                   (e) => Container(
+            //                     width: 50,
+            //                     height: 50,
+            //                     color: e,
+            //                   ),
+            //                 )
+            //                 .toList(),
+            //           ),
+            //         ),
+            //       )
+            //       .toList(),
+            // ),
+            // const SizedBox(height: 8),
+            // Column(
+            //   children: colors2
+            //       .map(
+            //         (e) => SingleChildScrollView(
+            //           scrollDirection: Axis.horizontal,
+            //           child: Row(
+            //             children: e
+            //                 .map(
+            //                   (e) => Container(
+            //                     width: 50,
+            //                     height: 50,
+            //                     color: e,
+            //                   ),
+            //                 )
+            //                 .toList(),
+            //           ),
+            //         ),
+            //       )
+            //       .toList(),
+            // ),
             const Gap(8),
             buildLightElementColor(),
             const Gap(8),
@@ -110,8 +110,8 @@ class _ColorPageState extends State<ColorPage> {
     List<List<Color>> colors = [];
     context.elThemeTypeColors.forEach((key, value) {
       List<Color> themeColors = [value];
-      for (int i = 1; i <= 9; i++) {
-        themeColors.add(value.brighten(8 * i));
+      for (int i = 9; i >= 1; i--) {
+        themeColors.add(TinyColor.fromColor(Colors.white).mix(value, i * 10).toColor());
       }
       colors.add(themeColors);
     });
@@ -124,9 +124,11 @@ class _ColorPageState extends State<ColorPage> {
                 children: e
                     .map(
                       (e) => Container(
-                        width: 50,
-                        height: 50,
+                        width: 80,
+                        height: 80,
                         color: e,
+                        alignment: Alignment.center,
+                        child: Text(e.toHex()),
                       ),
                     )
                     .toList(),

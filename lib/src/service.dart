@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_obs/flutter_obs.dart';

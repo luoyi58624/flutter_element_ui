@@ -1,6 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:tinycolor2/tinycolor2.dart';
 
 import '../app.dart';
 import '../styles/theme.dart';
@@ -31,8 +31,11 @@ const int _darkenRatio = 8;
 /// 模拟 Element UI 九种渐变明亮度颜色，如果是亮色模式，则颜色将逐渐变亮，如果是暗色模式，则颜色将逐渐变暗
 extension ColorExtension on Color {
   Color _light(BuildContext context, int level, bool reverse) {
-    final darkenColor = darken(level * _darkenRatio);
-    final brightenColor = brighten(level * _brightenRatio);
+    final darkenColor =
+        TinyColor.fromColor(this).shade(level * _darkenRatio).color;
+
+    final brightenColor =
+        TinyColor.fromColor(this).tint(level * _brightenRatio).color;
     if (!reverse) {
       return context.isDark ? darkenColor : brightenColor;
     } else {
@@ -69,11 +72,11 @@ extension ColorExtension on Color {
       _light(context, 7, reverse);
 
   /// Element UI 八级渐变颜色
-  Color _elLight8(BuildContext context, {bool reverse = false}) =>
+  Color elLight8(BuildContext context, {bool reverse = false}) =>
       _light(context, 8, reverse);
 
   /// Element UI 九级渐变颜色
-  Color _elLight9(BuildContext context, {bool reverse = false}) =>
+  Color elLight9(BuildContext context, {bool reverse = false}) =>
       _light(context, 9, reverse);
 
   /// hover 悬停颜色，颜色会变得更浅
@@ -83,7 +86,7 @@ extension ColorExtension on Color {
   Color elTap(BuildContext context) => _elLight3(context, reverse: true);
 
   /// 应用主题透明背景颜色
-  Color elThemeLightBg(BuildContext context) => _elLight9(context);
+  Color elThemeLightBg(BuildContext context) => elLight9(context);
 
   /// 应用主题透明边框颜色
   Color elThemeLightBorder(BuildContext context) => _elLight6(context);

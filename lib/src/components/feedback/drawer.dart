@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 

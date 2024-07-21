@@ -13,7 +13,8 @@ class Http extends BaseHttp {
   String get baseUrl => 'https://jsonplaceholder.typicode.com';
 
   @override
-  void Function(String errorMsg)? get errorMessageFun => ToastUtil.error;
+  void Function(String errorMsg)? get errorMessageFun =>
+      (errorMsg) => $el.showToast($el.overlayContext, errorMsg, type: 'error');
 
   @override
   Future<void> Function()? get closeLoadingFun => () async {

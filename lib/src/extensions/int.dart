@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 extension ElIntExtension on int {
-  /// 将 int 转换成 Duration 对象，单位：毫秒
-  Duration get ms => Duration(milliseconds: this);
-
   /// 将 int 转换成 FontWeight
   FontWeight toFontWeight([FontWeight? defaultFontWeight]) {
     switch (this) {

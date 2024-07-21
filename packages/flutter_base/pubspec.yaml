@@ -29,7 +29,8 @@ dependencies:
   device_info_plus: ^10.1.0
   localstorage: ^5.0.0
   collection: ^1.18.0
-  fluttertoast: ^8.2.6
+  flutter_animate: ^4.5.0
+  tinycolor2: ^3.0.1
 
 dev_dependencies:
   flutter_test:

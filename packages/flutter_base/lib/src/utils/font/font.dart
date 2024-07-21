@@ -74,10 +74,6 @@ class FontUtil {
         ElFont.bold = FontWeight.w600;
       }
     }
-    // Windows平台不包含w500字重，中等字重调整为400
-    else if (PlatformUtil.isWindows) {
-      ElFont.medium = FontWeight.w400;
-    }
   }
 
   /// 加载谷歌中文字体，包含100-900字重

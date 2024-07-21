@@ -87,11 +87,11 @@ class ElThemeData {
   /// 默认的亮色主题构造函数
   ElThemeData({
     this.brightness = Brightness.light,
-    this.primary = const Color(0xff409eff),
-    this.success = const Color(0xff67c23a),
+    this.primary = const Color(0xff409EFF),
+    this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
-    this.warning = const Color(0xffe6a23c),
-    this.error = const Color(0xfff56c6c),
+    this.warning = const Color(0xffE6A23C),
+    this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xfffafafa),
     this.headerColor = const Color(0xffffffff),
     this.cardColor = const Color(0xffffffff),
