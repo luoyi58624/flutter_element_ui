@@ -1,6 +1,13 @@
-part of '../service.dart';
+import 'dart:async';
 
-mixin _ToastService {
+import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+
+import '../service.dart';
+
+mixin ElToastService {
   OverlayEntry? _toastOverlayEntry;
   Timer? _removeToastTimer;
 

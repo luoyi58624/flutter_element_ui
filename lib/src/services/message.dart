@@ -1,4 +1,19 @@
-part of '../service.dart';
+import 'dart:async';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
+import 'package:flutter_obs/flutter_obs.dart';
+import 'package:gap/gap.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+
+import '../components/basic/icon.dart';
+import '../components/others/hover.dart';
+import '../service.dart';
+import '../utils/font.dart';
+import '../utils/icons.dart';
 
 /// 第一条消息偏移
 const double _messageFirstTop = 20;
@@ -12,7 +27,7 @@ class _MessageModel {
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
   final OverlayEntry overlayEntry;
 
-  /// 当前消息的位置，当最上面的消息被移除时，需要通知所有其他消息改变当前位置
+  /// 当前消息的位置，当消息被移除时，需要通知其他消息改变当前位置
   final Obs<double> top;
 
   /// 因为移除前需要执行隐藏动画，此变量告知这条消息即将被移除
@@ -21,19 +36,21 @@ class _MessageModel {
   _MessageModel(this.id, this.overlayEntry, this.top, this.willRemove);
 }
 
-mixin _MessageService {
+mixin ElMessageService {
   /// 消息id
   int _id = 0;
 
   /// 消息列表
   final List<_MessageModel> _messageList = [];
 
-  /// 保存被移除的消息当前位置，移除一条消息需要通知其他消息更新位置，此变量
+  /// 记录被移除的消息当前位置，hover悬停到目标消息会暂时移除侦听器，
+  /// 所以一定会造成消息堆叠，此变量的作用是防止后面移除的消息更新前面已堆叠的消息位置。
   double _lastRemoveTop = 0;
 
   /// 在页面上显示消息提示
   /// * duration 持续时间，单位毫秒
   /// * type 主题类型
+  /// * showClose 是否显示关闭按钮
   void showMessage(
     BuildContext context,
     dynamic content, {
@@ -123,20 +140,13 @@ class _MessageState extends State<_Message>
 
   @override
   void dispose() {
-    i('dispose', widget.id);
     controller.dispose();
     super.dispose();
   }
 
   void removeMessage() async {
-    i('removeMessage', widget.id);
+    model.willRemove = true;
     $el._lastRemoveTop = model.top.value;
-    for (final model in $el._messageList) {
-      if (model.id == widget.id) {
-        model.willRemove = true;
-        break;
-      }
-    }
     controller.reverse();
     updatePosition();
     await (_duration / 1000).delay();
@@ -177,7 +187,9 @@ class _MessageState extends State<_Message>
                       }
                     },
                     onExit: (e) {
-                      _removeTimer ??= removeMessage.delay(widget.duration);
+                      if (_removeTimer == null && model.willRemove == false) {
+                        _removeTimer = removeMessage.delay(widget.duration);
+                      }
                     },
                     builder: (isHover) => Container(
                       height: _messageHeight,

@@ -1,6 +1,9 @@
-part of '../service.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 
-mixin _HoverService {
+import '../service.dart';
+
+mixin ElHoverService {
   /// 控制应用的全局光标 [_ElGlobalCursor]，它由 [ElApp] 注入，层级虽然很高，
   /// 但重建光标状态时子组件不会触发 build，所以不会造成性能问题
   final _cursor = Obs(MouseCursor.defer);
