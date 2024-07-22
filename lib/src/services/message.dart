@@ -77,20 +77,6 @@ mixin ElMessageService {
     _messageList.add(_MessageModel(id, overlayEntry, Obs(top), false));
     Overlay.of(context).insert(overlayEntry);
   }
-
-  void _removeMessage(int id) {
-    int? removeIndex;
-    for (int i = 0; i < _messageList.length; i++) {
-      if (_messageList[i].id == id) {
-        removeIndex = i;
-        break;
-      }
-    }
-    if (removeIndex != null) {
-      _messageList[removeIndex].overlayEntry.remove();
-      _messageList.removeAt(removeIndex);
-    }
-  }
 }
 
 class _Message extends StatefulWidget {
@@ -115,15 +101,10 @@ class _Message extends StatefulWidget {
 class _MessageState extends State<_Message>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  late final OverlayEntry overlayEntry;
   late Animation<double> offsetAnimation;
   late Animation<double> opacityAnimation;
-
-  double opacity = 0;
-
-  Timer? _removeTimer;
-
   late _MessageModel model;
+  Timer? _removeTimer;
 
   @override
   void initState() {
@@ -150,7 +131,8 @@ class _MessageState extends State<_Message>
     controller.reverse();
     updatePosition();
     await (_duration / 1000).delay();
-    $el._removeMessage(widget.id);
+    model.overlayEntry.remove();
+    $el._messageList.remove(model);
   }
 
   void updatePosition() {
