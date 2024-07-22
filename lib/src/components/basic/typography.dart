@@ -382,7 +382,10 @@ class H1 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h1.merge(style);
+    return ElTypographyInheritedWidget.of(context)
+        .h1
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
   }
 }
 
@@ -392,7 +395,10 @@ class H2 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h2.merge(style);
+    return ElTypographyInheritedWidget.of(context)
+        .h2
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
   }
 }
 
@@ -402,7 +408,10 @@ class H3 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h3.merge(style);
+    return ElTypographyInheritedWidget.of(context)
+        .h3
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
   }
 }
 
@@ -412,7 +421,11 @@ class H4 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h4.merge(style);
+    final $style = ElTypographyInheritedWidget.of(context)
+        .h4
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
+    return $style;
   }
 }
 
@@ -422,7 +435,10 @@ class H5 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h5.merge(style);
+    return ElTypographyInheritedWidget.of(context)
+        .h5
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
   }
 }
 
@@ -432,7 +448,10 @@ class H6 extends ElTypographyWidget {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).h6.merge(style);
+    return ElTypographyInheritedWidget.of(context)
+        .h6
+        .copyWith(color: context.elTheme.titleColor)
+        .merge(style);
   }
 }
 

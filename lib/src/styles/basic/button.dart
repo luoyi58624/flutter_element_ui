@@ -9,14 +9,14 @@ part '../../generates/styles/basic/button.g.dart';
 @ElModel.copy()
 class ElButtonStyle {
   const ElButtonStyle({
-    this.height = 36,
+    this.height,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
-    this.padding = const EdgeInsets.symmetric(horizontal: 20),
-  }) : assert(height >= 24, 'button min height is 24');
+    this.padding,
+  });
 
-  /// 按钮高度
-  final double height;
+  /// 按钮高度，默认：baseHeight
+  final double? height;
 
   /// 按钮圆角，如果[round]为true，则强制渲染为圆角按钮
   final BorderRadiusGeometry? borderRadius;
@@ -24,6 +24,6 @@ class ElButtonStyle {
   /// 按钮外边距
   final EdgeInsetsGeometry? margin;
 
-  /// 按钮内边距
+  /// 按钮内边距，默认为高度的一半
   final EdgeInsetsGeometry? padding;
 }

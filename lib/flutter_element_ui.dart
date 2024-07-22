@@ -51,7 +51,6 @@ export 'src/styles/config.dart';
 export 'src/styles/basic/button.dart';
 
 export 'src/utils/font.dart';
-export 'src/utils/color.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/util.dart';

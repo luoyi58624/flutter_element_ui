@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
+import '../../styles/basic/input.dart';
 import '../../styles/config.dart';
 import '../basic/icon.dart';
 import '../others/hover.dart';
@@ -46,7 +47,7 @@ class ElInput extends StatefulWidget {
   final double? height;
 
   /// 自定义圆角，如果[round]为true，则强制圆角
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
 
   /// 自定义外边距
   final EdgeInsetsGeometry? margin;
@@ -95,7 +96,7 @@ class _ElInputState extends State<ElInput> {
 
   ElConfigData get elConfig => context.elConfig;
 
-  get defaultStyle => elConfig.inputStyle;
+  ElInputStyle get defaultStyle => elConfig.inputStyle;
 
   bool get isRound => widget.round;
 
@@ -125,7 +126,8 @@ class _ElInputState extends State<ElInput> {
     if (useFormDataModel) {
       controller.text = formData!.model[formItemData!.prop];
     }
-    final $height = widget.height ?? defaultStyle.height;
+    final $height =
+        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     _InputStyleProp styleProp = (
       height: $height,
       borderRadius: isRound

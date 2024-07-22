@@ -127,9 +127,10 @@ class ElButton extends StatelessWidget {
     themeTypeAssets(type);
     final elConfig = context.elConfig;
     final defaultStyle = elConfig.buttonStyle;
+    final buttonHeight = height ?? defaultStyle.height ?? elConfig.baseHeight;
     _ButtonStyleProp styleProp = (
       width: width,
-      height: height ?? defaultStyle.height,
+      height: buttonHeight,
       bgColor: bgColor,
       color: color,
       type: type,
@@ -141,7 +142,9 @@ class ElButton extends StatelessWidget {
       borderRadius:
           borderRadius ?? defaultStyle.borderRadius ?? elConfig.radius,
       margin: margin ?? defaultStyle.margin,
-      padding: padding ?? defaultStyle.padding,
+      padding: padding ??
+          defaultStyle.padding ??
+          EdgeInsets.symmetric(horizontal: buttonHeight / 2),
       leftIcon: leftIcon,
       rightIcon: rightIcon,
       circle: circle,
@@ -236,7 +239,7 @@ class _Button extends HookWidget {
           if (styleProp.leftIcon != null)
             buildIcon(styleProp.leftIcon!, buttonStyle),
           Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: childWidget),
           if (styleProp.rightIcon != null)
             buildIcon(styleProp.rightIcon!, buttonStyle)
@@ -249,6 +252,7 @@ class _Button extends HookWidget {
   Widget buildIcon(Widget iconWidget, _ButtonStyleHook buttonStyle) {
     return ElIconTheme(
       color: buttonStyle.textColor,
+      size: styleProp.height / 2 - 2,
       child: iconWidget,
     );
   }
@@ -309,7 +313,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       borderColor.value = $isTap
           ? $primaryColor
           : $isHover
-              ? $primaryColor.elThemeLightBg(context)
+              ? $primaryColor.elThemeLightBorder(context)
               : context.elTheme.borderColor;
     }
     // 计算主题按钮样式
@@ -336,9 +340,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
                 : $isHover
                     ? $primaryColor
                     : $primaryColor.elThemeLightBorder(context))
-            : ($isTap
-                ? $primaryColor
-                : $primaryColor.elThemeLightBorder(context));
+            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
       }
       // 主题按钮
       else {

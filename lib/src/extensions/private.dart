@@ -28,7 +28,7 @@ extension ThemeExtension on BuildContext {
 /// 模拟 Element UI 九种渐变明亮度颜色
 extension ColorExtension on Color {
   Color _light(BuildContext context, int level, bool reverse) {
-    final darkenColor = Colors.white.mix(this, level * 10);
+    final darkenColor = Colors.black.mix(this, level * 8);
     final brightenColor = Colors.white.mix(this, level * 10);
     if (!reverse) {
       return context.isDark ? darkenColor : brightenColor;
@@ -64,11 +64,23 @@ extension ColorExtension on Color {
   Color _light9(BuildContext context, {bool reverse = false}) =>
       _light(context, 9, reverse);
 
+  // /// 默认按钮背景颜色：hover、active
+  // Color get buttonBgHover => _light9;
+  //
+  // /// 默认按钮边框悬停颜色
+  // Color get buttonBorderHover => _light7;
+  //
+  // /// 默认按钮背景激活颜色
+  // Color get buttonBgActive => Colors.black.mix(this, 10);
+  //
+  // /// 默认按钮背景激活颜色
+  // Color get buttonBorderActive => Colors.black.mix(this, 10);
+
   /// hover 悬停颜色，颜色会变得更浅
-  Color elHover(BuildContext context) => _light2(context);
+  Color elHover(BuildContext context) => _light1(context);
 
   /// tap 按下颜色，颜色会变得更深
-  Color elTap(BuildContext context) => _light3(context, reverse: true);
+  Color elTap(BuildContext context) => _light2(context, reverse: true);
 
   /// 应用主题透明背景颜色
   Color elThemeLightBg(BuildContext context) => _light9(context);

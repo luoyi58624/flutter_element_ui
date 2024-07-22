@@ -11,6 +11,9 @@ part '../generates/styles/config.g.dart';
 class ElConfigData {
   static ElConfigData data = ElConfigData();
 
+  /// 常用控件的基本高度
+  double baseHeight;
+
   /// 全局默认图标大小
   double iconSize;
 
@@ -36,6 +39,7 @@ class ElConfigData {
   ElInputStyle inputStyle;
 
   ElConfigData({
+    this.baseHeight = 36,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
@@ -44,5 +48,5 @@ class ElConfigData {
     this.textStyle = const TextStyle(fontSize: 15),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
-  });
+  }) : assert(baseHeight >= 24);
 }

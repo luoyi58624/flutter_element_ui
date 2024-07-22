@@ -9,7 +9,7 @@ part of '../../../styles/basic/input.dart';
 extension ElInputStyleExtension on ElInputStyle {
   ElInputStyle copyWith({
     double? height,
-    BorderRadiusGeometry? borderRadius,
+    BorderRadius? borderRadius,
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
   }) {
