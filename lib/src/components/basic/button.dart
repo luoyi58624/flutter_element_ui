@@ -263,6 +263,20 @@ typedef _ButtonStyleHook = ({Color? bgColor, Color? textColor, Border? border});
 /// 改变按钮透明度样式值
 const double _opacity = 0.6;
 
+extension _ButtonColorExtension on Color {
+  /// hover 悬停颜色，颜色会变得更浅
+  Color hover(BuildContext context) => light2(context);
+
+  /// tap 按下颜色，颜色会变得更深
+  Color tap(BuildContext context) => light3(context, reverse: true);
+
+  /// 应用主题透明背景颜色
+  Color themeLightBg(BuildContext context) => light9(context);
+
+  /// 应用主题透明边框颜色
+  Color themeLightBorder(BuildContext context) => light6(context);
+}
+
 /// 计算按钮样式 hook
 _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final bgColor = useState<Color?>(null);
@@ -282,10 +296,10 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     $isThemeType
         ? textColor.value = $themeTypeColor!
             .on($isHover, color: $themeTypeColor.withOpacity(_opacity))
-            .on($isTap, color: $themeTypeColor.elTap(context))
+            .on($isTap, color: $themeTypeColor.tap(context))
         : textColor.value = $defaultTextColor
             .on($isHover, color: $defaultTextColor.withOpacity(_opacity))
-            .on($isTap, color: $defaultTextColor.elTap(context));
+            .on($isTap, color: $defaultTextColor.tap(context));
     borderColor.value = null;
     if (style.disabled) {
       textColor.value = textColor.value!.withOpacity(_opacity);
@@ -308,12 +322,12 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     if ($isThemeType == false && style.bgColor == null) {
       final $primaryColor = context.elTheme.primary;
       bgColor.value =
-          $isHover || $isTap ? $primaryColor.elThemeLightBg(context) : $bgColor;
+          $isHover || $isTap ? $primaryColor.themeLightBg(context) : $bgColor;
       textColor.value = $isHover || $isTap ? $primaryColor : $defaultTextColor;
       borderColor.value = $isTap
           ? $primaryColor
           : $isHover
-              ? $primaryColor.elThemeLightBorder(context)
+              ? $primaryColor.themeLightBorder(context)
               : context.elTheme.borderColor;
     }
     // 计算主题按钮样式
@@ -329,26 +343,28 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
         bgColor.value = PlatformUtil.isDesktop
             ? ($isTap
-                ? $primaryColor.elTap(context)
+                ? $primaryColor.tap(context)
                 : $isHover
                     ? $primaryColor
-                    : $primaryColor.elThemeLightBg(context))
-            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
+                    : $primaryColor.themeLightBg(context))
+            : ($isTap ? $primaryColor : $primaryColor.themeLightBg(context));
         borderColor.value = PlatformUtil.isDesktop
             ? ($isTap
-                ? $primaryColor.elTap(context)
+                ? $primaryColor.tap(context)
                 : $isHover
                     ? $primaryColor
-                    : $primaryColor.elThemeLightBorder(context))
-            : ($isTap ? $primaryColor : $primaryColor.elThemeLightBg(context));
+                    : $primaryColor.themeLightBorder(context))
+            : ($isTap
+                ? $primaryColor
+                : $primaryColor.themeLightBorder(context));
       }
       // 主题按钮
       else {
         textColor.value = $textColor;
         bgColor.value = $isTap
-            ? $primaryColor.elTap(context)
+            ? $primaryColor.tap(context)
             : $isHover
-                ? $primaryColor.elHover(context)
+                ? $primaryColor.hover(context)
                 : $primaryColor;
         borderColor.value = null;
       }

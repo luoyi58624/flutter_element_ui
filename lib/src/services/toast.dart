@@ -32,7 +32,7 @@ mixin _ToastService {
         return builder(content);
       }
     });
-    if ($el.overlayContext.mounted) {
+    if (context.mounted) {
       Overlay.of(context).insert(_toastOverlayEntry!);
       _removeToastTimer = removeToast.delay(duration);
     }

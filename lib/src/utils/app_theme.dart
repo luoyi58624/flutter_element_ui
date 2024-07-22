@@ -7,7 +7,6 @@ import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../styles/theme.dart';
-import 'color.dart';
 import 'font.dart';
 import 'no_ripper.dart';
 

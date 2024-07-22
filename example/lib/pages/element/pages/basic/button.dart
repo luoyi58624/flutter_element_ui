@@ -207,7 +207,7 @@ class ButtonPage extends HookWidget {
             Colors.purple,
             Colors.blue,
             Colors.lightGreen,
-            Colors.yellow
+            Colors.indigo
           ].map(
             (bgColor) => ElButton(
               child: 'count: $count',
@@ -222,7 +222,7 @@ class ButtonPage extends HookWidget {
             Colors.purple,
             Colors.blue,
             Colors.lightGreen,
-            Colors.yellow
+            Colors.indigo
           ].map(
             (bgColor) => ElButton(
               child: 'count: $count',

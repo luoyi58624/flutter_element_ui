@@ -18,7 +18,13 @@ class ElementLayoutPage extends LayoutPageBase {
           child: Column(
             children: [
               const LayoutHeaderWidget(),
-              Expanded(child: navigationShell),
+              Expanded(
+                child: AnimatedColoredBox(
+                  duration: context.elConfig.bgTransition.ms,
+                  color: context.elTheme.bgColor,
+                  child: navigationShell,
+                ),
+              ),
             ],
           ),
         ),

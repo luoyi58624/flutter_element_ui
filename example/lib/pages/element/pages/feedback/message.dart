@@ -6,38 +6,45 @@ class MessagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int count = 0;
-    return ColoredBox(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            ElButton(
-              onPressed: () {
-                $el.showMessage($el.context, '消息 - $count');
-                count++;
-              },
-              child: 'default message',
-            ),
-            ElButton(
-              onPressed: () {
-                $el.showMessage($el.context, '恭喜你，这是一条成功消息', type: 'success');
-              },
-              child: '成功',
-            ),
-            ...$el.themeTypes.map(
-              (type) => ElButton(
-                onPressed: () {
-                  $el.showMessage($el.context, '$type toast', type: type);
-                },
-                type: type,
-                child:
-                    '${type.substring(0, 1).toUpperCase() + type.substring(1)} Message',
-              ),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          ElButton(
+            onPressed: () {
+              $el.showMessage(context, '这是一条消息提示');
+            },
+            child: '默认消息',
+          ),
+          ElButton(
+            onPressed: () {
+              $el.showMessage($el.context, '恭喜你，这是一条成功消息', type: 'success');
+            },
+            type: 'success',
+            child: '成功',
+          ),
+          ElButton(
+            onPressed: () {
+              $el.showMessage($el.context, '这是一条消息提示', type: 'info');
+            },
+            type: 'info',
+            child: '消息',
+          ),
+          ElButton(
+            onPressed: () {
+              $el.showMessage($el.context, '警告哦，这是一条警告消息', type: 'warning');
+            },
+            type: 'warning',
+            child: '警告',
+          ),
+          ElButton(
+            onPressed: () {
+              $el.showMessage($el.context, '错了哦，这是一条错误消息', type: 'error');
+            },
+            type: 'error',
+            child: '错误',
+          ),
+        ],
       ),
     );
   }
