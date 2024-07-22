@@ -39,6 +39,7 @@ mixin _MessageService {
     dynamic content, {
     int duration = 3000,
     String type = 'info',
+    bool showClose = true,
   }) {
     final id = _id++;
     late final double top;
@@ -54,13 +55,13 @@ mixin _MessageService {
       }
     }
     final overlayEntry = OverlayEntry(
-      builder: (context) => _Message(id, content, duration, type),
+      builder: (context) => _Message(id, content, duration, type, showClose),
     );
     _messageList.add(_MessageModel(id, overlayEntry, Obs(top), false));
     Overlay.of(context).insert(overlayEntry);
   }
 
-  void removeMessage(int id) {
+  void _removeMessage(int id) {
     int? removeIndex;
     for (int i = 0; i < _messageList.length; i++) {
       if (_messageList[i].id == id) {
@@ -76,12 +77,19 @@ mixin _MessageService {
 }
 
 class _Message extends StatefulWidget {
+  const _Message(
+    this.id,
+    this.content,
+    this.duration,
+    this.type,
+    this.showClose,
+  );
+
   final int id;
   final dynamic content;
   final int duration;
   final String type;
-
-  const _Message(this.id, this.content, this.duration, this.type);
+  final bool showClose;
 
   @override
   State<_Message> createState() => _MessageState();
@@ -115,11 +123,13 @@ class _MessageState extends State<_Message>
 
   @override
   void dispose() {
+    i('dispose', widget.id);
     controller.dispose();
     super.dispose();
   }
 
   void removeMessage() async {
+    i('removeMessage', widget.id);
     $el._lastRemoveTop = model.top.value;
     for (final model in $el._messageList) {
       if (model.id == widget.id) {
@@ -130,7 +140,7 @@ class _MessageState extends State<_Message>
     controller.reverse();
     updatePosition();
     await (_duration / 1000).delay();
-    $el.removeMessage(widget.id);
+    $el._removeMessage(widget.id);
   }
 
   void updatePosition() {
@@ -179,12 +189,60 @@ class _MessageState extends State<_Message>
                         border: Border.all(
                             color: themeColor.themeLightBorder(context)),
                       ),
-                      child: SelectableText(
-                        '${widget.content}',
-                        style: TextStyle(
-                          color: themeColor,
-                          fontWeight: ElFont.medium,
-                        ),
+                      child: Row(
+                        children: [
+                          if (widget.type == 'success')
+                            ElIcon(
+                              ElIcons.successFilled,
+                              color: themeColor,
+                            ),
+                          if (widget.type == 'info')
+                            ElIcon(
+                              ElIcons.infoFilled,
+                              color: themeColor,
+                            ),
+                          if (widget.type == 'warning')
+                            ElIcon(
+                              ElIcons.warningFilled,
+                              color: themeColor,
+                            ),
+                          if (widget.type == 'error')
+                            ElIcon(
+                              ElIcons.circleCloseFilled,
+                              color: themeColor,
+                            ),
+                          const Gap(8),
+                          SelectableText(
+                            '${widget.content}',
+                            style: TextStyle(
+                              color: themeColor,
+                              fontWeight: ElFont.medium,
+                            ),
+                          ),
+                          const Gap(16),
+                          if (widget.showClose)
+                            GestureDetector(
+                              onTap: () {
+                                if (_removeTimer != null) {
+                                  _removeTimer!.cancel();
+                                  _removeTimer = null;
+                                }
+                                removeMessage();
+                              },
+                              child: ElHover(
+                                cursor: SystemMouseCursors.click,
+                                onlyCursor: true,
+                                builder: (isHover) {
+                                  return ElIcon(
+                                    ElIcons.close,
+                                    color: context.isDark
+                                        ? Colors.grey.shade600
+                                        : Colors.grey.shade400,
+                                  );
+                                },
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
