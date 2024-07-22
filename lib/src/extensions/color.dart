@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tinycolor2/tinycolor2.dart';
 
 extension ElColorStringExtension on String {
   /// 将16进制字符串颜色转成Color对象
@@ -13,8 +12,11 @@ extension ElColorStringExtension on String {
 
 /// Color工具函数扩展
 extension ElColorExtension on Color {
-  /// 判断一个颜色是否是暗色
+  /// 判断一个颜色是否是暗色，168相比128而言，感知亮度稍微更明显一点
   bool get isDark => hsp <= 168;
+
+  /// 判断一个颜色是否是亮色
+  bool get isLight => !isDark;
 
   /// 返回一个颜色的hsp (颜色的感知亮度)
   ///
@@ -43,7 +45,7 @@ extension ElColorExtension on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 
-  /// 创建Material颜色
+  /// 将当前颜色转换成 Material 颜色
   MaterialColor toMaterialColor() {
     List strengths = <double>[.05];
     Map<int, Color> swatch = {};
@@ -91,6 +93,21 @@ extension ElColorExtension on Color {
     int? darkScale,
   }) {
     return isDark ? brighten(darkScale ?? scale) : darken(lightScale ?? scale);
+  }
+
+  /// 将当前颜色和另一种颜色按一定比例进行混合
+  /// * scale 0-100，比值越大就越接近color1，比值越小就接近color2
+  ///
+  /// 参考自 scss 文档：https://sass-lang.com/documentation/modules/color/#mix
+  Color mix(Color color2, int scale) {
+    assert(scale >= 0 && scale <= 100);
+    var p = 1.0 - scale / 100;
+    return Color.fromARGB(
+      ((color2.alpha - alpha) * p + alpha).round(),
+      ((color2.red - red) * p + red).round(),
+      ((color2.green - green) * p + green).round(),
+      ((color2.blue - blue) * p + blue).round(),
+    );
   }
 
   /// 根据事件状态返回新的颜色

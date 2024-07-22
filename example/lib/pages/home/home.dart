@@ -6,7 +6,6 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = TinyColor.fromColor(context.elTheme.primary).color;
     final show = useState(true);
     return Scaffold(
       appBar: AppBar(
@@ -53,11 +52,6 @@ class HomePage extends HookWidget {
                       end: const Offset(0.9, 0.9),
                     );
               }),
-              Text(primaryColor.toHex()),
-              Text(TinyColor.fromColor(Colors.white)
-                  .mix(primaryColor, 10)
-                  .toColor()
-                  .toHex()),
             ],
           ),
         ),

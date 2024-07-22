@@ -5,6 +5,7 @@ import 'package:flutter_element_ui/src/extensions/private.dart';
 import '../app.dart';
 import '../components/others/brightness.dart';
 import '../components/others/responsive.dart';
+import '../styles/config.dart';
 import '../styles/theme.dart';
 
 extension ElAppExtension on BuildContext {

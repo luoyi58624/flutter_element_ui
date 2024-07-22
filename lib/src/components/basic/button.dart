@@ -309,7 +309,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       borderColor.value = $isTap
           ? $primaryColor
           : $isHover
-              ? $primaryColor.elThemeLightBorder(context)
+              ? $primaryColor.elThemeLightBg(context)
               : context.elTheme.borderColor;
     }
     // 计算主题按钮样式

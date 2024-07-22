@@ -110,8 +110,8 @@ class _ColorPageState extends State<ColorPage> {
     List<List<Color>> colors = [];
     context.elThemeTypeColors.forEach((key, value) {
       List<Color> themeColors = [value];
-      for (int i = 9; i >= 1; i--) {
-        themeColors.add(TinyColor.fromColor(Colors.white).mix(value, i * 10).toColor());
+      for (int i = 1; i <= 9; i++) {
+        themeColors.add(Colors.white.mix(value, i * 10));
       }
       colors.add(themeColors);
     });
