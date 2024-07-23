@@ -127,7 +127,8 @@ class ElButton extends StatelessWidget {
     themeTypeAssets(type);
     final elConfig = context.elConfig;
     final defaultStyle = elConfig.buttonStyle;
-    final buttonHeight = height ?? defaultStyle.height ?? elConfig.baseHeight;
+    final buttonHeight =
+        height ?? defaultStyle.height ?? elConfig.baseWidgetHeight;
     _ButtonStyleProp styleProp = (
       width: width,
       height: buttonHeight,

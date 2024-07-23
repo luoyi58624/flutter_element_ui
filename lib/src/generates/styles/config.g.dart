@@ -8,6 +8,7 @@ part of '../../styles/config.dart';
 
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
+    double? baseWidgetHeight,
     double? iconSize,
     BorderRadius? radius,
     BorderRadius? cardRadius,
@@ -16,8 +17,10 @@ extension ElConfigDataExtension on ElConfigData {
     TextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     ElInputStyle? inputStyle,
+    ElMessageStyle? messageStyle,
   }) {
     return ElConfigData(
+      baseWidgetHeight: baseWidgetHeight ?? this.baseWidgetHeight,
       iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
@@ -26,6 +29,7 @@ extension ElConfigDataExtension on ElConfigData {
       textStyle: this.textStyle.merge(textStyle),
       buttonStyle: this.buttonStyle.merge(buttonStyle),
       inputStyle: this.inputStyle.merge(inputStyle),
+      messageStyle: this.messageStyle.merge(messageStyle),
     );
   }
 }

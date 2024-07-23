@@ -43,7 +43,7 @@ class _ElDrawerState extends State<ElDrawer>
               GestureDetector(
                 onTap: () async {
                   controller.reverse();
-                  await (_duration / 1000).delay();
+                  await _duration.ms.delay();
                   widget.modelValue.value = false;
                 },
                 child: Container(

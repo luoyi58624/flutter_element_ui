@@ -26,7 +26,6 @@ class _DialogPageState extends State<DialogPage> {
                 confirmLoadingText: '删除中...',
                 onConfirm: () async {
                   await Future.delayed(const Duration(seconds: 2));
-                  ElMessage.show('删除成功');
                 },
               );
             },

@@ -3,6 +3,7 @@ import 'package:flutter_element_annotation/model.dart';
 
 import 'basic/button.dart';
 import 'basic/input.dart';
+import 'feedback/message.dart';
 
 part '../generates/styles/config.g.dart';
 
@@ -11,16 +12,16 @@ part '../generates/styles/config.g.dart';
 class ElConfigData {
   static ElConfigData data = ElConfigData();
 
-  /// 常用控件的基本高度
-  double baseHeight;
+  /// 基础控件的基本高度：按钮、输入框...
+  double baseWidgetHeight;
 
   /// 全局默认图标大小
   double iconSize;
 
-  /// 全局基础控件圆角值: button、input
+  /// 基础控件圆角值（小尺寸控件）: 按钮、输入框...
   BorderRadius radius;
 
-  /// 全局卡片圆角值
+  /// 全局卡片圆角值（大尺寸控件）：卡片、弹窗...
   BorderRadius cardRadius;
 
   /// 背景颜色过渡持续时间(毫秒)
@@ -38,8 +39,11 @@ class ElConfigData {
   /// 输入框全局样式
   ElInputStyle inputStyle;
 
+  /// 消息提示全局样式
+  ElMessageStyle messageStyle;
+
   ElConfigData({
-    this.baseHeight = 36,
+    this.baseWidgetHeight = 36,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
@@ -48,5 +52,6 @@ class ElConfigData {
     this.textStyle = const TextStyle(fontSize: 15),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
-  }) : assert(baseHeight >= 24);
+    this.messageStyle = const ElMessageStyle(),
+  }) : assert(baseWidgetHeight >= 24);
 }

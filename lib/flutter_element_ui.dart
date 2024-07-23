@@ -19,7 +19,6 @@ export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
 export 'src/components/feedback/drawer.dart';
 export 'src/components/feedback/loading/loading.dart';
-export 'src/components/feedback/message.dart';
 export 'src/components/feedback/tooltip.dart';
 export 'src/components/form/autocomplete.dart';
 export 'src/components/form/cascader.dart';

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
@@ -29,7 +30,7 @@ mixin ElToastService {
       _removeToastTimer!.cancel();
       _removeToastTimer = null;
     }
-    await 0.05.delay();
+    await 0.05.seconds.delay();
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       if (builder == null) {
         return type == null

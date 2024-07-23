@@ -52,7 +52,7 @@ class _LoadingUtil {
         if (delayCloseLoadingTime <= 0) {
           _pop();
         } else {
-          await (delayCloseLoadingTime / 1000).delay();
+          await delayCloseLoadingTime.ms.delay();
           if (_isShowLoading) _pop();
         }
       }

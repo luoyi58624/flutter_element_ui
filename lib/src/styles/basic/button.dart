@@ -18,8 +18,8 @@ class ElButtonStyle {
   /// 按钮高度，默认：baseHeight
   final double? height;
 
-  /// 按钮圆角，如果[round]为true，则强制渲染为圆角按钮
-  final BorderRadiusGeometry? borderRadius;
+  /// 按钮圆角，默认：radius
+  final BorderRadius? borderRadius;
 
   /// 按钮外边距
   final EdgeInsetsGeometry? margin;

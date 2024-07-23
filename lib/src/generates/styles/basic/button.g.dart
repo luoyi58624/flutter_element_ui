@@ -9,7 +9,7 @@ part of '../../../styles/basic/button.dart';
 extension ElButtonStyleExtension on ElButtonStyle {
   ElButtonStyle copyWith({
     double? height,
-    BorderRadiusGeometry? borderRadius,
+    BorderRadius? borderRadius,
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
   }) {
