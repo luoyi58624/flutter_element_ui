@@ -16,19 +16,20 @@ import '../utils/font.dart';
 import '../utils/icons.dart';
 import '../utils/util.dart';
 
+/// 自定义消息构建
+typedef ElMessageBuilder = Widget Function(
+  BuildContext context,
+  ElMessage message,
+);
+
 /// 消息默认高度
 const double _messageHeight = 40;
 
 /// 消息之间的间距
 const double _messageGap = 8;
 
-/// 自定义消息构建
-typedef ElMessageBuilder = Widget Function(
-  BuildContext context,
-  ElMessageModel model,
-);
-
-class ElMessageModel {
+/// Element UI 消息实例对象
+class ElMessage {
   /// 消息id
   final int id;
 
@@ -53,7 +54,8 @@ class ElMessageModel {
   /// 移除消息函数
   late VoidCallback removeMessage;
 
-  ElMessageModel(
+  /// 不允许外部实例化它，只能通过 [$el.showMessage] 创建
+  ElMessage._(
     this.id,
     this.type,
     this.content,
@@ -68,13 +70,13 @@ mixin ElMessageService {
   int _id = 0;
 
   /// 消息列表
-  final List<ElMessageModel> _messageList = [];
+  final List<ElMessage> _messageList = [];
 
   /// 记录当前连续消息组的第一条消息的偏移值
   double? _firstTopOffset;
 
   /// 在页面上显示消息提示
-  /// * content 消息内容，你可以插入任意内容，包括 [Widget]
+  /// * content 消息内容
   /// * type 主题类型
   /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
   /// * duration 持续时间，单位毫秒
@@ -82,7 +84,7 @@ mixin ElMessageService {
   /// * offset 第一条消息距离顶部窗口的距离
   /// * grouping 是否合并内容相同的消息，注意：type 也必须相同
   /// * builder 自定义构建消息内容
-  void showMessage(
+  ElMessage showMessage(
     BuildContext context, {
     String? content,
     String type = 'info',
@@ -102,7 +104,7 @@ mixin ElMessageService {
             model.content == content &&
             model.willRemove == false) {
           model.groupCount.value++;
-          return;
+          return model;
         }
       }
     }
@@ -112,16 +114,23 @@ mixin ElMessageService {
 
     // 构建浮层对象
     final overlayEntry = OverlayEntry(
-      builder: (context) => _Message(id, duration ?? style.messageDuration,
-          style.animationDuration, showClose ?? style.showClose, icon),
+      builder: (context) => _Message(
+        id,
+        duration ?? style.messageDuration,
+        style.animationDuration,
+        showClose ?? style.showClose,
+        builder ?? style.builder,
+      ),
     );
 
     // 创建消息模型对象并添加到消息列表
-    _messageList
-        .add(ElMessageModel(id, type, content, overlayEntry, false, Obs(0)));
+    final model = ElMessage._(id, type, content, overlayEntry, false, Obs(0));
+
+    _messageList.add(model);
 
     // 插入浮层元素
     Overlay.of(context).insert(overlayEntry);
+    return model;
   }
 }
 
@@ -131,14 +140,14 @@ class _Message extends StatefulWidget {
     this.messageDuration,
     this.animationDuration,
     this.showClose, [
-    this.icon,
+    this.builder,
   ]);
 
   final int id;
   final int messageDuration;
   final int animationDuration;
   final bool showClose;
-  final Widget? icon;
+  final ElMessageBuilder? builder;
 
   @override
   State<_Message> createState() => _MessageState();
@@ -149,7 +158,7 @@ class _MessageState extends State<_Message>
   late final AnimationController controller;
   late final Animation<double> offsetAnimation;
   late final Animation<double> opacityAnimation;
-  late final ElMessageModel model;
+  late final ElMessage model;
   Timer? _removeTimer;
   GlobalKey messageKey = GlobalKey();
 
@@ -224,7 +233,6 @@ class _MessageState extends State<_Message>
   }
 
   Widget get messageIcon {
-    if (widget.icon != null) return widget.icon!;
     if (model.type == 'primary') return const ElIcon(ElIcons.elemeFilled);
     if (model.type == 'success') return const ElIcon(ElIcons.successFilled);
     if (model.type == 'warning') return const ElIcon(ElIcons.warningFilled);
@@ -264,75 +272,81 @@ class _MessageState extends State<_Message>
                     onExit: (e) {
                       setRemoveTimer();
                     },
-                    builder: (isHover) => ObsBuilder(builder: (context) {
-                      return ElBadge(
-                        badge: model.groupCount.value,
-                        color: themeColor,
-                        child: Container(
-                          key: messageKey,
-                          constraints: BoxConstraints(
-                            maxWidth: maxWidth,
-                            minHeight: _messageHeight,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: themeColor.themeLightBg(context),
-                            borderRadius: context.elConfig.cardRadius,
-                            border: Border.all(
-                                color: themeColor.themeLightBorder(context)),
-                          ),
-                          child: ElIconTheme(
-                            color: themeColor,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                messageIcon,
-                                const Gap(10),
-                                ConstrainedBox(
+                    builder: (isHover) => SizedBox(
+                      key: messageKey,
+                      child: widget.builder != null && model.content == null
+                          ? widget.builder!(context, model)
+                          : ObsBuilder(builder: (context) {
+                              return ElBadge(
+                                badge: model.groupCount.value,
+                                color: themeColor,
+                                child: Container(
                                   constraints: BoxConstraints(
-                                    maxWidth: maxTextWidth,
+                                    maxWidth: maxWidth,
+                                    minHeight: _messageHeight,
                                   ),
-                                  child: SelectableText(
-                                    '${model.content}',
-                                    style: TextStyle(
-                                      color: themeColor,
-                                      fontWeight: ElFont.medium,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: themeColor.themeLightBg(context),
+                                    borderRadius: context.elConfig.cardRadius,
+                                    border: Border.all(
+                                        color: themeColor
+                                            .themeLightBorder(context)),
+                                  ),
+                                  child: ElIconTheme(
+                                    color: themeColor,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        messageIcon,
+                                        const Gap(10),
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            maxWidth: maxTextWidth,
+                                          ),
+                                          child: SelectableText(
+                                            '${model.content}',
+                                            style: TextStyle(
+                                              color: themeColor,
+                                              fontWeight: ElFont.medium,
+                                            ),
+                                          ),
+                                        ),
+                                        if (widget.showClose) const Gap(10),
+                                        if (widget.showClose)
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (_removeTimer != null) {
+                                                _removeTimer!.cancel();
+                                                _removeTimer = null;
+                                              }
+                                              removeMessage();
+                                            },
+                                            child: ElHover(
+                                              cursor: SystemMouseCursors.click,
+                                              builder: (isHover) {
+                                                return ElIcon(
+                                                  ElIcons.close,
+                                                  color: isHover
+                                                      ? themeColor
+                                                      : context.isDark
+                                                          ? Colors.grey.shade600
+                                                          : Colors
+                                                              .grey.shade400,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                if (widget.showClose) const Gap(10),
-                                if (widget.showClose)
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (_removeTimer != null) {
-                                        _removeTimer!.cancel();
-                                        _removeTimer = null;
-                                      }
-                                      removeMessage();
-                                    },
-                                    child: ElHover(
-                                      cursor: SystemMouseCursors.click,
-                                      builder: (isHover) {
-                                        return ElIcon(
-                                          ElIcons.close,
-                                          color: isHover
-                                              ? themeColor
-                                              : context.isDark
-                                                  ? Colors.grey.shade600
-                                                  : Colors.grey.shade400,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                              );
+                            }),
+                    ),
                   ),
                 ),
               ),

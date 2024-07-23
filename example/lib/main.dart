@@ -27,7 +27,7 @@ class _App extends StatelessWidget {
               fontFamilyFallback: ElFont.fontFamilyFallback,
             ),
             messageStyle: const ElMessageStyle(
-              messageDuration: 15000,
+              messageDuration: 2000,
             ),
           ),
         ),

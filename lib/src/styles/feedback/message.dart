@@ -1,5 +1,7 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
+import '../../services/message.dart';
+
 part '../../generates/styles/feedback/message.g.dart';
 
 @ElModel.copy()
@@ -10,6 +12,7 @@ class ElMessageStyle {
     this.animationDuration = 300,
     this.showClose = false,
     this.grouping = false,
+    this.builder,
   });
 
   /// 第一条消息距离顶部窗口的距离，默认20
@@ -26,4 +29,7 @@ class ElMessageStyle {
 
   /// 是否合并相同消息，默认false
   final bool grouping;
+
+  /// 自定义全局 message 小部件
+  final ElMessageBuilder? builder;
 }

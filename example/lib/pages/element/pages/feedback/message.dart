@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
@@ -59,31 +61,6 @@ class MessagePage extends StatelessWidget {
           ),
           ElButton(
             onPressed: () {
-              $el.showMessage(
-                $el.context,
-                content: 'xxxxxxxxxxxxxxx' * 6,
-                type: 'primary',
-                offset: 50,
-                showClose: true,
-              );
-            },
-            type: 'primary',
-            child: '自定义消息内容',
-          ),
-          ElButton(
-            onPressed: () {
-              $el.showMessage(
-                $el.context,
-                content: 'xxxxxxxxxxxxxxx' * 6,
-                type: 'warning',
-                offset: 50,
-              );
-            },
-            type: 'warning',
-            child: '自定义消息内容',
-          ),
-          ElButton(
-            onPressed: () {
               $el.showMessage($el.context,
                   content: '恭喜你，这是一条成功消息', type: 'success', grouping: true);
             },
@@ -97,6 +74,36 @@ class MessagePage extends StatelessWidget {
             },
             type: 'error',
             child: '合并相同类型消息',
+          ),
+          ElButton(
+            onPressed: () {
+              $el.showMessage(
+                $el.context,
+                content: 'xxxxxxxxxxxxxxx' * 10,
+                type: 'primary',
+                offset: 50,
+                showClose: true,
+              );
+            },
+            type: 'primary',
+            child: '长消息',
+          ),
+          ElButton(
+            onPressed: () {
+              int num = Random().nextInt(10000);
+              $el.showMessage(
+                $el.context,
+                builder: (context, message) => ElevatedButton(
+                  onPressed: () {
+                    message.removeMessage();
+                    $el.showToast(context, '您移除了自定义消息 - $num');
+                  },
+                  child: Text('自定义消息：$num'),
+                ),
+                type: 'warning',
+              );
+            },
+            child: '自定义消息内容',
           ),
         ],
       ),
