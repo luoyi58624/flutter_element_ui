@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -42,16 +41,13 @@ class ElMessageModel {
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
   final OverlayEntry overlayEntry;
 
-  /// 当前消息的位置，当消息被移除时，需要通知其他消息改变当前位置
-  final Obs<double> top;
-
   /// 因为移除前需要执行隐藏动画，此变量告知这条消息即将被移除
   bool willRemove;
 
   /// 如果开启了合并消息，出现 (相同内容 & 相同类型) 的消息该值会自增
   final Obs<int> groupCount;
 
-  /// 消息插入到页面中的元素尺寸
+  /// 当前消息元素大小
   Obs<Size> messageSize = Obs(Size.zero);
 
   /// 移除消息函数
@@ -62,7 +58,6 @@ class ElMessageModel {
     this.type,
     this.content,
     this.overlayEntry,
-    this.top,
     this.willRemove,
     this.groupCount,
   );
@@ -74,10 +69,6 @@ mixin ElMessageService {
 
   /// 消息列表
   final List<ElMessageModel> _messageList = [];
-
-  /// 记录被移除的消息当前位置，每一条消息被移除都会通知其他消息更新位置，
-  /// 而此变量的作用是防止更新前面的消息。
-  double _lastRemoveTop = 0;
 
   /// 记录当前连续消息组的第一条消息的偏移值
   double? _firstTopOffset;
@@ -119,22 +110,6 @@ mixin ElMessageService {
     final id = _id++;
     _firstTopOffset ??= offset ?? style.offset;
 
-    // 计算偏移值
-    late final double top;
-    final length = _messageList.length;
-    if (length == 0) {
-      top = _firstTopOffset!;
-    } else {
-      final lastData = _messageList.last;
-      if (lastData.willRemove) {
-        top = _firstTopOffset!;
-      } else {
-        top = lastData.top.value +
-            lastData.messageSize.value.height +
-            _messageGap;
-      }
-    }
-
     // 构建浮层对象
     final overlayEntry = OverlayEntry(
       builder: (context) => _Message(id, duration ?? style.messageDuration,
@@ -142,8 +117,8 @@ mixin ElMessageService {
     );
 
     // 创建消息模型对象并添加到消息列表
-    _messageList.add(ElMessageModel(
-        id, type, content, overlayEntry, Obs(top), false, Obs(0)));
+    _messageList
+        .add(ElMessageModel(id, type, content, overlayEntry, false, Obs(0)));
 
     // 插入浮层元素
     Overlay.of(context).insert(overlayEntry);
@@ -178,12 +153,24 @@ class _MessageState extends State<_Message>
   Timer? _removeTimer;
   GlobalKey messageKey = GlobalKey();
 
+  /// 计算当前消息在页面中的位置
+  double get topOffset {
+    double result = $el._firstTopOffset!;
+    for (final current in $el._messageList) {
+      if (current.id == widget.id) break;
+      result += current.messageSize.value.height + _messageGap;
+    }
+    return result;
+  }
+
+  /// 适配响应式
   double get maxWidth => context.xs
       ? 250
       : context.sm
           ? 320
           : 450;
 
+  /// 为了自适应宽度文字必须通过 [ConstrainedBox] 包裹，否则在 [Row] 当中无法换行
   double get maxTextWidth => widget.showClose ? maxWidth - 100 : maxWidth - 80;
 
   @override
@@ -226,28 +213,14 @@ class _MessageState extends State<_Message>
     if (model.willRemove == true) return;
     // 标记此消息将被移除
     model.willRemove = true;
-    // 记录移除消息的位置
-    $el._lastRemoveTop = model.top.value;
     // 执行移除动画
     controller.reverse();
-    // 更新其他消息的位置，注：只更新 _lastRemoveTop 后面的消息
-    // updatePosition();
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.ms.delay();
     model.overlayEntry.remove();
     $el._messageList.remove(model);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
     if ($el._messageList.isEmpty) $el._firstTopOffset = null;
-  }
-
-  /// 当消息被移除通知其他消息更新位置
-  void updatePosition() {
-    for (final current in $el._messageList) {
-      if (current.id != widget.id && current.top.value > $el._lastRemoveTop) {
-        current.top.value = max($el._firstTopOffset!,
-            current.top.value - model.messageSize.value.height - _messageGap);
-      }
-    }
   }
 
   Widget get messageIcon {
@@ -257,17 +230,6 @@ class _MessageState extends State<_Message>
     if (model.type == 'warning') return const ElIcon(ElIcons.warningFilled);
     if (model.type == 'error') return const ElIcon(ElIcons.circleCloseFilled);
     return const ElIcon(ElIcons.infoFilled);
-  }
-
-  double get top {
-    double result = $el._firstTopOffset!;
-    for (final current in $el._messageList) {
-      if (current.id == widget.id) {
-        break;
-      }
-      result += current.messageSize.value.height + _messageGap;
-    }
-    return result;
   }
 
   @override
@@ -280,8 +242,7 @@ class _MessageState extends State<_Message>
     return ObsBuilder(builder: (context) {
       return AnimatedPositioned(
         duration: widget.animationDuration.ms,
-        top: top,
-        // top: model.top.value,
+        top: topOffset,
         left: 0,
         right: 0,
         child: AnimatedBuilder(
