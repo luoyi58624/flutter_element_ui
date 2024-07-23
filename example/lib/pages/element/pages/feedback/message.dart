@@ -112,6 +112,7 @@ class MessagePage extends StatelessWidget {
                 builder: (context, message) => ElevatedButton(
                   onPressed: () {
                     message.removeMessage();
+                    // message.
                   },
                   child: Text(message.content),
                 ),

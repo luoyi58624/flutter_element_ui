@@ -32,7 +32,7 @@ const double _messageGap = 8;
 /// Element UI 消息实例对象
 class ElMessage {
   /// 消息id
-  final int id;
+  final int _id;
 
   /// 消息类型
   final String type;
@@ -41,28 +41,28 @@ class ElMessage {
   final String content;
 
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
-  final OverlayEntry overlayEntry;
+  final OverlayEntry _overlayEntry;
 
   /// 因为移除前需要执行隐藏动画，此变量告知这条消息即将被移除
-  bool willRemove;
+  bool _willRemove;
 
   /// 如果开启了合并消息，出现 (相同内容 & 相同类型) 的消息该值会自增
-  final Obs<int> groupCount;
+  final Obs<int> _groupCount;
 
   /// 当前消息元素大小
-  Obs<Size> messageSize = Obs(Size.zero);
+  final Obs<Size> _messageSize = Obs(Size.zero);
 
   /// 移除消息函数
   late VoidCallback removeMessage;
 
   /// 不允许外部实例化它，只能通过 [$el.showMessage] 创建
   ElMessage._(
-    this.id,
+    this._id,
     this.type,
     this.content,
-    this.overlayEntry,
-    this.willRemove,
-    this.groupCount,
+    this._overlayEntry,
+    this._willRemove,
+    this._groupCount,
   );
 }
 
@@ -104,8 +104,8 @@ mixin ElMessageService {
       for (final model in _messageList) {
         if (model.type == type &&
             model.content == content &&
-            model.willRemove == false) {
-          model.groupCount.value++;
+            model._willRemove == false) {
+          model._groupCount.value++;
           return model;
         }
       }
@@ -168,8 +168,8 @@ class _MessageState extends State<_Message>
   double get topOffset {
     double result = $el._firstTopOffset!;
     for (final current in $el._messageList) {
-      if (current.id == widget.id) break;
-      result += current.messageSize.value.height + _messageGap;
+      if (current._id == widget.id) break;
+      result += current._messageSize.value.height + _messageGap;
     }
     return result;
   }
@@ -188,7 +188,7 @@ class _MessageState extends State<_Message>
   void initState() {
     super.initState();
     // 通过id拿到消息列表中的对象
-    model = $el._messageList.firstWhere((e) => e.id == widget.id);
+    model = $el._messageList.firstWhere((e) => e._id == widget.id);
     // 初始化动画
     controller =
         AnimationController(vsync: this, duration: widget.animationDuration.ms);
@@ -200,7 +200,7 @@ class _MessageState extends State<_Message>
     // 设置移除消息计时器
     setRemoveTimer();
     // 监听分组消息，如果发生变化重置计时器
-    model.groupCount.addListener(() {
+    model._groupCount.addListener(() {
       _removeTimer!.cancel();
       _removeTimer = null;
       setRemoveTimer();
@@ -221,14 +221,14 @@ class _MessageState extends State<_Message>
 
   /// 移除消息
   void removeMessage() async {
-    if (model.willRemove == true) return;
+    if (model._willRemove == true) return;
     // 标记此消息将被移除
-    model.willRemove = true;
+    model._willRemove = true;
     // 执行移除动画
     controller.reverse();
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.ms.delay();
-    model.overlayEntry.remove();
+    model._overlayEntry.remove();
     $el._messageList.remove(model);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
     if ($el._messageList.isEmpty) $el._firstTopOffset = null;
@@ -269,7 +269,7 @@ class _MessageState extends State<_Message>
                 maxWidth: maxTextWidth,
               ),
               child: SelectableText(
-                '${model.content}',
+                model.content,
                 style: TextStyle(
                   color: themeColor,
                   fontWeight: ElFont.medium,
@@ -310,7 +310,7 @@ class _MessageState extends State<_Message>
   Widget build(BuildContext context) {
     // 设置当前消息的元素尺寸
     ElUtil.nextTick(() {
-      model.messageSize.value = messageKey.currentContext!.size!;
+      model._messageSize.value = messageKey.currentContext!.size!;
     });
     final themeColor = context.themeTypeColors[model.type]!;
     return ObsBuilder(builder: (context) {
@@ -343,7 +343,7 @@ class _MessageState extends State<_Message>
                       child: ObsBuilder(
                         builder: (context) {
                           return ElBadge(
-                            badge: model.groupCount.value,
+                            badge: model._groupCount.value,
                             child: widget.builder != null
                                 ? widget.builder!(context, model)
                                 : buildContentWidget(themeColor),
