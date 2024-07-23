@@ -168,16 +168,6 @@ class _MessageState extends State<_Message>
   Timer? _removeTimer;
   GlobalKey messageKey = GlobalKey();
 
-  /// 计算当前消息在页面中的位置
-  double get topOffset {
-    double result = $el._firstTopOffset!;
-    for (final current in $el._messageList) {
-      if (current._id == widget.id) break;
-      result += current._messageSize.value.height + _messageGap;
-    }
-    return result;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -208,6 +198,17 @@ class _MessageState extends State<_Message>
     super.dispose();
   }
 
+  /// 计算当前消息在页面中的位置
+  double get topOffset {
+    double result = $el._firstTopOffset!;
+    for (final current in $el._messageList) {
+      if (current._id == widget.id) break;
+      result += current._messageSize.value.height + _messageGap;
+    }
+    // i(result, message._id);
+    return result;
+  }
+
   /// 设置移除消息计时器
   void setRemoveTimer() {
     _removeTimer ??= removeMessage.delay(widget.messageDuration);
@@ -230,6 +231,7 @@ class _MessageState extends State<_Message>
 
   @override
   Widget build(BuildContext context) {
+    // i('build', message._id);
     // 设置当前消息的元素尺寸
     ElUtil.nextTick(() {
       message._messageSize.value = messageKey.currentContext!.size!;
