@@ -40,6 +40,9 @@ class ElMessage {
   /// 消息内容
   final String content;
 
+  /// 是否显示关闭按钮
+  final bool showClose;
+
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
   final OverlayEntry _overlayEntry;
 
@@ -60,6 +63,7 @@ class ElMessage {
     this._id,
     this.type,
     this.content,
+    this.showClose,
     this._overlayEntry,
     this._willRemove,
     this._groupCount,
@@ -77,7 +81,7 @@ mixin ElMessageService {
   double? _firstTopOffset;
 
   /// 在页面上显示消息提示
-  /// * content 消息内容，必传
+  /// * content 消息内容
   /// * type 主题类型
   /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
   /// * duration 持续时间，单位毫秒
@@ -120,13 +124,15 @@ mixin ElMessageService {
         id,
         duration ?? style.messageDuration,
         style.animationDuration,
-        showClose ?? style.showClose,
-        builder ?? style.builder,
+        builder ??
+            style.builder ??
+            (context, message) => _DefaultMessage(message),
       ),
     );
 
     // 创建消息模型对象并添加到消息列表
-    final model = ElMessage._(id, type, content, overlayEntry, false, Obs(0));
+    final model = ElMessage._(id, type, content, showClose ?? style.showClose,
+        overlayEntry, false, Obs(0));
 
     _messageList.add(model);
 
@@ -141,15 +147,13 @@ class _Message extends StatefulWidget {
     this.id,
     this.messageDuration,
     this.animationDuration,
-    this.showClose, [
     this.builder,
-  ]);
+  );
 
   final int id;
   final int messageDuration;
   final int animationDuration;
-  final bool showClose;
-  final ElMessageBuilder? builder;
+  final ElMessageBuilder builder;
 
   @override
   State<_Message> createState() => _MessageState();
@@ -160,7 +164,7 @@ class _MessageState extends State<_Message>
   late final AnimationController controller;
   late final Animation<double> offsetAnimation;
   late final Animation<double> opacityAnimation;
-  late final ElMessage model;
+  late final ElMessage message;
   Timer? _removeTimer;
   GlobalKey messageKey = GlobalKey();
 
@@ -174,21 +178,11 @@ class _MessageState extends State<_Message>
     return result;
   }
 
-  /// 适配响应式
-  double get maxWidth => context.xs
-      ? 250
-      : context.sm
-          ? 320
-          : 450;
-
-  /// 为了自适应宽度文字必须通过 [ConstrainedBox] 包裹，否则在 [Row] 当中无法换行
-  double get maxTextWidth => widget.showClose ? maxWidth - 100 : maxWidth - 80;
-
   @override
   void initState() {
     super.initState();
     // 通过id拿到消息列表中的对象
-    model = $el._messageList.firstWhere((e) => e._id == widget.id);
+    message = $el._messageList.firstWhere((e) => e._id == widget.id);
     // 初始化动画
     controller =
         AnimationController(vsync: this, duration: widget.animationDuration.ms);
@@ -200,12 +194,12 @@ class _MessageState extends State<_Message>
     // 设置移除消息计时器
     setRemoveTimer();
     // 监听分组消息，如果发生变化重置计时器
-    model._groupCount.addListener(() {
+    message._groupCount.addListener(() {
       _removeTimer!.cancel();
       _removeTimer = null;
       setRemoveTimer();
     });
-    model.removeMessage = removeMessage;
+    message.removeMessage = removeMessage;
   }
 
   @override
@@ -221,102 +215,30 @@ class _MessageState extends State<_Message>
 
   /// 移除消息
   void removeMessage() async {
-    if (model._willRemove == true) return;
+    if (!mounted || message._willRemove == true) return;
     // 标记此消息将被移除
-    model._willRemove = true;
+    message._willRemove = true;
     // 执行移除动画
     controller.reverse();
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.ms.delay();
-    model._overlayEntry.remove();
-    $el._messageList.remove(model);
+    message._overlayEntry.remove();
+    $el._messageList.remove(message);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
     if ($el._messageList.isEmpty) $el._firstTopOffset = null;
-  }
-
-  Widget get messageIcon {
-    if (model.type == 'primary') return const ElIcon(ElIcons.elemeFilled);
-    if (model.type == 'success') return const ElIcon(ElIcons.successFilled);
-    if (model.type == 'warning') return const ElIcon(ElIcons.warningFilled);
-    if (model.type == 'error') return const ElIcon(ElIcons.circleCloseFilled);
-    return const ElIcon(ElIcons.infoFilled);
-  }
-
-  Widget buildContentWidget(Color themeColor) {
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: maxWidth,
-        minHeight: _messageHeight,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-        color: themeColor.themeLightBg(context),
-        borderRadius: context.elConfig.cardRadius,
-        border: Border.all(color: themeColor.themeLightBorder(context)),
-      ),
-      child: ElIconTheme(
-        color: themeColor,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            messageIcon,
-            const Gap(10),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: maxTextWidth,
-              ),
-              child: SelectableText(
-                model.content,
-                style: TextStyle(
-                  color: themeColor,
-                  fontWeight: ElFont.medium,
-                ),
-              ),
-            ),
-            if (widget.showClose) const Gap(10),
-            if (widget.showClose)
-              GestureDetector(
-                onTap: () {
-                  if (_removeTimer != null) {
-                    _removeTimer!.cancel();
-                    _removeTimer = null;
-                  }
-                  removeMessage();
-                },
-                child: ElHover(
-                  cursor: SystemMouseCursors.click,
-                  builder: (isHover) {
-                    return ElIcon(
-                      ElIcons.close,
-                      color: isHover
-                          ? themeColor
-                          : context.isDark
-                              ? Colors.grey.shade600
-                              : Colors.grey.shade400,
-                    );
-                  },
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     // 设置当前消息的元素尺寸
     ElUtil.nextTick(() {
-      model._messageSize.value = messageKey.currentContext!.size!;
+      message._messageSize.value = messageKey.currentContext!.size!;
     });
-    final themeColor = context.themeTypeColors[model.type]!;
+
     return ObsBuilder(builder: (context) {
       return AnimatedPositioned(
         duration: widget.animationDuration.ms,
-        top: topOffset,
+        top: MediaQuery.paddingOf(context).top + topOffset,
         left: 0,
         right: 0,
         child: AnimatedBuilder(
@@ -343,10 +265,8 @@ class _MessageState extends State<_Message>
                       child: ObsBuilder(
                         builder: (context) {
                           return ElBadge(
-                            badge: model._groupCount.value,
-                            child: widget.builder != null
-                                ? widget.builder!(context, model)
-                                : buildContentWidget(themeColor),
+                            badge: message._groupCount.value,
+                            child: widget.builder(context, message),
                           );
                         },
                       ),
@@ -368,4 +288,87 @@ extension _MessageColorExtension on Color {
 
   /// 应用主题透明边框颜色
   Color themeLightBorder(BuildContext context) => light8(context);
+}
+
+/// 默认风格样式的消息小部件
+class _DefaultMessage extends StatelessWidget {
+  const _DefaultMessage(this.message);
+
+  final ElMessage message;
+
+  Widget get messageIcon {
+    if (message.type == 'primary') return const ElIcon(ElIcons.elemeFilled);
+    if (message.type == 'success') return const ElIcon(ElIcons.successFilled);
+    if (message.type == 'warning') return const ElIcon(ElIcons.warningFilled);
+    if (message.type == 'error') return const ElIcon(ElIcons.circleCloseFilled);
+    return const ElIcon(ElIcons.infoFilled);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeColor = context.themeTypeColors[message.type]!;
+    double maxWidth = context.xs
+        ? 250
+        : context.sm
+            ? 320
+            : 450;
+    double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: maxWidth,
+        minHeight: _messageHeight,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: themeColor.themeLightBg(context),
+        borderRadius: context.elConfig.cardRadius,
+        border: Border.all(color: themeColor.themeLightBorder(context)),
+      ),
+      child: ElIconTheme(
+        color: themeColor,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            messageIcon,
+            const Gap(10),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: maxTextWidth,
+              ),
+              child: SelectableText(
+                message.content,
+                style: TextStyle(
+                  color: themeColor,
+                  fontWeight: ElFont.medium,
+                ),
+              ),
+            ),
+            if (message.showClose) const Gap(10),
+            if (message.showClose)
+              GestureDetector(
+                onTap: () {
+                  message.removeMessage();
+                },
+                child: ElHover(
+                  cursor: SystemMouseCursors.click,
+                  builder: (isHover) {
+                    return ElIcon(
+                      ElIcons.close,
+                      color: isHover
+                          ? themeColor
+                          : context.isDark
+                              ? Colors.grey.shade600
+                              : Colors.grey.shade400,
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }
