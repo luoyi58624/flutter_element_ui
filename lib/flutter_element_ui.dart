@@ -51,6 +51,7 @@ export 'src/styles/basic/button.dart';
 export 'src/styles/basic/input.dart';
 export 'src/styles/feedback/message.dart';
 
+export 'src/utils/assert.dart';
 export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/app_theme.dart';

@@ -12,6 +12,7 @@ import '../components/basic/icon.dart';
 import '../components/data/badge.dart';
 import '../components/others/hover.dart';
 import '../service.dart';
+import '../utils/assert.dart';
 import '../utils/font.dart';
 import '../utils/icons.dart';
 import '../utils/util.dart';
@@ -37,7 +38,7 @@ class ElMessage {
   final String type;
 
   /// 消息内容
-  final String? content;
+  final String content;
 
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
   final OverlayEntry overlayEntry;
@@ -76,17 +77,17 @@ mixin ElMessageService {
   double? _firstTopOffset;
 
   /// 在页面上显示消息提示
-  /// * content 消息内容
+  /// * content 消息内容，必传
   /// * type 主题类型
   /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
   /// * duration 持续时间，单位毫秒
   /// * showClose 是否显示关闭按钮
   /// * offset 第一条消息距离顶部窗口的距离
   /// * grouping 是否合并内容相同的消息，注意：type 也必须相同
-  /// * builder 自定义构建消息内容
+  /// * builder 自定义构建消息内容，支持全局配置
   ElMessage showMessage(
-    BuildContext context, {
-    String? content,
+    BuildContext context,
+    String content, {
     String type = 'info',
     Widget? icon,
     int? duration,
@@ -95,6 +96,7 @@ mixin ElMessageService {
     bool? grouping,
     ElMessageBuilder? builder,
   }) {
+    ElAssert.themeTypeRequired(type);
     final style = context.elConfig.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
@@ -240,6 +242,70 @@ class _MessageState extends State<_Message>
     return const ElIcon(ElIcons.infoFilled);
   }
 
+  Widget buildContentWidget(Color themeColor) {
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: maxWidth,
+        minHeight: _messageHeight,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: themeColor.themeLightBg(context),
+        borderRadius: context.elConfig.cardRadius,
+        border: Border.all(color: themeColor.themeLightBorder(context)),
+      ),
+      child: ElIconTheme(
+        color: themeColor,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            messageIcon,
+            const Gap(10),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: maxTextWidth,
+              ),
+              child: SelectableText(
+                '${model.content}',
+                style: TextStyle(
+                  color: themeColor,
+                  fontWeight: ElFont.medium,
+                ),
+              ),
+            ),
+            if (widget.showClose) const Gap(10),
+            if (widget.showClose)
+              GestureDetector(
+                onTap: () {
+                  if (_removeTimer != null) {
+                    _removeTimer!.cancel();
+                    _removeTimer = null;
+                  }
+                  removeMessage();
+                },
+                child: ElHover(
+                  cursor: SystemMouseCursors.click,
+                  builder: (isHover) {
+                    return ElIcon(
+                      ElIcons.close,
+                      color: isHover
+                          ? themeColor
+                          : context.isDark
+                              ? Colors.grey.shade600
+                              : Colors.grey.shade400,
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // 设置当前消息的元素尺寸
@@ -274,78 +340,16 @@ class _MessageState extends State<_Message>
                     },
                     builder: (isHover) => SizedBox(
                       key: messageKey,
-                      child: widget.builder != null && model.content == null
-                          ? widget.builder!(context, model)
-                          : ObsBuilder(builder: (context) {
-                              return ElBadge(
-                                badge: model.groupCount.value,
-                                color: themeColor,
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxWidth: maxWidth,
-                                    minHeight: _messageHeight,
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: themeColor.themeLightBg(context),
-                                    borderRadius: context.elConfig.cardRadius,
-                                    border: Border.all(
-                                        color: themeColor
-                                            .themeLightBorder(context)),
-                                  ),
-                                  child: ElIconTheme(
-                                    color: themeColor,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        messageIcon,
-                                        const Gap(10),
-                                        ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            maxWidth: maxTextWidth,
-                                          ),
-                                          child: SelectableText(
-                                            '${model.content}',
-                                            style: TextStyle(
-                                              color: themeColor,
-                                              fontWeight: ElFont.medium,
-                                            ),
-                                          ),
-                                        ),
-                                        if (widget.showClose) const Gap(10),
-                                        if (widget.showClose)
-                                          GestureDetector(
-                                            onTap: () {
-                                              if (_removeTimer != null) {
-                                                _removeTimer!.cancel();
-                                                _removeTimer = null;
-                                              }
-                                              removeMessage();
-                                            },
-                                            child: ElHover(
-                                              cursor: SystemMouseCursors.click,
-                                              builder: (isHover) {
-                                                return ElIcon(
-                                                  ElIcons.close,
-                                                  color: isHover
-                                                      ? themeColor
-                                                      : context.isDark
-                                                          ? Colors.grey.shade600
-                                                          : Colors
-                                                              .grey.shade400,
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
+                      child: ObsBuilder(
+                        builder: (context) {
+                          return ElBadge(
+                            badge: model.groupCount.value,
+                            child: widget.builder != null
+                                ? widget.builder!(context, model)
+                                : buildContentWidget(themeColor),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

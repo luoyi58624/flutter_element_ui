@@ -33,7 +33,7 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
     return navigatorKey.currentContext!;
   }
 
-  /// Element UI 颜色主题类型集合
+  /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [
     'primary',
     'success',

@@ -124,7 +124,7 @@ class ElButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    themeTypeAssets(type);
+    ElAssert.themeType(type);
     final elConfig = context.elConfig;
     final defaultStyle = elConfig.buttonStyle;
     final buttonHeight =
