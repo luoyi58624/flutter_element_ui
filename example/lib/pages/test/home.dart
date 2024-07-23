@@ -3,6 +3,7 @@ import 'package:example/pages/test/pages/debug_setting.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/http.dart';
+import 'pages/multi_child.dart';
 import 'pages/overlay.dart';
 import 'pages/render.dart';
 
@@ -22,6 +23,7 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Http 测试', page: HttpPage()),
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
           CellWidget(title: 'Render 自定义渲染', page: RenderTestPage()),
+          CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
         ],
       ),
     );

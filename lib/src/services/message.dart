@@ -15,11 +15,21 @@ import '../components/others/hover.dart';
 import '../service.dart';
 import '../utils/font.dart';
 import '../utils/icons.dart';
+import '../utils/util.dart';
 
+/// 消息默认高度
 const double _messageHeight = 40;
-const double _messageTop = _messageHeight + 8;
 
-class _MessageModel {
+/// 消息之间的间距
+const double _messageGap = 8;
+
+/// 自定义消息构建
+typedef ElMessageBuilder = Widget Function(
+  BuildContext context,
+  ElMessageModel model,
+);
+
+class ElMessageModel {
   /// 消息id
   final int id;
 
@@ -27,7 +37,7 @@ class _MessageModel {
   final String type;
 
   /// 消息内容
-  final dynamic content;
+  final String? content;
 
   /// 保存浮层实例对象，当到达结束时间通过此对象移除浮层
   final OverlayEntry overlayEntry;
@@ -39,9 +49,15 @@ class _MessageModel {
   bool willRemove;
 
   /// 如果开启了合并消息，出现 (相同内容 & 相同类型) 的消息该值会自增
-  Obs<int> groupCount;
+  final Obs<int> groupCount;
 
-  _MessageModel(
+  /// 消息插入到页面中的元素尺寸
+  Obs<Size> messageSize = Obs(Size.zero);
+
+  /// 移除消息函数
+  late VoidCallback removeMessage;
+
+  ElMessageModel(
     this.id,
     this.type,
     this.content,
@@ -57,38 +73,43 @@ mixin ElMessageService {
   int _id = 0;
 
   /// 消息列表
-  final List<_MessageModel> _messageList = [];
+  final List<ElMessageModel> _messageList = [];
 
-  /// 记录被移除的消息当前位置，有些事件会暂时移除侦听器（hover），此行为会令这些消息堆叠到前方，
-  /// 而该变量的作用就是防止更新前面消息的位置。
+  /// 记录被移除的消息当前位置，每一条消息被移除都会通知其他消息更新位置，
+  /// 而此变量的作用是防止更新前面的消息。
   double _lastRemoveTop = 0;
 
   /// 记录当前连续消息组的第一条消息的偏移值
   double? _firstTopOffset;
 
   /// 在页面上显示消息提示
+  /// * content 消息内容，你可以插入任意内容，包括 [Widget]
   /// * type 主题类型
-  /// * icon 自定义图标
+  /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
   /// * duration 持续时间，单位毫秒
   /// * showClose 是否显示关闭按钮
   /// * offset 第一条消息距离顶部窗口的距离
   /// * grouping 是否合并内容相同的消息，注意：type 也必须相同
+  /// * builder 自定义构建消息内容
   void showMessage(
-    BuildContext context,
-    dynamic content, {
+    BuildContext context, {
+    String? content,
     String type = 'info',
     Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
     bool? grouping,
+    ElMessageBuilder? builder,
   }) {
     final style = context.elConfig.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {
       for (final model in _messageList) {
-        if (model.type == type && model.content == content) {
+        if (model.type == type &&
+            model.content == content &&
+            model.willRemove == false) {
           model.groupCount.value++;
           return;
         }
@@ -108,18 +129,20 @@ mixin ElMessageService {
       if (lastData.willRemove) {
         top = _firstTopOffset!;
       } else {
-        top = lastData.top.value + _messageTop;
+        top = lastData.top.value +
+            lastData.messageSize.value.height +
+            _messageGap;
       }
     }
 
     // 构建浮层对象
     final overlayEntry = OverlayEntry(
       builder: (context) => _Message(id, duration ?? style.messageDuration,
-          style.animationDuration, showClose, icon),
+          style.animationDuration, showClose ?? style.showClose, icon),
     );
 
     // 创建消息模型对象并添加到消息列表
-    _messageList.add(_MessageModel(
+    _messageList.add(ElMessageModel(
         id, type, content, overlayEntry, Obs(top), false, Obs(0)));
 
     // 插入浮层元素
@@ -131,15 +154,15 @@ class _Message extends StatefulWidget {
   const _Message(
     this.id,
     this.messageDuration,
-    this.animationDuration, [
-    this.showClose,
+    this.animationDuration,
+    this.showClose, [
     this.icon,
   ]);
 
   final int id;
   final int messageDuration;
   final int animationDuration;
-  final bool? showClose;
+  final bool showClose;
   final Widget? icon;
 
   @override
@@ -151,8 +174,17 @@ class _MessageState extends State<_Message>
   late final AnimationController controller;
   late final Animation<double> offsetAnimation;
   late final Animation<double> opacityAnimation;
-  late final _MessageModel model;
+  late final ElMessageModel model;
   Timer? _removeTimer;
+  GlobalKey messageKey = GlobalKey();
+
+  double get maxWidth => context.xs
+      ? 250
+      : context.sm
+          ? 320
+          : 450;
+
+  double get maxTextWidth => widget.showClose ? maxWidth - 100 : maxWidth - 80;
 
   @override
   void initState() {
@@ -175,6 +207,7 @@ class _MessageState extends State<_Message>
       _removeTimer = null;
       setRemoveTimer();
     });
+    model.removeMessage = removeMessage;
   }
 
   @override
@@ -185,13 +218,12 @@ class _MessageState extends State<_Message>
 
   /// 设置移除消息计时器
   void setRemoveTimer() {
-    if (_removeTimer == null && model.willRemove == false) {
-      _removeTimer = removeMessage.delay(widget.messageDuration);
-    }
+    _removeTimer ??= removeMessage.delay(widget.messageDuration);
   }
 
   /// 移除消息
   void removeMessage() async {
+    if (model.willRemove == true) return;
     // 标记此消息将被移除
     model.willRemove = true;
     // 记录移除消息的位置
@@ -199,7 +231,7 @@ class _MessageState extends State<_Message>
     // 执行移除动画
     controller.reverse();
     // 更新其他消息的位置，注：只更新 _lastRemoveTop 后面的消息
-    updatePosition();
+    // updatePosition();
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.ms.delay();
     model.overlayEntry.remove();
@@ -210,10 +242,10 @@ class _MessageState extends State<_Message>
 
   /// 当消息被移除通知其他消息更新位置
   void updatePosition() {
-    for (final model in $el._messageList) {
-      if (model.id != widget.id && model.top.value > $el._lastRemoveTop) {
-        model.top.value =
-            max($el._firstTopOffset!, model.top.value - _messageTop);
+    for (final current in $el._messageList) {
+      if (current.id != widget.id && current.top.value > $el._lastRemoveTop) {
+        current.top.value = max($el._firstTopOffset!,
+            current.top.value - model.messageSize.value.height - _messageGap);
       }
     }
   }
@@ -227,13 +259,29 @@ class _MessageState extends State<_Message>
     return const ElIcon(ElIcons.infoFilled);
   }
 
+  double get top {
+    double result = $el._firstTopOffset!;
+    for (final current in $el._messageList) {
+      if (current.id == widget.id) {
+        break;
+      }
+      result += current.messageSize.value.height + _messageGap;
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // 设置当前消息的元素尺寸
+    ElUtil.nextTick(() {
+      model.messageSize.value = messageKey.currentContext!.size!;
+    });
     final themeColor = context.themeTypeColors[model.type]!;
     return ObsBuilder(builder: (context) {
       return AnimatedPositioned(
         duration: widget.animationDuration.ms,
-        top: model.top.value,
+        top: top,
+        // top: model.top.value,
         left: 0,
         right: 0,
         child: AnimatedBuilder(
@@ -260,9 +308,15 @@ class _MessageState extends State<_Message>
                         badge: model.groupCount.value,
                         color: themeColor,
                         child: Container(
-                          height: _messageHeight,
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          alignment: Alignment.centerLeft,
+                          key: messageKey,
+                          constraints: BoxConstraints(
+                            maxWidth: maxWidth,
+                            minHeight: _messageHeight,
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
                           decoration: BoxDecoration(
                             color: themeColor.themeLightBg(context),
                             borderRadius: context.elConfig.cardRadius,
@@ -272,19 +326,24 @@ class _MessageState extends State<_Message>
                           child: ElIconTheme(
                             color: themeColor,
                             child: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 messageIcon,
-                                const Gap(8),
-                                SelectableText(
-                                  '${model.content}',
-                                  style: TextStyle(
-                                    color: themeColor,
-                                    fontWeight: ElFont.medium,
+                                const Gap(10),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: maxTextWidth,
+                                  ),
+                                  child: SelectableText(
+                                    '${model.content}',
+                                    style: TextStyle(
+                                      color: themeColor,
+                                      fontWeight: ElFont.medium,
+                                    ),
                                   ),
                                 ),
-                                const Gap(16),
-                                if (widget.showClose ??
-                                    context.elConfig.messageStyle.showClose)
+                                if (widget.showClose) const Gap(10),
+                                if (widget.showClose)
                                   GestureDetector(
                                     onTap: () {
                                       if (_removeTimer != null) {

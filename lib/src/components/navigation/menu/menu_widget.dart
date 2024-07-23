@@ -113,6 +113,7 @@ class _MenuItemState extends State<_MenuItem> {
                   style: context.elConfig.textStyle.copyWith(
                     color: menuItemColor,
                     fontSize: 14,
+                    fontWeight: ElFont.medium,
                   ),
                   // maxLines: 1,
                   // overflow: TextOverflow.clip,

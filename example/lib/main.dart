@@ -26,6 +26,9 @@ class _App extends StatelessWidget {
               fontFamily: FlutterFont.fontFamily,
               fontFamilyFallback: ElFont.fontFamilyFallback,
             ),
+            messageStyle: const ElMessageStyle(
+              messageDuration: 10000,
+            ),
           ),
         ),
         child: ObsBuilder(builder: (context) {
