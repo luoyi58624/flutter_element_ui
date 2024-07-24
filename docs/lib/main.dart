@@ -1,7 +1,9 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FontUtil.init();
   runApp(const MainApp());
 }
 
@@ -11,9 +13,22 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElApp(
-      child: WidgetsApp.router(
+      data: ElAppData(
+        config: ElConfigData(
+          textStyle: TextStyle(
+            fontFamily: FlutterFont.fontFamily,
+            fontFamilyFallback: ElFont.fontFamilyFallback,
+          ),
+        ),
+      ),
+      child: MaterialApp.router(
         routerConfig: router,
         color: Colors.transparent,
+        theme: ElThemeUtil.buildMaterialTheme(context),
+        darkTheme: ElThemeUtil.buildMaterialTheme(
+          context,
+          brightness: Brightness.dark,
+        ),
         builder: (context, child) => Material(
           child: AnimatedColoredBox(
             duration: context.elConfig.bgTransition.ms,

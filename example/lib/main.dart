@@ -36,11 +36,11 @@ class _App extends StatelessWidget {
             routerConfig: router,
             themeMode: context.isDark ? ThemeMode.dark : ThemeMode.light,
             theme: ElThemeUtil.buildMaterialTheme(context),
-            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
             darkTheme: ElThemeUtil.buildMaterialTheme(
               context,
               brightness: Brightness.dark,
             ),
+            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
             builder: (context, child) => Material(
               child: CupertinoTheme(
                 data: ElThemeUtil.buildCupertinoThemeData(

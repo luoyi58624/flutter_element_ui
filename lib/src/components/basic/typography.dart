@@ -258,7 +258,10 @@ abstract class ElTypographyWidget extends StatelessWidget {
   /// 构建文本组件
   Widget _buildTextWidget(BuildContext context, SelectionRegistrar? registrar) {
     return DefaultTextStyle.merge(
-      style: buildTextStyle(context),
+      style: buildTextStyle(context).copyWith(
+        fontFamily: context.elConfig.textStyle.fontFamily,
+        fontFamilyFallback: context.elConfig.textStyle.fontFamilyFallback,
+      ),
       textAlign: textAlign,
       softWrap: softWrap,
       overflow: overflow,
