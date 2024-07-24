@@ -79,69 +79,72 @@ class _CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = ElHover(
-      builder: (isHover) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: context.elConfig.cardRadius,
-              border: Border.all(color: context.elTheme.borderColor),
+    Widget result = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: context.elTheme.borderColor),
+          borderRadius: context.elConfig.cardRadius,
+        ),
+        child: Column(
+          children: [
+            const Gap(32),
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: Center(child: ElImage(src: image, width: 100)),
             ),
-            clipBehavior: Clip.hardEdge,
-            child: Column(
-              children: [
-                const Gap(32),
-                ElImage(src: image, width: 100),
-                const Gap(24),
-                H4(title),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElText(
-                    content,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.blueGrey,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+            const Gap(24),
+            H4(title),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElText(
+                content,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.blueGrey,
                 ),
-                const Gap(32),
-                const ElDivider(),
-                SelectionContainer.disabled(
-                  child: ElHover(
-                    cursor: SystemMouseCursors.click,
-                    builder: (isHover) {
-                      return GestureDetector(
-                        onTap: () {
-                          context.go(path);
-                        },
-                        child: Container(
-                          height: 50,
-                          color: isHover
-                              ? context.elTheme.primary
-                              : Colors.white,
-                          child: Center(
-                            child: ElText(
-                              '查看详情',
-                              style: TextStyle(
-                                color: isHover
-                                    ? Colors.white
-                                    : context.elTheme.primary,
-                              ),
-                            ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Gap(24),
+            const ElDivider(),
+            SelectionContainer.disabled(
+              child: ElHover(
+                cursor: SystemMouseCursors.click,
+                builder: (isHover) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.go(path);
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: isHover ? context.elTheme.primary : Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: context.elConfig.cardRadius.bottomLeft,
+                          bottomRight: context.elConfig.cardRadius.bottomRight,
+                        ),
+                      ),
+                      child: Center(
+                        child: ElText(
+                          '查看详情',
+                          style: TextStyle(
+                            color: isHover
+                                ? Colors.white
+                                : context.elTheme.primary,
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ).animate(target: isHover ? 1 : 0).slideY(begin: 0, end: -0.02),
-        );
-      },
+          ],
+        ),
+      ),
     );
     return context.sm ? result : Expanded(child: result);
   }
