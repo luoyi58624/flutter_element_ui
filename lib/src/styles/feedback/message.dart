@@ -1,5 +1,5 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import '../../services/message.dart';
+import '../../services/message/message.dart';
 
 part '../../generates/styles/feedback/message.g.dart';
 

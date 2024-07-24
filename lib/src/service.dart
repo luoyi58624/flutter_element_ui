@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'services/hover.dart';
-import 'services/message.dart';
+import 'services/message/message.dart';
 import 'services/toast.dart';
 
 /// Element UI 全局服务对象

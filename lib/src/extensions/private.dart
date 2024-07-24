@@ -13,23 +13,18 @@ extension ThemeExtension on BuildContext {
   ElThemeData get theme => ElApp.of(this).theme;
 
   ElThemeData get darkTheme => ElApp.of(this).darkTheme;
-
-  /// Element UI 主题类型颜色集合
-  Map<String, Color> get themeTypeColors => {
-        'primary': elTheme.primary,
-        'success': elTheme.success,
-        'info': elTheme.info,
-        'warning': elTheme.warning,
-        'error': elTheme.error,
-      };
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色
 extension ColorExtension on Color {
+  /// 将黑色和主题色进行混合，权重越小，越接近黑色，权重越大，越接近主题色
   Color _darkenColor(int level) => Colors.black.mix(this, level * 8);
 
+  /// 将白色和主题色进行混合，权重越小，越接近白色，权重越大，越接近主题色
   Color _brightenColor(int level) => Colors.white.mix(this, level * 10);
 
+  /// 适应当前应用的主题默认，生成不同级别的颜色
+  /// * reverse - 是否应用反转颜色
   Color _light(BuildContext context, int level, bool reverse) {
     if (!reverse) {
       return context.isDark ? _darkenColor(level) : _brightenColor(level);

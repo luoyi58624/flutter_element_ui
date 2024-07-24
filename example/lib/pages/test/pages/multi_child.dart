@@ -1,4 +1,3 @@
-import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
 class MultiChildTestPage extends StatelessWidget {
@@ -29,10 +28,10 @@ class MultiChildTestPage extends StatelessWidget {
                 color: Colors.red,
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(
+                constraints: const BoxConstraints(
                   maxWidth: 300,
                 ),
-                child: Text('text' * 50),
+                child: Text('text' * 2),
               ),
               Container(
                 width: 50,

@@ -144,7 +144,6 @@ class CardWidget extends StatelessWidget {
         ],
       ),
     );
-    return const Placeholder();
   }
 }
 

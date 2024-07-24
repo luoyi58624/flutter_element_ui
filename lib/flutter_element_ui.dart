@@ -45,6 +45,8 @@ export 'src/extensions/color.dart';
 export 'src/extensions/element.dart';
 export 'src/extensions/int.dart';
 
+export 'src/services/message/message.dart' show ElDefaultMessage;
+
 export 'src/styles/theme.dart';
 export 'src/styles/config.dart';
 export 'src/styles/basic/button.dart';

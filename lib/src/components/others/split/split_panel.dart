@@ -150,7 +150,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
           data1 = previous.$2;
           sumFlex += previous.$2.flex.value;
         } else {
-          assert(previousSplit != null, elInternalError);
+          assert(previousSplit != null, ElAssert.elementError);
           data1 = splitData[previousSplit!]!.$2;
         }
         if (next != null) {
@@ -158,7 +158,7 @@ class ElSplitPanel extends ElSplitFlexPanel {
           data2 = next.$2;
           sumFlex += next.$2.flex.value;
         } else {
-          assert(previousSplit != null, elInternalError);
+          assert(previousSplit != null, ElAssert.elementError);
           data2 = splitData[previousSplit!]!.$2;
         }
         children[i] = splitWidget;

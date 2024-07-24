@@ -113,8 +113,7 @@ class _ThemeToast extends StatelessWidget {
               child: Container(
                   padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                   alignment: Alignment.center,
-                  decoration:
-                      BoxDecoration(color: context.themeTypeColors[type]),
+                  decoration: BoxDecoration(color: context.elThemeColors[type]),
                   child: Text(
                     '$content',
                     style: const TextStyle(

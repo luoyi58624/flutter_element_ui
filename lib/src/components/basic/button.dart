@@ -124,7 +124,7 @@ class ElButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ElAssert.themeType(type);
+    ElAssert.themeType(type, 'ElButton');
     final elConfig = context.elConfig;
     final defaultStyle = elConfig.buttonStyle;
     final buttonHeight =
@@ -291,7 +291,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final $defaultTextColor =
       context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
   Color? $themeTypeColor;
-  if ($isThemeType) $themeTypeColor = context.themeTypeColors[style.type]!;
+  if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
   if (style.link) {
     $isThemeType
@@ -312,7 +312,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
         .on($isHover, color: $bgColor.deepen(4))
         .on($isTap, color: $bgColor.deepen(10));
     $isThemeType
-        ? textColor.value = context.themeTypeColors[style.type]!
+        ? textColor.value = context.elThemeColors[style.type]!
         : textColor.value = $defaultTextColor;
     borderColor.value = null;
     if (style.disabled) {
@@ -333,8 +333,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     }
     // 计算主题按钮样式
     else {
-      final $primaryColor =
-          style.bgColor ?? context.themeTypeColors[style.type]!;
+      final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
               ? context.darkTheme.textColor
