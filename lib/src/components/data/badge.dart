@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show Badge;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
@@ -54,7 +55,7 @@ class ElBadge extends StatelessWidget {
     }
   }
 
-  TextStyle get textStyle => const TextStyle(fontSize: 12);
+  TextStyle get textStyle => TextStyle(fontSize: 12, fontWeight: ElFont.medium);
 
   /// 让徽章填充样式更加好看，默认情况下徽章给人的感官没有对齐
   EdgeInsetsGeometry get badgePadding {

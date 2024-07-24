@@ -56,45 +56,7 @@ ElButton(onPressed: () {}, type: 'success', child: 'Success'),""";
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    children: [
-                      TextSelectionTheme(
-                        data: const TextSelectionThemeData(
-                          selectionColor: Color.fromRGBO(42, 65, 130, 1),
-                        ),
-                        child: SyntaxView(
-                          code: code,
-                          syntax: Syntax.DART,
-                          syntaxTheme: SyntaxTheme(
-                            linesCountColor:
-                                const Color(0xFF000000).withOpacity(.7),
-                            backgroundColor:
-                                const Color.fromRGBO(43, 43, 43, 1),
-                            baseStyle: const TextStyle(
-                                color: Color.fromRGBO(171, 183, 198, 1)),
-                            numberStyle:
-                                const TextStyle(color: Color(0xFF098658)),
-                            commentStyle:
-                                const TextStyle(color: Color(0xFF008000)),
-                            keywordStyle:
-                                const TextStyle(color: Color(0xFF0000FF)),
-                            stringStyle: const TextStyle(
-                                color: Color.fromRGBO(110, 134, 89, 1)),
-                            punctuationStyle: const TextStyle(
-                                color: Color.fromRGBO(171, 183, 198, 1)),
-                            classStyle: const TextStyle(
-                                color: Color.fromRGBO(248, 200, 112, 1)),
-                            constantStyle:
-                                const TextStyle(color: Color(0xFF0070C1)),
-                            zoomIconColor: const Color(0xFF0D1429),
-                          ),
-                          fontSize: 16.0,
-                          withZoom: false,
-                          withLinesCount: false,
-                          expanded: false,
-                          selectable: true,
-                        ),
-                      ),
-                    ],
+                    children: [],
                   ),
                 ),
               ),

@@ -128,75 +128,74 @@ class ElCollapseItem extends StatelessWidget {
             cursor: SystemMouseCursors.click,
             builder: (isHover) {
               return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    final listData = [...$data.modelValue.value];
-                    $data.modelValue.value.contains(id)
-                        ? listData.remove(id)
-                        : listData.add(id);
-                    if ($data.accordion) {
-                      listData.removeWhere((e) => e != id);
-                    }
-                    $data.modelValue.value = listData;
-                  },
-                  child: ValueListenableBuilder(
-                    valueListenable: $data.modelValue,
-                    builder: (context, value, _) {
-                      bool isActive = value.contains(id);
-                      return AnimatedContainer(
-                        duration: $elConfig.bgTransition.ms,
-                        height: $elConfig.baseWidgetHeight,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: isActive
-                              ? context.elTheme.primary
-                              : context.elTheme.bgColor,
-                          borderRadius: $indexData.index == $indexData.start
-                              ? BorderRadius.only(
-                                  topLeft: $cardRadius.topLeft,
-                                  topRight: $cardRadius.topRight,
-                                )
-                              : $indexData.index == $indexData.end && !isActive
-                                  ? BorderRadius.only(
-                                      bottomLeft: $cardRadius.bottomLeft,
-                                      bottomRight: $cardRadius.bottomRight,
-                                    )
-                                  : null,
-                        ),
-                        child: Row(
-                          children: [
-                            title is Widget
-                                ? title
-                                : DefaultTextStyle.merge(
-                                    style: TextStyle(
-                                      color: context.isDark
-                                          ? context.elTheme.textColor
-                                          : isActive
-                                              ? context.darkTheme.textColor
-                                              : context.theme.textColor,
-                                    ),
-                                    child: Text('$title'),
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  final listData = [...$data.modelValue.value];
+                  $data.modelValue.value.contains(id)
+                      ? listData.remove(id)
+                      : listData.add(id);
+                  if ($data.accordion) {
+                    listData.removeWhere((e) => e != id);
+                  }
+                  $data.modelValue.value = listData;
+                },
+                child: ValueListenableBuilder(
+                  valueListenable: $data.modelValue,
+                  builder: (context, value, _) {
+                    bool isActive = value.contains(id);
+                    return AnimatedContainer(
+                      duration: $elConfig.bgTransition.ms,
+                      height: $elConfig.baseWidgetHeight,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? context.elTheme.primary
+                            : context.elTheme.bgColor,
+                        borderRadius: $indexData.index == $indexData.start
+                            ? BorderRadius.only(
+                                topLeft: $cardRadius.topLeft,
+                                topRight: $cardRadius.topRight,
+                              )
+                            : $indexData.index == $indexData.end && !isActive
+                                ? BorderRadius.only(
+                                    bottomLeft: $cardRadius.bottomLeft,
+                                    bottomRight: $cardRadius.bottomRight,
+                                  )
+                                : null,
+                      ),
+                      child: Row(
+                        children: [
+                          title is Widget
+                              ? title
+                              : DefaultTextStyle.merge(
+                                  style: TextStyle(
+                                    color: context.isDark
+                                        ? context.elTheme.textColor
+                                        : isActive
+                                            ? context.darkTheme.textColor
+                                            : context.theme.textColor,
                                   ),
-                            const Expanded(child: SizedBox()),
-                            ElIconTheme(
-                              color: context.isDark
-                                  ? context.elTheme.textColor
-                                  : isActive
-                                      ? context.darkTheme.textColor
-                                      : context.theme.textColor,
-                              child: isActive
-                                  ? $data.expandedIcon ??
-                                      const ElIcon(ElIcons.arrowUp)
-                                  : $data.foldIcon ??
-                                      const ElIcon(
-                                        ElIcons.arrowDown,
-                                      ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ));
+                                  child: Text('$title'),
+                                ),
+                          const Expanded(child: SizedBox()),
+                          ElIconTheme(
+                            color: context.isDark
+                                ? context.elTheme.textColor
+                                : isActive
+                                    ? context.darkTheme.textColor
+                                    : context.theme.textColor,
+                            child: isActive
+                                ? $data.expandedIcon ??
+                                    const ElIcon(ElIcons.arrowUp)
+                                : $data.foldIcon ??
+                                    const ElIcon(ElIcons.arrowDown),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
             },
           ),
           ValueListenableBuilder(
@@ -204,10 +203,7 @@ class ElCollapseItem extends StatelessWidget {
             builder: (context, value, _) {
               return AnimatedCrossFade(
                 firstChild: const SizedBox(width: double.infinity, height: 0),
-                secondChild: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: child,
-                ),
+                secondChild: child,
                 firstCurve:
                     const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
                 secondCurve:

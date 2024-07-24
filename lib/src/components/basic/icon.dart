@@ -48,7 +48,7 @@ class ElIcon extends StatelessWidget {
   final Color? color;
 
   /// 当 child 为 asset 字符串地址时，你可以指定其他库的 asset 图标资产包
-  final String package;
+  final String? package;
 
   @override
   Widget build(BuildContext context) {
