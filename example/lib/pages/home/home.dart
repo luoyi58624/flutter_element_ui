@@ -1,11 +1,16 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_syntax_view/flutter_syntax_view.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String code = """
+ElButton(onPressed: () {}, child: 'Default'),
+ElButton(onPressed: () {}, type: 'primary', child: 'Primary'),
+ElButton(onPressed: () {}, type: 'success', child: 'Success'),""";
     final show = useState(true);
     return Scaffold(
       appBar: AppBar(
@@ -21,37 +26,105 @@ class HomePage extends HookWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElButton(
-                onPressed: () {
-                  show.value = !show.value;
-                },
-                child: '切换',
+              Row(
+                children: [
+                  ElButton(onPressed: () {}, child: 'Default'),
+                  ElButton(onPressed: () {}, type: 'primary', child: 'Primary'),
+                  ElButton(onPressed: () {}, type: 'success', child: 'Success'),
+                ],
               ),
-              ElHover(builder: (isHover) {
-                return const Text('hello')
-                    .animate(target: show.value ? 1 : 0)
-                    .fade(duration: 200.ms);
-              }),
-              const Gap(50),
-              ElTap(builder: (isTap) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(16),
+              SelectionArea(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Text(
+                        code,
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
                   ),
-                ).animate(target: isTap ? 1 : 0).scale(
-                      duration: 200.ms,
-                      curve: Curves.easeOut,
-                      begin: const Offset(1.0, 1.0),
-                      end: const Offset(0.9, 0.9),
-                    );
-              }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      TextSelectionTheme(
+                        data: const TextSelectionThemeData(
+                          selectionColor: Color.fromRGBO(42, 65, 130, 1),
+                        ),
+                        child: SyntaxView(
+                          code: code,
+                          syntax: Syntax.DART,
+                          syntaxTheme: SyntaxTheme(
+                            linesCountColor:
+                                const Color(0xFF000000).withOpacity(.7),
+                            backgroundColor:
+                                const Color.fromRGBO(43, 43, 43, 1),
+                            baseStyle: const TextStyle(
+                                color: Color.fromRGBO(171, 183, 198, 1)),
+                            numberStyle:
+                                const TextStyle(color: Color(0xFF098658)),
+                            commentStyle:
+                                const TextStyle(color: Color(0xFF008000)),
+                            keywordStyle:
+                                const TextStyle(color: Color(0xFF0000FF)),
+                            stringStyle: const TextStyle(
+                                color: Color.fromRGBO(110, 134, 89, 1)),
+                            punctuationStyle: const TextStyle(
+                                color: Color.fromRGBO(171, 183, 198, 1)),
+                            classStyle: const TextStyle(
+                                color: Color.fromRGBO(248, 200, 112, 1)),
+                            constantStyle:
+                                const TextStyle(color: Color(0xFF0070C1)),
+                            zoomIconColor: const Color(0xFF0D1429),
+                          ),
+                          fontSize: 16.0,
+                          withZoom: false,
+                          withLinesCount: false,
+                          expanded: false,
+                          selectable: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // ElButton(
+              //   onPressed: () {
+              //     show.value = !show.value;
+              //   },
+              //   child: '切换',
+              // ),
+              // ElHover(builder: (isHover) {
+              //   return const Text('hello')
+              //       .animate(target: show.value ? 1 : 0)
+              //       .fade(duration: 200.ms);
+              // }),
+              // const Gap(50),
+              // ElTap(builder: (isTap) {
+              //   return Container(
+              //     width: 100,
+              //     height: 100,
+              //     decoration: BoxDecoration(
+              //       color: Colors.green,
+              //       borderRadius: BorderRadius.circular(16),
+              //     ),
+              //   ).animate(target: isTap ? 1 : 0).scale(
+              //         duration: 200.ms,
+              //         curve: Curves.easeOut,
+              //         begin: const Offset(1.0, 1.0),
+              //         end: const Offset(0.9, 0.9),
+              //       );
+              // }),
             ],
           ),
         ),

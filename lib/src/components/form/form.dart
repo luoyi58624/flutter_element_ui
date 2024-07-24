@@ -10,7 +10,7 @@ enum ElFormLabelPosition {
   top,
 }
 
-/// label对齐方式，注意：使用 LabelPosition.top 只能左对齐（为了更好看）
+/// label对齐方式，注意：使用 LabelPosition.top 只能左对齐
 enum ElFormLabelAlign {
   start, // 左对齐
   center, // 居中对齐

@@ -13,6 +13,7 @@ export 'src/components/data/avatar.dart';
 export 'src/components/data/badge.dart';
 export 'src/components/data/calendar.dart';
 export 'src/components/data/card.dart';
+export 'src/components/data/collapse.dart';
 export 'src/components/data/image.dart';
 export 'src/components/data/tag.dart';
 export 'src/components/feedback/alert.dart';

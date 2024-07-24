@@ -98,6 +98,10 @@ List<ElMenuModel> menuList = const [
         title: 'Table 表格',
         key: '${ElementRoutes.data}/table',
       ),
+      ElMenuModel(
+        title: 'Collapse 折叠面板',
+        key: '${ElementRoutes.data}/collapse',
+      ),
     ],
   ),
   ElMenuModel(

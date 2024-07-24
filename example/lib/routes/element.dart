@@ -9,6 +9,7 @@ import '../../pages/element/pages/form/form.dart';
 import '../pages/element/layout/layout.dart';
 import '../pages/element/pages/basic/font.dart';
 import '../pages/element/pages/data/badge.dart';
+import '../pages/element/pages/data/collapse.dart';
 import '../pages/element/pages/data/image.dart';
 import '../pages/element/pages/feedback/dialog.dart';
 import '../pages/element/pages/feedback/drawer.dart';
@@ -146,6 +147,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.data}/table',
             builder: (context, state) => const TablePage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.data}/collapse',
+            builder: (context, state) => const CollapsePage(),
           ),
         ],
       ),
