@@ -56,7 +56,7 @@ class ElIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElIconTheme.maybeOf(context);
     final $icon = child ?? $theme?.icon;
-    final $size = size ?? $theme?.size ?? $el.config.iconSize;
+    final $size = size ?? $theme?.size ?? el.config.iconSize;
     final $color = color ?? $theme?.color ?? context.elTheme.iconColor;
     if ($icon is String) {
       return _SvgWidget($icon, size: $size, color: $color, package: package);

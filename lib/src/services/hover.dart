@@ -50,7 +50,7 @@ class ElGlobalCursor extends StatelessWidget {
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
       return MouseRegion(
-        cursor: $el._cursor.value,
+        cursor: el._cursor.value,
         child: child,
       );
     });

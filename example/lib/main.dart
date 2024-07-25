@@ -8,7 +8,7 @@ void main() async {
   await initLocalStorage();
   await CacheInterceptor.init();
   await FontUtil.init();
-  $el.config = ElConfigData(
+  el.config = ElConfigData(
     textStyle: TextStyle(
       fontFamily: FlutterFont.fontFamily,
       fontFamilyFallback: ElFont.fontFamilyFallback,

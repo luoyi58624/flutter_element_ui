@@ -5,7 +5,7 @@ import 'layout/layout.dart';
 import 'pages/home.dart';
 
 final router = GoRouter(
-  navigatorKey: $el.navigatorKey,
+  navigatorKey: el.navigatorKey,
   initialLocation: '/',
   routes: [
     ShellRoute(

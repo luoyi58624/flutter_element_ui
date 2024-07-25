@@ -78,7 +78,7 @@ class DialogWidget extends StatefulWidget {
     Future<bool> Function()? onCancel,
   }) async {
     return await showDialog(
-      context: $el.context,
+      context: el.context,
       barrierColor: cardColor,
       barrierDismissible: clickOutsideClose,
       builder: (context) => DialogWidget(
@@ -143,10 +143,10 @@ class _DialogWidgetState extends State<DialogWidget> {
           ? BorderRadius.circular(16)
           : widget.radius != null
               ? BorderRadius.circular(widget.radius!)
-              : $el.config.cardRadius
+              : el.config.cardRadius
       : widget.radius != null
           ? BorderRadius.circular(widget.radius!)
-          : $el.config.cardRadius;
+          : el.config.cardRadius;
 
   /// 弹窗的垂直内边距
   double get horizontalPadding => context.sm ? 16 : 20;
@@ -154,7 +154,7 @@ class _DialogWidgetState extends State<DialogWidget> {
   Color get confirmColor => widget.confirmColor ?? context.elTheme.primary;
 
   Color getTextColor(Color color) {
-    return color.isDark ? $el.darkTheme.textColor : $el.lightTheme.textColor;
+    return color.isDark ? el.darkTheme.textColor : el.lightTheme.textColor;
   }
 
   Future<void> onCancel() async {
@@ -437,7 +437,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                       color: (widget.cancelColor ?? context.elTheme.cardColor)
                           .on(isHover)
                           .on(isTap),
-                      borderRadius: $el.config.buttonStyle.borderRadius,
+                      borderRadius: el.config.buttonStyle.borderRadius,
                     ),
                     child: buildButtonContent(
                       loading: cancelLoading,
@@ -447,8 +447,8 @@ class _DialogWidgetState extends State<DialogWidget> {
                             color: (widget.cancelColor ??
                                         context.elTheme.cardColor)
                                     .isDark
-                                ? $el.darkTheme.textColor.darken(20)
-                                : $el.lightTheme.textColor.brighten(20)),
+                                ? el.darkTheme.textColor.darken(20)
+                                : el.lightTheme.textColor.brighten(20)),
                       ),
                     ),
                   ),
@@ -466,7 +466,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: confirmColor.on(isHover).on(isTap),
-                      borderRadius: $el.config.buttonStyle.borderRadius,
+                      borderRadius: el.config.buttonStyle.borderRadius,
                     ),
                     child: buildButtonContent(
                       loading: confirmLoading,

@@ -65,10 +65,10 @@ class _HoverBuilderState extends State<ElHover> {
 
   void _onEnter(PointerEnterEvent event) {
     if (widget.disabled) {
-      $el.setCursor(SystemMouseCursors.forbidden);
+      el.setCursor(SystemMouseCursors.forbidden);
     } else {
       if (widget.onEnter != null) widget.onEnter!(event);
-      bool flag = $el.setCursor(widget.cursor);
+      bool flag = el.setCursor(widget.cursor);
       if (flag && !isHover) {
         if (!widget.onlyCursor) {
           setState(() {
@@ -81,7 +81,7 @@ class _HoverBuilderState extends State<ElHover> {
 
   void _upExit(PointerExitEvent event) {
     if (widget.onExit != null) widget.onExit!(event);
-    bool flag = $el.resetCursor();
+    bool flag = el.resetCursor();
     if (flag && isHover && !widget.onlyCursor) {
       setState(() {
         isHover = false;

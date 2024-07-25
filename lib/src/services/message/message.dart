@@ -62,7 +62,7 @@ class ElMessage {
   /// 移除消息函数
   late VoidCallback removeMessage;
 
-  /// 不允许外部实例化它，只能通过 [$el.showMessage] 创建
+  /// 不允许外部实例化它，只能通过 [el.showMessage] 创建
   ElMessage._(
     this.id,
     this.type,
@@ -106,7 +106,7 @@ mixin ElMessageService {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessage');
-    final style = $el.config.messageStyle;
+    final style = el.config.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {

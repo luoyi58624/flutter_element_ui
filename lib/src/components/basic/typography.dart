@@ -151,7 +151,7 @@ class ElTypographyInheritedWidget extends InheritedWidget {
     return context
             .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
             ?.data ??
-        $el.typography;
+        el.typography;
   }
 
   @override
@@ -259,8 +259,8 @@ abstract class ElTypographyWidget extends StatelessWidget {
   Widget _buildTextWidget(BuildContext context, SelectionRegistrar? registrar) {
     return DefaultTextStyle.merge(
       style: buildTextStyle(context).copyWith(
-        fontFamily: $el.config.textStyle.fontFamily,
-        fontFamilyFallback: $el.config.textStyle.fontFamilyFallback,
+        fontFamily: el.config.textStyle.fontFamily,
+        fontFamilyFallback: el.config.textStyle.fontFamilyFallback,
       ),
       textAlign: textAlign,
       softWrap: softWrap,

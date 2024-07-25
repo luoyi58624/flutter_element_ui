@@ -33,7 +33,7 @@ ${generateImportantThemeWidget($generateImportantThemeWidget, className)}
     elConfigField = elConfigField.substring(0, 1).toLowerCase() +
         elConfigField.substring(1);
     String codeStr = """
-\$el.config.${elConfigField}Style.merge(
+\el.config.${elConfigField}Style.merge(
   ${className}Theme._merge(context, style),
 )
     """;

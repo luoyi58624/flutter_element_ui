@@ -8,7 +8,7 @@ class ButtonPage extends HookWidget {
   Widget build(BuildContext context) {
     final (count, addCount) = useCount();
     final (disabled, toggleDisabled) = useToggle();
-    final buttonTypes = [null, ...$el.themeTypes];
+    final buttonTypes = [null, ...el.themeTypes];
 
     Widget buildTitle(String title) => Column(
           mainAxisSize: MainAxisSize.min,

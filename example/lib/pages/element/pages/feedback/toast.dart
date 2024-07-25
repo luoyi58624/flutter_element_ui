@@ -12,14 +12,14 @@ class ToastPage extends HookWidget {
         children: [
           ElButton(
             onPressed: () {
-              $el.showToast(context, 'default toast');
+              el.showToast(context, 'default toast');
             },
             child: 'Toast',
           ),
-          ...$el.themeTypes.map(
+          ...el.themeTypes.map(
             (type) => ElButton(
               onPressed: () {
-                $el.showToast(context, '$type toast', type: type);
+                el.showToast(context, '$type toast', type: type);
               },
               type: type,
               child:
@@ -29,8 +29,8 @@ class ToastPage extends HookWidget {
           // 自定义 toast 使用全局 context，它的层级非常高
           ElButton(
             onPressed: () {
-              $el.showToast(
-                $el.context,
+              el.showToast(
+                el.context,
                 'Custom Toast',
                 builder: (content) => _CustomToast(content),
               );
@@ -55,7 +55,7 @@ class _CustomToast extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          $el.removeToast();
+          el.removeToast();
         },
         child: Container(
           width: 200,

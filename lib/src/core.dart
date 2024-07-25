@@ -28,12 +28,12 @@ class ElConfigProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ElThemeData $theme = context.isDark ? $el.darkTheme : $el.lightTheme;
-    TextStyle $style = $el.config.textStyle.copyWith(color: $theme.textColor);
+    ElThemeData $theme = context.isDark ? el.darkTheme : el.lightTheme;
+    TextStyle $style = el.config.textStyle.copyWith(color: $theme.textColor);
     return ElGlobalCursor(
       child: Material(
         child: AnimatedColoredBox(
-          duration: $el.config.bgTransition.ms,
+          duration: el.config.bgTransition.ms,
           color: context.elTheme.bgColor,
           child: ScrollConfiguration(
             behavior: const ElScrollBehavior(),
@@ -53,7 +53,7 @@ class ElConfigProvider extends StatelessWidget {
 }
 
 /// Element UI 全局服务对象
-final $el = _ElService();
+final el = _ElService();
 
 // ============================================================================
 // 之前使用 InheritedWidget 去注入全局配置信息，使用一段时间后发现这种行为就是多此一举，

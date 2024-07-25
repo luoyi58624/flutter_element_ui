@@ -78,7 +78,7 @@ class ElCollapse extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: context.elTheme.borderColor),
-          borderRadius: $el.config.cardRadius,
+          borderRadius: el.config.cardRadius,
         ),
         child: ListView.separated(
           shrinkWrap: true,
@@ -117,8 +117,8 @@ class ElCollapseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final $data = _CollapseData.of(context);
     final $indexData = ElChildIndexData.of(context);
-    final $elConfig = $el.config;
-    final $cardRadius = $elConfig.cardRadius;
+    final elConfig = el.config;
+    final $cardRadius = elConfig.cardRadius;
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -145,8 +145,8 @@ class ElCollapseItem extends StatelessWidget {
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
-                      duration: $elConfig.bgTransition.ms,
-                      height: $elConfig.baseWidgetHeight,
+                      duration: elConfig.bgTransition.ms,
+                      height: elConfig.baseWidgetHeight,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         color: isActive
@@ -173,8 +173,8 @@ class ElCollapseItem extends StatelessWidget {
                                     color: context.isDark
                                         ? context.elTheme.textColor
                                         : isActive
-                                            ? $el.darkTheme.textColor
-                                            : $el.lightTheme.textColor,
+                                            ? el.darkTheme.textColor
+                                            : el.lightTheme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -183,8 +183,8 @@ class ElCollapseItem extends StatelessWidget {
                             color: context.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? $el.darkTheme.textColor
-                                    : $el.lightTheme.textColor,
+                                    ? el.darkTheme.textColor
+                                    : el.lightTheme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)
@@ -213,7 +213,7 @@ class ElCollapseItem extends StatelessWidget {
                 crossFadeState: value.contains(id)
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
-                duration: $el.config.collapseDuration.ms,
+                duration: el.config.collapseDuration.ms,
               );
             },
           ),

@@ -95,7 +95,7 @@ class _ElInputState extends State<ElInput> {
       widget.controller ?? TextEditingController(text: widget.value);
   final focusNode = FocusNode();
 
-  ElConfigData get elConfig => $el.config;
+  ElConfigData get elConfig => el.config;
 
   ElInputStyle get defaultStyle => elConfig.inputStyle;
 
@@ -128,7 +128,7 @@ class _ElInputState extends State<ElInput> {
       controller.text = formData!.model[formItemData!.prop];
     }
     final $height =
-        widget.height ?? defaultStyle.height ?? $el.config.baseWidgetHeight;
+        widget.height ?? defaultStyle.height ?? el.config.baseWidgetHeight;
     _InputStyleProp styleProp = (
       height: $height,
       borderRadius: isRound
@@ -160,7 +160,7 @@ class _ElInputState extends State<ElInput> {
                 focusNode: focusNode,
                 style: TextStyle(
                   color: context.elTheme.textColor,
-                  fontSize: $el.config.textStyle.fontSize,
+                  fontSize: el.config.textStyle.fontSize,
                 ),
                 decoration: _buildInputDecoration(context, styleProp),
                 textInputAction: widget.textInputAction,

@@ -63,7 +63,7 @@ class _Toast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: $el.removeToast,
+        onTap: el.removeToast,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
@@ -104,7 +104,7 @@ class _ThemeToast extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
-          onTap: $el.removeToast,
+          onTap: el.removeToast,
           child: UnconstrainedBox(
             child: Material(
               elevation: 1,

@@ -75,7 +75,7 @@ class _MenuItemState extends State<_MenuItem> {
             sizeCurve: Curves.fastOutSlowIn,
             crossFadeState:
                 expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: $el.config.collapseDuration.ms,
+            duration: el.config.collapseDuration.ms,
           )
       ],
     );
@@ -88,7 +88,7 @@ class _MenuItemState extends State<_MenuItem> {
         : bgColor.elTextColor(context);
     return ElHover(
       builder: (isHover) => AnimatedContainer(
-        duration: $el.config.bgTransition.ms,
+        duration: el.config.bgTransition.ms,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
@@ -110,7 +110,7 @@ class _MenuItemState extends State<_MenuItem> {
               Expanded(
                 child: ElText(
                   widget.menuItem.title,
-                  style: $el.config.textStyle.copyWith(
+                  style: el.config.textStyle.copyWith(
                     color: menuItemColor,
                     fontSize: 14,
                     fontWeight: ElFont.medium,
@@ -126,7 +126,7 @@ class _MenuItemState extends State<_MenuItem> {
                   width: 40,
                   margin: const EdgeInsets.only(left: 8),
                   child: AnimatedRotation(
-                    duration: max($el.config.collapseDuration - 50, 0).ms,
+                    duration: max(el.config.collapseDuration - 50, 0).ms,
                     turns: expanded ? 0.5 : 0,
                     child: ElIcon(
                       ElIcons.arrowDown,

@@ -125,7 +125,7 @@ class ElButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(type, 'ElButton');
-    final elConfig = $el.config;
+    final elConfig = el.config;
     final defaultStyle = elConfig.buttonStyle;
     final buttonHeight =
         height ?? defaultStyle.height ?? elConfig.baseWidgetHeight;
@@ -287,7 +287,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final $isHover = ElHover.of(context);
   final $isTap = ElTap.of(context);
   final $bgColor = context.elTheme.bgColor;
-  final $isThemeType = $el.themeTypes.contains(style.type);
+  final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
       context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
   Color? $themeTypeColor;
@@ -336,7 +336,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? $el.darkTheme.textColor
+              ? el.darkTheme.textColor
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {

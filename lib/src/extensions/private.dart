@@ -59,5 +59,5 @@ extension ColorExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) =>
-      isDark ? $el.darkTheme.textColor : $el.lightTheme.textColor;
+      isDark ? el.darkTheme.textColor : el.lightTheme.textColor;
 }

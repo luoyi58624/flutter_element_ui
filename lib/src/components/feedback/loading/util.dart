@@ -25,9 +25,9 @@ class _LoadingUtil {
     _isShowLoading = true;
     _delayCloseTime = math.max(delayClose, 0);
     _createLoadingStartTime = currentMilliseconds;
-    if ($el.context.mounted) {
+    if (el.context.mounted) {
       showDialog(
-        context: $el.context,
+        context: el.context,
         barrierColor: Colors.black26,
         builder: (context) {
           return _LoadingModelWidget(
@@ -61,11 +61,11 @@ class _LoadingUtil {
 
   static void _pop() {
     // 如果有提示窗，则先关闭提示窗
-    if (_isShowConfirm) Navigator.of($el.context).pop();
+    if (_isShowConfirm) Navigator.of(el.context).pop();
     _isShowConfirm = false;
     _delayCloseTime = 0;
     _isShowLoading = false;
-    if ($el.context.mounted) Navigator.of($el.context).pop();
+    if (el.context.mounted) Navigator.of(el.context).pop();
   }
 }
 

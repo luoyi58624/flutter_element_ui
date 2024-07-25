@@ -60,10 +60,10 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = $el.lightTheme;
-    final darkTheme = $el.darkTheme;
+    final lightTheme = el.lightTheme;
+    final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = $el.config;
+    final elConfig = el.config;
     final textStyle = elConfig.textStyle;
     if (data.translucenceStatusBar) {
       () {
@@ -276,10 +276,10 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = $el.lightTheme;
-    final darkTheme = $el.darkTheme;
+    final lightTheme = el.lightTheme;
+    final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = $el.config;
+    final elConfig = el.config;
     final textStyle = elConfig.textStyle;
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
