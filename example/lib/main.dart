@@ -8,6 +8,12 @@ void main() async {
   await initLocalStorage();
   await CacheInterceptor.init();
   await FontUtil.init();
+  $el.config = ElConfigData(
+    textStyle: TextStyle(
+      fontFamily: FlutterFont.fontFamily,
+      fontFamilyFallback: ElFont.fontFamilyFallback,
+    ),
+  );
   runApp(const _App());
 }
 
@@ -17,48 +23,27 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      return ElApp(
-        brightness:
-            GlobalState.isDark.value ? Brightness.dark : Brightness.light,
-        data: ElAppData(
-          config: ElConfigData(
-            textStyle: TextStyle(
-              fontFamily: FlutterFont.fontFamily,
-              fontFamilyFallback: ElFont.fontFamilyFallback,
-            ),
-            messageStyle: const ElMessageStyle(
-              messageDuration: 3000,
-            ),
+      return MaterialApp.router(
+        routerConfig: router,
+        theme: ElThemeUtil.buildMaterialTheme(
+          context,
+          brightness:
+              GlobalState.isDark.value ? Brightness.dark : Brightness.light,
+        ),
+        darkTheme: ElThemeUtil.buildMaterialTheme(
+          context,
+          brightness: Brightness.dark,
+        ),
+        showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+        builder: (context, child) => CupertinoTheme(
+          data: ElThemeUtil.buildCupertinoThemeData(
+            context,
+            brightness: Theme.of(context).brightness,
+          ),
+          child: ElConfigProvider(
+            child: child!,
           ),
         ),
-        child: ObsBuilder(builder: (context) {
-          return MaterialApp.router(
-            routerConfig: router,
-            themeMode: context.isDark ? ThemeMode.dark : ThemeMode.light,
-            theme: ElThemeUtil.buildMaterialTheme(context),
-            darkTheme: ElThemeUtil.buildMaterialTheme(
-              context,
-              brightness: Brightness.dark,
-            ),
-            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-            builder: (context, child) => Material(
-              child: CupertinoTheme(
-                data: ElThemeUtil.buildCupertinoThemeData(
-                  context,
-                  brightness: context.brightness,
-                ),
-                child: ScrollConfiguration(
-                  behavior: const ElScrollBehavior(),
-                  child: Overlay(initialEntries: [
-                    OverlayEntry(builder: (context) {
-                      return child!;
-                    }),
-                  ]),
-                ),
-              ),
-            ),
-          );
-        }),
       );
     });
   }

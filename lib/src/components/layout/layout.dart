@@ -7,6 +7,7 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
+import '../../core.dart';
 import '../../widgets/animation.dart';
 import '../others/hover.dart';
 

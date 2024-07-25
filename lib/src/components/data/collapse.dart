@@ -4,6 +4,7 @@ import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 
+import '../../core.dart';
 import '../../utils/icons.dart';
 import '../../widgets/simple_widgets.dart';
 import '../basic/icon.dart';
@@ -77,7 +78,7 @@ class ElCollapse extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: context.elTheme.borderColor),
-          borderRadius: context.elConfig.cardRadius,
+          borderRadius: $el.config.cardRadius,
         ),
         child: ListView.separated(
           shrinkWrap: true,
@@ -116,7 +117,7 @@ class ElCollapseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final $data = _CollapseData.of(context);
     final $indexData = ElChildIndexData.of(context);
-    final $elConfig = context.elConfig;
+    final $elConfig = $el.config;
     final $cardRadius = $elConfig.cardRadius;
     return SizedBox(
       width: double.infinity,
@@ -172,8 +173,8 @@ class ElCollapseItem extends StatelessWidget {
                                     color: context.isDark
                                         ? context.elTheme.textColor
                                         : isActive
-                                            ? context.darkTheme.textColor
-                                            : context.theme.textColor,
+                                            ? $el.darkTheme.textColor
+                                            : $el.lightTheme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -182,8 +183,8 @@ class ElCollapseItem extends StatelessWidget {
                             color: context.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? context.darkTheme.textColor
-                                    : context.theme.textColor,
+                                    ? $el.darkTheme.textColor
+                                    : $el.lightTheme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)
@@ -212,7 +213,7 @@ class ElCollapseItem extends StatelessWidget {
                 crossFadeState: value.contains(id)
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
-                duration: context.elConfig.collapseDuration.ms,
+                duration: $el.config.collapseDuration.ms,
               );
             },
           ),

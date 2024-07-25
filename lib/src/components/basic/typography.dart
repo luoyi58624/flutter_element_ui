@@ -5,7 +5,7 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:flutter_element_ui/src/app.dart';
+import '../../core.dart';
 import '../others/hover.dart';
 
 /// 字体排版配置
@@ -151,7 +151,7 @@ class ElTypographyInheritedWidget extends InheritedWidget {
     return context
             .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
             ?.data ??
-        ElApp.of(context).typography;
+        $el.typography;
   }
 
   @override
@@ -259,8 +259,8 @@ abstract class ElTypographyWidget extends StatelessWidget {
   Widget _buildTextWidget(BuildContext context, SelectionRegistrar? registrar) {
     return DefaultTextStyle.merge(
       style: buildTextStyle(context).copyWith(
-        fontFamily: context.elConfig.textStyle.fontFamily,
-        fontFamilyFallback: context.elConfig.textStyle.fontFamilyFallback,
+        fontFamily: $el.config.textStyle.fontFamily,
+        fontFamilyFallback: $el.config.textStyle.fontFamilyFallback,
       ),
       textAlign: textAlign,
       softWrap: softWrap,

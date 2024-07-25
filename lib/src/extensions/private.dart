@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
 
-import '../app.dart';
-import '../styles/theme.dart';
+import '../core.dart';
 
 // =========================================================
 // 应用于 Element UI 内部私有扩展函数
 // =========================================================
 
-extension ThemeExtension on BuildContext {
-  ElThemeData get theme => ElApp.of(this).theme;
-
-  ElThemeData get darkTheme => ElApp.of(this).darkTheme;
+extension BrightnessExtension on BuildContext {
+  /// 当前环境是否是暗黑模式
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色
@@ -62,5 +59,5 @@ extension ColorExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) =>
-      isDark ? context.darkTheme.textColor : context.theme.textColor;
+      isDark ? $el.darkTheme.textColor : $el.lightTheme.textColor;
 }

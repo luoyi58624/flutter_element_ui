@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../../service.dart';
+import '../../core.dart';
 
 class ElHover extends StatefulWidget {
   /// hover构建器，仅在桌面端渲染，移动端不会渲染

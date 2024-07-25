@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obs/flutter_obs.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../service.dart';
+import '../core.dart';
 
 mixin ElHoverService {
   /// 控制应用的全局光标 [_ElGlobalCursor]，它由 [ElApp] 注入，层级虽然很高，

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
@@ -13,10 +12,6 @@ class ElThemeData {
 
   /// 暗色默认主题
   static ElThemeData darkTheme = ElThemeData.dark();
-
-  /// 描述当前主题系统是否是亮色、暗色
-  @ElModelField(ignore: ElModel.all())
-  final Brightness brightness;
 
   /// 主要颜色
   Color primary;
@@ -85,7 +80,6 @@ class ElThemeData {
 
   /// 默认的亮色主题构造函数
   ElThemeData({
-    this.brightness = Brightness.light,
     this.primary = const Color(0xff409EFF),
     this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
@@ -114,7 +108,6 @@ class ElThemeData {
 
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
-    this.brightness = Brightness.dark,
     // this.primary = const Color(0xff0ea5e9),
     // this.success = const Color(0xff14b8a6),
     // this.info = const Color(0xff64748B),

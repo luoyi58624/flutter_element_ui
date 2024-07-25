@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
+import '../../core.dart';
 import '../../styles/basic/input.dart';
 import '../../styles/config.dart';
 import '../basic/icon.dart';
@@ -94,7 +95,7 @@ class _ElInputState extends State<ElInput> {
       widget.controller ?? TextEditingController(text: widget.value);
   final focusNode = FocusNode();
 
-  ElConfigData get elConfig => context.elConfig;
+  ElConfigData get elConfig => $el.config;
 
   ElInputStyle get defaultStyle => elConfig.inputStyle;
 
@@ -126,9 +127,8 @@ class _ElInputState extends State<ElInput> {
     if (useFormDataModel) {
       controller.text = formData!.model[formItemData!.prop];
     }
-    final $height = widget.height ??
-        defaultStyle.height ??
-        context.elConfig.baseWidgetHeight;
+    final $height =
+        widget.height ?? defaultStyle.height ?? $el.config.baseWidgetHeight;
     _InputStyleProp styleProp = (
       height: $height,
       borderRadius: isRound
@@ -160,7 +160,7 @@ class _ElInputState extends State<ElInput> {
                 focusNode: focusNode,
                 style: TextStyle(
                   color: context.elTheme.textColor,
-                  fontSize: context.elConfig.textStyle.fontSize,
+                  fontSize: $el.config.textStyle.fontSize,
                 ),
                 decoration: _buildInputDecoration(context, styleProp),
                 textInputAction: widget.textInputAction,

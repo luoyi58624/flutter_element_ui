@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
-import '../../../service.dart';
+import '../../../core.dart';
 import '../../../utils/assert.dart';
 import '../hover.dart';
 

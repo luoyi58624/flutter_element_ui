@@ -135,7 +135,7 @@ class _ElTooltipState extends State<ElTooltip> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: context.elConfig.radius,
+        borderRadius: $el.config.radius,
       ),
       child: ElTypographyInheritedWidget(
         data: ElTypographyInheritedWidget.of(context).mergeText(

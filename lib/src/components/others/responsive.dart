@@ -1,22 +1,5 @@
-import 'package:flutter/widgets.dart';
 
-/// 响应式全局配置小部件
-class ElResponsive extends InheritedWidget {
-  const ElResponsive({
-    super.key,
-    required super.child,
-    required this.data,
-  });
 
-  final ElResponsiveData data;
-
-  static ElResponsiveData of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElResponsive>()?.data ??
-      const ElResponsiveData();
-
-  @override
-  bool updateShouldNotify(ElResponsive oldWidget) => false;
-}
 
 /// 响应式配置
 class ElResponsiveData {

@@ -1,19 +1,12 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 
-import '../app.dart';
-import '../components/others/brightness.dart';
-import '../components/others/responsive.dart';
-import '../styles/config.dart';
+import '../core.dart';
 import '../styles/theme.dart';
 
 extension ElAppExtension on BuildContext {
-  /// Element UI 全局配置
-  ElConfigData get elConfig => ElApp.of(this).config;
-
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme => isDark ? darkTheme : theme;
+  ElThemeData get elTheme => isDark ? $el.darkTheme : $el.lightTheme;
 
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {
@@ -25,27 +18,19 @@ extension ElAppExtension on BuildContext {
       };
 }
 
-extension ElBrightnessExtension on BuildContext {
-  /// 当前平台亮度模式
-  Brightness get brightness => ElBrightness.of(this);
-
-  /// 当前环境是否是暗黑模式
-  bool get isDark => brightness == Brightness.dark;
-}
-
 extension ElResponsiveExtension on BuildContext {
   /// 极小设备，最大宽度默认320
-  bool get xs => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).xs;
+  bool get xs => MediaQuery.sizeOf(this).width <= $el.responsive.xs;
 
   /// 移动端设备，最大宽度默认640
-  bool get sm => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).sm;
+  bool get sm => MediaQuery.sizeOf(this).width <= $el.responsive.sm;
 
   /// 平板设备，最大宽度默认1024
-  bool get md => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).md;
+  bool get md => MediaQuery.sizeOf(this).width <= $el.responsive.md;
 
   /// 桌面设备，最大宽度默认1920
-  bool get lg => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).lg;
+  bool get lg => MediaQuery.sizeOf(this).width <= $el.responsive.lg;
 
   /// 大屏桌面设备，最大宽度默认2560
-  bool get xl => MediaQuery.sizeOf(this).width <= ElResponsive.of(this).xl;
+  bool get xl => MediaQuery.sizeOf(this).width <= $el.responsive.xl;
 }

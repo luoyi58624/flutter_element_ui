@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
         middle: Text('CupertinoPage'),
       ),
       child: Center(
-        child: ElButton(
+        child: CupertinoButton.filled(
           onPressed: () {
             final newId = id++;
             late OverlayEntry overlayEntry;
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
             Overlay.of(context).insert(overlayEntry);
             overlayEntry.remove.delay(5000);
           },
-          child: '插入overlay',
+          child: const Text('插入overlay'),
         ),
       ),
     );

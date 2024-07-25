@@ -7,13 +7,17 @@ import 'package:source_gen/source_gen.dart';
 @immutable
 class ElComponentGenerator extends GeneratorForAnnotation<ElComponent> {
   @override
-  generateForAnnotatedElement(Element element, ConstantReader annotation, BuildStep buildStep) {
+  generateForAnnotatedElement(
+      Element element, ConstantReader annotation, BuildStep buildStep) {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
 
-    bool $generateMergeStyleFun = annotation.read('generateMergeStyleFun').boolValue;
-    bool $generateLocalThemeWidget = annotation.read('generateLocalThemeWidget').boolValue;
-    bool $generateImportantThemeWidget = annotation.read('generateImportantThemeWidget').boolValue;
+    bool $generateMergeStyleFun =
+        annotation.read('generateMergeStyleFun').boolValue;
+    bool $generateLocalThemeWidget =
+        annotation.read('generateLocalThemeWidget').boolValue;
+    bool $generateImportantThemeWidget =
+        annotation.read('generateImportantThemeWidget').boolValue;
 
     return """
 ${generateMergeStyleFun($generateMergeStyleFun, className, $generateImportantThemeWidget)}
@@ -22,12 +26,14 @@ ${generateImportantThemeWidget($generateImportantThemeWidget, className)}
   """;
   }
 
-  String generateMergeStyleFun(bool enable, String className, bool generateImportantThemeWidget) {
+  String generateMergeStyleFun(
+      bool enable, String className, bool generateImportantThemeWidget) {
     if (!enable) return '';
     var elConfigField = className.replaceAll('El', '');
-    elConfigField = elConfigField.substring(0, 1).toLowerCase() + elConfigField.substring(1);
+    elConfigField = elConfigField.substring(0, 1).toLowerCase() +
+        elConfigField.substring(1);
     String codeStr = """
-context.elConfig.${elConfigField}Style.merge(
+\$el.config.${elConfigField}Style.merge(
   ${className}Theme._merge(context, style),
 )
     """;

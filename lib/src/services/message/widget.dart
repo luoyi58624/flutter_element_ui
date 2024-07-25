@@ -38,7 +38,7 @@ class ElDefaultMessage extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: themeColor.themeLightBg(context),
-        borderRadius: context.elConfig.cardRadius,
+        borderRadius: $el.config.cardRadius,
         border: Border.all(color: themeColor.themeLightBorder(context)),
       ),
       child: ElIconTheme(

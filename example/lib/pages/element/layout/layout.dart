@@ -20,7 +20,7 @@ class ElementLayoutPage extends LayoutPageBase {
               const LayoutHeaderWidget(),
               Expanded(
                 child: AnimatedColoredBox(
-                  duration: context.elConfig.bgTransition.ms,
+                  duration: $el.config.bgTransition.ms,
                   color: context.elTheme.bgColor,
                   child: navigationShell,
                 ),

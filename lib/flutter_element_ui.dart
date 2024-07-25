@@ -1,7 +1,6 @@
 library flutter_element_ui;
 
-export 'src/app.dart';
-export 'src/service.dart' show $el;
+export 'src/core.dart';
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
@@ -34,7 +33,6 @@ export 'src/components/layout/body.dart';
 export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu/menu.dart';
-export 'src/components/others/brightness.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/hover.dart';
 export 'src/components/others/responsive.dart';

@@ -6,6 +6,7 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
+import '../core.dart';
 import '../styles/theme.dart';
 import 'font.dart';
 import 'no_ripper.dart';
@@ -59,10 +60,10 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = context.theme;
-    final darkTheme = context.darkTheme;
+    final lightTheme = $el.lightTheme;
+    final darkTheme = $el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = context.elConfig;
+    final elConfig = $el.config;
     final textStyle = elConfig.textStyle;
     if (data.translucenceStatusBar) {
       () {
@@ -275,10 +276,10 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = context.theme;
-    final darkTheme = context.darkTheme;
+    final lightTheme = $el.lightTheme;
+    final darkTheme = $el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = context.elConfig;
+    final elConfig = $el.config;
     final textStyle = elConfig.textStyle;
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);

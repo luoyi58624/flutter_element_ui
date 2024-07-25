@@ -1,4 +1,4 @@
-import '../service.dart';
+import '../core.dart';
 
 abstract class ElAssert {
   /// Element UI 内部错误

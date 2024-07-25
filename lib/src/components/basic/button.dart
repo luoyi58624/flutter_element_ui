@@ -8,7 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../../service.dart';
+import '../../core.dart';
 import '../../utils/assert.dart';
 import '../others/hover.dart';
 import '../others/tap.dart';
@@ -125,7 +125,7 @@ class ElButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(type, 'ElButton');
-    final elConfig = context.elConfig;
+    final elConfig = $el.config;
     final defaultStyle = elConfig.buttonStyle;
     final buttonHeight =
         height ?? defaultStyle.height ?? elConfig.baseWidgetHeight;
@@ -336,7 +336,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? context.darkTheme.textColor
+              ? $el.darkTheme.textColor
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {
