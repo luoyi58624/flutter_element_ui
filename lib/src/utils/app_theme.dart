@@ -349,15 +349,15 @@ TextTheme _textTheme(TextStyle style, ElThemeData elTheme) {
     ),
     titleLarge: style.copyWith(
       fontWeight: ElFont.bold,
-      color: elTheme.titleColor,
+      color: elTheme.textColor,
     ),
     titleMedium: style.copyWith(
       fontWeight: ElFont.bold,
-      color: elTheme.titleColor,
+      color: elTheme.textColor,
     ),
     titleSmall: style.copyWith(
       fontWeight: ElFont.bold,
-      color: elTheme.titleColor,
+      color: elTheme.textColor,
     ),
     bodyLarge: style.copyWith(
       fontWeight: ElFont.normal,

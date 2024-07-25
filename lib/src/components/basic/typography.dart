@@ -9,7 +9,7 @@ import '../../core.dart';
 import '../../utils/font.dart';
 import '../others/hover.dart';
 
-/// 文本抽象类
+/// Element UI 文本小部件，和 [Text] 小部件一样，都是基于 [RichText] 进行的封装
 class ElText extends StatelessWidget {
   const ElText(
     this.data, {
@@ -78,13 +78,9 @@ class ElText extends StatelessWidget {
   /// 悬停时默认禁止重建小部件
   bool get disabledHoverBuilder => true;
 
-  /// 默认文本样式
+  /// 构建当前文本样式
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(
-      fontSize: el.typography.text,
-      fontWeight: ElFont.medium,
-      color: context.elTheme.textColor,
-    ).merge(DefaultTextStyle.of(context).style);
+    return DefaultTextStyle.of(context).style.merge(style);
   }
 
   /// 构建事件指示器
@@ -99,23 +95,14 @@ class ElText extends StatelessWidget {
   /// 构建文本小部件
   @override
   Widget build(BuildContext context) {
+    var $style = el.globalTextStyle.merge(buildTextStyle(context));
+    // 同步 Text 小部件的加粗文本逻辑
+    if (MediaQuery.boldTextOf(context)) {
+      $style.copyWith(fontWeight: FontWeight.bold);
+    }
     final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
-    return ElHover(
-      onlyCursor: disabledHoverBuilder,
-      cursor: registrar == null
-          ? MouseCursor.defer
-          : (DefaultSelectionStyle.of(context).mouseCursor ??
-              SystemMouseCursors.text),
-      builder: (isHover) => Builder(builder: (context) {
-        return _buildTextWidget(context, registrar);
-      }),
-    );
-  }
-
-  /// 构建文本组件
-  Widget _buildTextWidget(BuildContext context, SelectionRegistrar? registrar) {
-    return DefaultTextStyle.merge(
-      style: el.config.textStyle.merge(buildTextStyle(context).merge(style)),
+    Widget result = DefaultTextStyle.merge(
+      style: $style,
       textAlign: textAlign,
       softWrap: softWrap,
       overflow: overflow,
@@ -144,6 +131,24 @@ class ElText extends StatelessWidget {
         );
       }),
     );
+    if (registrar != null) {
+      result = MouseRegion(
+        onHover: (e) {
+          el.setCursor(DefaultSelectionStyle.of(context).mouseCursor ??
+              SystemMouseCursors.text);
+        },
+        onExit: (e) {
+          el.resetCursor();
+        },
+        child: result,
+      );
+      // result = ElHover(
+      //   cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+      //       SystemMouseCursors.text,
+      //   builder: (isHover) => result,
+      // );
+    }
+    return result;
   }
 
   /// 构建富文本片段集合
@@ -211,11 +216,13 @@ class H1 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h1,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h1,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 
@@ -225,11 +232,13 @@ class H2 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h2,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h2,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 
@@ -239,11 +248,13 @@ class H3 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h3,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h3,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 
@@ -253,11 +264,13 @@ class H4 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h4,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h4,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 
@@ -267,11 +280,13 @@ class H5 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h5,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h5,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 
@@ -281,11 +296,13 @@ class H6 extends ElText {
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return TextStyle(color: context.elTheme.titleColor)
-        .merge(DefaultTextStyle.of(context).style.copyWith(
-              fontSize: el.typography.h6,
-              fontWeight: ElFont.bold,
-            ));
+    return DefaultTextStyle.of(context)
+        .style
+        .copyWith(
+          fontSize: el.typography.h6,
+          fontWeight: ElFont.bold,
+        )
+        .merge(style);
   }
 }
 

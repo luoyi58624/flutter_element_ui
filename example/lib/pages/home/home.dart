@@ -21,12 +21,14 @@ class HomePage extends HookWidget {
             }),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              ElText('Element UI Text'),
+              _RichText(),
               // ElButton(
               //   onPressed: () {
               //     show.value = !show.value;
@@ -81,5 +83,45 @@ class _BoxRender extends RenderBox {
   @override
   void performLayout() {
     size = const Size(100, 200);
+  }
+}
+
+class _RichText extends StatefulWidget {
+  const _RichText({super.key});
+
+  @override
+  State<_RichText> createState() => _RichTextState();
+}
+
+class _RichTextState extends State<_RichText> {
+  bool flag1 = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: DefaultTextStyle.of(context).style,
+        children: [
+          const TextSpan(text: 'xxx'),
+          TextSpan(
+            text: 'xxx',
+            onEnter: (e) {
+              setState(() {
+                flag1 = true;
+              });
+            },
+            onExit: (e) {
+              setState(() {
+                flag1 = false;
+              });
+            },
+            mouseCursor: SystemMouseCursors.click,
+            style: TextStyle(color: flag1 ? Colors.red : Colors.green),
+          ),
+          const WidgetSpan(child: Text('xxx')),
+          const WidgetSpan(child: Text('xxx')),
+        ],
+      ),
+    );
   }
 }

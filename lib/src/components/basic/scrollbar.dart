@@ -11,7 +11,7 @@ const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
 class ElScrollBehavior extends ScrollBehavior {
-  /// Element UI 滚动行为，桌面端默认使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
+  /// Element UI 滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
   const ElScrollBehavior();
 
   @override
@@ -50,7 +50,9 @@ class ElScrollBehavior extends ScrollBehavior {
   }
 }
 
-/// Element UI 滚动条
+/// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开立即消失。
+///
+/// 提示：通常情况下你无需手动绑定它，因为在祖先节点已经默认注入了滚动条。
 class ElScrollbar extends RawScrollbar {
   const ElScrollbar({
     super.key,

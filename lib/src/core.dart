@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'components/basic/scrollbar.dart';
@@ -8,10 +7,11 @@ import 'services/message/message.dart';
 import 'services/toast.dart';
 import 'styles/config.dart';
 import 'styles/theme.dart';
+import 'utils/font.dart';
 import 'widgets/animation.dart';
 
 class ElConfigProvider extends StatelessWidget {
-  /// Element UI 配置注入，它是可选的，你可以完全自定义它们：
+  /// Element UI 配置注入，它非常简单，你可以完全自己定义它们，使用方式：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElConfigProvider(
@@ -25,21 +25,27 @@ class ElConfigProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 设置全局文本样式
+    el.globalTextStyle = TextStyle(
+      color: context.elTheme.textColor,
+      fontSize: el.typography.text,
+      fontWeight: ElFont.normal,
+    ).merge(el.config.textStyle);
+
     // 管理全局光标，Element UI 所有 hover 效果都依赖此组件
     return ElGlobalCursor(
-      // 设置全局文本样式，先创建只包含主题文字颜色样式，再合并用户配置的默认文本样式。
-      // 提示：它不会继承祖先默认文本样式，防止祖先样式污染，黄色双下划线便是从 MaterialApp 注入的。
-      child: DefaultTextStyle(
-        style: TextStyle(color: context.elTheme.textColor)
-            .merge(el.config.textStyle),
+      // 必须构建一个默认的 Material 组件，因为 Element UI 部分组件是直接基于 Material 的，
+      // 如果你直接在页面中使用这些组件那么页面会报错，除非你手动添加 Material 组件。
+      child: Material(
+        textStyle: el.globalTextStyle,
         // 设置背景颜色
         child: AnimatedColoredBox(
-          duration: el.config.bgTransition.ms,
+          duration: el.config.bgDuration,
           color: context.elTheme.bgColor,
-          // 设置默认滚动条，Element UI样式
+          // 设置 Element UI 样式滚动条
           child: ScrollConfiguration(
             behavior: const ElScrollBehavior(),
-            // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等浮层时会报错
+            // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
             child: Overlay(initialEntries: [
               OverlayEntry(builder: (context) {
                 return child;
@@ -81,6 +87,9 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
 
   /// 文本排版配置，
   ElTypographyData typography = ElTypographyData.data;
+
+  /// 全局文本样式
+  TextStyle globalTextStyle = const TextStyle();
 
   /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [

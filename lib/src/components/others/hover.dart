@@ -6,7 +6,7 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import '../../core.dart';
 
 class ElHover extends StatefulWidget {
-  /// hover构建器，仅在桌面端渲染，移动端不会渲染
+  /// hover构建器
   const ElHover({
     super.key,
     required this.builder,
@@ -50,17 +50,15 @@ class _HoverBuilderState extends State<ElHover> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformUtil.isDesktop
-        ? _HoverInheritedWidget(
-            isHover: isHover,
-            child: MouseRegion(
-              onEnter: _onEnter,
-              onExit: _upExit,
-              onHover: widget.disabled ? null : widget.onHover,
-              child: widget.builder(isHover),
-            ),
-          )
-        : widget.builder(isHover);
+    return _HoverInheritedWidget(
+      isHover: isHover,
+      child: MouseRegion(
+        onEnter: _onEnter,
+        onExit: _upExit,
+        onHover: widget.disabled ? null : widget.onHover,
+        child: widget.builder(isHover),
+      ),
+    );
   }
 
   void _onEnter(PointerEnterEvent event) {

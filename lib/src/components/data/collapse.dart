@@ -145,7 +145,7 @@ class ElCollapseItem extends StatelessWidget {
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
-                      duration: elConfig.bgTransition.ms,
+                      duration: elConfig.bgDuration,
                       height: elConfig.baseWidgetHeight,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
@@ -213,7 +213,7 @@ class ElCollapseItem extends StatelessWidget {
                 crossFadeState: value.contains(id)
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
-                duration: el.config.collapseDuration.ms,
+                duration: el.config.collapseDuration,
               );
             },
           ),

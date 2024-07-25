@@ -52,11 +52,6 @@ class TextPage extends StatelessWidget {
             const H4('四级标题', style: TextStyle(color: Colors.cyan)),
             const H5('五级标题', style: TextStyle(color: Colors.purple)),
             const H6('六级标题', style: TextStyle(color: Colors.grey)),
-            // const WidgetSpan(
-            //   alignment: PlaceholderAlignment.middle,
-            //   child: H6('六级标题', style: TextStyle(color: Colors.grey)),
-            // ),
-            // H6('六级标题', style: TextStyle(color: Colors.grey)),
             ElText(
               '普通文本 - count: ${count.value}',
               style: const TextStyle(color: Colors.indigoAccent),
@@ -64,6 +59,11 @@ class TextPage extends StatelessWidget {
                 count.value++;
               },
             ),
+            // const WidgetSpan(
+            //   alignment: PlaceholderAlignment.middle,
+            //   child: H6('六级标题', style: TextStyle(color: Colors.grey)),
+            // ),
+            // H6('六级标题', style: TextStyle(color: Colors.grey)),
           ]),
         ],
       );

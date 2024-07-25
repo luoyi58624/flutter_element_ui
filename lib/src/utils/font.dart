@@ -1,13 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-/// Element UI 字重，之所以不直接使用 [FontWeight] 是因为有时候希望能更改全局字重，
-/// 例如 normal -> w500，bold -> w600 等等
 class ElFont {
   ElFont._();
 
+  /// 普通字重
   static FontWeight normal = FontWeight.w400;
+
+  /// 中等字重
   static FontWeight medium = FontWeight.w500;
+
+  /// 粗体字重
   static FontWeight bold = FontWeight.w700;
 
   /// 字体回退列表，flutter会根据此列表依次匹配字体

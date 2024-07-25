@@ -43,9 +43,6 @@ class ElThemeData {
   /// 模态框、弹出层背景色
   Color modalColor;
 
-  /// 标题颜色
-  Color titleColor;
-
   /// 文字主要颜色
   Color textColor;
   Color textSecondary;
@@ -89,7 +86,6 @@ class ElThemeData {
     this.headerColor = const Color(0xffffffff),
     this.cardColor = const Color(0xffffffff),
     this.modalColor = const Color(0xffffffff),
-    this.titleColor = const Color(0xff181818),
     this.textColor = const Color(0xff303133),
     this.textSecondary = const Color(0xff909399),
     this.textPlaceholder = const Color(0xffC0C4CC),
@@ -117,7 +113,6 @@ class ElThemeData {
     this.headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xff3f3f46),
     this.modalColor = const Color(0xff3f3f46),
-    this.titleColor = const Color(0xfffafafa),
     this.textColor = const Color(0xfff2f2f2),
     this.textSecondary = const Color(0xff909399),
     this.textPlaceholder = const Color(0xffC0C4CC),

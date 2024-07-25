@@ -24,10 +24,10 @@ class ElConfigData {
   BorderRadius cardRadius;
 
   /// 背景颜色过渡持续时间(毫秒)
-  int bgTransition;
+  Duration bgDuration;
 
   /// 折叠动画持续时间(毫秒)
-  int collapseDuration;
+  Duration collapseDuration;
 
   /// 全局文本样式
   TextStyle textStyle;
@@ -47,8 +47,8 @@ class ElConfigData {
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
-    this.bgTransition = 100,
-    this.collapseDuration = 250,
+    this.bgDuration = const Duration(milliseconds: 200),
+    this.collapseDuration = const Duration(milliseconds: 250),
     this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
