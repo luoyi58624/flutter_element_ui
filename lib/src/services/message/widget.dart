@@ -55,7 +55,7 @@ class ElDefaultMessage extends StatelessWidget {
               child: SelectableText(
                 message.content,
                 style: TextStyle(
-                  color: themeColor,
+                  color: context.isDark ? el.darkTheme.textColor : themeColor,
                   fontWeight: ElFont.medium,
                 ),
               ),

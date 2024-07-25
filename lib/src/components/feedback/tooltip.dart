@@ -123,7 +123,7 @@ class _ElTooltipState extends State<ElTooltip> {
       );
     } else {
       result = widget.content;
-      if (!(widget.content is ElTypographyInheritedWidget ||
+      if (!(widget.content is ElText ||
           widget.content is Text ||
           widget.content is RichText)) {
         isTextWidget = false;
@@ -137,12 +137,10 @@ class _ElTooltipState extends State<ElTooltip> {
         color: bgColor,
         borderRadius: el.config.radius,
       ),
-      child: ElTypographyInheritedWidget(
-        data: ElTypographyInheritedWidget.of(context).mergeText(
-          TextStyle(
-            color: bgColor.elTextColor(context),
-            fontSize: 12,
-          ),
+      child: DefaultTextStyle.merge(
+        style: TextStyle(
+          color: bgColor.elTextColor(context),
+          fontSize: 12,
         ),
         child: result,
       ),

@@ -101,17 +101,16 @@ extension ElColorExtension on Color {
   }
 
   /// 将当前颜色和另一种颜色按一定比例进行混合
-  /// * scale 0-100，比值越大就越接近color1，比值越小就接近color2
-  ///
-  /// 参考自 scss 文档：https://sass-lang.com/documentation/modules/color/#mix
-  Color mix(Color color2, int scale) {
+  /// * otherColor 相混合的第二种颜色
+  /// * scale 0-100，比值越小就越接近color1，比值越大就接近color2
+  Color mix(Color otherColor, int scale) {
     assert(scale >= 0 && scale <= 100);
-    var p = 1.0 - scale / 100;
+    var p = scale / 100;
     return Color.fromARGB(
-      ((color2.alpha - alpha) * p + alpha).round(),
-      ((color2.red - red) * p + red).round(),
-      ((color2.green - green) * p + green).round(),
-      ((color2.blue - blue) * p + blue).round(),
+      ((otherColor.alpha - alpha) * p + alpha).round(),
+      ((otherColor.red - red) * p + red).round(),
+      ((otherColor.green - green) * p + green).round(),
+      ((otherColor.blue - blue) * p + blue).round(),
     );
   }
 

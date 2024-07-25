@@ -10,9 +10,11 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../../core.dart';
 import '../../utils/assert.dart';
+import '../../utils/font.dart';
 import '../others/hover.dart';
 import '../others/tap.dart';
 import 'icon.dart';
+import 'typography.dart';
 
 typedef _ButtonStyleProp = ({
   double? width,
@@ -209,9 +211,9 @@ class _Button extends HookWidget {
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
-      child: DefaultTextStyle.merge(
+      child: DefaultTextStyle(
           style: TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: ElFont.medium,
             color: buttonStyle.textColor,
           ),
           child: buildChild(buttonStyle)),
@@ -227,7 +229,7 @@ class _Button extends HookWidget {
         childWidget = child;
       }
     } else {
-      childWidget = Text(
+      childWidget = ElText(
         '$child',
         strutStyle: const StrutStyle(forceStrutHeight: true),
       );

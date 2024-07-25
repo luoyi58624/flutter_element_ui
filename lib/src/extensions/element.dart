@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/private.dart';
 
 import '../core.dart';
 import '../styles/theme.dart';
@@ -16,6 +15,11 @@ extension ElAppExtension on BuildContext {
         'warning': elTheme.warning,
         'error': elTheme.error,
       };
+}
+
+extension ElBrightnessExtension on BuildContext {
+  /// 当前环境是否是暗黑模式
+  bool get isDark => Theme.of(this).brightness == Brightness.dark;
 }
 
 extension ElResponsiveExtension on BuildContext {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import '../core.dart';
 
@@ -7,18 +8,13 @@ import '../core.dart';
 // 应用于 Element UI 内部私有扩展函数
 // =========================================================
 
-extension BrightnessExtension on BuildContext {
-  /// 当前环境是否是暗黑模式
-  bool get isDark => Theme.of(this).brightness == Brightness.dark;
-}
-
 /// 模拟 Element UI 九种渐变明亮度颜色
 extension ColorExtension on Color {
   /// 将黑色和主题色进行混合，权重越小，越接近黑色，权重越大，越接近主题色
-  Color _darkenColor(int level) => Colors.black.mix(this, level * 8);
+  Color _darkenColor(int level) => mix(Colors.black, level * 8);
 
   /// 将白色和主题色进行混合，权重越小，越接近白色，权重越大，越接近主题色
-  Color _brightenColor(int level) => Colors.white.mix(this, level * 10);
+  Color _brightenColor(int level) => mix(Colors.white, level * 10);
 
   /// 适应当前应用的主题默认，生成不同级别的颜色
   /// * reverse - 是否应用反转颜色
@@ -30,6 +26,7 @@ extension ColorExtension on Color {
     }
   }
 
+  /// 最接近主题色
   Color light1(BuildContext context, {bool reverse = false}) =>
       _light(context, 1, reverse);
 

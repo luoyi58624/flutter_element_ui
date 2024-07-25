@@ -20,7 +20,6 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
-      color: Colors.transparent,
       theme: ElThemeUtil.buildMaterialTheme(context),
       darkTheme: ElThemeUtil.buildMaterialTheme(
         context,

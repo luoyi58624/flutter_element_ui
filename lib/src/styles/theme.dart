@@ -108,16 +108,11 @@ class ElThemeData {
 
   /// 默认的暗色主题构造函数
   ElThemeData.dark({
-    // this.primary = const Color(0xff0ea5e9),
-    // this.success = const Color(0xff14b8a6),
-    // this.info = const Color(0xff64748B),
-    // this.warning = const Color(0xfffbbf24),
-    // this.error = const Color(0xfffb7185),
-    this.primary = const Color(0xff409EFF),
-    this.success = const Color(0xff67C23A),
-    this.info = const Color(0xff909399),
-    this.warning = const Color(0xffE6A23C),
-    this.error = const Color(0xffF56C6C),
+    this.primary = const Color(0xff0ea5e9),
+    this.success = const Color(0xff14b8a6),
+    this.info = const Color(0xff64748B),
+    this.warning = const Color(0xfffbbf24),
+    this.error = const Color(0xfffb7185),
     this.bgColor = const Color(0xff2b2b2b),
     this.headerColor = const Color(0xff404040),
     this.cardColor = const Color(0xff3f3f46),

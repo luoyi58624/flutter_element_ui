@@ -7,7 +7,6 @@ import 'feedback/message.dart';
 
 part '../generates/styles/config.g.dart';
 
-/// 全局配置，定义了所有组件的默认配置信息
 @ElModel(copyWith: true)
 class ElConfigData {
   static ElConfigData data = ElConfigData();
@@ -42,6 +41,7 @@ class ElConfigData {
   /// 消息提示全局样式
   ElMessageStyle messageStyle;
 
+  /// Element UI 全局配置，定义了所有组件的默认配置信息
   ElConfigData({
     this.baseWidgetHeight = 36,
     this.iconSize = 18,
@@ -49,7 +49,7 @@ class ElConfigData {
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
     this.bgTransition = 100,
     this.collapseDuration = 250,
-    this.textStyle = const TextStyle(fontSize: 15),
+    this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
     this.messageStyle = const ElMessageStyle(),

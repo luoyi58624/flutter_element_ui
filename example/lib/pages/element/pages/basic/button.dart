@@ -43,7 +43,6 @@ class ButtonPage extends HookWidget {
                   child: GlobalState.isDark.value ? '亮色模式' : '暗色模式',
                 );
               }),
-              const ElButton(onPressed: null, child: '你好'),
             ],
           ),
           buildTitle('普通按钮'),

@@ -7,10 +7,6 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    String code = """
-ElButton(onPressed: () {}, child: 'Default'),
-ElButton(onPressed: () {}, type: 'primary', child: 'Primary'),
-ElButton(onPressed: () {}, type: 'success', child: 'Success'),""";
     final show = useState(true);
     return Scaffold(
       appBar: AppBar(
@@ -31,35 +27,6 @@ ElButton(onPressed: () {}, type: 'success', child: 'Success'),""";
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  ElButton(onPressed: () {}, child: 'Default'),
-                  ElButton(onPressed: () {}, type: 'primary', child: 'Primary'),
-                  ElButton(onPressed: () {}, type: 'success', child: 'Success'),
-                ],
-              ),
-              SelectionArea(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Text(
-                        code,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [],
-                  ),
-                ),
-              ),
               // ElButton(
               //   onPressed: () {
               //     show.value = !show.value;

@@ -6,161 +6,12 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core.dart';
+import '../../utils/font.dart';
 import '../others/hover.dart';
 
-/// 字体排版配置
-class ElTypographyData {
-  /// 默认的字体排版配置
-  static final data = ElTypographyData(
-    h1: const TextStyle(
-      fontSize: 28,
-      fontWeight: FontWeight.bold,
-    ),
-    h2: const TextStyle(
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-    ),
-    h3: const TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    ),
-    h4: const TextStyle(
-      fontSize: 18,
-      fontWeight: FontWeight.bold,
-    ),
-    h5: const TextStyle(
-      fontSize: 16,
-      fontWeight: FontWeight.bold,
-    ),
-    h6: const TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-    ),
-    text: const TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.normal,
-    ),
-  );
-
-  /// 一级标题
-  final TextStyle h1;
-
-  /// 二级标题
-  final TextStyle h2;
-
-  /// 三级标题
-  final TextStyle h3;
-
-  /// 四级标题
-  final TextStyle h4;
-
-  /// 五级标题
-  final TextStyle h5;
-
-  /// 六级标题
-  final TextStyle h6;
-
-  /// 普通文本
-  final TextStyle text;
-
-  /// 超链接文本颜色，默认跟随主题色
-  final Color? hrefColor;
-
-  /// 超链接是否显示下划线
-  final bool underline;
-
-  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-  final bool hoverUnderline;
-
-  ElTypographyData({
-    required this.h1,
-    required this.h2,
-    required this.h3,
-    required this.h4,
-    required this.h5,
-    required this.h6,
-    required this.text,
-    this.hrefColor,
-    this.underline = true,
-    this.hoverUnderline = false,
-  });
-
-  ElTypographyData copyWith({
-    TextStyle? h1,
-    TextStyle? h2,
-    TextStyle? h3,
-    TextStyle? h4,
-    TextStyle? h5,
-    TextStyle? h6,
-    TextStyle? text,
-    Color? hrefColor,
-    bool? underline,
-    bool? hoverUnderline,
-  }) {
-    return ElTypographyData(
-      h1: h1 ?? this.h1,
-      h2: h2 ?? this.h2,
-      h3: h3 ?? this.h3,
-      h4: h4 ?? this.h4,
-      h5: h5 ?? this.h5,
-      h6: h6 ?? this.h6,
-      text: text ?? this.text,
-      hrefColor: hrefColor ?? this.hrefColor,
-      underline: underline ?? this.underline,
-      hoverUnderline: hoverUnderline ?? this.hoverUnderline,
-    );
-  }
-
-  /// 接受一个文本样式，将其应用于所有文本
-  ElTypographyData merge(TextStyle style) {
-    return mergeTitle(style)..mergeText(style);
-  }
-
-  /// 接受一个文本样式，将其应用于所有标题
-  ElTypographyData mergeText(TextStyle style) {
-    return copyWith(
-      text: text.merge(style),
-    );
-  }
-
-  /// 接受一个文本样式，将其应用于所有标题
-  ElTypographyData mergeTitle(TextStyle style) {
-    return copyWith(
-      h1: h1.merge(style),
-      h2: h2.merge(style),
-      h3: h3.merge(style),
-      h4: h4.merge(style),
-      h5: h5.merge(style),
-      h6: h6.merge(style),
-    );
-  }
-}
-
-/// Element UI 文字排版继承小部件
-class ElTypographyInheritedWidget extends InheritedWidget {
-  const ElTypographyInheritedWidget({
-    super.key,
-    required super.child,
-    required this.data,
-  });
-
-  final ElTypographyData data;
-
-  /// 从上下文拿到注入的排版配置数据
-  static ElTypographyData of(BuildContext context) {
-    return context
-            .dependOnInheritedWidgetOfExactType<ElTypographyInheritedWidget>()
-            ?.data ??
-        el.typography;
-  }
-
-  @override
-  bool updateShouldNotify(ElTypographyInheritedWidget oldWidget) => false;
-}
-
 /// 文本抽象类
-abstract class ElTypographyWidget extends StatelessWidget {
-  const ElTypographyWidget(
+class ElText extends StatelessWidget {
+  const ElText(
     this.data, {
     super.key,
     this.style,
@@ -227,8 +78,14 @@ abstract class ElTypographyWidget extends StatelessWidget {
   /// 悬停时默认禁止重建小部件
   bool get disabledHoverBuilder => true;
 
-  /// 构建文本样式抽象方法
-  TextStyle buildTextStyle(BuildContext context);
+  /// 默认文本样式
+  TextStyle buildTextStyle(BuildContext context) {
+    return TextStyle(
+      fontSize: el.typography.text,
+      fontWeight: ElFont.medium,
+      color: context.elTheme.textColor,
+    ).merge(DefaultTextStyle.of(context).style);
+  }
 
   /// 构建事件指示器
   GestureRecognizer? buildRecognizer() {
@@ -258,10 +115,7 @@ abstract class ElTypographyWidget extends StatelessWidget {
   /// 构建文本组件
   Widget _buildTextWidget(BuildContext context, SelectionRegistrar? registrar) {
     return DefaultTextStyle.merge(
-      style: buildTextStyle(context).copyWith(
-        fontFamily: el.config.textStyle.fontFamily,
-        fontFamilyFallback: el.config.textStyle.fontFamilyFallback,
-      ),
+      style: el.config.textStyle.merge(buildTextStyle(context).merge(style)),
       textAlign: textAlign,
       softWrap: softWrap,
       overflow: overflow,
@@ -313,7 +167,7 @@ abstract class ElTypographyWidget extends StatelessWidget {
       );
     }
     if (data is TextSpan || data is WidgetSpan) return data;
-    if (data is ElTypographyWidget) {
+    if (data is ElText) {
       if (data.data is List) {
         final richTexts = data.data as List;
         List<InlineSpan> $children = [];
@@ -347,165 +201,145 @@ abstract class ElTypographyWidget extends StatelessWidget {
   }
 }
 
-class ElText extends ElTypographyWidget {
-  /// Element UI 文本小部件
-  const ElText(
-    super.data, {
-    super.key,
-    super.style,
-    super.strutStyle,
-    super.textAlign,
-    super.textDirection,
-    super.locale,
-    super.softWrap,
-    super.overflow,
-    super.textScaler,
-    super.maxLines,
-    super.semanticsLabel,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    super.selectionColor,
-    super.mouseCursor,
-    super.onTap,
-  });
-
-  @override
-  TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context).text.merge(style);
-  }
-}
-
 // ============================================================================
 // 除了ElText，其他文本小部件不会提供大量的额外配置，如果发现参数不能满足，请直接使用ElText
 // ============================================================================
 
-class H1 extends ElTypographyWidget {
+class H1 extends ElText {
   /// 一级标题
   const H1(super.data, {super.key, super.style}) : super(semanticsLabel: 'H1');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context)
-        .h1
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h1,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class H2 extends ElTypographyWidget {
+class H2 extends ElText {
   /// 二级标题
   const H2(super.data, {super.key, super.style}) : super(semanticsLabel: 'H2');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context)
-        .h2
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h2,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class H3 extends ElTypographyWidget {
+class H3 extends ElText {
   /// 三级标题
   const H3(super.data, {super.key, super.style}) : super(semanticsLabel: 'H3');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context)
-        .h3
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h3,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class H4 extends ElTypographyWidget {
+class H4 extends ElText {
   /// 四级标题
   const H4(super.data, {super.key, super.style}) : super(semanticsLabel: 'H4');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    final $style = ElTypographyInheritedWidget.of(context)
-        .h4
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
-    return $style;
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h4,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class H5 extends ElTypographyWidget {
+class H5 extends ElText {
   /// 五级标题
   const H5(super.data, {super.key, super.style}) : super(semanticsLabel: 'H5');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context)
-        .h5
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h5,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class H6 extends ElTypographyWidget {
+class H6 extends ElText {
   /// 六级标题
   const H6(super.data, {super.key, super.style}) : super(semanticsLabel: 'H6');
 
   @override
   TextStyle buildTextStyle(BuildContext context) {
-    return ElTypographyInheritedWidget.of(context)
-        .h6
-        .copyWith(color: context.elTheme.titleColor)
-        .merge(style);
+    return TextStyle(color: context.elTheme.titleColor)
+        .merge(DefaultTextStyle.of(context).style.copyWith(
+              fontSize: el.typography.h6,
+              fontWeight: ElFont.bold,
+            ));
   }
 }
 
-class A extends ElTypographyWidget {
-  /// 超链接小部件。
-  ///
-  /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
-  /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
-  /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
-  const A(
-    super.data, {
-    super.key,
-    super.style,
-    required this.href,
-    this.underline,
-    this.hoverUnderline,
-  }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
-
-  /// 跳转地址
-  final String href;
-
-  /// 是否显示下划线
-  final bool? underline;
-
-  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-  final bool? hoverUnderline;
-
-  @override
-  bool get disabledHoverBuilder => false;
-
-  @override
-  GestureRecognizer? buildRecognizer() {
-    return TapGestureRecognizer()
-      ..onTap = () {
-        launchUrl(Uri.parse(href));
-      };
-  }
-
-  @override
-  TextStyle buildTextStyle(BuildContext context) {
-    final $data = ElTypographyInheritedWidget.of(context);
-    final color = context.elTheme.primary;
-    final isHover = ElHover.of(context);
-    return $data.text.merge((style ?? const TextStyle()).copyWith(
-      color: color,
-      decoration: hoverUnderline ?? $data.hoverUnderline
-          ? (isHover ? TextDecoration.underline : TextDecoration.none)
-          : underline ?? $data.underline
-              ? TextDecoration.underline
-              : TextDecoration.none,
-      decorationColor: color,
-    ));
-  }
-}
+// class A extends ElText {
+//   /// 超链接小部件。
+//   ///
+//   /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
+//   /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
+//   /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
+//   const A(
+//     super.data, {
+//     super.key,
+//     super.style,
+//     required this.href,
+//     this.underline,
+//     this.hoverUnderline,
+//   }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
+//
+//   /// 跳转地址
+//   final String href;
+//
+//   /// 是否显示下划线
+//   final bool? underline;
+//
+//   /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
+//   final bool? hoverUnderline;
+//
+//   @override
+//   bool get disabledHoverBuilder => false;
+//
+//   @override
+//   GestureRecognizer? buildRecognizer() {
+//     return TapGestureRecognizer()
+//       ..onTap = () {
+//         launchUrl(Uri.parse(href));
+//       };
+//   }
+//
+//   @override
+//   TextStyle buildTextStyle(BuildContext context) {
+//     final $data = DefaultTextStyle.of(context).style.copyWith(
+//           fontSize: el.typography.h1,
+//           fontWeight: ElFont.bold,
+//         );
+//     final color = context.elTheme.primary;
+//     final isHover = ElHover.of(context);
+//     return $data.text.merge((style ?? const TextStyle()).copyWith(
+//       color: color,
+//       decoration: hoverUnderline ?? $data.hoverUnderline
+//           ? (isHover ? TextDecoration.underline : TextDecoration.none)
+//           : underline ?? $data.underline
+//               ? TextDecoration.underline
+//               : TextDecoration.none,
+//       decorationColor: color,
+//     ));
+//   }
+// }

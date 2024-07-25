@@ -35,7 +35,6 @@ export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu/menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/hover.dart';
-export 'src/components/others/responsive.dart';
 export 'src/components/others/tap.dart';
 export 'src/components/others/triangle.dart';
 export 'src/components/others/split/split.dart';
@@ -44,6 +43,7 @@ export 'src/extensions/color.dart';
 export 'src/extensions/element.dart';
 export 'src/extensions/int.dart';
 
+export 'src/services/hover.dart' show ElGlobalCursor;
 export 'src/services/message/message.dart' show ElDefaultMessage;
 
 export 'src/styles/theme.dart';
