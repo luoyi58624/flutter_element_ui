@@ -11,7 +11,7 @@ import 'utils/font.dart';
 import 'widgets/animation.dart';
 
 class ElConfigProvider extends StatelessWidget {
-  /// Element UI 配置注入，它非常简单，你可以完全自己定义它们，使用方式：
+  /// Element UI 配置注入，它非常简单，你可以根据需要自由组合它们，使用方式：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElConfigProvider(
@@ -100,7 +100,7 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
     'error'
   ];
 
-  /// 根节点导航key
+  /// 根节点导航key，使用全局 [context] 前你必须将此 key 配置到路由中
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   /// 全局 context 对象
@@ -206,7 +206,7 @@ class ElTypographyData {
     required this.h5,
     required this.h6,
     required this.text,
-    this.hrefColor,
+    this.hrefColor = const Color.fromRGBO(9, 105, 218, 1),
     this.underline = true,
     this.hoverUnderline = false,
   });

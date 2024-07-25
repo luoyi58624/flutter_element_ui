@@ -34,17 +34,17 @@ class TextPage extends StatelessWidget {
           const H6('六级标题 (H6)'),
           const ElText('普通文本 (ElText)'),
           const Text('普通文本 (Text)'),
-          // const A('百度(显示下划线)', href: 'https://www.baidu.com'),
-          // const A(
-          //   '百度(禁止下划线)',
-          //   href: 'https://www.baidu.com',
-          //   underline: false,
-          // ),
-          // const A(
-          //   '百度(悬停时显示下划线)',
-          //   href: 'https://www.baidu.com',
-          //   hoverUnderline: true,
-          // ),
+          const A('百度(显示下划线)', href: 'https://www.baidu.com'),
+          const A(
+            '百度(禁止下划线)',
+            href: 'https://www.baidu.com',
+            underline: false,
+          ),
+          const A(
+            '百度(悬停时显示下划线)',
+            href: 'https://www.baidu.com',
+            hoverUnderline: true,
+          ),
           ElText([
             const H1('一级标题', style: TextStyle(color: Colors.red)),
             const H2('二级标题', style: TextStyle(color: Colors.orange)),
@@ -111,18 +111,22 @@ class TextPage extends StatelessWidget {
           color: Colors.red,
         ),
         'xxx',
-        // const A(
-        //   'https://www.baidu.com',
-        //   href: 'https://www.baidu.com',
-        //   // hoverUnderline: true,
-        // ),
+        const A(
+          'https://www.baidu.com',
+          href: 'https://www.baidu.com',
+          // hoverUnderline: true,
+        ),
         '呃呃呃',
         const ElText('呃呃呃'),
         const ElText('xxx'),
-        const ElButton(
-          onPressed: null,
-          child: 'https://www.baidu.com',
-          link: true,
+        const WidgetSpan(
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: ElButton(
+            onPressed: null,
+            child: 'https://www.baidu.com',
+            link: true,
+          ),
         ),
         const ElText(
           ['呃呃呃', '呃呃呃'],

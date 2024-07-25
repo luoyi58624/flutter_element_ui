@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                ElButton(onPressed: () {}, child: 'hello'),
                 const H1(
                   'Element UI',
                   style: TextStyle(fontSize: 28),

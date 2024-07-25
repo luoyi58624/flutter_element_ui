@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core.dart';
 import '../../utils/font.dart';
@@ -303,57 +304,49 @@ class H6 extends ElText {
   }
 }
 
-// class A extends ElText {
-//   /// 超链接小部件。
-//   ///
-//   /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
-//   /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
-//   /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
-//   const A(
-//     super.data, {
-//     super.key,
-//     super.style,
-//     required this.href,
-//     this.underline,
-//     this.hoverUnderline,
-//   }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
-//
-//   /// 跳转地址
-//   final String href;
-//
-//   /// 是否显示下划线
-//   final bool? underline;
-//
-//   /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-//   final bool? hoverUnderline;
-//
-//   @override
-//   bool get disabledHoverBuilder => false;
-//
-//   @override
-//   GestureRecognizer? buildRecognizer() {
-//     return TapGestureRecognizer()
-//       ..onTap = () {
-//         launchUrl(Uri.parse(href));
-//       };
-//   }
-//
-//   @override
-//   TextStyle buildTextStyle(BuildContext context) {
-//     final $data = DefaultTextStyle.of(context).style.copyWith(
-//           fontSize: el.typography.h1,
-//           fontWeight: ElFont.bold,
-//         );
-//     final color = context.elTheme.primary;
-//     final isHover = HoverBuilder.of(context);
-//     return $data.text.merge((style ?? const TextStyle()).copyWith(
-//       color: color,
-//       decoration: hoverUnderline ?? $data.hoverUnderline
-//           ? (isHover ? TextDecoration.underline : TextDecoration.none)
-//           : underline ?? $data.underline
-//               ? TextDecoration.underline
-//               : TextDecoration.none,
-//       decorationColor: color,
-//     ));
-//   }
-// }
+class A extends ElText {
+  /// 超链接小部件。
+  ///
+  /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
+  /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
+  /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
+  const A(
+    super.data, {
+    super.key,
+    super.style,
+    required this.href,
+    this.underline,
+    this.hoverUnderline,
+  }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
+
+  /// 跳转地址
+  final String href;
+
+  /// 是否显示下划线
+  final bool? underline;
+
+  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
+  final bool? hoverUnderline;
+
+  @override
+  bool get disabledHoverBuilder => false;
+
+  @override
+  GestureRecognizer? buildRecognizer() {
+    return TapGestureRecognizer()
+      ..onTap = () {
+        launchUrl(Uri.parse(href));
+      };
+  }
+
+  @override
+  TextStyle buildTextStyle(BuildContext context) {
+    return DefaultTextStyle.of(context).style.merge(style).copyWith(
+          color: el.typography.hrefColor,
+          decoration: underline ?? el.typography.underline
+              ? TextDecoration.underline
+              : null,
+          decorationColor: el.typography.hrefColor,
+        );
+  }
+}

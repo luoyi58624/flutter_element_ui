@@ -7,34 +7,37 @@ class LayoutPage extends StatelessWidget {
   final Widget child;
 
   Widget buildHeader(BuildContext context) {
-    return SizedBox(
-      height: 56,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Row(
-          children: [
-            HoverBuilder(
-              onlyCursor: true,
-              cursor: SystemMouseCursors.click,
-              builder: (context) {
-                return GestureDetector(
-                  onTap: () {
-                    context.go('/');
-                  },
-                  child: ElIcon(
-                    'assets/images/element-plus-logo.svg',
-                    color: context.elTheme.primary,
-                    size: 28,
-                    package: null,
-                  ),
-                );
-              },
-            ),
-            const Expanded(child: SizedBox()),
-            Row(
-              children: [],
-            ),
-          ],
+    return SafeArea(
+      bottom: false,
+      child: SizedBox(
+        height: 56,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            children: [
+              HoverBuilder(
+                onlyCursor: true,
+                cursor: SystemMouseCursors.click,
+                builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.go('/');
+                    },
+                    child: ElIcon(
+                      'assets/images/element-plus-logo.svg',
+                      color: context.elTheme.primary,
+                      size: 28,
+                      package: null,
+                    ),
+                  );
+                },
+              ),
+              const Expanded(child: SizedBox()),
+              Row(
+                children: [],
+              ),
+            ],
+          ),
         ),
       ),
     );
