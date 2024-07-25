@@ -9,7 +9,8 @@ final List<RouteBase> guideRoutes = [
       routes: [
         GoRoute(
           path: 'design',
-          builder: (context, state) => const DesignPage(),
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: DesignPage()),
         )
       ]),
 ];

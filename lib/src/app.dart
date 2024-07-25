@@ -40,8 +40,8 @@ class ElAppData {
 }
 
 class ElApp extends StatelessWidget {
-  /// Element UI 顶级小部件，为了尽可能地减少上手成本，它只负责注入一些全局配置，
-  /// 没有对 [WidgetsApp] 进行包装，所以你可以配合任意顶级 App 去构建应用：
+  /// Element UI 顶级小部件，它只负责注入一些全局配置，没有对 [WidgetsApp] 进行包装，
+  /// 所以你可以配合任意顶级 App 去构建应用：
   /// ```dart
   /// ElApp(
   ///   child: MaterialApp(

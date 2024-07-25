@@ -13,13 +13,27 @@ class LayoutPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           children: [
-            ElIcon(
-              'assets/images/element-plus-logo.svg',
-              color: context.elTheme.primary,
-              size: 28,
-              package: null,
+            ElHover(
+              onlyCursor: true,
+              cursor: SystemMouseCursors.click,
+              builder: (isHover) {
+                return GestureDetector(
+                  onTap: () {
+                    context.go('/');
+                  },
+                  child: ElIcon(
+                    'assets/images/element-plus-logo.svg',
+                    color: context.elTheme.primary,
+                    size: 28,
+                    package: null,
+                  ),
+                );
+              },
             ),
             const Expanded(child: SizedBox()),
+            Row(
+              children: [],
+            ),
           ],
         ),
       ),
@@ -28,14 +42,12 @@ class LayoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectionArea(
-      child: Column(
-        children: [
-          buildHeader(context),
-          const ElDivider(),
-          Expanded(child: child),
-        ],
-      ),
+    return Column(
+      children: [
+        buildHeader(context),
+        const ElDivider(),
+        Expanded(child: child),
+      ],
     );
   }
 }
