@@ -12,7 +12,7 @@ import '../../core.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
 import '../../widgets/hover.dart';
-import '../others/tap.dart';
+import '../../widgets/tap.dart';
 import 'icon.dart';
 import 'typography.dart';
 
@@ -159,10 +159,10 @@ class ElButton extends StatelessWidget {
         child: HoverBuilder(
           disabled: disabled,
           cursor: SystemMouseCursors.click,
-          builder: ($isHover) => ElTap(
+          builder: (context) => TapBuilder(
             onTap: onPressed,
             disabled: disabled,
-            builder: ($isTap) => _Button(child, styleProp),
+            builder: (context) => _Button(child, styleProp),
           ),
         ),
       ),
@@ -287,7 +287,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final borderColor = useState<Color?>(null);
 
   final $isHover = HoverBuilder.of(context);
-  final $isTap = ElTap.of(context);
+  final $isTap = TapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =

@@ -35,7 +35,7 @@ export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu/menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/widgets/hover.dart';
-export 'src/components/others/tap.dart';
+export 'src/widgets/tap.dart';
 export 'src/components/others/triangle.dart';
 export 'src/components/others/split/split.dart';
 

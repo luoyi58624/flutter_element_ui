@@ -257,12 +257,13 @@ class _DialogWidgetState extends State<DialogWidget> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ElTap(
+                        child: TapBuilder(
                           onTap: onCancel,
                           disabled: disableButton,
-                          builder: (isTap) {
+                          builder: (context) {
                             return Container(
-                              color: context.elTheme.cardColor.on(isTap),
+                              color: context.elTheme.cardColor
+                                  .on(TapBuilder.of(context)),
                               alignment: Alignment.center,
                               child: buildButtonContent(
                                 loading: cancelLoading,
@@ -278,12 +279,13 @@ class _DialogWidgetState extends State<DialogWidget> {
                       ),
                       const ElDivider(vertical: true),
                       Expanded(
-                        child: ElTap(
+                        child: TapBuilder(
                           onTap: onConfirm,
                           disabled: disableButton,
-                          builder: (isTap) {
+                          builder: (context) {
                             return Container(
-                              color: context.elTheme.cardColor.on(isTap),
+                              color: context.elTheme.cardColor
+                                  .on(TapBuilder.of(context)),
                               alignment: Alignment.center,
                               child: buildButtonContent(
                                 loading: confirmLoading,
@@ -327,18 +329,18 @@ class _DialogWidgetState extends State<DialogWidget> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28),
-                child: ElTap(
+                child: TapBuilder(
                   onTap: onConfirm,
                   disabled: disableButton,
-                  builder: (isTap) {
+                  builder: (context) {
                     return Container(
                       height: 40,
                       alignment: Alignment.center,
                       decoration: ShapeDecoration(
                         shape: const StadiumBorder(),
                         gradient: LinearGradient(colors: [
-                          confirmColor.deepen(20).on(isTap),
-                          confirmColor.on(isTap),
+                          confirmColor.deepen(20).on(TapBuilder.of(context)),
+                          confirmColor.on(TapBuilder.of(context)),
                         ]),
                       ),
                       child: buildButtonContent(
@@ -356,10 +358,10 @@ class _DialogWidgetState extends State<DialogWidget> {
               if (widget.showCancel)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 28),
-                  child: ElTap(
+                  child: TapBuilder(
                     onTap: onCancel,
                     disabled: disableButton,
-                    builder: (isTap) {
+                    builder: (context) {
                       return Container(
                         height: 40,
                         alignment: Alignment.center,
@@ -368,9 +370,9 @@ class _DialogWidgetState extends State<DialogWidget> {
                           gradient: LinearGradient(colors: [
                             (widget.cancelColor ?? context.elTheme.info)
                                 .deepen(30)
-                                .on(isTap),
+                                .on(TapBuilder.of(context)),
                             (widget.cancelColor ?? context.elTheme.info)
-                                .on(isTap),
+                                .on(TapBuilder.of(context)),
                           ]),
                         ),
                         child: buildButtonContent(
@@ -426,17 +428,17 @@ class _DialogWidgetState extends State<DialogWidget> {
             children: [
               HoverBuilder(
                 disabled: disableButton,
-                builder: (context) => ElTap(
+                builder: (context) => TapBuilder(
                   onTap: onCancel,
                   disabled: disableButton,
-                  builder: (isTap) => Container(
+                  builder: (context) => Container(
                     height: 40,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: (widget.cancelColor ?? context.elTheme.cardColor)
                           .on(HoverBuilder.of(context))
-                          .on(isTap),
+                          .on(TapBuilder.of(context)),
                       borderRadius: el.config.buttonStyle.borderRadius,
                     ),
                     child: buildButtonContent(
@@ -457,15 +459,17 @@ class _DialogWidgetState extends State<DialogWidget> {
               const Gap(8),
               HoverBuilder(
                 disabled: disableButton,
-                builder: (context) => ElTap(
+                builder: (context) => TapBuilder(
                   onTap: onConfirm,
                   disabled: disableButton,
-                  builder: (isTap) => Container(
+                  builder: (context) => Container(
                     height: 40,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: confirmColor.on(HoverBuilder.of(context)).on(isTap),
+                      color: confirmColor
+                          .on(HoverBuilder.of(context))
+                          .on(TapBuilder.of(context)),
                       borderRadius: el.config.buttonStyle.borderRadius,
                     ),
                     child: buildButtonContent(

@@ -7,8 +7,8 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 Timer? _timer;
 
 /// 对[GestureDetector]进行的包装，允许延迟更新点击状态，同时可以通过[of]访问上下文中的点击状态
-class ElTap extends StatefulWidget {
-  const ElTap({
+class TapBuilder extends StatefulWidget {
+  const TapBuilder({
     super.key,
     required this.builder,
     this.onTap,
@@ -16,7 +16,7 @@ class ElTap extends StatefulWidget {
     this.disabled = false,
   }) : assert(delay >= 0);
 
-  final Widget Function(bool isTap) builder;
+  final WidgetBuilder builder;
 
   final GestureTapCallback? onTap;
 
@@ -32,10 +32,10 @@ class ElTap extends StatefulWidget {
   static bool of(BuildContext context) => _TapInheritedWidget.of(context);
 
   @override
-  State<ElTap> createState() => _TapBuilderState();
+  State<TapBuilder> createState() => _TapBuilderState();
 }
 
-class _TapBuilderState extends State<ElTap> {
+class _TapBuilderState extends State<TapBuilder> {
   bool isTap = false;
   int? _time;
 
@@ -74,7 +74,11 @@ class _TapBuilderState extends State<ElTap> {
                   _timer = null;
                 }.delay(widget.delay);
               },
-        child: widget.builder(isTap),
+        child: Builder(
+          builder: (context) {
+            return widget.builder(context);
+          }
+        ),
       ),
     );
   }
