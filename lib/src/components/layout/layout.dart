@@ -9,7 +9,7 @@ import 'package:flutter_obs/flutter_obs.dart';
 
 import '../../core.dart';
 import '../../widgets/animation.dart';
-import '../others/hover.dart';
+import '../../widgets/hover.dart';
 
 part 'aside.dart';
 

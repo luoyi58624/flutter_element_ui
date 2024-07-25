@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../../core.dart';
+import '../core.dart';
 
-class ElHover extends StatefulWidget {
+class HoverBuilder extends StatefulWidget {
   /// hover构建器
-  const ElHover({
+  const HoverBuilder({
     super.key,
     required this.builder,
     this.cursor = MouseCursor.defer,
@@ -18,7 +17,7 @@ class ElHover extends StatefulWidget {
     this.onHover,
   });
 
-  final Widget Function(bool isHover) builder;
+  final WidgetBuilder builder;
 
   /// 鼠标悬停光标样式，默认点击
   final MouseCursor cursor;
@@ -42,10 +41,10 @@ class ElHover extends StatefulWidget {
   static bool of(BuildContext context) => _HoverInheritedWidget.of(context);
 
   @override
-  State<ElHover> createState() => _HoverBuilderState();
+  State<HoverBuilder> createState() => _HoverBuilderState();
 }
 
-class _HoverBuilderState extends State<ElHover> {
+class _HoverBuilderState extends State<HoverBuilder> {
   bool isHover = false;
 
   @override
@@ -56,7 +55,9 @@ class _HoverBuilderState extends State<ElHover> {
         onEnter: _onEnter,
         onExit: _upExit,
         onHover: widget.disabled ? null : widget.onHover,
-        child: widget.builder(isHover),
+        child: Builder(builder: (context) {
+          return widget.builder(context);
+        }),
       ),
     );
   }

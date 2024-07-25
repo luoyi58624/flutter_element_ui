@@ -86,13 +86,13 @@ class _MenuItemState extends State<_MenuItem> {
     Color menuItemColor = isActive
         ? context.elTheme.menuActiveColor
         : bgColor.elTextColor(context);
-    return ElHover(
-      builder: (isHover) => AnimatedContainer(
+    return HoverBuilder(
+      builder: (context) => AnimatedContainer(
         duration: el.config.bgDuration,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
-          color: bgColor.on(isHover),
+          color: bgColor.on(HoverBuilder.of(context)),
         ),
         child: Row(
           children: [

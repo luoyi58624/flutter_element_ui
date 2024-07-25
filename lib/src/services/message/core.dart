@@ -108,7 +108,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: ElHover(
+                  child: HoverBuilder(
                     onlyCursor: true,
                     onEnter: (e) {
                       if (_removeTimer != null) {
@@ -119,7 +119,7 @@ class _MessageState extends State<_Message>
                     onExit: (e) {
                       setRemoveTimer();
                     },
-                    builder: (isHover) => SizedBox(
+                    builder: (context) => SizedBox(
                       key: messageKey,
                       child: ObsBuilder(
                         builder: (context) {

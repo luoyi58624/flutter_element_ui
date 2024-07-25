@@ -1,6 +1,5 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_syntax_view/flutter_syntax_view.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
@@ -35,7 +34,7 @@ class HomePage extends HookWidget {
               //   },
               //   child: '切换',
               // ),
-              // ElHover(builder: (isHover) {
+              // HoverBuilder(builder: (context) {
               //   return const Text('hello')
               //       .animate(target: show.value ? 1 : 0)
               //       .fade(duration: 200.ms);

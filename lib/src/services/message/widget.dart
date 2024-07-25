@@ -66,12 +66,12 @@ class ElDefaultMessage extends StatelessWidget {
                 onTap: () {
                   message.removeMessage();
                 },
-                child: ElHover(
+                child: HoverBuilder(
                   cursor: SystemMouseCursors.click,
-                  builder: (isHover) {
+                  builder: (context) {
                     return ElIcon(
                       ElIcons.close,
-                      color: isHover
+                      color: HoverBuilder.of(context)
                           ? themeColor
                           : context.isDark
                               ? Colors.grey.shade600

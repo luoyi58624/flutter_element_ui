@@ -112,9 +112,9 @@ class _CardWidget extends StatelessWidget {
             const Gap(24),
             const ElDivider(),
             SelectionContainer.disabled(
-              child: ElHover(
+              child: HoverBuilder(
                 cursor: SystemMouseCursors.click,
-                builder: (isHover) {
+                builder: (context) {
                   return GestureDetector(
                     onTap: () {
                       context.go(path);
@@ -122,7 +122,7 @@ class _CardWidget extends StatelessWidget {
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        color: isHover ? context.elTheme.primary : Colors.white,
+                        color: HoverBuilder.of(context) ? context.elTheme.primary : Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: el.config.cardRadius.bottomLeft,
                           bottomRight: el.config.cardRadius.bottomRight,
@@ -132,7 +132,7 @@ class _CardWidget extends StatelessWidget {
                         child: ElText(
                           '查看详情',
                           style: TextStyle(
-                            color: isHover
+                            color: HoverBuilder.of(context)
                                 ? Colors.white
                                 : context.elTheme.primary,
                           ),

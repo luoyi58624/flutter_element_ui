@@ -154,7 +154,7 @@ class _ElTooltipState extends State<ElTooltip> {
     ElUtil.nextTick(() {
       buildCount.value++;
     });
-    return ElHover(
+    return HoverBuilder(
       onlyCursor: true,
       onEnter: (e) {
         if (delayHideOverlay == null) {
@@ -167,7 +167,7 @@ class _ElTooltipState extends State<ElTooltip> {
       onExit: (e) {
         delayHideOverlay = _hideOverlay.delay(100);
       },
-      builder: (isHover) => CompositedTransformTarget(
+      builder: (context) => CompositedTransformTarget(
         link: layerLink,
         child: widget.child,
       ),

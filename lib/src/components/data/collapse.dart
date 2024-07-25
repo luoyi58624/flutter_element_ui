@@ -1,14 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import 'package:flutter_element_ui/src/extensions/private.dart';
 
 import '../../core.dart';
 import '../../utils/icons.dart';
 import '../../widgets/simple_widgets.dart';
 import '../basic/icon.dart';
-import '../others/hover.dart';
+import '../../widgets/hover.dart';
 
 class _CollapseData extends InheritedWidget {
   const _CollapseData(
@@ -124,10 +122,10 @@ class ElCollapseItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElHover(
+          HoverBuilder(
             onlyCursor: true,
             cursor: SystemMouseCursors.click,
-            builder: (isHover) {
+            builder: (context) {
               return GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obs/flutter_obs.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../core.dart';
 
@@ -12,7 +11,7 @@ mixin ElHoverService {
   /// 锁定全局光标 key，防止其他 Hover 篡改
   String? _cursorKey;
 
-  /// 设置全局光标，设置 key 可以限制 [ElHover] 构建的小部件悬停状态，例如在拖动滚动条、
+  /// 设置全局光标，设置 key 可以限制 [HoverBuilder] 构建的小部件悬停状态，例如在拖动滚动条、
   /// 拖拽元素尺寸时禁止鼠标触发按钮等元素的悬停样式。
   ///
   /// 函数返回一个布尔值，若为 true 表示悬停状态允许触发，否则表示当前悬停被其他元素占用。

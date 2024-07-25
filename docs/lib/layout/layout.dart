@@ -13,10 +13,10 @@ class LayoutPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           children: [
-            ElHover(
+            HoverBuilder(
               onlyCursor: true,
               cursor: SystemMouseCursors.click,
-              builder: (isHover) {
+              builder: (context) {
                 return GestureDetector(
                   onTap: () {
                     context.go('/');

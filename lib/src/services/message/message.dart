@@ -10,7 +10,7 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../../components/basic/icon.dart';
 import '../../components/data/badge.dart';
-import '../../components/others/hover.dart';
+import '../../widgets/hover.dart';
 import '../../core.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';

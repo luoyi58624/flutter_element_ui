@@ -7,7 +7,7 @@ import 'package:flutter_obs/flutter_obs.dart';
 
 import '../../../core.dart';
 import '../../../utils/assert.dart';
-import '../hover.dart';
+import '../../../widgets/hover.dart';
 
 part 'split_panel.dart';
 

@@ -1,13 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core.dart';
 import '../../utils/font.dart';
-import '../others/hover.dart';
 
 /// Element UI 文本小部件，和 [Text] 小部件一样，都是基于 [RichText] 进行的封装
 class ElText extends StatelessWidget {
@@ -142,7 +139,7 @@ class ElText extends StatelessWidget {
         },
         child: result,
       );
-      // result = ElHover(
+      // result = HoverBuilder(
       //   cursor: DefaultSelectionStyle.of(context).mouseCursor ??
       //       SystemMouseCursors.text,
       //   builder: (isHover) => result,
@@ -348,7 +345,7 @@ class H6 extends ElText {
 //           fontWeight: ElFont.bold,
 //         );
 //     final color = context.elTheme.primary;
-//     final isHover = ElHover.of(context);
+//     final isHover = HoverBuilder.of(context);
 //     return $data.text.merge((style ?? const TextStyle()).copyWith(
 //       color: color,
 //       decoration: hoverUnderline ?? $data.hoverUnderline

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../core.dart';

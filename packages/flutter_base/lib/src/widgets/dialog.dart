@@ -424,9 +424,9 @@ class _DialogWidgetState extends State<DialogWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElHover(
+              HoverBuilder(
                 disabled: disableButton,
-                builder: (isHover) => ElTap(
+                builder: (context) => ElTap(
                   onTap: onCancel,
                   disabled: disableButton,
                   builder: (isTap) => Container(
@@ -435,7 +435,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: (widget.cancelColor ?? context.elTheme.cardColor)
-                          .on(isHover)
+                          .on(HoverBuilder.of(context))
                           .on(isTap),
                       borderRadius: el.config.buttonStyle.borderRadius,
                     ),
@@ -455,9 +455,9 @@ class _DialogWidgetState extends State<DialogWidget> {
                 ),
               ),
               const Gap(8),
-              ElHover(
+              HoverBuilder(
                 disabled: disableButton,
-                builder: (isHover) => ElTap(
+                builder: (context) => ElTap(
                   onTap: onConfirm,
                   disabled: disableButton,
                   builder: (isTap) => Container(
@@ -465,7 +465,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: confirmColor.on(isHover).on(isTap),
+                      color: confirmColor.on(HoverBuilder.of(context)).on(isTap),
                       borderRadius: el.config.buttonStyle.borderRadius,
                     ),
                     child: buildButtonContent(

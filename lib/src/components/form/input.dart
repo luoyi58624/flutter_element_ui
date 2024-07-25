@@ -5,7 +5,7 @@ import '../../core.dart';
 import '../../styles/basic/input.dart';
 import '../../styles/config.dart';
 import '../basic/icon.dart';
-import '../others/hover.dart';
+import '../../widgets/hover.dart';
 import 'form.dart';
 import 'form_item.dart';
 
@@ -152,8 +152,8 @@ class _ElInputState extends State<ElInput> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: ElHover(
-          builder: (isHover) {
+        child: HoverBuilder(
+          builder: (context) {
             return Builder(builder: (context) {
               return TextFormField(
                 controller: controller,
@@ -189,8 +189,8 @@ class _ElInputState extends State<ElInput> {
       enabledBorder: OutlineInputBorder(
         borderRadius: styleProp.borderRadius,
         borderSide: BorderSide(
-          width: ElHover.of(context) ? 1.2 : 1,
-          color: ElHover.of(context)
+          width: HoverBuilder.of(context) ? 1.2 : 1,
+          color: HoverBuilder.of(context)
               ? context.elTheme.borderHoverColor
               : context.elTheme.borderColor,
         ),

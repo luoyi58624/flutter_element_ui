@@ -114,12 +114,12 @@ abstract class _ResizerWidget extends HookWidget {
           right: right,
           child: DeferPointer(
               paintOnTop: true,
-              child: ElHover(
+              child: HoverBuilder(
                 onlyCursor: true,
                 cursor: isRow
                     ? SystemMouseCursors.resizeColumn
                     : SystemMouseCursors.resizeRow,
-                builder: (isHover) => isRow
+                builder: (context) => isRow
                     ? GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onHorizontalDragStart: (e) {
