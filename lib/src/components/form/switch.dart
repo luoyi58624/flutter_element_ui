@@ -124,6 +124,7 @@ class _ElSwitchState extends State<ElSwitch>
       },
       child: HoverBuilder(
         disabled: widget.disabled,
+        cursor: SystemMouseCursors.click,
         builder: (context) {
           return AnimatedContainer(
             duration: const Duration(milliseconds: 300),
