@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -361,6 +363,8 @@ typedef HrefWidgetBuilder = Widget Function(
   String href,
 );
 
+OverlayEntry? _hrefOverlay;
+
 class A extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件是[Widget]，则不会触发点击事件，
   /// 其他数据类型则会调用 [builder] 构建默认风格的文本小部件。
@@ -389,6 +393,42 @@ class A extends StatelessWidget {
       href,
       child: HoverBuilder(
         cursor: SystemMouseCursors.click,
+        onHover: (e) {
+          if (_hrefOverlay == null) {
+            _hrefOverlay = OverlayEntry(
+              builder: (context) => Positioned(
+                left: 0,
+                bottom: 0,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 50,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: context.isDark
+                        ? Colors.grey.shade700
+                        : Colors.grey.shade300,
+                    borderRadius:
+                        const BorderRadius.only(topRight: Radius.circular(4)),
+                  ),
+                  child: ElText(
+                    href,
+                    style: const TextStyle(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            );
+            Overlay.of(el.context).insert(_hrefOverlay!);
+          }
+        },
+        onExit: (e) {
+          if (_hrefOverlay != null) {
+            _hrefOverlay!.remove();
+            _hrefOverlay = null;
+          }
+        },
         builder: (context) {
           if (child is Widget) return child;
           final $builder = builder ??
@@ -474,46 +514,3 @@ class HrefTextWidget extends StatelessWidget {
     });
   }
 }
-
-// class A extends ElText {
-//   /// 超链接小部件
-//   const A(
-//     super.data, {
-//     super.key,
-//     super.style,
-//     required this.href,
-//     this.underline,
-//     this.hoverUnderline,
-//   }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
-//
-//   /// 跳转地址
-//   final String href;
-//
-//   /// 是否显示下划线
-//   final bool? underline;
-//
-//   /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-//   final bool? hoverUnderline;
-//
-//   @override
-//   bool get disabledHoverBuilder => false;
-//
-//   @override
-//   GestureRecognizer? buildRecognizer() {
-//     return TapGestureRecognizer()
-//       ..onTap = () {
-//         launchUrl(Uri.parse(href));
-//       };
-//   }
-//
-//   @override
-//   TextStyle buildTextStyle(BuildContext context) {
-//     return DefaultTextStyle.of(context).style.merge(style).copyWith(
-//           color: el.typography.hrefColor,
-//           decoration: underline ?? el.typography.underline
-//               ? TextDecoration.underline
-//               : null,
-//           decorationColor: el.typography.hrefColor,
-//         );
-//   }
-// }

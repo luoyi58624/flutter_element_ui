@@ -43,14 +43,17 @@ class TextPage extends StatelessWidget {
           const H6('六级标题 (H6)'),
           const ElText('普通文本 (ElText)'),
           const Text('普通文本 (Text)'),
-          const A(child: '百度(显示下划线)', href: 'https://www.baidu.com'),
           const A(
-            child: '百度(禁止下划线)',
+            child: '百度',
             href: 'https://www.baidu.com',
           ),
           const A(
-            child: '百度(悬停时显示下划线)',
-            href: 'https://www.baidu.com',
+            child: 'Flutter官方',
+            href: 'https://flutter.cn/',
+          ),
+          const A(
+            child: 'Bing',
+            href: 'https://www.bing.com/?mkt=zh-CN&FORM=BEHPTB&mkt=zh-CN',
           ),
           ElText([
             const H1('一级标题', style: TextStyle(color: Colors.red)),
@@ -143,9 +146,9 @@ class TextPage extends StatelessWidget {
           }),
         ),
         'xxx',
-        const A(
+        A(
           child: 'https://www.baidu.com',
-          href: 'https://www.baidu.com',
+          href: 'https://www.baidu.com' * 10,
           // hoverUnderline: true,
         ),
         const ElButton(

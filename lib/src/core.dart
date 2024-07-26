@@ -98,11 +98,20 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
     'error'
   ];
 
-  /// 根节点导航key，使用全局 [context] 前你必须将此 key 配置到路由中
+  /// 根节点导航key，Element UI 有大量的 Api 都依赖全局路由 context 对象，
+  /// 请务必挂载此 key，使用方式：
+  /// ```dart
+  /// MaterialApp(
+  ///   navigatorKey: el.navigatorKey,
+  /// );
+  /// ```
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   /// 全局 context 对象
   BuildContext get context {
+    MaterialApp(
+      navigatorKey: el.navigatorKey,
+    );
     assert(
         navigatorKey.currentWidget != null &&
             navigatorKey.currentWidget is Navigator,
