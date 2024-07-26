@@ -27,12 +27,7 @@ class ElConfigProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 设置全局文本样式
-    el.globalTextStyle = TextStyle(
-      color: context.elTheme.textColor,
-      fontSize: el.typography.text,
-      fontWeight: ElFont.normal,
-    ).merge(el.config.textStyle);
-
+    el.setGlobalTextStyle(context);
     // 必须构建一个默认的 Material 组件，因为 Element UI 部分组件是直接基于 Material 的，
     // 如果你直接在页面中使用这些组件那么页面会报错，除非你手动添加 Material 组件。
     return Material(
@@ -64,30 +59,38 @@ final el = _ElService();
 // InheritedWidget 更适合为局部提供默认状态，通过当前上下文 context 访问最近的配置信息，
 // 可以完美地实现数据隔离，不会引起冲突，但这种特性对于全局数据来讲将失去意义，没有哪个应用
 // 会创建多种相互隔离的主题模式，因为这种行为几乎等同于你在一个 App 中创建多个 MaterialApp，
-// 至少就目前来讲，这是一种反模式，会引发各种问题。
+// 哪怕你使用 MaterialApp 应该也不至于会创建多个 ThemeData 对象。
 //
 // 在 Flutter 中，数据和 UI 是完全解耦的，无论你将数据放在哪里，对数据做了什么操作，
 // 如果需要刷新页面只需调用一次 setState 即可，抛弃 InheritedWidget 管理全局数据，
 // 你可以在任意地方去使用它，而无需通过 context 上下文查找。
 // ===========================================================================
 class _ElService with ElHoverService, ElMessageService, ElToastService {
-  /// 亮色主题
-  ElThemeData lightTheme = ElThemeData();
+  /// 根节点导航key，Element UI 有很多的 Api 都依赖全局路由 context 对象，请务必挂载此 key。
+  ///
+  /// 当使用命令式路由：
+  /// ```dart
+  /// MaterialApp(
+  ///   navigatorKey: el.navigatorKey,
+  /// );
+  /// ```
+  ///
+  /// 当使用声明式路由：
+  /// ```dart
+  /// final router = GoRouter(
+  ///   navigatorKey: el.navigatorKey,
+  /// );
+  /// ```
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  /// 暗色主题
-  ElThemeData darkTheme = ElThemeData.dark();
-
-  /// 组件配置
-  ElConfigData config = ElConfigData();
-
-  /// 响应式断点配置
-  ElResponsiveData responsive = const ElResponsiveData();
-
-  /// 文本排版配置，
-  ElTypographyData typography = ElTypographyData.data;
-
-  /// 全局文本样式
-  TextStyle globalTextStyle = const TextStyle();
+  /// 全局 context 对象
+  BuildContext get context {
+    assert(
+        navigatorKey.currentWidget != null &&
+            navigatorKey.currentWidget is Navigator,
+        '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
+    return navigatorKey.currentContext!;
+  }
 
   /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [
@@ -98,25 +101,33 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
     'error'
   ];
 
-  /// 根节点导航key，Element UI 有大量的 Api 都依赖全局路由 context 对象，
-  /// 请务必挂载此 key，使用方式：
-  /// ```dart
-  /// MaterialApp(
-  ///   navigatorKey: el.navigatorKey,
-  /// );
-  /// ```
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  /// Element UI 亮色主题
+  ElThemeData lightTheme = ElThemeData();
 
-  /// 全局 context 对象
-  BuildContext get context {
-    MaterialApp(
-      navigatorKey: el.navigatorKey,
-    );
-    assert(
-        navigatorKey.currentWidget != null &&
-            navigatorKey.currentWidget is Navigator,
-        '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
-    return navigatorKey.currentContext!;
+  /// Element UI 暗色主题
+  ElThemeData darkTheme = ElThemeData.dark();
+
+  /// Element UI 全局配置
+  ElConfigData config = ElConfigData();
+
+  /// Element UI 响应式断点配置
+  ElResponsiveData responsive = const ElResponsiveData();
+
+  /// Element UI 文本排版配置
+  ElTypographyData typography = ElTypographyData.data;
+
+  TextStyle _globalTextStyle = const TextStyle();
+
+  /// Element UI 全局文本样式
+  TextStyle get globalTextStyle => _globalTextStyle;
+
+  /// 设置全局文本样式
+  void setGlobalTextStyle(BuildContext context) {
+    el._globalTextStyle = TextStyle(
+      color: context.elTheme.textColor,
+      fontSize: el.typography.text,
+      fontWeight: ElFont.normal,
+    ).merge(el.config.textStyle);
   }
 }
 

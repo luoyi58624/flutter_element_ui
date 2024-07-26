@@ -28,7 +28,10 @@ class HomePage extends StatelessWidget {
                   constraints: const BoxConstraints(
                     maxWidth: 640,
                   ),
-                  child: const ElImage(src: 'assets/images/home/theme.png'),
+                  child: const AspectRatio(
+                    aspectRatio: 1 / 0.6,
+                    child: ElImage(src: 'assets/images/home/theme.png'),
+                  ),
                 ),
                 const Gap(16),
                 ConstrainedBox(
@@ -70,12 +73,12 @@ class HomePage extends StatelessWidget {
 }
 
 class _CardWidget extends StatelessWidget {
-  const _CardWidget(this.image, this.title, this.content, this.path);
+  const _CardWidget(this.image, this.title, this.content, this.href);
 
   final String image;
   final String title;
   final String content;
-  final String path;
+  final String href;
 
   @override
   Widget build(BuildContext context) {
@@ -111,17 +114,19 @@ class _CardWidget extends StatelessWidget {
             const Gap(24),
             const ElDivider(),
             SelectionContainer.disabled(
-              child: HoverBuilder(
-                cursor: SystemMouseCursors.click,
-                builder: (context) {
+              child: A(
+                href: href,
+                child: Builder(builder: (context) {
                   return GestureDetector(
                     onTap: () {
-                      context.go(path);
+                      context.go(href);
                     },
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                        color: HoverBuilder.of(context) ? context.elTheme.primary : Colors.white,
+                        color: HoverBuilder.of(context)
+                            ? context.elTheme.primary
+                            : Colors.white,
                         borderRadius: BorderRadius.only(
                           bottomLeft: el.config.cardRadius.bottomLeft,
                           bottomRight: el.config.cardRadius.bottomRight,
@@ -139,7 +144,7 @@ class _CardWidget extends StatelessWidget {
                       ),
                     ),
                   );
-                },
+                }),
               ),
             ),
           ],

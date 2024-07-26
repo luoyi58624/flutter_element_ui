@@ -92,7 +92,6 @@ class TextPage extends StatelessWidget {
         'xxx',
         '富文本',
         'xxx',
-        WidgetSpan(child: Text('xxx')),
         const TextSpan(
           text: 'xxx',
           style: TextStyle(color: Colors.green),
@@ -132,7 +131,6 @@ class TextPage extends StatelessWidget {
         //   color: Colors.red,
         // ),
         'xxx',
-        const WidgetSpan(child: Text('xxx')),
         WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
           baseline: TextBaseline.alphabetic,
