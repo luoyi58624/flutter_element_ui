@@ -117,7 +117,11 @@ class _RichTextState extends State<_RichText> {
             mouseCursor: SystemMouseCursors.click,
             style: TextStyle(color: flag1 ? Colors.red : Colors.green),
           ),
-          const WidgetSpan(child: Text('xxx')),
+          const WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: Text('xxx'),
+          ),
           const WidgetSpan(child: Text('xxx')),
         ],
       ),

@@ -47,7 +47,7 @@ class ElConfigData {
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
-    this.bgDuration = const Duration(milliseconds: 200),
+    this.bgDuration = const Duration(milliseconds: 100),
     this.collapseDuration = const Duration(milliseconds: 250),
     this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),

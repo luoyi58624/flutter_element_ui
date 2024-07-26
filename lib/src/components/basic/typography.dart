@@ -6,6 +6,79 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core.dart';
 import '../../utils/font.dart';
+import '../../widgets/hover.dart';
+import '../../widgets/tap.dart';
+
+/// 字体排版配置
+class ElTypographyData {
+  /// 默认的字体排版配置
+  static final data = ElTypographyData(
+    h1: 28,
+    h2: 24,
+    h3: 20,
+    h4: 18,
+    h5: 16,
+    h6: 14,
+    text: 15,
+  );
+
+  /// 一级标题
+  final double h1;
+
+  /// 二级标题
+  final double h2;
+
+  /// 三级标题
+  final double h3;
+
+  /// 四级标题
+  final double h4;
+
+  /// 五级标题
+  final double h5;
+
+  /// 六级标题
+  final double h6;
+
+  /// 普通文本
+  final double text;
+
+  final Widget Function(BuildContext context, String)? builder;
+
+  ElTypographyData({
+    required this.h1,
+    required this.h2,
+    required this.h3,
+    required this.h4,
+    required this.h5,
+    required this.h6,
+    required this.text,
+    this.builder,
+  });
+
+  ElTypographyData copyWith({
+    double? h1,
+    double? h2,
+    double? h3,
+    double? h4,
+    double? h5,
+    double? h6,
+    double? text,
+    Color? hrefColor,
+    bool? underline,
+    bool? hoverUnderline,
+  }) {
+    return ElTypographyData(
+      h1: h1 ?? this.h1,
+      h2: h2 ?? this.h2,
+      h3: h3 ?? this.h3,
+      h4: h4 ?? this.h4,
+      h5: h5 ?? this.h5,
+      h6: h6 ?? this.h6,
+      text: text ?? this.text,
+    );
+  }
+}
 
 /// Element UI 文本小部件，和 [Text] 小部件一样，都是基于 [RichText] 进行的封装
 class ElText extends StatelessWidget {
@@ -140,11 +213,6 @@ class ElText extends StatelessWidget {
         },
         child: result,
       );
-      // result = HoverBuilder(
-      //   cursor: DefaultSelectionStyle.of(context).mouseCursor ??
-      //       SystemMouseCursors.text,
-      //   builder: (isHover) => result,
-      // );
     }
     return result;
   }
@@ -196,16 +264,24 @@ class ElText extends StatelessWidget {
             children: children != null && children.isNotEmpty ? children : null,
           );
         } else {
-          return WidgetSpan(child: data);
+          return WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: data,
+          );
         }
       }
     }
-    return WidgetSpan(child: data);
+    return WidgetSpan(
+      alignment: PlaceholderAlignment.baseline,
+      baseline: TextBaseline.alphabetic,
+      child: data,
+    );
   }
 }
 
 // ============================================================================
-// 除了ElText，其他文本小部件不会提供大量的额外配置，如果发现参数不能满足，请直接使用ElText
+// 标题小部件不会提供大量的额外配置，如果发现参数不能满足，请直接使用ElText
 // ============================================================================
 
 class H1 extends ElText {
@@ -304,49 +380,171 @@ class H6 extends ElText {
   }
 }
 
-class A extends ElText {
-  /// 超链接小部件。
-  ///
-  /// 注意：如果在富文本当中，依赖状态的样式无法生效，因为内部只是对 [TextSpan] 进行封装，
-  /// 但它并不是一个[Widget]，虽然提供一些简单的事件触发，但你更改样式必须嵌套有状态小部件，
-  /// 在富文本中嵌套 [Widget] 你可以使用[WidgetSpan]，但这样又会导致和其他文本无法垂直对齐。
-  const A(
-    super.data, {
-    super.key,
-    super.style,
-    required this.href,
-    this.underline,
-    this.hoverUnderline,
-  }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
+/// 超链接构建器
+typedef HrefWidgetBuilder = Widget Function(
+  BuildContext context,
+  String text,
+  String href,
+);
 
-  /// 跳转地址
+class A extends StatelessWidget {
+  /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件是[Widget]，则不会触发点击事件，
+  /// 其他数据类型则会调用 [builder] 构建默认风格的文本小部件。
+  const A({
+    super.key,
+    required this.child,
+    required this.href,
+    this.builder,
+  });
+
+  /// 支持任意类型子组件
+  final dynamic child;
+
+  /// 超链接地址
   final String href;
 
-  /// 是否显示下划线
-  final bool? underline;
+  /// 构建默认风格的超链接小部件，支持全局配置
+  final HrefWidgetBuilder? builder;
 
-  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-  final bool? hoverUnderline;
-
-  @override
-  bool get disabledHoverBuilder => false;
+  /// 通过上下文拿到超链接的跳转地址
+  static String of(BuildContext context) => _HrefInheritedWidget.of(context);
 
   @override
-  GestureRecognizer? buildRecognizer() {
-    return TapGestureRecognizer()
-      ..onTap = () {
-        launchUrl(Uri.parse(href));
-      };
-  }
-
-  @override
-  TextStyle buildTextStyle(BuildContext context) {
-    return DefaultTextStyle.of(context).style.merge(style).copyWith(
-          color: el.typography.hrefColor,
-          decoration: underline ?? el.typography.underline
-              ? TextDecoration.underline
-              : null,
-          decorationColor: el.typography.hrefColor,
-        );
+  Widget build(BuildContext context) {
+    return _HrefInheritedWidget(
+      href,
+      child: HoverBuilder(
+        onHover: (e) {
+          el.setCursor(SystemMouseCursors.click, 'href');
+        },
+        onExit: (e) {
+          el.resetCursor('href');
+        },
+        builder: (context) {
+          if (child is Widget) return child;
+          final $builder = builder ??
+              el.typography.builder ??
+              (context, text) => HrefTextWidget(text, href);
+          return $builder(context, child.toString());
+        },
+      ),
+    );
   }
 }
+
+class _HrefInheritedWidget extends InheritedWidget {
+  const _HrefInheritedWidget(this.href, {required super.child});
+
+  final String href;
+
+  static String of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_HrefInheritedWidget>()!.href;
+
+  @override
+  bool updateShouldNotify(_HrefInheritedWidget oldWidget) => false;
+}
+
+enum HrefDecoration {
+  /// 不显示下划线
+  none,
+
+  /// 显示下划线
+  underline,
+
+  /// 当悬停时显示下划线
+  hoverUnderline,
+}
+
+/// 超链接文本小部件
+class HrefTextWidget extends StatelessWidget {
+  const HrefTextWidget(
+    this.text,
+    this.href, {
+    super.key,
+    this.color = hrefColor,
+    this.activeColor = hrefColor,
+    this.decoration = HrefDecoration.hoverUnderline,
+  });
+
+  /// 文本字符串
+  final String text;
+
+  /// 超链接地址
+  final String href;
+
+  /// 默认的超链接文本颜色
+  final Color color;
+
+  /// 激活的超链接文本颜色
+  final Color activeColor;
+
+  /// 超链接下划线显示逻辑
+  final HrefDecoration decoration;
+
+  static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
+
+  @override
+  Widget build(BuildContext context) {
+    return TapBuilder(onTap: () {
+      launchUrl(Uri.parse(href));
+    }, builder: (context) {
+      return DefaultTextStyle.merge(
+        style: TextStyle(
+          color: HoverBuilder.of(context) ? activeColor : color,
+          decoration: decoration == HrefDecoration.underline
+              ? TextDecoration.underline
+              : decoration == HrefDecoration.hoverUnderline
+                  ? (HoverBuilder.of(context)
+                      ? TextDecoration.underline
+                      : TextDecoration.none)
+                  : TextDecoration.none,
+          decorationColor: HoverBuilder.of(context) ? activeColor : color,
+        ),
+        child: ElText(text),
+      );
+    });
+  }
+}
+
+// class A extends ElText {
+//   /// 超链接小部件
+//   const A(
+//     super.data, {
+//     super.key,
+//     super.style,
+//     required this.href,
+//     this.underline,
+//     this.hoverUnderline,
+//   }) : super(semanticsLabel: 'A', mouseCursor: SystemMouseCursors.click);
+//
+//   /// 跳转地址
+//   final String href;
+//
+//   /// 是否显示下划线
+//   final bool? underline;
+//
+//   /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
+//   final bool? hoverUnderline;
+//
+//   @override
+//   bool get disabledHoverBuilder => false;
+//
+//   @override
+//   GestureRecognizer? buildRecognizer() {
+//     return TapGestureRecognizer()
+//       ..onTap = () {
+//         launchUrl(Uri.parse(href));
+//       };
+//   }
+//
+//   @override
+//   TextStyle buildTextStyle(BuildContext context) {
+//     return DefaultTextStyle.of(context).style.merge(style).copyWith(
+//           color: el.typography.hrefColor,
+//           decoration: underline ?? el.typography.underline
+//               ? TextDecoration.underline
+//               : null,
+//           decorationColor: el.typography.hrefColor,
+//         );
+//   }
+// }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'components/basic/scrollbar.dart';
+import 'components/basic/typography.dart';
 import 'services/hover.dart';
 import 'services/message/message.dart';
 import 'services/toast.dart';
@@ -151,89 +152,6 @@ class ElResponsiveData {
       md: md ?? this.md,
       lg: lg ?? this.lg,
       xl: xl ?? this.xl,
-    );
-  }
-}
-
-/// 字体排版配置
-class ElTypographyData {
-  /// 默认的字体排版配置
-  static final data = ElTypographyData(
-    h1: 28,
-    h2: 24,
-    h3: 20,
-    h4: 18,
-    h5: 16,
-    h6: 14,
-    text: 15,
-  );
-
-  /// 一级标题
-  final double h1;
-
-  /// 二级标题
-  final double h2;
-
-  /// 三级标题
-  final double h3;
-
-  /// 四级标题
-  final double h4;
-
-  /// 五级标题
-  final double h5;
-
-  /// 六级标题
-  final double h6;
-
-  /// 普通文本
-  final double text;
-
-  /// 超链接文本颜色，默认跟随主题色
-  final Color? hrefColor;
-
-  /// 超链接是否显示下划线
-  final bool underline;
-
-  /// 是否在鼠标悬停时显示下划线，默认false，若为true，[underline]将无效
-  final bool hoverUnderline;
-
-  ElTypographyData({
-    required this.h1,
-    required this.h2,
-    required this.h3,
-    required this.h4,
-    required this.h5,
-    required this.h6,
-    required this.text,
-    this.hrefColor = const Color.fromRGBO(9, 105, 218, 1),
-    this.underline = true,
-    this.hoverUnderline = false,
-  });
-
-  ElTypographyData copyWith({
-    double? h1,
-    double? h2,
-    double? h3,
-    double? h4,
-    double? h5,
-    double? h6,
-    double? text,
-    Color? hrefColor,
-    bool? underline,
-    bool? hoverUnderline,
-  }) {
-    return ElTypographyData(
-      h1: h1 ?? this.h1,
-      h2: h2 ?? this.h2,
-      h3: h3 ?? this.h3,
-      h4: h4 ?? this.h4,
-      h5: h5 ?? this.h5,
-      h6: h6 ?? this.h6,
-      text: text ?? this.text,
-      hrefColor: hrefColor ?? this.hrefColor,
-      underline: underline ?? this.underline,
-      hoverUnderline: hoverUnderline ?? this.hoverUnderline,
     );
   }
 }

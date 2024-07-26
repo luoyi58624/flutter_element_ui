@@ -34,16 +34,14 @@ class TextPage extends StatelessWidget {
           const H6('六级标题 (H6)'),
           const ElText('普通文本 (ElText)'),
           const Text('普通文本 (Text)'),
-          const A('百度(显示下划线)', href: 'https://www.baidu.com'),
+          const A(child: '百度(显示下划线)', href: 'https://www.baidu.com'),
           const A(
-            '百度(禁止下划线)',
+            child: '百度(禁止下划线)',
             href: 'https://www.baidu.com',
-            underline: false,
           ),
           const A(
-            '百度(悬停时显示下划线)',
+            child: '百度(悬停时显示下划线)',
             href: 'https://www.baidu.com',
-            hoverUnderline: true,
           ),
           ElText([
             const H1('一级标题', style: TextStyle(color: Colors.red)),
@@ -89,45 +87,98 @@ class TextPage extends StatelessWidget {
           style: TextStyle(color: Colors.blue),
         ),
         const Icon(Icons.home),
-        const TextSpan(
-          text: '垂直居中',
-          style: TextStyle(color: Colors.green),
-        ),
+        // WidgetSpan(
+        //   alignment: PlaceholderAlignment.middle,
+        //   child: Container(
+        //     width: 100,
+        //     height: 100,
+        //     color: Colors.green,
+        //   ),
+        // ),
+        // WidgetSpan(
+        //   alignment: PlaceholderAlignment.baseline,
+        //   baseline: TextBaseline.alphabetic,
+        //   child: Container(
+        //     width: 100,
+        //     height: 100,
+        //     color: Colors.green,
+        //   ),
+        // ),
+        // Container(
+        //   width: 100,
+        //   height: 100,
+        //   color: Colors.red,
+        // ),
+        'xxx',
+        const WidgetSpan(child: Text('xxx')),
         WidgetSpan(
-          alignment: PlaceholderAlignment.middle,
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-          ),
-        ),
-        const TextSpan(
-          text: '底部对齐',
-          style: TextStyle(color: Colors.red),
-        ),
-        Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
+          alignment: PlaceholderAlignment.baseline,
+          baseline: TextBaseline.alphabetic,
+          child: HoverBuilder(builder: (context) {
+            return ElText(
+              'xxx',
+              style: TextStyle(
+                color: HoverBuilder.of(context) ? Colors.red : null,
+              ),
+            );
+          }),
         ),
         'xxx',
         const A(
-          'https://www.baidu.com',
+          child: 'https://www.baidu.com',
           href: 'https://www.baidu.com',
           // hoverUnderline: true,
         ),
-        '呃呃呃',
-        const ElText('呃呃呃'),
-        const ElText('xxx'),
-        const WidgetSpan(
-          alignment: PlaceholderAlignment.baseline,
-          baseline: TextBaseline.alphabetic,
-          child: ElButton(
-            onPressed: null,
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: A(
             child: 'https://www.baidu.com',
-            link: true,
+            href: 'https://www.baidu.com',
           ),
         ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H1('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H2('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H3('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H4('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H5('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          link: true,
+          child: H6('百度'),
+        ),
+        const ElButton(
+          onPressed: null,
+          child: '百度',
+          link: true,
+        ),
+        // WidgetSpan(
+        //   child: const ElButton(
+        //     onPressed: null,
+        //     child: '百度',
+        //     link: true,
+        //   ),
+        // ),
         const ElText(
           ['呃呃呃', '呃呃呃'],
           style: TextStyle(color: Colors.red),
