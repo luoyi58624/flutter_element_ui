@@ -20,42 +20,49 @@ class HomePage extends HookWidget {
             }),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElText('Element UI Text'),
-              _RichText(),
-              // ElButton(
-              //   onPressed: () {
-              //     show.value = !show.value;
-              //   },
-              //   child: '切换',
-              // ),
-              // HoverBuilder(builder: (context) {
-              //   return const Text('hello')
-              //       .animate(target: show.value ? 1 : 0)
-              //       .fade(duration: 200.ms);
-              // }),
-              // const Gap(50),
-              // TapBuilder(builder: (context) {
-              //   return Container(
-              //     width: 100,
-              //     height: 100,
-              //     decoration: BoxDecoration(
-              //       color: Colors.green,
-              //       borderRadius: BorderRadius.circular(16),
-              //     ),
-              //   ).animate(target: context ? 1 : 0).scale(
-              //         duration: 200.ms,
-              //         curve: Curves.easeOut,
-              //         begin: const Offset(1.0, 1.0),
-              //         end: const Offset(0.9, 0.9),
-              //       );
-              // }),
-            ],
+          padding: const EdgeInsets.all(8.0),
+          child: SelectionArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElText(
+                  ElButton(
+                    onPressed: () {},
+                    child: const Text('Element UI Text'),
+                  ),
+                ),
+                const _RichText(),
+                // ElButton(
+                //   onPressed: () {
+                //     show.value = !show.value;
+                //   },
+                //   child: '切换',
+                // ),
+                // HoverBuilder(builder: (context) {
+                //   return const Text('hello')
+                //       .animate(target: show.value ? 1 : 0)
+                //       .fade(duration: 200.ms);
+                // }),
+                // const Gap(50),
+                // TapBuilder(builder: (context) {
+                //   return Container(
+                //     width: 100,
+                //     height: 100,
+                //     decoration: BoxDecoration(
+                //       color: Colors.green,
+                //       borderRadius: BorderRadius.circular(16),
+                //     ),
+                //   ).animate(target: context ? 1 : 0).scale(
+                //         duration: 200.ms,
+                //         curve: Curves.easeOut,
+                //         begin: const Offset(1.0, 1.0),
+                //         end: const Offset(0.9, 0.9),
+                //       );
+                // }),
+              ],
+            ),
           ),
         ),
       ),

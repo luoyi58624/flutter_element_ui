@@ -9,7 +9,7 @@ class HoverBuilder extends StatefulWidget {
   const HoverBuilder({
     super.key,
     required this.builder,
-    this.cursor = MouseCursor.defer,
+    this.cursor,
     this.disabled = false,
     this.onlyCursor = false,
     this.onEnter,
@@ -20,7 +20,7 @@ class HoverBuilder extends StatefulWidget {
   final WidgetBuilder builder;
 
   /// 鼠标悬停光标样式，默认点击
-  final MouseCursor cursor;
+  final MouseCursor? cursor;
 
   /// 是否开启禁用样式，默认false
   final bool disabled;
@@ -38,7 +38,12 @@ class HoverBuilder extends StatefulWidget {
   final PointerHoverEventListener? onHover;
 
   /// 根据上下文获取最近的悬停状态
-  static bool of(BuildContext context) => _HoverInheritedWidget.of(context);
+  static bool of(BuildContext context) =>
+      _HoverInheritedWidget.of(context)?.isHover ?? false;
+
+  /// 根据上下文获取最近的光标样式
+  static MouseCursor? mouseCursor(BuildContext context) =>
+      _HoverInheritedWidget.of(context)?.mouseCursor;
 
   @override
   State<HoverBuilder> createState() => _HoverBuilderState();
@@ -51,10 +56,15 @@ class _HoverBuilderState extends State<HoverBuilder> {
   Widget build(BuildContext context) {
     return _HoverInheritedWidget(
       isHover: isHover,
+      mouseCursor:
+          widget.disabled ? SystemMouseCursors.forbidden : widget.cursor,
       child: MouseRegion(
-        onEnter: _onEnter,
-        onExit: _upExit,
-        onHover: widget.disabled ? null : widget.onHover,
+        cursor: widget.disabled
+            ? SystemMouseCursors.forbidden
+            : (widget.cursor ?? MouseCursor.defer),
+        onHover: widget.disabled ? null : _onHover,
+        onEnter: widget.disabled ? null : widget.onEnter,
+        onExit: widget.disabled ? null : _onExit,
         child: Builder(builder: (context) {
           return widget.builder(context);
         }),
@@ -62,26 +72,18 @@ class _HoverBuilderState extends State<HoverBuilder> {
     );
   }
 
-  void _onEnter(PointerEnterEvent event) {
-    if (widget.disabled) {
-      el.setCursor(SystemMouseCursors.forbidden);
-    } else {
-      if (widget.onEnter != null) widget.onEnter!(event);
-      bool flag = el.setCursor(widget.cursor);
-      if (flag && !isHover) {
-        if (!widget.onlyCursor) {
-          setState(() {
-            isHover = true;
-          });
-        }
-      }
+  void _onHover(PointerHoverEvent event) {
+    if (widget.onHover != null) widget.onHover!(event);
+    if (!widget.onlyCursor && !isHover) {
+      setState(() {
+        isHover = true;
+      });
     }
   }
 
-  void _upExit(PointerExitEvent event) {
+  void _onExit(PointerExitEvent event) {
     if (widget.onExit != null) widget.onExit!(event);
-    bool flag = el.resetCursor();
-    if (flag && isHover && !widget.onlyCursor) {
+    if (!widget.onlyCursor && isHover) {
       setState(() {
         isHover = false;
       });
@@ -93,15 +95,14 @@ class _HoverInheritedWidget extends InheritedWidget {
   const _HoverInheritedWidget({
     required super.child,
     required this.isHover,
+    this.mouseCursor,
   });
 
   final bool isHover;
+  final MouseCursor? mouseCursor;
 
-  static bool of(BuildContext context) {
-    final _HoverInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_HoverInheritedWidget>();
-    return result == null ? false : result.isHover;
-  }
+  static _HoverInheritedWidget? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_HoverInheritedWidget>();
 
   @override
   bool updateShouldNotify(_HoverInheritedWidget oldWidget) {

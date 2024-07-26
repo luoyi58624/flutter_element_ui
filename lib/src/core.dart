@@ -33,26 +33,23 @@ class ElConfigProvider extends StatelessWidget {
       fontWeight: ElFont.normal,
     ).merge(el.config.textStyle);
 
-    // 管理全局光标，Element UI 所有 hover 效果都依赖此组件
-    return ElGlobalCursor(
-      // 必须构建一个默认的 Material 组件，因为 Element UI 部分组件是直接基于 Material 的，
-      // 如果你直接在页面中使用这些组件那么页面会报错，除非你手动添加 Material 组件。
-      child: Material(
-        textStyle: el.globalTextStyle,
-        // 设置背景颜色
-        child: AnimatedColoredBox(
-          duration: el.config.bgDuration,
-          color: context.elTheme.bgColor,
-          // 设置 Element UI 样式滚动条
-          child: ScrollConfiguration(
-            behavior: const ElScrollBehavior(),
-            // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
-            child: Overlay(initialEntries: [
-              OverlayEntry(builder: (context) {
-                return child;
-              }),
-            ]),
-          ),
+    // 必须构建一个默认的 Material 组件，因为 Element UI 部分组件是直接基于 Material 的，
+    // 如果你直接在页面中使用这些组件那么页面会报错，除非你手动添加 Material 组件。
+    return Material(
+      textStyle: el.globalTextStyle,
+      // 设置背景颜色
+      child: AnimatedColoredBox(
+        duration: el.config.bgDuration,
+        color: context.elTheme.bgColor,
+        // 设置 Element UI 样式滚动条
+        child: ScrollConfiguration(
+          behavior: const ElScrollBehavior(),
+          // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
+          child: Overlay(initialEntries: [
+            OverlayEntry(builder: (context) {
+              return child;
+            }),
+          ]),
         ),
       ),
     );

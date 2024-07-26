@@ -123,8 +123,9 @@ abstract class _ResizerWidget extends HookWidget {
                     ? GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onHorizontalDragStart: (e) {
-                          el.setCursor(SystemMouseCursors.resizeColumn,
-                              'drag_split_column');
+                          el.setCursor(
+                            SystemMouseCursors.resizeColumn,
+                          );
                           isActive.value = true;
                         },
                         onHorizontalDragUpdate: (e) {
@@ -132,20 +133,19 @@ abstract class _ResizerWidget extends HookWidget {
                         },
                         onHorizontalDragEnd: (e) {
                           endFun();
-                          el.resetCursor('drag_split_column');
+                          el.resetCursor();
                           isActive.value = false;
                         },
                         onHorizontalDragCancel: () {
                           endFun();
-                          el.resetCursor('drag_split_column');
+                          el.resetCursor();
                           isActive.value = false;
                         },
                       )
                     : GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onVerticalDragStart: (e) {
-                          el.setCursor(
-                              SystemMouseCursors.resizeRow, 'darg_split_row');
+                          el.setCursor(SystemMouseCursors.resizeRow);
                           isActive.value = true;
                         },
                         onVerticalDragUpdate: (e) {
@@ -153,12 +153,12 @@ abstract class _ResizerWidget extends HookWidget {
                         },
                         onVerticalDragEnd: (e) {
                           endFun();
-                          el.resetCursor('darg_split_row');
+                          el.resetCursor();
                           isActive.value = false;
                         },
                         onVerticalDragCancel: () {
                           endFun();
-                          el.resetCursor('darg_split_row');
+                          el.resetCursor();
                           isActive.value = false;
                         },
                       ),

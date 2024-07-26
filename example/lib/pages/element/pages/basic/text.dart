@@ -26,6 +26,15 @@ class TextPage extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       return Column(
         children: [
+          ElButton(
+            onPressed: () {
+              count.value++;
+            },
+            child: ElText(
+              '普通文本 - count: ${count.value}',
+              style: const TextStyle(color: Colors.indigoAccent),
+            ),
+          ),
           const H1('一级标题 (H1)'),
           const H2('二级标题 (H2)'),
           const H3('三级标题 (H3)'),
@@ -50,18 +59,24 @@ class TextPage extends StatelessWidget {
             const H4('四级标题', style: TextStyle(color: Colors.cyan)),
             const H5('五级标题', style: TextStyle(color: Colors.purple)),
             const H6('六级标题', style: TextStyle(color: Colors.grey)),
-            ElText(
-              '普通文本 - count: ${count.value}',
-              style: const TextStyle(color: Colors.indigoAccent),
-              onTap: () {
+            ElButton(
+              onPressed: () {
                 count.value++;
               },
+              child: ElText(
+                '普通文本 - count: ${count.value}',
+                style: const TextStyle(color: Colors.indigoAccent),
+              ),
             ),
-            // const WidgetSpan(
-            //   alignment: PlaceholderAlignment.middle,
-            //   child: H6('六级标题', style: TextStyle(color: Colors.grey)),
-            // ),
-            // H6('六级标题', style: TextStyle(color: Colors.grey)),
+            ElevatedButton(
+              onPressed: () {
+                count.value++;
+              },
+              child: ElText(
+                '普通文本 - count: ${count.value}',
+                style: const TextStyle(color: Colors.indigoAccent),
+              ),
+            ),
           ]),
         ],
       );
@@ -74,6 +89,7 @@ class TextPage extends StatelessWidget {
         'xxx',
         '富文本',
         'xxx',
+        WidgetSpan(child: Text('xxx')),
         const TextSpan(
           text: 'xxx',
           style: TextStyle(color: Colors.green),
@@ -86,7 +102,10 @@ class TextPage extends StatelessWidget {
           ['xxx', '富文本', 'ccc'],
           style: TextStyle(color: Colors.blue),
         ),
-        const Icon(Icons.home),
+        const WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Icon(Icons.home),
+        ),
         // WidgetSpan(
         //   alignment: PlaceholderAlignment.middle,
         //   child: Container(
