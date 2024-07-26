@@ -34,6 +34,7 @@ class _ElMenuData extends InheritedWidget {
     required this.collapse,
     required this.iconSize,
     required this.gap,
+    this.router,
     required this.onChange,
   });
 
@@ -41,9 +42,8 @@ class _ElMenuData extends InheritedWidget {
   final Color bgColor;
   final bool collapse;
   final double iconSize;
-
-  /// 默认的 gap 间距
   final double gap;
+  final RouterConfig? router;
 
   final void Function(ElMenuModel menu)? onChange;
 

@@ -13,8 +13,8 @@ import '../../utils/assert.dart';
 import '../../utils/font.dart';
 import '../../widgets/hover.dart';
 import '../../widgets/tap.dart';
+import '../typography/text.dart';
 import 'icon.dart';
-import 'typography.dart';
 
 typedef _ButtonStyleProp = ({
   double? width,

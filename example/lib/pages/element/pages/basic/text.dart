@@ -146,17 +146,16 @@ class TextPage extends StatelessWidget {
           }),
         ),
         'xxx',
-        A(
+        const A(
           child: 'https://www.baidu.com',
-          href: 'https://www.baidu.com' * 10,
-          // hoverUnderline: true,
+          href: 'https://www.baidu.com',
         ),
         const ElButton(
           onPressed: null,
           link: true,
           child: A(
-            child: 'https://www.baidu.com',
-            href: 'https://www.baidu.com',
+            child: 'https://www.bing.com',
+            href: 'https://www.bing.com',
           ),
         ),
         const ElButton(

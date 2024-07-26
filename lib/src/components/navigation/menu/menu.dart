@@ -5,6 +5,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 
+import '../../typography/href.dart';
+import '../../typography/text.dart';
+
 part 'menu_modal.dart';
 
 part 'menu_widget.dart';
@@ -182,6 +185,7 @@ class _ElMenuState extends State<ElMenu> {
           collapse: widget.collapse,
           iconSize: widget.iconSize,
           gap: widget.gap,
+          router: widget.router,
           onChange: widget.onChange,
           child: SingleChildScrollView(
             child: _Menu(widget.menuList, widget.gap),

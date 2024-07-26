@@ -61,7 +61,7 @@ class _MenuItemState extends State<_MenuItem> {
               }
             }
           },
-          child: buildItem(),
+          child: buildItem($data),
         ),
         if (hasChild)
           AnimatedCrossFade(
@@ -81,13 +81,13 @@ class _MenuItemState extends State<_MenuItem> {
     );
   }
 
-  Widget buildItem() {
+  Widget buildItem(_ElMenuData $data) {
     Color bgColor = $data.bgColor;
     Color menuItemColor = isActive
         ? context.elTheme.menuActiveColor
         : bgColor.elTextColor(context);
-    return HoverBuilder(
-      builder: (context) => AnimatedContainer(
+    Widget result = Builder(builder: (context) {
+      return AnimatedContainer(
         duration: el.config.bgDuration,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
@@ -140,7 +140,18 @@ class _MenuItemState extends State<_MenuItem> {
               ),
           ],
         ),
-      ),
-    );
+      );
+    });
+    if (!hasChild && $data.router != null) {
+      return A(
+        href: widget.menuItem.key,
+        cursor: MouseCursor.defer,
+        child: result,
+      );
+    } else {
+      return HoverBuilder(
+        builder: (context) => result,
+      );
+    }
   }
 }

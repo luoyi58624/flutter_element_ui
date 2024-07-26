@@ -6,6 +6,8 @@ import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
+import '../typography/text.dart';
+
 class ElTooltip extends StatefulWidget {
   const ElTooltip({
     super.key,

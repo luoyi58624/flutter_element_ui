@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import '../basic/typography.dart';
+import '../typography/text.dart';
 import '../../widgets/hover.dart';
 
 part 'radio_group.dart';

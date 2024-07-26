@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'components/basic/scrollbar.dart';
-import 'components/basic/typography.dart';
+import 'components/typography/typography.dart';
 import 'services/hover.dart';
 import 'services/message/message.dart';
 import 'services/toast.dart';
