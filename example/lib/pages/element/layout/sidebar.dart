@@ -112,6 +112,10 @@ List<ElMenuModel> menuList = const [
         title: 'Menu 菜单',
         key: '${ElementRoutes.navigation}/menu',
       ),
+      ElMenuModel(
+        title: 'Tabs 标签页',
+        key: '${ElementRoutes.navigation}/tabs',
+      ),
     ],
   ),
   ElMenuModel(

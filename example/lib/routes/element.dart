@@ -22,6 +22,7 @@ import '../pages/element/pages/form/switch.dart';
 import '../pages/element/pages/layout/basic.dart';
 import '../pages/element/pages/layout/overlay.dart';
 import '../pages/element/pages/navigation/menu.dart';
+import '../pages/element/pages/navigation/tabs.dart';
 
 class ElementRoutes {
   static const String root = '/element';
@@ -163,6 +164,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.navigation}/menu',
             builder: (context, state) => const MenuPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.navigation}/tabs',
+            builder: (context, state) => const TabsPage(),
           ),
         ],
       ),

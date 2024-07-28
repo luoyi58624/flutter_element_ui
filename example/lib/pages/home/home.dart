@@ -21,48 +21,56 @@ class HomePage extends HookWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SelectionArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElText(
-                  ElButton(
-                    onPressed: () {},
-                    child: const Text('Element UI Text'),
-                  ),
+        child: SelectionArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 40,
+                padding: const EdgeInsets.only(top: 4),
+                color: Colors.grey,
+                child: Row(
+                  children: [
+                    ClipPath(
+                      clipper: _Clipper(),
+                      child: Container(
+                        width: 200,
+                        height: 36,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                const _RichText(),
-                // ElButton(
-                //   onPressed: () {
-                //     show.value = !show.value;
-                //   },
-                //   child: '切换',
-                // ),
-                // HoverBuilder(builder: (context) {
-                //   return const Text('hello')
-                //       .animate(target: show.value ? 1 : 0)
-                //       .fade(duration: 200.ms);
-                // }),
-                // const Gap(50),
-                // TapBuilder(builder: (context) {
-                //   return Container(
-                //     width: 100,
-                //     height: 100,
-                //     decoration: BoxDecoration(
-                //       color: Colors.green,
-                //       borderRadius: BorderRadius.circular(16),
-                //     ),
-                //   ).animate(target: context ? 1 : 0).scale(
-                //         duration: 200.ms,
-                //         curve: Curves.easeOut,
-                //         begin: const Offset(1.0, 1.0),
-                //         end: const Offset(0.9, 0.9),
-                //       );
-                // }),
-              ],
-            ),
+              ),
+              // ElButton(
+              //   onPressed: () {
+              //     show.value = !show.value;
+              //   },
+              //   child: '切换',
+              // ),
+              // HoverBuilder(builder: (context) {
+              //   return const Text('hello')
+              //       .animate(target: show.value ? 1 : 0)
+              //       .fade(duration: 200.ms);
+              // }),
+              // const Gap(50),
+              // TapBuilder(builder: (context) {
+              //   return Container(
+              //     width: 100,
+              //     height: 100,
+              //     decoration: BoxDecoration(
+              //       color: Colors.green,
+              //       borderRadius: BorderRadius.circular(16),
+              //     ),
+              //   ).animate(target: context ? 1 : 0).scale(
+              //         duration: 200.ms,
+              //         curve: Curves.easeOut,
+              //         begin: const Offset(1.0, 1.0),
+              //         end: const Offset(0.9, 0.9),
+              //       );
+              // }),
+            ],
           ),
         ),
       ),
@@ -92,46 +100,27 @@ class _BoxRender extends RenderBox {
   }
 }
 
-class _RichText extends StatefulWidget {
-  const _RichText({super.key});
+class _Clipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final w = size.width;
+    final h = size.height;
+    double r = h / 3;
+    final path = Path();
+    path.moveTo(0, h);
+    path.quadraticBezierTo(r, h, r, h - r);
+    path.lineTo(r, r);
+    path.quadraticBezierTo(r, 0, r * 2, 0);
+    path.lineTo(w - r * 2, 0);
+    path.quadraticBezierTo(w - r, 0, w - r, r);
+    path.lineTo(w - r, h - r);
+    path.quadraticBezierTo(w - r, h, w, h);
+    path.cubicTo(0, size.height - r * 0.33, r * 0.33, size.height, r, size.height);
+    return path;
+  }
 
   @override
-  State<_RichText> createState() => _RichTextState();
-}
-
-class _RichTextState extends State<_RichText> {
-  bool flag1 = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        style: DefaultTextStyle.of(context).style,
-        children: [
-          const TextSpan(text: 'xxx'),
-          TextSpan(
-            text: 'xxx',
-            onEnter: (e) {
-              setState(() {
-                flag1 = true;
-              });
-            },
-            onExit: (e) {
-              setState(() {
-                flag1 = false;
-              });
-            },
-            mouseCursor: SystemMouseCursors.click,
-            style: TextStyle(color: flag1 ? Colors.red : Colors.green),
-          ),
-          const WidgetSpan(
-            alignment: PlaceholderAlignment.baseline,
-            baseline: TextBaseline.alphabetic,
-            child: Text('xxx'),
-          ),
-          const WidgetSpan(child: Text('xxx')),
-        ],
-      ),
-    );
+  bool shouldReclip(covariant CustomClipper<dynamic> oldClipper) {
+    return true;
   }
 }

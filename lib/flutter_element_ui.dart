@@ -38,6 +38,7 @@ export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 
 export 'src/components/navigation/menu/menu.dart';
+export 'src/components/navigation/tabs.dart';
 
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle.dart';
