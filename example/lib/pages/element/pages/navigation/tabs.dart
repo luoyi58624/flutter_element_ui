@@ -11,12 +11,10 @@ class TabsPage extends HookWidget {
       children: [
         ElTabs(
           selected,
-          tabs: [
+          children: [
             ...List.generate(
               10,
-              (index) => ElTab(
-                id: index,
-              ),
+              (index) => ElTab(),
             ),
           ],
         ),

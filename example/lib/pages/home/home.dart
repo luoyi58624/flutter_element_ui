@@ -32,7 +32,7 @@ class HomePage extends HookWidget {
               activeIndex,
               children: [
                 ...List.generate(
-                  10,
+                  30,
                   (index) => const _TabItem(),
                 )
               ],
@@ -136,14 +136,18 @@ class _Tab extends HookWidget {
       child: Listener(
         onPointerSignal: (e) {
           if (e is PointerScrollEvent) {
-            scrollController.jumpTo(
-              min(
-                max(0, scrollController.offset + e.scrollDelta.dy),
-                maxWidth - context.size!.width,
-              ),
-              // duration: const Duration(milliseconds: 100),
-              // curve: Curves.ease,
-            );
+            scrollController.position.pointerScroll(e.scrollDelta.dy);
+            // scrollController.animateTo(
+            //   min(
+            //     max(
+            //         0,
+            //         scrollController.offset +
+            //             (e.scrollDelta.dy > 0 ? 100 : -100)),
+            //     maxWidth - context.size!.width,
+            //   ),
+            //   duration: const Duration(milliseconds: 100),
+            //   curve: Curves.ease,
+            // );
           }
         },
         child: ScrollConfiguration(
@@ -157,17 +161,6 @@ class _Tab extends HookWidget {
               height: 40,
               padding: const EdgeInsets.only(top: 4),
               color: Colors.grey.shade300,
-              // child: Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     ...children.mapIndexed(
-              //       (i, e) => ElChildIndexData(
-              //         index: i,
-              //         child: e,
-              //       ),
-              //     ),
-              //   ],
-              // ),
               child: CustomMultiChildLayout(
                 delegate: _Delegate(children.length, radius),
                 children: [
@@ -201,41 +194,34 @@ class _TabItem extends StatelessWidget {
     final $data = _TabData.of(context);
     final $indexData = ElChildIndexData.of(context);
 
-    return Draggable(
-      feedback: Container(
-        width: 200,
-        height: 40,
-        color: Colors.green,
-      ),
-      child: GestureDetector(
-        onTapDown: (e) {
-          $data.modelValue.value = $indexData.index;
-        },
-        child: HoverBuilder(builder: (context) {
-          return Builder(
-            builder: (context) => Container(
-              width: 200,
-              height: $data.height,
-              padding: EdgeInsets.symmetric(horizontal: $data.radius),
-              color: $data.modelValue.value == $indexData.index
-                  ? Colors.white
-                  : HoverBuilder.of(context)
-                      ? Colors.grey.shade100
-                      : null,
-              child: Row(
-                children: [
-                  Text(
-                    '标签页 - ${$indexData.index + 1}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
+    return GestureDetector(
+      onTapDown: (e) {
+        $data.modelValue.value = $indexData.index;
+      },
+      child: HoverBuilder(builder: (context) {
+        return Builder(
+          builder: (context) => Container(
+            width: 200,
+            height: $data.height,
+            padding: EdgeInsets.symmetric(horizontal: $data.radius),
+            color: $data.modelValue.value == $indexData.index
+                ? Colors.white
+                : HoverBuilder.of(context)
+                    ? Colors.grey.shade100
+                    : null,
+            child: Row(
+              children: [
+                Text(
+                  '标签页 - ${$indexData.index + 1}',
+                  style: const TextStyle(
+                    fontSize: 14,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }
