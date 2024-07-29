@@ -10,6 +10,31 @@ import '../../core.dart';
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
+class NoScrollBehavior extends ScrollBehavior {
+  const NoScrollBehavior();
+
+  @override
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) =>
+      child;
+
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    if (PlatformUtil.isAndroid) {
+      return StretchingOverscrollIndicator(
+        axisDirection: details.direction,
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+}
+
 class ElScrollBehavior extends ScrollBehavior {
   /// Element UI 滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
   const ElScrollBehavior();
