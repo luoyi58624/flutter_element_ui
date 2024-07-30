@@ -55,6 +55,8 @@ export 'src/extensions/int.dart';
 
 export 'src/services/message/message.dart' show ElDefaultMessage;
 
+export 'src/hooks/obs.dart';
+
 export 'src/styles/theme.dart';
 export 'src/styles/config.dart';
 export 'src/styles/basic/button.dart';
@@ -69,6 +71,7 @@ export 'src/utils/app_theme.dart';
 export 'src/utils/util.dart';
 
 export 'src/widgets/animation.dart';
+export 'src/widgets/custom_layout.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/tap.dart';

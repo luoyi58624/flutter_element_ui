@@ -31,5 +31,5 @@ class ElChildIndexData extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(ElChildIndexData oldWidget) => false;
+  bool updateShouldNotify(ElChildIndexData oldWidget) => true;
 }

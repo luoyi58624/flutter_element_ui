@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:example/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
@@ -11,6 +12,19 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final show = useState(true);
     final activeIndex = useState(0);
+    GlobalKey key = GlobalKey();
+    final listData = useState([
+      Container(
+        width: 200,
+        height: 100,
+        color: Colors.green,
+      ),
+      Container(
+        width: 100,
+        height: 100,
+        color: Colors.red,
+      ),
+    ]);
     return Scaffold(
       appBar: AppBar(
         title: const Text('首页'),
@@ -28,21 +42,37 @@ class HomePage extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _Tab(
-              activeIndex,
-              children: [
-                ...List.generate(
-                  30,
-                  (index) => const _TabItem(),
-                )
-              ],
-            ),
-            // ElButton(
-            //   onPressed: () {
-            //     show.value = !show.value;
-            //   },
-            //   child: '切换',
+            // _Box(
+            //   color: show.value ? Colors.red : Colors.blue,
             // ),
+            ElCustomMultiChildLayout(
+              key: key,
+              height: 500,
+              delegateBuilder: (updateSize) =>
+                  _D(updateSize, listData.value.length),
+              children: listData.value
+                  .mapIndexed((i, e) => LayoutId(id: i, child: e))
+                  .toList(),
+            ),
+            // const Gap(8),
+            // _Box(
+            //   color: show.value ? Colors.red : Colors.blue,
+            // ),
+            ElButton(
+              onPressed: () {
+                i(key.currentContext!.size);
+                listData.value = [
+                  ...listData.value,
+                  Container(
+                    width: 300,
+                    height: 200,
+                    color: Colors.green,
+                  )
+                ];
+                // show.value = !show.value;
+              },
+              child: '切换',
+            ),
             // HoverBuilder(builder: (context) {
             //   return const Text('hello')
             //       .animate(target: show.value ? 1 : 0)
@@ -71,176 +101,23 @@ class HomePage extends HookWidget {
   }
 }
 
-class _Box extends LeafRenderObjectWidget {
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return _BoxRender();
-  }
-}
-
-class _BoxRender extends RenderBox {
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    final paint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = Colors.lightBlue;
-    context.canvas.drawRect(offset & const Size(100, 100), paint);
-  }
-
-  @override
-  void performLayout() {
-    size = const Size(100, 200);
-  }
-}
-
-class _TabData extends InheritedWidget {
-  const _TabData(
-    this.modelValue,
-    this.height,
-    this.radius, {
-    required super.child,
-  });
-
-  final ValueNotifier<int> modelValue;
-  final double height;
-  final double radius;
-
-  static _TabData of(BuildContext context) {
-    final _TabData? result =
-        context.dependOnInheritedWidgetOfExactType<_TabData>();
-    assert(result != null, 'No _TabData found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_TabData oldWidget) => true;
-}
-
-class _Tab extends HookWidget {
-  const _Tab(this.modelValue, {required this.children});
-
-  final ValueNotifier<int> modelValue;
-  final List<_TabItem> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final scrollController = useScrollController();
-    const width = 200.0;
-    const height = 36.0;
-    double radius = height / 4 * 3;
-    double maxWidth = width + (width - radius) * (children.length - 1);
-    return _TabData(
-      modelValue,
-      height,
-      radius,
-      child: Listener(
-        onPointerSignal: (e) {
-          if (e is PointerScrollEvent) {
-            scrollController.position.pointerScroll(e.scrollDelta.dy);
-            // scrollController.animateTo(
-            //   min(
-            //     max(
-            //         0,
-            //         scrollController.offset +
-            //             (e.scrollDelta.dy > 0 ? 100 : -100)),
-            //     maxWidth - context.size!.width,
-            //   ),
-            //   duration: const Duration(milliseconds: 100),
-            //   curve: Curves.ease,
-            // );
-          }
-        },
-        child: ScrollConfiguration(
-          behavior: const NoScrollBehavior(),
-          child: SingleChildScrollView(
-            controller: scrollController,
-            scrollDirection: Axis.horizontal,
-            physics: const ClampingScrollPhysics(),
-            child: Container(
-              width: maxWidth,
-              height: 40,
-              padding: const EdgeInsets.only(top: 4),
-              color: Colors.grey.shade300,
-              child: CustomMultiChildLayout(
-                delegate: _Delegate(children.length, radius),
-                children: [
-                  ...children.mapIndexed(
-                    (i, e) => ElChildIndexData(
-                      index: i,
-                      child: LayoutId(
-                        id: i,
-                        child: ClipPath(
-                          clipper: _Clipper(radius),
-                          child: e,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TabItem extends StatelessWidget {
-  const _TabItem();
-
-  @override
-  Widget build(BuildContext context) {
-    final $data = _TabData.of(context);
-    final $indexData = ElChildIndexData.of(context);
-
-    return GestureDetector(
-      onTapDown: (e) {
-        $data.modelValue.value = $indexData.index;
-      },
-      child: HoverBuilder(builder: (context) {
-        return Builder(
-          builder: (context) => Container(
-            width: 200,
-            height: $data.height,
-            padding: EdgeInsets.symmetric(horizontal: $data.radius),
-            color: $data.modelValue.value == $indexData.index
-                ? Colors.white
-                : HoverBuilder.of(context)
-                    ? Colors.grey.shade100
-                    : null,
-            child: Row(
-              children: [
-                Text(
-                  '标签页 - ${$indexData.index + 1}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }),
-    );
-  }
-}
-
-class _Delegate extends MultiChildLayoutDelegate {
+class _D extends MultiChildLayoutDelegate {
+  final ElUpdateSizeCallback updateSize;
   final int length;
-  final double r;
 
-  _Delegate(this.length, this.r);
+  _D(this.updateSize, this.length);
 
   @override
   void performLayout(Size size) {
-    if (length == 0) return;
-    Size preSize = layoutChild(0, BoxConstraints.loose(size));
-    for (int i = 1; i < length; i++) {
+    double parentWidth = 0;
+    double parentHeight = 0;
+    for (int i = 0; i < length; i++) {
       final currentSize = layoutChild(i, BoxConstraints.loose(size));
-      positionChild(i, Offset((preSize.width - r) * i, 0));
-      preSize = currentSize;
+      parentWidth = max(parentWidth, currentSize.width);
+      positionChild(i, Offset(0, parentHeight));
+      parentHeight += currentSize.height + 8;
     }
+    updateSize(Size(parentWidth, parentHeight));
   }
 
   @override
@@ -249,25 +126,46 @@ class _Delegate extends MultiChildLayoutDelegate {
   }
 }
 
-class _Clipper extends CustomClipper<Path> {
-  final double r;
+class _Box extends LeafRenderObjectWidget {
+  final Color color;
 
-  _Clipper(this.r);
+  const _Box({required this.color});
 
   @override
-  Path getClip(Size size) {
-    final w = size.width;
-    final h = size.height;
-    final path = Path();
-    path.moveTo(0, h);
-    path.cubicTo(r, h, 0, 0, r, 0);
-    path.lineTo(w - r, 0);
-    path.cubicTo(w, 0, w - r, h, w, h);
-    return path;
+  RenderObject createRenderObject(BuildContext context) {
+    return _BoxRender(color);
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<dynamic> oldClipper) {
-    return true;
+  void updateRenderObject(BuildContext context, _BoxRender renderObject) {
+    renderObject.color = color;
+  }
+}
+
+class _BoxRender extends RenderBox {
+  _BoxRender(this.color);
+
+  Color color;
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    i('paint', offset);
+    final w = size.width;
+    final h = size.height;
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = color;
+    // final path = Path()
+    //   ..moveTo(0, h)
+    //   ..lineTo(w / 2, 0)
+    //   ..lineTo(w, h);
+    // context.canvas.clipPath(path);
+    context.canvas.drawRect(offset & size, paint);
+  }
+
+  @override
+  void performLayout() {
+    i('per');
+    size = const Size(50, 50);
   }
 }

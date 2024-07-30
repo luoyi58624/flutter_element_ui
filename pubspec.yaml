@@ -15,7 +15,7 @@ dependencies:
   luoyi_dart_base: ^1.12.0
   gap: ^3.0.1
   flutter_hooks: ^0.20.5
-  flutter_obs: ^1.2.2
+  flutter_obs: ^1.3.1
   flutter_svg: ^2.0.10+1
   go_router: ^14.1.4
   super_sliver_list: ^0.4.1

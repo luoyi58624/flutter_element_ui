@@ -2,21 +2,19 @@ import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:flutter_element_ui/src/widgets/hover.dart';
-import 'package:gap/gap.dart';
 
 import '../../../core.dart';
-import '../../../utils/icons.dart';
 import '../../../widgets/animation.dart';
+import '../../../widgets/custom_layout.dart';
 import '../../../widgets/simple_widgets.dart';
-import '../../../widgets/tap.dart';
-import '../../basic/icon.dart';
 import '../../basic/scrollbar.dart';
 import '../../typography/text.dart';
 
 part 'tab.dart';
 
-const double _googleTabPadding = 4.0;
+part 'types/google_tab.dart';
 
 enum ElTabType {
   /// 传统卡片式标签
@@ -26,40 +24,15 @@ enum ElTabType {
   google,
 }
 
-class _TabInheritedWidget extends InheritedWidget {
-  const _TabInheritedWidget(
-    this.modelValue,
-    this.type,
-    this.height,
-    this.bgColor, {
-    required super.child,
-  });
-
-  final ValueNotifier modelValue;
-  final ElTabType? type;
-  final double height;
-  final Color? bgColor;
-
-  static _TabInheritedWidget of(BuildContext context) {
-    final _TabInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_TabInheritedWidget>();
-    assert(result != null, 'No _TabInheritedWidget found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_TabInheritedWidget oldWidget) {
-    return false;
-  }
-}
-
 class ElTabs extends StatefulWidget {
   const ElTabs(
     this.modelValue, {
     super.key,
     required this.children,
     this.type,
-    this.height = 40,
+    this.height = 36,
+    this.fontSize = 13,
+    this.maxWidth = 200,
     this.bgColor,
     this.expanded = false,
   });
@@ -76,6 +49,12 @@ class ElTabs extends StatefulWidget {
   /// 标签页高度
   final double height;
 
+  /// 标签字体大小
+  final double fontSize;
+
+  /// 每个子标签页的最大宽度
+  final double maxWidth;
+
   /// 自定义标签页背景颜色
   final Color? bgColor;
 
@@ -87,11 +66,11 @@ class ElTabs extends StatefulWidget {
 }
 
 class _ElTabsState extends State<ElTabs> {
-  final ScrollController controller = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
   EdgeInsetsGeometry get tabPadding {
     if (widget.type == ElTabType.google) {
-      return const EdgeInsets.only(top: 4);
+      return const EdgeInsets.only(top: _googleTabPadding);
     } else {
       return EdgeInsets.zero;
     }
@@ -100,7 +79,7 @@ class _ElTabsState extends State<ElTabs> {
   @override
   void dispose() {
     super.dispose();
-    controller.dispose();
+    scrollController.dispose();
   }
 
   Widget buildTab() {
@@ -108,28 +87,6 @@ class _ElTabsState extends State<ElTabs> {
       children: widget.children
           .mapIndexed((i, e) => ElChildIndexData(index: i, child: e))
           .toList(),
-    );
-  }
-
-  Widget buildGoogleTab() {
-    final $height = widget.height - _googleTabPadding;
-    double radius = $height / 4 * 3;
-    return CustomMultiChildLayout(
-      delegate: _GoogleTabLayoutDelegate(widget.children.length, radius),
-      children: [
-        ...widget.children.mapIndexed(
-          (i, e) => ElChildIndexData(
-            index: i,
-            child: LayoutId(
-              id: i,
-              child: ClipPath(
-                clipper: _GoogleTabClipper(radius),
-                child: e,
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -146,15 +103,19 @@ class _ElTabsState extends State<ElTabs> {
     if (widget.type == null || widget.type == ElTabType.card) {
       result = buildTab();
     } else {
-      result = buildGoogleTab();
+      result = const _GoogleTabsWidget();
     }
 
-    return _TabInheritedWidget(
+    return _TabsInheritedWidget(
       widget.modelValue,
+      widget.children,
       widget.type,
       widget.height,
+      widget.fontSize,
+      widget.maxWidth,
       widget.bgColor,
       child: SizedBox(
+        width: double.infinity,
         height: widget.height,
         child: AnimatedColoredBox(
           duration: el.config.bgDuration,
@@ -164,12 +125,13 @@ class _ElTabsState extends State<ElTabs> {
             child: Listener(
               onPointerSignal: (e) {
                 if (e is PointerScrollEvent) {
-                  controller.position.pointerScroll(e.scrollDelta.dy);
+                  scrollController.position.pointerScroll(e.scrollDelta.dy);
                 }
               },
               child: ScrollConfiguration(
                 behavior: const NoScrollBehavior(),
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
                   child: result,
@@ -183,48 +145,35 @@ class _ElTabsState extends State<ElTabs> {
   }
 }
 
-class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
-  final int length;
-  final double r;
+class _TabsInheritedWidget extends InheritedWidget {
+  const _TabsInheritedWidget(
+    this.modelValue,
+    this.children,
+    this.type,
+    this.height,
+    this.fontSize,
+    this.maxWidth,
+    this.bgColor, {
+    required super.child,
+  });
 
-  _GoogleTabLayoutDelegate(this.length, this.r);
+  final ValueNotifier modelValue;
+  final List<ElTab> children;
+  final ElTabType? type;
+  final double height;
+  final double fontSize;
+  final double maxWidth;
+  final Color? bgColor;
 
-  @override
-  void performLayout(Size size) {
-    if (length == 0) return;
-    Size preSize = layoutChild(0, BoxConstraints.loose(size));
-    for (int i = 1; i < length; i++) {
-      final currentSize = layoutChild(i, BoxConstraints.loose(size));
-      positionChild(i, Offset((preSize.width - r) * i, 0));
-      preSize = currentSize;
-    }
+  static _TabsInheritedWidget of(BuildContext context) {
+    final _TabsInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_TabsInheritedWidget>();
+    assert(result != null, 'No _TabsInheritedWidget found in context');
+    return result!;
   }
 
   @override
-  bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
-    return true;
-  }
-}
-
-class _GoogleTabClipper extends CustomClipper<Path> {
-  final double r;
-
-  _GoogleTabClipper(this.r);
-
-  @override
-  Path getClip(Size size) {
-    final w = size.width;
-    final h = size.height;
-    final path = Path();
-    path.moveTo(0, h);
-    path.cubicTo(r, h, 0, 0, r, 0);
-    path.lineTo(w - r, 0);
-    path.cubicTo(w, 0, w - r, h, w, h);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<dynamic> oldClipper) {
+  bool updateShouldNotify(_TabsInheritedWidget oldWidget) {
     return true;
   }
 }

@@ -6,15 +6,24 @@ class TabsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selected = useState(0);
+    final active = useState(0);
     return Column(
       children: [
         ElTabs(
-          selected,
+          active,
+          type: ElTabType.google,
           children: [
             ...List.generate(
               10,
-              (index) => ElTab(),
+              (index) => ElTab(
+                title: '标签页 - ${index + 1}',
+              ),
+            ),
+            ...List.generate(
+              10,
+              (index) => ElTab(
+                title: '其他标签页 - ${index + 1}',
+              ),
             ),
           ],
         ),

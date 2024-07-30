@@ -35,6 +35,7 @@ class _App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+        debugShowCheckedModeBanner: false,
         builder: (context, child) => CupertinoTheme(
           data: ElThemeUtil.buildCupertinoThemeData(
             context,
