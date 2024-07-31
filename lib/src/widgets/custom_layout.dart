@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/utils/util.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 
 typedef ElUpdateSizeCallback = void Function(Size size);
 
 class ElCustomMultiChildLayout extends StatefulWidget {
-  /// 简单地扩展自定义多子组件布局，构建自定义布局逻辑时你可以计算父级容器尺寸，
-  /// 这样可以实现在滚动容器中对 [CustomMultiChildLayout] 组件进行滚动
+  /// 简单地扩展自定义多子组件布局，构建自定义布局逻辑时你可以计算父级容器尺寸，它的功能也仅限于此，
+  /// 主要作用是实现在滚动容器中对 [CustomMultiChildLayout] 组件进行整体的尺寸测量。
+  ///
+  /// 提示：如果你的每个子元素尺寸都是固定的，那么你并不需要使用到它，直接计算就行了。
   const ElCustomMultiChildLayout({
     super.key,
     this.width = double.infinity,
@@ -15,7 +16,8 @@ class ElCustomMultiChildLayout extends StatefulWidget {
     required this.children,
   });
 
-  /// 预定父盒子的宽度，默认无限，当处于滚动容器中，你必须预先设置它
+  /// 预定父盒子的宽度，默认无限，当处于滚动容器中，你必须预先设置它，
+  /// 通常情况下，每个子元素应该设置预期的最大宽度，然后根据子元素数量 * 最大宽度
   final double width;
 
   /// 预定父盒子的高度，默认无限，当处于滚动容器中，你必须预先设置它
@@ -36,34 +38,33 @@ class ElCustomMultiChildLayout extends StatefulWidget {
 }
 
 class _ElCustomMultiChildLayoutState extends State<ElCustomMultiChildLayout> {
-  late final Obs<Size> _size = Obs(Size(widget.width, widget.height));
+  late Size _size = Size(widget.width, widget.height);
 
   /// 当第一次构建时，自定义布局会执行 [updateSize] 函数更新父元素的实际大小，
   /// 引起二次重建，此变量的作用是防止重复更新
   bool _needLayout = true;
 
   void updateSize(Size size) {
-    ElUtil.nextTick(() {
-      if (_needLayout) {
-        _size.value = size;
+    if (_needLayout) {
+      ElUtil.nextTick(() {
+        _size = size;
         _needLayout = false;
-      } else {
-        _needLayout = true;
-      }
-    });
+        setState(() {});
+      });
+    } else {
+      _needLayout = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ObsBuilder(builder: (context) {
-      return SizedBox(
-        width: _size.value.width,
-        height: _size.value.height,
-        child: CustomMultiChildLayout(
-          delegate: widget.delegateBuilder(updateSize),
-          children: widget.children,
-        ),
-      );
-    });
+    return SizedBox(
+      width: _size.width,
+      height: _size.height,
+      child: CustomMultiChildLayout(
+        delegate: widget.delegateBuilder(updateSize),
+        children: widget.children,
+      ),
+    );
   }
 }

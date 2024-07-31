@@ -10,20 +10,20 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final count = useState(0);
     final show = useState(true);
     final activeIndex = useState(0);
-    GlobalKey key = GlobalKey();
     final listData = useState([
       Container(
         width: 200,
         height: 100,
         color: Colors.green,
       ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.red,
-      ),
+      // Container(
+      //   width: 100,
+      //   height: 100,
+      //   color: Colors.red,
+      // ),
     ]);
     return Scaffold(
       appBar: AppBar(
@@ -39,62 +39,77 @@ class HomePage extends HookWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // _Box(
-            //   color: show.value ? Colors.red : Colors.blue,
-            // ),
-            ElCustomMultiChildLayout(
-              key: key,
-              height: 500,
-              delegateBuilder: (updateSize) =>
-                  _D(updateSize, listData.value.length),
-              children: listData.value
-                  .mapIndexed((i, e) => LayoutId(id: i, child: e))
-                  .toList(),
-            ),
-            // const Gap(8),
-            // _Box(
-            //   color: show.value ? Colors.red : Colors.blue,
-            // ),
-            ElButton(
-              onPressed: () {
-                i(key.currentContext!.size);
-                listData.value = [
-                  ...listData.value,
-                  Container(
-                    width: 300,
-                    height: 200,
-                    color: Colors.green,
-                  )
-                ];
-                // show.value = !show.value;
-              },
-              child: '切换',
-            ),
-            // HoverBuilder(builder: (context) {
-            //   return const Text('hello')
-            //       .animate(target: show.value ? 1 : 0)
-            //       .fade(duration: 200.ms);
-            // }),
-            // const Gap(50),
-            // TapBuilder(builder: (context) {
-            //   return Container(
-            //     width: 100,
-            //     height: 100,
-            //     decoration: BoxDecoration(
-            //       color: Colors.green,
-            //       borderRadius: BorderRadius.circular(16),
-            //     ),
-            //   ).animate(target: context ? 1 : 0).scale(
-            //         duration: 200.ms,
-            //         curve: Curves.easeOut,
-            //         begin: const Offset(1.0, 1.0),
-            //         end: const Offset(0.9, 0.9),
-            //       );
-            // }),
-          ],
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElButton(
+                onPressed: () {
+                  count.value++;
+                },
+                child: 'count: ${count.value}',
+              ),
+              ElButton(
+                onPressed: () {
+                  listData.value = [
+                    ...listData.value,
+                    Container(
+                      width: 300,
+                      height: 200,
+                      color: Colors.green,
+                    )
+                  ];
+                  // show.value = !show.value;
+                },
+                child: '切换',
+              ),
+              // ...listData.value,
+              ElCustomMultiChildLayout(
+                height: 600,
+                delegateBuilder: (updateSize) =>
+                    _D(updateSize, listData.value.length),
+                children: listData.value
+                    .mapIndexed((i, e) => LayoutId(id: i, child: e))
+                    .toList(),
+              ),
+              ElButton(
+                onPressed: () {
+                  if (listData.value.isEmpty) return;
+                  listData.value =
+                      listData.value.sublist(0, listData.value.length - 1);
+                  // show.value = !show.value;
+                },
+                child: '切换',
+              ),
+              // const Gap(8),
+              // _Box(
+              //   color: show.value ? Colors.red : Colors.blue,
+              // ),
+
+              // HoverBuilder(builder: (context) {
+              //   return const Text('hello')
+              //       .animate(target: show.value ? 1 : 0)
+              //       .fade(duration: 200.ms);
+              // }),
+              // const Gap(50),
+              // TapBuilder(builder: (context) {
+              //   return Container(
+              //     width: 100,
+              //     height: 100,
+              //     decoration: BoxDecoration(
+              //       color: Colors.green,
+              //       borderRadius: BorderRadius.circular(16),
+              //     ),
+              //   ).animate(target: context ? 1 : 0).scale(
+              //         duration: 200.ms,
+              //         curve: Curves.easeOut,
+              //         begin: const Offset(1.0, 1.0),
+              //         end: const Offset(0.9, 0.9),
+              //       );
+              // }),
+            ],
+          ),
         ),
       ),
     );
@@ -109,15 +124,23 @@ class _D extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
-    double parentWidth = 0;
     double parentHeight = 0;
     for (int i = 0; i < length; i++) {
-      final currentSize = layoutChild(i, BoxConstraints.loose(size));
-      parentWidth = max(parentWidth, currentSize.width);
+      final currentSize = layoutChild(
+          i,
+          const BoxConstraints(
+            minHeight: 0,
+            maxHeight: 600,
+          ));
       positionChild(i, Offset(0, parentHeight));
+      if (i == length - 1) {
+        e(size);
+        e(currentSize.height);
+      }
       parentHeight += currentSize.height + 8;
     }
-    updateSize(Size(parentWidth, parentHeight));
+    // i(parentHeight);
+    updateSize(Size(double.infinity, parentHeight));
   }
 
   @override
