@@ -133,10 +133,6 @@ class _D extends MultiChildLayoutDelegate {
             maxHeight: 600,
           ));
       positionChild(i, Offset(0, parentHeight));
-      if (i == length - 1) {
-        e(size);
-        e(currentSize.height);
-      }
       parentHeight += currentSize.height + 8;
     }
     // i(parentHeight);

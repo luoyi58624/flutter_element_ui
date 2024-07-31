@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../core.dart';
 
@@ -54,26 +55,30 @@ class _HoverBuilderState extends State<HoverBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return _HoverInheritedWidget(
-      isHover: isHover,
-      mouseCursor:
-          widget.disabled ? SystemMouseCursors.forbidden : widget.cursor,
-      child: MouseRegion(
-        cursor: widget.disabled
-            ? SystemMouseCursors.forbidden
-            : (widget.cursor ?? MouseCursor.defer),
-        onHover: widget.disabled ? null : _onHover,
-        onEnter: widget.disabled ? null : widget.onEnter,
-        onExit: widget.disabled ? null : _onExit,
-        child: Builder(builder: (context) {
-          return widget.builder(context);
-        }),
-      ),
-    );
+    // 仅限桌面端，移动端不存在hover
+    if (PlatformUtil.isDesktop) {
+      return _HoverInheritedWidget(
+        isHover: isHover,
+        mouseCursor:
+            widget.disabled ? SystemMouseCursors.forbidden : widget.cursor,
+        child: MouseRegion(
+          cursor: widget.disabled
+              ? SystemMouseCursors.forbidden
+              : (widget.cursor ?? MouseCursor.defer),
+          onHover: widget.disabled ? null : widget.onHover,
+          onEnter: widget.disabled ? null : _onEnter,
+          onExit: widget.disabled ? null : _onExit,
+          child: Builder(builder: (context) {
+            return widget.builder(context);
+          }),
+        ),
+      );
+    }
+    return widget.builder(context);
   }
 
-  void _onHover(PointerHoverEvent event) {
-    if (widget.onHover != null) widget.onHover!(event);
+  void _onEnter(PointerEnterEvent event) {
+    if (widget.onEnter != null) widget.onEnter!(event);
     if (!widget.onlyCursor && !isHover) {
       setState(() {
         isHover = true;
