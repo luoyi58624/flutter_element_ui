@@ -32,17 +32,6 @@ class ElGoogleTabs extends ElBaseTabs {
 }
 
 class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
-  Size? activeTabSize;
-  double? activeOffsetLeft;
-
-  void setActiveTabSize(Size? size) {
-    activeTabSize = size;
-  }
-
-  void setActiveOffsetLeft(double? offsetLeft) {
-    activeOffsetLeft = offsetLeft;
-  }
-
   @override
   Color get bgColor =>
       widget.bgColor ??
@@ -66,15 +55,10 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
         delegateBuilder: (updateSize, isSecondBuild) =>
             _GoogleTabLayoutDelegate(
           updateSize,
-          isSecondBuild,
           $tabsData.modelValue.value,
           $tabsData.children.length,
           widget.maxWidth,
           radius,
-          activeTabSize,
-          activeOffsetLeft,
-          setActiveTabSize,
-          setActiveOffsetLeft,
         ),
         children: [
           ...widget.children.mapIndexed(
@@ -161,22 +145,14 @@ class _GoogleTabsData extends InheritedWidget {
 class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
   _GoogleTabLayoutDelegate(
     this.updateSize,
-    this.isSecondBuild,
     this.activeIndex,
     this.length,
     this.maxWidth,
     this.radius,
-    this.activeTabSize,
-    this.activeOffsetLeft,
-    this.setActiveTabSize,
-    this.setActiveOffsetLeft,
   );
 
   /// 更新布局尺寸回调函数
   final ElUpdateCustomLayoutSize updateSize;
-
-  /// 当前是否是第二次布局，[ElCustomMultiChildLayout] 计算完尺寸后会再进行一次重建
-  final bool isSecondBuild;
 
   /// 标签数量
   final int length;
@@ -190,55 +166,16 @@ class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
   /// 以标签页的圆角值作为每个标签的偏移值
   final double radius;
 
-  final Size? activeTabSize;
-  final double? activeOffsetLeft;
-
-  final void Function(Size? size) setActiveTabSize;
-  final void Function(double? offsetLeft) setActiveOffsetLeft;
-
   @override
   void performLayout(Size size) {
-    i(isSecondBuild);
     if (length == 0) return;
     final constraint = BoxConstraints(minWidth: 0, maxWidth: maxWidth);
-    double parentWidth = 0;
-    if (!isSecondBuild) {
-      Size firstSize = layoutChild(0, constraint);
-      parentWidth = firstSize.width;
-      if (activeIndex == 0) {
-        setActiveOffsetLeft(null);
-        setActiveTabSize(firstSize);
-      }
-    } else {
-      if (activeIndex == 0) {
-        parentWidth = activeTabSize!.width;
-      } else {
-        Size firstSize = layoutChild(0, constraint);
-        parentWidth += firstSize.width;
-      }
-    }
+    Size firstSize = layoutChild(0, constraint);
+    double parentWidth = firstSize.width;
     for (int i = 1; i < length; i++) {
-      // 如果是第二次进行布局，我们需要将激活的标签放到最后进行布局，这样它的层级将会最高，
-      // 其他标签的鼠标悬停样式才不会覆盖它
-      if (isSecondBuild && i == activeIndex) {
-        setActiveOffsetLeft(parentWidth);
-        parentWidth += activeTabSize!.width - radius;
-        continue;
-      }
       final currentSize = layoutChild(i, constraint);
-      if (!isSecondBuild && i == activeIndex) {
-        setActiveTabSize(currentSize);
-        setActiveOffsetLeft(parentWidth);
-      }
       positionChild(i, Offset(parentWidth - radius, 0));
       parentWidth += currentSize.width - radius;
-    }
-    if (isSecondBuild) {
-      i('xxx');
-      layoutChild(activeIndex, constraint);
-      if (activeOffsetLeft != null) {
-        positionChild(activeIndex, Offset(activeOffsetLeft! - radius, 0));
-      }
     }
     // 布局完成设置外围标签页容器的实际尺寸
     updateSize(Size(parentWidth, size.height));
