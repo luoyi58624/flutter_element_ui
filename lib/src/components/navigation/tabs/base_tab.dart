@@ -152,7 +152,7 @@ class ElBaseTabsData extends InheritedWidget {
   /// 标签字体大小
   final double fontSize;
 
-  final Color? bgColor;
+  final Color bgColor;
 
   static ElBaseTabsData of(BuildContext context) {
     final ElBaseTabsData? result =
