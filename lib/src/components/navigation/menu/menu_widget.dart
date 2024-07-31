@@ -75,7 +75,7 @@ class _MenuItemState extends State<_MenuItem> {
             sizeCurve: Curves.fastOutSlowIn,
             crossFadeState:
                 expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: el.config.collapseDuration,
+            duration: el.config.globalDuration,
           )
       ],
     );
@@ -88,7 +88,7 @@ class _MenuItemState extends State<_MenuItem> {
         : bgColor.elTextColor(context);
     Widget result = Builder(builder: (context) {
       return AnimatedContainer(
-        duration: el.config.bgDuration,
+        duration: el.config.colorDuration,
         height: 56,
         padding: const EdgeInsets.only(right: 8),
         decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class _MenuItemState extends State<_MenuItem> {
                   margin: const EdgeInsets.only(left: 8),
                   child: AnimatedRotation(
                     duration:
-                        max(el.config.collapseDuration.inMilliseconds - 50, 0)
+                        max(el.config.globalDuration.inMilliseconds - 50, 0)
                             .ms,
                     turns: expanded ? 0.5 : 0,
                     child: ElIcon(

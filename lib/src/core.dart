@@ -34,7 +34,7 @@ class ElConfigProvider extends StatelessWidget {
       textStyle: el.globalTextStyle,
       // 设置背景颜色
       child: AnimatedColoredBox(
-        duration: el.config.bgDuration,
+        duration: el.config.colorDuration,
         color: context.elTheme.bgColor,
         // 设置 Element UI 样式滚动条
         child: ScrollConfiguration(

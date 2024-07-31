@@ -23,11 +23,11 @@ class ElConfigData {
   /// 全局卡片圆角值（大尺寸控件）：卡片、弹窗...
   BorderRadius cardRadius;
 
-  /// 背景颜色过渡持续时间(毫秒)
-  Duration bgDuration;
+  /// 全局通用的过渡动画持续时间(毫秒)
+  Duration globalDuration;
 
-  /// 折叠动画持续时间(毫秒)
-  Duration collapseDuration;
+  /// 颜色过渡持续时间(毫秒)
+  Duration colorDuration;
 
   /// 全局文本样式
   TextStyle textStyle;
@@ -47,8 +47,8 @@ class ElConfigData {
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
-    this.bgDuration = const Duration(milliseconds: 100),
-    this.collapseDuration = const Duration(milliseconds: 250),
+    this.globalDuration = const Duration(milliseconds: 250),
+    this.colorDuration = const Duration(milliseconds: 100),
     this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),

@@ -4,6 +4,8 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
+import '../../../core.dart';
+import '../../../widgets/animation.dart';
 import '../../../widgets/custom_layout.dart';
 import '../../../widgets/hover.dart';
 import '../../../widgets/simple_widgets.dart';
@@ -32,6 +34,20 @@ class ElGoogleTabs extends ElBaseTabs {
 }
 
 class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
+  /// 激活的标签页偏移值
+  double activeTabOffset = 0;
+
+  /// 激活的标签页尺寸
+  Size activeTabSize = Size.zero;
+
+  void setActiveTabOffset(double offset) {
+    activeTabOffset = offset;
+  }
+
+  void setActiveTabSize(Size size) {
+    activeTabSize = size;
+  }
+
   @override
   Color get bgColor =>
       widget.bgColor ??
@@ -50,26 +66,40 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
     return _GoogleTabsData(
       layoutHeight,
       radius,
-      child: ElCustomMultiChildLayout(
-        width: layoutWidth,
-        delegateBuilder: (updateSize, isSecondBuild) =>
-            _GoogleTabLayoutDelegate(
-          updateSize,
-          $tabsData.modelValue.value,
-          $tabsData.children.length,
-          widget.maxWidth,
-          radius,
-        ),
+      child: Stack(
         children: [
-          ...widget.children.mapIndexed(
-            (i, e) => ElChildIndexData(
-              index: i,
-              child: LayoutId(
-                  id: i,
-                  child: ClipPath(
-                    clipper: _GoogleTabClipper(radius),
-                    child: e,
-                  )),
+          ElCustomMultiChildLayout(
+            width: layoutWidth,
+            delegateBuilder: (updateSize, isSecondBuild) =>
+                _GoogleTabLayoutDelegate(
+              updateSize,
+              $tabsData.modelValue.value,
+              $tabsData.children.length,
+              widget.maxWidth,
+              radius,
+              setActiveTabOffset,
+              setActiveTabSize,
+            ),
+            children: [
+              ...widget.children.mapIndexed(
+                (i, e) => ElChildIndexData(
+                  index: i,
+                  child: LayoutId(
+                      id: i,
+                      child: ClipPath(
+                        clipper: _GoogleTabClipper(radius),
+                        child: e,
+                      )),
+                ),
+              ),
+            ],
+          ),
+          AnimatedPositioned(
+            duration: el.config.globalDuration,
+            left: activeTabOffset,
+            child: ClipPath(
+              clipper: _GoogleTabClipper(radius),
+              child: _TabActiveLayer(activeTabSize),
             ),
           ),
         ],
@@ -92,15 +122,11 @@ class ElGoogleTab extends ElBaseTab {
     final $indexData = ElChildIndexData.of(context);
     final $googleTabData = _GoogleTabsData.of(context);
     return ColoredBox(
-      color: $tabsData.modelValue.value == $indexData.index
+      color: HoverBuilder.of(context)
           ? context.isDark
-              ? context.elTheme.primary
-              : Colors.white
-          : HoverBuilder.of(context)
-              ? context.isDark
-                  ? context.elTheme.primary.light1(context)
-                  : Colors.grey.shade100
-              : Colors.transparent,
+              ? context.elTheme.primary.light1(context)
+              : Colors.grey.shade100
+          : Colors.transparent,
       child: UnconstrainedBox(
         child: SizedBox(
           height: $googleTabData.height,
@@ -116,6 +142,26 @@ class ElGoogleTab extends ElBaseTab {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// 激活的标签页浮层
+class _TabActiveLayer extends StatelessWidget {
+  const _TabActiveLayer(this.size);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedColoredBox(
+      duration: el.config.colorDuration,
+      color: context.isDark ? context.elTheme.primary : Colors.white,
+      child: AnimatedContainer(
+        duration: el.config.globalDuration,
+        width: size.width,
+        height: size.height,
       ),
     );
   }
@@ -149,6 +195,8 @@ class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
     this.length,
     this.maxWidth,
     this.radius,
+    this.setActiveTabOffset,
+    this.setActiveTabSize,
   );
 
   /// 更新布局尺寸回调函数
@@ -166,16 +214,28 @@ class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
   /// 以标签页的圆角值作为每个标签的偏移值
   final double radius;
 
+  final void Function(double offset) setActiveTabOffset;
+  final void Function(Size size) setActiveTabSize;
+
   @override
   void performLayout(Size size) {
     if (length == 0) return;
     final constraint = BoxConstraints(minWidth: 0, maxWidth: maxWidth);
     Size firstSize = layoutChild(0, constraint);
     double parentWidth = firstSize.width;
+    if (activeIndex == 0) {
+      setActiveTabOffset(0);
+      setActiveTabSize(firstSize);
+    }
     for (int i = 1; i < length; i++) {
       final currentSize = layoutChild(i, constraint);
-      positionChild(i, Offset(parentWidth - radius, 0));
+      final offset = parentWidth - radius;
+      positionChild(i, Offset(offset, 0));
       parentWidth += currentSize.width - radius;
+      if (activeIndex == i) {
+        setActiveTabOffset(offset);
+        setActiveTabSize(currentSize);
+      }
     }
     // 布局完成设置外围标签页容器的实际尺寸
     updateSize(Size(parentWidth, size.height));

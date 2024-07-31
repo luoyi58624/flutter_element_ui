@@ -179,10 +179,10 @@ class _ElMenuState extends State<ElMenu> {
     final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedColoredBox(
-      duration: el.config.bgDuration,
+      duration: el.config.colorDuration,
       color: $bgColor,
       child: AnimatedContainer(
-        duration: el.config.collapseDuration,
+        duration: el.config.globalDuration,
         curve: Curves.linear,
         width:
             widget.collapse ? widget.gap * 2 + widget.iconSize : widget.width,

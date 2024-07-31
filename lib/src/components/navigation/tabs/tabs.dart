@@ -111,7 +111,7 @@
 //         width: double.infinity,
 //         height: widget.height,
 //         child: AnimatedColoredBox(
-//           duration: el.config.bgDuration,
+//           duration: el.config.colorDuration,
 //           color: $bgColor,
 //           child: Padding(
 //             padding: tabPadding,
