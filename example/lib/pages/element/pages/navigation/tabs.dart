@@ -9,24 +9,24 @@ class TabsPage extends HookWidget {
     final active = useState(0);
     return Column(
       children: [
-        ElTabs(
-          active,
-          type: ElTabType.google,
-          children: [
-            ...List.generate(
-              10,
-              (index) => ElTab(
-                title: '标签页 - ${index + 1}',
-              ),
-            ),
-            ...List.generate(
-              10,
-              (index) => ElTab(
-                title: '其他标签页 - ${index + 1}',
-              ),
-            ),
-          ],
-        ),
+        // ElTabs(
+        //   active,
+        //   type: ElTabType.google,
+        //   children: [
+        //     ...List.generate(
+        //       10,
+        //       (index) => ElTab(
+        //         title: '标签页 - ${index + 1}',
+        //       ),
+        //     ),
+        //     ...List.generate(
+        //       10,
+        //       (index) => ElTab(
+        //         title: '其他标签页 - ${index + 1}',
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

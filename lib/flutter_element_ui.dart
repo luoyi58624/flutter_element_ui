@@ -39,6 +39,7 @@ export 'src/components/layout/page.dart';
 
 export 'src/components/navigation/menu/menu.dart';
 export 'src/components/navigation/tabs/tabs.dart';
+export 'src/components/navigation/tabs/google_tabs.dart';
 
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle.dart';

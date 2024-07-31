@@ -1,13 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/utils/util.dart';
 
-typedef ElUpdateSizeCallback = void Function(Size size);
+/// 更新自定义布局尺寸回调函数，返回一个布尔值，每次构建布局时只有第一次回调才会更新布局，
+/// 所以第一次调用会返回true，第二次触发是因为更新布局引起的重建，此时会返回false
+typedef ElUpdateCustomLayoutSize = bool Function(Size size);
 
 class ElCustomMultiChildLayout extends StatefulWidget {
-  /// 简单地扩展自定义多子组件布局，构建自定义布局逻辑时你可以计算父级容器尺寸，它的功能也仅限于此，
-  /// 主要作用是实现在滚动容器中对 [CustomMultiChildLayout] 组件进行整体的尺寸测量。
-  ///
-  /// 提示：如果你的每个子元素尺寸都是固定的，那么你并不需要使用到它，直接计算就行了。
+  /// 简单地扩展自定义多子组件布局，[CustomMultiChildLayout] 只能预先设置父级盒子的尺寸，
+  /// 但有时我们希望先测量所有子元素，再决定父级的大小，这就是该组件的作用，
+  /// 唯一的缺点是每次构建它会进行两次 build。
   const ElCustomMultiChildLayout({
     super.key,
     this.width = double.infinity,
@@ -25,9 +26,8 @@ class ElCustomMultiChildLayout extends StatefulWidget {
 
   /// 处理多个子部件布局逻辑，在此基础上传递了一个更新父盒子尺寸函数，当你处理完布局逻辑后，
   /// 通过此函数设置父盒子的实际大小
-  final MultiChildLayoutDelegate Function(
-    ElUpdateSizeCallback updateSize,
-  ) delegateBuilder;
+  final MultiChildLayoutDelegate Function(ElUpdateCustomLayoutSize updateSize)
+      delegateBuilder;
 
   /// 子组件集合，和 [CustomMultiChildLayout] 一样，你必须使用 [LayoutId] 标识它们
   final List<Widget> children;
@@ -44,7 +44,8 @@ class _ElCustomMultiChildLayoutState extends State<ElCustomMultiChildLayout> {
   /// 引起二次重建，此变量的作用是防止重复更新
   bool _needLayout = true;
 
-  void updateSize(Size size) {
+  /// 更新自定义布局尺寸，第一次调用后会进行重建，第二次调用则重置[_needLayout]
+  bool updateSize(Size size) {
     if (_needLayout) {
       ElUtil.nextTick(() {
         _size = size;
@@ -54,6 +55,7 @@ class _ElCustomMultiChildLayoutState extends State<ElCustomMultiChildLayout> {
     } else {
       _needLayout = true;
     }
+    return _needLayout;
   }
 
   @override

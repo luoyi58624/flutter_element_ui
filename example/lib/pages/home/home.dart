@@ -13,7 +13,7 @@ class HomePage extends HookWidget {
     final count = useState(0);
     final show = useState(true);
     final activeIndex = useState(0);
-    final listData = useState([
+    final listData = useState<List<Widget>>([
       Container(
         width: 200,
         height: 100,
@@ -44,44 +44,55 @@ class HomePage extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElButton(
-                onPressed: () {
-                  count.value++;
-                },
-                child: 'count: ${count.value}',
+              ElGoogleTabs(
+                activeIndex,
+                children: [
+                  ...List.generate(
+                      50, (i) => ElGoogleTab(title: '标签页 - ${i + 1}')),
+                ],
               ),
-              ElButton(
-                onPressed: () {
-                  listData.value = [
-                    ...listData.value,
-                    Container(
-                      width: 300,
-                      height: 200,
-                      color: Colors.green,
-                    )
-                  ];
-                  // show.value = !show.value;
-                },
-                child: '切换',
-              ),
-              // ...listData.value,
-              ElCustomMultiChildLayout(
-                height: 600,
-                delegateBuilder: (updateSize) =>
-                    _D(updateSize, listData.value.length),
-                children: listData.value
-                    .mapIndexed((i, e) => LayoutId(id: i, child: e))
-                    .toList(),
-              ),
-              ElButton(
-                onPressed: () {
-                  if (listData.value.isEmpty) return;
-                  listData.value =
-                      listData.value.sublist(0, listData.value.length - 1);
-                  // show.value = !show.value;
-                },
-                child: '切换',
-              ),
+              // ElButton(
+              //   onPressed: () {
+              //     count.value++;
+              //   },
+              //   child: 'count: ${count.value}',
+              // ),
+              // ElButton(
+              //   onPressed: () {
+              //     listData.value = [
+              //       ...listData.value,
+              //       HoverBuilder(builder: (context) {
+              //         return Container(
+              //           width: 300,
+              //           height: 200,
+              //           color: HoverBuilder.of(context)
+              //               ? Colors.red
+              //               : Colors.green,
+              //         );
+              //       })
+              //     ];
+              //     // show.value = !show.value;
+              //   },
+              //   child: '切换',
+              // ),
+              // // ...listData.value,
+              // ElCustomMultiChildLayout(
+              //   height: 600,
+              //   delegateBuilder: (updateSize) =>
+              //       _D(updateSize, listData.value.length),
+              //   children: listData.value
+              //       .mapIndexed((i, e) => LayoutId(id: i, child: e))
+              //       .toList(),
+              // ),
+              // ElButton(
+              //   onPressed: () {
+              //     if (listData.value.isEmpty) return;
+              //     listData.value =
+              //         listData.value.sublist(0, listData.value.length - 1);
+              //     // show.value = !show.value;
+              //   },
+              //   child: '切换',
+              // ),
               // const Gap(8),
               // _Box(
               //   color: show.value ? Colors.red : Colors.blue,
@@ -117,13 +128,14 @@ class HomePage extends HookWidget {
 }
 
 class _D extends MultiChildLayoutDelegate {
-  final ElUpdateSizeCallback updateSize;
+  final ElUpdateCustomLayoutSize updateSize;
   final int length;
 
   _D(this.updateSize, this.length);
 
   @override
   void performLayout(Size size) {
+    // i('pre');
     double parentHeight = 0;
     for (int i = 0; i < length; i++) {
       final currentSize = layoutChild(
