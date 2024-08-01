@@ -14,6 +14,18 @@ class HomePage extends HookWidget {
     final count = useState(0);
     final show = useState(true);
     final activeIndex = useObs(0);
+    final tabs = useObs(
+      [
+        ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
+        ElGoogleTab(title: 'axasxa'),
+        ElGoogleTab(title: 'xasx'),
+        ElGoogleTab(title: 'xasxasxasxasxas'),
+        ...List.generate(
+          500,
+          (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
+        ),
+      ],
+    );
     final listData = useState<List<Widget>>([
       Container(
         width: 200,
@@ -45,21 +57,12 @@ class HomePage extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // _CupertinoSegment(),
+              _CupertinoSegment(),
               ElGoogleTabs(
                 activeIndex,
-                duration: 500.ms,
-                enabledAnimate: false,
-                children: [
-                  ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
-                  ElGoogleTab(title: 'axasxa'),
-                  ElGoogleTab(title: 'xasx'),
-                  ElGoogleTab(title: 'xasxasxasxasxas'),
-                  ...List.generate(
-                    100,
-                    (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
-                  ),
-                ],
+                // duration: 1000.ms,
+                // enabledAnimate: false,
+                children: tabs,
               ),
               // ElButton(
               //   onPressed: () {

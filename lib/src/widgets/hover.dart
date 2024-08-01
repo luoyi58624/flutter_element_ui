@@ -65,6 +65,7 @@ class _HoverBuilderState extends State<HoverBuilder> {
           cursor: widget.disabled
               ? SystemMouseCursors.forbidden
               : (widget.cursor ?? MouseCursor.defer),
+          // onHover: widget.disabled ? null : _onHover,
           onHover: widget.disabled ? null : widget.onHover,
           onEnter: widget.disabled ? null : _onEnter,
           onExit: widget.disabled ? null : _onExit,
@@ -75,6 +76,15 @@ class _HoverBuilderState extends State<HoverBuilder> {
       );
     }
     return widget.builder(context);
+  }
+
+  void _onHover(PointerHoverEvent event) {
+    if (widget.onHover != null) widget.onHover!(event);
+    if (!widget.onlyCursor && !isHover) {
+      setState(() {
+        isHover = true;
+      });
+    }
   }
 
   void _onEnter(PointerEnterEvent event) {

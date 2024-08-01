@@ -4,15 +4,23 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import '../../../core.dart';
 import '../../../widgets/animation.dart';
-import '../../../widgets/hover.dart';
-import '../../../widgets/simple_widgets.dart';
 import '../../basic/scrollbar.dart';
+import 'inherited_data.dart';
+
+enum ElTabType {
+  /// 传统卡片式标签
+  card,
+
+  /// 谷歌浏览器风格标签页
+  google,
+}
 
 abstract class ElBaseTabs extends StatefulWidget {
   const ElBaseTabs(
     this.modelValue, {
     super.key,
     required this.children,
+    required this.type,
     required this.height,
     required this.fontSize,
     required this.childMaxWidth,
@@ -26,7 +34,10 @@ abstract class ElBaseTabs extends StatefulWidget {
   final ValueNotifier<int> modelValue;
 
   /// 子标签集合
-  final List<ElBaseTab> children;
+  final ValueNotifier<List<ElBaseTab>> children;
+
+  /// 标签类型
+  final ElTabType type;
 
   /// 标签页高度
   final double height;
@@ -67,9 +78,10 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return ElBaseTabsData(
+    return TabsData(
       widget.modelValue,
       widget.children,
+      widget.type,
       widget.height,
       widget.fontSize,
       widget.childMaxWidth,
@@ -128,85 +140,4 @@ abstract class ElBaseTab extends StatelessWidget {
 
   /// 是否显示关闭按钮
   final bool closable;
-
-  Widget buildTab(BuildContext context);
-
-  @override
-  Widget build(BuildContext context) {
-    final $tabsData = ElBaseTabsData.of(context);
-    final $indexData = ElChildIndexData.of(context);
-    return ElBaseTabData(
-      title,
-      disabled,
-      closable,
-      child: GestureDetector(
-        onTapDown: (e) {
-          $tabsData.modelValue.value = $indexData.index;
-        },
-        child: HoverBuilder(builder: (context) {
-          return buildTab(context);
-        }),
-      ),
-    );
-  }
-}
-
-class ElBaseTabsData extends InheritedWidget {
-  const ElBaseTabsData(
-    this.modelValue,
-    this.children,
-    this.height,
-    this.fontSize,
-    this.childMaxWidth,
-    this.bgColor,
-    this.enabledAnimate,
-    this.duration,
-    this.curve, {
-    super.key,
-    required super.child,
-  });
-
-  final ValueNotifier<int> modelValue;
-  final List<ElBaseTab> children;
-  final double height;
-  final double fontSize;
-  final double childMaxWidth;
-  final Color bgColor;
-  final bool enabledAnimate;
-  final Duration? duration;
-  final Curve curve;
-
-  static ElBaseTabsData of(BuildContext context) {
-    final ElBaseTabsData? result =
-        context.dependOnInheritedWidgetOfExactType<ElBaseTabsData>();
-    assert(result != null, 'No ElBaseTabsData found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ElBaseTabsData oldWidget) => true;
-}
-
-class ElBaseTabData extends InheritedWidget {
-  const ElBaseTabData(
-    this.title,
-    this.disabled,
-    this.closable, {
-    super.key,
-    required super.child,
-  });
-
-  final String title;
-  final bool disabled;
-  final bool closable;
-
-  static ElBaseTabData of(BuildContext context) {
-    final ElBaseTabData? result =
-        context.dependOnInheritedWidgetOfExactType<ElBaseTabData>();
-    assert(result != null, 'No ElBaseTabData found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ElBaseTabData oldWidget) => true;
 }
