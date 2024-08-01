@@ -19,8 +19,7 @@ abstract class ElBaseTabs extends StatefulWidget {
   const ElBaseTabs(
     this.modelValue, {
     super.key,
-    required this.children,
-    required this.type,
+    required this.children, this.type,
     required this.height,
     required this.fontSize,
     required this.childMaxWidth,
@@ -37,7 +36,7 @@ abstract class ElBaseTabs extends StatefulWidget {
   final ValueNotifier<List<ElBaseTab>> children;
 
   /// 标签类型
-  final ElTabType type;
+  final ElTabType? type;
 
   /// 标签页高度
   final double height;

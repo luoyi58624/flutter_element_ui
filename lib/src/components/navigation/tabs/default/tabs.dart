@@ -1,0 +1,61 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+
+import '../base.dart';
+
+class ElTabs extends ElBaseTabs {
+  const ElTabs(
+    super.modelValue, {
+    super.key,
+    required super.children,
+    super.height = 40,
+    super.fontSize = 13,
+    super.childMaxWidth = 200,
+    super.bgColor,
+    super.enabledAnimate,
+    super.duration,
+    super.curve,
+  });
+
+  @override
+  State<ElTabs> createState() => _ElTabsState();
+}
+
+class _ElTabsState extends ElBaseTabsState<ElTabs> {
+  final List<int> _items = List<int>.generate(50, (int index) => index);
+
+  @override
+  Widget build(BuildContext context) {
+    return ReorderableListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        ..._items.mapIndexed(
+          (i, e) => Container(
+            key: Key('$i'),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            margin: const EdgeInsets.all(4),
+            child: Text('Item ${_items[i]}'),
+          ),
+        ),
+      ],
+      onReorder: (int oldIndex, int newIndex) {
+        setState(() {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
+          final int item = _items.removeAt(oldIndex);
+          _items.insert(newIndex, item);
+        });
+      },
+    );
+  }
+
+  @override
+  Widget buildTabs(BuildContext context) {
+    // TODO: implement buildTabs
+    throw UnimplementedError();
+  }
+}

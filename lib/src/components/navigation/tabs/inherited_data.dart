@@ -21,7 +21,7 @@ class TabsData extends InheritedWidget {
 
   final ValueNotifier<int> modelValue;
   final ValueNotifier<List<ElBaseTab>> children;
-  final ElTabType type;
+  final ElTabType? type;
   final double height;
   final double fontSize;
   final double childMaxWidth;

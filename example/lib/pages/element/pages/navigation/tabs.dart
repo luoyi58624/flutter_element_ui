@@ -6,28 +6,19 @@ class TabsPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final active = useState(0);
-    return Column(
-      children: [
-        // ElTabs(
-        //   active,
-        //   type: ElTabType.google,
-        //   children: [
-        //     ...List.generate(
-        //       10,
-        //       (index) => ElTab(
-        //         title: '标签页 - ${index + 1}',
-        //       ),
-        //     ),
-        //     ...List.generate(
-        //       10,
-        //       (index) => ElTab(
-        //         title: '其他标签页 - ${index + 1}',
-        //       ),
-        //     ),
-        //   ],
-        // ),
+    final activeIndex = useObs(2);
+    final tabs = useObs(
+      [
+        ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
+        ElGoogleTab(title: 'axasxa'),
+        ElGoogleTab(title: 'xasx'),
+        ElGoogleTab(title: 'xasxasxasxasxas'),
+        ...List.generate(
+          5,
+          (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
+        ),
       ],
     );
+    return ElTabs(activeIndex, children: tabs);
   }
 }
