@@ -13,7 +13,7 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final count = useState(0);
     final show = useState(true);
-    final activeIndex = useObs(0);
+    final activeIndex = useObs(2);
     final tabs = useObs(
       [
         ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
@@ -21,7 +21,7 @@ class HomePage extends HookWidget {
         ElGoogleTab(title: 'xasx'),
         ElGoogleTab(title: 'xasxasxasxasxas'),
         ...List.generate(
-          500,
+          5,
           (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
         ),
       ],

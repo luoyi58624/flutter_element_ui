@@ -44,14 +44,13 @@ class TabsData extends InheritedWidget {
 class GoogleTabsData extends InheritedWidget {
   const GoogleTabsData(
     this.height,
-    this.radius, this.hoverIndex, {
+    this.radius, {
     super.key,
     required super.child,
   });
 
   final double height;
   final double radius;
-  final Obs<int> hoverIndex;
 
   static GoogleTabsData of(BuildContext context) {
     final GoogleTabsData? result =

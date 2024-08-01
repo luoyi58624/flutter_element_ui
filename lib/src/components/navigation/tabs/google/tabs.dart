@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 import 'package:gap/gap.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
@@ -43,7 +42,6 @@ class ElGoogleTabs extends ElBaseTabs {
 class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
   /// 保存标签布局信息
   List<_TabLayoutType> tabLayoutList = [];
-  final hoverIndex = Obs(-1);
 
   void setLayoutList(List<_TabLayoutType> list) {
     tabLayoutList = list;
@@ -68,14 +66,12 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
     return GoogleTabsData(
       layoutHeight,
       radius,
-      hoverIndex,
-      child: Stack(
-        children: [
-          ValueListenableBuilder(
-            valueListenable: widget.children,
-            builder: (context, value, _) {
-              i('build');
-              return ElCustomMultiChildLayout(
+      child: ValueListenableBuilder(
+        valueListenable: widget.children,
+        builder: (context, children, _) {
+          return Stack(
+            children: [
+              ElCustomMultiChildLayout(
                 width: layoutWidth,
                 delegateBuilder: (updateSize, isReBuild) =>
                     _GoogleTabLayoutDelegate(
@@ -86,58 +82,43 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
                   setLayoutList,
                 ),
                 children: [
-                  ...value.mapIndexed(
+                  ...children.mapIndexed(
                     (i, e) => ElChildIndexData(
                       index: i,
                       child: LayoutId(
-                          id: i,
-                          child: ClipPath(
-                            clipper: _GoogleTabClipper(radius),
-                            child: e,
-                          )),
+                        id: i,
+                        child: ClipPath(
+                          clipper: _GoogleTabClipper(radius),
+                          child: e,
+                        ),
+                      ),
                     ),
                   ),
                 ],
-              );
-            },
-          ),
-          ValueListenableBuilder(
-            valueListenable: $tabsData.modelValue,
-            builder: (context, value, _) {
-              if (tabLayoutList.isEmpty) return const SizedBox();
-              final tabLayout = tabLayoutList[value];
-              Widget result = ClipPath(
-                clipper: _GoogleTabClipper(radius),
-                child: _TabActiveLayer(tabLayout.$2),
-              );
-              if (widget.enabledAnimate) {
-                return AnimatedPositioned(
-                  duration: widget.duration ?? el.config.globalDuration,
-                  curve: widget.curve,
-                  left: tabLayout.$1,
-                  child: result,
-                );
-              } else {
-                return Positioned(
-                  left: tabLayout.$1,
-                  child: result,
-                );
-              }
-            },
-          ),
-          ...tabLayoutList.mapIndexed(
-            (i, e) => Positioned(
-              left: e.$1,
-              child: ElChildIndexData(
-                index: i,
-                child: ClipPath(
-                  clipper: _GoogleTabClipper(radius),
-                  child: _TabTextLayer(i),
-                ),
               ),
-            ),
-          ),
-        ],
+              ValueListenableBuilder(
+                valueListenable: $tabsData.modelValue,
+                builder: (context, activeIndex, _) {
+                  i(tabLayoutList.length);
+                  if (tabLayoutList.isEmpty) return const SizedBox();
+                  final tabLayout = tabLayoutList[activeIndex];
+                  Widget result = ClipPath(
+                    clipper: _GoogleTabClipper(radius),
+                    child: _TabActiveLayer(
+                      activeIndex,
+                      tabLayout.$2,
+                      $tabsData.children.value[activeIndex],
+                    ),
+                  );
+                  return Positioned(
+                    left: tabLayout.$1,
+                    child: result,
+                  );
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -168,6 +149,7 @@ class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
+    // i('per');
     if (length == 0) return;
     List<_TabLayoutType> tabLayoutList = [];
     final constraint = BoxConstraints(minWidth: 0, maxWidth: maxWidth);

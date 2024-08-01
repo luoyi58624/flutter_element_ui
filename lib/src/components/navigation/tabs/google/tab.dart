@@ -27,10 +27,7 @@ class ElGoogleTab extends ElBaseTab {
                   ? context.elTheme.primary.light1(context)
                   : Colors.grey.shade100
               : Colors.transparent,
-          child: Opacity(
-            opacity: 0,
-            child: _TabContent(title: title),
-          ),
+          child: _TabContent($indexData.index, title: title),
         );
       }),
     );
@@ -39,92 +36,34 @@ class ElGoogleTab extends ElBaseTab {
 
 /// 激活的标签页浮层
 class _TabActiveLayer extends StatelessWidget {
-  const _TabActiveLayer(this.size);
+  const _TabActiveLayer(this.index, this.size, this.tab);
 
+  final int index;
   final Size size;
+  final ElBaseTab tab;
 
   @override
   Widget build(BuildContext context) {
-    final $tabsData = TabsData.of(context);
     return AnimatedColoredBox(
       duration: el.config.colorDuration,
       color: context.isDark ? context.elTheme.primary : Colors.white,
-      child: $tabsData.enabledAnimate
-          ? AnimatedSize(
-              duration: $tabsData.duration ?? el.config.globalDuration,
-              curve: $tabsData.curve,
-              child: SizedBox(
-                width: size.width,
-                height: size.height,
-              ),
-            )
-          : SizedBox(width: size.width, height: size.height),
+      child: SizedBox.fromSize(
+        size: size,
+        child: _TabContent(index, title: tab.title),
+      ),
     );
   }
 }
 
-/// 标签文字浮层，它显示在最上层
-class _TabTextLayer extends StatelessWidget {
-  const _TabTextLayer(this.index);
+class _TabContent extends ElBaseTab {
+  const _TabContent(this.index, {required super.title});
 
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final $tabsData = TabsData.of(context);
-    final $googleTabsData = GoogleTabsData.of(context);
-    final $indexData = ElChildIndexData.of(context);
-    return Stack(
-      children: [
-        IgnorePointer(
-          child: _TabContent(
-            title: $tabsData.children.value[index].title,
-          ),
-        ),
-        // Positioned(
-        //   top: 0,
-        //   bottom: 0,
-        //   right: $googleTabsData.radius,
-        //   child: Center(
-        //     child: GestureDetector(
-        //       onTap: () {
-        //         i('close');
-        //         final List<ElGoogleTab> newList =
-        //             [...$tabsData.children.value].cast();
-        //         newList.removeAt($indexData.index);
-        //         $tabsData.children.value = newList;
-        //       },
-        //       child: HoverBuilder(
-        //         cursor: SystemMouseCursors.click,
-        //         builder: (context) {
-        //           return Container(
-        //               width: 16,
-        //               height: 16,
-        //               decoration: BoxDecoration(
-        //                 color: HoverBuilder.of(context)
-        //                     ? Colors.grey.shade400
-        //                     : null,
-        //                 borderRadius: BorderRadius.circular(8),
-        //               ),
-        //               child: const ElIcon(Icons.close, size: 14));
-        //         },
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
-    );
-  }
-}
-
-class _TabContent extends ElBaseTab {
-  const _TabContent({required super.title});
-
-  @override
-  Widget build(BuildContext context) {
-    final $tabsData = TabsData.of(context);
     final $googleTabData = GoogleTabsData.of(context);
-    final $indexData = ElChildIndexData.of(context);
     return UnconstrainedBox(
       child: SizedBox(
         height: $googleTabData.height,
@@ -149,21 +88,35 @@ class _TabContent extends ElBaseTab {
               const Gap(8),
               GestureDetector(
                 onTap: () {
-                  i('close');
-                  final List<ElGoogleTab> newList =
-                  [...$tabsData.children.value].cast();
-                  newList.removeAt($indexData.index);
-                  $tabsData.children.value = newList;
+                  final List<ElGoogleTab> tabList =
+                      [...$tabsData.children.value].cast();
+                  if ($tabsData.children.value.length == 1) return;
+                  final activeIndex = $tabsData.modelValue.value;
+                  if (index == activeIndex) {
+                    if (activeIndex == tabList.length - 1) {
+                      $tabsData.modelValue.value = tabList.length - 2;
+                    }
+                  } else {
+                    if (index < activeIndex) {
+                      $tabsData.modelValue.value -= 1;
+                    }
+                  }
+                  tabList.removeAt(index);
+                  $tabsData.children.value = tabList;
                 },
-                child: Container(
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    color: HoverBuilder.of(context) ? Colors.grey.shade400 : null,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const ElIcon(Icons.close, size: 14),
-                ),
+                child: HoverBuilder(builder: (context) {
+                  return Container(
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: HoverBuilder.of(context)
+                          ? Colors.grey.shade400
+                          : null,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const ElIcon(Icons.close, size: 14),
+                  );
+                }),
               ),
             ],
           ),
