@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:example/global.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,7 +13,7 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final count = useState(0);
     final show = useState(true);
-    final activeIndex = useState(0);
+    final activeIndex = useObs(0);
     final listData = useState<List<Widget>>([
       Container(
         width: 200,
@@ -44,11 +45,20 @@ class HomePage extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // _CupertinoSegment(),
               ElGoogleTabs(
                 activeIndex,
+                duration: 500.ms,
+                enabledAnimate: false,
                 children: [
+                  ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
+                  ElGoogleTab(title: 'axasxa'),
+                  ElGoogleTab(title: 'xasx'),
+                  ElGoogleTab(title: 'xasxasxasxasxas'),
                   ...List.generate(
-                      50, (i) => ElGoogleTab(title: '标签页 - ${i + 1}')),
+                    100,
+                    (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
+                  ),
                 ],
               ),
               // ElButton(
@@ -127,33 +137,63 @@ class HomePage extends HookWidget {
   }
 }
 
-class _D extends MultiChildLayoutDelegate {
-  final ElUpdateCustomLayoutSize updateSize;
-  final int length;
+enum Sky { midnight, viridian, cerulean }
 
-  _D(this.updateSize, this.length);
+Map<Sky, Color> skyColors = <Sky, Color>{
+  Sky.midnight: const Color(0xff191970),
+  Sky.viridian: const Color(0xff40826d),
+  Sky.cerulean: const Color(0xff007ba7),
+};
 
-  @override
-  void performLayout(Size size) {
-    // i('pre');
-    double parentHeight = 0;
-    for (int i = 0; i < length; i++) {
-      final currentSize = layoutChild(
-          i,
-          const BoxConstraints(
-            minHeight: 0,
-            maxHeight: 600,
-          ));
-      positionChild(i, Offset(0, parentHeight));
-      parentHeight += currentSize.height + 8;
-    }
-    // i(parentHeight);
-    updateSize(Size(double.infinity, parentHeight));
-  }
+class _CupertinoSegment extends StatefulWidget {
+  const _CupertinoSegment({super.key});
 
   @override
-  bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
-    return true;
+  State<_CupertinoSegment> createState() => _CupertinoSegmentState();
+}
+
+class _CupertinoSegmentState extends State<_CupertinoSegment> {
+  Sky _selectedSegment = Sky.midnight;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoSlidingSegmentedControl(
+      backgroundColor: CupertinoColors.systemGrey2,
+      thumbColor: skyColors[_selectedSegment]!,
+      // This represents the currently selected segmented control.
+      groupValue: _selectedSegment,
+      // Callback that sets the selected segmented control.
+      onValueChanged: (Sky? value) {
+        if (value != null) {
+          setState(() {
+            _selectedSegment = value;
+          });
+        }
+      },
+      children: const <Sky, Widget>{
+        Sky.midnight: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Midnight',
+            style: TextStyle(color: CupertinoColors.white),
+          ),
+        ),
+        Sky.viridian: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Viridian',
+            style: TextStyle(color: CupertinoColors.white),
+          ),
+        ),
+        Sky.cerulean: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Cerulean',
+            style: TextStyle(color: CupertinoColors.white),
+          ),
+        ),
+      },
+    );
   }
 }
 

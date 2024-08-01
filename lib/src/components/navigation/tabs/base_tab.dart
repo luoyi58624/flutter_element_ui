@@ -15,7 +15,11 @@ abstract class ElBaseTabs extends StatefulWidget {
     required this.children,
     required this.height,
     required this.fontSize,
+    required this.childMaxWidth,
     this.bgColor,
+    this.enabledAnimate = true,
+    this.duration,
+    this.curve = Curves.easeOut,
   });
 
   /// 选中的标签索引
@@ -27,11 +31,23 @@ abstract class ElBaseTabs extends StatefulWidget {
   /// 标签页高度
   final double height;
 
+  /// 每个子标签页的最大宽度
+  final double childMaxWidth;
+
   /// 标签字体大小
   final double fontSize;
 
   /// 自定义标签页背景颜色
   final Color? bgColor;
+
+  /// 是否启用标签切换动画
+  final bool enabledAnimate;
+
+  /// 动画持续时间，默认全局
+  final Duration? duration;
+
+  /// 动画曲线
+  final Curve curve;
 }
 
 abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
@@ -56,7 +72,11 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
       widget.children,
       widget.height,
       widget.fontSize,
+      widget.childMaxWidth,
       bgColor,
+      widget.enabledAnimate,
+      widget.duration,
+      widget.curve,
       child: SizedBox(
         width: double.infinity,
         height: widget.height,
@@ -77,9 +97,11 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
                   controller: scrollController,
                   scrollDirection: Axis.horizontal,
                   physics: const ClampingScrollPhysics(),
-                  child: Builder(builder: (context) {
-                    return buildTabs(context);
-                  }),
+                  child: RepaintBoundary(
+                    child: Builder(builder: (context) {
+                      return buildTabs(context);
+                    }),
+                  ),
                 ),
               ),
             ),
@@ -135,24 +157,24 @@ class ElBaseTabsData extends InheritedWidget {
     this.children,
     this.height,
     this.fontSize,
-    this.bgColor, {
+    this.childMaxWidth,
+    this.bgColor,
+    this.enabledAnimate,
+    this.duration,
+    this.curve, {
     super.key,
     required super.child,
   });
 
-  /// 选中的标签索引
   final ValueNotifier<int> modelValue;
-
-  /// 子标签集合
   final List<ElBaseTab> children;
-
-  /// 标签页高度
   final double height;
-
-  /// 标签字体大小
   final double fontSize;
-
+  final double childMaxWidth;
   final Color bgColor;
+  final bool enabledAnimate;
+  final Duration? duration;
+  final Curve curve;
 
   static ElBaseTabsData of(BuildContext context) {
     final ElBaseTabsData? result =
