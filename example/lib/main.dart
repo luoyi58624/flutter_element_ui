@@ -8,8 +8,8 @@ void main() async {
   await initLocalStorage();
   await CacheInterceptor.init();
   await FontUtil.init(
-    fontModel: const FontModel(fontFamily: 'NotoSansSC'),
-    android: true,
+    // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
+    // android: true,
   );
   el.config = ElConfigData(
     textStyle: TextStyle(

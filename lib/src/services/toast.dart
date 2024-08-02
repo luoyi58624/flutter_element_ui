@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
+import '../components/typography/text.dart';
 import '../core.dart';
 
 /// 自定义轻提示构建
@@ -225,11 +226,9 @@ class _ThemeToast extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(color: context.elThemeColors[type]),
-                  child: Text(
+                  child: ElText(
                     '$content',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(color: Colors.white),
                   )),
             ).animate().fade(),
           ),
