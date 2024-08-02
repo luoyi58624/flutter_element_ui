@@ -6,7 +6,7 @@ import '../styles/theme.dart';
 
 extension ElAppExtension on BuildContext {
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme => isDark ? el.darkTheme : el.lightTheme;
+  ElThemeData get elTheme => isDark ? el.darkTheme : el.theme;
 
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {

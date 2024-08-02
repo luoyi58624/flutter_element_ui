@@ -172,7 +172,7 @@ class ElCollapseItem extends StatelessWidget {
                                         ? context.elTheme.textColor
                                         : isActive
                                             ? el.darkTheme.textColor
-                                            : el.lightTheme.textColor,
+                                            : el.theme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -182,7 +182,7 @@ class ElCollapseItem extends StatelessWidget {
                                 ? context.elTheme.textColor
                                 : isActive
                                     ? el.darkTheme.textColor
-                                    : el.lightTheme.textColor,
+                                    : el.theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

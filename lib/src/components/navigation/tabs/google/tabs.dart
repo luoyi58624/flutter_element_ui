@@ -99,7 +99,6 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
               ValueListenableBuilder(
                 valueListenable: $tabsData.modelValue,
                 builder: (context, activeIndex, _) {
-                  i(tabLayoutList.length);
                   if (tabLayoutList.isEmpty) return const SizedBox();
                   final tabLayout = tabLayoutList[activeIndex];
                   Widget result = ClipPath(

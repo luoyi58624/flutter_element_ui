@@ -62,13 +62,21 @@ class TextPage extends StatelessWidget {
             const H4('四级标题', style: TextStyle(color: Colors.cyan)),
             const H5('五级标题', style: TextStyle(color: Colors.purple)),
             const H6('六级标题', style: TextStyle(color: Colors.grey)),
+            const SizedBox(width: 20),
+            '设置20像素间隔',
+            const SizedBox(width: 20),
             ElButton(
               onPressed: () {
                 count.value++;
               },
-              child: ElText(
-                '普通文本 - count: ${count.value}',
-                style: const TextStyle(color: Colors.indigoAccent),
+              child: '普通文本 - count: ${count.value}',
+            ),
+            const A(
+              href: 'https://www.bing.com',
+              child: ElButton(
+                onPressed: null,
+                type: 'primary',
+                child: '超链接按钮',
               ),
             ),
             ElevatedButton(

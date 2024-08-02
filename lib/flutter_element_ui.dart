@@ -44,7 +44,6 @@ export 'src/components/others/divider.dart';
 export 'src/components/others/triangle.dart';
 export 'src/components/others/split/split.dart';
 
-export 'src/components/typography/typography.dart';
 export 'src/components/typography/text.dart';
 export 'src/components/typography/title.dart';
 export 'src/components/typography/href.dart';

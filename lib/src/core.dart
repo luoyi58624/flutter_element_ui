@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'components/basic/scrollbar.dart';
-import 'components/typography/typography.dart';
 import 'services/hover.dart';
 import 'services/message/message.dart';
 import 'services/toast.dart';
@@ -12,7 +11,7 @@ import 'utils/font.dart';
 import 'widgets/animation.dart';
 
 class ElConfigProvider extends StatelessWidget {
-  /// Element UI 配置注入，它非常简单，你可以根据需要自由组合它们，使用方式：
+  /// Element UI 全局配置注入：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElConfigProvider(
@@ -28,25 +27,21 @@ class ElConfigProvider extends StatelessWidget {
 
   final Widget child;
 
-  /// 自定义全局滚动行为，默认使用 Element UI 提供了 [ElScrollBehavior]。
-  ///
-  /// 提示：默认情况下，flutter在桌面端会默认插入[Scrollbar]，移动端则没有滚动条，
-  /// 如果你想使用默认行为，只需传递 [ScrollBehavior] 对象即可。
+  /// 自定义全局滚动行为，默认实现是 [ScrollBehavior]
   final ScrollBehavior behavior;
 
   @override
   Widget build(BuildContext context) {
-    // 设置全局文本样式
-    el.setGlobalTextStyle(context);
-    // 必须构建一个默认的 Material 组件，因为 Element UI 部分组件是直接基于 Material 的，
-    // 如果你直接在页面中使用这些组件那么页面会报错，除非你手动添加 Material 组件。
+    // 初始化全局文本样式
+    el.initGlobalTextStyle(context);
+    // 有些组件是直接基于 Material 进行二次封装的，所以需要构建一个默认的 Material 组件，防止报错
     return Material(
       textStyle: el.globalTextStyle,
       // 设置背景颜色
       child: AnimatedColoredBox(
         duration: el.config.colorDuration,
         color: context.elTheme.bgColor,
-        // 设置 Element UI 样式滚动条
+        // 设置全局滚动配置
         child: ScrollConfiguration(
           behavior: behavior,
           // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
@@ -62,21 +57,10 @@ class ElConfigProvider extends StatelessWidget {
 }
 
 /// Element UI 全局服务对象
-final el = _ElService();
+final el = ElService();
 
-// ============================================================================
-// 之前使用 InheritedWidget 去注入全局配置信息，使用一段时间后发现这种行为就是多此一举，
-// InheritedWidget 更适合为局部提供默认状态，通过当前上下文 context 访问最近的配置信息，
-// 可以完美地实现数据隔离，不会引起冲突，但这种特性对于全局数据来讲将失去意义，没有哪个应用
-// 会创建多种相互隔离的主题模式，因为这种行为几乎等同于你在一个 App 中创建多个 MaterialApp，
-// 哪怕你使用 MaterialApp 应该也不至于会创建多个 ThemeData 对象。
-//
-// 在 Flutter 中，数据和 UI 是完全解耦的，无论你将数据放在哪里，对数据做了什么操作，
-// 如果需要刷新页面只需调用一次 setState 即可，抛弃 InheritedWidget 管理全局数据，
-// 你可以在任意地方去使用它，而无需通过 context 上下文查找。
-// ===========================================================================
-class _ElService with ElHoverService, ElMessageService, ElToastService {
-  /// 根节点导航key，Element UI 有很多的 Api 都依赖全局路由 context 对象，请务必挂载此 key。
+class ElService with ElHoverService, ElMessageService, ElToastService {
+  /// 根节点路由导航key，请务必挂载此 key。
   ///
   /// 当使用命令式路由：
   /// ```dart
@@ -111,28 +95,28 @@ class _ElService with ElHoverService, ElMessageService, ElToastService {
     'error'
   ];
 
-  /// Element UI 亮色主题
-  ElThemeData lightTheme = ElThemeData();
+  /// 亮色主题
+  ElThemeData theme = ElThemeData();
 
-  /// Element UI 暗色主题
+  /// 暗色主题
   ElThemeData darkTheme = ElThemeData.dark();
 
-  /// Element UI 全局配置
+  /// 全局配置
   ElConfigData config = ElConfigData();
 
-  /// Element UI 响应式断点配置
+  /// 全局响应式断点配置
   ElResponsiveData responsive = const ElResponsiveData();
 
-  /// Element UI 文本排版配置
+  /// 全局文本排版配置
   ElTypographyData typography = ElTypographyData.data;
 
   TextStyle _globalTextStyle = const TextStyle();
 
-  /// Element UI 全局文本样式
+  /// 全局文本样式
   TextStyle get globalTextStyle => _globalTextStyle;
 
-  /// 设置全局文本样式
-  void setGlobalTextStyle(BuildContext context) {
+  /// 初始化全局文本样式，先创建包含颜色、尺寸、粗细等默认样式，再合并用户配置的样式
+  void initGlobalTextStyle(BuildContext context) {
     el._globalTextStyle = TextStyle(
       color: context.elTheme.textColor,
       fontSize: el.typography.text,
@@ -179,6 +163,77 @@ class ElResponsiveData {
       md: md ?? this.md,
       lg: lg ?? this.lg,
       xl: xl ?? this.xl,
+    );
+  }
+}
+
+/// 字体排版配置
+class ElTypographyData {
+  /// 默认的字体排版配置
+  static final data = ElTypographyData(
+    h1: 28,
+    h2: 24,
+    h3: 20,
+    h4: 18,
+    h5: 16,
+    h6: 14,
+    text: 15,
+  );
+
+  /// 一级标题
+  final double h1;
+
+  /// 二级标题
+  final double h2;
+
+  /// 三级标题
+  final double h3;
+
+  /// 四级标题
+  final double h4;
+
+  /// 五级标题
+  final double h5;
+
+  /// 六级标题
+  final double h6;
+
+  /// 普通文本
+  final double text;
+
+  final Widget Function(BuildContext context, String)? builder;
+
+  ElTypographyData({
+    required this.h1,
+    required this.h2,
+    required this.h3,
+    required this.h4,
+    required this.h5,
+    required this.h6,
+    required this.text,
+    this.builder,
+  });
+
+  ElTypographyData copyWith({
+    double? h1,
+    double? h2,
+    double? h3,
+    double? h4,
+    double? h5,
+    double? h6,
+    double? text,
+    Color? hrefColor,
+    bool? underline,
+    bool? hoverUnderline,
+  }) {
+    return ElTypographyData(
+      h1: h1 ?? this.h1,
+      h2: h2 ?? this.h2,
+      h3: h3 ?? this.h3,
+      h4: h4 ?? this.h4,
+      h5: h5 ?? this.h5,
+      h6: h6 ?? this.h6,
+      text: text ?? this.text,
     );
   }
 }
