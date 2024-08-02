@@ -8,46 +8,139 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 import '../core.dart';
 
 mixin ElToastService {
+  /// Element UI 轻提示实例对象，在屏幕上显示一段简单的文本提示，每次只能显示一条消息
+  final ElToastInstance toast = ElToastInstance();
+}
+
+class ElToastInstance {
   OverlayEntry? _toastOverlayEntry;
   Timer? _removeToastTimer;
 
-  /// 在页面上显示轻提示，[ElToast] 适用于移动端，[ElMessage] 适合桌面端
+  /// 显示轻提示，默认风格是中间显示半透明的黑底白字一段文本
   /// * context 默认使用全局context，如果你需要让它作用于局部页面，请传递当前context
-  /// * type 主题类型，默认在屏幕中间显示半透明深色提示，而主题类型 toast 则显示在底部
   /// * duration 持续时间，单位毫秒
-  /// * bottomOffset 当使用 type 时，自定义 toast 的底部偏移值
+  /// * type 主题类型，如果不为空，将构建 [_ThemeToast]
+  /// * offset 自定义 toast 的底部偏移值
   /// * builder 自定义构建 toast 小部件
-  void showToast(
+  void show(
     dynamic content, {
     BuildContext? context,
-    String? type,
     int duration = 3000,
-    double bottomOffset = 20,
+    String? type,
+    double offset = 20,
     Widget Function(dynamic content)? builder,
   }) async {
-    removeToast();
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(builder: (context) {
+      return builder != null
+          ? builder(content)
+          : type == null
+              ? _Toast(content)
+              : _ThemeToast(content, type, offset);
+    });
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// primary 主题轻提示
+  void primary(
+    dynamic content, {
+    BuildContext? context,
+    int duration = 3000,
+    double offset = 20,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(
+        builder: (context) => _ThemeToast(content, 'primary', offset));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// success 主题轻提示
+  void success(
+    dynamic content, {
+    BuildContext? context,
+    int duration = 3000,
+    double offset = 20,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(
+        builder: (context) => _ThemeToast(content, 'success', offset));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// info 主题轻提示
+  void info(
+    dynamic content, {
+    BuildContext? context,
+    int duration = 3000,
+    double offset = 20,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(
+        builder: (context) => _ThemeToast(content, 'info', offset));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// warning 主题轻提示
+  void warning(
+    dynamic content, {
+    BuildContext? context,
+    int duration = 3000,
+    double offset = 20,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(
+        builder: (context) => _ThemeToast(content, 'warning', offset));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// error 主题轻提示
+  void error(
+    dynamic content, {
+    BuildContext? context,
+    int duration = 3000,
+    double offset = 20,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(
+        builder: (context) => _ThemeToast(content, 'error', offset));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  /// 自定义构建轻提示
+  void builder(
+    dynamic content,
+    Widget Function(dynamic content) builder, {
+    BuildContext? context,
+    int duration = 3000,
+  }) async {
+    await _beforeHook();
+    _toastOverlayEntry = OverlayEntry(builder: (context) => builder(content));
+    final $context = context ?? el.context;
+    if ($context.mounted) _afterHook($context, duration);
+  }
+
+  Future<void> _beforeHook() async {
+    remove();
     if (_removeToastTimer != null) {
       _removeToastTimer!.cancel();
       _removeToastTimer = null;
     }
     await 0.05.seconds.delay();
-    _toastOverlayEntry = OverlayEntry(builder: (context) {
-      if (builder == null) {
-        return type == null
-            ? _Toast(content)
-            : _ThemeToast(content, type, bottomOffset);
-      } else {
-        return builder(content);
-      }
-    });
-    final $context = context ?? el.context;
-    if ($context.mounted) {
-      Overlay.of($context).insert(_toastOverlayEntry!);
-      _removeToastTimer = removeToast.delay(duration);
-    }
   }
 
-  void removeToast() {
+  void _afterHook(BuildContext context, int duration) {
+    Overlay.of(context).insert(_toastOverlayEntry!);
+    _removeToastTimer = remove.delay(duration);
+  }
+
+  /// 移除当前轻提示
+  void remove() {
     if (_toastOverlayEntry != null) {
       _toastOverlayEntry!.remove();
       _toastOverlayEntry = null;
@@ -64,7 +157,7 @@ class _Toast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: el.removeToast,
+        onTap: el.toast.remove,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
@@ -105,7 +198,7 @@ class _ThemeToast extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
-          onTap: el.removeToast,
+          onTap: el.toast.remove,
           child: UnconstrainedBox(
             child: Material(
               elevation: 1,

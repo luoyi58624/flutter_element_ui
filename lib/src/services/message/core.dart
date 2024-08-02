@@ -31,7 +31,7 @@ class _MessageState extends State<_Message>
   void initState() {
     super.initState();
     // 通过id拿到消息列表中的对象
-    message = el._messageList.firstWhere((e) => e.id == widget.id);
+    message = el.message._messageList.firstWhere((e) => e.id == widget.id);
     // 初始化动画
     controller =
         AnimationController(vsync: this, duration: widget.animationDuration.ms);
@@ -59,8 +59,8 @@ class _MessageState extends State<_Message>
 
   /// 计算当前消息在页面中的位置
   double get topOffset {
-    double result = el._firstTopOffset!;
-    for (final current in el._messageList) {
+    double result = el.message._firstTopOffset!;
+    for (final current in el.message._messageList) {
       if (current.id == widget.id) break;
       result += current._messageSize.value.height + _messageGap;
     }
@@ -82,9 +82,9 @@ class _MessageState extends State<_Message>
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.ms.delay();
     message._overlayEntry.remove();
-    el._messageList.remove(message);
+    el.message._messageList.remove(message);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
-    if (el._messageList.isEmpty) el._firstTopOffset = null;
+    if (el.message._messageList.isEmpty) el.message._firstTopOffset = null;
   }
 
   @override

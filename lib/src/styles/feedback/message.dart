@@ -9,7 +9,7 @@ class ElMessageStyle {
     this.offset = 20,
     this.messageDuration = 3000,
     this.animationDuration = 300,
-    this.showClose = false,
+    this.showClose = true,
     this.grouping = false,
     this.builder,
   });

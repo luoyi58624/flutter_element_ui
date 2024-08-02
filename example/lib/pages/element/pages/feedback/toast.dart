@@ -12,14 +12,14 @@ class ToastPage extends HookWidget {
         children: [
           ElButton(
             onPressed: () {
-              el.showToast('default toast');
+              el.toast.show('default toast');
             },
             child: 'Toast',
           ),
           ...el.themeTypes.map(
             (type) => ElButton(
               onPressed: () {
-                el.showToast('$type toast', type: type);
+                el.toast.show('$type toast', type: type);
               },
               type: type,
               child:
@@ -28,9 +28,9 @@ class ToastPage extends HookWidget {
           ),
           ElButton(
             onPressed: () {
-              el.showToast(
+              el.toast.builder(
                 'Custom Toast',
-                builder: (content) => _CustomToast(content),
+                (content) => _CustomToast(content),
               );
             },
             child: 'Custom Toast',
@@ -53,7 +53,7 @@ class _CustomToast extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          el.removeToast();
+          el.toast.remove();
         },
         child: Container(
           width: 200,

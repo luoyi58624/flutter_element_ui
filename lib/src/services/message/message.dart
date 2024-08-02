@@ -62,7 +62,7 @@ class ElMessage {
   /// 移除消息函数
   late VoidCallback removeMessage;
 
-  /// 不允许外部实例化它，只能通过 [el.showMessage] 创建
+  /// 不允许外部实例化它，只能通过 [el.message] 创建
   ElMessage._(
     this.id,
     this.type,
@@ -75,6 +75,11 @@ class ElMessage {
 }
 
 mixin ElMessageService {
+  /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
+  final ElMessageInstance message = ElMessageInstance();
+}
+
+class ElMessageInstance {
   /// 消息id
   int _id = 0;
 
@@ -94,7 +99,7 @@ mixin ElMessageService {
   /// * offset 第一条消息距离顶部窗口的距离
   /// * grouping 是否合并内容相同的消息，注意：type 也必须相同
   /// * builder 自定义构建消息内容
-  ElMessage showMessage(
+  ElMessage show(
     String content, {
     BuildContext? context,
     String type = 'info',
@@ -142,5 +147,105 @@ mixin ElMessageService {
     // 插入浮层元素
     Overlay.of(context ?? el.context).insert(overlayEntry);
     return model;
+  }
+
+  /// primary 主题消息
+  ElMessage primary(
+    String content, {
+    BuildContext? context,
+    int? duration,
+    bool? showClose,
+    double? offset,
+    bool? grouping,
+  }) {
+    return show(
+      content,
+      context: context,
+      type: 'primary',
+      duration: duration,
+      showClose: showClose,
+      offset: offset,
+      grouping: grouping,
+    );
+  }
+
+  /// success 主题消息
+  ElMessage success(
+    String content, {
+    BuildContext? context,
+    int? duration,
+    bool? showClose,
+    double? offset,
+    bool? grouping,
+  }) {
+    return show(
+      content,
+      context: context,
+      type: 'success',
+      duration: duration,
+      showClose: showClose,
+      offset: offset,
+      grouping: grouping,
+    );
+  }
+
+  /// info 主题消息
+  ElMessage info(
+    String content, {
+    BuildContext? context,
+    int? duration,
+    bool? showClose,
+    double? offset,
+    bool? grouping,
+  }) {
+    return show(
+      content,
+      context: context,
+      type: 'info',
+      duration: duration,
+      showClose: showClose,
+      offset: offset,
+      grouping: grouping,
+    );
+  }
+
+  /// warning 主题消息
+  ElMessage warning(
+    String content, {
+    BuildContext? context,
+    int? duration,
+    bool? showClose,
+    double? offset,
+    bool? grouping,
+  }) {
+    return show(
+      content,
+      context: context,
+      type: 'warning',
+      duration: duration,
+      showClose: showClose,
+      offset: offset,
+      grouping: grouping,
+    );
+  }
+
+  /// error 主题消息
+  ElMessage error(
+    String content, {
+    BuildContext? context,
+    int? duration,
+    bool? showClose,
+    double? offset,
+    bool? grouping,
+  }) {
+    return show(
+      content,
+      context: context,
+      type: 'error',
+      duration: duration,
+      showClose: showClose,
+      offset: offset,
+      grouping: grouping,
+    );
   }
 }
