@@ -21,6 +21,10 @@ dependencies:
 dev_dependencies:
   flutter_lints: ^4.0.0
 
+dependency_overrides:
+  flutter_element_ui:
+    path: ../
+
 flutter:
   uses-material-design: true
   fonts:

@@ -1,11 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../core.dart';
+
+/// 自定义轻提示构建
+typedef ElToastBuilder = Widget Function(
+  BuildContext context,
+  dynamic content,
+);
 
 mixin ElToastService {
   /// Element UI 轻提示实例对象，在屏幕上显示一段简单的文本提示，每次只能显示一条消息
@@ -25,20 +32,22 @@ class ElToastInstance {
   void show(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
+    int? duration,
     String? type,
-    double offset = 20,
-    Widget Function(dynamic content)? builder,
+    bool? enabledFeedback,
+    ElToastBuilder? builder,
   }) async {
-    await _beforeHook();
+    final $context = context ?? el.context;
+    await _beforeHook(enabledFeedback);
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       return builder != null
-          ? builder(content)
-          : type == null
-              ? _Toast(content)
-              : _ThemeToast(content, type, offset);
+          ? builder($context, content)
+          : el.config.toastStyle.builder != null
+              ? el.config.toastStyle.builder!($context, content)
+              : type == null
+                  ? _Toast(content)
+                  : _ThemeToast(content, type);
     });
-    final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -46,12 +55,12 @@ class ElToastInstance {
   void primary(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
-    double offset = 20,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
-    _toastOverlayEntry = OverlayEntry(
-        builder: (context) => _ThemeToast(content, 'primary', offset));
+    await _beforeHook(enabledFeedback);
+    _toastOverlayEntry =
+        OverlayEntry(builder: (context) => _ThemeToast(content, 'primary'));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
@@ -60,12 +69,12 @@ class ElToastInstance {
   void success(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
-    double offset = 20,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
-    _toastOverlayEntry = OverlayEntry(
-        builder: (context) => _ThemeToast(content, 'success', offset));
+    await _beforeHook(enabledFeedback);
+    _toastOverlayEntry =
+        OverlayEntry(builder: (context) => _ThemeToast(content, 'success'));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
@@ -74,12 +83,12 @@ class ElToastInstance {
   void info(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
-    double offset = 20,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
-    _toastOverlayEntry = OverlayEntry(
-        builder: (context) => _ThemeToast(content, 'info', offset));
+    await _beforeHook(enabledFeedback);
+    _toastOverlayEntry =
+        OverlayEntry(builder: (context) => _ThemeToast(content, 'info'));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
@@ -88,12 +97,12 @@ class ElToastInstance {
   void warning(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
-    double offset = 20,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
-    _toastOverlayEntry = OverlayEntry(
-        builder: (context) => _ThemeToast(content, 'warning', offset));
+    await _beforeHook(enabledFeedback);
+    _toastOverlayEntry =
+        OverlayEntry(builder: (context) => _ThemeToast(content, 'warning'));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
@@ -102,12 +111,12 @@ class ElToastInstance {
   void error(
     dynamic content, {
     BuildContext? context,
-    int duration = 3000,
-    double offset = 20,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
-    _toastOverlayEntry = OverlayEntry(
-        builder: (context) => _ThemeToast(content, 'error', offset));
+    await _beforeHook(enabledFeedback);
+    _toastOverlayEntry =
+        OverlayEntry(builder: (context) => _ThemeToast(content, 'error'));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
@@ -117,15 +126,19 @@ class ElToastInstance {
     dynamic content,
     Widget Function(dynamic content) builder, {
     BuildContext? context,
-    int duration = 3000,
+    int? duration,
+    bool? enabledFeedback,
   }) async {
-    await _beforeHook();
+    await _beforeHook(enabledFeedback);
     _toastOverlayEntry = OverlayEntry(builder: (context) => builder(content));
     final $context = context ?? el.context;
     if ($context.mounted) _afterHook($context, duration);
   }
 
-  Future<void> _beforeHook() async {
+  Future<void> _beforeHook(bool? enabledFeedback) async {
+    if (enabledFeedback ?? el.config.toastStyle.enableFeedback) {
+      HapticFeedback.mediumImpact();
+    }
     remove();
     if (_removeToastTimer != null) {
       _removeToastTimer!.cancel();
@@ -134,9 +147,11 @@ class ElToastInstance {
     await 0.05.seconds.delay();
   }
 
-  void _afterHook(BuildContext context, int duration) {
+  void _afterHook(BuildContext context, int? duration) {
     Overlay.of(context).insert(_toastOverlayEntry!);
-    _removeToastTimer = remove.delay(duration);
+    _removeToastTimer = remove.delay(
+      duration ?? el.config.toastStyle.closeDuration,
+    );
   }
 
   /// 移除当前轻提示
@@ -172,18 +187,20 @@ class _Toast extends StatelessWidget {
               color: Color(0xFFFFFFFF),
             ),
           ),
-        ),
+        ).animate().fade(),
       ),
     );
   }
 }
 
 class _ThemeToast extends StatelessWidget {
-  const _ThemeToast(this.content, this.type, this.bottomOffset);
+  const _ThemeToast(this.content, this.type);
 
   final dynamic content;
   final String type;
-  final double bottomOffset;
+
+  /// 定义 toast 离底部的距离，暂时不可配置
+  final double bottomOffset = 80;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +209,7 @@ class _ThemeToast extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         horizontal: 50,
         vertical: bottomPadding >= bottomOffset
-            ? bottomPadding + bottomOffset / 2
+            ? bottomPadding + bottomOffset / 4
             : bottomOffset,
       ),
       child: Align(
@@ -214,7 +231,7 @@ class _ThemeToast extends StatelessWidget {
                       color: Colors.white,
                     ),
                   )),
-            ),
+            ).animate().fade(),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import '../../services/message/message.dart';
 
@@ -7,7 +8,7 @@ part '../../generates/styles/feedback/message.g.dart';
 class ElMessageStyle {
   const ElMessageStyle({
     this.offset = 20,
-    this.messageDuration = 3000,
+    this.closeDuration = 3000,
     this.animationDuration = 300,
     this.showClose = true,
     this.grouping = false,
@@ -17,8 +18,8 @@ class ElMessageStyle {
   /// 第一条消息距离顶部窗口的距离，默认20
   final double offset;
 
-  /// 消息持续时间，默认 3000 毫秒
-  final int messageDuration;
+  /// 自动关闭时间，默认 3000 毫秒
+  final int closeDuration;
 
   /// 动画持续时间，默认 300 毫秒
   final int animationDuration;

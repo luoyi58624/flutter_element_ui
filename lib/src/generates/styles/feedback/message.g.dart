@@ -9,17 +9,19 @@ part of '../../../styles/feedback/message.dart';
 extension ElMessageStyleExtension on ElMessageStyle {
   ElMessageStyle copyWith({
     double? offset,
-    int? messageDuration,
+    int? closeDuration,
     int? animationDuration,
     bool? showClose,
     bool? grouping,
+    Widget Function(BuildContext, ElMessage)? builder,
   }) {
     return ElMessageStyle(
       offset: offset ?? this.offset,
-      messageDuration: messageDuration ?? this.messageDuration,
+      closeDuration: closeDuration ?? this.closeDuration,
       animationDuration: animationDuration ?? this.animationDuration,
       showClose: showClose ?? this.showClose,
       grouping: grouping ?? this.grouping,
+      builder: builder ?? this.builder,
     );
   }
 
@@ -27,10 +29,11 @@ extension ElMessageStyleExtension on ElMessageStyle {
     if (other == null) return this;
     return copyWith(
       offset: other.offset,
-      messageDuration: other.messageDuration,
+      closeDuration: other.closeDuration,
       animationDuration: other.animationDuration,
       showClose: other.showClose,
       grouping: other.grouping,
+      builder: other.builder,
     );
   }
 }

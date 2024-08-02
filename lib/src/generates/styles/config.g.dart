@@ -12,24 +12,26 @@ extension ElConfigDataExtension on ElConfigData {
     double? iconSize,
     BorderRadius? radius,
     BorderRadius? cardRadius,
-    Duration? colorDuration,
     Duration? globalDuration,
+    Duration? colorDuration,
     TextStyle? textStyle,
     ElButtonStyle? buttonStyle,
     ElInputStyle? inputStyle,
     ElMessageStyle? messageStyle,
+    ElToastStyle? toastStyle,
   }) {
     return ElConfigData(
       baseWidgetHeight: baseWidgetHeight ?? this.baseWidgetHeight,
       iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
-      colorDuration: colorDuration ?? this.colorDuration,
       globalDuration: globalDuration ?? this.globalDuration,
+      colorDuration: colorDuration ?? this.colorDuration,
       textStyle: this.textStyle.merge(textStyle),
       buttonStyle: this.buttonStyle.merge(buttonStyle),
       inputStyle: this.inputStyle.merge(inputStyle),
       messageStyle: this.messageStyle.merge(messageStyle),
+      toastStyle: this.toastStyle.merge(toastStyle),
     );
   }
 }

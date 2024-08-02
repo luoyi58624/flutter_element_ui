@@ -4,6 +4,7 @@ import 'package:flutter_element_annotation/model.dart';
 import 'basic/button.dart';
 import 'basic/input.dart';
 import 'feedback/message.dart';
+import 'feedback/toast.dart';
 
 part '../generates/styles/config.g.dart';
 
@@ -41,6 +42,9 @@ class ElConfigData {
   /// 消息提示全局样式
   ElMessageStyle messageStyle;
 
+  /// 轻提示全局样式
+  ElToastStyle toastStyle;
+
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   ElConfigData({
     this.baseWidgetHeight = 36,
@@ -53,5 +57,6 @@ class ElConfigData {
     this.buttonStyle = const ElButtonStyle(),
     this.inputStyle = const ElInputStyle(),
     this.messageStyle = const ElMessageStyle(),
+    this.toastStyle = const ElToastStyle(),
   }) : assert(baseWidgetHeight >= 24);
 }

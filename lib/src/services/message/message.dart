@@ -132,7 +132,7 @@ class ElMessageInstance {
     final overlayEntry = OverlayEntry(
       builder: (context) => _Message(
         id,
-        duration ?? style.messageDuration,
+        duration ?? style.closeDuration,
         style.animationDuration,
         builder ?? style.builder ?? _defaultBuilder,
       ),
