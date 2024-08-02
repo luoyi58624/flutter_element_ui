@@ -20,14 +20,13 @@ class MessagePage extends StatelessWidget {
               children: [
                 ElButton(
                   onPressed: () {
-                    el.showMessage(context, '这是一条消息提示');
+                    el.showMessage('这是一条消息提示', context: context);
                   },
                   child: '默认消息(局部)',
                 ),
                 ElButton(
                   onPressed: () {
                     el.showMessage(
-                      el.context,
                       '恭喜你，这是一条成功消息',
                       type: 'success',
                       showClose: true,
@@ -39,7 +38,6 @@ class MessagePage extends StatelessWidget {
                 ElButton(
                   onPressed: () {
                     el.showMessage(
-                      el.context,
                       '这是一条消息提示',
                       type: 'info',
                       // duration: 1000 * 60,
@@ -51,14 +49,14 @@ class MessagePage extends StatelessWidget {
                 ),
                 ElButton(
                   onPressed: () {
-                    el.showMessage(el.context, '警告哦，这是一条警告消息', type: 'warning');
+                    el.showMessage('警告哦，这是一条警告消息', type: 'warning');
                   },
                   type: 'warning',
                   child: '警告',
                 ),
                 ElButton(
                   onPressed: () {
-                    el.showMessage(el.context, '错了哦，这是一条错误消息', type: 'error');
+                    el.showMessage('错了哦，这是一条错误消息', type: 'error');
                   },
                   type: 'error',
                   child: '错误',
@@ -72,7 +70,7 @@ class MessagePage extends StatelessWidget {
               children: [
                 ElButton(
                   onPressed: () {
-                    el.showMessage(el.context, '恭喜你，这是一条成功消息',
+                    el.showMessage('恭喜你，这是一条成功消息',
                         type: 'success', grouping: true);
                   },
                   type: 'success',
@@ -80,7 +78,7 @@ class MessagePage extends StatelessWidget {
                 ),
                 ElButton(
                   onPressed: () {
-                    el.showMessage(el.context, '错了哦，这是一条错误消息',
+                    el.showMessage('错了哦，这是一条错误消息',
                         type: 'error', grouping: true);
                   },
                   type: 'error',
@@ -96,7 +94,6 @@ class MessagePage extends StatelessWidget {
                 ElButton(
                   onPressed: () {
                     el.showMessage(
-                      el.context,
                       'xxxxxxxxxxxxxxx' * 10,
                       type: 'primary',
                       offset: 50,
@@ -110,12 +107,11 @@ class MessagePage extends StatelessWidget {
                   onPressed: () {
                     int num = Random().nextInt(10000);
                     el.showMessage(
-                      el.context,
                       num.toString(),
                       builder: (context, message) => ElevatedButton(
                         onPressed: () {
                           message.removeMessage();
-                          el.showToast(context, '您移除了自定义消息 - $num');
+                          el.showToast('您移除了自定义消息 - $num');
                         },
                         child: Text('自定义消息：$num'),
                       ),
@@ -127,7 +123,6 @@ class MessagePage extends StatelessWidget {
                 ElButton(
                   onPressed: () {
                     el.showMessage(
-                      el.context,
                       '自定义消息',
                       builder: (context, message) => ElevatedButton(
                         onPressed: () {

@@ -85,7 +85,7 @@ mixin ElMessageService {
   double? _firstTopOffset;
 
   /// 在页面上显示消息提示
-  /// * context 上下文对象，使用全局 context 和局部 context 的区别在于它们所在的层级不一样
+  /// * context 默认使用全局context，如果你需要让它作用于局部页面，请传递当前context
   /// * content 消息内容
   /// * type 主题类型
   /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
@@ -95,8 +95,8 @@ mixin ElMessageService {
   /// * grouping 是否合并内容相同的消息，注意：type 也必须相同
   /// * builder 自定义构建消息内容
   ElMessage showMessage(
-    BuildContext context,
     String content, {
+    BuildContext? context,
     String type = 'info',
     Widget? icon,
     int? duration,
@@ -140,7 +140,7 @@ mixin ElMessageService {
     _messageList.add(model);
 
     // 插入浮层元素
-    Overlay.of(context).insert(overlayEntry);
+    Overlay.of(context ?? el.context).insert(overlayEntry);
     return model;
   }
 }

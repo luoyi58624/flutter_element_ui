@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/flutter_base.dart';
-import 'package:flutter_base/src/extensions/router.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:super_sliver_list/super_sliver_list.dart';
 
 const Widget arrowRightWidget = Icon(Icons.keyboard_arrow_right);
 

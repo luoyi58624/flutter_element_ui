@@ -14,7 +14,7 @@ class Http extends BaseHttp {
 
   @override
   void Function(String errorMsg)? get errorMessageFun =>
-      (errorMsg) => el.showToast(el.context, errorMsg, type: 'error');
+      (errorMsg) => el.showToast(errorMsg, type: 'error');
 
   @override
   Future<void> Function()? get closeLoadingFun => () async {

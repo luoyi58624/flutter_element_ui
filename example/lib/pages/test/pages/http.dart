@@ -70,7 +70,7 @@ class _HttpPageState extends State<HttpPage> {
                   '/todos/1',
                   getRequestExtra: GetRequestExtra(
                       errorMessageFun: (errorMsg) =>
-                          el.showToast(el.context, errorMsg, type: 'error')),
+                          el.showToast(errorMsg, type: 'error')),
                 );
                 setState(() {
                   text = resData.toString();

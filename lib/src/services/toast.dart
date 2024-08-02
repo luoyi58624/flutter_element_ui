@@ -12,15 +12,16 @@ mixin ElToastService {
   Timer? _removeToastTimer;
 
   /// 在页面上显示轻提示，[ElToast] 适用于移动端，[ElMessage] 适合桌面端
-  /// * duration 持续时间，单位毫秒
+  /// * context 默认使用全局context，如果你需要让它作用于局部页面，请传递当前context
   /// * type 主题类型，默认在屏幕中间显示半透明深色提示，而主题类型 toast 则显示在底部
+  /// * duration 持续时间，单位毫秒
   /// * bottomOffset 当使用 type 时，自定义 toast 的底部偏移值
   /// * builder 自定义构建 toast 小部件
   void showToast(
-    BuildContext context,
     dynamic content, {
-    int duration = 3000,
+    BuildContext? context,
     String? type,
+    int duration = 3000,
     double bottomOffset = 20,
     Widget Function(dynamic content)? builder,
   }) async {
@@ -39,8 +40,9 @@ mixin ElToastService {
         return builder(content);
       }
     });
-    if (context.mounted) {
-      Overlay.of(context).insert(_toastOverlayEntry!);
+    final $context = context ?? el.context;
+    if ($context.mounted) {
+      Overlay.of($context).insert(_toastOverlayEntry!);
       _removeToastTimer = removeToast.delay(duration);
     }
   }
