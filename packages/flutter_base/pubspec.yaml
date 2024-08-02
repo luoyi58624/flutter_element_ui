@@ -13,7 +13,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_element_ui:
-    path: ../..
+    git:
+      url: https://github.com/luoyi58624/flutter_element_ui.git
   flutter_obs: ^1.2.2
   luoyi_dart_base: ^1.11.0
   luoyi_flutter_font: ^1.1.0
