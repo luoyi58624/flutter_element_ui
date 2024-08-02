@@ -216,16 +216,20 @@ packages:
   flutter_element_annotation:
     dependency: transitive
     description:
-      path: "../packages/flutter_element_annotation"
-      relative: true
-    source: path
+      path: "packages/flutter_element_annotation"
+      ref: HEAD
+      resolved-ref: "0aa21d23ab9e2b0788bd5351b5a74beabd14fa5f"
+      url: "https://github.com/luoyi58624/flutter_element_ui.git"
+    source: git
     version: "0.0.1"
   flutter_element_ui:
     dependency: transitive
     description:
-      path: ".."
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "0aa21d23ab9e2b0788bd5351b5a74beabd14fa5f"
+      url: "https://github.com/luoyi58624/flutter_element_ui.git"
+    source: git
     version: "0.0.1"
   flutter_hooks:
     dependency: transitive

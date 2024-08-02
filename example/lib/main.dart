@@ -7,7 +7,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
   await CacheInterceptor.init();
-  await FontUtil.init();
+  await FontUtil.init(
+    fontModel: const FontModel(fontFamily: 'NotoSansSC'),
+    android: true,
+  );
   el.config = ElConfigData(
     textStyle: TextStyle(
       fontFamily: FlutterFont.fontFamily,

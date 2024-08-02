@@ -15,7 +15,7 @@ class GlobalState {
   ]);
 
   /// 开启重采样机制，开启此功能可以让高刷手机拥有更平滑的触控，但缺点是会带来一点延迟
-  static final enableResampling = Obs(false, watch: [
+  static final enableResampling = Obs(true, watch: [
     (bool newValue, bool oldValue) {
       GestureBinding.instance.resamplingEnabled = newValue;
     },

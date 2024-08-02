@@ -23,8 +23,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-#  fonts:
-#    - family: NotoSansSC
-#      fonts:
-#        - asset: packages/luoyi_flutter_font/fonts/NotoSansSC/700.ttf
-#        - asset: packages/luoyi_flutter_font/fonts/NotoSansSC/500.ttf
+  fonts:
+    - family: NotoSansSC
+      fonts:
+        - asset: assets/fonts/NotoSansSC-Bold.ttf
+        - asset: assets/fonts/NotoSansSC-Medium.ttf

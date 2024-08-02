@@ -21,7 +21,7 @@ class ElToastInstance {
   /// * duration 持续时间，单位毫秒
   /// * type 主题类型，如果不为空，将构建 [_ThemeToast]
   /// * offset 自定义 toast 的底部偏移值
-  /// * builder 自定义构建 toast 小部件
+  /// * builder 自定义构建 toast 小部件，支持全局配置
   void show(
     dynamic content, {
     BuildContext? context,
