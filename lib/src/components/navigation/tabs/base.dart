@@ -102,19 +102,16 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
                   scrollController.position.pointerScroll(e.scrollDelta.dy);
                 }
               },
-              child: ScrollConfiguration(
-                behavior: const NoScrollBehavior(),
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  scrollDirection: Axis.horizontal,
-                  physics: const ClampingScrollPhysics(),
-                  child: RepaintBoundary(
-                    child: Builder(builder: (context) {
-                      return buildTabs(context);
-                    }),
-                  ),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                child: RepaintBoundary(
+                  child: Builder(builder: (context) {
+                    return buildTabs(context);
+                  }),
                 ),
-              ),
+              ).noScrollBehavior,
             ),
           ),
         ),

@@ -10,29 +10,12 @@ import '../../core.dart';
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
-class NoScrollBehavior extends ScrollBehavior {
-  const NoScrollBehavior();
+class ElNoScrollBehavior extends ElScrollBehavior {
+  /// 不使用任何默认滚动条
+  const ElNoScrollBehavior();
 
   @override
-  Widget buildScrollbar(
-    BuildContext context,
-    Widget child,
-    ScrollableDetails details,
-  ) =>
-      child;
-
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    if (PlatformUtil.isAndroid) {
-      return StretchingOverscrollIndicator(
-        axisDirection: details.direction,
-        child: child,
-      );
-    } else {
-      return child;
-    }
-  }
+  Widget buildScrollbar(context, child, details) => child;
 }
 
 class ElScrollBehavior extends ScrollBehavior {
@@ -40,8 +23,7 @@ class ElScrollBehavior extends ScrollBehavior {
   const ElScrollBehavior();
 
   @override
-  Widget buildScrollbar(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(context, child, details) {
     switch (getPlatform(context)) {
       case TargetPlatform.linux:
       case TargetPlatform.macOS:
@@ -61,8 +43,7 @@ class ElScrollBehavior extends ScrollBehavior {
   }
 
   @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildOverscrollIndicator(context, child, details) {
     // 如果是安卓平台，统一使用 M3 的过度滚动效果
     if (PlatformUtil.isAndroid) {
       return StretchingOverscrollIndicator(

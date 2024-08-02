@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../components/basic/scrollbar.dart';
 import '../core.dart';
 import '../styles/theme.dart';
 
@@ -37,4 +38,13 @@ extension ElResponsiveExtension on BuildContext {
 
   /// 大屏桌面设备，最大宽度默认2560
   bool get xl => MediaQuery.sizeOf(this).width <= el.responsive.xl;
+}
+
+extension ElWidgetExtension on Widget {
+  /// 禁止使用祖先定义的默认的滚动条，如果你希望当前滚动小部件不使用滚动条，或者你正在使用自定义滚动条，
+  /// 那么只需在小部件的末尾添加这个扩展方法即可
+  Widget get noScrollBehavior => ScrollConfiguration(
+        behavior: const ElNoScrollBehavior(),
+        child: this,
+      );
 }

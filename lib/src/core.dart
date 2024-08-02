@@ -20,9 +20,19 @@ class ElConfigProvider extends StatelessWidget {
   ///   ),
   /// ),
   /// ```
-  const ElConfigProvider({super.key, required this.child});
+  const ElConfigProvider({
+    super.key,
+    required this.child,
+    this.behavior = const ElScrollBehavior(),
+  });
 
   final Widget child;
+
+  /// 自定义全局滚动行为，默认使用 Element UI 提供了 [ElScrollBehavior]。
+  ///
+  /// 提示：默认情况下，flutter在桌面端会默认插入[Scrollbar]，移动端则没有滚动条，
+  /// 如果你想使用默认行为，只需传递 [ScrollBehavior] 对象即可。
+  final ScrollBehavior behavior;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +48,7 @@ class ElConfigProvider extends StatelessWidget {
         color: context.elTheme.bgColor,
         // 设置 Element UI 样式滚动条
         child: ScrollConfiguration(
-          behavior: const ElScrollBehavior(),
+          behavior: behavior,
           // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
           child: Overlay(initialEntries: [
             OverlayEntry(builder: (context) {
