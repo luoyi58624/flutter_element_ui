@@ -65,6 +65,10 @@ List<ElMenuModel> menuList = const [
         key: '${ElementRoutes.form}/input',
       ),
       ElMenuModel(
+        title: 'Input Number 数字输入框',
+        key: '${ElementRoutes.form}/input_number',
+      ),
+      ElMenuModel(
         title: 'Radio 单选框',
         key: '${ElementRoutes.form}/radio',
       ),

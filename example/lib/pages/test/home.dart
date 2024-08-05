@@ -2,6 +2,14 @@ import 'package:example/global.dart';
 import 'package:example/pages/test/pages/debug_setting.dart';
 import 'package:flutter/material.dart';
 
+import 'pages/canvas/arc.dart';
+import 'pages/canvas/circle.dart';
+import 'pages/canvas/face.dart';
+import 'pages/canvas/line.dart';
+import 'pages/canvas/path.dart';
+import 'pages/canvas/point.dart';
+import 'pages/canvas/rect.dart';
+import 'pages/canvas/triangle.dart';
 import 'pages/http.dart';
 import 'pages/multi_child.dart';
 import 'pages/overlay.dart';
@@ -24,6 +32,14 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
           CellWidget(title: 'Render 自定义渲染', page: RenderTestPage()),
           CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
+          CellWidget(title: 'Canvas Line', page: LinePage()),
+          CellWidget(title: 'Canvas Point', page: PointPage()),
+          CellWidget(title: 'Canvas Circle', page: CirclePage()),
+          CellWidget(title: 'Canvas Arc', page: ArcPage()),
+          CellWidget(title: 'Canvas Rect', page: RectPage()),
+          CellWidget(title: 'Canvas Path', page: PathPage()),
+          CellWidget(title: 'Canvas 三角形', page: TrianglePage()),
+          CellWidget(title: 'Canvas 笑脸', page: FacePage()),
         ],
       ),
     );

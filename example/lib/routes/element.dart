@@ -17,6 +17,7 @@ import '../pages/element/pages/feedback/message.dart';
 import '../pages/element/pages/feedback/toast.dart';
 import '../pages/element/pages/feedback/tooltip.dart';
 import '../pages/element/pages/form/input.dart';
+import '../pages/element/pages/form/input_number.dart';
 import '../pages/element/pages/form/radio.dart';
 import '../pages/element/pages/form/switch.dart';
 import '../pages/element/pages/layout/basic.dart';
@@ -92,6 +93,14 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.form}/input',
             builder: (context, state) => const InputPage(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            path: '${ElementRoutes.form}/input_number',
+            builder: (context, state) => const InputNumberPage(),
           ),
         ],
       ),

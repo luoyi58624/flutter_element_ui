@@ -30,6 +30,7 @@ export 'src/components/form/form.dart';
 export 'src/components/form/form_item.dart';
 export 'src/components/form/radio.dart';
 export 'src/components/form/input.dart';
+export 'src/components/form/input_number.dart';
 export 'src/components/form/switch.dart';
 export 'src/components/form/slider.dart';
 

@@ -4,10 +4,8 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-Timer? _timer;
-
-/// 对[GestureDetector]进行的包装，允许延迟更新点击状态，同时可以通过[of]访问上下文中的点击状态
 class TapBuilder extends StatefulWidget {
+  /// 点击事件构建器
   const TapBuilder({
     super.key,
     required this.builder,
@@ -29,7 +27,8 @@ class TapBuilder extends StatefulWidget {
   final bool disabled;
 
   /// 根据上下文获取最近的点击状态
-  static bool of(BuildContext context) => _TapInheritedWidget.of(context);
+  static bool of(BuildContext context) =>
+      _TapInheritedWidget.of(context)?.isTap ?? false;
 
   @override
   State<TapBuilder> createState() => _TapBuilderState();
@@ -38,6 +37,7 @@ class TapBuilder extends StatefulWidget {
 class _TapBuilderState extends State<TapBuilder> {
   bool isTap = false;
   int? _time;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +74,9 @@ class _TapBuilderState extends State<TapBuilder> {
                   _timer = null;
                 }.delay(widget.delay);
               },
-        child: Builder(
-          builder: (context) {
-            return widget.builder(context);
-          }
-        ),
+        child: Builder(builder: (context) {
+          return widget.builder(context);
+        }),
       ),
     );
   }
@@ -100,11 +98,8 @@ class _TapInheritedWidget extends InheritedWidget {
 
   final bool isTap;
 
-  static bool of(BuildContext context) {
-    final _TapInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
-    return result == null ? false : result.isTap;
-  }
+  static _TapInheritedWidget? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
 
   @override
   bool updateShouldNotify(_TapInheritedWidget oldWidget) {
