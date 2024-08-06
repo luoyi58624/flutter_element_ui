@@ -33,7 +33,8 @@ class _MyPainter extends CustomPainter {
 
     Rect rect2 =
         Rect.fromCircle(center: const Offset(100.0, 100.0), radius: 40.0);
-    canvas.drawArc(rect2, pi / 6, 2 * pi / 3, false, paint);
+    canvas.drawArc(rect2, pi, pi, false, paint);
+    // canvas.drawArc(rect2, pi / 6, 2 * pi / 3, false, paint);
   }
 
   @override

@@ -1,48 +1,74 @@
-import 'dart:math';
-
+import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class TrianglePage extends StatelessWidget {
+class TrianglePage extends HookWidget {
   const TrianglePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final radius = useState(0.0);
     return Scaffold(
       appBar: AppBar(
         title: const Text('绘制三角形 - triangle'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: RepaintBoundary(
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: _MyPainter(),
-          ),
+        child: Column(
+          children: [
+            Slider(
+              value: radius.value,
+              max: 100,
+              onChanged: (v) => radius.value = v,
+              label: radius.value.round().toString(),
+            ),
+            Row(
+              children: [
+                ...AxisDirection.values.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElTriangle(
+                      size: 20,
+                      radius: radius.value,
+                      direction: e,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(8),
+            Row(
+              children: [
+                ...AxisDirection.values.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElTriangle(
+                      size: 100,
+                      radius: radius.value,
+                      direction: e,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(8),
+            Row(
+              children: [
+                ...AxisDirection.values.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ElTriangle(
+                      size: 100,
+                      radius: radius.value,
+                      direction: e,
+                      onlyRightAngle: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
-  }
-}
-
-class _MyPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    double s = 100;
-    double r = 20;
-    Paint paint = Paint()..color = Colors.green;
-
-    Path path = Path();
-    path.moveTo(r, s);
-    path.arcTo(Rect.fromCircle(center: Offset(r, s - r), radius: r), pi / 4,
-        pi, false);
-    path.lineTo(s / 2, s / 2);
-    path.lineTo(s, s);
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }
