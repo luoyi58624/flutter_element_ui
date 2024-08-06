@@ -116,9 +116,7 @@ class _MyPainter extends CustomPainter {
   void radiusPaint(Canvas canvas, Size size, Path path) {
     final w = size.width;
     final h = size.height;
-    final r = onlyRightAngle
-        ? min(radius, min(w, h) / 2)
-        : min(radius, min(w, h) / 3 / 2);
+    final r = min(radius, min(w, h) / 3 / 2);
 
     // 根据圆的半径，获取225度的左上角的坐标所在位置
     final arcLocation = r + r * sin((225) * pi / 180);
@@ -131,13 +129,11 @@ class _MyPainter extends CustomPainter {
       case AxisDirection.up:
         // 计算直角
         c1 = Offset(w / 2, r + r / 2);
-        Offset o = Offset(c1.dx - (r - arcLocation), c1.dy - (r - arcLocation));
         _RightAngle ra =
             (Rect.fromCircle(center: c1, radius: r), pi + pi / 4, pi / 2);
 
         if (onlyRightAngle) {
           path.moveTo(0, h);
-          // path.lineTo(o.dx, o.dy);
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
           path.lineTo(w, h);
         } else {
@@ -149,17 +145,12 @@ class _MyPainter extends CustomPainter {
           path.arcTo(Rect.fromCircle(center: c2, radius: r), pi / 2,
               _diagonalAngle, false);
 
-          // path.lineTo(o.dx, o.dy);
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
 
           // 计算第二个对角
           path.lineTo(c3.dx + (r - arcLocation), h - r - (r - arcLocation));
           path.arcTo(Rect.fromCircle(center: c3, radius: r), pi * 2 - pi / 4,
               _diagonalAngle, false);
-
-          // path.moveTo(0, h);
-          // path.lineTo(w / 2, 0);
-          // path.lineTo(w, h);
         }
         break;
       case AxisDirection.right:

@@ -57,7 +57,7 @@ class TrianglePage extends HookWidget {
                   (e) => Padding(
                     padding: const EdgeInsets.all(8),
                     child: ElTriangle(
-                      size: 100,
+                      size: 200,
                       radius: radius.value,
                       direction: e,
                       onlyRightAngle: true,
