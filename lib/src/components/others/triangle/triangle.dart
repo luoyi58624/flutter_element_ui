@@ -112,13 +112,15 @@ class _MyPainter extends CustomPainter {
     }
   }
 
-  /// 圆角绘制
+  /// 圆角绘制，绘制逻辑可以参考 triangle_radius.png 图片
   void radiusPaint(Canvas canvas, Size size, Path path) {
     final w = size.width;
     final h = size.height;
+
+    // 限制最大圆角值，由于需要绘制三个圆形实现三角形圆角，所以需要严格限制圆形尺寸
     final r = min(radius, min(w, h) / 3 / 2);
 
-    // 根据圆的半径，获取225度的左上角的坐标所在位置
+    // 225度圆弧坐标，此属性非常关键，它用于计算圆心的坐标、连接关键圆弧坐标点
     final arcLocation = r + r * sin((225) * pi / 180);
 
     late Offset c1; // 直角圆心坐标
@@ -127,34 +129,48 @@ class _MyPainter extends CustomPainter {
 
     switch (direction) {
       case AxisDirection.up:
-        // 计算直角
+        // 直角圆心坐标系
         c1 = Offset(w / 2, r + r / 2);
+        // 直角圆弧，逻辑都大致相同，不过是根据方向调整位置即可
         _RightAngle ra =
             (Rect.fromCircle(center: c1, radius: r), pi + pi / 4, pi / 2);
 
+        // 只绘制直角圆角，这部分逻辑相对简单
         if (onlyRightAngle) {
           path.moveTo(0, h);
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
           path.lineTo(w, h);
         } else {
+          // 通过设计图你可以发现，两个圆的交叉距离正好是 arcLocation，由此可以得出对角圆心的 x 坐标
           c2 = Offset(r * 4 - arcLocation * 2, h - r);
+          // 与上面一样，只不过是反过来
           c3 = Offset(w - (r * 4 - arcLocation * 2), h - r);
 
-          // 计算第一个对角
+          // 以第一个对角圆心为原点，开始绘制
           path.moveTo(c2.dx, h);
+
+          // 画出圆弧
+          // * 第一个参数是圆的坐标点
+          // * 第二个参数是圆弧的起始原点，从一个圆的右边开始，以顺时针开始旋转，一个 pi 指 180 度，
+          // 由于我们的起始原点在圆的下方，所以绘制圆弧从 90 度开始
+          // * 第三个参数是绘制的圆弧范围，和第二个参数逻辑一样，这里统一使用 _diagonalAngle 变量，
+          // 它的计算公式可以对照设计图，从当前原点旋转 90 度后、再旋转 45 度达到圆的交界线
           path.arcTo(Rect.fromCircle(center: c2, radius: r), pi / 2,
               _diagonalAngle, false);
 
+          // 绘制直角圆角
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
 
-          // 计算第二个对角
+          // 这里需要通过 arcLocation 定位到下一个对角坐标，计算方式参考设计图可以很快得出
           path.lineTo(c3.dx + (r - arcLocation), h - r - (r - arcLocation));
+
+          // 绘制第二个对角圆弧，逻辑和第一个对角圆弧一样，只不过需要调整一下方位即可，
+          // 绘制完后在最后一个节点会和起始节点自动连接起来
           path.arcTo(Rect.fromCircle(center: c3, radius: r), pi * 2 - pi / 4,
               _diagonalAngle, false);
         }
         break;
       case AxisDirection.right:
-        // 计算直角
         c1 = Offset(w - r - r / 2, h / 2);
         _RightAngle ra =
             (Rect.fromCircle(center: c1, radius: r), pi + pi / 4 * 3, pi / 2);
@@ -230,5 +246,5 @@ class _MyPainter extends CustomPainter {
 
 typedef _RightAngle = (Rect rect, double startAngle, double sweepAngle);
 
-/// 对角角度
+/// 对角圆弧
 const _diagonalAngle = pi / 2 + pi / 4;
