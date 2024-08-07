@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base/flutter_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ChildPage extends StatelessWidget {
   const ChildPage({super.key, this.title, this.previousPageTitle = '返回'});
@@ -10,7 +11,7 @@ class ChildPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isCupertinoApp = ElUtil.hasAncestorElement<CupertinoApp>(context);
+    var isCupertinoApp = FlutterUtil.hasAncestorElement<CupertinoApp>(context);
     if (isCupertinoApp) {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(

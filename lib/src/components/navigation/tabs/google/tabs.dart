@@ -1,16 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:gap/gap.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../../core.dart';
 import '../../../../utils/font.dart';
-import '../../../../widgets/animate.dart';
-import '../../../../widgets/custom_layout.dart';
-import '../../../../widgets/hover.dart';
-import '../../../../widgets/simple_widgets.dart';
 import '../../../basic/icon.dart';
 import '../../../typography/text.dart';
 import '../base.dart';
@@ -71,7 +66,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
         builder: (context, children, _) {
           return Stack(
             children: [
-              ElCustomMultiChildLayout(
+              CustomMultiChildLayoutWidget(
                 width: layoutWidth,
                 delegateBuilder: (updateSize, isReBuild) =>
                     _GoogleTabLayoutDelegate(
@@ -83,7 +78,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
                 ),
                 children: [
                   ...children.mapIndexed(
-                    (i, e) => ElChildIndexData(
+                    (i, e) => ChildIndexData(
                       index: i,
                       child: LayoutId(
                         id: i,
@@ -133,7 +128,7 @@ class _GoogleTabLayoutDelegate extends MultiChildLayoutDelegate {
   );
 
   /// 更新布局尺寸回调函数
-  final ElUpdateCustomLayoutSize updateSize;
+  final UpdateCustomLayoutSize updateSize;
 
   /// 标签数量
   final int length;

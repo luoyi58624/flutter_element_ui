@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_obs/flutter_obs.dart';
-
-import '../../utils/util.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 /// Element UI 弹窗组件基类
 abstract class ElOverlay extends StatefulWidget {
@@ -40,7 +38,7 @@ abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        ElUtil.nextTick(() {
+        FlutterUtil.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });

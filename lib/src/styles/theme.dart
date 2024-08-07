@@ -1,6 +1,6 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 part '../generates/styles/theme.g.dart';
 

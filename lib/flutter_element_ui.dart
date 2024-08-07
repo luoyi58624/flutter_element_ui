@@ -49,9 +49,7 @@ export 'src/components/typography/text.dart';
 export 'src/components/typography/title.dart';
 export 'src/components/typography/href.dart';
 
-export 'src/extensions/color.dart';
 export 'src/extensions/element.dart';
-export 'src/extensions/int.dart';
 
 export 'src/services/message/message.dart' show ElDefaultMessage;
 
@@ -68,10 +66,3 @@ export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/important.dart';
 export 'src/utils/app_theme.dart';
-export 'src/utils/util.dart';
-
-export 'src/widgets/animate.dart';
-export 'src/widgets/custom_layout.dart';
-export 'src/widgets/hover.dart';
-export 'src/widgets/simple_widgets.dart';
-export 'src/widgets/tap.dart';

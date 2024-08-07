@@ -1,12 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../core.dart';
 import '../../utils/icons.dart';
-import '../../widgets/simple_widgets.dart';
 import '../basic/icon.dart';
-import '../../widgets/hover.dart';
 
 class _CollapseData extends InheritedWidget {
   const _CollapseData(
@@ -81,7 +80,7 @@ class ElCollapse extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: children.length,
-          itemBuilder: (context, index) => ElChildIndexData(
+          itemBuilder: (context, index) => ChildIndexData(
             index: index,
             start: 0,
             end: children.length - 1,
@@ -114,7 +113,7 @@ class ElCollapseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = _CollapseData.of(context);
-    final $indexData = ElChildIndexData.of(context);
+    final $indexData = ChildIndexData.of(context);
     final elConfig = el.config;
     final $cardRadius = elConfig.cardRadius;
     return SizedBox(

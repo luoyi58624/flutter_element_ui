@@ -20,15 +20,14 @@ class MultiRenderTestPage extends HookWidget {
         curve: Curves.easeOut,
       ),
     );
-    final flag = useObs(false, watch: [
-      (newValue, oldValue) {
-        if (newValue == true) {
-          controller.forward();
-        } else {
-          controller.reverse();
-        }
+    final flag = useObs(false, watch: (newValue, oldValue) {
+      if (newValue == true) {
+        controller.forward();
+      } else {
+        controller.reverse();
       }
-    ]);
+    });
+    final count = useObs(0);
     i('build');
     return Scaffold(
       appBar: AppBar(
@@ -39,6 +38,17 @@ class MultiRenderTestPage extends HookWidget {
         child: SizedBox.expand(
           child: Column(
             children: [
+              ValueListenableBuilder(
+                valueListenable: count,
+                builder: (context, value, _) {
+                  return ElButton(
+                    onPressed: () {
+                      count.value++;
+                    },
+                    child: 'count: ${value}',
+                  );
+                },
+              ),
               ElSwitch(flag),
               const Gap(8),
               Expanded(
@@ -50,7 +60,7 @@ class MultiRenderTestPage extends HookWidget {
                       spacing: 4,
                       children: [
                         ...List.generate(
-                          1000,
+                          10,
                           (index) => SizedBox(
                             width: 200,
                             height: 200,
@@ -59,8 +69,8 @@ class MultiRenderTestPage extends HookWidget {
                               builder: (context, child) {
                                 return UnconstrainedBox(
                                   child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.circular(radiusAnimate.value),
+                                    borderRadius: BorderRadius.circular(
+                                        radiusAnimate.value),
                                     child: _Box(
                                       width: animate.value,
                                       height: animate.value,

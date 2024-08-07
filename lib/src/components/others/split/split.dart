@@ -2,13 +2,11 @@ import 'dart:math';
 
 import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_obs/flutter_obs.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../core.dart';
 import '../../../hooks/obs.dart';
 import '../../../utils/assert.dart';
-import '../../../widgets/hover.dart';
 
 part 'split_panel.dart';
 

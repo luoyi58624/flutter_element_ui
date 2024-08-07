@@ -1,21 +1,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:flutter_obs/flutter_obs.dart';
-import 'package:gap/gap.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../components/basic/icon.dart';
 import '../../components/data/badge.dart';
-import '../../widgets/hover.dart';
 import '../../core.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
 import '../../utils/icons.dart';
-import '../../utils/util.dart';
 
 part 'core.dart';
 

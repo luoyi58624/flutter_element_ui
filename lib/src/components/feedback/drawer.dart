@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 const int _duration = 225;
 
@@ -80,7 +79,7 @@ class _ElDrawerState extends State<ElDrawer>
 
     widget.modelValue.addListener(_listen);
 
-    ElUtil.nextTick(() async {
+    FlutterUtil.nextTick(() async {
       overlayEntry = OverlayEntry(builder: (_) {
         return overlayWidget;
       });

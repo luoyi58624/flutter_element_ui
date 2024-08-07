@@ -15,7 +15,7 @@ class ElGoogleTab extends ElBaseTab {
   @override
   Widget build(BuildContext context) {
     final $tabsData = TabsData.of(context);
-    final $indexData = ElChildIndexData.of(context);
+    final $indexData = ChildIndexData.of(context);
     return GestureDetector(
       onTapDown: (e) {
         $tabsData.modelValue.value = $indexData.index;

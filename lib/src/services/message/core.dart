@@ -90,7 +90,7 @@ class _MessageState extends State<_Message>
   @override
   Widget build(BuildContext context) {
     // 设置当前消息的元素尺寸
-    ElUtil.nextTick(() {
+    FlutterUtil.nextTick(() {
       message._messageSize.value = messageKey.currentContext!.size!;
     });
 

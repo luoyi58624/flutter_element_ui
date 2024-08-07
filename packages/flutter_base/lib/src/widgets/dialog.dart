@@ -154,7 +154,7 @@ class _DialogWidgetState extends State<DialogWidget> {
   Color get confirmColor => widget.confirmColor ?? context.elTheme.primary;
 
   Color getTextColor(Color color) {
-    return color.isDark ? el.darkTheme.textColor : el.lightTheme.textColor;
+    return color.isDark ? el.darkTheme.textColor : el.theme.textColor;
   }
 
   Future<void> onCancel() async {
@@ -450,7 +450,7 @@ class _DialogWidgetState extends State<DialogWidget> {
                                         context.elTheme.cardColor)
                                     .isDark
                                 ? el.darkTheme.textColor.darken(20)
-                                : el.lightTheme.textColor.brighten(20)),
+                                : el.theme.textColor.brighten(20)),
                       ),
                     ),
                   ),

@@ -1,23 +1,47 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
-/// 适配[flutter_hooks]库，相对于[StatelessWidget]，它可以在小部件重建时保存变量状态。
-///
-/// 提示：它与[useState]作用相同，唯一的区别在于[useState]会重建当前整个小部件，
-/// 而[useObs]只重建[ObsBuilder]包裹的组件。
+/// 适配[flutter_hooks]库，相对于在[StatelessWidget]中直接使用[Obs]，它可以在小部件重建时保存当前状态
 Obs<T> useObs<T>(
   T initialData, {
-  List<ObsWatchCallback<T>>? watch,
+  bool auto = true,
+  ObsWatchCallback<T>? watch,
+  bool immediate = false,
 }) {
-  return use(_ObsHook(initialData: initialData, watch: watch));
+  return use(_ObsHook(
+    initialData: initialData,
+    auto: auto,
+    watch: watch,
+    immediate: immediate,
+  ));
+}
+
+/// 在开发模式下禁用hook
+Obs<T> useDebugObs<T>(
+  T initialData, {
+  bool auto = true,
+  ObsWatchCallback<T>? watch,
+  bool immediate = false,
+}) {
+  return kDebugMode
+      ? Obs(initialData, auto: auto, watch: watch, immediate: immediate)
+      : useObs(initialData, auto: auto, watch: watch, immediate: immediate);
 }
 
 class _ObsHook<T> extends Hook<Obs<T>> {
-  const _ObsHook({required this.initialData, this.watch});
+  const _ObsHook({
+    required this.initialData,
+    required this.auto,
+    this.watch,
+    required this.immediate,
+  });
 
   final T initialData;
-  final List<ObsWatchCallback<T>>? watch;
+  final bool auto;
+  final ObsWatchCallback<T>? watch;
+  final bool immediate;
 
   @override
   _ObsHookState<T> createState() => _ObsHookState();

@@ -16,15 +16,13 @@ class _SingleRenderTestPageState extends State<SingleRenderTestPage>
   late final animate = Tween<double>(begin: 200.0, end: 500.0).animate(
     CurvedAnimation(parent: controller, curve: Curves.ease),
   );
-  late final flag = Obs(false, watch: [
-    (newValue, oldValue) {
-      if (newValue == true) {
-        controller.forward();
-      } else {
-        controller.reverse();
-      }
+  late final flag = Obs(false, watch: (newValue, oldValue) {
+    if (newValue == true) {
+      controller.forward();
+    } else {
+      controller.reverse();
     }
-  ]);
+  });
 
   @override
   void initState() {

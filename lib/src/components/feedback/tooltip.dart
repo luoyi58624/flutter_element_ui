@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:flutter_obs/flutter_obs.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
-
-import '../typography/text.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElTooltip extends StatefulWidget {
   const ElTooltip({
@@ -48,7 +45,7 @@ class _ElTooltipState extends State<ElTooltip> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        ElUtil.nextTick(() {
+        FlutterUtil.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });
@@ -88,7 +85,7 @@ class _ElTooltipState extends State<ElTooltip> {
   @override
   void initState() {
     super.initState();
-    ElUtil.nextTick(() async {
+    FlutterUtil.nextTick(() async {
       overlayEntry = OverlayEntry(builder: (_) {
         return _overlayWidget;
       });
@@ -153,7 +150,7 @@ class _ElTooltipState extends State<ElTooltip> {
 
   @override
   Widget build(BuildContext context) {
-    ElUtil.nextTick(() {
+    FlutterUtil.nextTick(() {
       buildCount.value++;
     });
     return HoverBuilder(

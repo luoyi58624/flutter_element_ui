@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/scrollbar.dart';
-import 'services/hover.dart';
+import 'services/cursor.dart';
 import 'services/message/message.dart';
 import 'services/toast.dart';
 import 'styles/config.dart';
 import 'styles/theme.dart';
 import 'utils/font.dart';
-import 'widgets/animate.dart';
 
 class ElConfigProvider extends StatelessWidget {
   /// Element UI 全局配置注入：
@@ -59,7 +59,7 @@ class ElConfigProvider extends StatelessWidget {
 /// Element UI 全局服务对象
 final el = ElService();
 
-class ElService with ElHoverService, ElMessageService, ElToastService {
+class ElService with ElCursorService, ElMessageService, ElToastService {
   /// 根节点路由导航key，请务必挂载此 key。
   ///
   /// 当使用命令式路由：
