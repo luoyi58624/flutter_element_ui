@@ -10,7 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_base:
-    path: ../packages/flutter_base
+    git:
+      url: https://gitee.com/luoyi666/flutter_base.git
 
 dev_dependencies:
   flutter_test:

@@ -12,10 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_base:
-    path: ../packages/flutter_base
+    git:
+      url: https://gitee.com/luoyi666/flutter_base.git
   decimal: ^3.0.0
   custom_pop_up_menu: ^1.2.4
-  url_launcher: ^6.3.0
   flutter_syntax_view: ^4.1.0
 
 dev_dependencies:

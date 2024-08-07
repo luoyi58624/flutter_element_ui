@@ -201,9 +201,11 @@ packages:
   flutter_base:
     dependency: "direct main"
     description:
-      path: "../packages/flutter_base"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: d530d262e9e5f8a228e83446646638d433fd3cc0
+      url: "https://gitee.com/luoyi666/flutter_base.git"
+    source: git
     version: "0.0.1"
   flutter_cache_manager:
     dependency: transitive
@@ -218,7 +220,7 @@ packages:
     description:
       path: "packages/flutter_element_annotation"
       ref: HEAD
-      resolved-ref: "91ec7a146d028803ae51d884a7ab801f3389379b"
+      resolved-ref: "27a393076af737c5d720057e668221dc94c58b5d"
       url: "https://github.com/luoyi58624/flutter_element_ui.git"
     source: git
     version: "0.0.1"
@@ -227,7 +229,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "91ec7a146d028803ae51d884a7ab801f3389379b"
+      resolved-ref: "27a393076af737c5d720057e668221dc94c58b5d"
       url: "https://github.com/luoyi58624/flutter_element_ui.git"
     source: git
     version: "0.0.1"
@@ -805,5 +807,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.4.4 <4.0.0"
   flutter: ">=3.22.0"
