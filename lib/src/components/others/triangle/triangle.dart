@@ -49,18 +49,18 @@ class ElTriangle extends StatelessWidget {
     final $color = color ?? context.elTheme.primary;
     return CustomPaint(
       size: Size(width, height),
-      painter: _MyPainter(direction, $color, radius, onlyRightAngle),
+      painter: _Painter(direction, $color, radius, onlyRightAngle),
     );
   }
 }
 
-class _MyPainter extends CustomPainter {
+class _Painter extends CustomPainter {
   final AxisDirection direction;
   final Color color;
   final double radius;
   final bool onlyRightAngle;
 
-  _MyPainter(this.direction, this.color, this.radius, this.onlyRightAngle);
+  _Painter(this.direction, this.color, this.radius, this.onlyRightAngle);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -82,7 +82,7 @@ class _MyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MyPainter oldDelegate) => oldDelegate != this;
+  bool shouldRepaint(_Painter oldDelegate) => oldDelegate != this;
 
   /// 简单绘制
   void simplePaint(Canvas canvas, Size size, Path path) {
@@ -135,7 +135,7 @@ class _MyPainter extends CustomPainter {
         _RightAngle ra =
             (Rect.fromCircle(center: c1, radius: r), pi + pi / 4, pi / 2);
 
-        // 只绘制直角圆角，这部分逻辑相对简单
+        // 只绘制直角圆角
         if (onlyRightAngle) {
           path.moveTo(0, h);
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
@@ -154,17 +154,17 @@ class _MyPainter extends CustomPainter {
           // * 第二个参数是圆弧的起始原点，从一个圆的右边开始，以顺时针开始旋转，一个 pi 指 180 度，
           // 由于我们的起始原点在圆的下方，所以绘制圆弧从 90 度开始
           // * 第三个参数是绘制的圆弧范围，和第二个参数逻辑一样，这里统一使用 _diagonalAngle 变量，
-          // 它的计算公式可以对照设计图，从当前原点旋转 90 度后、再旋转 45 度达到圆的交界线
+          // 它的计算公式可以参考设计图，从当前原点旋转 90 度后、再旋转 45 度达到圆的交界线
           path.arcTo(Rect.fromCircle(center: c2, radius: r), pi / 2,
               _diagonalAngle, false);
 
           // 绘制直角圆角
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
 
-          // 这里需要通过 arcLocation 定位到下一个对角坐标，计算方式参考设计图可以很快得出
+          // 这里需要通过 arcLocation 定位到下一个对角坐标，计算方式参考设计图
           path.lineTo(c3.dx + (r - arcLocation), h - r - (r - arcLocation));
 
-          // 绘制第二个对角圆弧，逻辑和第一个对角圆弧一样，只不过需要调整一下方位即可，
+          // 绘制第二个对角圆弧，逻辑和第一个对角圆弧一样，只不过需要调整一下方位，
           // 绘制完后在最后一个节点会和起始节点自动连接起来
           path.arcTo(Rect.fromCircle(center: c3, radius: r), pi * 2 - pi / 4,
               _diagonalAngle, false);
@@ -215,7 +215,6 @@ class _MyPainter extends CustomPainter {
 
           path.arcTo(ra.$1, ra.$2, ra.$3, false);
         }
-
         break;
       case AxisDirection.left:
         c1 = Offset(r + r / 2, h / 2);

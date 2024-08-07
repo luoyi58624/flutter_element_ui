@@ -7,7 +7,7 @@ import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 import '../../../../core.dart';
 import '../../../../utils/font.dart';
-import '../../../../widgets/animation.dart';
+import '../../../../widgets/animate.dart';
 import '../../../../widgets/custom_layout.dart';
 import '../../../../widgets/hover.dart';
 import '../../../../widgets/simple_widgets.dart';

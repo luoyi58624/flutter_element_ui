@@ -1,14 +1,9 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class RenderTestPage extends StatefulWidget {
-  const RenderTestPage({super.key});
+class LeafRenderTestPage extends StatelessWidget {
+  const LeafRenderTestPage({super.key});
 
-  @override
-  State<RenderTestPage> createState() => _RenderTestPageState();
-}
-
-class _RenderTestPageState extends State<RenderTestPage> {
   @override
   Widget build(BuildContext context) {
     final dx = Obs(20.0);

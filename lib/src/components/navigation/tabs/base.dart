@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import '../../../core.dart';
-import '../../../widgets/animation.dart';
+import '../../../widgets/animate.dart';
 import '../../basic/scrollbar.dart';
 import 'inherited_data.dart';
 

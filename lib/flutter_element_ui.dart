@@ -70,7 +70,7 @@ export 'src/utils/important.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/util.dart';
 
-export 'src/widgets/animation.dart';
+export 'src/widgets/animate.dart';
 export 'src/widgets/custom_layout.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/simple_widgets.dart';

@@ -8,7 +8,7 @@ import 'services/toast.dart';
 import 'styles/config.dart';
 import 'styles/theme.dart';
 import 'utils/font.dart';
-import 'widgets/animation.dart';
+import 'widgets/animate.dart';
 
 class ElConfigProvider extends StatelessWidget {
   /// Element UI 全局配置注入：

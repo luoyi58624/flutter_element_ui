@@ -10,7 +10,7 @@ import '../../../core.dart';
 import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../../utils/util.dart';
-import '../../../widgets/animation.dart';
+import '../../../widgets/animate.dart';
 import '../../../widgets/hover.dart';
 import '../../basic/icon.dart';
 import '../../typography/href.dart';

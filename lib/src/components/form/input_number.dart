@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/triangle/triangle.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
@@ -14,20 +13,11 @@ class ElInputNumber extends StatefulWidget {
 class _ElInputNumberState extends State<ElInputNumber> {
   @override
   Widget build(BuildContext context) {
-    return const _ControlButton(direction: AxisDirection.down);
     return const _InputNumberWidget(
-      // content: UnconstrainedBox(
-      //   child: Container(
-      //     width: 150,
-      //     height: 36,
-      //     color: Colors.green,
-      //   ),
-      // ),
-      // upButton: _ControlButton(direction: AxisDirection.up),
-      downButton: _ControlButton(direction: AxisDirection.down),
       content: _Box(color: Colors.green),
       upButton: _Box(color: Colors.red),
-      // downButton: _Box(color: Colors.grey),
+      downButton: _Box(color: Colors.grey),
+      // downButton: _ControlButton(direction: AxisDirection.down),
     );
   }
 }
@@ -106,12 +96,12 @@ class _InputNumberElement extends RenderObjectElement {
     );
   }
 
-  // @override
-  // void visitChildren(ElementVisitor visitor) {
-  //   if (_content != null) visitor(_content!);
-  //   if (_upButton != null) visitor(_upButton!);
-  //   if (_downButton != null) visitor(_downButton!);
-  // }
+  @override
+  void visitChildren(ElementVisitor visitor) {
+    if (_content != null) visitor(_content!);
+    if (_upButton != null) visitor(_upButton!);
+    if (_downButton != null) visitor(_downButton!);
+  }
 
   @override
   void insertRenderObjectChild(RenderBox child, covariant Object? slot) {
@@ -190,17 +180,29 @@ class _InputNumberRender extends RenderBox {
 
   @override
   void performLayout() {
-    i(constraints);
-    content!.layout(BoxConstraints.tight(const Size(120, 40)));
-    upButton!.layout(BoxConstraints.tight(const Size(24, 20)));
-    downButton!.layout(BoxConstraints.tight(const Size(24, 20)));
-    size = constraints.constrain(Size(200, 40));
+    content!.layout(
+      BoxConstraints.tight(const Size(120, 40)),
+      parentUsesSize: true,
+    );
+    upButton!.layout(
+      BoxConstraints.tight(const Size(24, 20)),
+      parentUsesSize: true,
+    );
+    downButton!.layout(
+      BoxConstraints.tight(const Size(24, 20)),
+      parentUsesSize: true,
+    );
+    size = constraints.constrain(Size(
+      content!.size.width + upButton!.size.width,
+      content!.size.height,
+    ));
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
     BoxParentData contentParentData = content!.parentData as BoxParentData;
-    i(contentParentData);
+    // i(contentParentData, 'xxx');
+
     context.paintChild(content!, offset);
     context.paintChild(upButton!, offset + Offset(120, 0));
     context.paintChild(downButton!, offset + Offset(120, 20));

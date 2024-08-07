@@ -17,33 +17,15 @@ class SwitchPage extends HookWidget {
           children: [
             Column(
               children: [
-                ElSwitch(
-                  value: flag.value,
-                  onChanged: (v) => flag.value = v,
-                ),
+                ElSwitch(flag),
                 const Gap(8),
-                ElSwitch(
-                  value: flag.value,
-                  width: 100,
-                  onChanged: (v) => flag.value = v,
-                ),
+                ElSwitch(flag, width: 100),
                 const Gap(8),
-                ElSwitch(
-                  value: flag.value,
-                  onChanged: (v) => flag.value = v,
-                  gap: 8,
-                ),
+                ElSwitch(flag, gap: 8),
                 const Gap(8),
-                ElSwitch(
-                  value: disabled.value,
-                  onChanged: (v) => disabled.value = v,
-                ),
+                ElSwitch(disabled),
                 const Gap(8),
-                ElSwitch(
-                  value: flag.value,
-                  disabled: disabled.value,
-                  onChanged: (v) => flag.value = v,
-                ),
+                ElSwitch(flag, disabled: disabled.value),
               ],
             ),
             const _SwitchTest1(count),
@@ -73,10 +55,7 @@ class _SwitchTest1 extends HookWidget {
               count,
               (index) => Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElSwitch(
-                  value: flag.value,
-                  onChanged: (v) => flag.value = v,
-                ),
+                child: ElSwitch(flag),
               ),
             ),
           ],

@@ -5,9 +5,9 @@ import '../basic/icon.dart';
 import '../../widgets/hover.dart';
 
 class ElSwitch extends StatefulWidget {
-  const ElSwitch({
+  const ElSwitch(
+    this.modelValue, {
     super.key,
-    required this.value,
     this.onChanged,
     this.size = 20.0,
     this.width,
@@ -24,7 +24,7 @@ class ElSwitch extends StatefulWidget {
   });
 
   /// 开关状态
-  final bool value;
+  final ValueNotifier<bool> modelValue;
 
   /// change事件
   final ValueChanged<bool>? onChanged;
@@ -111,48 +111,54 @@ class _ElSwitchState extends State<ElSwitch>
 
   @override
   Widget build(BuildContext context) {
-    if (_isInitial) {
-      _isInitial = false;
-    } else {
-      widget.value ? controller.forward() : controller.reverse();
-    }
-    return GestureDetector(
-      onTap: () {
-        if (widget.onChanged != null && !widget.disabled) {
-          widget.onChanged!(!widget.value);
+    return ValueListenableBuilder(
+      valueListenable: widget.modelValue,
+      builder: (context, status, _) {
+        if (_isInitial) {
+          _isInitial = false;
+        } else {
+          widget.modelValue.value ? controller.forward() : controller.reverse();
         }
-      },
-      child: HoverBuilder(
-        disabled: widget.disabled,
-        cursor: SystemMouseCursors.click,
-        builder: (context) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: containerHeight,
-            width: containerWidth,
-            decoration: BoxDecoration(
-              color: widget.value ? activeBgColor : inactiveBgColor,
-              borderRadius: BorderRadius.circular(containerHeight / 2),
-            ),
-            child: AnimatedBuilder(
-              animation: animation,
-              builder: (context, child) => Transform.translate(
-                offset: Offset(animation.value, 0),
-                child: UnconstrainedBox(
-                  child: Container(
-                    width: widget.size,
-                    height: widget.size,
-                    decoration: BoxDecoration(
-                      color: widget.value ? activeColor : inactiveColor,
-                      borderRadius: BorderRadius.circular(widget.size / 2),
+        return GestureDetector(
+          onTap: () {
+            widget.modelValue.value = !status;
+            if (widget.onChanged != null && !widget.disabled) {
+              widget.onChanged!(!status);
+            }
+          },
+          child: HoverBuilder(
+            disabled: widget.disabled,
+            cursor: SystemMouseCursors.click,
+            builder: (context) {
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: containerHeight,
+                width: containerWidth,
+                decoration: BoxDecoration(
+                  color: status ? activeBgColor : inactiveBgColor,
+                  borderRadius: BorderRadius.circular(containerHeight / 2),
+                ),
+                child: AnimatedBuilder(
+                  animation: animation,
+                  builder: (context, child) => Transform.translate(
+                    offset: Offset(animation.value, 0),
+                    child: UnconstrainedBox(
+                      child: Container(
+                        width: widget.size,
+                        height: widget.size,
+                        decoration: BoxDecoration(
+                          color: status ? activeColor : inactiveColor,
+                          borderRadius: BorderRadius.circular(widget.size / 2),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

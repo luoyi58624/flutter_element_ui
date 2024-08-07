@@ -13,7 +13,9 @@ import 'pages/canvas/triangle.dart';
 import 'pages/http.dart';
 import 'pages/multi_child.dart';
 import 'pages/overlay.dart';
-import 'pages/render.dart';
+import 'pages/render/leaf.dart';
+import 'pages/render/multi.dart';
+import 'pages/render/single.dart';
 
 class TestHomePage extends HookWidget {
   const TestHomePage({super.key});
@@ -30,7 +32,9 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Debug 开发设置', page: DebugSettingPage()),
           CellWidget(title: 'Http 测试', page: HttpPage()),
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
-          CellWidget(title: 'Render 自定义渲染', page: RenderTestPage()),
+          CellWidget(title: 'Leaf Render', page: LeafRenderTestPage()),
+          CellWidget(title: 'Single Render', page: SingleRenderTestPage()),
+          CellWidget(title: 'Multi Render', page: MultiRenderTestPage()),
           CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
           CellWidget(title: 'Canvas Line', page: LinePage()),
           CellWidget(title: 'Canvas Point', page: PointPage()),

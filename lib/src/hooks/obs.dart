@@ -6,21 +6,25 @@ import 'package:flutter_obs/flutter_obs.dart';
 ///
 /// 提示：它与[useState]作用相同，唯一的区别在于[useState]会重建当前整个小部件，
 /// 而[useObs]只重建[ObsBuilder]包裹的组件。
-Obs<T> useObs<T>(T initialData) {
-  return use(_ObsHook(initialData: initialData));
+Obs<T> useObs<T>(
+  T initialData, {
+  List<ObsWatchCallback<T>>? watch,
+}) {
+  return use(_ObsHook(initialData: initialData, watch: watch));
 }
 
 class _ObsHook<T> extends Hook<Obs<T>> {
-  const _ObsHook({required this.initialData});
+  const _ObsHook({required this.initialData, this.watch});
 
   final T initialData;
+  final List<ObsWatchCallback<T>>? watch;
 
   @override
   _ObsHookState<T> createState() => _ObsHookState();
 }
 
 class _ObsHookState<T> extends HookState<Obs<T>, _ObsHook<T>> {
-  late final _state = Obs<T>(hook.initialData);
+  late final _state = Obs<T>(hook.initialData, watch: hook.watch);
 
   @override
   Obs<T> build(BuildContext context) => _state;
