@@ -7,93 +7,36 @@ class MultiRenderTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    double maxSize = 50;
-    final controller = useAnimationController(duration: 450.ms);
-    final animate = Tween<double>(begin: 30.0, end: maxSize).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Curves.easeOut,
-      ),
-    );
-    final radiusAnimate = Tween<double>(begin: 4.0, end: 8.0).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Curves.easeOut,
-      ),
-    );
-    final flag = useObs(false, watch: (newValue, oldValue) {
-      if (newValue == true) {
-        controller.forward();
-      } else {
-        controller.reverse();
-      }
-    });
-    i('build');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('自定义渲染测试'),
+        title: const Text('自定义渲染多节点'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SizedBox.expand(
-          child: Column(
-            children: [
-              const Gap(16),
-              ElSwitch(flag),
-              const Gap(8),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Wrap(
-                      runSpacing: 4,
-                      spacing: 4,
-                      children: [
-                        ...List.generate(
-                          1000,
-                          (index) => SizedBox(
-                            width: maxSize,
-                            height: maxSize,
-                            child: AnimatedBuilder(
-                              animation: controller,
-                              builder: (context, child) {
-                                return UnconstrainedBox(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        radiusAnimate.value),
-                                    child: _Box(
-                                      width: animate.value,
-                                      height: animate.value,
-                                      // child: Center(
-                                      //   child: Container(
-                                      //     width: 24,
-                                      //     height: 24,
-                                      //     color: Colors.green,
-                                      //   ),
-                                      // ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            // _Box(children: [
+            //   ...List.generate(
+            //     1,
+            //     (index) => Center(
+            //       child: Container(
+            //         width: 24,
+            //         height: 24,
+            //         color: Colors.green,
+            //       ),
+            //     ),
+            //   ),
+            // ]),
+          ],
         ),
       ),
     );
   }
 }
 
-class _Box extends SingleChildRenderObjectWidget {
+class _Box extends MultiChildRenderObjectWidget {
   const _Box({
-    super.child,
+    super.children,
     this.width,
     this.height,
   });
@@ -114,7 +57,10 @@ class _Box extends SingleChildRenderObjectWidget {
   }
 }
 
-class _BoxRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
+class _ParentData extends ParentData with ContainerParentDataMixin<RenderBox> {}
+
+class _BoxRender extends RenderBox
+    with ContainerRenderObjectMixin<RenderBox, _ParentData> {
   _BoxRender(this._width, this._height);
 
   double? _width;
@@ -138,9 +84,9 @@ class _BoxRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
       _width ?? double.infinity,
       _height ?? double.infinity,
     ));
-    if (child != null) {
-      final childConstraints = BoxConstraints.tight(size);
-      child!.layout(childConstraints);
+    i(childCount);
+    if (childCount > 0) {
+      firstChild!.layout(const BoxConstraints());
     }
   }
 
@@ -150,8 +96,6 @@ class _BoxRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
       offset & size,
       Paint()..color = Colors.grey,
     );
-    if (child != null) {
-      context.paintChild(child as RenderObject, offset);
-    }
+    context.paintChild(firstChild as RenderObject, offset);
   }
 }
