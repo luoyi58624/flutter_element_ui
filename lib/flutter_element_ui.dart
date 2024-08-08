@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'src/core.dart';
+export 'src/services/service.dart';
 
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
@@ -52,8 +52,6 @@ export 'src/components/typography/href.dart';
 export 'src/extensions/element.dart';
 
 export 'src/services/message/message.dart' show ElDefaultMessage;
-
-export 'src/hooks/obs.dart';
 
 export 'src/styles/theme.dart';
 export 'src/styles/config.dart';

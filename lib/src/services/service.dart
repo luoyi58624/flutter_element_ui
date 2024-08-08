@@ -2,59 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'components/basic/scrollbar.dart';
-import 'services/cursor.dart';
-import 'services/message/message.dart';
-import 'services/toast.dart';
-import 'styles/config.dart';
-import 'styles/theme.dart';
-import 'utils/font.dart';
-
-class ElConfigProvider extends StatelessWidget {
-  /// Element UI 全局配置注入：
-  /// ```dart
-  /// MaterialApp(
-  ///   builder: (context, child) => ElConfigProvider(
-  ///     child: child!,
-  ///   ),
-  /// ),
-  /// ```
-  const ElConfigProvider({
-    super.key,
-    required this.child,
-    this.behavior = const ElScrollBehavior(),
-  });
-
-  final Widget child;
-
-  /// 自定义全局滚动行为，默认实现是 [ScrollBehavior]
-  final ScrollBehavior behavior;
-
-  @override
-  Widget build(BuildContext context) {
-    // 初始化全局文本样式
-    el.initGlobalTextStyle(context);
-    // 有些组件是直接基于 Material 进行二次封装的，所以需要构建一个默认的 Material 组件，防止报错
-    return Material(
-      textStyle: el.globalTextStyle,
-      // 设置背景颜色
-      child: AnimatedColoredBox(
-        duration: el.config.colorDuration,
-        color: context.elTheme.bgColor,
-        // 设置全局滚动配置
-        child: ScrollConfiguration(
-          behavior: behavior,
-          // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
-          child: Overlay(initialEntries: [
-            OverlayEntry(builder: (context) {
-              return child;
-            }),
-          ]),
-        ),
-      ),
-    );
-  }
-}
+import 'cursor.dart';
+import 'message/message.dart';
+import 'toast.dart';
+import '../styles/config.dart';
+import '../styles/theme.dart';
+import '../utils/font.dart';
 
 /// Element UI 全局服务对象
 final el = ElService();
@@ -126,45 +79,8 @@ class ElService with ElCursorService, ElMessageService, ElToastService {
 }
 
 /// 响应式配置
-class ElResponsiveData {
-  /// 特小号设备最大尺寸
-  final double xs;
-
-  /// 移动设备最大尺寸
-  final double sm;
-
-  /// 平板设备最大尺寸
-  final double md;
-
-  /// 桌面设备最大尺寸
-  final double lg;
-
-  /// 大屏桌面设备最大尺寸
-  final double xl;
-
-  const ElResponsiveData({
-    this.xs = 320,
-    this.sm = 640,
-    this.md = 1024,
-    this.lg = 1920,
-    this.xl = 2560,
-  });
-
-  ElResponsiveData copyWith({
-    double? xs,
-    double? sm,
-    double? md,
-    double? lg,
-    double? xl,
-  }) {
-    return ElResponsiveData(
-      xs: xs ?? this.xs,
-      sm: sm ?? this.sm,
-      md: md ?? this.md,
-      lg: lg ?? this.lg,
-      xl: xl ?? this.xl,
-    );
-  }
+class ElResponsiveData extends ResponsiveData {
+  const ElResponsiveData({super.xs, super.sm, super.md, super.lg, super.xl});
 }
 
 /// 字体排版配置

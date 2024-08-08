@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../core.dart';
+import '../../services/service.dart';
 import '../../utils/font.dart';
 import 'text.dart';
 

@@ -3,22 +3,14 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../core.dart';
+import '../../services/service.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
-class ElNoScrollBehavior extends ElScrollBehavior {
-  /// 不使用任何默认滚动条
-  const ElNoScrollBehavior();
-
-  @override
-  Widget buildScrollbar(context, child, details) => child;
-}
-
-class ElScrollBehavior extends ScrollBehavior {
+class ElScrollBehavior extends CustomScrollBehavior {
   /// Element UI 滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
   const ElScrollBehavior();
 
@@ -39,19 +31,6 @@ class ElScrollBehavior extends ScrollBehavior {
           controller: details.controller,
           child: child,
         );
-    }
-  }
-
-  @override
-  Widget buildOverscrollIndicator(context, child, details) {
-    // 如果是安卓平台，统一使用 M3 的过度滚动效果
-    if (PlatformUtil.isAndroid) {
-      return StretchingOverscrollIndicator(
-        axisDirection: details.direction,
-        child: child,
-      );
-    } else {
-      return child;
     }
   }
 }

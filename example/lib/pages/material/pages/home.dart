@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    10.ms;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Material Page'),

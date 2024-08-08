@@ -11,6 +11,7 @@ void main() async {
     // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
     // android: true,
   );
+  ElFont.bold = FontWeight.w400;
   el.config = ElConfigData(
     textStyle: TextStyle(
       fontFamily: FlutterFont.fontFamily,

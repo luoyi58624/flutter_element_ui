@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElFont {
   ElFont._();

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../../core.dart';
+import '../../services/service.dart';
 import '../../utils/font.dart';
 
 class ElBadge extends StatelessWidget {

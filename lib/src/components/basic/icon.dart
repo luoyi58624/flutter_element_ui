@@ -3,7 +3,7 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
-import '../../core.dart';
+import '../../services/service.dart';
 
 class ElIconTheme extends InheritedWidget {
   /// icon

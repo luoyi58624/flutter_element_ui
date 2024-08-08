@@ -3,7 +3,7 @@ import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../core.dart';
+import '../../services/service.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
 

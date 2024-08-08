@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../core.dart';
+import 'service.dart';
 
 mixin ElCursorService {
   OverlayEntry? _overlayEntry;

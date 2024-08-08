@@ -6,8 +6,7 @@ import 'package:flutter_element_ui/src/components/layout/nav_tab.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../core.dart';
-import '../../hooks/obs.dart';
+import '../../services/service.dart';
 
 part 'aside.dart';
 

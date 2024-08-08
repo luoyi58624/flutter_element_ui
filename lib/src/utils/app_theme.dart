@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../core.dart';
+import '../services/service.dart';
 import '../styles/theme.dart';
 import 'font.dart';
 

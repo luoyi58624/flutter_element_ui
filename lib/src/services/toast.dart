@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../components/typography/text.dart';
-import '../core.dart';
+import 'service.dart';
 
 /// 自定义轻提示构建
 typedef ElToastBuilder = Widget Function(
@@ -145,7 +144,7 @@ class ElToastInstance {
       _removeToastTimer!.cancel();
       _removeToastTimer = null;
     }
-    await 0.05.seconds.delay();
+    await 50.ms.delay();
   }
 
   void _afterHook(BuildContext context, int? duration) {

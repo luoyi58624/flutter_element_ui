@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
-import '../../core.dart';
+import '../../services/service.dart';
 import '../basic/button.dart';
 
 /// Element 对话框组件
