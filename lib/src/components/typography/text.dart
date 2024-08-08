@@ -1,8 +1,10 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../services/service.dart';
+import '../../utils/font.dart';
 
 /// Element UI 文本小部件，和 [Text] 小部件一样，都是基于 [RichText] 进行的封装
 class ElText extends StatelessWidget {
@@ -70,13 +72,17 @@ class ElText extends StatelessWidget {
 
   /// 构建当前文本样式
   TextStyle buildTextStyle(BuildContext context) {
-    return DefaultTextStyle.of(context).style.merge(style);
+    return TextStyle(
+      fontSize: el.typography.text,
+      fontWeight: ElFont.normal,
+      color: context.elTheme.textColor,
+    ).merge(DefaultTextStyle.of(context).style.merge(style));
   }
 
   /// 构建文本小部件
   @override
   Widget build(BuildContext context) {
-    var $style = el.globalTextStyle.merge(buildTextStyle(context));
+    var $style = el.config.textStyle.merge(buildTextStyle(context));
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
       $style.copyWith(fontWeight: FontWeight.bold);

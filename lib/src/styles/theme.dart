@@ -45,7 +45,11 @@ class ElThemeData {
 
   /// 文字主要颜色
   Color textColor;
+
+  /// 二级文字颜色
   Color textSecondary;
+
+  /// 占位符文字颜色
   Color textPlaceholder;
 
   /// icon颜色
@@ -86,7 +90,7 @@ class ElThemeData {
     this.headerColor = const Color(0xffffffff),
     this.cardColor = const Color(0xffffffff),
     this.modalColor = const Color(0xffffffff),
-    this.textColor = const Color(0xff303133),
+    this.textColor = const Color(0xff323232),
     this.textSecondary = const Color(0xff909399),
     this.textPlaceholder = const Color(0xffC0C4CC),
     this.iconColor = const Color(0xff404040),

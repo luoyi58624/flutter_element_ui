@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'cursor.dart';
@@ -7,7 +6,6 @@ import 'message/message.dart';
 import 'toast.dart';
 import '../styles/config.dart';
 import '../styles/theme.dart';
-import '../utils/font.dart';
 
 /// Element UI 全局服务对象
 final el = ElService();
@@ -62,20 +60,6 @@ class ElService with ElCursorService, ElMessageService, ElToastService {
 
   /// 全局文本排版配置
   ElTypographyData typography = ElTypographyData.data;
-
-  TextStyle _globalTextStyle = const TextStyle();
-
-  /// 全局文本样式
-  TextStyle get globalTextStyle => _globalTextStyle;
-
-  /// 初始化全局文本样式，先创建包含颜色、尺寸、粗细等默认样式，再合并用户配置的样式
-  void initGlobalTextStyle(BuildContext context) {
-    el._globalTextStyle = TextStyle(
-      color: context.elTheme.textColor,
-      fontSize: el.typography.text,
-      fontWeight: ElFont.normal,
-    ).merge(el.config.textStyle);
-  }
 }
 
 /// 响应式配置

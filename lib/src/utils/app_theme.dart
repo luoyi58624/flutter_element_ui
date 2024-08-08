@@ -60,7 +60,10 @@ class ElThemeUtil {
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;
-    final textStyle = elConfig.textStyle;
+    final textStyle = elConfig.textStyle.copyWith(
+      fontWeight: ElFont.normal,
+      color: elTheme.textColor,
+    );
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -114,9 +117,7 @@ class ElThemeUtil {
         elevation: data.appbarElevation,
         scrolledUnderElevation: data.appbarScrollElevation,
         backgroundColor: elTheme.headerColor,
-        titleTextStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        titleTextStyle: textStyle.copyWith(
           fontSize: 18,
           fontWeight: ElFont.bold,
           color: elTheme.headerColor.isDark
@@ -130,15 +131,11 @@ class ElThemeUtil {
         ),
       ),
       tabBarTheme: TabBarTheme(
-        unselectedLabelStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        unselectedLabelStyle: textStyle.copyWith(
           fontWeight: ElFont.medium,
           fontSize: 15,
         ),
-        labelStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        labelStyle: textStyle.copyWith(
           fontWeight: ElFont.medium,
           fontSize: 15,
           color: elTheme.primary,
@@ -151,14 +148,12 @@ class ElThemeUtil {
         elevation: 2,
         type: BottomNavigationBarType.fixed,
         backgroundColor: elTheme.headerColor,
-        unselectedLabelStyle: TextStyle(
+        unselectedLabelStyle: textStyle.copyWith(
           fontSize: 12,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
           fontWeight: ElFont.medium,
         ),
-        selectedLabelStyle: TextStyle(
+        selectedLabelStyle: textStyle.copyWith(
           fontSize: 12,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
           fontWeight: ElFont.medium,
           color: elTheme.primary,
         ),
@@ -182,16 +177,11 @@ class ElThemeUtil {
         ),
       ),
       listTileTheme: ListTileThemeData(
-        titleTextStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        titleTextStyle: textStyle.copyWith(
           fontWeight: ElFont.medium,
-          color: elTheme.textColor,
           fontSize: 15,
         ),
-        subtitleTextStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        subtitleTextStyle: textStyle.copyWith(
           fontWeight: ElFont.normal,
           color: elTheme.textColor.deepen(10),
           fontSize: 13,
@@ -199,15 +189,11 @@ class ElThemeUtil {
         iconColor: elTheme.iconColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        labelStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        labelStyle: textStyle.copyWith(
           fontSize: 16,
           fontWeight: ElFont.medium,
         ),
-        hintStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
+        hintStyle: textStyle.copyWith(
           fontSize: 14,
           fontWeight: ElFont.medium,
         ),
@@ -222,25 +208,17 @@ class ElThemeUtil {
         surfaceTintColor: Colors.transparent,
         elevation: elTheme.modalElevation,
         enableFeedback: true,
-        textStyle: TextStyle(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.normal,
-          color: elTheme.textColor,
-          fontSize: 14,
-        ),
+        textStyle: textStyle.copyWith(fontSize: 14),
         shape: cardBorder,
       ),
       dialogTheme: DialogTheme(
-        titleTextStyle: TextStyle(
-          color: elTheme.textColor,
+        titleTextStyle: textStyle.copyWith(
           fontSize: 18,
           fontWeight: ElFont.bold,
         ),
-        contentTextStyle: TextStyle(
+        contentTextStyle: textStyle.copyWith(
           color: elTheme.textColor.deepen(16),
           fontSize: 15,
-          fontWeight: ElFont.normal,
         ),
         elevation: elTheme.modalElevation,
         backgroundColor: elTheme.bgColor,
@@ -276,42 +254,36 @@ class ElThemeUtil {
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;
-    final textStyle = elConfig.textStyle;
+    final textStyle = elConfig.textStyle.copyWith(
+      fontWeight: ElFont.normal,
+      color: elTheme.textColor,
+    );
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 
     return themeData.copyWith(
       primaryColor: elTheme.primary,
       textTheme: CupertinoTextThemeData(
-        textStyle: themeData.textTheme.textStyle.copyWith(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.normal,
-        ),
-        tabLabelTextStyle: themeData.textTheme.tabLabelTextStyle.copyWith(
-          fontSize: 12,
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.normal,
-        ),
-        navActionTextStyle: themeData.textTheme.navActionTextStyle.copyWith(
-          color: elTheme.primary,
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.medium,
-          fontSize: 16,
-        ),
-        navTitleTextStyle: themeData.textTheme.navTitleTextStyle.copyWith(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.medium,
-        ),
-        navLargeTitleTextStyle:
-            themeData.textTheme.navLargeTitleTextStyle.copyWith(
-          fontFamily: textStyle.fontFamily,
-          fontFamilyFallback: textStyle.fontFamilyFallback,
-          fontWeight: ElFont.normal,
-        ),
+        textStyle: themeData.textTheme.textStyle.merge(textStyle),
+        tabLabelTextStyle:
+            themeData.textTheme.tabLabelTextStyle.merge(textStyle).copyWith(
+                  fontSize: 12,
+                ),
+        navActionTextStyle:
+            themeData.textTheme.navActionTextStyle.merge(textStyle).copyWith(
+                  color: elTheme.primary,
+                  fontWeight: ElFont.medium,
+                  fontSize: 16,
+                ),
+        navTitleTextStyle:
+            themeData.textTheme.navTitleTextStyle.merge(textStyle).copyWith(
+                  fontWeight: ElFont.bold,
+                ),
+        navLargeTitleTextStyle: themeData.textTheme.navLargeTitleTextStyle
+            .merge(textStyle)
+            .copyWith(
+              fontWeight: ElFont.bold,
+            ),
       ),
     );
   }

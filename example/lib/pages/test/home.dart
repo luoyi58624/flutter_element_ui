@@ -10,6 +10,7 @@ import 'pages/canvas/path.dart';
 import 'pages/canvas/point.dart';
 import 'pages/canvas/rect.dart';
 import 'pages/canvas/triangle.dart';
+import 'pages/font.dart';
 import 'pages/http.dart';
 import 'pages/multi_child.dart';
 import 'pages/overlay.dart';
@@ -30,6 +31,7 @@ class TestHomePage extends HookWidget {
         scroll: true,
         children: [
           CellWidget(title: 'Debug 开发设置', page: DebugSettingPage()),
+          CellWidget(title: 'Font 测试', page: FontTestPage()),
           CellWidget(title: 'Http 测试', page: HttpPage()),
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
           CellWidget(title: 'Leaf Render', page: LeafRenderTestPage()),

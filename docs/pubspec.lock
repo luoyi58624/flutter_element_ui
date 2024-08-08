@@ -203,7 +203,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d530d262e9e5f8a228e83446646638d433fd3cc0
+      resolved-ref: "737ed77f4590e5dde716e2ee26fc6937357efd7a"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -220,7 +220,7 @@ packages:
     description:
       path: "packages/flutter_element_annotation"
       ref: HEAD
-      resolved-ref: "56f2f0de4cd8f6e2cff96f246df64cbe14261a9d"
+      resolved-ref: c33795cacbf69d81adc06c8ce584fb4add8c9ee2
       url: "https://github.com/luoyi58624/flutter_element_ui.git"
     source: git
     version: "0.0.1"
@@ -229,7 +229,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "56f2f0de4cd8f6e2cff96f246df64cbe14261a9d"
+      resolved-ref: c33795cacbf69d81adc06c8ce584fb4add8c9ee2
       url: "https://github.com/luoyi58624/flutter_element_ui.git"
     source: git
     version: "0.0.1"
@@ -404,27 +404,19 @@ packages:
     dependency: transitive
     description:
       name: luoyi_dart_base
-      sha256: "2f938a3067d7d2e4af576a2c0dabc78fcfdb73b5592aeb6da8e74799e17a43ff"
+      sha256: "6cac142be65e0c78905ec133a6519e115d37767622c8ec47ed0f47cda85c4228"
       url: "https://pub.dev"
     source: hosted
-    version: "1.12.0"
+    version: "1.13.0"
   luoyi_flutter_base:
     dependency: transitive
     description:
       path: "."
       ref: HEAD
-      resolved-ref: b65594579ac47bd3be98619472d5e03536506f80
+      resolved-ref: "708045f23e4408febec6d496544e73e7683f7f9e"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.5.0"
-  luoyi_flutter_font:
-    dependency: transitive
-    description:
-      name: luoyi_flutter_font
-      sha256: "9770aed18b4115edc7f07065137c3b532dcfb2bb707b64ad33453c7e373e54db"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   matcher:
     dependency: transitive
     description:
@@ -767,13 +759,13 @@ packages:
     source: hosted
     version: "14.2.4"
   web:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: web
-      sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
+      sha256: d43c1d6b787bf0afad444700ae7f4db8827f701bc61c255ac8d328c6f4d52062
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "1.0.0"
   win32:
     dependency: transitive
     description:

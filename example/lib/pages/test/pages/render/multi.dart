@@ -7,14 +7,15 @@ class MultiRenderTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxSize = 50;
     final controller = useAnimationController(duration: 450.ms);
-    final animate = Tween<double>(begin: 100.0, end: 200.0).animate(
+    final animate = Tween<double>(begin: 30.0, end: maxSize).animate(
       CurvedAnimation(
         parent: controller,
         curve: Curves.easeOut,
       ),
     );
-    final radiusAnimate = Tween<double>(begin: 4.0, end: 16.0).animate(
+    final radiusAnimate = Tween<double>(begin: 4.0, end: 8.0).animate(
       CurvedAnimation(
         parent: controller,
         curve: Curves.easeOut,
@@ -27,7 +28,6 @@ class MultiRenderTestPage extends HookWidget {
         controller.reverse();
       }
     });
-    final count = useObs(0);
     i('build');
     return Scaffold(
       appBar: AppBar(
@@ -38,17 +38,7 @@ class MultiRenderTestPage extends HookWidget {
         child: SizedBox.expand(
           child: Column(
             children: [
-              ValueListenableBuilder(
-                valueListenable: count,
-                builder: (context, value, _) {
-                  return ElButton(
-                    onPressed: () {
-                      count.value++;
-                    },
-                    child: 'count: ${value}',
-                  );
-                },
-              ),
+              const Gap(16),
               ElSwitch(flag),
               const Gap(8),
               Expanded(
@@ -60,10 +50,10 @@ class MultiRenderTestPage extends HookWidget {
                       spacing: 4,
                       children: [
                         ...List.generate(
-                          10,
+                          1000,
                           (index) => SizedBox(
-                            width: 200,
-                            height: 200,
+                            width: maxSize,
+                            height: maxSize,
                             child: AnimatedBuilder(
                               animation: controller,
                               builder: (context, child) {
@@ -74,13 +64,13 @@ class MultiRenderTestPage extends HookWidget {
                                     child: _Box(
                                       width: animate.value,
                                       height: animate.value,
-                                      child: Center(
-                                        child: Container(
-                                          width: 50,
-                                          height: 50,
-                                          color: Colors.green,
-                                        ),
-                                      ),
+                                      // child: Center(
+                                      //   child: Container(
+                                      //     width: 24,
+                                      //     height: 24,
+                                      //     color: Colors.green,
+                                      //   ),
+                                      // ),
                                     ),
                                   ),
                                 );
@@ -148,8 +138,10 @@ class _BoxRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
       _width ?? double.infinity,
       _height ?? double.infinity,
     ));
-    final childConstraints = BoxConstraints.tight(size);
-    child!.layout(childConstraints);
+    if (child != null) {
+      final childConstraints = BoxConstraints.tight(size);
+      child!.layout(childConstraints);
+    }
   }
 
   @override
@@ -158,6 +150,8 @@ class _BoxRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
       offset & size,
       Paint()..color = Colors.grey,
     );
-    context.paintChild(child as RenderObject, offset);
+    if (child != null) {
+      context.paintChild(child as RenderObject, offset);
+    }
   }
 }

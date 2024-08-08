@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await FontUtil.init();
-  el.config = ElConfigData(
-    textStyle: TextStyle(
-      fontFamily: FlutterFont.fontFamily,
-      fontFamilyFallback: ElFont.fontFamilyFallback,
-    ),
-  );
+  // await FontUtil.init();
+  // el.config = ElConfigData(
+  //   textStyle: TextStyle(
+  //     fontFamily: FlutterFont.fontFamily,
+  //     fontFamilyFallback: ElFont.fontFamilyFallback,
+  //   ),
+  // );
   runApp(const MainApp());
 }
 

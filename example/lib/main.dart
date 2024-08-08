@@ -7,15 +7,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
   await CacheInterceptor.init();
-  await initFont(
-      // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
-      // android: true,
-      );
-  el.config = ElConfigData(
-    textStyle: TextStyle(
-      fontFamily: FontUtil.fontFamily,
-      fontFamilyFallback: FontUtil.fontFamilyFallback,
-    ),
+  initFont(
+    // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
+    // fontModel: GoogleFonts.notoSansSc([FontWeight.w500, FontWeight.w600]),
+    // android: true,
   );
   runApp(const _App());
 }
@@ -26,6 +21,12 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
+      el.config = ElConfigData(
+        textStyle: TextStyle(
+          fontFamily: FontUtil.fontFamily,
+          fontFamilyFallback: FontUtil.fontFamilyFallback,
+        ),
+      );
       return MaterialApp.router(
         routerConfig: router,
         theme: ElThemeUtil.buildMaterialTheme(

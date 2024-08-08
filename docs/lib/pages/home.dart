@@ -6,6 +6,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    i(ElFont.normal);
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
