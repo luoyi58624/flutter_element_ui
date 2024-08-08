@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,27 +12,29 @@ const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 
 class ElScrollBehavior extends CustomScrollBehavior {
-  /// Element UI 滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
+  /// Element UI 默认滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
   const ElScrollBehavior();
 
   @override
   Widget buildScrollbar(context, child, details) {
-    switch (getPlatform(context)) {
-      case TargetPlatform.linux:
-      case TargetPlatform.macOS:
-      case TargetPlatform.windows:
-        return ElScrollbar(
-          controller: details.controller,
-          child: child,
-        );
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.iOS:
-        return Scrollbar(
-          controller: details.controller,
-          child: child,
-        );
+    if (PlatformUtil.isWindows ||
+        PlatformUtil.isMacOS ||
+        PlatformUtil.isLinux) {
+      return ElScrollbar(
+        controller: details.controller,
+        child: child,
+      );
     }
+    if (PlatformUtil.isIOS) {
+      return CupertinoScrollbar(
+        controller: details.controller,
+        child: child,
+      );
+    }
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
+    );
   }
 }
 
