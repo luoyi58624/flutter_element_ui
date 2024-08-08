@@ -26,15 +26,6 @@ class TextPage extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       return Column(
         children: [
-          ElButton(
-            onPressed: () {
-              count.value++;
-            },
-            child: ElText(
-              '普通文本 - count: ${count.value}',
-              style: const TextStyle(color: Colors.indigoAccent),
-            ),
-          ),
           const H1('一级标题 (H1)'),
           const H2('二级标题 (H2)'),
           const H3('三级标题 (H3)'),
@@ -43,17 +34,21 @@ class TextPage extends StatelessWidget {
           const H6('六级标题 (H6)'),
           const ElText('普通文本 (ElText)'),
           const Text('普通文本 (Text)'),
-          const A(
+          A(
             child: '百度',
             href: 'https://www.baidu.com',
+            color: context.elTheme.textColor,
+            decoration: HrefDecoration.underline,
           ),
-          const A(
+          A(
             child: 'Flutter官方',
             href: 'https://flutter.cn/',
+            color: context.elTheme.textColor,
           ),
-          const A(
+          A(
             child: 'Bing',
             href: 'https://www.bing.com/?mkt=zh-CN&FORM=BEHPTB&mkt=zh-CN',
+            color: context.elTheme.textColor,
           ),
           ElText([
             const H1('一级标题', style: TextStyle(color: Colors.red)),
@@ -65,16 +60,12 @@ class TextPage extends StatelessWidget {
             const SizedBox(width: 20),
             '设置20像素间隔',
             const SizedBox(width: 20),
-            ElButton(
-              onPressed: () {
-                count.value++;
-              },
-              child: '普通文本 - count: ${count.value}',
-            ),
-            const A(
+            A(
               href: 'https://www.bing.com',
               child: ElButton(
-                onPressed: null,
+                onPressed: () {
+                  launchUrl(Uri.parse('https://www.bing.com'));
+                },
                 type: 'primary',
                 child: '超链接按钮',
               ),

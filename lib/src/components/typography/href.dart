@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/components/typography/text.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../services/service.dart';
 import 'href/web.dart' if (dart.library.io) 'href/io.dart';
 
-/// 超链接构建器
-typedef HrefWidgetBuilder = Widget Function(
-  BuildContext context,
-  String text,
-  String href,
-);
-
 OverlayEntry? _hrefOverlay;
+
+enum HrefDecoration {
+  /// 不显示下划线
+  none,
+
+  /// 显示下划线
+  underline,
+
+  /// 当悬停时显示下划线
+  hoverUnderline,
+}
 
 class A extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件是[Widget]，则不会触发点击事件，
@@ -25,10 +28,12 @@ class A extends StatelessWidget {
     required this.child,
     required this.href,
     this.cursor,
-    this.builder,
+    this.color = hrefColor,
+    this.activeColor = hrefColor,
+    this.decoration = HrefDecoration.hoverUnderline,
   });
 
-  /// 支持任意类型子组件
+  /// 超链接内容，如果不是 Widget 类型，则直接渲染成文本，并添加默认的点击跳转事件
   final dynamic child;
 
   /// 超链接地址
@@ -37,12 +42,48 @@ class A extends StatelessWidget {
   /// 自定义光标样式，默认点击
   final MouseCursor? cursor;
 
-  /// 构建默认风格的超链接小部件，支持全局配置
-  final HrefWidgetBuilder? builder;
+  /// 默认的超链接文本颜色
+  final Color color;
+
+  /// 激活的超链接文本颜色
+  final Color activeColor;
+
+  /// 超链接下划线显示逻辑
+  final HrefDecoration decoration;
+
+  static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
 
   @override
   Widget build(BuildContext context) {
     final $href = getFullHref(href);
+    late Widget result;
+    if (child is Widget) {
+      result = child;
+    } else {
+      result = TapBuilder(
+        onTap: $href == null
+            ? null
+            : () {
+                launchUrl(Uri.parse($href));
+              },
+        builder: (context) {
+          return DefaultTextStyle.merge(
+            style: TextStyle(
+              color: HoverBuilder.of(context) ? activeColor : color,
+              decoration: decoration == HrefDecoration.underline
+                  ? TextDecoration.underline
+                  : decoration == HrefDecoration.hoverUnderline
+                      ? (HoverBuilder.of(context)
+                          ? TextDecoration.underline
+                          : TextDecoration.none)
+                      : TextDecoration.none,
+              decorationColor: HoverBuilder.of(context) ? activeColor : color,
+            ),
+            child: ElText(child),
+          );
+        },
+      );
+    }
     return HoverBuilder(
       cursor: cursor ?? SystemMouseCursors.click,
       onHover: $href == null
@@ -83,75 +124,7 @@ class A extends StatelessWidget {
           _hrefOverlay = null;
         }
       },
-      builder: (context) {
-        if (child is Widget) return child;
-        final $builder = builder ??
-            el.typography.builder ??
-            (context, text) => HrefTextWidget(text, href);
-        return $builder(context, child.toString());
-      },
+      builder: (context) => result,
     );
-  }
-}
-
-enum HrefDecoration {
-  /// 不显示下划线
-  none,
-
-  /// 显示下划线
-  underline,
-
-  /// 当悬停时显示下划线
-  hoverUnderline,
-}
-
-/// 超链接文本小部件
-class HrefTextWidget extends StatelessWidget {
-  const HrefTextWidget(
-    this.text,
-    this.href, {
-    super.key,
-    this.color = hrefColor,
-    this.activeColor = hrefColor,
-    this.decoration = HrefDecoration.hoverUnderline,
-  });
-
-  /// 文本字符串
-  final String text;
-
-  /// 超链接地址
-  final String href;
-
-  /// 默认的超链接文本颜色
-  final Color color;
-
-  /// 激活的超链接文本颜色
-  final Color activeColor;
-
-  /// 超链接下划线显示逻辑
-  final HrefDecoration decoration;
-
-  static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
-
-  @override
-  Widget build(BuildContext context) {
-    return TapBuilder(onTap: () {
-      launchUrl(Uri.parse(href));
-    }, builder: (context) {
-      return DefaultTextStyle.merge(
-        style: TextStyle(
-          color: HoverBuilder.of(context) ? activeColor : color,
-          decoration: decoration == HrefDecoration.underline
-              ? TextDecoration.underline
-              : decoration == HrefDecoration.hoverUnderline
-                  ? (HoverBuilder.of(context)
-                      ? TextDecoration.underline
-                      : TextDecoration.none)
-                  : TextDecoration.none,
-          decorationColor: HoverBuilder.of(context) ? activeColor : color,
-        ),
-        child: ElText(text),
-      );
-    });
   }
 }
