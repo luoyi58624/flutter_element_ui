@@ -7,15 +7,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
   await CacheInterceptor.init();
-  await FontUtil.init(
-    // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
-    // android: true,
-  );
-  ElFont.bold = FontWeight.w400;
+  await initFont(
+      // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
+      // android: true,
+      );
   el.config = ElConfigData(
     textStyle: TextStyle(
-      fontFamily: FlutterFont.fontFamily,
-      fontFamilyFallback: ElFont.fontFamilyFallback,
+      fontFamily: FontUtil.fontFamily,
+      fontFamilyFallback: FontUtil.fontFamilyFallback,
     ),
   );
   runApp(const _App());
@@ -46,6 +45,7 @@ class _App extends StatelessWidget {
             brightness: Theme.of(context).brightness,
           ),
           child: ElConfigProvider(
+            brightness: Theme.of(context).brightness,
             child: child!,
           ),
         ),

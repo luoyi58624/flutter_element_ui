@@ -3,6 +3,7 @@ library flutter_element_ui;
 export 'src/services/service.dart';
 
 export 'src/components/basic/button.dart';
+export 'src/components/basic/config_provider.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
