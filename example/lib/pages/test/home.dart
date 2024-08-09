@@ -10,6 +10,7 @@ import 'pages/canvas/path.dart';
 import 'pages/canvas/point.dart';
 import 'pages/canvas/rect.dart';
 import 'pages/canvas/triangle.dart';
+import 'pages/editor.dart';
 import 'pages/font.dart';
 import 'pages/http.dart';
 import 'pages/multi_child.dart';
@@ -48,6 +49,7 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Canvas Path', page: PathPage()),
           CellWidget(title: 'Canvas 三角形', page: TrianglePage()),
           CellWidget(title: 'Canvas 笑脸', page: FacePage()),
+          CellWidget(title: 'Editor 编辑器', page: EditorTestPage()),
         ],
       ),
     );

@@ -27,6 +27,7 @@ export 'src/components/feedback/tooltip.dart';
 export 'src/components/form/autocomplete.dart';
 export 'src/components/form/cascader.dart';
 export 'src/components/form/checkbox.dart';
+export 'src/components/form/editor.dart';
 export 'src/components/form/form.dart';
 export 'src/components/form/form_item.dart';
 export 'src/components/form/radio.dart';

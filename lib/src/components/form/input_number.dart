@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/components/others/triangle/triangle.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElInputNumber extends StatefulWidget {
   const ElInputNumber({super.key});
