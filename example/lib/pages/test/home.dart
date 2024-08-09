@@ -16,6 +16,7 @@ import 'pages/multi_child.dart';
 import 'pages/overlay.dart';
 import 'pages/render/leaf.dart';
 import 'pages/render/multi.dart';
+import 'pages/render/position.dart';
 import 'pages/render/single.dart';
 
 class TestHomePage extends HookWidget {
@@ -37,6 +38,7 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Leaf Render', page: LeafRenderTestPage()),
           CellWidget(title: 'Single Render', page: SingleRenderTestPage()),
           CellWidget(title: 'Multi Render', page: MultiRenderTestPage()),
+          CellWidget(title: 'Multi Render - MyStack', page: MyStackTestPage()),
           CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
           CellWidget(title: 'Canvas Line', page: LinePage()),
           CellWidget(title: 'Canvas Point', page: PointPage()),
