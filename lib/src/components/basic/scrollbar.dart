@@ -64,13 +64,13 @@ class ElScrollbar extends RawScrollbar {
 
 class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 创建滚动条动画控制器
-  late AnimationController scrollbarAnimationController;
+  late AnimationController controller;
 
   /// 对滚动条颜色变化进行线性插值，定义两个变量用于保存当前滚动条颜色和目标颜色
   Color? color1;
   Color? color2;
 
-  /// 鼠标进入滚动区域
+  /// 当鼠标进入滚动区域时立即显示滚动条
   bool isHover = false;
 
   /// 鼠标悬停在滚动条上
@@ -93,23 +93,24 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   bool get showScrollbar => true;
 
-  /// 计算滚动条颜色，根据[color1]、[color2]以及[scrollbarAnimationController]慢慢地改变滚动条颜色
+  /// 计算滚动条颜色，根据[color1]、[color2]以及[controller]慢慢地改变滚动条颜色
   Color get scrollbarColor {
     if (color1 == null || color2 == null) return hideThumbColor;
-    return Color.lerp(color1, color2, scrollbarAnimationController.value)!;
+    return Color.lerp(color1, color2, controller.value)!;
   }
 
   @override
   void initState() {
     super.initState();
-    scrollbarAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(updateScrollbarPainter);
+    controller = AnimationController(
+      vsync: this,
+      duration: el.config.globalDuration,
+    )..addListener(updateScrollbarPainter);
   }
 
   @override
   void dispose() {
-    scrollbarAnimationController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -141,7 +142,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     if (isScrollbarHover == false) {
       color1 = isHover ? hoverThumbColor : hideThumbColor;
       color2 = activeThumbColor;
-      scrollbarAnimationController.forward(from: 0);
+      controller.forward(from: 0);
     }
   }
 
@@ -157,11 +158,11 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       isScrollbarHover = false;
       color1 = activeThumbColor;
       color2 = hideThumbColor;
-      scrollbarAnimationController.forward(from: 0);
+      controller.forward(from: 0);
     } else {
       color1 = activeThumbColor;
       color2 = hoverThumbColor;
-      scrollbarAnimationController.forward(from: 0);
+      controller.forward(from: 0);
     }
   }
 
@@ -193,7 +194,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
             color1 = hideThumbColor;
           }
           color2 = activeThumbColor;
-          scrollbarAnimationController.forward(from: 0);
+          controller.forward(from: 0);
         }.delay(100);
       }
     }
@@ -203,7 +204,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       if (_delayHandlerHover == null) {
         color1 = activeThumbColor;
         color2 = hoverThumbColor;
-        scrollbarAnimationController.forward(from: 0);
+        controller.forward(from: 0);
       } else {
         _cancelDelayHandlerHover();
       }
@@ -231,7 +232,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       color1 = hoverThumbColor;
     }
     color2 = hideThumbColor;
-    scrollbarAnimationController.forward(from: 0);
+    controller.forward(from: 0);
     isScrollbarHover = false;
   }
 
@@ -244,7 +245,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
         if (activeScroll == false) {
           color1 = hideThumbColor;
           color2 = hoverThumbColor;
-          scrollbarAnimationController.forward(from: 0);
+          controller.forward(from: 0);
         }
       },
       child: super.build(context),

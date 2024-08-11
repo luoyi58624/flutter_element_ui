@@ -10,7 +10,8 @@ class GlobalState {
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,
-    watch: (bool newValue, bool oldValue) {
+    immediate: true,
+    watch: (newValue, oldValue) {
       debugRepaintRainbowEnabled = newValue;
     },
   );
@@ -18,7 +19,8 @@ class GlobalState {
   /// 开启重采样机制，开启此功能可以让高刷手机拥有更平滑的触控，但缺点是会带来一点延迟
   static final enableResampling = Obs(
     true,
-    watch: (bool newValue, bool oldValue) {
+    immediate: true,
+    watch: (newValue, oldValue) {
       GestureBinding.instance.resamplingEnabled = newValue;
     },
   );

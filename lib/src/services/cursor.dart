@@ -5,10 +5,10 @@ import 'service.dart';
 mixin ElCursorService {
   OverlayEntry? _overlayEntry;
 
-  /// 设置全局光标，它会在当前页面上方创建一层完全透明的遮罩，它本身不接收任何事件，
-  /// 只会捕获全局鼠标光标悬停样式。
+  /// 设置全局光标，它会在页面上方创建一层完全透明的遮罩，然后捕获全局鼠标光标悬停样式，
+  /// 这样可以完全屏蔽页面中其他元素的悬停状态。
   ///
-  /// 适用场景：拖拽滚动条、拖拽元素尺寸、全局 loading 禁止点击...
+  /// 适用场景：拖拽滚动条、拖拽元素尺寸...
   void setCursor([MouseCursor? cursor]) {
     if (_overlayEntry == null) {
       _overlayEntry = OverlayEntry(
@@ -21,7 +21,7 @@ mixin ElCursorService {
     }
   }
 
-  /// 重置全局光标
+  /// 重置全局光标，移除页面上的遮罩层
   void resetCursor() {
     if (_overlayEntry != null) {}
     _overlayEntry!.remove();

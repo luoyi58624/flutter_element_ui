@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -118,6 +119,7 @@ class _ElSwitchState extends State<ElSwitch>
           _isInitial = false;
         } else {
           widget.modelValue.value ? controller.forward() : controller.reverse();
+          HapticFeedback.mediumImpact();
         }
         return GestureDetector(
           onTap: () {
