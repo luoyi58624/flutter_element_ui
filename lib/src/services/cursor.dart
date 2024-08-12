@@ -10,20 +10,19 @@ mixin ElCursorService {
   ///
   /// 适用场景：拖拽滚动条、拖拽元素尺寸...
   void setCursor([MouseCursor? cursor]) {
-    if (_overlayEntry == null) {
-      _overlayEntry = OverlayEntry(
-        builder: (context) => MouseRegion(
-          cursor: cursor ?? MouseCursor.defer,
-          child: const SizedBox(),
-        ),
-      );
-      Overlay.of(el.context).insert(_overlayEntry!);
-    }
+    assert(_overlayEntry == null);
+    _overlayEntry = OverlayEntry(
+      builder: (context) => MouseRegion(
+        cursor: cursor ?? MouseCursor.defer,
+        child: const SizedBox(),
+      ),
+    );
+    Overlay.of(el.context).insert(_overlayEntry!);
   }
 
   /// 重置全局光标，移除页面上的遮罩层
   void resetCursor() {
-    if (_overlayEntry != null) {}
+    assert(_overlayEntry != null);
     _overlayEntry!.remove();
     _overlayEntry = null;
   }

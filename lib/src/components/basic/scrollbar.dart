@@ -10,9 +10,10 @@ import '../../services/service.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
+const int _duration = 200;
 
 class ElScrollBehavior extends CustomScrollBehavior {
-  /// Element UI 默认滚动行为，桌面端使用[ElScrollbar]，移动端则使用自带的[Scrollbar]
+  /// 设置全局默认的滚动条，桌面端使用[ElScrollbar]
   const ElScrollBehavior();
 
   @override
@@ -39,7 +40,8 @@ class ElScrollBehavior extends CustomScrollBehavior {
 }
 
 class ElScrollbar extends RawScrollbar {
-  /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开立即消失
+  /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开滚动区域则立即消失，
+  /// 因为它完全依赖于 hover 事件，所以此滚动条只适合桌面平台，对于移动端请使用默认的[Scrollbar]
   const ElScrollbar({
     super.key,
     required super.child,
@@ -74,26 +76,45 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 鼠标悬停在滚动条上
   bool isScrollbarHover = false;
 
-  /// 是否处于激活滚动
-  bool activeScroll = false;
+  /// 是否处于拖拽滚动条状态
+  bool isDragScroll = false;
 
-  Color get thumbColor =>
-      widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
-
-  Color get hideThumbColor =>
-      widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
-
-  Color get hoverThumbColor => thumbColor.withOpacity(0.5);
-
-  Color get activeThumbColor => thumbColor.withOpacity(0.9);
-
+  /// 覆写 [RawScrollbar] 显示滚动默认逻辑，如何显示滚动条由自己做决定
   @override
   bool get showScrollbar => true;
 
-  /// 计算滚动条颜色，根据[color1]、[color2]以及[controller]慢慢地改变滚动条颜色
+  /// 滚动条颜色
+  Color get thumbColor =>
+      widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
+
+  /// 鼠标进入滚动范围显示的颜色
+  Color get hoverThumbColor => thumbColor.withOpacity(0.5);
+
+  /// 鼠标悬停在滚动轨道的颜色
+  Color get activeThumbColor => thumbColor.withOpacity(0.9);
+
+  /// 默认情况下，滚动条是处于隐藏状态，但如果开启一直显示，则置为悬停状态
+  Color get hideThumbColor =>
+      widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
+
+  /// 对滚动条颜色进行线性插值
   Color get scrollbarColor {
     if (color1 == null || color2 == null) return hideThumbColor;
     return Color.lerp(color1, color2, controller.value)!;
+  }
+
+  /// color1 -> color2
+  void changeColor(Color color1, Color color2) {
+    this.color1 = color1;
+    this.color2 = color2;
+    // i('xx');
+    // if (color1 == activeThumbColor) {
+    //   i('color1');
+    // }
+    // if (color2 == activeThumbColor) {
+    //   i('color2');
+    // }
+    controller.forward(from: 0);
   }
 
   @override
@@ -101,7 +122,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: el.config.globalDuration,
+      duration: _duration.ms,
     )..addListener(updateScrollbarPainter);
   }
 
@@ -133,14 +154,13 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
     el.setCursor();
-    activeScroll = true;
-    HapticFeedback.vibrate();
+    isDragScroll = true;
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
-    if (isScrollbarHover == false) {
-      color1 = isHover ? hoverThumbColor : hideThumbColor;
-      color2 = activeThumbColor;
-      controller.forward(from: 0);
-    }
+    // if (isScrollbarHover == false) {
+    //   color1 = isHover ? hoverThumbColor : hideThumbColor;
+    //   color2 = activeThumbColor;
+    //   controller.forward(from: 0);
+    // }
   }
 
   /// 结束拖动滚动条
@@ -148,30 +168,33 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
     el.resetCursor();
-    activeScroll = false;
-    // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
-    if (isHover == false) {
-      isHover = false;
-      isScrollbarHover = false;
-      color1 = activeThumbColor;
-      color2 = hideThumbColor;
-      controller.forward(from: 0);
-    } else {
-      color1 = activeThumbColor;
-      color2 = hoverThumbColor;
-      controller.forward(from: 0);
+    _delayHandlerPressEnd = () {
+      _delayHandlerPressEnd = null;
+      isDragScroll = false;
+      if (isScrollbarHover == false) {
+        if (isHover) {
+          changeColor(activeThumbColor, hoverThumbColor);
+        } else {
+          // 结束滚动条拖动时如果鼠标已经处于页面之外，那么将隐藏滚动条，否则将滚动条状态设置为hover
+          changeColor(activeThumbColor, hideThumbColor);
+        }
+      }
+    }.delay(_duration);
+  }
+
+  /// 延迟激活悬停滚动条，当用户快速从滚动条上划过时，不会对滚动条进行高亮
+  Timer? _delayActiveHover;
+
+  void _cancelDelayActiveHover() {
+    if (_delayActiveHover != null) {
+      _delayActiveHover!.cancel();
+      _delayActiveHover = null;
     }
   }
 
-  /// 延迟处理悬停滚动条，当用户快速从滚动条上划过时，不会对滚动条进行高亮
-  Timer? _delayHandlerHover;
-
-  void _cancelDelayHandlerHover() {
-    if (_delayHandlerHover != null) {
-      _delayHandlerHover!.cancel();
-      _delayHandlerHover = null;
-    }
-  }
+  /// 延迟处理拖拽结束事件，由于拖拽滚动条会执行 [el.setCursor] 创建一层全局遮罩，
+  /// 会导致触发 [handleHoverExit] 事件，所以释放拖拽滚动条时，必须延迟执行内部逻辑
+  Timer? _delayHandlerPressEnd;
 
   /// 鼠标在滚动区域悬停事件
   @override
@@ -179,70 +202,48 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     super.handleHover(event);
     // 优先处理鼠标悬停在滚动条上的事件
     if (isPointerOverThumb(event.position, event.kind)) {
-      // 防止重复设置动画
       if (isScrollbarHover == false) {
-        isScrollbarHover = true;
-        _cancelDelayHandlerHover();
-        _delayHandlerHover = () {
-          if (isHover) {
-            color1 = hoverThumbColor;
-          } else {
-            isHover = true;
-            color1 = hideThumbColor;
-          }
-          color2 = activeThumbColor;
-          controller.forward(from: 0);
+        // 延迟设置悬停状态，当鼠标快速划过时不要将其更新为激活状态
+        _delayActiveHover = () {
+          isScrollbarHover = true;
+          changeColor(hoverThumbColor, activeThumbColor);
         }.delay(100);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover
     else if (isScrollbarHover) {
       isScrollbarHover = false;
-      if (_delayHandlerHover == null) {
-        color1 = activeThumbColor;
-        color2 = hoverThumbColor;
-        controller.forward(from: 0);
-      } else {
-        _cancelDelayHandlerHover();
-      }
+      changeColor(activeThumbColor, hoverThumbColor);
+    } else {
+      _cancelDelayActiveHover();
     }
   }
 
   /// 鼠标离开滚动区域事件
   @override
   void handleHoverExit(PointerExitEvent event) {
-    if (activeScroll) {
-      isHover = false;
-      isScrollbarHover = false;
-      return;
-    }
-    super.handleHoverExit(event);
     isHover = false;
-    if (isScrollbarHover) {
-      if (_delayHandlerHover == null) {
-        color1 = activeThumbColor;
-      } else {
-        color1 = hoverThumbColor;
-        _cancelDelayHandlerHover();
-      }
-    } else {
-      color1 = hoverThumbColor;
-    }
-    color2 = hideThumbColor;
-    controller.forward(from: 0);
     isScrollbarHover = false;
+    super.handleHoverExit(event);
+    if (isDragScroll) return;
+    _cancelDelayActiveHover();
+    changeColor(color2!, hideThumbColor);
   }
 
-  /// [RawScrollbar]内部没有监听[onEnter]事件，导致当鼠标离开滚动区域时，无法监听是否重新回到滚动区域，所以只能再套一层[MouseRegion]
+  /// [RawScrollbar]没有提供监听[onEnter]事件，导致当鼠标离开滚动区域时，无法监听是否重新回到滚动区域，所以只能再套一层[MouseRegion]
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (event) {
-        isHover = true;
-        if (activeScroll == false) {
-          color1 = hideThumbColor;
-          color2 = hoverThumbColor;
-          controller.forward(from: 0);
+        if (isHover == false) {
+          isHover = true;
+          if (isDragScroll) {
+            if (isPointerOverThumb(event.position, event.kind)) {
+              isScrollbarHover = true;
+            }
+          } else {
+            changeColor(hideThumbColor, hoverThumbColor);
+          }
         }
       },
       child: super.build(context),

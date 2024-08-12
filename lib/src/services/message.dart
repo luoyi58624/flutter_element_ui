@@ -330,6 +330,9 @@ class _MessageState extends State<_Message>
 
   @override
   Widget build(BuildContext context) {
+    // 绑定窗口尺寸变化监听，这样可以触发重新计算消息偏移布局
+    MediaQuery.maybeSizeOf(context);
+
     // 设置当前消息的元素尺寸
     FlutterUtil.nextTick(() {
       message._messageSize.value = messageKey.currentContext!.size!;
