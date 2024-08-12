@@ -38,10 +38,8 @@ class ElScrollBehavior extends CustomScrollBehavior {
   }
 }
 
-/// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开立即消失。
-///
-/// 提示：通常情况下你无需手动绑定它，因为在祖先节点已经默认注入了滚动条。
 class ElScrollbar extends RawScrollbar {
+  /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开立即消失
   const ElScrollbar({
     super.key,
     required super.child,
@@ -82,9 +80,8 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   Color get thumbColor =>
       widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
 
-  Color get hideThumbColor => PlatformUtil.isMobile || widget.always
-      ? hoverThumbColor
-      : thumbColor.withOpacity(0);
+  Color get hideThumbColor =>
+      widget.always ? hoverThumbColor : thumbColor.withOpacity(0);
 
   Color get hoverThumbColor => thumbColor.withOpacity(0.5);
 

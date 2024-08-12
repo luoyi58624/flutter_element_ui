@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import '../../services/message/message.dart';
+import '../../services/message.dart';
 
 part '../../generates/styles/feedback/message.g.dart';
 

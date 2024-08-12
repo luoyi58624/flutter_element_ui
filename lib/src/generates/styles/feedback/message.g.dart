@@ -13,7 +13,7 @@ extension ElMessageStyleExtension on ElMessageStyle {
     int? animationDuration,
     bool? showClose,
     bool? grouping,
-    Widget Function(BuildContext, ElMessage)? builder,
+    Widget Function(BuildContext, ElMessageModel)? builder,
   }) {
     return ElMessageStyle(
       offset: offset ?? this.offset,

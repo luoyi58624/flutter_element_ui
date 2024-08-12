@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'cursor.dart';
-import 'message/message.dart';
+import 'message.dart';
 import 'toast.dart';
 import '../styles/config.dart';
 import '../styles/theme.dart';

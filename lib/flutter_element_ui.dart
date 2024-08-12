@@ -53,7 +53,7 @@ export 'src/components/typography/href.dart';
 
 export 'src/extensions/element.dart';
 
-export 'src/services/message/message.dart' show ElDefaultMessage;
+export 'src/services/message.dart';
 
 export 'src/styles/theme.dart';
 export 'src/styles/config.dart';

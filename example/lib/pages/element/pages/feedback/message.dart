@@ -40,7 +40,9 @@ class MessagePage extends StatelessWidget {
                 ),
                 ElButton(
                   onPressed: () {
-                    el.message.warning('警告哦，这是一条警告消息');
+                    for (int i = 0; i < 3; i++) {
+                      el.message.warning('警告哦，这是一条警告消息');
+                    }
                   },
                   type: 'warning',
                   child: '警告',
