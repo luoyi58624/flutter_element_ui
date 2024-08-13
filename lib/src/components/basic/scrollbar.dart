@@ -41,7 +41,7 @@ class ElScrollBehavior extends CustomScrollBehavior {
 
 class ElScrollbar extends RawScrollbar {
   /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开滚动区域则立即消失，
-  /// 因为它完全依赖于 hover 事件，所以此滚动条只适合桌面平台，对于移动端请使用默认的[Scrollbar]
+  /// 由于它的特征依赖于 hover 事件，所以此滚动条只适合桌面平台，移动端的最佳选择还是官方默认的 [Scrollbar] 组件
   const ElScrollbar({
     super.key,
     required super.child,
@@ -150,7 +150,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
-    el.setCursor();
+    el.globalCursor.setCursor();
     isDragScroll = true;
     // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
     if (isScrollbarHover == false) {
@@ -163,8 +163,8 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
-    el.resetCursor();
-    // 短暂延迟一段时间执行结束逻辑，因为受到 el.setCursor 的影响会导致悬停状态丢失,
+    el.globalCursor.resetCursor();
+    // 短暂延迟一段时间执行结束逻辑，因为受到 globalCursor 的影响会导致悬停状态丢失,
     // isScrollbarHover 状态需要在 onEnter 中判断鼠标是否在滚动条上
     () {
       isDragScroll = false;
@@ -197,7 +197,6 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     if (isPointerOverThumb(event.position, event.kind)) {
       if (isScrollbarHover == false) {
         _cancelDelayActiveHover();
-        // 延迟设置悬停状态，当鼠标快速划过时不要将其更新为激活状态
         _delayActiveHover = () {
           isScrollbarHover = true;
           changeColor(hoverColor, activeColor);
@@ -214,9 +213,8 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   }
 
   /// 鼠标离开滚动区域事件，有两种事件会触发这段逻辑：
-  /// 1. 开始拖拽滚动条，因为执行 [el.setCursor] 会在页面上创建全屏透明遮罩层（拖拽滚动条防止对其他内容产生交互，尤其是其他页面的悬停状态），
-  /// 所以会导致触发滚动容器的离开事件。
-  /// 2. 鼠标直接离开滚动容器，其实大部分逻辑都是为了解决拖拽滚动条产生的bug
+  /// 1. 开始拖拽滚动条，因为设置 globalCursor 会在页面上创建全屏透明遮罩层
+  /// 2. 鼠标直接离开滚动容器
   @override
   void handleHoverExit(PointerExitEvent event) {
     // 离开时一定要先取消延迟激活动画，防止快速将鼠标悬停在滚动条时，又快速离开产生状态bug

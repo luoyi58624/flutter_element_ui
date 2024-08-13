@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
+import 'context_menu.dart';
 import 'cursor.dart';
 import 'message.dart';
 import 'toast.dart';
@@ -10,7 +11,12 @@ import '../styles/theme.dart';
 /// Element UI 全局服务对象
 final el = ElService();
 
-class ElService with ElCursorService, ElMessageService, ElToastService {
+class ElService
+    with
+        ElContextMenuService,
+        ElCursorService,
+        ElMessageService,
+        ElToastService {
   /// 根节点路由导航key，请务必挂载此 key。
   ///
   /// 当使用命令式路由：

@@ -8,10 +8,10 @@ void main() async {
   await initLocalStorage();
   await CacheInterceptor.init();
   initFont(
-    // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
-    // fontModel: GoogleFonts.notoSansSc([FontWeight.w500, FontWeight.w600]),
-    // android: true,
-  );
+      // fontModel: const FontModel(fontFamily: 'NotoSansSC'),
+      // fontModel: GoogleFonts.notoSansSc([FontWeight.w500, FontWeight.w600]),
+      // android: true,
+      );
   runApp(const _App());
 }
 

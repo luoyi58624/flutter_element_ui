@@ -24,7 +24,7 @@ class ScrollRenderTestPage extends HookWidget {
               ...List.generate(
                 100,
                 // (index) => Text('列表 - ${index + 1}'),
-                (index) => ElevatedButton(
+                (index) => ElButton(
                   onPressed: () {},
                   child: Text('列表 - ${index + 1}'),
                 ),

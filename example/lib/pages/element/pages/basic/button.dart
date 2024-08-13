@@ -27,6 +27,26 @@ class ButtonPage extends HookWidget {
         repaintBoundary: GlobalState.scrollRepaintBoundary.value,
         padding: const EdgeInsets.all(8.0),
         children: [
+          Material(
+            child: InkWell(
+              onTap: () {},
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Text('text'),
+              ),
+            ),
+          ),
+          ElContextMenu(
+            on: (offset) {
+              i(offset);
+            },
+            child: ElButton(
+              onPressed: () {
+                i('x');
+              },
+              child: '点击',
+            ),
+          ),
           const Gap(8),
           Wrap(
             spacing: 8,

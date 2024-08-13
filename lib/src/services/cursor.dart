@@ -3,6 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'service.dart';
 
 mixin ElCursorService {
+  /// 设置全局光标实例对象
+  final ElCursorInstance globalCursor = ElCursorInstance();
+}
+
+class ElCursorInstance {
   OverlayEntry? _overlayEntry;
 
   /// 设置全局光标，它会在页面上方创建一层完全透明的遮罩，然后捕获全局鼠标光标悬停样式，
@@ -20,7 +25,7 @@ mixin ElCursorService {
     Overlay.of(el.context).insert(_overlayEntry!);
   }
 
-  /// 重置全局光标，移除页面上的遮罩层
+  /// 重置全局光标
   void resetCursor() {
     assert(_overlayEntry != null);
     _overlayEntry!.remove();

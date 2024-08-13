@@ -18,8 +18,10 @@ import 'pages/overlay.dart';
 import 'pages/render/leaf.dart';
 import 'pages/render/multi.dart';
 import 'pages/render/position.dart';
+import 'pages/render/proxy.dart';
 import 'pages/render/scroll/scroll.dart';
 import 'pages/render/single.dart';
+import 'pages/translator.dart';
 
 class TestHomePage extends HookWidget {
   const TestHomePage({super.key});
@@ -37,12 +39,15 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'Font 测试', page: FontTestPage()),
           CellWidget(title: 'Http 测试', page: HttpPage()),
           CellWidget(title: 'Overlay 测试', page: OverlayPage()),
+          CellWidget(title: '翻译测试', page: TranslatorTestPage()),
           CellWidget(title: 'Leaf Render', page: LeafRenderTestPage()),
           CellWidget(title: 'Single Render', page: SingleRenderTestPage()),
           CellWidget(title: 'Multi Render', page: MultiRenderTestPage()),
           CellWidget(title: 'Multi Render - MyStack', page: MyStackTestPage()),
           CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
-          CellWidget(title: 'Scroll Render 自定义滚动渲染', page: ScrollRenderTestPage()),
+          CellWidget(title: 'Proxy Render 代理渲染对象', page: ProxyRenderTestPage()),
+          CellWidget(
+              title: 'Scroll Render 自定义滚动渲染', page: ScrollRenderTestPage()),
           CellWidget(title: 'Canvas Line', page: LinePage()),
           CellWidget(title: 'Canvas Point', page: PointPage()),
           CellWidget(title: 'Canvas Circle', page: CirclePage()),

@@ -123,7 +123,7 @@ abstract class _ResizerWidget extends HookWidget {
                     ? GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onHorizontalDragStart: (e) {
-                          el.setCursor(
+                          el.globalCursor.setCursor(
                             SystemMouseCursors.resizeColumn,
                           );
                           isActive.value = true;
@@ -133,19 +133,19 @@ abstract class _ResizerWidget extends HookWidget {
                         },
                         onHorizontalDragEnd: (e) {
                           endFun();
-                          el.resetCursor();
+                          el.globalCursor.resetCursor();
                           isActive.value = false;
                         },
                         onHorizontalDragCancel: () {
                           endFun();
-                          el.resetCursor();
+                          el.globalCursor.resetCursor();
                           isActive.value = false;
                         },
                       )
                     : GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onVerticalDragStart: (e) {
-                          el.setCursor(SystemMouseCursors.resizeRow);
+                          el.globalCursor.setCursor(SystemMouseCursors.resizeRow);
                           isActive.value = true;
                         },
                         onVerticalDragUpdate: (e) {
@@ -153,12 +153,12 @@ abstract class _ResizerWidget extends HookWidget {
                         },
                         onVerticalDragEnd: (e) {
                           endFun();
-                          el.resetCursor();
+                          el.globalCursor.resetCursor();
                           isActive.value = false;
                         },
                         onVerticalDragCancel: () {
                           endFun();
-                          el.resetCursor();
+                          el.globalCursor.resetCursor();
                           isActive.value = false;
                         },
                       ),
