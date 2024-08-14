@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'global.dart';
 
@@ -38,6 +39,7 @@ class _App extends StatelessWidget {
           context,
           brightness: Brightness.dark,
         ),
+        showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
         showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
         debugShowCheckedModeBanner: false,
         builder: (context, child) => CupertinoTheme(
@@ -50,7 +52,45 @@ class _App extends StatelessWidget {
             child: child!,
           ),
         ),
-      );
+      ).globalShortcut;
     });
   }
 }
+
+extension _GlobalShortcut on Widget {
+  Widget get globalShortcut {
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(
+          ElShortcutUtil.ctrl,
+          LogicalKeyboardKey.keyL,
+        ): LogIntent(),
+        LogicalKeySet(
+          ElShortcutUtil.ctrl,
+          LogicalKeyboardKey.keyD,
+          LogicalKeyboardKey.keyS,
+        ): ShowSemanticsDebuggerIntent(),
+      },
+      child: Actions(
+        actions: {
+          LogIntent: CallbackAction(
+            onInvoke: (intent) => () {
+              i('打印日志');
+            }(),
+          ),
+          ShowSemanticsDebuggerIntent: CallbackAction(
+            onInvoke: (intent) => () {
+              GlobalState.showSemanticsDebugger.value =
+                  !GlobalState.showSemanticsDebugger.value;
+            }(),
+          ),
+        },
+        child: this,
+      ),
+    );
+  }
+}
+
+class LogIntent extends Intent {}
+
+class ShowSemanticsDebuggerIntent extends Intent {}

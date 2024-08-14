@@ -12,9 +12,6 @@ part '../generates/styles/config.g.dart';
 class ElConfigData {
   static ElConfigData data = ElConfigData();
 
-  /// 基础控件的基本高度：按钮、输入框...
-  double baseWidgetHeight;
-
   /// 全局默认图标大小
   double iconSize;
 
@@ -47,7 +44,6 @@ class ElConfigData {
 
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   ElConfigData({
-    this.baseWidgetHeight = 36,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
@@ -58,5 +54,5 @@ class ElConfigData {
     this.inputStyle = const ElInputStyle(),
     this.messageStyle = const ElMessageStyle(),
     this.toastStyle = const ElToastStyle(),
-  }) : assert(baseWidgetHeight >= 24);
+  });
 }

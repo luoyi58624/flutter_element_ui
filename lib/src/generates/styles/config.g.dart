@@ -8,7 +8,6 @@ part of '../../styles/config.dart';
 
 extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
-    double? baseWidgetHeight,
     double? iconSize,
     BorderRadius? radius,
     BorderRadius? cardRadius,
@@ -21,7 +20,6 @@ extension ElConfigDataExtension on ElConfigData {
     ElToastStyle? toastStyle,
   }) {
     return ElConfigData(
-      baseWidgetHeight: baseWidgetHeight ?? this.baseWidgetHeight,
       iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,

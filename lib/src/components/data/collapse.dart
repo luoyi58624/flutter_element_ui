@@ -8,16 +8,17 @@ import '../../utils/icons.dart';
 import '../basic/icon.dart';
 
 class _CollapseData extends InheritedWidget {
-  const _CollapseData(
-    this.modelValue,
-    this.accordion,
-    this.foldIcon,
-    this.expandedIcon,
-    this.onChanged, {
-    required super.child,
-  });
+  const _CollapseData(this.modelValue,
+      this.height,
+      this.accordion,
+      this.foldIcon,
+      this.expandedIcon,
+      this.onChanged, {
+        required super.child,
+      });
 
   final ValueNotifier<List> modelValue;
+  final double height;
   final bool accordion;
   final Widget? foldIcon;
   final Widget? expandedIcon;
@@ -25,7 +26,7 @@ class _CollapseData extends InheritedWidget {
 
   static _CollapseData of(BuildContext context) {
     final _CollapseData? result =
-        context.dependOnInheritedWidgetOfExactType<_CollapseData>();
+    context.dependOnInheritedWidgetOfExactType<_CollapseData>();
     assert(result != null, 'No _CollapseData found in context');
     return result!;
   }
@@ -36,11 +37,11 @@ class _CollapseData extends InheritedWidget {
 
 /// 折叠菜单
 class ElCollapse extends StatelessWidget {
-  const ElCollapse(
-    this.modelValue, {
+  const ElCollapse(this.modelValue, {
     super.key,
     required this.children,
     this.accordion = false,
+    this.height = 50,
     this.foldIcon,
     this.expandedIcon,
     this.onChanged,
@@ -51,6 +52,9 @@ class ElCollapse extends StatelessWidget {
 
   /// 折叠菜单子项列表
   final List<ElCollapseItem> children;
+
+  /// 折叠菜单高度
+  final double height;
 
   /// 是否手风琴模式，默认false
   final bool accordion;
@@ -68,6 +72,7 @@ class ElCollapse extends StatelessWidget {
   Widget build(BuildContext context) {
     return _CollapseData(
       modelValue,
+      height,
       accordion,
       foldIcon,
       expandedIcon,
@@ -80,12 +85,13 @@ class ElCollapse extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: children.length,
-          itemBuilder: (context, index) => ChildIndexData(
-            index: index,
-            start: 0,
-            end: children.length - 1,
-            child: children[index],
-          ),
+          itemBuilder: (context, index) =>
+              ChildIndexData(
+                index: index,
+                start: 0,
+                end: children.length - 1,
+                child: children[index],
+              ),
           separatorBuilder: ElDivider.buildSeparatorWidget(context),
         ),
       ),
@@ -143,7 +149,7 @@ class ElCollapseItem extends StatelessWidget {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
                       duration: elConfig.colorDuration,
-                      height: elConfig.baseWidgetHeight,
+                      height: $data.height,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         color: isActive
@@ -151,42 +157,42 @@ class ElCollapseItem extends StatelessWidget {
                             : context.elTheme.bgColor,
                         borderRadius: $indexData.index == $indexData.start
                             ? BorderRadius.only(
-                                topLeft: $cardRadius.topLeft,
-                                topRight: $cardRadius.topRight,
-                              )
+                          topLeft: $cardRadius.topLeft,
+                          topRight: $cardRadius.topRight,
+                        )
                             : $indexData.index == $indexData.end && !isActive
-                                ? BorderRadius.only(
-                                    bottomLeft: $cardRadius.bottomLeft,
-                                    bottomRight: $cardRadius.bottomRight,
-                                  )
-                                : null,
+                            ? BorderRadius.only(
+                          bottomLeft: $cardRadius.bottomLeft,
+                          bottomRight: $cardRadius.bottomRight,
+                        )
+                            : null,
                       ),
                       child: Row(
                         children: [
                           title is Widget
                               ? title
                               : DefaultTextStyle.merge(
-                                  style: TextStyle(
-                                    color: context.isDark
-                                        ? context.elTheme.textColor
-                                        : isActive
-                                            ? el.darkTheme.textColor
-                                            : el.theme.textColor,
-                                  ),
-                                  child: Text('$title'),
-                                ),
+                            style: TextStyle(
+                              color: context.isDark
+                                  ? context.elTheme.textColor
+                                  : isActive
+                                  ? el.darkTheme.textColor
+                                  : el.theme.textColor,
+                            ),
+                            child: Text('$title'),
+                          ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
                             color: context.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? el.darkTheme.textColor
-                                    : el.theme.textColor,
+                                ? el.darkTheme.textColor
+                                : el.theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
-                                    const ElIcon(ElIcons.arrowUp)
+                                const ElIcon(ElIcons.arrowUp)
                                 : $data.foldIcon ??
-                                    const ElIcon(ElIcons.arrowDown),
+                                const ElIcon(ElIcons.arrowDown),
                           ),
                         ],
                       ),
@@ -203,9 +209,9 @@ class ElCollapseItem extends StatelessWidget {
                 firstChild: const SizedBox(width: double.infinity, height: 0),
                 secondChild: child,
                 firstCurve:
-                    const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+                const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
                 secondCurve:
-                    const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+                const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
                 sizeCurve: Curves.fastOutSlowIn,
                 crossFadeState: value.contains(id)
                     ? CrossFadeState.showSecond

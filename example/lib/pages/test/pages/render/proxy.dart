@@ -1,4 +1,5 @@
 import 'package:example/global.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,16 +12,47 @@ class ProxyRenderTestPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ProxyRender'),
       ),
-      body: Column(
-        children: [
-          _Box(
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.grey,
+      body: SizedBox.expand(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                _Box(
+                  child: GestureDetector(
+                    onTap: () {
+                      i('xx');
+                    },
+                    // child: Container(
+                    //   width: 100,
+                    //   height: 100,
+                    //   color: Colors.grey,
+                    // ),
+                    child: CupertinoButton.filled(
+                      child: const Text('Primary'),
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+                ElButton(
+                  onPressed: () {},
+                  type: 'primary',
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 64,
+                    vertical: 14,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  round: true,
+                  child: const Text(
+                    'Primary',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                ...List.generate(100, (index) => const Text('text')),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -38,21 +70,12 @@ class _Box extends SingleChildRenderObjectWidget {
 class _BoxRender extends RenderProxyBox {
   _BoxRender();
 
-  @override
-  bool hitTestSelf(Offset position) {
-    return true;
-  }
-
-  @override
-  void performLayout() {
-    // size = const Size(100, 100);
-  }
-
-  @override
-  void paint(PaintingContext context, Offset offset) {
-    context.canvas.drawRect(
-      offset & size,
-      Paint()..color = Colors.grey,
-    );
-  }
+// @override
+// void paint(PaintingContext context, Offset offset) {
+//   context.canvas.drawRect(
+//     offset & size,
+//     Paint()..color = Colors.green,
+//   );
+//   if(child!=null) child!.paint(context, offset);
+// }
 }

@@ -26,6 +26,15 @@ class DebugSettingPage extends StatelessWidget {
             }),
           ObsBuilder(builder: (context) {
             return CellWidget(
+              title: '开启语义调式器',
+              value: GlobalState.showSemanticsDebugger.value,
+              onChanged: (v) {
+                GlobalState.showSemanticsDebugger.value = v;
+              },
+            );
+          }),
+          ObsBuilder(builder: (context) {
+            return CellWidget(
               title: '开启重采用',
               value: GlobalState.enableResampling.value,
               onChanged: (v) {

@@ -24,8 +24,8 @@ class ElSwitch extends StatefulWidget {
     this.disabled = false,
   });
 
-  /// 开关状态
-  final ValueNotifier<bool> modelValue;
+  /// 开关状态，支持 [ValueNotifier] 进行响应式绑定
+  final dynamic modelValue;
 
   /// change事件
   final ValueChanged<bool>? onChanged;
@@ -110,57 +110,82 @@ class _ElSwitchState extends State<ElSwitch>
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: widget.modelValue,
-      builder: (context, status, _) {
-        if (_isInitial) {
-          _isInitial = false;
-        } else {
-          widget.modelValue.value ? controller.forward() : controller.reverse();
-          HapticFeedback.mediumImpact();
-        }
-        return GestureDetector(
-          onTap: () {
-            widget.modelValue.value = !status;
-            if (widget.onChanged != null && !widget.disabled) {
-              widget.onChanged!(!status);
-            }
-          },
-          child: HoverBuilder(
-            disabled: widget.disabled,
-            cursor: SystemMouseCursors.click,
-            builder: (context) {
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                height: containerHeight,
-                width: containerWidth,
-                decoration: BoxDecoration(
-                  color: status ? activeBgColor : inactiveBgColor,
-                  borderRadius: BorderRadius.circular(containerHeight / 2),
-                ),
-                child: AnimatedBuilder(
-                  animation: animation,
-                  builder: (context, child) => Transform.translate(
-                    offset: Offset(animation.value, 0),
-                    child: UnconstrainedBox(
-                      child: Container(
-                        width: widget.size,
-                        height: widget.size,
-                        decoration: BoxDecoration(
-                          color: status ? activeColor : inactiveColor,
-                          borderRadius: BorderRadius.circular(widget.size / 2),
-                        ),
-                      ),
+  bool get isReactive {
+    if (widget.modelValue is ValueNotifier<bool>) {
+      return true;
+    } else {
+      assert(widget.modelValue is bool, 'ElSwitch 接收的参数必须是 bool 类型');
+      return false;
+    }
+  }
+
+  Widget _buildSwitch(BuildContext context, bool status) {
+    if (_isInitial) {
+      _isInitial = false;
+    } else {
+      status ? controller.forward() : controller.reverse();
+      HapticFeedback.mediumImpact();
+    }
+    return GestureDetector(
+      onTap: widget.disabled
+          ? null
+          : () {
+              late bool flag;
+              if (isReactive) {
+                flag = !widget.modelValue.value;
+                widget.modelValue.value = flag;
+              } else {
+                flag = !widget.modelValue;
+              }
+              if (widget.onChanged != null) {
+                widget.onChanged!(flag);
+              }
+            },
+      child: HoverBuilder(
+        disabled: widget.disabled,
+        cursor: SystemMouseCursors.click,
+        builder: (context) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: containerHeight,
+            width: containerWidth,
+            decoration: BoxDecoration(
+              color: status ? activeBgColor : inactiveBgColor,
+              borderRadius: BorderRadius.circular(containerHeight / 2),
+            ),
+            child: AnimatedBuilder(
+              animation: animation,
+              builder: (context, child) => Transform.translate(
+                offset: Offset(animation.value, 0),
+                child: UnconstrainedBox(
+                  child: Container(
+                    width: widget.size,
+                    height: widget.size,
+                    decoration: BoxDecoration(
+                      color: status ? activeColor : inactiveColor,
+                      borderRadius: BorderRadius.circular(widget.size / 2),
                     ),
                   ),
                 ),
-              );
-            },
-          ),
-        );
-      },
+              ),
+            ),
+          );
+        },
+      ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isReactive) {
+      return ValueListenableBuilder(
+        valueListenable: widget.modelValue,
+        builder: (context, status, _) {
+          return _buildSwitch(context, status as bool);
+        },
+      );
+    } else {
+      return _buildSwitch(context, widget.modelValue);
+    }
   }
 }

@@ -9,14 +9,14 @@ part '../../generates/styles/basic/button.g.dart';
 @ElModel.copy()
 class ElButtonStyle {
   const ElButtonStyle({
-    this.height,
+    this.height = 36,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
     this.padding,
   });
 
-  /// 按钮高度，默认：baseHeight
-  final double? height;
+  /// 按钮高度
+  final double height;
 
   /// 按钮圆角，默认：radius
   final BorderRadius? borderRadius;

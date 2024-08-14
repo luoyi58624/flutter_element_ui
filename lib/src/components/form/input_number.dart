@@ -3,14 +3,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/components/others/triangle/triangle.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-class ElInputNumber extends StatefulWidget {
+class ElInputNumber extends HookWidget {
   const ElInputNumber({super.key});
 
-  @override
-  State<ElInputNumber> createState() => _ElInputNumberState();
-}
-
-class _ElInputNumberState extends State<ElInputNumber> {
   @override
   Widget build(BuildContext context) {
     return const _InputNumberWidget(
@@ -76,6 +71,19 @@ class _InputNumberElement extends RenderObjectElement {
       super.renderObject as _InputNumberRender;
 
   @override
+  void visitChildren(ElementVisitor visitor) {
+    if (_content != null) visitor(_content!);
+    if (_upButton != null) visitor(_upButton!);
+    if (_downButton != null) visitor(_downButton!);
+  }
+
+  @override
+  void forgetChild(Element child) {
+    i(child);
+    super.forgetChild(child);
+  }
+
+  @override
   void mount(Element? parent, Object? newSlot) {
     super.mount(parent, newSlot);
     i('mount');
@@ -94,13 +102,6 @@ class _InputNumberElement extends RenderObjectElement {
       widget.downButton,
       _InputNumberSlot.downButton,
     );
-  }
-
-  @override
-  void visitChildren(ElementVisitor visitor) {
-    if (_content != null) visitor(_content!);
-    if (_upButton != null) visitor(_upButton!);
-    if (_downButton != null) visitor(_downButton!);
   }
 
   @override

@@ -9,14 +9,14 @@ part '../../generates/styles/basic/input.g.dart';
 @ElModel.copy()
 class ElInputStyle {
   const ElInputStyle({
-    this.height,
+    this.height = 36,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
   });
 
-  /// 输入框高度，默认：baseHeight
-  final double? height;
+  /// 输入框高度
+  final double height;
 
   /// 输入框圆角：默认：radius
   final BorderRadius? borderRadius;

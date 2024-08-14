@@ -12,6 +12,9 @@ const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 const int _animationDuration = 200;
 
+/// 延迟激活滚动条高亮时间，防止鼠标快速划过导致滚动条出现轻微闪动
+const int _delayActiveDuration = 100;
+
 class ElScrollBehavior extends CustomScrollBehavior {
   /// 设置全局默认的滚动条，桌面端使用[ElScrollbar]
   const ElScrollBehavior();
@@ -108,7 +111,9 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     return lerpColor!;
   }
 
+  /// 将滚动条的一个颜色以动画形式转变成另一个颜色
   void changeColor(Color color1, Color color2) {
+    // lerpColor是后来加入的，color1应该可以抛弃，但目前滚动条工作的很好，就懒得处理了
     this.color1 = lerpColor ?? color1;
     this.color2 = color2;
     controller.forward(from: 0);
@@ -180,7 +185,6 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
 
   /// 延迟激活悬停滚动条，用户必须在滚动条上悬停一段时间，才激活滚动条高亮状态
   Timer? _delayActiveHover;
-  final int _delayDuration = 100;
 
   void _cancelDelayActiveHover() {
     if (_delayActiveHover != null) {
@@ -200,7 +204,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
         _delayActiveHover = () {
           isScrollbarHover = true;
           changeColor(hoverColor, activeColor);
-        }.delay(_delayDuration);
+        }.delay(_delayActiveDuration);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover

@@ -1,17 +1,21 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
-class InputNumberPage extends StatelessWidget {
+class InputNumberPage extends HookWidget {
   const InputNumberPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // return Center(child: ElInputNumber());
-    return const Align(
+    final show = useState(true);
+    final (flag, toggle) = useToggle();
+    return Align(
       child: Column(
         children: [
-          Gap(50),
-          ElInputNumber(),
+          const Gap(50),
+          ElSwitch(show),
+          const Gap(16),
+          ElSwitch(flag, onChanged: toggle),
+          if (show.value) const ElInputNumber(),
           // Row(
           //   mainAxisSize: MainAxisSize.min,
           //   children: [

@@ -123,8 +123,7 @@ class ElButton extends StatelessWidget {
     ElAssert.themeType(type, 'ElButton');
     final elConfig = el.config;
     final defaultStyle = elConfig.buttonStyle;
-    final buttonHeight =
-        height ?? defaultStyle.height ?? elConfig.baseWidgetHeight;
+    final buttonHeight = height ?? defaultStyle.height;
     _ButtonStyleProp styleProp = (
       width: width,
       height: buttonHeight,
@@ -182,14 +181,15 @@ class _Button extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final buttonStyle = _useButtonStyle(context, styleProp);
-    final $width = styleProp.link
-        ? null
-        : styleProp.circle
-            ? styleProp.height
-            : styleProp.width;
-    final $height = styleProp.link ? null : styleProp.height;
     final $padding =
         styleProp.circle || styleProp.link ? null : styleProp.padding;
+    final $constraints = styleProp.link
+        ? null
+        : BoxConstraints(
+            minHeight: styleProp.height,
+            minWidth:
+                (styleProp.circle ? styleProp.height : styleProp.width) ?? 0,
+          );
     final $decoration = BoxDecoration(
       color: buttonStyle.bgColor,
       border: buttonStyle.border,
@@ -200,17 +200,17 @@ class _Button extends HookWidget {
 
     return AnimatedContainer(
       duration: 100.ms,
-      width: $width,
-      height: $height,
+      constraints: $constraints,
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
       child: DefaultTextStyle(
-          style: TextStyle(
-            fontWeight: ElFont.medium,
-            color: buttonStyle.textColor,
-          ),
-          child: buildChild(buttonStyle)),
+        style: TextStyle(
+          fontWeight: ElFont.medium,
+          color: buttonStyle.textColor,
+        ),
+        child: buildChild(buttonStyle),
+      ),
     );
   }
 

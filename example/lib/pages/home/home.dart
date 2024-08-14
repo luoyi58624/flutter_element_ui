@@ -5,6 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+
+class Increment extends Intent {}
+
+class Decrement extends Intent {}
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
@@ -57,6 +62,36 @@ class HomePage extends HookWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Shortcuts(
+                shortcuts: {
+                  LogicalKeySet(
+                    // LogicalKeyboardKey.control,
+                    LogicalKeyboardKey.keyR,
+                  ): Increment(),
+                  LogicalKeySet(LogicalKeyboardKey.home): Decrement(),
+                },
+                child: Actions(
+                  actions: {
+                    Increment: CallbackAction<Increment>(
+                      onInvoke: (intent) => () {
+                        count.value++;
+                      }(),
+                    ),
+                    Decrement: CallbackAction<Decrement>(
+                      onInvoke: (intent) => () {
+                        count.value--;
+                      }(),
+                    ),
+                  },
+                  child: ElButton(
+                    onPressed: () {
+                      count.value++;
+                    },
+                    child: 'count: ${count.value}',
+                    type: 'primary',
+                  ),
+                ),
+              ),
               _CupertinoSegment(),
               ElGoogleTabs(
                 activeIndex,
@@ -199,4 +234,3 @@ class _CupertinoSegmentState extends State<_CupertinoSegment> {
     );
   }
 }
-
