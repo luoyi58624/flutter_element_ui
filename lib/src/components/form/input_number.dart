@@ -32,7 +32,7 @@ class _ControlButton extends StatelessWidget {
   }
 }
 
-enum _InputNumberSlot {
+enum _Slot {
   content,
   upButton,
   downButton,
@@ -70,51 +70,65 @@ class _InputNumberElement extends RenderObjectElement {
   _InputNumberRender get renderObject =>
       super.renderObject as _InputNumberRender;
 
-  @override
-  void visitChildren(ElementVisitor visitor) {
-    if (_content != null) visitor(_content!);
-    if (_upButton != null) visitor(_upButton!);
-    if (_downButton != null) visitor(_downButton!);
-  }
+  // @override
+  // void visitChildren(ElementVisitor visitor) {
+  //   i('xxxx');
+  //   if (_content != null) visitor(_content!);
+  //   if (_upButton != null) visitor(_upButton!);
+  //   if (_downButton != null) visitor(_downButton!);
+  // }
 
-  @override
-  void forgetChild(Element child) {
-    i(child);
-    super.forgetChild(child);
-  }
+  // @override
+  // void forgetChild(Element child) {
+  //   assert(child == _content || child == _upButton);
+  //   if (child == _content) {
+  //     _content = null;
+  //   } else if (child == _upButton) {
+  //     _upButton = null;
+  //   } else if (child == _downButton) {
+  //     _downButton = null;
+  //   }
+  //   super.forgetChild(child);
+  // }
 
   @override
   void mount(Element? parent, Object? newSlot) {
     super.mount(parent, newSlot);
-    i('mount');
-    _content = updateChild(
-      _content,
-      widget.content,
-      _InputNumberSlot.content,
-    );
-    _upButton = updateChild(
-      _upButton,
-      widget.upButton,
-      _InputNumberSlot.upButton,
-    );
-    _downButton = updateChild(
-      _downButton,
-      widget.downButton,
-      _InputNumberSlot.downButton,
-    );
+    _content = inflateWidget(widget.content, _Slot.content);
+    _upButton = inflateWidget(widget.upButton, _Slot.upButton);
+    _downButton = inflateWidget(widget.downButton, _Slot.downButton);
   }
+
+  // @override
+  // void update(_InputNumberWidget newWidget) {
+  //   super.update(newWidget);
+  //   _content = updateChild(
+  //     _content,
+  //     newWidget.content,
+  //     _Slot.content,
+  //   );
+  //   _upButton = updateChild(
+  //     _upButton,
+  //     widget.upButton,
+  //     _Slot.upButton,
+  //   );
+  //   _downButton = updateChild(
+  //     _downButton,
+  //     widget.downButton,
+  //     _Slot.downButton,
+  //   );
+  // }
 
   @override
   void insertRenderObjectChild(RenderBox child, covariant Object? slot) {
-    i(child.runtimeType, 'insert');
     switch (slot) {
-      case _InputNumberSlot.content:
+      case _Slot.content:
         renderObject.content = child;
         break;
-      case _InputNumberSlot.upButton:
+      case _Slot.upButton:
         renderObject.upButton = child;
         break;
-      case _InputNumberSlot.downButton:
+      case _Slot.downButton:
         renderObject.downButton = child;
         break;
     }
@@ -130,13 +144,13 @@ class _InputNumberElement extends RenderObjectElement {
   void removeRenderObjectChild(
       covariant RenderObject child, covariant Object? slot) {
     switch (slot) {
-      case _InputNumberSlot.content:
+      case _Slot.content:
         renderObject.content = null;
         break;
-      case _InputNumberSlot.upButton:
+      case _Slot.upButton:
         renderObject.upButton = null;
         break;
-      case _InputNumberSlot.downButton:
+      case _Slot.downButton:
         renderObject.downButton = null;
         break;
       case null:
@@ -178,6 +192,30 @@ class _InputNumberRender extends RenderBox {
     _downButton = value;
     if (_downButton != null) adoptChild(_downButton!);
   }
+
+  // @override
+  // void attach(PipelineOwner owner) {
+  //   super.attach(owner);
+  //   if (content != null) content!.attach(owner);
+  //   if (upButton != null) upButton!.attach(owner);
+  //   if (downButton != null) downButton!.attach(owner);
+  // }
+  //
+  //
+  // @override
+  // void detach() {
+  //   super.detach();
+  //   content?.detach();
+  //   upButton?.detach();
+  //   downButton?.detach();
+  // }
+
+  // @override
+  // void visitChildren(RenderObjectVisitor visitor) {
+  //   if (content != null) visitor(content!);
+  //   if (upButton != null) visitor(upButton!);
+  //   if (downButton != null) visitor(downButton!);
+  // }
 
   @override
   void performLayout() {

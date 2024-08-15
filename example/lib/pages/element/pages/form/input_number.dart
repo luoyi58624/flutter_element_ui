@@ -7,7 +7,7 @@ class InputNumberPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final show = useState(true);
-    final (flag, toggle) = useToggle();
+    final (flag, toggle) = useToggle(true);
     return Align(
       child: Column(
         children: [

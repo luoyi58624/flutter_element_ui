@@ -27,6 +27,7 @@ class ElCursorInstance {
 
   /// 重置全局光标
   void resetCursor() {
+    // setCursor 和 resetCursor 必须是配套的，所以这里使用 assert 而不是 if
     assert(_overlayEntry != null);
     _overlayEntry!.remove();
     _overlayEntry = null;

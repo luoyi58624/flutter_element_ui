@@ -1,6 +1,17 @@
 import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
+extension BuildContextExtension on BuildContext {
+  /// Element UI 主题颜色集合
+  Map<String, Color> get elThemeColors => {
+        'primary': elTheme.primary,
+        'success': elTheme.success,
+        'info': elTheme.info,
+        'warning': elTheme.warning,
+        'error': elTheme.error,
+      };
+}
+
 class ColorPage extends StatefulWidget {
   const ColorPage({super.key});
 

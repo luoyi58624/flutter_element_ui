@@ -3,13 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
+import '../../widgets/model_value.dart';
 import '../basic/icon.dart';
 
-class ElSwitch extends StatefulWidget {
+class ElSwitch extends ModelValueWidget<bool> {
   const ElSwitch(
-    this.modelValue, {
+    super.modelValue, {
     super.key,
-    this.onChanged,
+    super.onChanged,
     this.size = 20.0,
     this.width,
     this.gap = 4.0,
@@ -23,12 +24,6 @@ class ElSwitch extends StatefulWidget {
     this.inactiveIcon,
     this.disabled = false,
   });
-
-  /// 开关状态，支持 [ValueNotifier] 进行响应式绑定
-  final dynamic modelValue;
-
-  /// change事件
-  final ValueChanged<bool>? onChanged;
 
   /// 开关尺寸
   final double size;
@@ -70,7 +65,7 @@ class ElSwitch extends StatefulWidget {
   State<ElSwitch> createState() => _ElSwitchState();
 }
 
-class _ElSwitchState extends State<ElSwitch>
+class _ElSwitchState extends ModelValueWidgetState<ElSwitch, bool>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   late Animation<double> animation;
@@ -94,10 +89,14 @@ class _ElSwitchState extends State<ElSwitch>
           .withOpacity(disabledOpacity);
 
   @override
+  String get componentName => 'ElSwitch';
+
+  @override
   void initState() {
     super.initState();
     controller = AnimationController(
       vsync: this,
+      value: modelValue ? 1.0 : 0.0,
       duration: const Duration(milliseconds: 200),
     );
     final offset = containerWidth / 2 - containerHeight / 2;
@@ -110,37 +109,16 @@ class _ElSwitchState extends State<ElSwitch>
     super.dispose();
   }
 
-  bool get isReactive {
-    if (widget.modelValue is ValueNotifier<bool>) {
-      return true;
-    } else {
-      assert(widget.modelValue is bool, 'ElSwitch 接收的参数必须是 bool 类型');
-      return false;
-    }
-  }
-
-  Widget _buildSwitch(BuildContext context, bool status) {
+  @override
+  Widget builder(BuildContext context, bool value) {
     if (_isInitial) {
       _isInitial = false;
     } else {
-      status ? controller.forward() : controller.reverse();
+      value ? controller.forward() : controller.reverse();
       HapticFeedback.mediumImpact();
     }
     return GestureDetector(
-      onTap: widget.disabled
-          ? null
-          : () {
-              late bool flag;
-              if (isReactive) {
-                flag = !widget.modelValue.value;
-                widget.modelValue.value = flag;
-              } else {
-                flag = !widget.modelValue;
-              }
-              if (widget.onChanged != null) {
-                widget.onChanged!(flag);
-              }
-            },
+      onTap: widget.disabled ? null : () => modelValue = !value,
       child: HoverBuilder(
         disabled: widget.disabled,
         cursor: SystemMouseCursors.click,
@@ -150,7 +128,7 @@ class _ElSwitchState extends State<ElSwitch>
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(
-              color: status ? activeBgColor : inactiveBgColor,
+              color: value ? activeBgColor : inactiveBgColor,
               borderRadius: BorderRadius.circular(containerHeight / 2),
             ),
             child: AnimatedBuilder(
@@ -162,7 +140,7 @@ class _ElSwitchState extends State<ElSwitch>
                     width: widget.size,
                     height: widget.size,
                     decoration: BoxDecoration(
-                      color: status ? activeColor : inactiveColor,
+                      color: value ? activeColor : inactiveColor,
                       borderRadius: BorderRadius.circular(widget.size / 2),
                     ),
                   ),
@@ -173,19 +151,5 @@ class _ElSwitchState extends State<ElSwitch>
         },
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (isReactive) {
-      return ValueListenableBuilder(
-        valueListenable: widget.modelValue,
-        builder: (context, status, _) {
-          return _buildSwitch(context, status as bool);
-        },
-      );
-    } else {
-      return _buildSwitch(context, widget.modelValue);
-    }
   }
 }

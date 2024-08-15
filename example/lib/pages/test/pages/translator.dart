@@ -31,12 +31,19 @@ class TranslatorTestPage extends HookWidget {
         children: [
           ElInput(
             value: input.value,
-            onChanged: (v) => input.value = v,
+            onChanged: (v) {
+              input.value = v;
+              text.value = v;
+            },
           ),
-          Text('文本内容：${input.value}'),
-          Text('翻译结果：${text.value}'),
+          ElText('文本内容：${text.value}'),
+          // Text('翻译结果：${text.value}'),
           ElButton(
             onPressed: () async {
+              // FlutterUtil.getAncestorElement(context)
+              context.visitChildElements((element) {
+                i(element);
+              });
               final str = await sendTranslator(input.value);
               if (str != null) {
                 text.value = str;
@@ -49,7 +56,6 @@ class TranslatorTestPage extends HookWidget {
     );
   }
 }
-
 
 String str = '''
 Readme

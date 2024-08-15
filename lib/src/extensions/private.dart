@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../services/service.dart';
@@ -6,6 +7,17 @@ import '../services/service.dart';
 // =========================================================
 // 应用于 Element UI 内部私有扩展函数
 // =========================================================
+
+extension BuildContextExtension on BuildContext {
+  /// Element UI 主题颜色集合
+  Map<String, Color> get elThemeColors => {
+        'primary': elTheme.primary,
+        'success': elTheme.success,
+        'info': elTheme.info,
+        'warning': elTheme.warning,
+        'error': elTheme.error,
+      };
+}
 
 /// 模拟 Element UI 九种渐变明亮度颜色
 extension ColorExtension on Color {

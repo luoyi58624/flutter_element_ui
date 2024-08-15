@@ -45,7 +45,7 @@ class _SwitchTest1 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final flag = useState(true);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -72,7 +72,7 @@ class _SwitchTest2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final flag = useState(true);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -102,7 +102,7 @@ class _SwitchTest3 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final flag = useState(true);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
