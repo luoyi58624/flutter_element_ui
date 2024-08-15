@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 /// Element UI 实现双向绑定小部件抽象类
-abstract class ModelValueWidget<D> extends StatefulWidget {
-  const ModelValueWidget(
+abstract class ElModelValue<D> extends StatefulWidget {
+  const ElModelValue(
     this.modelValue, {
     super.key,
     this.onChanged,
@@ -15,10 +15,10 @@ abstract class ModelValueWidget<D> extends StatefulWidget {
   final ValueChanged<D>? onChanged;
 
   @override
-  State<ModelValueWidget<D>> createState();
+  State<ElModelValue<D>> createState();
 }
 
-abstract class ModelValueWidgetState<T extends ModelValueWidget<D>, D>
+abstract class ElModelValueState<T extends ElModelValue<D>, D>
     extends State<T> {
   /// 组件名称
   String get componentName;

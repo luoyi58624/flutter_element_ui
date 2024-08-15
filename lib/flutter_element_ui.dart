@@ -68,3 +68,5 @@ export 'src/utils/icons.dart';
 export 'src/utils/important.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/shortcut.dart';
+
+export 'src/widgets/model_value.dart';

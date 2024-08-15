@@ -6,7 +6,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../widgets/model_value.dart';
 import '../basic/icon.dart';
 
-class ElSwitch extends ModelValueWidget<bool> {
+class ElSwitch extends ElModelValue<bool> {
   const ElSwitch(
     super.modelValue, {
     super.key,
@@ -65,7 +65,7 @@ class ElSwitch extends ModelValueWidget<bool> {
   State<ElSwitch> createState() => _ElSwitchState();
 }
 
-class _ElSwitchState extends ModelValueWidgetState<ElSwitch, bool>
+class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   late Animation<double> animation;
