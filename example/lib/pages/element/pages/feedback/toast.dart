@@ -35,7 +35,7 @@ class ToastPage extends HookWidget {
             },
             child: 'Custom Toast',
           ),
-          const ElInput(),
+          const ElInput(''),
         ],
       ),
     );

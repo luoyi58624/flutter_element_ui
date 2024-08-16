@@ -27,13 +27,13 @@ class _InputPageState extends State<InputPage> {
                   const Gap(24),
                   ElText(inputValue),
                   ElInput(
-                    value: inputValue,
+                    inputValue,
                     height: 50,
                     round: true,
                     onChanged: (v) => setState(() => inputValue = v),
                   ),
                   ElInput(
-                    value: inputValue,
+                    inputValue,
                     round: true,
                     onChanged: (v) => setState(() => inputValue = v),
                   ),
@@ -41,32 +41,14 @@ class _InputPageState extends State<InputPage> {
                   const ElText('========== Hook 写法 ==========='),
                   const Gap(24),
                   ElText(stateValue.value),
-                  ElInput(
-                    value: stateValue.value,
-                    onChanged: (v) => stateValue.value = v,
-                  ),
-                  ElInput(
-                    value: stateValue.value,
-                    onChanged: (v) => stateValue.value = v,
-                  ),
+                  ElInput(stateValue),
+                  ElInput(stateValue),
                   const Gap(50),
                   const ElText('========== Obs 写法 ==========='),
                   const Gap(24),
-                  ObsBuilder(builder: (context) {
-                    return ElText(obsValue.value);
-                  }),
-                  ObsBuilder(builder: (context) {
-                    return ElInput(
-                      value: obsValue.value,
-                      onChanged: (v) => obsValue.value = v,
-                    );
-                  }),
-                  ObsBuilder(builder: (context) {
-                    return ElInput(
-                      value: obsValue.value,
-                      onChanged: (v) => obsValue.value = v,
-                    );
-                  }),
+                  ObsBuilder(builder: (context) => ElText(obsValue.value)),
+                  ElInput(obsValue),
+                  ElInput(obsValue),
                 ],
               ),
             ),

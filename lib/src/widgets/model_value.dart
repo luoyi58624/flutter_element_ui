@@ -1,14 +1,15 @@
 import 'package:flutter/widgets.dart';
 
-/// Element UI 实现双向绑定小部件抽象类
 abstract class ElModelValue<D> extends StatefulWidget {
+  /// Element UI 实现小部件双向绑定抽象类
   const ElModelValue(
     this.modelValue, {
     super.key,
     this.onChanged,
   });
 
-  /// 同时支持基本数据类型和响应式类型，如果是 [ValueNotifier] 类型，您将无需监听 [onChanged] 手动更改变量状态
+  /// 同时支持基本数据类型和响应式类型，如果是 [ValueNotifier] 类型，
+  /// 则无需监听 [onChanged] 手动更改变量状态
   final dynamic modelValue;
 
   /// 变量更新事件
@@ -20,15 +21,14 @@ abstract class ElModelValue<D> extends StatefulWidget {
 
 abstract class ElModelValueState<T extends ElModelValue<D>, D>
     extends State<T> {
-  /// 组件名称
-  String get componentName;
-
   /// 是否是响应式类型
   bool get isReactive {
-    if (widget.modelValue is ValueNotifier<D>) {
+    if (widget.modelValue is ValueNotifier) {
+      assert(widget.modelValue is ValueNotifier<D>,
+          '${widget.toString()} 接收的响应式参数必须是 $D 类型');
       return true;
     } else {
-      assert(widget.modelValue is D, '$componentName 接收的参数必须是 $D 类型');
+      assert(widget.modelValue is D, '${widget.toString()} 接收的参数必须是 $D 类型');
       return false;
     }
   }

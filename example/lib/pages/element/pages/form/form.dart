@@ -28,10 +28,10 @@ class _FormPageState extends State<FormPage> {
               key: formKey,
               model: formData,
               children: [
-                const ElFormItem(
+                ElFormItem(
                   label: '用户名: ',
                   prop: 'username',
-                  child: ElInput(),
+                  child: ElInput(formData['username']),
                 ),
                 ElFormItem(
                   child: Row(

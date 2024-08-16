@@ -89,9 +89,6 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
           .withOpacity(disabledOpacity);
 
   @override
-  String get componentName => 'ElSwitch';
-
-  @override
   void initState() {
     super.initState();
     controller = AnimationController(

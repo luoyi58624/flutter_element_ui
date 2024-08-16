@@ -30,9 +30,8 @@ class TranslatorTestPage extends HookWidget {
       body: Column(
         children: [
           ElInput(
-            value: input.value,
+            input,
             onChanged: (v) {
-              input.value = v;
               text.value = v;
             },
           ),
