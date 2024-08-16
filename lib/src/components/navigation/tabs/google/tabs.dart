@@ -7,7 +7,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../../../services/service.dart';
 import '../../../../utils/font.dart';
 import '../../../basic/icon.dart';
-import '../../../typography/text.dart';
+import '../../../basic/text.dart';
 import '../base.dart';
 import '../inherited_data.dart';
 

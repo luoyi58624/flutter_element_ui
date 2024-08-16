@@ -22,11 +22,8 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      el.config = ElConfigData(
-        textStyle: TextStyle(
-          fontFamily: FontUtil.fontFamily,
-          fontFamilyFallback: FontUtil.fontFamilyFallback,
-        ),
+      el.config = el.config.copyWith(
+        textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
       );
       return MaterialApp.router(
         routerConfig: router,

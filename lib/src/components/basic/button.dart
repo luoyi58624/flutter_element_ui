@@ -7,7 +7,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../services/service.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
-import '../typography/text.dart';
+import 'text.dart';
 import 'icon.dart';
 
 typedef _ButtonStyleProp = ({
@@ -206,6 +206,7 @@ class _Button extends HookWidget {
       decoration: $decoration,
       child: DefaultTextStyle(
         style: TextStyle(
+          fontSize: 15,
           fontWeight: ElFont.medium,
           color: buttonStyle.textColor,
         ),

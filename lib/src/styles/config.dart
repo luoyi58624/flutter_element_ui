@@ -1,16 +1,13 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_annotation/model.dart';
 
 import 'basic/button.dart';
 import 'basic/input.dart';
 import 'feedback/message.dart';
 import 'feedback/toast.dart';
 
-part '../generates/styles/config.g.dart';
-
-@ElModel(copyWith: true)
 class ElConfigData {
-  static ElConfigData data = ElConfigData();
+  /// 默认全局配置数据
+  static ElConfigData data = ElConfigData._();
 
   /// 全局默认图标大小
   double iconSize;
@@ -27,7 +24,12 @@ class ElConfigData {
   /// 颜色过渡持续时间(毫秒)
   Duration colorDuration;
 
-  /// 全局文本样式
+  /// 全局文本样式，它只作用于 [ElText] 小部件，文本样式合并顺序为：
+  /// [DefaultTextStyle] -> GlobalTextStyle -> textStyle；
+  ///
+  /// 可以看到全局文本样式会覆盖[DefaultTextStyle]，所以请务必设置一些关键属性，例如：
+  /// * fontSize
+  /// *
   TextStyle textStyle;
 
   /// 按钮全局样式
@@ -43,7 +45,7 @@ class ElConfigData {
   ElToastStyle toastStyle;
 
   /// Element UI 全局配置，定义了所有组件的默认配置信息
-  ElConfigData({
+  ElConfigData._({
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
@@ -55,4 +57,30 @@ class ElConfigData {
     this.messageStyle = const ElMessageStyle(),
     this.toastStyle = const ElToastStyle(),
   });
+
+  ElConfigData copyWith({
+    double? iconSize,
+    BorderRadius? radius,
+    BorderRadius? cardRadius,
+    Duration? globalDuration,
+    Duration? colorDuration,
+    TextStyle? textStyle,
+    ElButtonStyle? buttonStyle,
+    ElInputStyle? inputStyle,
+    ElMessageStyle? messageStyle,
+    ElToastStyle? toastStyle,
+  }) {
+    return ElConfigData._(
+      iconSize: iconSize ?? this.iconSize,
+      radius: radius ?? this.radius,
+      cardRadius: cardRadius ?? this.cardRadius,
+      globalDuration: globalDuration ?? this.globalDuration,
+      colorDuration: colorDuration ?? this.colorDuration,
+      textStyle: this.textStyle.merge(textStyle),
+      buttonStyle: this.buttonStyle.merge(buttonStyle),
+      inputStyle: this.inputStyle.merge(inputStyle),
+      messageStyle: this.messageStyle.merge(messageStyle),
+      toastStyle: this.toastStyle.merge(toastStyle),
+    );
+  }
 }

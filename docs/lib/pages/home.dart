@@ -6,7 +6,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    i(ElFont.normal);
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -15,15 +14,9 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                const H1(
-                  'Element UI',
-                  style: TextStyle(fontSize: 28),
-                ),
+                const H1('Element UI'),
                 const Gap(8),
-                const ElText(
-                  '基于 Flutter，面向设计师和开发者的组件库',
-                  textAlign: TextAlign.center,
-                ),
+                const ElText('基于 Flutter，面向设计师和开发者的组件库').globalTextStyle,
                 const Gap(16),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -37,7 +30,7 @@ class HomePage extends StatelessWidget {
                 const Gap(16),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
-                    maxWidth: 960,
+                    maxWidth: 1024,
                   ),
                   child: context.sm
                       ? Column(children: cardWidgets)
@@ -106,7 +99,7 @@ class _CardWidget extends StatelessWidget {
               child: ElText(
                 content,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   color: Colors.blueGrey,
                 ),
                 textAlign: TextAlign.center,
@@ -114,40 +107,44 @@ class _CardWidget extends StatelessWidget {
             ),
             const Gap(24),
             const ElDivider(),
-            SelectionContainer.disabled(
-              child: A(
-                href: href,
-                child: Builder(builder: (context) {
-                  return GestureDetector(
-                    onTap: () {
-                      context.go(href);
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: HoverBuilder.of(context)
-                            ? context.elTheme.primary
-                            : Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: el.config.cardRadius.bottomLeft,
-                          bottomRight: el.config.cardRadius.bottomRight,
+            TapBuilder(builder: (context) {
+              return SelectionContainer.disabled(
+                child: A(
+                  href: href,
+                  child: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.go(href);
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color:
+                              TapBuilder.of(context) || HoverBuilder.of(context)
+                                  ? context.elTheme.primary
+                                  : Colors.white,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: el.config.cardRadius.bottomLeft,
+                            bottomRight: el.config.cardRadius.bottomRight,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: ElText(
-                          '查看详情',
-                          style: TextStyle(
-                            color: HoverBuilder.of(context)
-                                ? Colors.white
-                                : context.elTheme.primary,
+                        child: Center(
+                          child: ElText(
+                            '查看详情',
+                            style: TextStyle(
+                              color: TapBuilder.of(context) ||
+                                      HoverBuilder.of(context)
+                                  ? Colors.white
+                                  : context.elTheme.primary,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+                    );
+                  }),
+                ),
+              );
+            }),
           ],
         ),
       ),

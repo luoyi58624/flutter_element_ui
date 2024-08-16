@@ -9,8 +9,7 @@ import '../../../services/service.dart';
 import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
-import '../../typography/href.dart';
-import '../../typography/text.dart';
+import '../../basic/text.dart';
 
 part 'menu_modal.dart';
 

@@ -17,7 +17,7 @@ typedef _InputStyleProp = ({
   EdgeInsetsGeometry? padding,
 });
 
-/// Flutter 输入框非常复杂，如果基于 [EditableText] 实现需要实现大量兼容性代码，
+/// Flutter 输入框非常复杂，如果基于 [EditableText] 需要实现大量兼容性代码，
 /// 而 [TextField] 本身已经做了很多兼容处理，所以 [ElInput] 是直接基于 [TextField] 实现
 class ElInput extends ElModelValue<String> {
   /// Element UI 输入框组件

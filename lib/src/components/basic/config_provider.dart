@@ -34,6 +34,7 @@ class ElConfigProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalConfig.textStyle = el.config.textStyle;
     return ContextMenuListenerWidget(
       // 无论用户使用 MaterialApp 还是 CupertinoApp，都通过此 Widget 判断当前是否是暗黑模式
       child: BrightnessWidget(
@@ -45,7 +46,6 @@ class ElConfigProvider extends StatelessWidget {
             // 有些组件是直接基于 Material 进行二次封装的，所以需要构建一个默认的 Material 组件，防止报错
             return Material(
               textStyle: TextStyle(
-                fontSize: el.typography.text,
                 fontWeight: ElFont.normal,
                 color: context.elTheme.textColor,
               ).merge(el.config.textStyle),

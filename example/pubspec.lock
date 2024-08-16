@@ -372,7 +372,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d28fe44c78d168879d42a3ac0ad657cfdd7a33a8
+      resolved-ref: a8e92fb1d71709458fe6e0face9ce0e5c27a8b3b
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"
@@ -508,10 +508,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences
-      sha256: c272f9cabca5a81adc9b0894381e9c1def363e980f960fa903c604c471b22f68
+      sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   shared_preferences_android:
     dependency: transitive
     description:

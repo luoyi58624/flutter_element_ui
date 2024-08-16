@@ -20,7 +20,12 @@ dev_dependencies:
 
 dependency_overrides:
   web: ^1.0.0
-
+  flutter_element_ui:
+    path: ../
+  luoyi_flutter_base:
+    git:
+      url: https://github.com/luoyi58624/luoyi_flutter_base.git
+      
 flutter:
   uses-material-design: true
   assets:
