@@ -14,10 +14,11 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: Column(
               children: [
-                const H1('Element UI'),
-                const Gap(8),
-                const ElText('基于 Flutter，面向设计师和开发者的组件库').globalTextStyle,
+                const Gap(32),
+                const H1('Element UI', style: TextStyle(fontSize: 48)),
                 const Gap(16),
+                const ElText('基于 Flutter，面向设计师和开发者的组件库').globalTextStyle,
+                const Gap(32),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxWidth: 640,
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
                     child: ElImage(src: 'assets/images/home/theme.png'),
                   ),
                 ),
-                const Gap(16),
+                const Gap(32),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxWidth: 1024,

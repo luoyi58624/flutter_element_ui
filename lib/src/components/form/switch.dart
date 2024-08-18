@@ -112,10 +112,14 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
       _isInitial = false;
     } else {
       value ? controller.forward() : controller.reverse();
-      HapticFeedback.mediumImpact();
     }
     return GestureDetector(
-      onTap: widget.disabled ? null : () => modelValue = !value,
+      onTap: widget.disabled
+          ? null
+          : () {
+              modelValue = !value;
+              HapticFeedback.mediumImpact();
+            },
       child: HoverBuilder(
         disabled: widget.disabled,
         cursor: SystemMouseCursors.click,

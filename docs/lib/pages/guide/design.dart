@@ -16,8 +16,6 @@ class DesignPage extends StatelessWidget {
             const Gap(28),
             const H2('一致 Consistency'),
             const Gap(8),
-            ElText('你好'),
-            ElText('你好',style: TextStyle(fontWeight: FontWeight.w500),),
             ElText(
               [
                 ElText(

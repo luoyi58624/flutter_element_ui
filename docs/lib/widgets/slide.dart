@@ -1,16 +1,11 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-class SlideWidget extends StatefulWidget {
+class SlideWidget extends StatelessWidget {
   const SlideWidget(this.models, {super.key});
 
   final List<(String title, List<(String name, String path)> items)> models;
 
-  @override
-  State<SlideWidget> createState() => _SlideWidgetState();
-}
-
-class _SlideWidgetState extends State<SlideWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +16,7 @@ class _SlideWidgetState extends State<SlideWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 28),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: widget.models
+            children: models
                 .map(
                   (e) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
