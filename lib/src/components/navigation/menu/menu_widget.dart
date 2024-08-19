@@ -45,24 +45,7 @@ class _MenuItemState extends State<_MenuItem> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        GestureDetector(
-          onTap: () {
-            if (hasChild) {
-              setState(() {
-                isManual = true;
-                expanded = !expanded;
-              });
-              FlutterUtil.nextTick(() async {
-                isManual = false;
-              });
-            } else {
-              if ($data.onChange != null) {
-                $data.onChange!(widget.menuItem);
-              }
-            }
-          },
-          child: buildItem($data),
-        ),
+        buildItem($data),
         if (hasChild)
           AnimatedCrossFade(
             firstChild: const SizedBox(width: double.infinity, height: 0),
@@ -86,67 +69,84 @@ class _MenuItemState extends State<_MenuItem> {
     Color menuItemColor = isActive
         ? context.elTheme.menuActiveColor
         : bgColor.elTextColor(context);
-    Widget result = Builder(builder: (context) {
-      return AnimatedContainer(
-        duration: el.config.colorDuration,
-        height: 56,
-        padding: const EdgeInsets.only(right: 8),
-        decoration: BoxDecoration(
-          color: bgColor.on(HoverBuilder.of(context)),
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: widget.gap),
-            if (widget.menuItem.icon != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: ElIcon(
-                  widget.menuItem.icon!,
-                  color: menuItemColor,
-                  size: _ElMenuData.of(context).iconSize,
-                ),
-              ),
-            if (!_ElMenuData.of(context).collapse)
-              Expanded(
-                child: ElText(
-                  widget.menuItem.title,
-                  style: el.config.textStyle.copyWith(
+    Widget result = GestureDetector(
+      onTap: () {
+        if (hasChild) {
+          setState(() {
+            isManual = true;
+            expanded = !expanded;
+          });
+          FlutterUtil.nextTick(() async {
+            isManual = false;
+          });
+        } else {
+          if ($data.onChange != null) {
+            $data.onChange!(widget.menuItem);
+          }
+        }
+      },
+      child: Builder(builder: (context) {
+        return AnimatedContainer(
+          duration: el.config.colorDuration,
+          height: 56,
+          padding: const EdgeInsets.only(right: 8),
+          decoration: BoxDecoration(
+            color: bgColor.on(HoverBuilder.of(context)),
+          ),
+          child: Row(
+            children: [
+              SizedBox(width: widget.gap),
+              if (widget.menuItem.icon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ElIcon(
+                    widget.menuItem.icon!,
                     color: menuItemColor,
-                    fontSize: 14,
-                    fontWeight: ElFont.medium,
+                    size: _ElMenuData.of(context).iconSize,
                   ),
-                  // maxLines: 1,
-                  // overflow: TextOverflow.clip,
                 ),
-              ),
-            if (hasChild && !_ElMenuData.of(context).collapse)
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  width: 40,
-                  margin: const EdgeInsets.only(left: 8),
-                  child: AnimatedRotation(
-                    duration:
-                        max(el.config.globalDuration.inMilliseconds - 50, 0)
-                            .ms,
-                    turns: expanded ? 0.5 : 0,
-                    child: ElIcon(
-                      ElIcons.arrowDown,
+              if (!_ElMenuData.of(context).collapse)
+                Expanded(
+                  child: ElText(
+                    widget.menuItem.title,
+                    style: el.config.textStyle.copyWith(
                       color: menuItemColor,
-                      size: 12,
+                      fontSize: 14,
+                      fontWeight: ElFont.medium,
+                    ),
+                    // maxLines: 1,
+                    // overflow: TextOverflow.clip,
+                  ),
+                ),
+              if (hasChild && !_ElMenuData.of(context).collapse)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 40,
+                    margin: const EdgeInsets.only(left: 8),
+                    child: AnimatedRotation(
+                      duration:
+                          max(el.config.globalDuration.inMilliseconds - 50, 0)
+                              .ms,
+                      turns: expanded ? 0.5 : 0,
+                      child: ElIcon(
+                        ElIcons.arrowDown,
+                        color: menuItemColor,
+                        size: 12,
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      }),
+    );
     if (!hasChild && $data.router != null) {
       return A(
+        result,
         href: widget.menuItem.key,
         cursor: MouseCursor.defer,
-        child: result,
       );
     } else {
       return HoverBuilder(
