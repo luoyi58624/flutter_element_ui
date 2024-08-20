@@ -13,7 +13,7 @@ class LayoutPage extends StatelessWidget {
         children: [
           A(
             href: '/',
-            child: GestureDetector(
+            GestureDetector(
               onTap: () {
                 context.go('/');
               },

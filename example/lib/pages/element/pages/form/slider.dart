@@ -33,7 +33,7 @@ class SliderPage extends HookWidget {
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [
-              ...List.generate(1000, (index) {
+              ...List.generate(30, (index) {
                 final progress = Obs(30.0);
                 return Padding(
                   padding: const EdgeInsets.all(8),

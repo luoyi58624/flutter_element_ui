@@ -113,7 +113,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
 
   /// 将滚动条的一个颜色以动画形式转变成另一个颜色
   void changeColor(Color color1, Color color2) {
-    // lerpColor是后来加入的，color1应该可以抛弃，但目前滚动条工作的很好，就懒得处理了
+    // lerpColor是后来加入的，color1应该可以抛弃，但目前滚动条工作的很好，就不处理了
     this.color1 = lerpColor ?? color1;
     this.color2 = color2;
     controller.forward(from: 0);
@@ -157,7 +157,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     super.handleThumbPressStart(localPosition);
     el.globalCursor.setCursor();
     isDragScroll = true;
-    // 处理直接从边缘处立即拖动滚动条，这只是一个细节处理
+    // 处理直接从边缘处立即拖动滚动条
     if (isScrollbarHover == false) {
       isScrollbarHover = true;
       changeColor(isHover ? hoverColor : hideThumbColor, activeColor);

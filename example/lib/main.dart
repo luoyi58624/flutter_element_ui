@@ -6,7 +6,7 @@ import 'global.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initLocalStorage();
+  await initSP();
   await CacheInterceptor.init();
   initFont(
       // fontModel: const FontModel(fontFamily: 'NotoSansSC'),

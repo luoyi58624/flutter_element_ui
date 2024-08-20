@@ -112,7 +112,7 @@ class _CardWidget extends StatelessWidget {
               return SelectionContainer.disabled(
                 child: A(
                   href: href,
-                  child: Builder(builder: (context) {
+                  Builder(builder: (context) {
                     return GestureDetector(
                       onTap: () {
                         context.go(href);

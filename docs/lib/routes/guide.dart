@@ -2,8 +2,8 @@ import 'package:docs/global.dart';
 import 'package:docs/pages/not_found.dart';
 
 import '../layout/guide_layout.dart';
-import '../pages/guide/design.dart';
-import '../pages/guide/nav.dart';
+import '../pages/guide/design/design.dart';
+import '../pages/guide/nav/nav.dart';
 
 const String _path = 'guide';
 
