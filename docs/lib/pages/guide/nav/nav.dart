@@ -8,7 +8,19 @@ class NavPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Logo());
+    return Center(
+      child: AnimatedColoredBox(
+        duration: 1.ss,
+        color: context.isDark
+            ? const Color(0xff2b2b2b)
+            : const Color(0xfffafafa),
+        // color: context.isDark ? Colors.white : Colors.black,
+        child: const SizedBox(
+          width: 100,
+          height: 100,
+        ),
+      ),
+    );
   }
 }
 
@@ -35,7 +47,6 @@ class Logo extends StatelessWidget {
   </g>
 </svg>
 ''';
-
 
     return SvgPicture.string(
       svgStr,

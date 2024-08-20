@@ -101,6 +101,15 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
   }
 
   @override
+  void didUpdateWidget(covariant ElSwitch oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.size != widget.size || oldWidget.width != widget.width) {
+      final offset = containerWidth / 2 - containerHeight / 2;
+      animation = Tween(begin: -offset, end: offset).animate(controller);
+    }
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();

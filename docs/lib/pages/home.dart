@@ -1,5 +1,6 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,7 +16,8 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 const Gap(32),
-                const H1('Element UI', style: TextStyle(fontSize: 48)),
+                H1('Element UI',
+                    style: context.sm ? null : const TextStyle(fontSize: 48)),
                 const Gap(16),
                 const ElText('基于 Flutter，面向设计师和开发者的组件库').globalTextStyle,
                 const Gap(32),
@@ -114,6 +116,9 @@ class _CardWidget extends StatelessWidget {
                   href: href,
                   Builder(builder: (context) {
                     return GestureDetector(
+                      onTapDown: (e){
+                        HapticFeedback.mediumImpact();
+                      },
                       onTap: () {
                         context.go(href);
                       },

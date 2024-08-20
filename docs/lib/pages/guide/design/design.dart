@@ -9,11 +9,14 @@ import 'svg/feedback.dart';
 class DesignPage extends StatelessWidget {
   const DesignPage({super.key});
 
-  Widget _buildCard(Widget svg, String title) {
+  Widget _buildCard(BuildContext context, Widget svg, String title) {
     return Expanded(
-      child: Container(
+      child: AnimatedContainer(
+        duration: el.config.colorDuration,
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(250, 250, 250, 1),
+          color: context.isDark
+              ? const Color.fromRGBO(29, 29, 29, 1)
+              : const Color.fromRGBO(250, 250, 250, 1),
           borderRadius: el.config.cardRadius,
         ),
         child: Column(
@@ -72,13 +75,15 @@ class DesignPage extends StatelessWidget {
                   constraints: const BoxConstraints(maxWidth: 1024),
                   child: Row(
                     children: [
-                      _buildCard(const ConsistencySvg(), 'Consistency'),
+                      _buildCard(
+                          context, const ConsistencySvg(), 'Consistency'),
                       const Gap(16),
-                      _buildCard(const FeedbackSvg(), 'Feedback'),
+                      _buildCard(context, const FeedbackSvg(), 'Feedback'),
                       const Gap(16),
-                      _buildCard(const EfficiencySvg(), 'Efficiency'),
+                      _buildCard(context, const EfficiencySvg(), 'Efficiency'),
                       const Gap(16),
-                      _buildCard(const ControllabilitySvg(), 'Controllability')
+                      _buildCard(context, const ControllabilitySvg(),
+                          'Controllability')
                     ],
                   ),
                 ),

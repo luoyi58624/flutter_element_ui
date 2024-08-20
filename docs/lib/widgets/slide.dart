@@ -38,7 +38,8 @@ class SlideWidget extends StatelessWidget {
                                     final isActive =
                                         RouterUtil.currentPath.value == e.$2;
                                     return HoverBuilder(builder: (context) {
-                                      return Container(
+                                      return AnimatedContainer(
+                                        duration: el.config.colorDuration,
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16,
@@ -48,10 +49,12 @@ class SlideWidget extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           color: isActive
-                                              ? context.elTheme.primary.mix(
-                                                  Colors.white,
-                                                  90,
-                                                )
+                                              ? context.isDark
+                                                  ? Colors.grey.shade800
+                                                  : context.elTheme.primary.mix(
+                                                      Colors.white,
+                                                      90,
+                                                    )
                                               : null,
                                         ),
                                         child: ElText(
@@ -60,7 +63,9 @@ class SlideWidget extends StatelessWidget {
                                             color: HoverBuilder.of(context) ||
                                                     isActive
                                                 ? context.elTheme.primary
-                                                : Colors.grey.shade800,
+                                                : context.isDark
+                                                    ? Colors.grey.shade100
+                                                    : Colors.grey.shade800,
                                             fontWeight: isActive
                                                 ? FontUtil.medium
                                                 : FontUtil.normal,
