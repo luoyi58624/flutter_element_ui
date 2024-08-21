@@ -31,7 +31,6 @@ class _ElMenuData extends InheritedWidget {
     required super.child,
     required this.activeKeyList,
     required this.bgColor,
-    required this.collapse,
     required this.iconSize,
     required this.gap,
     this.router,
@@ -40,7 +39,6 @@ class _ElMenuData extends InheritedWidget {
 
   final List<String> activeKeyList;
   final Color bgColor;
-  final bool collapse;
   final double iconSize;
   final double gap;
   final RouterConfig? router;

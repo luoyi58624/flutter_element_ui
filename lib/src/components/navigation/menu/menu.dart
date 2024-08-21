@@ -9,6 +9,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../../service.dart';
 import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
+import '../../../widgets/html/href/href.dart';
 import '../../basic/icon.dart';
 import '../../basic/text.dart';
 
@@ -26,7 +27,6 @@ class ElMenu extends StatefulWidget {
     this.collapseWidth = 64,
     this.gap = 20,
     this.bgColor,
-    this.collapse = false,
     this.iconSize = 20,
     this.onChange,
   })  : assert(activeKey != null),
@@ -43,7 +43,6 @@ class ElMenu extends StatefulWidget {
     this.collapseWidth = 64,
     this.gap = 20,
     this.bgColor,
-    this.collapse = false,
     this.iconSize = 20,
     this.onChange,
   })  : assert(router != null),
@@ -73,9 +72,6 @@ class ElMenu extends StatefulWidget {
 
   /// 菜单栏背景颜色，默认跟随侧边栏背景色
   final Color? bgColor;
-
-  /// 是否收起菜单
-  final bool collapse;
 
   /// 菜单图标大小，默认20
   final double iconSize;
@@ -174,19 +170,14 @@ class _ElMenuState extends State<ElMenu> {
   Widget build(BuildContext context) {
     final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
     if (widget.router == null) setActiveKey(widget.activeKey!);
-    return AnimatedColoredBox(
-      duration: el.config.colorDuration,
+    return Material(
       color: $bgColor,
-      child: AnimatedContainer(
-        duration: el.config.globalDuration,
-        curve: Curves.linear,
-        width:
-            widget.collapse ? widget.gap * 2 + widget.iconSize : widget.width,
+      child: SizedBox(
+        width: widget.width,
         height: double.infinity,
         child: _ElMenuData(
           activeKeyList: activeKeyList,
           bgColor: $bgColor,
-          collapse: widget.collapse,
           iconSize: widget.iconSize,
           gap: widget.gap,
           router: widget.router,

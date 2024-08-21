@@ -86,58 +86,59 @@ class _MenuItemState extends State<_MenuItem> {
         }
       },
       child: Builder(builder: (context) {
-        return AnimatedContainer(
-          duration: el.config.colorDuration,
-          height: 56,
-          padding: const EdgeInsets.only(right: 8),
-          decoration: BoxDecoration(
-            color: bgColor.on(HoverBuilder.of(context)),
-          ),
-          child: Row(
-            children: [
-              SizedBox(width: widget.gap),
-              if (widget.menuItem.icon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ElIcon(
-                    widget.menuItem.icon!,
-                    color: menuItemColor,
-                    size: _ElMenuData.of(context).iconSize,
-                  ),
-                ),
-              if (!_ElMenuData.of(context).collapse)
-                Expanded(
-                  child: ElText(
-                    widget.menuItem.title,
-                    style: el.config.textStyle.copyWith(
-                      color: menuItemColor,
-                      fontSize: 14,
-                      fontWeight: ElFont.medium,
-                    ),
-                    // maxLines: 1,
-                    // overflow: TextOverflow.clip,
-                  ),
-                ),
-              if (hasChild && !_ElMenuData.of(context).collapse)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: 40,
-                    margin: const EdgeInsets.only(left: 8),
-                    child: AnimatedRotation(
-                      duration:
-                          max(el.config.globalDuration.inMilliseconds - 50, 0)
-                              .ms,
-                      turns: expanded ? 0.5 : 0,
+        return ColoredBox(
+          color: bgColor.on(HoverBuilder.of(context), scale: 6),
+          child: SizedBox(
+            height: 56,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Row(
+                children: [
+                  SizedBox(width: widget.gap),
+                  if (widget.menuItem.icon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
                       child: ElIcon(
-                        ElIcons.arrowDown,
+                        widget.menuItem.icon!,
                         color: menuItemColor,
-                        size: 12,
+                        size: _ElMenuData.of(context).iconSize,
                       ),
                     ),
+                  Expanded(
+                    child: ElText(
+                      widget.menuItem.title,
+                      style: el.config.textStyle.copyWith(
+                        color: menuItemColor,
+                        fontSize: 14,
+                        fontWeight: ElFont.medium,
+                      ),
+                      // maxLines: 1,
+                      // overflow: TextOverflow.clip,
+                    ),
                   ),
-                ),
-            ],
+                  if (hasChild)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 40,
+                        margin: const EdgeInsets.only(left: 8),
+                        child: AnimatedRotation(
+                          duration: max(
+                                  el.config.globalDuration.inMilliseconds - 50,
+                                  0)
+                              .ms,
+                          turns: expanded ? 0.5 : 0,
+                          child: ElIcon(
+                            ElIcons.arrowDown,
+                            color: menuItemColor,
+                            size: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
         );
       }),

@@ -52,13 +52,11 @@ class LayoutPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: buildHeader(context),
+        toolbarHeight: PlatformUtil.isMobile ? 56 : 64,
+        elevation: 1,
+        scrolledUnderElevation: 1,
       ),
-      body: Column(
-        children: [
-          const ElDivider(),
-          Expanded(child: child),
-        ],
-      ),
+      body: child,
     );
   }
 }

@@ -68,3 +68,7 @@ export 'src/utils/app_theme.dart';
 export 'src/utils/shortcut.dart';
 
 export 'src/widgets/model_value.dart';
+
+export 'src/widgets/html/href/href.dart';
+export 'src/widgets/html/list.dart';
+export 'src/widgets/html/typography.dart';

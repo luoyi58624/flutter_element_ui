@@ -14,21 +14,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // MaterialApp(
+    //   themeAnimationStyle: ,
+    // );
     return ObsBuilder(builder: (context) {
+      final brightness =
+          GlobalState.isDark.value ? Brightness.dark : Brightness.light;
       return ElApp.router(
         routerConfig: router,
-        // themeAnimationStyle: AnimationStyle(
-        //   duration: 200.ms,
-        // ),
-        // theme: ElThemeUtil.buildMaterialTheme(
-        //   context,
-        //   brightness:
-        //       GlobalState.isDark.value ? Brightness.dark : Brightness.light,
-        // ),
-        // darkTheme: ElThemeUtil.buildMaterialTheme(
-        //   context,
-        //   brightness: Brightness.dark,
-        // ),
+        brightness: brightness,
+        builder: (context, child) => Theme(
+          data: ElThemeUtil.buildMaterialTheme(context, brightness: brightness),
+          child: child!,
+        ),
       );
     });
   }

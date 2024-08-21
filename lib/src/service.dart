@@ -54,6 +54,12 @@ class ElService
 
   /// Element UI 全局配置
   ElConfigData config = ElConfigData.data;
+
+  /// Element UI 全局响应式断点配置
+  ElResponsiveData responsive = const ElResponsiveData();
+
+  /// 全局文本尺寸
+  late double globalFontSize;
 }
 
 /// 响应式配置

@@ -16,8 +16,8 @@ class ElMaterialThemeData {
     this.translucenceStatusBar = false,
     this.appbarCenterTitle = true,
     this.appbarHeight = 56,
-    this.appbarElevation = 0,
-    this.appbarScrollElevation = 0,
+    this.appbarElevation,
+    this.appbarScrollElevation,
   });
 
   /// 是否开启material3
@@ -36,10 +36,10 @@ class ElMaterialThemeData {
   double appbarHeight;
 
   /// appbar 海拔
-  double appbarElevation;
+  double? appbarElevation;
 
-  /// appbar 滚动时海拔
-  double appbarScrollElevation;
+  /// appbar 滚动时海拔，默认跟随 appbarElevation
+  double? appbarScrollElevation;
 }
 
 class ElThemeUtil {
@@ -117,6 +117,8 @@ class ElThemeUtil {
         elevation: data.appbarElevation,
         scrolledUnderElevation: data.appbarScrollElevation,
         backgroundColor: elTheme.headerColor,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.black87,
         titleTextStyle: textStyle.copyWith(
           fontSize: 18,
           fontWeight: ElFont.bold,

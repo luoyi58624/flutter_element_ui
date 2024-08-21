@@ -321,7 +321,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     if ($isThemeType == false && style.bgColor == null) {
       final $primaryColor = context.elTheme.primary;
       bgColor.value =
-          $isHover || $isTap ? $primaryColor.themeLightBg(context) : $bgColor;
+          $isHover || $isTap ? $primaryColor.themeLightBg(context) : null;
       textColor.value = $isHover || $isTap ? $primaryColor : $defaultTextColor;
       borderColor.value = $isTap
           ? $primaryColor

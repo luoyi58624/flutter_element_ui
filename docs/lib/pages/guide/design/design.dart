@@ -16,7 +16,7 @@ class DesignPage extends StatelessWidget {
         //     ? const Color.fromRGBO(29, 29, 29, 1)
         //     : const Color.fromRGBO(250, 250, 250, 1),
         // borderRadius: el.config.cardRadius,
-        elevation: 2,
+        elevation: 1,
         child: Column(
           children: [
             Expanded(child: Center(child: svg)),
@@ -104,7 +104,7 @@ class DesignPage extends StatelessWidget {
                 ('结果可控：', '用户可以自由的进行操作，包括撤销、回退和终止当前操作等。'),
               ]),
             ],
-          ).globalTextStyle,
+          ),
         ),
       ),
     );

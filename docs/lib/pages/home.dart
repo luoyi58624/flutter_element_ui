@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
                 H1('Element UI',
                     style: context.sm ? null : const TextStyle(fontSize: 48)),
                 const Gap(16),
-                const ElText('基于 Flutter，面向设计师和开发者的组件库').globalTextStyle,
+                const ElText('基于 Flutter，面向设计师和开发者的组件库'),
                 const Gap(32),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -83,7 +83,7 @@ class _CardWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.elTheme.cardColor,
           border: Border.all(color: context.elTheme.borderColor),
           borderRadius: el.config.cardRadius,
         ),
@@ -101,9 +101,10 @@ class _CardWidget extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: ElText(
                 content,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: Colors.blueGrey,
+                  color:
+                      context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -116,7 +117,7 @@ class _CardWidget extends StatelessWidget {
                   href: href,
                   Builder(builder: (context) {
                     return GestureDetector(
-                      onTapDown: (e){
+                      onTapDown: (e) {
                         HapticFeedback.mediumImpact();
                       },
                       onTap: () {
@@ -128,7 +129,7 @@ class _CardWidget extends StatelessWidget {
                           color:
                               TapBuilder.of(context) || HoverBuilder.of(context)
                                   ? context.elTheme.primary
-                                  : Colors.white,
+                                  : context.elTheme.cardColor,
                           borderRadius: BorderRadius.only(
                             bottomLeft: el.config.cardRadius.bottomLeft,
                             bottomRight: el.config.cardRadius.bottomRight,
