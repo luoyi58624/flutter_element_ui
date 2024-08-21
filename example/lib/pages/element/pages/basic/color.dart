@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 extension BuildContextExtension on BuildContext {
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {
-        'primary': elTheme.primary,
-        'success': elTheme.success,
-        'info': elTheme.info,
-        'warning': elTheme.warning,
-        'error': elTheme.error,
+        'primary': el.theme.primary,
+        'success': el.theme.success,
+        'info': el.theme.info,
+        'warning': el.theme.warning,
+        'error': el.theme.error,
       };
 }
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'context_menu.dart';
-import 'cursor.dart';
-import 'message.dart';
-import 'toast.dart';
-import '../styles/config.dart';
-import '../styles/theme.dart';
+import 'services/context_menu.dart';
+import 'services/cursor.dart';
+import 'services/message.dart';
+import 'services/toast.dart';
+import 'styles/config.dart';
+import 'styles/theme.dart';
 
 /// Element UI 全局服务对象
 final el = ElService();
@@ -47,7 +47,7 @@ class ElService
   ];
 
   /// Element UI 全局亮色主题
-  ElThemeData theme = ElThemeData();
+  ElThemeData lightTheme = ElThemeData();
 
   /// Element UI 全局暗色主题
   ElThemeData darkTheme = ElThemeData.dark();
@@ -56,7 +56,17 @@ class ElService
   ElConfigData config = ElConfigData.data;
 
   /// Element UI 全局响应式断点配置
-  ElResponsiveData responsive = const ElResponsiveData();
+  ResponsiveData get responsive => GlobalConfig.responsive;
+
+  set responsive(ResponsiveData data) {
+    GlobalConfig.responsive = data;
+  }
+
+  /// 当前应用是否是暗黑模式
+  bool get isDark => GlobalConfig.brightness == Brightness.dark;
+
+  /// 自适应主题，如果是暗黑模式，则返回暗色主题，如果是亮色模式，则返回亮色主题
+  ElThemeData get theme => isDark ? darkTheme : lightTheme;
 }
 
 /// 响应式配置

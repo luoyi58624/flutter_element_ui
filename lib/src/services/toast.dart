@@ -6,7 +6,7 @@ import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../components/basic/text.dart';
-import 'service.dart';
+import '../service.dart';
 
 /// 自定义轻提示构建
 typedef ElToastBuilder = Widget Function(
@@ -176,7 +176,7 @@ class _Toast extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-            color: context.isDark
+            color: el.isDark
                 ? const Color.fromRGBO(82, 82, 82, 0.85)
                 : const Color.fromRGBO(0, 0, 0, 0.65),
             borderRadius: BorderRadius.circular(6),

@@ -33,7 +33,7 @@ class ElSlider extends HookWidget {
           child: Center(
             child: Container(
               height: thumbSize,
-              color: context.elTheme.sliderInactiveColor,
+              color: el.theme.sliderInactiveColor,
             ),
           ),
         ),
@@ -51,7 +51,7 @@ class ElSlider extends HookWidget {
                 width: sliderSize,
                 height: sliderSize,
                 decoration: BoxDecoration(
-                  color: context.elTheme.sliderActiveColor,
+                  color: el.theme.sliderActiveColor,
                   borderRadius: BorderRadius.circular(sliderSize / 2),
                 ),
               ),

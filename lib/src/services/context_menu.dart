@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'service.dart';
+import '../service.dart';
 
 mixin ElContextMenuService {
   /// 全局右键菜单实例

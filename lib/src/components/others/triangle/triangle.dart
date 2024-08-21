@@ -46,7 +46,7 @@ class ElTriangle extends StatelessWidget {
         height = size;
         break;
     }
-    final $color = color ?? context.elTheme.primary;
+    final $color = color ?? el.theme.primary;
     return CustomPaint(
       size: Size(width, height),
       painter: _Painter(direction, $color, radius, onlyRightAngle),

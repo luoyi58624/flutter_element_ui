@@ -11,14 +11,12 @@ class DesignPage extends StatelessWidget {
 
   Widget _buildCard(BuildContext context, Widget svg, String title) {
     return Expanded(
-      child: AnimatedContainer(
-        duration: el.config.colorDuration,
-        decoration: BoxDecoration(
-          color: context.isDark
-              ? const Color.fromRGBO(29, 29, 29, 1)
-              : const Color.fromRGBO(250, 250, 250, 1),
-          borderRadius: el.config.cardRadius,
-        ),
+      child: Card(
+        // color: el.isDark
+        //     ? const Color.fromRGBO(29, 29, 29, 1)
+        //     : const Color.fromRGBO(250, 250, 250, 1),
+        // borderRadius: el.config.cardRadius,
+        elevation: 2,
         child: Column(
           children: [
             Expanded(child: Center(child: svg)),

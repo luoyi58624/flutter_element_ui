@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  el.theme = ElThemeData(
+  el.lightTheme = ElThemeData(
     bgColor: Colors.white,
   );
   runApp(const MainApp());
@@ -15,23 +15,21 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      return MaterialApp.router(
+      return ElApp.router(
         routerConfig: router,
-        theme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness:
-              GlobalState.isDark.value ? Brightness.dark : Brightness.light,
-        ),
-        darkTheme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness: Brightness.dark,
-        ),
-        builder: (context, child) => ElConfigProvider(
-          brightness: Theme.of(context).brightness,
-          child: child!,
-        ),
+        // themeAnimationStyle: AnimationStyle(
+        //   duration: 200.ms,
+        // ),
+        // theme: ElThemeUtil.buildMaterialTheme(
+        //   context,
+        //   brightness:
+        //       GlobalState.isDark.value ? Brightness.dark : Brightness.light,
+        // ),
+        // darkTheme: ElThemeUtil.buildMaterialTheme(
+        //   context,
+        //   brightness: Brightness.dark,
+        // ),
       );
     });
   }
 }
-

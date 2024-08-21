@@ -3,23 +3,67 @@ import 'package:docs/widgets/slide.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NavPage extends StatelessWidget {
+class NavPage extends HookWidget {
   const NavPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedColoredBox(
-        duration: 1.ss,
-        color: context.isDark
-            ? const Color(0xff2b2b2b)
-            : const Color(0xfffafafa),
-        // color: context.isDark ? Colors.white : Colors.black,
-        child: const SizedBox(
-          width: 100,
-          height: 100,
+    final flag = useState(false);
+    return Column(
+      children: [
+        ElSwitch(flag),
+        AnimatedContainer(
+          duration: 200.ms,
+          color: el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+          ),
         ),
+        Material(
+          animationDuration: 1000.ms,
+          color: flag.value ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          surfaceTintColor:
+              flag.value ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+          ),
+        ),
+        Material(
+          animationDuration: 1000.ms,
+          color: el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          surfaceTintColor:
+              el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+          ),
+        ),
+        Card(
+          elevation: 4,
+          color: flag.value ? Colors.blue : Colors.green,
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+          ),
+        ),
+        Card(
+          elevation: 4,
+          color: el.isDark ? Colors.blue : Colors.green,
+          child: const SizedBox(
+            width: 100,
+            height: 100,
+          ),
+        ),
+      ],
+    );
+    return Scaffold(
+      backgroundColor: el.theme.bgColor,
+      appBar: AppBar(
+        title: const Text('hello'),
       ),
+      body: Container(),
     );
   }
 }

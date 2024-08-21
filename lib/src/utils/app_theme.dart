@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../services/service.dart';
+import '../service.dart';
 import '../styles/theme.dart';
 import 'font.dart';
 
@@ -56,7 +56,7 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
+    final lightTheme = el.lightTheme;
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;
@@ -250,7 +250,7 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
+    final lightTheme = el.lightTheme;
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;

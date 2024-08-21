@@ -22,12 +22,12 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       controller: controller,
       focusNode: focusNode,
       style: TextStyle(
-        color: context.elTheme.textColor,
+        color: el.theme.textColor,
         fontSize: el.config.textStyle.fontSize,
       ),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
-      cursorColor: context.elTheme.textColor,
+      cursorColor: el.theme.textColor,
       cursorWidth: 1,
       onChanged: (v) {
         modelValue = v;
@@ -69,8 +69,8 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       child: Theme(
         data: ThemeData(
           textSelectionTheme: TextSelectionThemeData(
-            selectionColor: context.elTheme.primary.withAlpha(100),
-            selectionHandleColor: context.elTheme.primary,
+            selectionColor: el.theme.primary.withAlpha(100),
+            selectionHandleColor: el.theme.primary,
           ),
         ),
         child: HoverBuilder(
@@ -88,15 +88,15 @@ class ElInputState extends ElModelValueState<ElInput, String> {
         borderSide: BorderSide(
           width: HoverBuilder.of(context) ? 1.2 : 1,
           color: HoverBuilder.of(context)
-              ? context.elTheme.borderHoverColor
-              : context.elTheme.borderColor,
+              ? el.theme.borderHoverColor
+              : el.theme.borderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
           width: 2,
-          color: context.elTheme.primary,
+          color: el.theme.primary,
         ),
       ),
       // suffixIcon: currentValue != ''

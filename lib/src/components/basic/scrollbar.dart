@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../services/service.dart';
+import '../../service.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);

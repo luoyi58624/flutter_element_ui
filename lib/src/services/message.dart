@@ -6,7 +6,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../components/basic/icon.dart';
 import '../components/data/badge.dart';
-import './service.dart';
+import '../service.dart';
 import '../utils/assert.dart';
 import '../utils/font.dart';
 import '../utils/icons.dart';
@@ -439,7 +439,7 @@ class _DefaultMessage extends StatelessWidget {
               child: SelectableText(
                 message.content,
                 style: TextStyle(
-                  color: context.isDark ? el.darkTheme.textColor : themeColor,
+                  color: el.isDark ? el.darkTheme.textColor : themeColor,
                   fontWeight: ElFont.medium,
                 ),
               ),
@@ -457,7 +457,7 @@ class _DefaultMessage extends StatelessWidget {
                       ElIcons.close,
                       color: HoverBuilder.of(context)
                           ? themeColor
-                          : context.isDark
+                          : el.isDark
                               ? Colors.grey.shade600
                               : Colors.grey.shade400,
                     );

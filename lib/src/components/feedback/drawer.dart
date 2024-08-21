@@ -56,7 +56,7 @@ class _ElDrawerState extends State<ElDrawer>
                 left: _positionAnimation!.value,
                 child: Container(
                   width: widget.width,
-                  color: context.elTheme.modalColor,
+                  color: el.theme.modalColor,
                   child: widget.child,
                 ),
               ),

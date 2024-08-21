@@ -36,7 +36,7 @@ class _ElTooltipState extends State<ElTooltip> {
   Timer? delayHideOverlay;
   Size? contentSize;
 
-  Color get bgColor => widget.bgColor ?? context.elTheme.tooltipColor;
+  Color get bgColor => widget.bgColor ?? el.theme.tooltipColor;
 
   /// 将 Overlay 组件永久插入小部件树中，这样做可以保留内部状态
   late final Widget _overlayWidget = ObsBuilder(

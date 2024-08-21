@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../services/service.dart';
+import '../../service.dart';
 
 class ElTag extends StatelessWidget {
   const ElTag(

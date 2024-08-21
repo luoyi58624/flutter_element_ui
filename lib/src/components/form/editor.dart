@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
+import '../../service.dart';
 
 class ElEditor extends StatefulWidget {
   const ElEditor({
@@ -134,7 +136,7 @@ class ElEditorState extends State<ElEditor>
         behavior: HitTestBehavior.translucent,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: context.elTheme.borderColor),
+            border: Border.all(color: el.theme.borderColor),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
@@ -142,16 +144,15 @@ class ElEditorState extends State<ElEditor>
               key: editableTextKey,
               controller: controller,
               focusNode: focusNode,
-              cursorColor: context.elTheme.primary,
+              cursorColor: el.theme.primary,
               backgroundCursorColor: Colors.red,
               style: DefaultTextStyle.of(context).style,
               maxLines: null,
               expands: true,
               showSelectionHandles: true,
               // showSelectionHandles: true,
-              selectionColor: focusNode.hasFocus
-                  ? context.elTheme.primary.light5(context)
-                  : null,
+              selectionColor:
+                  focusNode.hasFocus ? el.theme.primary.light5(context) : null,
               selectionControls: textSelectionControls,
               onSelectionChanged: _handleSelectionChanged,
               onSelectionHandleTapped: _handleSelectionHandleTapped,

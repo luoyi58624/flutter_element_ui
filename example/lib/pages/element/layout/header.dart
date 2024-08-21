@@ -14,7 +14,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      color: context.elTheme.headerColor,
+      color: el.theme.headerColor,
       child: const Row(
         children: [
           // ElButton(
@@ -27,7 +27,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
           //   height: 56,
           //   margin: EdgeInsets.zero,
           //   borderRadius: BorderRadius.zero,
-          //   bgColor: context.elTheme.headerColor,
+          //   bgColor: el.theme.headerColor,
           //   child: ObsBuilder(builder: (context) {
           //     return ElIcon(
           //       GlobalState.elMenu.value.isCollapse

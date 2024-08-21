@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../../services/service.dart';
+import '../../../service.dart';
 import 'inherited_data.dart';
 
 enum ElTabType {
@@ -70,7 +70,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
 
   Widget buildTabs(BuildContext context);
 
-  Color get bgColor => widget.bgColor ?? context.elTheme.bgColor;
+  Color get bgColor => widget.bgColor ?? el.theme.bgColor;
 
   EdgeInsetsGeometry get tabPadding => EdgeInsets.zero;
 

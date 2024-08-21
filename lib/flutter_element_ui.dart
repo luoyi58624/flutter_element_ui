@@ -1,9 +1,9 @@
 library flutter_element_ui;
 
-export 'src/services/service.dart';
+export 'src/app.dart';
+export 'src/service.dart';
 
 export 'src/components/basic/button.dart';
-export 'src/components/basic/config_provider.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
@@ -49,8 +49,6 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/components/basic/text.dart';
-
-export 'src/extensions/element.dart';
 
 export 'src/services/message.dart';
 

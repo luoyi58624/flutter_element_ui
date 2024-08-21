@@ -16,7 +16,7 @@ class LayoutBasicPage extends StatelessWidget {
               height: 300,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: context.elTheme.borderColor,
+                  color: el.theme.borderColor,
                   width: 4,
                 ),
               ),
@@ -45,7 +45,7 @@ class LayoutBasicPage extends StatelessWidget {
               height: 300,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: context.elTheme.borderColor,
+                  color: el.theme.borderColor,
                   width: 4,
                 ),
               ),

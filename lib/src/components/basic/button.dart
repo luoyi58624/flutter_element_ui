@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../../services/service.dart';
+import '../../service.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
 import 'text.dart';
@@ -283,10 +283,10 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
 
   final $isHover = HoverBuilder.of(context);
   final $isTap = TapBuilder.of(context);
-  final $bgColor = context.elTheme.bgColor;
+  final $bgColor = el.theme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
-      context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
+      el.theme.textColor.deepen(el.isDark ? 0 : 24);
   Color? $themeTypeColor;
   if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
@@ -318,7 +318,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   } else {
     // 计算默认按钮样式
     if ($isThemeType == false && style.bgColor == null) {
-      final $primaryColor = context.elTheme.primary;
+      final $primaryColor = el.theme.primary;
       bgColor.value =
           $isHover || $isTap ? $primaryColor.themeLightBg(context) : $bgColor;
       textColor.value = $isHover || $isTap ? $primaryColor : $defaultTextColor;
@@ -326,7 +326,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
           ? $primaryColor
           : $isHover
               ? $primaryColor.themeLightBorder(context)
-              : context.elTheme.borderColor;
+              : el.theme.borderColor;
     }
     // 计算主题按钮样式
     else {

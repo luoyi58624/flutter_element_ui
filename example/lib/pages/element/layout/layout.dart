@@ -42,7 +42,7 @@ class ElementLayoutPage extends LayoutPageBase {
         title: const Text('Element UI'),
       ),
       drawer: Drawer(
-        backgroundColor: context.elTheme.asideBgColor,
+        backgroundColor: el.theme.asideBgColor,
         child: const SafeArea(child: LayoutSidebarWidget()),
       ),
       body: navigationShell,

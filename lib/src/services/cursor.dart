@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'service.dart';
+import '../service.dart';
 
 mixin ElCursorService {
   /// 设置全局光标实例对象
