@@ -16,7 +16,7 @@ class NotFoundPage extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
-              color: el.theme.error,
+              color: context.elTheme.error,
             ),
             child: const ElIcon(
               ElIcons.close,

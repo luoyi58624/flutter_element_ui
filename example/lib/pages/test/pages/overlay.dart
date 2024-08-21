@@ -75,7 +75,7 @@ class _OverlayWidgetState extends State<_OverlayWidget> {
               ),
             ),
       selected: true,
-      bgColor: el.theme.bgColor.deepen(10),
+      bgColor: context.elTheme.bgColor.deepen(10),
       child: ElevatedButton(
         onPressed: () {
           setState(() {

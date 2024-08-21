@@ -37,7 +37,7 @@ class ElAside extends ElLayoutWidget {
       right: false,
       child: AnimatedColoredBox(
         duration: el.config.colorDuration,
-        color: bgColor ?? el.theme.asideBgColor,
+        color: bgColor ?? context.elTheme.asideBgColor,
         child: ObsBuilder(builder: (context) {
           ElLayout._setSplitOffset(context, getLayoutKey);
           return SizedBox(

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 class ElTriangle extends StatelessWidget {
   /// Element UI 三角形小部件
@@ -46,7 +46,7 @@ class ElTriangle extends StatelessWidget {
         height = size;
         break;
     }
-    final $color = color ?? el.theme.primary;
+    final $color = color ?? context.elTheme.primary;
     return CustomPaint(
       size: Size(width, height),
       painter: _Painter(direction, $color, radius, onlyRightAngle),

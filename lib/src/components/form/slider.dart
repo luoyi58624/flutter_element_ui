@@ -3,10 +3,8 @@ import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_obs/flutter_obs.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 class ElSlider extends HookWidget {
   const ElSlider(
@@ -33,7 +31,7 @@ class ElSlider extends HookWidget {
           child: Center(
             child: Container(
               height: thumbSize,
-              color: el.theme.sliderInactiveColor,
+              color: context.elTheme.sliderInactiveColor,
             ),
           ),
         ),
@@ -51,7 +49,7 @@ class ElSlider extends HookWidget {
                 width: sliderSize,
                 height: sliderSize,
                 decoration: BoxDecoration(
-                  color: el.theme.sliderActiveColor,
+                  color: context.elTheme.sliderActiveColor,
                   borderRadius: BorderRadius.circular(sliderSize / 2),
                 ),
               ),

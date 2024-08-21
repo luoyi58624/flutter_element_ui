@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -79,7 +80,7 @@ class ElCollapse extends StatelessWidget {
       onChanged,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: el.theme.borderColor),
+          border: Border.all(color: context.elTheme.borderColor),
           borderRadius: el.config.cardRadius,
         ),
         child: ListView.separated(
@@ -153,8 +154,8 @@ class ElCollapseItem extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         color: isActive
-                            ? el.theme.primary
-                            : el.theme.bgColor,
+                            ? context.elTheme.primary
+                            : context.elTheme.bgColor,
                         borderRadius: $indexData.index == $indexData.start
                             ? BorderRadius.only(
                           topLeft: $cardRadius.topLeft,
@@ -173,21 +174,21 @@ class ElCollapseItem extends StatelessWidget {
                               ? title
                               : DefaultTextStyle.merge(
                             style: TextStyle(
-                              color: el.isDark
-                                  ? el.theme.textColor
+                              color: context.isDark
+                                  ? context.elTheme.textColor
                                   : isActive
                                   ? el.darkTheme.textColor
-                                  : el.lightTheme.textColor,
+                                  : el.theme.textColor,
                             ),
                             child: Text('$title'),
                           ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
-                            color: el.isDark
-                                ? el.theme.textColor
+                            color: context.isDark
+                                ? context.elTheme.textColor
                                 : isActive
                                 ? el.darkTheme.textColor
-                                : el.lightTheme.textColor,
+                                : el.theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                 const ElIcon(ElIcons.arrowUp)

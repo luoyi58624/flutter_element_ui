@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' show Badge;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
@@ -37,7 +38,7 @@ class ElBadge extends StatelessWidget {
         ),
         isLabelVisible: hideZero ? badge > 0 : true,
         padding: badgePadding,
-        backgroundColor: color ?? el.theme.error,
+        backgroundColor: color ?? context.elTheme.error,
         textColor: el.darkTheme.textColor,
         textStyle: textStyle,
         offset: offset,
@@ -47,7 +48,7 @@ class ElBadge extends StatelessWidget {
       return Badge(
         label: Text(badge),
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        backgroundColor: color ?? el.theme.error,
+        backgroundColor: color ?? context.elTheme.error,
         textColor: el.darkTheme.textColor,
         textStyle: textStyle,
         offset: offset,

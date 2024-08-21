@@ -47,7 +47,9 @@ class TestHomePage extends HookWidget {
           CellWidget(title: 'MultiChild 自定义布局测试', page: MultiChildTestPage()),
           CellWidget(title: 'Proxy Render 代理渲染对象', page: ProxyRenderTestPage()),
           CellWidget(
-              title: 'Scroll Render 自定义滚动渲染', page: ScrollRenderTestPage()),
+            title: 'Scroll Render 自定义滚动渲染',
+            page: ScrollRenderTestPage(),
+          ),
           CellWidget(title: 'Canvas Line', page: LinePage()),
           CellWidget(title: 'Canvas Point', page: PointPage()),
           CellWidget(title: 'Canvas Circle', page: CirclePage()),

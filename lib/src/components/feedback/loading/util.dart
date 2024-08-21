@@ -97,7 +97,7 @@ class _LoadingModelWidget extends StatelessWidget {
       },
       child: Material(
         type: MaterialType.transparency,
-        elevation: el.theme.modalElevation,
+        elevation: context.elTheme.modalElevation,
         child: Center(
           child: Container(
             padding: const EdgeInsets.fromLTRB(24, 36, 24, 24),

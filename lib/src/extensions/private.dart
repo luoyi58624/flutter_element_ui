@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -11,11 +12,11 @@ import '../service.dart';
 extension BuildContextExtension on BuildContext {
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {
-        'primary': el.theme.primary,
-        'success': el.theme.success,
-        'info': el.theme.info,
-        'warning': el.theme.warning,
-        'error': el.theme.error,
+        'primary': elTheme.primary,
+        'success': elTheme.success,
+        'info': elTheme.info,
+        'warning': elTheme.warning,
+        'error': elTheme.error,
       };
 }
 
@@ -31,9 +32,9 @@ extension ColorExtension on Color {
   /// * reverse - 是否应用反转颜色
   Color _light(BuildContext context, int level, bool reverse) {
     if (!reverse) {
-      return el.isDark ? _darkenColor(level) : _brightenColor(level);
+      return context.isDark ? _darkenColor(level) : _brightenColor(level);
     } else {
-      return el.isDark ? _brightenColor(level) : _darkenColor(level);
+      return context.isDark ? _brightenColor(level) : _darkenColor(level);
     }
   }
 
@@ -67,5 +68,5 @@ extension ColorExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) =>
-      isDark ? el.darkTheme.textColor : el.lightTheme.textColor;
+      isDark ? el.darkTheme.textColor : el.theme.textColor;
 }

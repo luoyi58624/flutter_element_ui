@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../service.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 class ElDivider extends StatelessWidget {
   const ElDivider({
@@ -43,13 +42,13 @@ class ElDivider extends StatelessWidget {
             width: size ?? thickness,
             thickness: thickness,
             indent: indent,
-            color: color ?? el.theme.borderColor,
+            color: color ?? context.elTheme.borderColor,
           )
         : Divider(
             height: size ?? thickness,
             thickness: thickness,
             indent: indent,
-            color: color ?? el.theme.borderColor,
+            color: color ?? context.elTheme.borderColor,
           );
   }
 }

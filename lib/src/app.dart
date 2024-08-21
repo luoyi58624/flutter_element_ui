@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'service.dart';
@@ -41,33 +42,53 @@ class ElApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 设置应用全局主题模式
-    GlobalConfig.brightness =
-        brightness ?? MediaQuery.of(context).platformBrightness;
     GlobalConfig.textStyle = el.config.textStyle;
-    Widget result = WidgetsApp.router(
-      routerConfig: routerConfig,
-      color: el.isDark ? el.lightTheme.bgColor : el.darkTheme.bgColor,
-      showSemanticsDebugger:showSemanticsDebugger ,
-      showPerformanceOverlay: showPerformanceOverlay,
-      builder: (context, child) {
-        return Material(
-          color: el.theme.bgColor,
-          textStyle: TextStyle(
-            fontWeight: ElFont.normal,
-            color: el.theme.textColor,
-          ).merge(el.config.textStyle),
-          child: ScrollConfiguration(
-            behavior: behavior,
-            // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
-            child: Overlay(initialEntries: [
-              OverlayEntry(builder: (context) {
-                return builder != null ? builder!(context, child!) : child!;
-              }),
-            ]),
-          ),
-        );
-      },
+    Widget result = BrightnessWidget(
+      brightness: brightness ?? MediaQuery.of(context).platformBrightness,
+      child: Builder(
+        builder: (context) {
+          return WidgetsApp.router(
+            routerConfig: routerConfig,
+            color: context.isDark ? el.theme.bgColor : el.darkTheme.bgColor,
+            showSemanticsDebugger: showSemanticsDebugger,
+            showPerformanceOverlay: showPerformanceOverlay,
+            localizationsDelegates: const [
+              DefaultMaterialLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+            ],
+            builder: (context, child) {
+              return Material(
+                color: context.elTheme.bgColor,
+                textStyle: TextStyle(
+                  fontWeight: ElFont.normal,
+                  color: context.elTheme.textColor,
+                ).merge(GlobalConfig.textStyle),
+                child: ScrollConfiguration(
+                  behavior: behavior,
+                  child: builder!(context, child),
+                  // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
+                  // child: Builder(builder: (context) {
+                  //   if (builder == null) {
+                  //     return Overlay(initialEntries: [
+                  //       OverlayEntry(builder: (context) {
+                  //         return child!;
+                  //       }),
+                  //     ]);
+                  //   } else {
+                  //     return builder!(
+                  //       context,
+                  //       Overlay(initialEntries: [
+                  //         OverlayEntry(builder: (context) => child!)
+                  //       ]),
+                  //     );
+                  //   }
+                  // }),
+                ),
+              );
+            },
+          );
+        }
+      ),
     );
 
     return result;

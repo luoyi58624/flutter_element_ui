@@ -50,6 +50,8 @@ export 'src/components/others/split/split.dart';
 
 export 'src/components/basic/text.dart';
 
+export 'src/extensions/element.dart';
+
 export 'src/services/message.dart';
 
 export 'src/styles/theme.dart';

@@ -40,7 +40,7 @@ class ElHeader extends ElLayoutWidget {
       bottom: false,
       child: AnimatedColoredBox(
         duration: el.config.colorDuration,
-        color: bgColor ?? el.theme.headerColor,
+        color: bgColor ?? context.elTheme.headerColor,
         child: ObsBuilder(builder: (context) {
           return SizedBox(
             height: max(

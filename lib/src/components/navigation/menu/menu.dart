@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
@@ -171,7 +172,7 @@ class _ElMenuState extends State<ElMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = widget.bgColor ?? el.theme.asideBgColor;
+    final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedColoredBox(
       duration: el.config.colorDuration,

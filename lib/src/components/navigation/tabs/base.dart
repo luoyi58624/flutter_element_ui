@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -70,7 +71,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
 
   Widget buildTabs(BuildContext context);
 
-  Color get bgColor => widget.bgColor ?? el.theme.bgColor;
+  Color get bgColor => widget.bgColor ?? context.elTheme.bgColor;
 
   EdgeInsetsGeometry get tabPadding => EdgeInsets.zero;
 

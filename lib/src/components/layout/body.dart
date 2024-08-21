@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
-
-import '../../service.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 class ElBody extends StatelessWidget {
   const ElBody({super.key, required this.child});
@@ -10,7 +9,7 @@ class ElBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: el.theme.bgColor,
+      color: context.elTheme.bgColor,
       child: SizedBox(
         child: child,
       ),

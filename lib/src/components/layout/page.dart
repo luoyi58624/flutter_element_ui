@@ -15,7 +15,7 @@ import 'body.dart';
 //   @override
 //   Widget build(BuildContext context) {
 //     return ColoredBox(
-//       color: el.theme.bgColor,
+//       color: context.elTheme.bgColor,
 //       child: Column(
 //         children: [
 //           if (header != null) header!,

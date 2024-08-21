@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
@@ -36,7 +37,7 @@ class _ElTooltipState extends State<ElTooltip> {
   Timer? delayHideOverlay;
   Size? contentSize;
 
-  Color get bgColor => widget.bgColor ?? el.theme.tooltipColor;
+  Color get bgColor => widget.bgColor ?? context.elTheme.tooltipColor;
 
   /// 将 Overlay 组件永久插入小部件树中，这样做可以保留内部状态
   late final Widget _overlayWidget = ObsBuilder(

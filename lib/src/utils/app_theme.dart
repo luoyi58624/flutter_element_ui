@@ -56,7 +56,7 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.lightTheme;
+    final lightTheme = el.theme;
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;
@@ -250,7 +250,7 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.lightTheme;
+    final lightTheme = el.theme;
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;

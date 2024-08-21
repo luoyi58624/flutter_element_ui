@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 const int _duration = 225;
@@ -56,7 +57,7 @@ class _ElDrawerState extends State<ElDrawer>
                 left: _positionAnimation!.value,
                 child: Container(
                   width: widget.width,
-                  color: el.theme.modalColor,
+                  color: context.elTheme.modalColor,
                   child: widget.child,
                 ),
               ),

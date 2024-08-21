@@ -14,7 +14,7 @@ class NavPage extends HookWidget {
         ElSwitch(flag),
         AnimatedContainer(
           duration: 200.ms,
-          color: el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          color: context.isDark ? el.darkTheme.bgColor : el.theme.bgColor,
           child: const SizedBox(
             width: 100,
             height: 100,
@@ -22,9 +22,9 @@ class NavPage extends HookWidget {
         ),
         Material(
           animationDuration: 1000.ms,
-          color: flag.value ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          color: flag.value ? el.darkTheme.bgColor : el.theme.bgColor,
           surfaceTintColor:
-              flag.value ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+              flag.value ? el.darkTheme.bgColor : el.theme.bgColor,
           child: const SizedBox(
             width: 100,
             height: 100,
@@ -32,9 +32,9 @@ class NavPage extends HookWidget {
         ),
         Material(
           animationDuration: 1000.ms,
-          color: el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+          color: context.isDark ? el.darkTheme.bgColor : el.theme.bgColor,
           surfaceTintColor:
-              el.isDark ? el.darkTheme.bgColor : el.lightTheme.bgColor,
+              context.isDark ? el.darkTheme.bgColor : el.theme.bgColor,
           child: const SizedBox(
             width: 100,
             height: 100,
@@ -50,7 +50,7 @@ class NavPage extends HookWidget {
         ),
         Card(
           elevation: 4,
-          color: el.isDark ? Colors.blue : Colors.green,
+          color: context.isDark ? Colors.blue : Colors.green,
           child: const SizedBox(
             width: 100,
             height: 100,
@@ -59,7 +59,7 @@ class NavPage extends HookWidget {
       ],
     );
     return Scaffold(
-      backgroundColor: el.theme.bgColor,
+      backgroundColor: context.elTheme.bgColor,
       appBar: AppBar(
         title: const Text('hello'),
       ),

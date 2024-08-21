@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import 'package:flutter_element_ui/src/extensions/private.dart';
 
@@ -45,7 +46,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
   @override
   Color get bgColor =>
       widget.bgColor ??
-      (el.isDark ? Colors.grey.shade800 : Colors.grey.shade300);
+      (context.isDark ? Colors.grey.shade800 : Colors.grey.shade300);
 
   @override
   EdgeInsetsGeometry get tabPadding =>

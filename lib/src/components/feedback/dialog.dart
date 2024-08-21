@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/element.dart';
 
 import '../../service.dart';
 import '../basic/button.dart';
@@ -89,7 +90,7 @@ class ElDialog extends StatelessWidget {
         width: width,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: el.theme.cardColor,
+          color: context.elTheme.cardColor,
           borderRadius: el.config.cardRadius,
         ),
         child: Column(

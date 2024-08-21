@@ -439,7 +439,7 @@ class _DefaultMessage extends StatelessWidget {
               child: SelectableText(
                 message.content,
                 style: TextStyle(
-                  color: el.isDark ? el.darkTheme.textColor : themeColor,
+                  color: context.isDark ? el.darkTheme.textColor : themeColor,
                   fontWeight: ElFont.medium,
                 ),
               ),
@@ -457,7 +457,7 @@ class _DefaultMessage extends StatelessWidget {
                       ElIcons.close,
                       color: HoverBuilder.of(context)
                           ? themeColor
-                          : el.isDark
+                          : context.isDark
                               ? Colors.grey.shade600
                               : Colors.grey.shade400,
                     );

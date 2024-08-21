@@ -25,26 +25,30 @@ class _App extends StatelessWidget {
       el.config = el.config.copyWith(
         textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
       );
+      Brightness brightness =
+          GlobalState.isDark.value ? Brightness.dark : Brightness.light;
       return ElApp.router(
         routerConfig: router,
-        // theme: ElThemeUtil.buildMaterialTheme(
-        //   context,
-        //   brightness:
-        //       GlobalState.isDark.value ? Brightness.dark : Brightness.light,
-        // ),
         // darkTheme: ElThemeUtil.buildMaterialTheme(
         //   context,
         //   brightness: Brightness.dark,
         // ),
+        brightness: brightness,
         showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
         showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => CupertinoTheme(
-          data: ElThemeUtil.buildCupertinoThemeData(
+        builder: (context, child) => Theme(
+          data: ElThemeUtil.buildMaterialTheme(
             context,
-            brightness: Theme.of(context).brightness,
+            brightness: brightness,
           ),
-          child: child!,
+          child: CupertinoTheme(
+            data: ElThemeUtil.buildCupertinoThemeData(
+              context,
+              brightness: Theme.of(context).brightness,
+            ),
+            child: child!,
+          ),
         ),
       ).globalShortcut;
     });

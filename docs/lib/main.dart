@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  el.lightTheme = ElThemeData(
+  el.theme = ElThemeData(
     bgColor: Colors.white,
   );
   runApp(const MainApp());

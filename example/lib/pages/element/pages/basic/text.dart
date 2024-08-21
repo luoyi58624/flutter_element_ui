@@ -37,18 +37,18 @@ class TextPage extends StatelessWidget {
           A(
             '百度',
             href: 'https://www.baidu.com',
-            color: el.theme.textColor,
+            color: context.elTheme.textColor,
             decoration: HrefDecoration.underline,
           ),
           A(
             'Flutter官方',
             href: 'https://flutter.cn/',
-            color: el.theme.textColor,
+            color: context.elTheme.textColor,
           ),
           A(
             'Bing',
             href: 'https://www.bing.com/?mkt=zh-CN&FORM=BEHPTB&mkt=zh-CN',
-            color: el.theme.textColor,
+            color: context.elTheme.textColor,
             decoration: HrefDecoration.hoverUnderline,
           ),
           ElText([

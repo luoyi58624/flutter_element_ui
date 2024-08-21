@@ -47,26 +47,13 @@ class ElService
   ];
 
   /// Element UI 全局亮色主题
-  ElThemeData lightTheme = ElThemeData();
+  ElThemeData theme = ElThemeData();
 
   /// Element UI 全局暗色主题
   ElThemeData darkTheme = ElThemeData.dark();
 
   /// Element UI 全局配置
   ElConfigData config = ElConfigData.data;
-
-  /// Element UI 全局响应式断点配置
-  ResponsiveData get responsive => GlobalConfig.responsive;
-
-  set responsive(ResponsiveData data) {
-    GlobalConfig.responsive = data;
-  }
-
-  /// 当前应用是否是暗黑模式
-  bool get isDark => GlobalConfig.brightness == Brightness.dark;
-
-  /// 自适应主题，如果是暗黑模式，则返回暗色主题，如果是亮色模式，则返回亮色主题
-  ElThemeData get theme => isDark ? darkTheme : lightTheme;
 }
 
 /// 响应式配置

@@ -84,7 +84,7 @@ class _CardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: el.theme.borderColor),
+          border: Border.all(color: context.elTheme.borderColor),
           borderRadius: el.config.cardRadius,
         ),
         child: Column(
@@ -127,7 +127,7 @@ class _CardWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           color:
                               TapBuilder.of(context) || HoverBuilder.of(context)
-                                  ? el.theme.primary
+                                  ? context.elTheme.primary
                                   : Colors.white,
                           borderRadius: BorderRadius.only(
                             bottomLeft: el.config.cardRadius.bottomLeft,
@@ -141,7 +141,7 @@ class _CardWidget extends StatelessWidget {
                               color: TapBuilder.of(context) ||
                                       HoverBuilder.of(context)
                                   ? Colors.white
-                                  : el.theme.primary,
+                                  : context.elTheme.primary,
                             ),
                           ),
                         ),
