@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'global.dart';
 import 'layout/layout.dart';
 import 'pages/home.dart';
+import 'routes/component.dart';
 
 final router = GoRouter(
   navigatorKey: el.navigatorKey,
@@ -28,6 +29,7 @@ final router = GoRouter(
               const NoTransitionPage(child: HomePage()),
           routes: [
             guideRoute,
+            componentRoute,
           ],
         ),
       ],

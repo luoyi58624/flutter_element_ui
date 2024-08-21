@@ -18,7 +18,7 @@ class _TableHeader extends StatelessWidget {
             height: rowHeight,
             child: Align(
               alignment: Alignment.center,
-              child: Text(columns[0].label ?? ""),
+              child: ElText(columns[0].label ?? ""),
             ),
           ),
           column: columns[0],
@@ -32,7 +32,7 @@ class _TableHeader extends StatelessWidget {
                   ),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(e.label ?? ''),
+                    child: ElText(e.label ?? ''),
                   ),
                 ),
                 column: e,
@@ -48,7 +48,7 @@ class _TableHeader extends StatelessWidget {
                   decoration: BoxDecoration(border: border),
                   child: Align(
                     alignment: Alignment.center,
-                    child: Text(e.label ?? ''),
+                    child: ElText(e.label ?? ''),
                   ),
                 ),
                 column: e,

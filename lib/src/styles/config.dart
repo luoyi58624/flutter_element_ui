@@ -24,12 +24,7 @@ class ElConfigData {
   /// 颜色过渡持续时间(毫秒)
   Duration colorDuration;
 
-  /// 全局文本样式，它只作用于 [ElText] 小部件，文本样式合并顺序为：
-  /// [DefaultTextStyle] -> GlobalTextStyle -> textStyle；
-  ///
-  /// 可以看到全局文本样式会覆盖[DefaultTextStyle]，所以请务必设置一些关键属性，例如：
-  /// * fontSize
-  /// *
+  /// 全局文本样式，它只作用于 [ElText] 小部件
   TextStyle textStyle;
 
   /// 按钮全局样式

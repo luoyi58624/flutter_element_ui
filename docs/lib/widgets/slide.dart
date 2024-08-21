@@ -22,7 +22,7 @@ class SlideWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Gap(16),
-                      H4(e.$1),
+                      H5(e.$1),
                       const Gap(8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,9 +65,7 @@ class SlideWidget extends StatelessWidget {
                                                 : context.isDark
                                                     ? Colors.grey.shade100
                                                     : Colors.grey.shade800,
-                                            fontWeight: isActive
-                                                ? FontUtil.medium
-                                                : FontUtil.normal,
+                                            fontSize: 14,
                                           ),
                                         ),
                                       );

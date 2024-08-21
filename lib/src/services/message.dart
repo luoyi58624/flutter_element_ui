@@ -5,6 +5,7 @@ import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../components/basic/icon.dart';
+import '../components/basic/text.dart';
 import '../components/data/badge.dart';
 import '../service.dart';
 import '../utils/assert.dart';
@@ -436,7 +437,7 @@ class _DefaultMessage extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: maxTextWidth,
               ),
-              child: SelectableText(
+              child: ElText(
                 message.content,
                 style: TextStyle(
                   color: context.isDark ? el.darkTheme.textColor : themeColor,

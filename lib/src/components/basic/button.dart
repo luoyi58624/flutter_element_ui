@@ -205,7 +205,7 @@ class _Button extends HookWidget {
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
-      child: DefaultTextStyle(
+      child: ElDefaultTextStyle.merge(
         style: TextStyle(
           fontSize: 15,
           fontWeight: ElFont.medium,

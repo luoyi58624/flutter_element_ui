@@ -181,7 +181,7 @@ class _Toast extends StatelessWidget {
                 : const Color.fromRGBO(0, 0, 0, 0.65),
             borderRadius: BorderRadius.circular(6),
           ),
-          child: Text(
+          child: ElText(
             '$content',
             style: const TextStyle(
               color: Color(0xFFFFFFFF),
@@ -222,7 +222,7 @@ class _ThemeToast extends StatelessWidget {
               borderRadius: BorderRadius.circular(200.0),
               clipBehavior: Clip.antiAlias,
               child: Container(
-                  padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
+                  padding: const EdgeInsets.fromLTRB(24, 12, 24, 12),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(color: context.elThemeColors[type]),
                   child: ElText(

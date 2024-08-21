@@ -63,8 +63,6 @@ class _HrefInheritedWidget extends InheritedWidget {
 class A extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，当点击时将进行跳转，如果子组件设置了点击事件，
   /// 则超链接点击事件将失效，你可以通过 A.of(context) 访问超链接地址。
-  ///
-  /// 提示：如果是客户端，链接地址不是 http 开头将不会显示链接地址，如果是浏览器，则会自动拼接当前网址基本路径。
   const A(
     this.child, {
     super.key,
@@ -73,6 +71,7 @@ class A extends StatelessWidget {
     this.color = hrefColor,
     this.activeColor = hrefColor,
     this.decoration = HrefDecoration.none,
+    this.enabledPreview = true,
   });
 
   /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
@@ -92,6 +91,9 @@ class A extends StatelessWidget {
 
   /// 超链接下划线显示逻辑
   final HrefDecoration decoration;
+
+  /// 是否开启超链接地址预览
+  final bool enabledPreview;
 
   static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
 
@@ -131,7 +133,7 @@ class A extends StatelessWidget {
       child: Builder(builder: (context) {
         return HoverBuilder(
           cursor: cursor ?? SystemMouseCursors.click,
-          onEnter: $href == null
+          onEnter: $href == null || !enabledPreview
               ? null
               : (e) {
                   if (_delayHideOverlay != null) {
@@ -150,7 +152,7 @@ class A extends StatelessWidget {
                     _show($href);
                   }
                 },
-          onExit: $href == null
+          onExit: $href == null || !enabledPreview
               ? null
               : (e) {
                   if (_delayShowOverlay != null) {
@@ -167,7 +169,7 @@ class A extends StatelessWidget {
               if (child is Widget) {
                 return child;
               } else {
-                return DefaultTextStyle.merge(
+                return ElDefaultTextStyle.merge(
                   style: TextStyle(
                     color: HoverBuilder.of(context) ? activeColor : color,
                     decoration: decoration == HrefDecoration.underline

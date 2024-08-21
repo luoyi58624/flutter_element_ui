@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
@@ -55,11 +56,13 @@ class ElApp extends StatelessWidget {
             showPerformanceOverlay: showPerformanceOverlay,
             localizationsDelegates: const [
               DefaultMaterialLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
               DefaultWidgetsLocalizations.delegate,
             ],
             builder: (context, child) {
               Widget result = Material(
                 animationDuration: Duration.zero,
+                color: context.elTheme.bgColor,
                 child: ScrollConfiguration(
                   behavior: behavior,
                   // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错

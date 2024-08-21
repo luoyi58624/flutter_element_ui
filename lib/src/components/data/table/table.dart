@@ -4,6 +4,7 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../service.dart';
+import '../../basic/text.dart';
 import 'config.dart';
 
 part 'table_header.dart';
