@@ -9,12 +9,12 @@ class LayoutPage extends StatelessWidget {
 
   Widget buildHeader(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: [
           A(
             href: '/',
-            GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 context.sm ? null : context.go('/');
               },
@@ -30,15 +30,25 @@ class LayoutPage extends StatelessWidget {
           Row(
             children: [
               ObsBuilder(builder: (context) {
-                return ElSwitch(
-                  GlobalState.isDark,
-                  size: 16,
+                return IconButton(
+                  onPressed: () {
+                    GlobalState.isDark.value = !GlobalState.isDark.value;
+                  },
+                  icon: Icon(GlobalState.isDark.value
+                      ? Icons.dark_mode
+                      : Icons.light_mode),
                 );
               }),
-              const Gap(16),
-              const A(
-                GithubLogo(),
+              A(
                 href: 'https://github.com/luoyi58624/flutter_element_ui',
+                child: Builder(builder: (context) {
+                  return IconButton(
+                    onPressed: () {
+                      A.to(context);
+                    },
+                    icon: const GithubLogo(),
+                  );
+                }),
               ),
             ],
           ),
@@ -57,7 +67,44 @@ class LayoutPage extends StatelessWidget {
         scrolledUnderElevation: 1,
       ),
       body: child,
+      // bottomNavigationBar: BottomNavigationBar(
+      //   onTap: (int index) {
+      //     navigationShell.goBranch(index);
+      //   },
+      //   currentIndex: navigationShell.currentIndex,
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.ac_unit),
+      //       label: 'Element UI',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.compost),
+      //       label: 'Material',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.apple),
+      //       label: 'Cupertino',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: 'Test',
+      //     ),
+      //   ],
+      // ),
     );
+  }
+}
+
+class MobileLayout extends StatelessWidget {
+  const MobileLayout({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 

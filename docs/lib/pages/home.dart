@@ -115,7 +115,7 @@ class _CardWidget extends StatelessWidget {
               return SelectionContainer.disabled(
                 child: A(
                   href: href,
-                  Builder(builder: (context) {
+                  child: Builder(builder: (context) {
                     return GestureDetector(
                       onTapDown: (e) {
                         HapticFeedback.mediumImpact();

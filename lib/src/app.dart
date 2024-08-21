@@ -44,48 +44,44 @@ class ElApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget result = ResponsiveWidget(
-      data: el.responsive,
-      child: BrightnessWidget(
-        brightness: brightness ?? MediaQuery.of(context).platformBrightness,
-        child: Builder(builder: (context) {
-          return WidgetsApp.router(
-            routerConfig: routerConfig,
-            color: context.isDark ? el.theme.bgColor : el.darkTheme.bgColor,
-            showSemanticsDebugger: showSemanticsDebugger,
-            showPerformanceOverlay: showPerformanceOverlay,
-            localizationsDelegates: const [
-              DefaultMaterialLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate,
-              DefaultWidgetsLocalizations.delegate,
-            ],
-            builder: (context, child) {
-              Widget result = Material(
-                animationDuration: Duration.zero,
-                color: context.elTheme.bgColor,
-                child: ScrollConfiguration(
-                  behavior: behavior,
-                  // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
-                  child: Builder(builder: (context) {
-                    Widget result = Overlay(initialEntries: [
-                      OverlayEntry(builder: (context) {
-                        return child!;
-                      }),
-                    ]);
-                    if (builder != null) {
-                      result = builder!(context, result);
-                    }
-                    return result;
-                  }),
-                ),
-              );
-              return result.buildGlobalTextStyle(context);
-            },
-          );
-        }),
-      ),
+    return BrightnessWidget(
+      brightness: brightness ?? MediaQuery.of(context).platformBrightness,
+      child: Builder(builder: (context) {
+        return WidgetsApp.router(
+          routerConfig: routerConfig,
+          color: context.isDark ? el.theme.bgColor : el.darkTheme.bgColor,
+          showSemanticsDebugger: showSemanticsDebugger,
+          showPerformanceOverlay: showPerformanceOverlay,
+          localizationsDelegates: const [
+            DefaultMaterialLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+          ],
+          builder: (context, child) {
+            Widget result = Material(
+              animationDuration: Duration.zero,
+              color: context.elTheme.bgColor,
+              child: ScrollConfiguration(
+                behavior: behavior,
+                // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
+                child: Builder(builder: (context) {
+                  Widget result = Overlay(initialEntries: [
+                    OverlayEntry(builder: (context) {
+                      return child!;
+                    }),
+                  ]);
+                  if (builder != null) {
+                    result = builder!(context, result);
+                  }
+                  return result;
+                }),
+              ),
+            );
+            return result.buildGlobalTextStyle(context);
+          },
+        );
+      }),
     );
-    return result;
   }
 }
 

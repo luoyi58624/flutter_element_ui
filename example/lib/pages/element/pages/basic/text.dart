@@ -35,18 +35,18 @@ class TextPage extends StatelessWidget {
           const ElText('普通文本 (ElText)'),
           const Text('普通文本 (Text)'),
           A(
-            '百度',
+            child: '百度',
             href: 'https://www.baidu.com',
             color: context.elTheme.textColor,
             decoration: HrefDecoration.underline,
           ),
           A(
-            'Flutter官方',
+            child: 'Flutter官方',
             href: 'https://flutter.cn/',
             color: context.elTheme.textColor,
           ),
           A(
-            'Bing',
+            child: 'Bing',
             href: 'https://www.bing.com/?mkt=zh-CN&FORM=BEHPTB&mkt=zh-CN',
             color: context.elTheme.textColor,
             decoration: HrefDecoration.hoverUnderline,
@@ -63,7 +63,7 @@ class TextPage extends StatelessWidget {
             const SizedBox(width: 20),
             A(
               href: 'https://www.bing.com',
-              ElButton(
+              child: ElButton(
                 onPressed: () {
                   launchUrl(Uri.parse('https://www.bing.com'));
                 },
@@ -145,14 +145,14 @@ class TextPage extends StatelessWidget {
         ),
         'xxx',
         const A(
-          'https://www.baidu.com',
+          child: 'https://www.baidu.com',
           href: 'https://www.baidu.com',
         ),
         const ElButton(
           onPressed: null,
           link: true,
           child: A(
-            'https://www.bing.com',
+            child: 'https://www.bing.com',
             href: 'https://www.bing.com',
           ),
         ),

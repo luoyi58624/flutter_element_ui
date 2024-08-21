@@ -30,7 +30,7 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => A(
                                 href: e.$2,
-                                GestureDetector(
+                                child: GestureDetector(
                                   onTapDown: (event) {
                                     context.go(e.$2);
                                   },

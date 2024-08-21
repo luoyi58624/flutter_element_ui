@@ -17,6 +17,9 @@ class MainApp extends StatelessWidget {
     // MaterialApp(
     //   themeAnimationStyle: ,
     // );
+    context.sm
+        ? routingConfig.value = mobileRoutingConfig
+        : routingConfig.value = desktopRoutingConfig;
     return ObsBuilder(builder: (context) {
       final brightness =
           GlobalState.isDark.value ? Brightness.dark : Brightness.light;

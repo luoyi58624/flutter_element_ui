@@ -44,16 +44,18 @@ enum HrefDecoration {
 class _HrefInheritedWidget extends InheritedWidget {
   const _HrefInheritedWidget({
     this.href,
+    this.to,
     required super.child,
   });
 
   final String? href;
+  final VoidCallback? to;
 
-  static String? of(BuildContext context) {
+  static _HrefInheritedWidget? of(BuildContext context) {
     final _HrefInheritedWidget? result =
         context.dependOnInheritedWidgetOfExactType<_HrefInheritedWidget>();
     assert(result != null, '当前上下文 context 无法获取超链接地址，请使用 Builder 小部件转发 context');
-    return result!.href;
+    return result!;
   }
 
   @override
@@ -61,11 +63,11 @@ class _HrefInheritedWidget extends InheritedWidget {
 }
 
 class A extends StatelessWidget {
-  /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，当点击时将进行跳转，如果子组件设置了点击事件，
-  /// 则超链接点击事件将失效，你可以通过 A.of(context) 访问超链接地址。
-  const A(
-    this.child, {
+  /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件设置了点击事件，
+  /// 那么你需要手动执行跳转，可以通过 A.to(context) 执行跳转方法。
+  const A({
     super.key,
+    required this.child,
     this.href,
     this.cursor,
     this.color = hrefColor,
@@ -97,8 +99,15 @@ class A extends StatelessWidget {
 
   static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
 
-  /// 通过上下文获取最近的超链接地址
-  static String? of(BuildContext context) => _HrefInheritedWidget.of(context);
+  /// 从当前上下文获取最近的超链接地址
+  static String? getHref(BuildContext context) =>
+      _HrefInheritedWidget.of(context)?.href;
+
+  /// 从当前上下文获取最近的超链接实例并触发跳转
+  static void to(BuildContext context) {
+    final $to = _HrefInheritedWidget.of(context)?.to;
+    if ($to != null) $to();
+  }
 
   void _show(String href) {
     _delayShowOverlay = null;
@@ -127,9 +136,10 @@ class A extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $href = getFullHref(href);
-
+    final $to = $href == null ? null : () => launchUrl(Uri.parse($href));
     return _HrefInheritedWidget(
       href: $href,
+      to: $to,
       child: Builder(builder: (context) {
         return HoverBuilder(
           cursor: cursor ?? SystemMouseCursors.click,
@@ -164,7 +174,7 @@ class A extends StatelessWidget {
                   }
                 },
           builder: (context) => TapBuilder(
-            onTap: $href == null ? null : () => launchUrl(Uri.parse($href)),
+            onTap: $to,
             builder: (context) {
               if (child is Widget) {
                 return child;
@@ -205,9 +215,15 @@ class _HrefOverlayState extends State<_HrefOverlay>
   @override
   void initState() {
     super.initState();
-    _controller ??=
-        AnimationController(vsync: this, duration: _animationTime.ms);
+    _controller = AnimationController(vsync: this, duration: _animationTime.ms);
     _controller!.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    _controller = null;
+    super.dispose();
   }
 
   @override

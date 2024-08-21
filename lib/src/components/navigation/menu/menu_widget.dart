@@ -145,9 +145,9 @@ class _MenuItemState extends State<_MenuItem> {
     );
     if (!hasChild && $data.router != null) {
       return A(
-        result,
         href: widget.menuItem.key,
         cursor: MouseCursor.defer,
+        child: result,
       );
     } else {
       return HoverBuilder(
