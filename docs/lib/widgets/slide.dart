@@ -28,7 +28,7 @@ class SlideWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: e.$2
                             .map(
-                              (e) => A(
+                              (e) => ElLink(
                                 href: e.$2,
                                 child: GestureDetector(
                                   onTapDown: (event) {

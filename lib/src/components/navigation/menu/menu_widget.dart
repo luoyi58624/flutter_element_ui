@@ -144,7 +144,7 @@ class _MenuItemState extends State<_MenuItem> {
       }),
     );
     if (!hasChild && $data.router != null) {
-      return A(
+      return ElLink(
         href: widget.menuItem.key,
         cursor: MouseCursor.defer,
         child: result,

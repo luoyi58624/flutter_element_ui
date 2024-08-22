@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:example/global.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class Increment extends Intent {}
@@ -21,10 +17,10 @@ class HomePage extends HookWidget {
     final activeIndex = useObs(2);
     final tabs = useObs(
       [
-        ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
-        ElGoogleTab(title: 'axasxa'),
-        ElGoogleTab(title: 'xasx'),
-        ElGoogleTab(title: 'xasxasxasxasxas'),
+        const ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
+        const ElGoogleTab(title: 'axasxa'),
+        const ElGoogleTab(title: 'xasx'),
+        const ElGoogleTab(title: 'xasxasxasxasxas'),
         ...List.generate(
           5,
           (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),

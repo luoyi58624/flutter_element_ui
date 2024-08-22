@@ -113,7 +113,7 @@ class _CardWidget extends StatelessWidget {
             const ElDivider(),
             TapBuilder(builder: (context) {
               return SelectionContainer.disabled(
-                child: A(
+                child: ElLink(
                   href: href,
                   child: Builder(builder: (context) {
                     return GestureDetector(

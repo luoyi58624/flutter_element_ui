@@ -12,7 +12,7 @@ class LayoutPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: [
-          A(
+          ElLink(
             href: '/',
             child: GestureDetector(
               onTap: () {
@@ -39,12 +39,12 @@ class LayoutPage extends StatelessWidget {
                       : Icons.light_mode),
                 );
               }),
-              A(
+              ElLink(
                 href: 'https://github.com/luoyi58624/flutter_element_ui',
                 child: Builder(builder: (context) {
                   return IconButton(
                     onPressed: () {
-                      A.to(context);
+                      ElLink.to(context);
                     },
                     icon: const GithubLogo(),
                   );

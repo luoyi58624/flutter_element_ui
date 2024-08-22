@@ -16,7 +16,7 @@ const int _animationTime = 200;
 const int _delayTime = 300;
 
 /// 超链接地址预览浮层
-OverlayEntry? _hrefOverlay;
+OverlayEntry? _linkOverlay;
 
 /// 延迟显示控制器
 Timer? _delayShowOverlay;
@@ -30,7 +30,7 @@ Timer? _delayRemoveOverlay;
 /// 超链接浮层地址响应式变量
 final Obs<String> _href = Obs('');
 
-enum HrefDecoration {
+enum ElLinkDecoration {
   /// 不显示下划线
   none,
 
@@ -41,8 +41,8 @@ enum HrefDecoration {
   hoverUnderline,
 }
 
-class _HrefInheritedWidget extends InheritedWidget {
-  const _HrefInheritedWidget({
+class _LinkInheritedWidget extends InheritedWidget {
+  const _LinkInheritedWidget({
     this.href,
     this.to,
     required super.child,
@@ -51,28 +51,29 @@ class _HrefInheritedWidget extends InheritedWidget {
   final String? href;
   final VoidCallback? to;
 
-  static _HrefInheritedWidget? of(BuildContext context) {
-    final _HrefInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_HrefInheritedWidget>();
-    assert(result != null, '当前上下文 context 无法获取超链接地址，请使用 Builder 小部件转发 context');
+  static _LinkInheritedWidget? of(BuildContext context) {
+    final _LinkInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
+    assert(result != null,
+        '当前上下文 context 无法获取 ElLink 实例，请使用 Builder 小部件转发 context');
     return result!;
   }
 
   @override
-  bool updateShouldNotify(_HrefInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_LinkInheritedWidget oldWidget) => true;
 }
 
-class A extends StatelessWidget {
+class ElLink extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件设置了点击事件，
-  /// 那么你需要手动执行跳转，可以通过 A.to(context) 执行跳转方法。
-  const A({
+  /// 那么你需要手动执行跳转，可以通过 ElLink.to(context) 执行跳转方法。
+  const ElLink({
     super.key,
     required this.child,
     this.href,
     this.cursor,
     this.color = hrefColor,
     this.activeColor = hrefColor,
-    this.decoration = HrefDecoration.none,
+    this.decoration = ElLinkDecoration.none,
     this.enabledPreview = true,
   });
 
@@ -92,7 +93,7 @@ class A extends StatelessWidget {
   final Color activeColor;
 
   /// 超链接下划线显示逻辑
-  final HrefDecoration decoration;
+  final ElLinkDecoration decoration;
 
   /// 是否开启超链接地址预览
   final bool enabledPreview;
@@ -101,11 +102,11 @@ class A extends StatelessWidget {
 
   /// 从当前上下文获取最近的超链接地址
   static String? getHref(BuildContext context) =>
-      _HrefInheritedWidget.of(context)?.href;
+      _LinkInheritedWidget.of(context)?.href;
 
   /// 从当前上下文获取最近的超链接实例并触发跳转
   static void to(BuildContext context) {
-    final $to = _HrefInheritedWidget.of(context)?.to;
+    final $to = _LinkInheritedWidget.of(context)?.to;
     if ($to != null) $to();
   }
 
@@ -113,22 +114,22 @@ class A extends StatelessWidget {
     _delayShowOverlay = null;
     _href.value = href;
 
-    if (_hrefOverlay == null) {
-      _hrefOverlay = OverlayEntry(
-        builder: (_) => const _HrefOverlay(),
+    if (_linkOverlay == null) {
+      _linkOverlay = OverlayEntry(
+        builder: (_) => const _LinkOverlay(),
       );
-      Overlay.of(GlobalConfig.context).insert(_hrefOverlay!);
+      Overlay.of(GlobalConfig.context).insert(_linkOverlay!);
     }
   }
 
   void _hide() {
-    if (_hrefOverlay != null) {
+    if (_linkOverlay != null) {
       _delayHideOverlay = null;
       _controller!.reverse();
       _delayRemoveOverlay = () {
         _delayRemoveOverlay = null;
-        _hrefOverlay!.remove();
-        _hrefOverlay = null;
+        _linkOverlay!.remove();
+        _linkOverlay = null;
       }.delay(_animationTime);
     }
   }
@@ -137,7 +138,7 @@ class A extends StatelessWidget {
   Widget build(BuildContext context) {
     final $href = getFullHref(href);
     final $to = $href == null ? null : () => launchUrl(Uri.parse($href));
-    return _HrefInheritedWidget(
+    return _LinkInheritedWidget(
       href: $href,
       to: $to,
       child: Builder(builder: (context) {
@@ -156,7 +157,7 @@ class A extends StatelessWidget {
                       _delayRemoveOverlay = null;
                     }
                   }
-                  if (_hrefOverlay == null) {
+                  if (_linkOverlay == null) {
                     _delayShowOverlay = (() => _show($href)).delay(_delayTime);
                   } else {
                     _show($href);
@@ -169,7 +170,7 @@ class A extends StatelessWidget {
                     _delayShowOverlay!.cancel();
                     _delayShowOverlay = null;
                   }
-                  if (_hrefOverlay != null) {
+                  if (_linkOverlay != null) {
                     _delayHideOverlay = _hide.delay(_delayTime);
                   }
                 },
@@ -182,9 +183,9 @@ class A extends StatelessWidget {
                 return ElDefaultTextStyle.merge(
                   style: TextStyle(
                     color: HoverBuilder.of(context) ? activeColor : color,
-                    decoration: decoration == HrefDecoration.underline
+                    decoration: decoration == ElLinkDecoration.underline
                         ? TextDecoration.underline
-                        : decoration == HrefDecoration.hoverUnderline
+                        : decoration == ElLinkDecoration.hoverUnderline
                             ? (HoverBuilder.of(context)
                                 ? TextDecoration.underline
                                 : TextDecoration.none)
@@ -203,14 +204,14 @@ class A extends StatelessWidget {
   }
 }
 
-class _HrefOverlay extends StatefulWidget {
-  const _HrefOverlay();
+class _LinkOverlay extends StatefulWidget {
+  const _LinkOverlay();
 
   @override
-  State<_HrefOverlay> createState() => _HrefOverlayState();
+  State<_LinkOverlay> createState() => _LinkOverlayState();
 }
 
-class _HrefOverlayState extends State<_HrefOverlay>
+class _LinkOverlayState extends State<_LinkOverlay>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {

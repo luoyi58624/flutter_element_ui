@@ -7,6 +7,7 @@ export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
+export 'src/components/basic/link/link.dart';
 
 export 'src/components/data/table/table.dart';
 export 'src/components/data/table/config.dart';
@@ -69,6 +70,5 @@ export 'src/utils/shortcut.dart';
 
 export 'src/widgets/model_value.dart';
 
-export 'src/widgets/html/href/href.dart';
 export 'src/widgets/html/list.dart';
 export 'src/widgets/html/typography.dart';

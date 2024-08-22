@@ -1,4 +1,5 @@
 import 'package:example/global.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 
 class TablePage extends StatefulWidget {
