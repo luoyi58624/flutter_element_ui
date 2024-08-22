@@ -7,6 +7,7 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../../service.dart';
 import '../../utils/icons.dart';
 import '../basic/icon.dart';
+import '../basic/text.dart';
 
 class _CollapseData extends InheritedWidget {
   const _CollapseData(this.modelValue,
@@ -149,7 +150,7 @@ class ElCollapseItem extends StatelessWidget {
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
-                      duration: elConfig.colorDuration,
+                      duration: elConfig.themeDuration,
                       height: $data.height,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
@@ -172,7 +173,7 @@ class ElCollapseItem extends StatelessWidget {
                         children: [
                           title is Widget
                               ? title
-                              : DefaultTextStyle.merge(
+                              : ElDefaultTextStyle.merge(
                             style: TextStyle(
                               color: context.isDark
                                   ? context.elTheme.textColor

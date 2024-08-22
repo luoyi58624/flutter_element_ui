@@ -1,12 +1,14 @@
 library flutter_element_ui;
 
 export 'src/app.dart';
-export 'src/service.dart';
+export 'src/service.dart' show el;
 
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
+export 'src/components/basic/text.dart' show ElText, ElDefaultTextStyle;
+
 export 'src/components/basic/link/link.dart';
 
 export 'src/components/data/table/table.dart';
@@ -48,8 +50,6 @@ export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
-
-export 'src/components/basic/text.dart';
 
 export 'src/extensions/element.dart';
 

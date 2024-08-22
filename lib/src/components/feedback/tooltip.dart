@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
+import '../basic/text.dart';
 
 class ElTooltip extends StatefulWidget {
   const ElTooltip({
@@ -137,7 +138,7 @@ class _ElTooltipState extends State<ElTooltip> {
         color: bgColor,
         borderRadius: el.config.radius,
       ),
-      child: DefaultTextStyle.merge(
+      child: ElDefaultTextStyle.merge(
         style: TextStyle(
           color: bgColor.elTextColor(context),
           fontSize: 12,

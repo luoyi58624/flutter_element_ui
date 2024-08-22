@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class SlideWidget extends StatelessWidget {
   const SlideWidget(this.models, {super.key});
 
-  final List<(String title, List<(String name, String path)> items)> models;
+  final List<SlideRouteModelType> models;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,8 @@ class SlideWidget extends StatelessWidget {
                                     final isActive =
                                         RouterUtil.currentPath.value == e.$2;
                                     return HoverBuilder(builder: (context) {
-                                      return Container(
+                                      return AnimatedContainer(
+                                        duration: el.config.themeDuration,
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16,

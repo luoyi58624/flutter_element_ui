@@ -1,82 +1,70 @@
 import 'package:docs/global.dart';
-import 'package:docs/pages/not_found.dart';
+import 'package:docs/pages/commons/not_found.dart';
 
-import '../layout/guide_layout.dart';
-import '../pages/guide/design/design.dart';
-import '../pages/guide/nav/nav.dart';
+import '../pages/commons/guide/design/design.dart';
+import '../pages/commons/guide/install/install.dart';
+import '../pages/commons/guide/nav/nav.dart';
+import '../pages/commons/guide/quick_start/quick_start.dart';
 
-const String _path = 'guide';
-
-final RouteBase guideRoute = ShellRoute(
-  pageBuilder: (context, state, child) => NoTransitionPage(
-    child: GuideLayoutPage(child: child),
-  ),
-  routes: [
-    GoRoute(
-      path: '$_path/design',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: DesignPage(),
-      ),
+List<RouteBase> buildGuideRoutes(String path) {
+  return [
+    RouterUtil.buildRoute(
+      path: '${path}design',
+      builder: (context, state) => const DesignPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}nav',
+      builder: (context, state) => const NavPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}install',
+      builder: (context, state) => const InstallPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}quickstart',
+      builder: (context, state) => const QuickStartPage(),
     ),
     GoRoute(
-      path: '$_path/nav',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NavPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/install',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/quickstart',
+      path: '${path}i18n',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/i18n',
+      path: '${path}theme',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/theme',
+      path: '${path}changelog',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/changelog',
+      path: '${path}dev-guide',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/dev-guide',
+      path: '${path}dev-faq',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/dev-faq',
+      path: '${path}commit-examples',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
     GoRoute(
-      path: '$_path/commit-examples',
+      path: '${path}translation',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
       ),
     ),
-    GoRoute(
-      path: '$_path/translation',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-  ],
-);
+  ];
+}

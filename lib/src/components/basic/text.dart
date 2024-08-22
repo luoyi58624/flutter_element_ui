@@ -2,8 +2,32 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-/// 由于 [DefaultTextStyle] 被 [Material] 组件强制绑定，导致 Element 组件完全没法应用自己的文本主题，
+TextStyle _defaultTextStyle = TextStyle(
+  fontSize: PlatformUtil.isMobile ? 15 : 16,
+  fontFamily: null,
+  fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
+      ? ['.AppleSystemUIFont', 'PingFang SC']
+      : PlatformUtil.isWindows
+          ? ['Microsoft YaHei', '微软雅黑']
+          : null,
+);
+
+TextStyle? _globalTextStyle;
+
+TextStyle get globalTextStyle => _globalTextStyle ?? _defaultTextStyle;
+
+set globalTextStyle(TextStyle style) {
+  _globalTextStyle = _defaultTextStyle.merge(style);
+  if (_globalTextStyle?.fontSize == null) {
+    _globalTextStyle?.copyWith(fontSize: _defaultTextStyle.fontSize);
+  }
+}
+
+/// 由于 [DefaultTextStyle] 被 Material 深度绑定，导致 Element 组件完全没法应用自己的文本主题，
 /// 所以 [ElText] 将会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式。
+///
+/// 但是，[ElText] 并不能完全代替 [Text]，如果你使用 Material 组件，我建议你依旧使用 [Text]，
+/// 因为有些小部件会使用 [DefaultTextStyle] 注入一些默认样式，使用 [ElText] 是无法享受的。
 class ElText extends StatelessWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(
@@ -70,7 +94,10 @@ class ElText extends StatelessWidget {
 
   /// 构建当前文本样式
   TextStyle _buildTextStyle(BuildContext context, TextStyle? style) {
-    return ElDefaultTextStyle.of(context).style.merge(textStyle).merge(style);
+    return globalTextStyle
+        .merge(ElDefaultTextStyle.maybeOf(context)?.style)
+        .merge(textStyle)
+        .merge(style);
   }
 
   /// 构建富文本片段集合
@@ -243,9 +270,11 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     );
   }
 
+  static ElDefaultTextStyle? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
+
   static ElDefaultTextStyle of(BuildContext context) {
-    final ElDefaultTextStyle? result =
-        context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
+    final ElDefaultTextStyle? result = maybeOf(context);
     assert(result != null, 'No ElDefaultTextStyle found in context');
     return result!;
   }

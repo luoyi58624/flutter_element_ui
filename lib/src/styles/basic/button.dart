@@ -13,6 +13,7 @@ class ElButtonStyle {
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
     this.padding,
+    this.animatedDuration = const Duration(milliseconds: 100),
   });
 
   /// 按钮高度
@@ -26,4 +27,7 @@ class ElButtonStyle {
 
   /// 按钮内边距，默认为高度的一半
   final EdgeInsetsGeometry? padding;
+
+  /// 按钮动画持续时间
+  final Duration animatedDuration;
 }

@@ -1,7 +1,7 @@
 import 'package:docs/global.dart';
 import 'package:flutter/widgets.dart';
 
-import '../widgets/slide.dart';
+import '../../widgets/slide.dart';
 
 class ComponentLayoutPage extends StatelessWidget {
   const ComponentLayoutPage({super.key, required this.child});

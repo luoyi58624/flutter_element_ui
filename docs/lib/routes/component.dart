@@ -1,9 +1,11 @@
 import 'package:docs/global.dart';
-import 'package:docs/pages/not_found.dart';
+import 'package:docs/pages/commons/not_found.dart';
 
-import '../layout/component_layout.dart';
-import '../pages/component/button/button.dart';
-import '../pages/component/overview/overview.dart';
+import '../pages/commons/component/basic/button/button.dart';
+import '../pages/commons/component/basic/text/text.dart';
+import '../pages/commons/component/feedback/message/message.dart';
+import '../pages/commons/component/overview/overview.dart';
+import '../pages/desktop/component_layout.dart';
 
 const String _path = 'component';
 
@@ -51,7 +53,7 @@ final RouteBase componentRoute = ShellRoute(
     GoRoute(
       path: '$_path/text',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
+        child: TextPage(),
       ),
     ),
     GoRoute(
@@ -64,6 +66,12 @@ final RouteBase componentRoute = ShellRoute(
       path: '$_path/typography',
       pageBuilder: (context, state) => const NoTransitionPage(
         child: NotFoundPage(),
+      ),
+    ),
+    GoRoute(
+      path: '$_path/message',
+      pageBuilder: (context, state) => const NoTransitionPage(
+        child: MessagePage(),
       ),
     ),
   ],

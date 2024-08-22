@@ -2,21 +2,20 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class LayoutPage extends StatelessWidget {
-  const LayoutPage({super.key, required this.child});
+class LayoutHeader extends StatelessWidget {
+  const LayoutHeader({super.key});
 
-  final Widget child;
-
-  Widget buildHeader(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.only(left: 8),
       child: Row(
         children: [
           ElLink(
             href: '/',
             child: GestureDetector(
               onTap: () {
-                context.sm ? null : context.go('/');
+                context.go('/');
               },
               child: ElIcon(
                 'assets/images/element-plus-logo.svg',
@@ -32,11 +31,11 @@ class LayoutPage extends StatelessWidget {
               ObsBuilder(builder: (context) {
                 return IconButton(
                   onPressed: () {
-                    GlobalState.isDark.value = !GlobalState.isDark.value;
+                    el.isDark = !el.isDark;
                   },
-                  icon: Icon(GlobalState.isDark.value
-                      ? Icons.dark_mode
-                      : Icons.light_mode),
+                  icon: Icon(
+                    el.isDark ? Icons.dark_mode : Icons.light_mode,
+                  ),
                 );
               }),
               ElLink(
@@ -46,7 +45,7 @@ class LayoutPage extends StatelessWidget {
                     onPressed: () {
                       ElLink.to(context);
                     },
-                    icon: const GithubLogo(),
+                    icon: const _GithubLogo(),
                   );
                 }),
               ),
@@ -56,60 +55,10 @@ class LayoutPage extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: buildHeader(context),
-        toolbarHeight: PlatformUtil.isMobile ? 56 : 64,
-        elevation: 1,
-        scrolledUnderElevation: 1,
-      ),
-      body: child,
-      // bottomNavigationBar: BottomNavigationBar(
-      //   onTap: (int index) {
-      //     navigationShell.goBranch(index);
-      //   },
-      //   currentIndex: navigationShell.currentIndex,
-      //   items: const [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.ac_unit),
-      //       label: 'Element UI',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.compost),
-      //       label: 'Material',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.apple),
-      //       label: 'Cupertino',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.settings),
-      //       label: 'Test',
-      //     ),
-      //   ],
-      // ),
-    );
-  }
 }
 
-class MobileLayout extends StatelessWidget {
-  const MobileLayout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class GithubLogo extends StatelessWidget {
-  const GithubLogo({super.key});
+class _GithubLogo extends StatelessWidget {
+  const _GithubLogo();
 
   @override
   Widget build(BuildContext context) {

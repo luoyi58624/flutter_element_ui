@@ -5,6 +5,8 @@ import 'package:flutter_element_ui/src/extensions/element.dart';
 import 'package:flutter_element_ui/src/extensions/private.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
+import '../basic/text.dart';
+
 class ElEditor extends StatefulWidget {
   const ElEditor({
     super.key,
@@ -145,7 +147,7 @@ class ElEditorState extends State<ElEditor>
               focusNode: focusNode,
               cursorColor: context.elTheme.primary,
               backgroundCursorColor: Colors.red,
-              style: DefaultTextStyle.of(context).style,
+              style: ElDefaultTextStyle.of(context).style,
               maxLines: null,
               expands: true,
               showSelectionHandles: true,

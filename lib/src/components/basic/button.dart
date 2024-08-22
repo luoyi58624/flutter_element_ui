@@ -156,6 +156,7 @@ class ElButton extends StatelessWidget {
           builder: (context) => TapBuilder(
             onTap: onPressed,
             disabled: disabled,
+            delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
             builder: (context) => _Button(child, styleProp),
           ),
         ),
@@ -200,7 +201,7 @@ class _Button extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: 100.ms,
+      duration: el.config.buttonStyle.animatedDuration,
       constraints: $constraints,
       alignment: Alignment.center,
       padding: $padding,

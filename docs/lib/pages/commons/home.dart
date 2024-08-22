@@ -7,47 +7,46 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                const Gap(32),
-                H1('Element UI',
-                    style: context.sm ? null : const TextStyle(fontSize: 48)),
-                const Gap(16),
-                const ElText('基于 Flutter，面向设计师和开发者的组件库'),
-                const Gap(32),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 640,
-                  ),
-                  child: const AspectRatio(
-                    aspectRatio: 1 / 0.6,
-                    child: ElImage(src: 'assets/images/home/theme.png'),
-                  ),
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              const Gap(32),
+              H1('Element UI',
+                  style: context.sm ? null : const TextStyle(fontSize: 48)),
+              const Gap(16),
+              const ElText('基于 Flutter，面向设计师和开发者的组件库'),
+              const Gap(32),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 640,
                 ),
-                const Gap(32),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 1024,
-                  ),
-                  child: context.sm
-                      ? Column(children: cardWidgets)
-                      : Row(children: cardWidgets),
+                child: const AspectRatio(
+                  aspectRatio: 1 / 0.6,
+                  child: ElImage(src: 'assets/images/home/theme.png'),
                 ),
-              ],
-            ),
+              ),
+              const Gap(32),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 1024,
+                ),
+                child: context.sm
+                    ? Column(children: cardWidgets)
+                    : Row(children: cardWidgets),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  List<Widget> get cardWidgets => const [
+  List<Widget> get cardWidgets =>
+      const [
         _CardWidget(
           'assets/images/home/1.png',
           '指南',
@@ -97,19 +96,20 @@ class _CardWidget extends StatelessWidget {
             ),
             const Gap(24),
             H4(title),
-            Padding(
+            Container(
+              height: 120,
               padding: const EdgeInsets.all(16.0),
+              alignment: Alignment.center,
               child: ElText(
                 content,
                 style: TextStyle(
                   fontSize: 14,
                   color:
-                      context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
+                  context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            const Gap(24),
             const ElDivider(),
             TapBuilder(builder: (context) {
               return SelectionContainer.disabled(
@@ -127,9 +127,9 @@ class _CardWidget extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           color:
-                              TapBuilder.of(context) || HoverBuilder.of(context)
-                                  ? context.elTheme.primary
-                                  : context.elTheme.cardColor,
+                          TapBuilder.of(context) || HoverBuilder.of(context)
+                              ? context.elTheme.primary
+                              : context.elTheme.cardColor,
                           borderRadius: BorderRadius.only(
                             bottomLeft: el.config.cardRadius.bottomLeft,
                             bottomRight: el.config.cardRadius.bottomRight,
@@ -140,7 +140,7 @@ class _CardWidget extends StatelessWidget {
                             '查看详情',
                             style: TextStyle(
                               color: TapBuilder.of(context) ||
-                                      HoverBuilder.of(context)
+                                  HoverBuilder.of(context)
                                   ? Colors.white
                                   : context.elTheme.primary,
                             ),

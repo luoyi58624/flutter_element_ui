@@ -4,9 +4,6 @@ import 'package:flutter/rendering.dart';
 import 'global.dart';
 
 class GlobalState {
-  /// 开启暗黑模式
-  static final isDark = Obs(false);
-
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,

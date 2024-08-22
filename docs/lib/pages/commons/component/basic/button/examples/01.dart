@@ -1,8 +1,8 @@
 import 'package:docs/global.dart';
 import 'package:flutter/widgets.dart';
 
-class ButtonPage1 extends StatelessWidget {
-  const ButtonPage1({super.key});
+class Example1 extends StatelessWidget {
+  const Example1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class ButtonPage1 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Gap(36),
-            H5(title),
+            H4(title),
             const Gap(8),
           ],
         );

@@ -412,60 +412,62 @@ class _DefaultMessage extends StatelessWidget {
             ? 320
             : 450;
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
-    return Container(
-      constraints: BoxConstraints(
-        maxWidth: maxWidth,
-        minHeight: _messageHeight,
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-        color: themeColor.themeLightBg(context),
-        borderRadius: el.config.cardRadius,
-        border: Border.all(color: themeColor.themeLightBorder(context)),
-      ),
-      child: ElIconTheme(
-        color: themeColor,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            messageIcon,
-            const Gap(10),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: maxTextWidth,
-              ),
-              child: ElText(
-                message.content,
-                style: TextStyle(
-                  color: context.isDark ? el.darkTheme.textColor : themeColor,
-                  fontWeight: ElFont.medium,
+    return SelectionArea(
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: maxWidth,
+          minHeight: _messageHeight,
+        ),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        decoration: BoxDecoration(
+          color: themeColor.themeLightBg(context),
+          borderRadius: el.config.cardRadius,
+          border: Border.all(color: themeColor.themeLightBorder(context)),
+        ),
+        child: ElIconTheme(
+          color: themeColor,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              messageIcon,
+              const Gap(10),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: maxTextWidth,
+                ),
+                child: ElText(
+                  message.content,
+                  style: TextStyle(
+                    color: context.isDark ? el.darkTheme.textColor : themeColor,
+                    fontWeight: ElFont.medium,
+                  ),
                 ),
               ),
-            ),
-            if (message.showClose) const Gap(10),
-            if (message.showClose)
-              GestureDetector(
-                onTap: () {
-                  message.removeMessage();
-                },
-                child: HoverBuilder(
-                  cursor: SystemMouseCursors.click,
-                  builder: (context) {
-                    return ElIcon(
-                      ElIcons.close,
-                      color: HoverBuilder.of(context)
-                          ? themeColor
-                          : context.isDark
-                              ? Colors.grey.shade600
-                              : Colors.grey.shade400,
-                    );
+              if (message.showClose) const Gap(10),
+              if (message.showClose)
+                GestureDetector(
+                  onTap: () {
+                    message.removeMessage();
                   },
+                  child: HoverBuilder(
+                    cursor: SystemMouseCursors.click,
+                    builder: (context) {
+                      return ElIcon(
+                        ElIcons.close,
+                        color: HoverBuilder.of(context)
+                            ? themeColor
+                            : context.isDark
+                                ? Colors.grey.shade600
+                                : Colors.grey.shade400,
+                      );
+                    },
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

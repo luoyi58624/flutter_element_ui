@@ -68,7 +68,7 @@ class LayoutPage extends LayoutPageBase {
           selectedIndex: navigationShell.currentIndex,
           labelType: NavigationRailLabelType.all,
           trailing: ObsBuilder(builder: (context) {
-            return ElSwitch(GlobalState.isDark);
+            return ElSwitch(el.isDark);
           }),
           destinations: const [
             NavigationRailDestination(
