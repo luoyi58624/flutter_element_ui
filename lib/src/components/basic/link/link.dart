@@ -139,7 +139,7 @@ class ElLink extends StatelessWidget {
     final $href = getFullHref(href);
     final $to = $href == null ? null : () => launchUrl(Uri.parse($href));
     return _LinkInheritedWidget(
-      href: $href,
+      href: href,
       to: $to,
       child: Builder(builder: (context) {
         return HoverBuilder(
