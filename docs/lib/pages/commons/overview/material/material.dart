@@ -5,8 +5,8 @@ import 'examples/01.dart';
 import 'examples/02.dart';
 import 'examples/03.dart';
 
-class MaterialPage extends StatelessWidget {
-  const MaterialPage({super.key});
+class MaterialOverviewPage extends StatelessWidget {
+  const MaterialOverviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {

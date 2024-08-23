@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'examples/01.dart';
 
-class CupertinoPage extends StatelessWidget {
-  const CupertinoPage({super.key});
+class CupertinoOverviewPage extends StatelessWidget {
+  const CupertinoOverviewPage({super.key});
 
   @override
   Widget build(BuildContext context) {

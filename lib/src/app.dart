@@ -45,13 +45,17 @@ class ElConfigProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     Brightness $brightness =
         brightness ?? MediaQuery.platformBrightnessOf(context);
-    final $textStyle = ElThemeUtil.buildGlobalTextStyle($brightness);
-    el.globalFontSize = $textStyle.fontSize ?? (context.sm ? 15 : 16);
+    bool $isDark = $brightness == Brightness.dark;
+    var $textStyle = ElThemeUtil.buildGlobalTextStyle($brightness);
+    if ($textStyle.fontSize == null) {
+      $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
+    }
+    el.globalFontSize = $textStyle.fontSize!;
     return BrightnessWidget(
       brightness: $brightness,
       child: Material(
         animationDuration: el.config.themeDuration,
-        color: context.elTheme.bgColor,
+        color: $isDark ? el.darkTheme.bgColor : el.theme.bgColor,
         textStyle: $textStyle,
         child: ElDefaultTextStyle(
           style: $textStyle,

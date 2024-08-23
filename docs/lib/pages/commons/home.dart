@@ -45,8 +45,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<Widget> get cardWidgets =>
-      const [
+  List<Widget> get cardWidgets => const [
         _CardWidget(
           'assets/images/home/1.png',
           '指南',
@@ -57,7 +56,7 @@ class HomePage extends StatelessWidget {
           'assets/images/home/2.png',
           '组件',
           '使用组件 Demo 快速体验交互细节；使用前端框架封装的代码帮助工程师快速开发。',
-          '/component/overview',
+          '/component/element',
         ),
         _CardWidget(
           'assets/images/home/3.png',
@@ -105,7 +104,7 @@ class _CardWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   color:
-                  context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
+                      context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -127,9 +126,9 @@ class _CardWidget extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           color:
-                          TapBuilder.of(context) || HoverBuilder.of(context)
-                              ? context.elTheme.primary
-                              : context.elTheme.cardColor,
+                              TapBuilder.of(context) || HoverBuilder.of(context)
+                                  ? context.elTheme.primary
+                                  : context.elTheme.cardColor,
                           borderRadius: BorderRadius.only(
                             bottomLeft: el.config.cardRadius.bottomLeft,
                             bottomRight: el.config.cardRadius.bottomRight,
@@ -140,7 +139,7 @@ class _CardWidget extends StatelessWidget {
                             '查看详情',
                             style: TextStyle(
                               color: TapBuilder.of(context) ||
-                                  HoverBuilder.of(context)
+                                      HoverBuilder.of(context)
                                   ? Colors.white
                                   : context.elTheme.primary,
                             ),

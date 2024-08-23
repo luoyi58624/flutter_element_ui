@@ -9,6 +9,9 @@ class ElConfigData {
   /// 默认全局配置数据
   static const ElConfigData data = ElConfigData();
 
+  /// 头部布局高度
+  final double headerHeight;
+
   /// 全局默认图标大小
   final double iconSize;
 
@@ -44,6 +47,7 @@ class ElConfigData {
 
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   const ElConfigData({
+    this.headerHeight = 56,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
@@ -58,6 +62,7 @@ class ElConfigData {
   });
 
   ElConfigData copyWith({
+    double? headerHeight,
     double? iconSize,
     BorderRadius? radius,
     BorderRadius? cardRadius,
@@ -71,6 +76,7 @@ class ElConfigData {
     ElToastStyle? toastStyle,
   }) {
     return ElConfigData(
+      headerHeight: headerHeight ?? this.headerHeight,
       iconSize: iconSize ?? this.iconSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,

@@ -4,23 +4,23 @@ import 'package:docs/pages/commons/not_found.dart';
 import '../pages/commons/component/basic/button/button.dart';
 import '../pages/commons/component/basic/text/text.dart';
 import '../pages/commons/component/feedback/message/message.dart';
-import '../pages/commons/component/overview/overview.dart';
-import '../pages/commons/cupertino/cupertino.dart';
-import '../pages/commons/material/material.dart';
+import '../pages/commons/overview/cupertino/cupertino.dart';
+import '../pages/commons/overview/element/element.dart';
+import '../pages/commons/overview/material/material.dart';
 
 List<RouteBase> buildComponentRoutes(String path) {
   return [
     RouterUtil.buildRoute(
-      path: '${path}overview',
-      builder: (context, state) => const OverviewPage(),
+      path: '${path}element',
+      builder: (context, state) => const ElementOverviewPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}material',
-      builder: (context, state) => const MaterialPage(),
+      builder: (context, state) => const MaterialOverviewPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}cupertino',
-      builder: (context, state) => const CupertinoPage(),
+      builder: (context, state) => const CupertinoOverviewPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}button',
@@ -60,4 +60,3 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
   ];
 }
-

@@ -14,7 +14,7 @@ class LayoutHeader extends StatelessWidget {
           ElLink(
             href: '/',
             child: GestureDetector(
-              onTap: () {
+              onTapDown: (e) {
                 context.go('/');
               },
               child: ElIcon(
@@ -28,6 +28,8 @@ class LayoutHeader extends StatelessWidget {
           const Expanded(child: SizedBox()),
           Row(
             children: [
+              buildDesktopNav(context),
+              const Gap(16),
               ObsBuilder(builder: (context) {
                 return IconButton(
                   onPressed: () {
@@ -36,6 +38,7 @@ class LayoutHeader extends StatelessWidget {
                   icon: Icon(
                     GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
                   ),
+                  color: context.elTheme.iconColor,
                 );
               }),
               ElLink(
@@ -54,6 +57,71 @@ class LayoutHeader extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget buildDesktopNav(BuildContext context) {
+    return context.sm
+        ? const SizedBox()
+        : ObsBuilder(
+            watch: [RouterUtil.currentPath],
+            builder: (context) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ...RootRoute.values.map(
+                    (e) => ElLink(
+                      href: '/${e.$2}',
+                      child: Builder(builder: (context) {
+                        return GestureDetector(
+                          onTapDown: (e) {
+                            context.go(ElLink.getHref(context)!);
+                          },
+                          child: HoverBuilder(
+                            cursor: SystemMouseCursors.click,
+                            builder: (context) {
+                              final isActive = RouterUtil.currentPath.value
+                                  .startsWith('/${e.$2}');
+                              return Stack(
+                                children: [
+                                  Container(
+                                    height: el.config.headerHeight,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    child: Center(
+                                      child: H6(
+                                        e.$1,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: HoverBuilder.of(context)
+                                                ? context.elTheme.primary
+                                                : null),
+                                      ),
+                                    ),
+                                  ),
+                                  if (isActive)
+                                    Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                          color: context.elTheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+                  )
+                ],
+              );
+            });
   }
 }
 

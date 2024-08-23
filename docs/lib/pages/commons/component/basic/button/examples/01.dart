@@ -10,7 +10,7 @@ class Example1 extends StatelessWidget {
     Widget buildTitle(String title) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Gap(36),
+            const Gap(16),
             H4(title),
             const Gap(8),
           ],

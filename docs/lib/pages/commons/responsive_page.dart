@@ -27,11 +27,9 @@ abstract class ResponsivePage extends StatelessWidget {
         : SelectionArea(
             child: ColumnWidget(
               scroll: true,
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 32),
               children: [
-                const Gap(25),
                 H1(title),
-                const Gap(25),
                 ...buildPage(context),
               ],
             ),
