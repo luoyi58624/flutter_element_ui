@@ -16,7 +16,7 @@ const int _animationDuration = 200;
 const int _delayActiveDuration = 100;
 
 class ElScrollBehavior extends CustomScrollBehavior {
-  /// 设置全局默认的滚动条，桌面端使用[ElScrollbar]
+  /// 设置全局默认的滚动条，在桌面端将使用[ElScrollbar]
   const ElScrollBehavior();
 
   @override

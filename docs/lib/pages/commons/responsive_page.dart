@@ -1,11 +1,14 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
+/// 响应式页面抽象类
 abstract class ResponsivePage extends StatelessWidget {
   const ResponsivePage({super.key});
 
+  /// 页面标题
   String get title;
 
+  /// 构建通用的页面
   List<Widget> buildPage(BuildContext context);
 
   @override

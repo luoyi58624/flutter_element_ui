@@ -29,7 +29,7 @@ class _App extends StatelessWidget {
         routerConfig: router,
         theme: ElThemeUtil.buildMaterialTheme(
           context,
-          brightness: el.brightness,
+          brightness: GlobalState.brightness,
         ),
         darkTheme: ElThemeUtil.buildMaterialTheme(
           context,

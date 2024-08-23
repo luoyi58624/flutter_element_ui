@@ -1,17 +1,18 @@
+import 'package:docs/pages/commons/responsive_page.dart';
 import 'package:flutter/material.dart';
 
 import 'examples/01.dart';
 
-class ButtonPage extends StatelessWidget {
+class ButtonPage extends ResponsivePage {
   const ButtonPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Example1(),
-      ],
-    );
+  String get title => 'Button 按钮';
+
+  @override
+  List<Widget> buildPage(BuildContext context) {
+    return const [
+      Example1(),
+    ];
   }
 }

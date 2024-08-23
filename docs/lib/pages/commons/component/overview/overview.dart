@@ -1,15 +1,15 @@
-import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-class OverviewPage extends StatelessWidget {
+import '../../responsive_page.dart';
+
+class OverviewPage extends ResponsivePage {
   const OverviewPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        H1('Overview 组件总览'),
-      ],
-    );
+  String get title => 'Overview 组件总览';
+
+  @override
+  List<Widget> buildPage(BuildContext context) {
+    return [];
   }
 }

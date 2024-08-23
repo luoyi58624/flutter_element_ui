@@ -38,7 +38,9 @@ class Example1 extends StatelessWidget {
         ),
         ElButton(
           onPressed: () {
-            el.message.error('错了哦，这是一条错误消息');
+            for (int i = 0; i < 100; i++) {
+              el.message.error('错了哦，这是一条错误消息');
+            }
           },
           type: 'error',
           child: '错误',

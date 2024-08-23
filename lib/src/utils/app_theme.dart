@@ -157,7 +157,7 @@ class ElThemeUtil {
             : lightTheme.textColor,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        elevation: 2,
+        elevation: 4,
         type: BottomNavigationBarType.fixed,
         backgroundColor: elTheme.headerColor,
         unselectedLabelStyle: textStyle.copyWith(

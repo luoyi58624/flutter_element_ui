@@ -1,9 +1,37 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'global.dart';
 
+/// 当前应用的主题模式，如果指定跟随系统，同时当前平台启用了全局暗黑模式，那么此变量将强制为 dark
+late ThemeMode currentThemeMode;
+
 class GlobalState {
+  GlobalState._();
+
+  static final _isDark = Obs(false);
+
+  /// 当前是否是暗黑主题
+  static bool get isDark {
+    switch (currentThemeMode) {
+      case ThemeMode.system:
+        return _isDark.value;
+      case ThemeMode.light:
+        return false;
+      case ThemeMode.dark:
+        return true;
+    }
+  }
+
+  /// 手动设置暗黑模式，只有当前主题模式是跟随系统时才生效
+  static set isDark(bool v) {
+    if (currentThemeMode == ThemeMode.system) _isDark.value = v;
+  }
+
+  static Brightness get brightness =>
+      isDark ? Brightness.dark : Brightness.light;
+
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,

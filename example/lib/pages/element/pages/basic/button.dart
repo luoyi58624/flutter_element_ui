@@ -59,8 +59,8 @@ class ButtonPage extends HookWidget {
               ObsBuilder(builder: (context) {
                 return ElButton(
                   onPressed: () =>
-                  el.isDark = !el.isDark,
-                  child: el.isDark ? '亮色模式' : '暗色模式',
+                      GlobalState.isDark.value = !GlobalState.isDark.value,
+                  child: GlobalState.isDark.value ? '亮色模式' : '暗色模式',
                 );
               }),
             ],

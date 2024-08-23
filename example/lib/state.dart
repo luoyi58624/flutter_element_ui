@@ -1,9 +1,15 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'global.dart';
 
 class GlobalState {
+  static final isDark = Obs(false);
+
+  static Brightness get brightness =>
+      isDark.value ? Brightness.dark : Brightness.light;
+
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,

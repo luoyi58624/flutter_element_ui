@@ -31,10 +31,10 @@ class LayoutHeader extends StatelessWidget {
               ObsBuilder(builder: (context) {
                 return IconButton(
                   onPressed: () {
-                    el.isDark = !el.isDark;
+                    GlobalState.isDark = !GlobalState.isDark;
                   },
                   icon: Icon(
-                    el.isDark ? Icons.dark_mode : Icons.light_mode,
+                    GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
                   ),
                 );
               }),

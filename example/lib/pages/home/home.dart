@@ -46,8 +46,8 @@ class HomePage extends HookWidget {
           if (context.sm)
             ObsBuilder(builder: (context) {
               return Switch(
-                value: el.isDark,
-                onChanged: (v) => el.isDark = v,
+                value: GlobalState.isDark.value,
+                onChanged: (v) => GlobalState.isDark.value = v,
               );
             }),
         ],

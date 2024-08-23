@@ -5,74 +5,59 @@ import '../pages/commons/component/basic/button/button.dart';
 import '../pages/commons/component/basic/text/text.dart';
 import '../pages/commons/component/feedback/message/message.dart';
 import '../pages/commons/component/overview/overview.dart';
-import '../pages/desktop/component_layout.dart';
+import '../pages/commons/cupertino/cupertino.dart';
+import '../pages/commons/material/material.dart';
 
-const String _path = 'component';
+List<RouteBase> buildComponentRoutes(String path) {
+  return [
+    RouterUtil.buildRoute(
+      path: '${path}overview',
+      builder: (context, state) => const OverviewPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}material',
+      builder: (context, state) => const MaterialPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}cupertino',
+      builder: (context, state) => const CupertinoPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}button',
+      builder: (context, state) => const ButtonPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}color',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}icon',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}layout',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}link',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}text',
+      builder: (context, state) => const TextPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}scrollbar',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}typography',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}message',
+      builder: (context, state) => const MessagePage(),
+    ),
+  ];
+}
 
-final RouteBase componentRoute = ShellRoute(
-  pageBuilder: (context, state, child) => NoTransitionPage(
-    child: ComponentLayoutPage(child: child),
-  ),
-  routes: [
-    GoRoute(
-      path: '$_path/overview',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: OverviewPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/button',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: ButtonPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/color',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/icon',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/layout',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/link',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/text',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: TextPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/scrollbar',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/typography',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
-      ),
-    ),
-    GoRoute(
-      path: '$_path/message',
-      pageBuilder: (context, state) => const NoTransitionPage(
-        child: MessagePage(),
-      ),
-    ),
-  ],
-);
