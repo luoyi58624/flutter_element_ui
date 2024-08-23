@@ -1,6 +1,7 @@
 import 'package:docs/pages/commons/not_found.dart';
 import 'package:docs/routes/guide.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'global.dart';
 import 'pages/desktop/component_layout.dart';
@@ -174,12 +175,10 @@ class RouterUtil {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) => isMobile.value == true
-          ? CupertinoPage(
-              child: builder(context, state),
-            )
-          : NoTransitionPage(
-              child: builder(context, state),
-            ),
+          ? PlatformUtil.isIOS
+              ? CupertinoPage(child: builder(context, state))
+              : MaterialPage(child: builder(context, state))
+          : NoTransitionPage(child: builder(context, state)),
     );
   }
 

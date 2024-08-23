@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/element.dart';
 
@@ -30,6 +31,7 @@ typedef _ButtonStyleProp = ({
   bool circle,
   bool disabled,
   bool loading,
+  bool enableFeedback,
 });
 
 class ElButton extends StatelessWidget {
@@ -55,6 +57,7 @@ class ElButton extends StatelessWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
+    this.enableFeedback,
   });
 
   /// 支持任意类型子组件：
@@ -119,6 +122,9 @@ class ElButton extends StatelessWidget {
   /// 开启 loading
   final bool loading;
 
+  /// 是否开启触觉回馈，默认全局关闭
+  final bool? enableFeedback;
+
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(type, 'ElButton');
@@ -147,6 +153,7 @@ class ElButton extends StatelessWidget {
       circle: circle,
       disabled: disabled,
       loading: loading,
+      enableFeedback: enableFeedback ?? defaultStyle.enableFeedback,
     );
     var currentWidget = SelectionContainer.disabled(
       child: Focus(
@@ -154,7 +161,12 @@ class ElButton extends StatelessWidget {
           disabled: disabled,
           cursor: SystemMouseCursors.click,
           builder: (context) => TapBuilder(
-            onTap: onPressed,
+            onTap: () {
+              if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
+              if (onPressed != null) {
+                onPressed!();
+              }
+            },
             disabled: disabled,
             delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
             builder: (context) => _Button(child, styleProp),

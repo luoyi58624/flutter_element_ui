@@ -14,6 +14,7 @@ class ElButtonStyle {
     this.margin = const EdgeInsets.all(4),
     this.padding,
     this.animatedDuration = const Duration(milliseconds: 100),
+    this.enableFeedback = false,
   });
 
   /// 按钮高度
@@ -30,4 +31,7 @@ class ElButtonStyle {
 
   /// 按钮动画持续时间
   final Duration animatedDuration;
+
+  /// 是否开启触觉回馈
+  final bool enableFeedback;
 }

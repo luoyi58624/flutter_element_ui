@@ -109,11 +109,11 @@ class ElThemeUtil {
       // 标准显示密度
       visualDensity: VisualDensity.standard,
       // 统一页面过渡动画
-      pageTransitionsTheme: const PageTransitionsTheme(builders: {
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-      }),
+      // pageTransitionsTheme: const PageTransitionsTheme(builders: {
+      //   TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      //   TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      //   TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+      // }),
       // 背景颜色
       scaffoldBackgroundColor: elTheme.bgColor,
       // 图标颜色
