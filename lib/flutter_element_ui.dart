@@ -1,5 +1,7 @@
 library flutter_element_ui;
 
+export 'package:flutter_obs/flutter_obs.dart';
+
 export 'src/app.dart';
 export 'src/service.dart' show el;
 

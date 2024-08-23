@@ -2,27 +2,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-TextStyle _defaultTextStyle = TextStyle(
-  fontSize: PlatformUtil.isMobile ? 15 : 16,
-  fontFamily: null,
-  fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
-      ? ['.AppleSystemUIFont', 'PingFang SC']
-      : PlatformUtil.isWindows
-          ? ['Microsoft YaHei', '微软雅黑']
-          : null,
-);
-
-TextStyle? _globalTextStyle;
-
-TextStyle get globalTextStyle => _globalTextStyle ?? _defaultTextStyle;
-
-set globalTextStyle(TextStyle style) {
-  _globalTextStyle = _defaultTextStyle.merge(style);
-  if (_globalTextStyle?.fontSize == null) {
-    _globalTextStyle?.copyWith(fontSize: _defaultTextStyle.fontSize);
-  }
-}
-
 /// 由于 [DefaultTextStyle] 被 Material 深度绑定，导致 Element 组件完全没法应用自己的文本主题，
 /// 所以 [ElText] 将会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式。
 ///
@@ -94,10 +73,7 @@ class ElText extends StatelessWidget {
 
   /// 构建当前文本样式
   TextStyle _buildTextStyle(BuildContext context, TextStyle? style) {
-    return globalTextStyle
-        .merge(ElDefaultTextStyle.maybeOf(context)?.style)
-        .merge(textStyle)
-        .merge(style);
+    return ElDefaultTextStyle.of(context).style.merge(textStyle).merge(style);
   }
 
   /// 构建富文本片段集合
@@ -229,7 +205,12 @@ class ElText extends StatelessWidget {
   }
 }
 
-/// 适用于 [ElText] 的默认文本样式小部件，它直接继承 [DefaultTextStyle] 小部件
+/// 适用于 [ElText] 的默认文本样式小部件，与 [DefaultTextStyle] 不同的是，
+/// Element UI 所有组件都会尊重祖先提供的默认文本样式，即任意一个组件需要提供默认文本样式时，
+/// 都会通过 merge 方法合并祖先的文本样式。
+///
+/// 而 Material 系列的组件大多应用 [Material] 小部件，该小部件会在内部直接构造新的
+/// [AnimatedDefaultTextStyle] 默认文本样式，从而造成全局提供的默认文本样式直接失效。（3.24.0）
 class ElDefaultTextStyle extends DefaultTextStyle {
   const ElDefaultTextStyle({
     super.key,

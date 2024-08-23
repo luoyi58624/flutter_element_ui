@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import '../components/basic/text.dart';
 import '../styles/config.dart';
 import '../styles/theme.dart';
 
@@ -9,9 +8,20 @@ import '../styles/theme.dart';
 /// 如果指定跟随系统，同时当前平台启用了全局暗黑模式，那么此变量将强制为 dark，
 ThemeMode currentThemeMode = ThemeMode.system;
 
+/// 默认的文本样式
+TextStyle defaultTextStyle = TextStyle(
+  fontSize: 15,
+  fontFamily: null,
+  fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
+      ? ['.AppleSystemUIFont', 'PingFang SC']
+      : PlatformUtil.isWindows
+          ? ['Microsoft YaHei', '微软雅黑']
+          : null,
+);
+
 mixin ElThemeService {
   /// 全局文本尺寸
-  double globalFontSize = globalTextStyle.fontSize!;
+  double globalFontSize = defaultTextStyle.fontSize!;
 
   final _isDark = Obs(false);
 

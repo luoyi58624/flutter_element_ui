@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../service.dart';
+import '../services/theme.dart';
 import '../styles/theme.dart';
 import 'font.dart';
 
@@ -45,6 +46,18 @@ class ElMaterialThemeData {
 class ElThemeUtil {
   ElThemeUtil._();
 
+  /// 通过平台主题模式构建全局文本样式
+  static TextStyle buildGlobalTextStyle(Brightness brightness) {
+    return defaultTextStyle
+        .copyWith(
+          fontWeight: ElFont.normal,
+          color: brightness == Brightness.dark
+              ? el.darkTheme.textColor
+              : el.theme.textColor,
+        )
+        .merge(el.config.textStyle);
+  }
+
   /// 基于 Element UI 主题系统构建 Material 主题
   ///
   /// * context 通过上下文获取 [ElTheme] 配置，请注意传递正确的[context]，
@@ -60,10 +73,7 @@ class ElThemeUtil {
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final elConfig = el.config;
-    final textStyle = elConfig.textStyle.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    );
+    final textStyle = buildGlobalTextStyle(brightness);
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -255,11 +265,7 @@ class ElThemeUtil {
     final lightTheme = el.theme;
     final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = el.config;
-    final textStyle = elConfig.textStyle.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    );
+    final textStyle = buildGlobalTextStyle(brightness);
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 

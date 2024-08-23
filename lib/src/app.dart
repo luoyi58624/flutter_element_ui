@@ -6,11 +6,11 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import 'components/basic/text.dart';
 import 'service.dart';
 import 'services/theme.dart';
-import 'utils/font.dart';
+import 'utils/app_theme.dart';
 import 'components/basic/scrollbar.dart';
 
-/// Element UI 不再提供顶级 App，而是提供一个全局配置注入小部件，
-/// 因为 [MaterialApp] 设计得十分完善，没有必要造重复轮子。
+/// Element UI 不再提供顶级 App，而是提供一个全局配置注入小部件，您可以使用任意 App 构建应用，
+/// 例如：[MaterialApp]、[CupertinoApp]、[WidgetsApp]。
 class ElConfigProvider extends StatelessWidget {
   /// Element UI 全局配置注入：
   /// ```dart
@@ -30,7 +30,8 @@ class ElConfigProvider extends StatelessWidget {
 
   final Widget child;
 
-  /// 应用的主题模式，默认跟随系统，你可以强制指定应用的主题：[ThemeMode.light]、[ThemeMode.dark]
+  /// 应用的主题模式，默认跟随系统，如果是跟随系统，你可以通过 [el.isDark] 手动控制主题模式，
+  /// 你可以强制指定应用的主题：[ThemeMode.light]、[ThemeMode.dark]
   final ThemeMode themeMode;
 
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，如果想要原生默认行为，请传递 [ScrollBehavior]
@@ -48,39 +49,33 @@ class ElConfigProvider extends StatelessWidget {
           currentThemeMode = ThemeMode.dark;
         }
       }
+      final $textStyle = ElThemeUtil.buildGlobalTextStyle(el.brightness);
+
       return BrightnessWidget(
         brightness: el.brightness,
-        child: Builder(builder: (context) {
-          globalTextStyle = globalTextStyle
-              .copyWith(
-                fontWeight: ElFont.normal,
-                color: context.elTheme.textColor,
-              )
-              .merge(el.config.textStyle);
-          return Material(
-            animationDuration: el.config.themeDuration,
-            color: context.elTheme.bgColor,
-            textStyle: globalTextStyle,
-            child: ElDefaultTextStyle(
-              style: globalTextStyle,
-              child: ScrollConfiguration(
-                behavior: behavior,
-                // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
-                child: Builder(builder: (context) {
-                  Widget result = Overlay(initialEntries: [
-                    OverlayEntry(builder: (context) {
-                      return child;
-                    }),
-                  ]);
-                  if (builder != null) {
-                    result = builder!(context, result);
-                  }
-                  return result;
-                }),
-              ),
+        child: Material(
+          animationDuration: el.config.themeDuration,
+          color: context.elTheme.bgColor,
+          textStyle: $textStyle,
+          child: ElDefaultTextStyle(
+            style: $textStyle,
+            child: ScrollConfiguration(
+              behavior: behavior,
+              // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
+              child: Builder(builder: (context) {
+                Widget result = Overlay(initialEntries: [
+                  OverlayEntry(builder: (context) {
+                    return child;
+                  }),
+                ]);
+                if (builder != null) {
+                  result = builder!(context, result);
+                }
+                return result;
+              }),
             ),
-          );
-        }),
+          ),
+        ),
       );
     });
   }
