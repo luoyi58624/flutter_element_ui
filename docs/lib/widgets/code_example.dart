@@ -26,8 +26,6 @@ class CodeExampleWidget extends HookWidget {
         _initialize = true;
         var lightCodetheme = await HighlighterTheme.loadFromAssets(
           [
-            // 'assets/code_themes/dark_vs.json',
-            // 'assets/code_themes/dark_plus.json',
             'packages/syntax_highlight/themes/light_vs.json',
             'packages/syntax_highlight/themes/light_plus.json',
           ],
@@ -35,10 +33,12 @@ class CodeExampleWidget extends HookWidget {
         );
         var darkCodetheme = await HighlighterTheme.loadFromAssets(
           [
-            'packages/syntax_highlight/themes/dark_vs.json',
-            'packages/syntax_highlight/themes/dark_plus.json',
+            'assets/code_themes/dark_vs.json',
+            'assets/code_themes/dark_plus.json',
+            // 'packages/syntax_highlight/themes/dark_vs.json',
+            // 'packages/syntax_highlight/themes/dark_plus.json',
           ],
-          const TextStyle(color: Color(0xFFB9EEFF)),
+          const TextStyle(color: Color(0xFFD19A66)),
         );
         _lightCode = Highlighter(language: 'dart', theme: lightCodetheme);
         _darkCode = Highlighter(language: 'dart', theme: darkCodetheme);
@@ -73,16 +73,14 @@ class CodeExampleWidget extends HookWidget {
                   ? const Color.fromRGBO(51, 103, 209, 0.6)
                   : const Color.fromRGBO(51, 103, 209, 0.3),
             ),
-            child: SelectionArea(
-              child: Container(
-                color: context.elTheme.bgColor,
-                padding: const EdgeInsets.all(16),
-                child: ElText(
-                  $code.value,
-                  style: const TextStyle(
-                    fontFamily: 'Consolas',
-                    fontSize: 14,
-                  ),
+            child: Container(
+              color: context.elTheme.bgColor,
+              padding: const EdgeInsets.all(16),
+              child: ElText(
+                $code.value,
+                style: const TextStyle(
+                  fontFamily: 'Consolas',
+                  fontSize: 14,
                 ),
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:docs/pages/commons/not_found.dart';
 
 import '../pages/commons/component/basic/button/button.dart';
 import '../pages/commons/component/basic/text/text.dart';
+import '../pages/commons/component/data/collapse.dart';
 import '../pages/commons/component/feedback/message/message.dart';
 import '../pages/commons/overview/cupertino/cupertino.dart';
 import '../pages/commons/overview/element/element.dart';
@@ -53,6 +54,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}typography',
       builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}collapse',
+      builder: (context, state) => const CollapsePage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}message',

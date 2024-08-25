@@ -159,9 +159,11 @@ class RouterUtil {
   /// 当前路由地址响应式变量
   static final currentPath = Obs('');
 
+  /// 监听路由跳转
   static GoRouterRedirect redirect =
       (BuildContext context, GoRouterState state) {
     if (state.fullPath != null) {
+      // 设置当前路由地址响应式变量
       RouterUtil.currentPath.value = state.fullPath!;
     }
     return null;

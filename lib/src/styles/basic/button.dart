@@ -9,16 +9,16 @@ part '../../generates/styles/basic/button.g.dart';
 @ElModel.copy()
 class ElButtonStyle {
   const ElButtonStyle({
-    this.height = 32,
+    this.height,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
     this.padding,
-    this.animatedDuration = const Duration(milliseconds: 100),
+    this.animatedDuration = const Duration(milliseconds: 75),
     this.enableFeedback = false,
   });
 
   /// 按钮高度
-  final double height;
+  final double? height;
 
   /// 按钮圆角，默认：radius
   final BorderRadius? borderRadius;

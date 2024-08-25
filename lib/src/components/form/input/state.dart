@@ -51,7 +51,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       controller.text = formData!.model[formItemData!.prop];
     }
     final defaultStyle = el.config.inputStyle;
-    final $height = widget.height ?? defaultStyle.height;
+    final $height = widget.height ?? defaultStyle.height ?? el.config.baseHeight;
     _styleProp = (
       height: $height,
       borderRadius: isRound

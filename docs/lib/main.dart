@@ -31,7 +31,7 @@ class _MainAppState extends State<MainApp> {
         currentThemeMode = ThemeMode.dark;
       }
     }
-    // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会自动构建响应式路由
+    // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterUtil.isMobile.value = context.sm;
     el.config = const ElConfigData(themeDuration: Duration.zero);
     ElFont.bold = FontWeight.w600;

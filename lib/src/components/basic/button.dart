@@ -130,7 +130,7 @@ class ElButton extends StatelessWidget {
     ElAssert.themeType(type, 'ElButton');
     final elConfig = el.config;
     final defaultStyle = elConfig.buttonStyle;
-    final buttonHeight = height ?? defaultStyle.height;
+    final buttonHeight = height ?? defaultStyle.height ?? el.config.baseHeight;
     _ButtonStyleProp styleProp = (
       width: width,
       height: buttonHeight,
@@ -155,23 +155,19 @@ class ElButton extends StatelessWidget {
       loading: loading,
       enableFeedback: enableFeedback ?? defaultStyle.enableFeedback,
     );
-    var currentWidget = SelectionContainer.disabled(
-      child: Focus(
-        child: HoverBuilder(
-          disabled: disabled,
-          cursor: SystemMouseCursors.click,
-          builder: (context) => TapBuilder(
-            onTap: () {
-              if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
-              if (onPressed != null) {
-                onPressed!();
-              }
-            },
-            disabled: disabled,
-            delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
-            builder: (context) => _Button(child, styleProp),
-          ),
-        ),
+    var currentWidget = HoverBuilder(
+      disabled: disabled,
+      cursor: SystemMouseCursors.click,
+      builder: (context) => TapBuilder(
+        onTap: () {
+          if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
+          if (onPressed != null) {
+            onPressed!();
+          }
+        },
+        disabled: disabled,
+        delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
+        builder: (context) => _Button(child, styleProp),
       ),
     );
     return Padding(

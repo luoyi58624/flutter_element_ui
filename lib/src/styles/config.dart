@@ -12,6 +12,9 @@ class ElConfigData {
   /// 头部布局高度
   final double headerHeight;
 
+  /// 通用控件高度
+  final double baseHeight;
+
   /// 全局默认图标大小
   final double iconSize;
 
@@ -48,6 +51,7 @@ class ElConfigData {
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   const ElConfigData({
     this.headerHeight = 56,
+    this.baseHeight = 32,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
