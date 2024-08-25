@@ -161,9 +161,7 @@ class ElButton extends StatelessWidget {
       builder: (context) => TapBuilder(
         onTap: () {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
-          if (onPressed != null) {
-            onPressed!();
-          }
+          if (onPressed != null) onPressed!();
         },
         disabled: disabled,
         delay: el.config.buttonStyle.animatedDuration.inMilliseconds,

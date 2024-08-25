@@ -111,44 +111,42 @@ class _CardWidget extends StatelessWidget {
             ),
             const ElDivider(),
             TapBuilder(builder: (context) {
-              return SelectionContainer.disabled(
-                child: ElLink(
-                  href: href,
-                  child: Builder(builder: (context) {
-                    return GestureDetector(
-                      onTapDown: (e) {
-                        HapticFeedback.mediumImpact();
-                      },
-                      onTap: () {
-                        context.go(href);
-                      },
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color:
-                              TapBuilder.of(context) || HoverBuilder.of(context)
-                                  ? context.elTheme.primary
-                                  : context.elTheme.cardColor,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: el.config.cardRadius.bottomLeft,
-                            bottomRight: el.config.cardRadius.bottomRight,
-                          ),
+              return ElLink(
+                href: href,
+                child: Builder(builder: (context) {
+                  return GestureDetector(
+                    onTapDown: (e) {
+                      HapticFeedback.mediumImpact();
+                    },
+                    onTap: () {
+                      context.go(href);
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color:
+                            TapBuilder.of(context) || HoverBuilder.of(context)
+                                ? context.elTheme.primary
+                                : context.elTheme.cardColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: el.config.cardRadius.bottomLeft,
+                          bottomRight: el.config.cardRadius.bottomRight,
                         ),
-                        child: Center(
-                          child: ElText(
-                            '查看详情',
-                            style: TextStyle(
-                              color: TapBuilder.of(context) ||
-                                      HoverBuilder.of(context)
-                                  ? Colors.white
-                                  : context.elTheme.primary,
-                            ),
+                      ),
+                      child: Center(
+                        child: ElText(
+                          '查看详情',
+                          style: TextStyle(
+                            color: TapBuilder.of(context) ||
+                                    HoverBuilder.of(context)
+                                ? Colors.white
+                                : context.elTheme.primary,
                           ),
                         ),
                       ),
-                    );
-                  }),
-                ),
+                    ),
+                  );
+                }),
               );
             }),
           ],

@@ -51,7 +51,7 @@ class ElConfigData {
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   const ElConfigData({
     this.headerHeight = 56,
-    this.baseHeight = 32,
+    this.baseHeight = 36,
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),

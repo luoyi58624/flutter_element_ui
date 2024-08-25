@@ -38,8 +38,11 @@ RoutingConfig _buildDesktopRoutingConfig() {
         routes: [
           GoRoute(
             path: '/',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: HomePage()),
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: SelectionArea(
+                child: HomePage(),
+              ),
+            ),
             routes: [
               ShellRoute(
                 pageBuilder: (context, state, child) => NoTransitionPage(
@@ -180,7 +183,11 @@ class RouterUtil {
           ? PlatformUtil.isIOS
               ? CupertinoPage(child: builder(context, state))
               : MaterialPage(child: builder(context, state))
-          : NoTransitionPage(child: builder(context, state)),
+          : NoTransitionPage(
+              child: SelectionArea(
+                child: builder(context, state),
+              ),
+            ),
     );
   }
 

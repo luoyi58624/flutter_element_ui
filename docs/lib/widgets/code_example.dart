@@ -35,8 +35,6 @@ class CodeExampleWidget extends HookWidget {
           [
             'assets/code_themes/dark_vs.json',
             'assets/code_themes/dark_plus.json',
-            // 'packages/syntax_highlight/themes/dark_vs.json',
-            // 'packages/syntax_highlight/themes/dark_plus.json',
           ],
           const TextStyle(color: Color(0xFFD19A66)),
         );
@@ -67,17 +65,14 @@ class CodeExampleWidget extends HookWidget {
             child: child,
           ),
           const ElDivider(),
-          TextSelectionTheme(
-            data: TextSelectionThemeData(
-              selectionColor: context.isDark
-                  ? const Color.fromRGBO(51, 103, 209, 0.6)
-                  : const Color.fromRGBO(51, 103, 209, 0.3),
-            ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             child: Container(
               color: context.elTheme.bgColor,
               padding: const EdgeInsets.all(16),
               child: ElText(
                 $code.value,
+                softWrap: false,
                 style: const TextStyle(
                   fontFamily: 'Consolas',
                   fontSize: 14,

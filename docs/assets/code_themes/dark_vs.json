@@ -180,7 +180,7 @@
 		{
 			"scope": "meta.preprocessor",
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		},
 		{
@@ -210,19 +210,19 @@
 		{
 			"scope": "storage",
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		},
 		{
 			"scope": "storage.type",
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		},
 		{
 			"scope": "storage.modifier",
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		},
 		{
@@ -262,7 +262,7 @@
 		{
 			"scope": "support.type.property-name",
 			"settings": {
-				"foreground": "#9cdcfe"
+				"foreground": "#C678DD"
 			}
 		},
 		{
@@ -274,25 +274,25 @@
 		{
 			"scope": "keyword.control",
 			"settings": {
-				"foreground": "#50B1C2"
+				"foreground": "#C678DD"
 			}
 		},
 		{
 			"scope": "keyword.operator",
 			"settings": {
-				"foreground": "#50B1C2"
+				"foreground": "#C678DD"
 			}
 		},
 		{
 			"scope": ["keyword.operator.new", "keyword.operator.expression"],
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		},
 		{
 			"scope": "keyword.other.unit",
 			"settings": {
-				"foreground": "#b5cea8"
+				"foreground": "#C678DD"
 			}
 		},
 		{
@@ -327,7 +327,7 @@
 			"name": "this.self",
 			"scope": "variable.language",
 			"settings": {
-				"foreground": "#569cd6"
+				"foreground": "#C678DD"
 			}
 		}
 	]

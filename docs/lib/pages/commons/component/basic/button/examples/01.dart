@@ -82,8 +82,8 @@ class Example1 extends StatelessWidget {
 String get code1 => '''
 ElButton(onPressed: () {}, child: 'Default'),
 ElButton(onPressed: () {}, child: 'Primary', type: 'primary'),
-ElButton(onPressed: () {}, child: 'Primary', type: 'primary', plain: 'true'),
-ElButton(onPressed: () {}, child: 'Primary', type: 'primary', round: 'true'),''';
+ElButton(onPressed: () {}, child: 'Primary', type: 'success', plain: true),
+ElButton(onPressed: () {}, child: 'Primary', type: 'warning', round: true),''';
 
 String get code2 => '''
 import 'package:docs/global.dart';

@@ -64,7 +64,7 @@
 			"name": "Control flow keywords",
 			"scope": "keyword.control",
 			"settings": {
-				"foreground": "#C586C0"
+				"foreground": "#C678DD"
 			}
 		},
 		{
