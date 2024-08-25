@@ -22,6 +22,9 @@ class MaterialOverviewPage extends StatelessWidget {
           }),
         ],
       ),
+      drawer: const Drawer(
+        child: ListViewDemoWidget(),
+      ),
       body: const ColumnWidget(
         scroll: true,
         repaintBoundary: true,

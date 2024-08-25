@@ -51,6 +51,12 @@ class GlobalState {
   /// 开启性能视图
   static final showPerformanceOverlay = Obs(false);
 
+  /// 显示语义调式器
+  static final showSemanticsDebugger = Obs(false);
+
   /// 滚动组件下方是否插入[RepaintBoundary]
   static final scrollRepaintBoundary = Obs(true);
+
+  /// 是否开启全局文本选中，仅限桌面端，注意 Flutter 选中组件存在bug，此选项仅供测试
+  static final enableGlobalTextSelected = Obs(false);
 }

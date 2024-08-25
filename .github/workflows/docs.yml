@@ -25,6 +25,6 @@ jobs:
       - name: Deploy Web
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: docs_web_page
+          branch: web_page
           folder: docs/build/web
           clean: true

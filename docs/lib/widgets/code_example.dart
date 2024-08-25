@@ -67,18 +67,28 @@ class CodeExampleWidget extends HookWidget {
           const ElDivider(),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Container(
-              color: context.elTheme.bgColor,
-              padding: const EdgeInsets.all(16),
-              child: ElText(
-                $code.value,
-                softWrap: false,
-                style: const TextStyle(
-                  fontFamily: 'Consolas',
-                  fontSize: 14,
+            child: ObsBuilder(builder: (context) {
+              Widget result = Container(
+                color: context.elTheme.bgColor,
+                padding: const EdgeInsets.all(16),
+                child: ElText(
+                  $code.value,
+                  softWrap: false,
+                  style: const TextStyle(
+                    fontFamily: 'Consolas',
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-            ),
+              );
+              if (GlobalState.enableGlobalTextSelected.value) {
+                if (RouterUtil.isMobile.value == true) {
+                  return SelectionArea(child: result);
+                }
+                return result;
+              } else {
+                return SelectionArea(child: result);
+              }
+            }),
           ),
           // Expanded(
           //   child: CodeEditor(

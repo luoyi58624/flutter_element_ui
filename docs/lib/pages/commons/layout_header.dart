@@ -41,6 +41,12 @@ class LayoutHeader extends StatelessWidget {
                   color: context.elTheme.iconColor,
                 );
               }),
+              IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: const Icon(Icons.settings),
+              ),
               ElLink(
                 href: 'https://github.com/luoyi58624/flutter_element_ui',
                 child: Builder(builder: (context) {

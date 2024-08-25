@@ -38,6 +38,9 @@ class _MainAppState extends State<MainApp> {
     return ObsBuilder(builder: (context) {
       return MaterialApp.router(
         routerConfig: router,
+        debugShowCheckedModeBanner: false,
+        showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+        showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
         themeAnimationDuration: el.config.themeDuration,
         themeAnimationCurve: el.config.themeCurve,
         theme: ElThemeUtil.buildMaterialTheme(
