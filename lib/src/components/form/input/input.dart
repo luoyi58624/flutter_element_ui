@@ -33,6 +33,9 @@ class ElInput extends ElModelValue<String> {
     this.padding,
     this.round = false,
     this.disabled = false,
+    this.minLines = 1,
+    this.maxLines = -1,
+    this.style,
     this.prefixIcon,
     this.suffixIcon,
     this.textInputAction,
@@ -62,6 +65,15 @@ class ElInput extends ElModelValue<String> {
 
   /// 是否禁用
   final bool disabled;
+
+  /// 最小行
+  final int? minLines;
+
+  /// 最大行
+  final int? maxLines;
+
+  /// 输入框文本样式
+  final TextStyle? style;
 
   /// 前缀图标
   final ElIcon? prefixIcon;

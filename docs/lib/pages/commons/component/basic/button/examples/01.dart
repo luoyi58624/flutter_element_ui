@@ -10,9 +10,9 @@ class Example1 extends StatelessWidget {
     Widget buildTitle(String title) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Gap(16),
+            const Gap(28),
             H4(title),
-            const Gap(8),
+            const Gap(16),
           ],
         );
     Widget buildWrap(Iterable<Widget> children) =>
@@ -20,16 +20,50 @@ class Example1 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitle('普通按钮'),
-        buildWrap(buttonTypes.map(
-          (type) => ElButton(
-            child: (type ?? 'Default').substring(0, 1).toUpperCase() +
-                (type ?? 'Default').substring(1),
-            onPressed: null,
-            type: type,
+        buildTitle('基础用法'),
+        CodeExampleWidget(
+          code: code1,
+          child: Column(
+            children: [
+              buildWrap(
+                buttonTypes.map(
+                  (type) => ElButton(
+                    child: (type ?? 'Default').firstUpperCase,
+                    onPressed: null,
+                    type: type,
+                  ),
+                ),
+              ),
+              buildWrap(
+                buttonTypes.map(
+                  (type) => ElButton(
+                    child: (type ?? 'Default').firstUpperCase,
+                    onPressed: null,
+                    type: type,
+                    plain: true,
+                  ),
+                ),
+              ),
+              buildWrap(
+                buttonTypes.map(
+                  (type) => ElButton(
+                    child: (type ?? 'Default').firstUpperCase,
+                    onPressed: null,
+                    type: type,
+                    round: true,
+                  ),
+                ),
+              ),
+            ],
           ),
-        )),
+        ),
       ],
     );
   }
 }
+
+String get code1 => '''
+ElButton(onPressed: () {}, child: 'Default'),
+ElButton(onPressed: () {}, child: 'Primary', type: 'primary'),
+ElButton(onPressed: () {}, child: 'Primary', type: 'primary', plain: 'true'),
+ElButton(onPressed: () {}, child: 'Primary', type: 'primary', round: 'true'),''';

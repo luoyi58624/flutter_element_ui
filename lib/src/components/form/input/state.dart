@@ -21,10 +21,12 @@ class ElInputState extends ElModelValueState<ElInput, String> {
     return TextFormField(
       controller: controller,
       focusNode: focusNode,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
       style: TextStyle(
         color: context.elTheme.textColor,
         fontSize: el.config.textStyle.fontSize,
-      ),
+      ).merge(widget.style),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
       cursorColor: context.elTheme.textColor,
@@ -64,7 +66,9 @@ class ElInputState extends ElModelValueState<ElInput, String> {
               : defaultStyle.padding),
     );
     return Container(
-      height: _styleProp.height,
+      height: ((widget.minLines ?? 1) > 1 || (widget.maxLines ?? -1) > 1)
+          ? null
+          : _styleProp.height,
       margin: _styleProp.margin,
       child: Theme(
         data: ThemeData(

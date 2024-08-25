@@ -9,7 +9,6 @@ class Example2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inputController = useTextEditingController();
     final switchValue = useState(true);
     final radioValue = useState(0);
     final checkboxValue = useState(false);
@@ -17,28 +16,22 @@ class Example2 extends HookWidget {
     final sliderValue = useState(0.0);
     return ComponentDecoration(title: 'Form', children: [
       const Gap(16),
-      TextField(
-        onChanged: (v) => inputController.text = v,
-        controller: inputController,
-        decoration: const InputDecoration(
+      const TextField(
+        decoration: InputDecoration(
           label: Text('用户名'),
           contentPadding: EdgeInsets.only(bottom: 8),
         ),
       ),
       const Gap(16),
-      TextField(
-        onChanged: (v) => inputController.text = v,
-        controller: inputController,
-        decoration: const InputDecoration(
+      const TextField(
+        decoration: InputDecoration(
           label: Text('用户名'),
           filled: true,
         ),
       ),
       const Gap(16),
-      TextField(
-        onChanged: (v) => inputController.text = v,
-        controller: inputController,
-        decoration: const InputDecoration(
+      const TextField(
+        decoration: InputDecoration(
           label: Text('用户名'),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),

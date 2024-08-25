@@ -9,7 +9,7 @@ part '../../generates/styles/basic/button.g.dart';
 @ElModel.copy()
 class ElButtonStyle {
   const ElButtonStyle({
-    this.height = 36,
+    this.height = 32,
     this.borderRadius,
     this.margin = const EdgeInsets.all(4),
     this.padding,

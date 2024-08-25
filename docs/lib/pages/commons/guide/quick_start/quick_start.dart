@@ -1,6 +1,7 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+
 
 class QuickStartPage extends HookWidget {
   const QuickStartPage({super.key});
@@ -8,10 +9,25 @@ class QuickStartPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final flag = useState(false);
-    return Column(
-      children: [
-        H1('快速开始'),
-      ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            H1('快速开始'),
+            // ElInput(
+            //   inputValue,
+            //   minLines: 1,
+            //   maxLines: 10,
+            //   style: TextStyle(fontFamily: 'Consolas'),
+            // ),
+          ],
+        ),
+      ),
     );
+
+
   }
 }
+
+

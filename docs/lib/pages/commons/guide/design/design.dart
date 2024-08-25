@@ -16,6 +16,7 @@ class DesignPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
+      const Gap(16),
       SizedBox(
         height: 200,
         child: ConstrainedBox(

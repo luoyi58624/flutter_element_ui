@@ -408,7 +408,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
         ? Border.all(
             color: borderColor.value!,
             width: 1,
-            // strokeAlign: BorderSide.strokeAlignOutside,
+            strokeAlign: BorderSide.strokeAlignOutside,
           )
         : null
   );
