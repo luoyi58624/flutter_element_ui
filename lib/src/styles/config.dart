@@ -1,10 +1,15 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 import 'basic/button.dart';
 import 'basic/input.dart';
+import 'basic/link.dart';
 import 'feedback/message.dart';
 import 'feedback/toast.dart';
 
+part '../generates/styles/config.g.dart';
+
+@ElModel.copy()
 class ElConfigData {
   /// 默认全局配置数据
   static const ElConfigData data = ElConfigData();
@@ -24,6 +29,9 @@ class ElConfigData {
   /// 全局卡片圆角值（大尺寸控件）：卡片、弹窗...
   final BorderRadius cardRadius;
 
+  /// 全局触觉回馈，默认false
+  final bool enableFeedback;
+
   /// 全局通用的过渡动画持续时间
   final Duration globalDuration;
 
@@ -38,6 +46,9 @@ class ElConfigData {
 
   /// 按钮全局样式
   final ElButtonStyle buttonStyle;
+
+  /// 超链接全局样式
+  final ElLinkStyle linkStyle;
 
   /// 输入框全局样式
   final ElInputStyle inputStyle;
@@ -55,43 +66,15 @@ class ElConfigData {
     this.iconSize = 18,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
+    this.enableFeedback = false,
     this.globalDuration = const Duration(milliseconds: 250),
     this.themeDuration = const Duration(milliseconds: 100),
     this.themeCurve = Curves.linear,
     this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),
+    this.linkStyle = const ElLinkStyle(),
     this.inputStyle = const ElInputStyle(),
     this.messageStyle = const ElMessageStyle(),
     this.toastStyle = const ElToastStyle(),
   });
-
-  ElConfigData copyWith({
-    double? headerHeight,
-    double? iconSize,
-    BorderRadius? radius,
-    BorderRadius? cardRadius,
-    Duration? globalDuration,
-    Duration? themeDuration,
-    Curve? themeCurve,
-    TextStyle? textStyle,
-    ElButtonStyle? buttonStyle,
-    ElInputStyle? inputStyle,
-    ElMessageStyle? messageStyle,
-    ElToastStyle? toastStyle,
-  }) {
-    return ElConfigData(
-      headerHeight: headerHeight ?? this.headerHeight,
-      iconSize: iconSize ?? this.iconSize,
-      radius: radius ?? this.radius,
-      cardRadius: cardRadius ?? this.cardRadius,
-      globalDuration: globalDuration ?? this.globalDuration,
-      themeDuration: themeDuration ?? this.themeDuration,
-      themeCurve: themeCurve ?? this.themeCurve,
-      textStyle: this.textStyle.merge(textStyle),
-      buttonStyle: this.buttonStyle.merge(buttonStyle),
-      inputStyle: this.inputStyle.merge(inputStyle),
-      messageStyle: this.messageStyle.merge(messageStyle),
-      toastStyle: this.toastStyle.merge(toastStyle),
-    );
-  }
 }

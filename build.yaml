@@ -1,5 +1,9 @@
 targets:
   $default:
+    auto_apply_builders: true
+    sources:
+      - lib/**
+      - $package$
     builders:
       source_gen:combining_builder:
         options:
@@ -7,6 +11,6 @@ targets:
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
       flutter_element_generator|model:
         generate_for:
-          include:
-            - lib/src/styles/**.dart
-            - lib/src/components/**.dart
+          - lib/src/styles/**.dart
+          - lib/src/components/**.dart
+

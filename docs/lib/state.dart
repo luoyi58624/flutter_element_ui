@@ -57,6 +57,11 @@ class GlobalState {
   /// 滚动组件下方是否插入[RepaintBoundary]
   static final scrollRepaintBoundary = Obs(true);
 
-  /// 是否开启全局文本选中，仅限桌面端，注意 Flutter 选中组件存在bug，此选项仅供测试
+  /// 是否开启全局文本选中，仅限桌面端。
+  ///
+  /// 注意 Flutter 选中组件与导航存在bug，在 router.dart 中 _buildDesktopRoutingConfig 函数，
+  /// 首页如果设置了支持选中，当进入任意一个子页面时，拖拽窗口大小首页的选中将报错，这时退回到首页发现无法选中任何内容。
+  ///
+  /// 链接：https://github.com/flutter/flutter/issues/119772
   static final enableGlobalTextSelected = Obs(false);
 }

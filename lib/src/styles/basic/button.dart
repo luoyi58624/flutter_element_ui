@@ -14,10 +14,10 @@ class ElButtonStyle {
     this.margin = const EdgeInsets.all(4),
     this.padding,
     this.animatedDuration = const Duration(milliseconds: 75),
-    this.enableFeedback = false,
+    this.enableFeedback,
   });
 
-  /// 按钮高度
+  /// 按钮高度，默认全局 baseHeight
   final double? height;
 
   /// 按钮圆角，默认：radius
@@ -32,6 +32,6 @@ class ElButtonStyle {
   /// 按钮动画持续时间
   final Duration animatedDuration;
 
-  /// 是否开启触觉回馈
-  final bool enableFeedback;
+  /// 是否开启触觉回馈，默认跟随全局
+  final bool? enableFeedback;
 }

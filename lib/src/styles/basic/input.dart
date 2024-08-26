@@ -15,7 +15,7 @@ class ElInputStyle {
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
   });
 
-  /// 输入框高度
+  /// 输入框高度，默认全局 baseHeight
   final double? height;
 
   /// 输入框圆角：默认：radius

@@ -128,8 +128,7 @@ class ElButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(type, 'ElButton');
-    final elConfig = el.config;
-    final defaultStyle = elConfig.buttonStyle;
+    final defaultStyle = el.config.buttonStyle;
     final buttonHeight = height ?? defaultStyle.height ?? el.config.baseHeight;
     _ButtonStyleProp styleProp = (
       width: width,
@@ -143,7 +142,7 @@ class ElButton extends StatelessWidget {
       round: round,
       block: block,
       borderRadius:
-          borderRadius ?? defaultStyle.borderRadius ?? elConfig.radius,
+          borderRadius ?? defaultStyle.borderRadius ?? el.config.radius,
       margin: margin ?? defaultStyle.margin,
       padding: padding ??
           defaultStyle.padding ??
@@ -153,7 +152,9 @@ class ElButton extends StatelessWidget {
       circle: circle,
       disabled: disabled,
       loading: loading,
-      enableFeedback: enableFeedback ?? defaultStyle.enableFeedback,
+      enableFeedback: enableFeedback ??
+          defaultStyle.enableFeedback ??
+          el.config.enableFeedback,
     );
     var currentWidget = HoverBuilder(
       disabled: disabled,

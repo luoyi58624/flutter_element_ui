@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../../../components/basic/text.dart';
+import '../../../service.dart';
 import './web.dart' if (dart.library.io) './io.dart';
 
 /// 超链接地址显示、隐藏动画控制器
@@ -41,6 +43,20 @@ enum ElLinkDecoration {
   hoverUnderline,
 }
 
+enum ElLinkTarget {
+  /// 在当前页面打开
+  self,
+
+  /// 在新标签页打开 (默认)
+  blank,
+
+  /// 在父框架中打开链接文档，对于非 Web 端，效果等同于 [blank]
+  parent,
+
+  /// 在窗口的整个主体中打开链接的文档，对于非 Web 端，效果等同于 [blank]
+  top,
+}
+
 class _LinkInheritedWidget extends InheritedWidget {
   const _LinkInheritedWidget({
     this.href,
@@ -55,13 +71,23 @@ class _LinkInheritedWidget extends InheritedWidget {
     final _LinkInheritedWidget? result =
         context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
     assert(result != null,
-        '当前上下文 context 无法获取 ElLink 实例，请使用 Builder 小部件转发 context');
+        '当前上下文 context 无法获取 ElLink 实例，请尝试使用 Builder 小部件转发 context');
     return result!;
   }
 
   @override
   bool updateShouldNotify(_LinkInheritedWidget oldWidget) => true;
 }
+
+typedef _LinkStyleProp = ({
+  MouseCursor cursor,
+  Color color,
+  Color activeColor,
+  ElLinkDecoration decoration,
+  ElLinkTarget target,
+  bool? enabledPreview,
+  bool enableFeedback,
+});
 
 class ElLink extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件设置了点击事件，
@@ -71,10 +97,12 @@ class ElLink extends StatelessWidget {
     required this.child,
     this.href,
     this.cursor,
-    this.color = hrefColor,
-    this.activeColor = hrefColor,
-    this.decoration = ElLinkDecoration.none,
-    this.enabledPreview = true,
+    this.color,
+    this.activeColor,
+    this.decoration,
+    this.target,
+    this.enabledPreview,
+    this.enableFeedback,
   });
 
   /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
@@ -87,18 +115,22 @@ class ElLink extends StatelessWidget {
   final MouseCursor? cursor;
 
   /// 默认的超链接文本颜色
-  final Color color;
+  final Color? color;
 
   /// 激活的超链接文本颜色
-  final Color activeColor;
+  final Color? activeColor;
 
   /// 超链接下划线显示逻辑
-  final ElLinkDecoration decoration;
+  final ElLinkDecoration? decoration;
+
+  /// 打开链接的目标位置，默认 blank
+  final ElLinkTarget? target;
 
   /// 是否开启超链接地址预览
-  final bool enabledPreview;
+  final bool? enabledPreview;
 
-  static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
+  /// 是否开启触觉回馈
+  final bool? enableFeedback;
 
   /// 从当前上下文获取最近的超链接地址
   static String? getHref(BuildContext context) =>
@@ -136,15 +168,42 @@ class ElLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultStyle = el.config.linkStyle;
+    _LinkStyleProp styleProp = (
+      cursor: cursor ?? defaultStyle.cursor,
+      color: color ?? defaultStyle.color,
+      activeColor: activeColor ?? defaultStyle.activeColor,
+      decoration: decoration ?? defaultStyle.decoration,
+      target: target ?? defaultStyle.target,
+      enabledPreview: enabledPreview ?? defaultStyle.enableFeedback,
+      enableFeedback: enableFeedback ??
+          defaultStyle.enableFeedback ??
+          el.config.enableFeedback,
+    );
     final $href = getFullHref(href);
-    final $to = $href == null ? null : () => launchUrl(Uri.parse($href));
+    final $to = $href == null ? null : () => toHref($href, styleProp.target);
+    bool $enabledPreview = false;
+
+    if ($href != null) {
+      if (DartUtil.isHttp($href)) {
+        $enabledPreview = true;
+      } else {
+        if (styleProp.enabledPreview == null) {
+          if (kIsWeb) {
+            $enabledPreview = true;
+          }
+        } else {
+          $enabledPreview = styleProp.enabledPreview!;
+        }
+      }
+    }
     return _LinkInheritedWidget(
       href: href,
       to: $to,
       child: Builder(builder: (context) {
         return HoverBuilder(
-          cursor: cursor ?? SystemMouseCursors.click,
-          onEnter: $href == null || !enabledPreview
+          cursor: styleProp.cursor,
+          onEnter: $enabledPreview == false
               ? null
               : (e) {
                   if (_delayHideOverlay != null) {
@@ -158,12 +217,12 @@ class ElLink extends StatelessWidget {
                     }
                   }
                   if (_linkOverlay == null) {
-                    _delayShowOverlay = (() => _show($href)).delay(_delayTime);
+                    _delayShowOverlay = (() => _show($href!)).delay(_delayTime);
                   } else {
-                    _show($href);
+                    _show($href!);
                   }
                 },
-          onExit: $href == null || !enabledPreview
+          onExit: $enabledPreview == false
               ? null
               : (e) {
                   if (_delayShowOverlay != null) {
@@ -182,16 +241,21 @@ class ElLink extends StatelessWidget {
               } else {
                 return ElDefaultTextStyle.merge(
                   style: TextStyle(
-                    color: HoverBuilder.of(context) ? activeColor : color,
-                    decoration: decoration == ElLinkDecoration.underline
-                        ? TextDecoration.underline
-                        : decoration == ElLinkDecoration.hoverUnderline
-                            ? (HoverBuilder.of(context)
-                                ? TextDecoration.underline
-                                : TextDecoration.none)
-                            : TextDecoration.none,
-                    decorationColor:
-                        HoverBuilder.of(context) ? activeColor : color,
+                    color: HoverBuilder.of(context)
+                        ? styleProp.activeColor
+                        : styleProp.color,
+                    decoration:
+                        styleProp.decoration == ElLinkDecoration.underline
+                            ? TextDecoration.underline
+                            : styleProp.decoration ==
+                                    ElLinkDecoration.hoverUnderline
+                                ? (HoverBuilder.of(context)
+                                    ? TextDecoration.underline
+                                    : TextDecoration.none)
+                                : TextDecoration.none,
+                    decorationColor: HoverBuilder.of(context)
+                        ? styleProp.activeColor
+                        : styleProp.color,
                   ),
                   child: ElText(child),
                 );

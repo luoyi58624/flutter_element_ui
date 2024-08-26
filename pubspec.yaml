@@ -19,6 +19,7 @@ dependencies:
       url: https://github.com/luoyi58624/luoyi_flutter_base.git
   flutter_svg: ^2.0.10+1
   defer_pointer: ^0.0.2
+  web: ^1.0.0
 
 dev_dependencies:
   flutter_test:

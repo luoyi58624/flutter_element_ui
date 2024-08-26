@@ -25,6 +25,7 @@ class GlobalSetting extends StatelessWidget {
                   color: context.elTheme.iconColor,
                 ),
               ),
+              const Gap(8),
             ],
           ),
         ),
