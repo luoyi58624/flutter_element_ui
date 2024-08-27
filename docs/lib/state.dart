@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'global.dart';
-
-/// 当前应用的主题模式，如果指定跟随系统，同时当前平台启用了全局暗黑模式，那么此变量将强制为 dark
-late ThemeMode currentThemeMode;
+import 'main.dart';
 
 class GlobalState {
   GlobalState._();
@@ -14,7 +12,7 @@ class GlobalState {
 
   /// 当前是否是暗黑主题
   static bool get isDark {
-    switch (currentThemeMode) {
+    switch (MainApp.currentThemeMode) {
       case ThemeMode.system:
         return _isDark.value;
       case ThemeMode.light:
@@ -26,7 +24,7 @@ class GlobalState {
 
   /// 手动设置暗黑模式，只有当前主题模式是跟随系统时才生效
   static set isDark(bool v) {
-    if (currentThemeMode == ThemeMode.system) _isDark.value = v;
+    if (MainApp.currentThemeMode == ThemeMode.system) _isDark.value = v;
   }
 
   static Brightness get brightness =>

@@ -13,9 +13,9 @@ abstract class _ListBoxBase extends _ListBase {
     required this.listType,
     required this.children,
     required this.listStyleType,
-    this.gap = 2,
+    this.markerGap = 4,
     this.nestGap = 16,
-  })  : assert(gap >= 0),
+  })  : assert(markerGap >= 0),
         assert(nestGap >= 0);
 
   final _ListType listType;
@@ -27,10 +27,11 @@ abstract class _ListBoxBase extends _ListBase {
   final ListStyleType listStyleType;
 
   /// 列表前缀和内容之间的间距
-  final double gap;
+  final double markerGap;
 
   /// 嵌套列表距离上一个列表的间距
   final double nestGap;
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ abstract class _ListBoxBase extends _ListBase {
     return _ListInheritedWidget(
       listType,
       listStyleType,
-      gap,
+      markerGap,
       $currentGapSize,
       child: result,
     );
@@ -91,7 +92,7 @@ class Ul extends _ListBoxBase {
     super.key,
     required super.children,
     super.listStyleType = ListStyleType.disc,
-    super.gap,
+    super.markerGap,
     super.nestGap,
   }) : super(listType: _ListType.ul);
 }
@@ -102,7 +103,7 @@ class Ol extends _ListBoxBase {
     super.key,
     required super.children,
     super.listStyleType = ListStyleType.decimal,
-    super.gap,
+    super.markerGap,
     super.nestGap,
     this.start = 1,
   }) : super(listType: _ListType.ol);
@@ -121,9 +122,25 @@ class Ol extends _ListBoxBase {
 
 class Li extends _ListBase {
   /// Html 列表子元素
-  const Li({super.key, required this.child});
+  const Li({
+    super.key,
+    required this.child,
+    this.fontSize = 16,
+    this.lineHeight = 1.8,
+    this.height,
+  });
 
   final dynamic child;
+
+  /// 设置文字大小
+  final double fontSize;
+
+  /// 设置文字行高
+  final double lineHeight;
+
+  /// 指定列表元素的高度，默认高度为 fontSize * lineHeight，
+  /// 如果列表子元素不是文字，你可能需要指定列表高度以保证前缀对齐效果
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -132,10 +149,19 @@ class Li extends _ListBase {
     Widget? prefix = _buildPrefix(context);
     if (prefix != null) {
       result = Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           prefix,
-          Gap($data.gap),
-          Expanded(child: result),
+          Gap($data.markerGap),
+          Expanded(
+            child: ElDefaultTextStyle(
+              style: TextStyle(
+                fontSize: fontSize,
+                height: lineHeight,
+              ),
+              child: result,
+            ),
+          ),
         ],
       );
     } else {
@@ -152,6 +178,7 @@ class Li extends _ListBase {
   Widget? _buildPrefix(BuildContext context) {
     final $data = _ListInheritedWidget.of(context);
     final $indexData = ChildIndexData.of(context);
+    final $height = height ?? fontSize * lineHeight;
     if ($data.listStyleType == ListStyleType.none) return null;
     if ($data.listType == _ListType.ul) {
       late BoxDecoration decoration;
@@ -174,10 +201,11 @@ class Li extends _ListBase {
       }
       return SizedBox(
         width: $data.currentGapSize,
+        height: $height,
         child: Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.only(left: $data.gap),
+            padding: EdgeInsets.only(left: $data.markerGap),
             child: Container(
               width: _listStyleSize,
               height: _listStyleSize,
@@ -191,12 +219,16 @@ class Li extends _ListBase {
         final $olData = _OlInheritedWidget.of(context);
         return SizedBox(
           width: $data.currentGapSize,
+          height: $height,
           child: Align(
             alignment: Alignment.centerRight,
-            child: ElText(
-              '${$olData.start + $indexData.index}.',
-              maxLines: 1,
-              overflow: TextOverflow.clip,
+            child: SelectionContainer.disabled(
+              child: ElText(
+                '${$olData.start + $indexData.index}.',
+                style: TextStyle(fontSize: fontSize, height: lineHeight),
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+              ),
             ),
           ),
         );
@@ -229,14 +261,14 @@ class _ListInheritedWidget extends InheritedWidget {
   const _ListInheritedWidget(
     this.listType,
     this.listStyleType,
-    this.gap,
+    this.markerGap,
     this.currentGapSize, {
     required super.child,
   });
 
   final _ListType listType;
   final ListStyleType listStyleType;
-  final double gap;
+  final double markerGap;
   final double currentGapSize;
 
   static _ListInheritedWidget? maybeOf(BuildContext context) =>

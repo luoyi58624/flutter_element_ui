@@ -10,6 +10,9 @@ void main() async {
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
+  /// 当前应用的主题模式，如果指定跟随系统，同时当前平台启用了全局暗黑模式，那么此变量将强制为 dark
+  static late ThemeMode currentThemeMode;
+
   @override
   State<MainApp> createState() => _MainAppState();
 }
@@ -24,11 +27,11 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    currentThemeMode = ThemeMode.system;
+    MainApp.currentThemeMode = ThemeMode.system;
     // 如果用户已经开启全局黑暗模式，那么不允许应用手动控制暗黑模式开关
-    if (currentThemeMode == ThemeMode.system) {
+    if (MainApp.currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
-        currentThemeMode = ThemeMode.dark;
+        MainApp.currentThemeMode = ThemeMode.dark;
       }
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由

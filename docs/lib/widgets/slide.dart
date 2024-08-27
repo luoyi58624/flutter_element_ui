@@ -30,7 +30,6 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => ElLink(
                                 href: e.$2,
-                                enabledPreview: true,
                                 child: GestureDetector(
                                   onTapDown: (event) {
                                     context.go(e.$2);

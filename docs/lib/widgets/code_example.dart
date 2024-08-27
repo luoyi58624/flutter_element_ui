@@ -24,22 +24,22 @@ class CodeExampleWidget extends HookWidget {
       FlutterUtil.nextTick(() async {
         await Highlighter.initialize(['dart']);
         _initialize = true;
-        var lightCodetheme = await HighlighterTheme.loadFromAssets(
+        var lightCodeTheme = await HighlighterTheme.loadFromAssets(
           [
             'packages/syntax_highlight/themes/light_vs.json',
             'packages/syntax_highlight/themes/light_plus.json',
           ],
           const TextStyle(color: Color(0xFF000088)),
         );
-        var darkCodetheme = await HighlighterTheme.loadFromAssets(
+        var darkCodeTheme = await HighlighterTheme.loadFromAssets(
           [
             'assets/code_themes/dark_vs.json',
             'assets/code_themes/dark_plus.json',
           ],
           const TextStyle(color: Color(0xFFD19A66)),
         );
-        _lightCode = Highlighter(language: 'dart', theme: lightCodetheme);
-        _darkCode = Highlighter(language: 'dart', theme: darkCodetheme);
+        _lightCode = Highlighter(language: 'dart', theme: lightCodeTheme);
+        _darkCode = Highlighter(language: 'dart', theme: darkCodeTheme);
         if (context.mounted) {
           $code.value =
               (context.isDark ? _darkCode : _lightCode)!.highlight(code);

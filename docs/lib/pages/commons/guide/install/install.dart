@@ -6,8 +6,41 @@ class InstallPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final count = useState(0);
 
-    return SingleChildScrollView();
+    Widget result = InkWell(
+      onTap: () {
+        count.value++;
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 8.0,
+        ),
+        child: ElText('count: ${count.value}'),
+      ),
+    );
+    return Center(
+      // child: Material(
+      //   type: MaterialType.transparency,
+      //   borderRadius: BorderRadius.circular(6),
+      //   clipBehavior: Clip.hardEdge,
+      //   child:
+      // ),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: ClipPath(
+          clipBehavior: Clip.hardEdge,
+          clipper: ShapeBorderClipper(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
+          child: result,
+        ),
+      ),
+    );
   }
 }

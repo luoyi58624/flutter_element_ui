@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   flutter_element_annotation:
     path: ./packages/flutter_element_annotation
-  flutter_obs: ^1.4.5
 #  luoyi_flutter_base: ^2.6.0
   luoyi_flutter_base:
     git:

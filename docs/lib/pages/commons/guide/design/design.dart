@@ -92,7 +92,6 @@ class DesignPage extends ResponsivePage {
                 ElText(e.$1, style: TextStyle(fontWeight: FontUtil.medium)),
                 (e.$2)
               ],
-              style: const TextStyle(height: 1.8),
             ),
           ),
         ),
