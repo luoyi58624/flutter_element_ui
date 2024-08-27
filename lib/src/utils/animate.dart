@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ElAnimateUtil {}
+class ElAnimateUtil {
+
+}
 
 class ElAnimate extends StatefulWidget {
   const ElAnimate({super.key});

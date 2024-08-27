@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_element_ui/src/components/others/triangle/triangle.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
+
+import '../others/triangle/triangle.dart';
 
 class ElInputNumber extends HookWidget {
   const ElInputNumber({super.key});
@@ -9,9 +10,7 @@ class ElInputNumber extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return const _InputNumberWidget(
-      content: TextField(
-
-      ),
+      content: TextField(),
       upButton: _Box(color: Colors.red),
       downButton: _Box(color: Colors.grey),
       // downButton: _ControlButton(direction: AxisDirection.down),

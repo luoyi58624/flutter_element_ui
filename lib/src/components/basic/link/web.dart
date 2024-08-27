@@ -1,4 +1,4 @@
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 import 'package:web/web.dart';
 
 // ignore: depend_on_referenced_packages

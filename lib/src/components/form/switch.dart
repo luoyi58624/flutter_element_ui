@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
-
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 import '../../widgets/model_value.dart';
 import '../basic/icon.dart';
@@ -12,7 +10,7 @@ class ElSwitch extends ElModelValue<bool> {
     super.modelValue, {
     super.key,
     super.onChanged,
-    this.size = 20.0,
+    this.size = 24.0,
     this.width,
     this.gap = 4.0,
     this.activeColor,
@@ -82,11 +80,12 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
 
   Color get inactiveColor => widget.inactiveColor ?? Colors.white;
 
-  Color get activeBgColor =>
-      (widget.activeBgColor ?? context.elTheme.primary).withOpacity(disabledOpacity);
-
-  Color get inactiveBgColor => (widget.inactiveBgColor ?? context.elTheme.borderColor)
+  Color get activeBgColor => (widget.activeBgColor ?? context.elTheme.primary)
       .withOpacity(disabledOpacity);
+
+  Color get inactiveBgColor =>
+      (widget.inactiveBgColor ?? context.elTheme.borderColor)
+          .withOpacity(disabledOpacity);
 
   @override
   void initState() {

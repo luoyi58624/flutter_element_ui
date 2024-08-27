@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 /// 由于 [DefaultTextStyle] 被 Material 深度绑定，导致 Element 组件完全没法应用自己的文本主题，
 /// 所以 [ElText] 将会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式。

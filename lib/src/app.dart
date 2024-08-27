@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 import 'components/basic/text.dart';
-import 'service.dart';
 import 'utils/app_theme.dart';
 import 'components/basic/scrollbar.dart';
 

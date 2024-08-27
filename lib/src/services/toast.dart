@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/src/extensions/private.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
+import 'package:flutter_element_ui/global.dart';
 
 import '../components/basic/text.dart';
-import '../service.dart';
 
 /// 自定义轻提示构建
 typedef ElToastBuilder = Widget Function(

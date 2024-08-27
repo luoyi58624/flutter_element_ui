@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 import '../../components/basic/text.dart';
 
@@ -31,7 +31,6 @@ abstract class _ListBoxBase extends _ListBase {
 
   /// 嵌套列表距离上一个列表的间距
   final double nestGap;
-
 
   @override
   Widget build(BuildContext context) {

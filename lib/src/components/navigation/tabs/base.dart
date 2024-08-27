@@ -1,10 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/global.dart';
 
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-
-import '../../../service.dart';
 import 'inherited_data.dart';
 
 enum ElTabType {

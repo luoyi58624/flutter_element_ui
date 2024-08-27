@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
-
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 import '../../service.dart';
 import '../../utils/icons.dart';

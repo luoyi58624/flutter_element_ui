@@ -1,46 +1,70 @@
 import 'package:docs/global.dart';
+import 'package:docs/pages/commons/responsive_page.dart';
 import 'package:flutter/material.dart';
 
-class InstallPage extends HookWidget {
+class InstallPage extends ResponsivePage {
   const InstallPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final count = useState(0);
+  String get title => '安装';
 
-    Widget result = InkWell(
-      onTap: () {
-        count.value++;
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 8.0,
+  @override
+  List<Widget> buildPage(BuildContext context) {
+    final count = useState(0);
+    final flag = useState(false);
+    final d = 500.ms;
+
+    Widget result = Ink(
+      decoration: BoxDecoration(
+        color: context.isDark ? Colors.grey.shade800 : Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(6),
+        // splashColor: Colors.black12,
+        // splashFactory: noRipperFactory,
+        hoverDuration: 100.ms,
+        onTap: () {
+          count.value++;
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
+          child: ElText(
+            'count: ${count.value}',
+            style: TextStyle(fontWeight: ElFont.medium, fontSize: 15),
+          ),
         ),
-        child: ElText('count: ${count.value}'),
       ),
     );
-    return Center(
-      // child: Material(
-      //   type: MaterialType.transparency,
-      //   borderRadius: BorderRadius.circular(6),
-      //   clipBehavior: Clip.hardEdge,
-      //   child:
-      // ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-        ),
-        child: ClipPath(
-          clipBehavior: Clip.hardEdge,
-          clipper: ShapeBorderClipper(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-          child: result,
-        ),
+    return [
+      result,
+      Center(child: ElSwitch(flag)),
+      const Gap(50),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          FadeInLeft(animate: flag.value, duration: d, child: Square()),
+          FadeInUp(animate: flag.value, duration: d, child: Square()),
+          FadeInDown(animate: flag.value, duration: d, child: Square()),
+          FadeInRight(animate: flag.value, duration: d, child: Square()),
+        ],
       ),
+    ];
+  }
+}
+
+class Square extends StatelessWidget {
+  const Square({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 50,
+      height: 50,
+      color: Colors.green,
     );
   }
 }

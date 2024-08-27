@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart' show Badge;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/global.dart';
 
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
-
-import '../../service.dart';
 import '../../utils/font.dart';
 
 class ElBadge extends StatelessWidget {

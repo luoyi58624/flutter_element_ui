@@ -2,7 +2,7 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 /// 响应式页面抽象类
-abstract class ResponsivePage extends StatelessWidget {
+abstract class ResponsivePage extends HookWidget {
   const ResponsivePage({super.key});
 
   /// 页面标题

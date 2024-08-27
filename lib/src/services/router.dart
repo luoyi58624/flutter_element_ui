@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/global.dart';
 
 mixin ElRouterService {
   /// 根节点路由导航key，请务必挂载此 key。

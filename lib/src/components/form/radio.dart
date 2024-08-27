@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/element.dart';
+import 'package:flutter_element_ui/global.dart';
 
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 import '../basic/text.dart';
 
 part 'radio_group.dart';
