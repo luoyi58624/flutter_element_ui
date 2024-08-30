@@ -5,6 +5,15 @@ import 'package:flutter/material.dart';
 
 TickerProvider? parent;
 
+void useLoadData() {
+  onMounted(() async {
+    ElLoading.show('加载数据中');
+    await 300.ms.delay();
+    ElLoading.close();
+    el.toast.show('加载完成');
+  });
+}
+
 class QuickStartPage extends ResponsivePage {
   const QuickStartPage({super.key});
 
@@ -17,41 +26,35 @@ class QuickStartPage extends ResponsivePage {
     final slider = useState(0.0);
     final flag = useState(true);
     final vsync = useSingleTickerProvider();
-    if (parent != null) {
-      i(vsync == parent);
-    }
     parent = vsync;
     final controller = useAnimationController(
-      duration: 1500.ms,
+      duration: 500.ms,
       initialValue: flag.value ? 1 : 0,
       vsync: vsync,
     );
     final sizeAnimate = controller.createAnimate(
-      100.0,
-      200.0,
-      curve: Interval(0.1, 0.9,
-          curve: flag.value
-              ? Curves.fastEaseInToSlowEaseOut
-              : Curves.fastEaseInToSlowEaseOut.flipped),
+      tween: Tween(begin: 100.0, end: 200.0),
     );
     final borderAnimate = controller.createAnimate(
-      8.0,
-      32.0,
-      curve: Interval(0.0, 1.0,
-          curve: flag.value
-              ? Curves.fastEaseInToSlowEaseOut
-              : Curves.fastEaseInToSlowEaseOut.flipped),
+      tween: Tween(begin: 8.0, end: 32.0),
+    );
+    final colorAnimate = controller.createAnimate(
+      tween: ColorTween(begin: Colors.green, end: Colors.red),
     );
 
-    useEffect(() {
-      if (flag.value) {
+    useLoadData();
+    onMounted(() async {
+      i('mounted, size: ${context.size}');
+    });
+    useWatch(flag, (newValue, oldValue) {
+      if (newValue) {
         controller.forward();
       } else {
         controller.reverse();
       }
-      return null;
-    }, [flag.value]);
+    });
     return [
+      const Gap(8),
       ElSwitch(flag),
       const Gap(8),
       AnimatedBuilder(
@@ -61,7 +64,7 @@ class QuickStartPage extends ResponsivePage {
             width: sizeAnimate.value,
             height: sizeAnimate.value,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: colorAnimate.value,
               borderRadius: BorderRadius.circular(borderAnimate.value),
             ),
           );

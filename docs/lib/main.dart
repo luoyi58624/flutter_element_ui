@@ -22,7 +22,7 @@ class _MainAppState extends State<MainApp> {
   void reassemble() {
     super.reassemble();
     // 热刷新时让路由配置立刻生效，不需要重启整个应用
-    RouterUtil.isMobile.notify();
+    // RouterUtil.isMobile.notify();
   }
 
   @override

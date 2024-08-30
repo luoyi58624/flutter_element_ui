@@ -105,6 +105,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  decimal:
+    dependency: "direct main"
+    description:
+      name: decimal
+      sha256: "4140a688f9e443e2f4de3a1162387bf25e1ac6d51e24c9da263f245210f41440"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   defer_pointer:
     dependency: transitive
     description:
@@ -269,11 +277,12 @@ packages:
   flutter_obs:
     dependency: "direct overridden"
     description:
-      name: flutter_obs
-      sha256: a45a0a6dab08992fdac320590f69648f26aa4818edab8672a4ca696418d29517
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: c1421a98a0e37704651925ccfbadb926d724f88b
+      url: "https://github.com/luoyi58624/flutter_obs.git"
+    source: git
+    version: "1.5.4"
   flutter_shaders:
     dependency: transitive
     description:
@@ -410,7 +419,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1003a2b2de021fae255c0ac8115de9ca7b1c0f92"
+      resolved-ref: "9859912fde992c697b412ef08855d79cd544c0dc"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"
@@ -534,6 +543,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  rational:
+    dependency: transitive
+    description:
+      name: rational
+      sha256: cb808fb6f1a839e6fc5f7d8cb3b0a10e1db48b3be102de73938c627f0b636336
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
   rxdart:
     dependency: transitive
     description:
