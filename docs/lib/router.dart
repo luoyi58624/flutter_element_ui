@@ -27,6 +27,7 @@ final routingConfig = Obs<RoutingConfig>(
   const RoutingConfig(routes: []),
 );
 
+/// 构建适用于桌面端路由配置
 RoutingConfig _buildDesktopRoutingConfig() {
   return RoutingConfig(
     redirect: RouterUtil.redirect,
@@ -76,6 +77,7 @@ RoutingConfig _buildDesktopRoutingConfig() {
   );
 }
 
+/// 构建适用于移动端路由配置，移动端布局特点是包含 4 个一级根页面，所以它会用 [StatefulShellRoute] 构建有状态选项卡式导航
 RoutingConfig _buildMobileRoutingConfig() {
   return RoutingConfig(
     redirect: RouterUtil.redirect,
@@ -130,7 +132,7 @@ RoutingConfig _buildMobileRoutingConfig() {
 /// 根路由模型
 typedef RootRouteModelType = (String name, String path);
 
-/// 侧边栏路由模型类型，同样适用于移动端
+/// 侧边栏路由模型类型，这个模型同样适用于移动端
 typedef SlideRouteModelType = (
   String title,
   List<(String name, String path)> items
@@ -147,7 +149,8 @@ class RootRoute {
 class RouterUtil {
   RouterUtil._();
 
-  /// 检测当前屏幕尺寸是否到达移动端断点
+  /// 检测当前屏幕尺寸是否到达移动端断点，MainApp 会监听 MediaQuery 的尺寸变化，
+  /// 当尺寸小于 640px 时将使用移动端路由配置，大于 640px 时则使用桌面端路由配置
   static final isMobile = Obs<bool?>(
     null,
     watch: (newValue, oldValue) {

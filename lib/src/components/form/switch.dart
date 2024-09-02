@@ -133,7 +133,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
         cursor: SystemMouseCursors.click,
         builder: (context) {
           return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
+            duration: context.themeDuration(300.ms),
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(

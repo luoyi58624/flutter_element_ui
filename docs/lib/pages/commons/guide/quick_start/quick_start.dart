@@ -8,7 +8,7 @@ TickerProvider? parent;
 void useLoadData() {
   onMounted(() async {
     ElLoading.show('加载数据中');
-    await 300.ms.delay();
+    await 1000.ms.delay();
     ElLoading.close();
     el.toast.show('加载完成');
   });

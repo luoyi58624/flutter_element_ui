@@ -12,7 +12,7 @@ abstract class ElModelValue<D> extends StatefulWidget {
   /// 则无需监听 [onChanged] 手动更改变量状态
   final dynamic modelValue;
 
-  /// 变量更新事件
+  /// 变量更新事件，任何一个支持双向绑定的小部件都一定会提供监听变化事件
   final ValueChanged<D>? onChanged;
 
   @override

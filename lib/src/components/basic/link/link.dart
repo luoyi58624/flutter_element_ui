@@ -27,7 +27,7 @@ Timer? _delayHideOverlay;
 /// 移除浮层前需要先执行隐藏动画，动画结束后再移除浮层
 Timer? _delayRemoveOverlay;
 
-/// 超链接浮层地址响应式变量
+/// 响应式变量 - 超链接预览地址
 final Obs<String> _href = Obs('');
 
 enum ElLinkDecoration {
@@ -65,7 +65,7 @@ class _LinkInheritedWidget extends InheritedWidget {
   final String? href;
   final VoidCallback? to;
 
-  static _LinkInheritedWidget? of(BuildContext context) {
+  static _LinkInheritedWidget of(BuildContext context) {
     final _LinkInheritedWidget? result =
         context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
     assert(result != null,
@@ -89,7 +89,8 @@ typedef _LinkStyleProp = ({
 
 class ElLink extends StatelessWidget {
   /// 超链接小部件，当鼠标悬停时会在左下角显示链接地址，如果子组件设置了点击事件，
-  /// 那么你需要手动执行跳转，可以通过 ElLink.to(context) 执行跳转方法。
+  /// 那么你需要手动执行跳转，可以通过 ElLink.to(context) 执行跳转方法，也可以通过
+  /// ElLink.getHref(context) 获取注入的地址，实现自定义跳转逻辑。
   const ElLink({
     super.key,
     required this.child,
@@ -121,7 +122,7 @@ class ElLink extends StatelessWidget {
   /// 超链接下划线显示逻辑
   final ElLinkDecoration? decoration;
 
-  /// 打开链接的目标位置，默认 blank
+  /// 打开链接的目标位置，默认 blank 新窗口打开
   final ElLinkTarget? target;
 
   /// 是否开启超链接地址预览
@@ -132,11 +133,11 @@ class ElLink extends StatelessWidget {
 
   /// 从当前上下文获取最近的超链接地址
   static String? getHref(BuildContext context) =>
-      _LinkInheritedWidget.of(context)?.href;
+      _LinkInheritedWidget.of(context).href;
 
   /// 从当前上下文获取最近的超链接实例并触发跳转
   static void to(BuildContext context) {
-    final $to = _LinkInheritedWidget.of(context)?.to;
+    final $to = _LinkInheritedWidget.of(context).to;
     if ($to != null) $to();
   }
 

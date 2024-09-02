@@ -10,7 +10,8 @@ void main() async {
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
-  /// 当前应用的主题模式，如果指定跟随系统，同时当前平台启用了全局暗黑模式，那么此变量将强制为 dark
+  /// 当前应用的主题模式，默认跟随系统，如果当前平台启用了全局暗黑模式，那么此变量将强制为 dark，
+  /// 这时将不允许手动切换暗黑、明亮主题。
   static late ThemeMode currentThemeMode;
 
   @override
@@ -18,13 +19,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  @override
-  void reassemble() {
-    super.reassemble();
-    // 热刷新时让路由配置立刻生效，不需要重启整个应用
-    // RouterUtil.isMobile.notify();
-  }
-
   @override
   Widget build(BuildContext context) {
     MainApp.currentThemeMode = ThemeMode.system;
@@ -36,6 +30,8 @@ class _MainAppState extends State<MainApp> {
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterUtil.isMobile.value = context.sm;
+
+    // 不应用主题切换动画
     el.themeDuration = 0.ms;
     return ObsBuilder(builder: (context) {
       return MaterialApp.router(

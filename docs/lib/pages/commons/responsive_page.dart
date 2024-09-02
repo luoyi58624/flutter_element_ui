@@ -8,7 +8,7 @@ abstract class ResponsivePage extends HookWidget {
   /// 页面标题
   String get title;
 
-  /// 构建通用的页面
+  /// 构建通用的文档页面，适配桌面端和移动端
   List<Widget> buildPage(BuildContext context);
 
   @override

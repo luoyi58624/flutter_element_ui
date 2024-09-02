@@ -25,15 +25,15 @@ class Example1 extends StatelessWidget {
           code: code1,
           child: Column(
             children: [
-              buildWrap(
-                buttonTypes.map(
+              buildWrap([
+                ...buttonTypes.map(
                   (type) => ElButton(
                     child: (type ?? 'Default').firstUpperCase,
                     onPressed: null,
                     type: type,
                   ),
                 ),
-              ),
+              ]),
               buildWrap(
                 buttonTypes.map(
                   (type) => ElButton(
@@ -64,7 +64,7 @@ class Example1 extends StatelessWidget {
             children: [
               buildWrap(
                 buttonTypes.map(
-                      (type) => ElButton(
+                  (type) => ElButton(
                     child: (type ?? 'Default').firstUpperCase,
                     onPressed: null,
                     type: type,

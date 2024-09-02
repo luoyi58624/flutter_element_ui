@@ -28,10 +28,19 @@ class LayoutHeader extends StatelessWidget {
           const Expanded(child: SizedBox()),
           Row(
             children: [
-              buildDesktopNav(context),
+              if (!context.sm) buildDesktopNav(context),
               const Gap(16),
+              IconButton(
+                tooltip: '刷新路由配置',
+                onPressed: () {
+                  RouterUtil.isMobile.notify();
+                  el.message.success('全局路由已刷新');
+                },
+                icon: const Icon(Icons.refresh),
+              ),
               ObsBuilder(builder: (context) {
                 return IconButton(
+                  tooltip: GlobalState.isDark ? '切换亮色模式' : '切换黑暗模式',
                   onPressed: () {
                     GlobalState.isDark = !GlobalState.isDark;
                   },
@@ -42,21 +51,25 @@ class LayoutHeader extends StatelessWidget {
                 );
               }),
               IconButton(
+                tooltip: '全局配置',
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
                 },
                 icon: const Icon(Icons.settings),
               ),
-              ElLink(
-                href: 'https://github.com/luoyi58624/flutter_element_ui',
-                child: Builder(builder: (context) {
-                  return IconButton(
-                    onPressed: () {
-                      ElLink.to(context);
-                    },
-                    icon: const _GithubLogo(),
-                  );
-                }),
+              Tooltip(
+                message: '跳转 GitHub 链接',
+                child: ElLink(
+                  href: 'https://github.com/luoyi58624/flutter_element_ui',
+                  child: Builder(builder: (context) {
+                    return IconButton(
+                      onPressed: () {
+                        ElLink.to(context);
+                      },
+                      icon: const _GithubLogo(),
+                    );
+                  }),
+                ),
               ),
             ],
           ),
@@ -66,68 +79,66 @@ class LayoutHeader extends StatelessWidget {
   }
 
   Widget buildDesktopNav(BuildContext context) {
-    return context.sm
-        ? const SizedBox()
-        : ObsBuilder(
-            watch: [RouterUtil.currentPath],
-            builder: (context) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ...RootRoute.values.map(
-                    (e) => ElLink(
-                      href: '/${e.$2}',
-                      child: Builder(builder: (context) {
-                        return GestureDetector(
-                          onTapDown: (e) {
-                            context.go(ElLink.getHref(context)!);
-                          },
-                          child: ElHoverBuilder(
-                            cursor: SystemMouseCursors.click,
-                            builder: (context) {
-                              final isActive = RouterUtil.currentPath.value
-                                  .startsWith('/${e.$2}');
-                              return Stack(
-                                children: [
-                                  Container(
-                                    height: el.config.headerHeight,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                    ),
-                                    child: Center(
-                                      child: H6(
-                                        e.$1,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: ElHoverBuilder.of(context)
-                                                ? context.elTheme.primary
-                                                : null),
-                                      ),
+    return ObsBuilder(
+        watch: [RouterUtil.currentPath],
+        builder: (context) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...RootRoute.values.map(
+                (e) => ElLink(
+                  href: '/${e.$2}',
+                  child: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTapDown: (e) {
+                        context.go(ElLink.getHref(context)!);
+                      },
+                      child: ElHoverBuilder(
+                        cursor: SystemMouseCursors.click,
+                        builder: (context) {
+                          final isActive = RouterUtil.currentPath.value
+                              .startsWith('/${e.$2}');
+                          return Stack(
+                            children: [
+                              Container(
+                                height: el.config.headerHeight,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: Center(
+                                  child: H6(
+                                    e.$1,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: ElHoverBuilder.of(context)
+                                            ? context.elTheme.primary
+                                            : null),
+                                  ),
+                                ),
+                              ),
+                              if (isActive)
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    height: 2,
+                                    decoration: BoxDecoration(
+                                      color: context.elTheme.primary,
                                     ),
                                   ),
-                                  if (isActive)
-                                    Positioned(
-                                      left: 0,
-                                      right: 0,
-                                      bottom: 0,
-                                      child: Container(
-                                        height: 2,
-                                        decoration: BoxDecoration(
-                                          color: context.elTheme.primary,
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              );
-                            },
-                          ),
-                        );
-                      }),
-                    ),
-                  )
-                ],
-              );
-            });
+                                ),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  }),
+                ),
+              )
+            ],
+          );
+        });
   }
 }
 

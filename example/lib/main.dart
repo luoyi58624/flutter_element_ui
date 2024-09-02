@@ -25,6 +25,7 @@ class _App extends StatelessWidget {
       el.config = el.config.copyWith(
         textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
       );
+
       return MaterialApp.router(
         routerConfig: router,
         theme: ElThemeUtil.buildMaterialTheme(
@@ -38,10 +39,14 @@ class _App extends StatelessWidget {
         showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
         showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
         debugShowCheckedModeBanner: false,
-        builder: (context, child) => CupertinoTheme(
-          data: ElThemeUtil.buildCupertinoThemeData(
-            context,
-            brightness: Theme.of(context).brightness,
+        builder: (context, child) => ElConfigProvider(
+          brightness: GlobalState.brightness,
+          builder: (context, child) => CupertinoTheme(
+            data: ElThemeUtil.buildCupertinoThemeData(
+              context,
+              brightness: Theme.of(context).brightness,
+            ),
+            child: child!,
           ),
           child: child!,
         ),

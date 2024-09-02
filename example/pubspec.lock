@@ -262,10 +262,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_obs
-      sha256: d813d3e35f4d6b9cc552a6606ee31220b6eefb4b4f4a1e7c002811cf63a5a0d8
+      sha256: "19767df906d8d37d6097317c45b35b61289a831d5e90f3c746ceb0f659e81307"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.2"
+    version: "1.6.3"
   flutter_shaders:
     dependency: transitive
     description:
@@ -380,7 +380,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c9c2abb060e631165002263288d652158c10f517
+      resolved-ref: fc28339da60b21f8205977db3f07682b164cc5f0
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"

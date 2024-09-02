@@ -279,10 +279,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: e128f0114782f4f321db19dc1b9a953239a57fe0
+      resolved-ref: de201e5ad319dd21be5baa525e0536bf4d4e48c9
       url: "https://github.com/luoyi58624/flutter_obs.git"
     source: git
-    version: "1.6.2"
+    version: "1.6.3"
   flutter_shaders:
     dependency: transitive
     description:

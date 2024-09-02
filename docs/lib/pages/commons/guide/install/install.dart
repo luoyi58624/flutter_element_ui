@@ -21,8 +21,6 @@ class InstallPage extends ResponsivePage {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(6),
-        // splashColor: Colors.black12,
-        // splashFactory: noRipperFactory,
         hoverDuration: 100.ms,
         onTap: () {
           count.value++;

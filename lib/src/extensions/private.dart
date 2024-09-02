@@ -66,4 +66,3 @@ extension ColorExtension on Color {
   Color elTextColor(BuildContext context) =>
       isDark ? el.darkTheme.textColor : el.theme.textColor;
 }
-

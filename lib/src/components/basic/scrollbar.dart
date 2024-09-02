@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import '../../service.dart';
-
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
 const int _animationDuration = 200;
@@ -155,6 +153,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
+    // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
     el.globalCursor.setCursor();
     isDragScroll = true;
     // 处理直接从边缘处立即拖动滚动条
