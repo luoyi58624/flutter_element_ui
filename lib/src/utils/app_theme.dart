@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import '../service.dart';
-import '../services/theme.dart';
 import '../styles/theme.dart';
 import 'font.dart';
 
@@ -48,7 +46,7 @@ class ElThemeUtil {
 
   /// 通过平台主题模式构建全局文本样式
   static TextStyle buildGlobalTextStyle(Brightness brightness) {
-    return defaultTextStyle
+    return GlobalConfig.defaultTextStyle
         .copyWith(
           fontWeight: ElFont.normal,
           color: brightness == Brightness.dark

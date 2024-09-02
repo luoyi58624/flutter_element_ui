@@ -37,9 +37,11 @@ class SlideWidget extends StatelessWidget {
                                   child: ObsBuilder(builder: (context) {
                                     final isActive =
                                         RouterUtil.currentPath.value == e.$2;
-                                    return HoverBuilder(builder: (context) {
+                                    return ElHoverBuilder(builder: (context) {
                                       return AnimatedContainer(
-                                        duration: el.config.themeDuration,
+                                        duration: context.themeDuration(
+                                          Duration.zero,
+                                        ),
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16,
@@ -57,17 +59,21 @@ class SlideWidget extends StatelessWidget {
                                                     )
                                               : null,
                                         ),
-                                        child: ElText(
-                                          e.$1,
-                                          style: TextStyle(
-                                            color: HoverBuilder.of(context) ||
-                                                    isActive
-                                                ? context.elTheme.primary
-                                                : context.isDark
-                                                    ? Colors.grey.shade100
-                                                    : Colors.grey.shade800,
-                                            fontSize: 14,
-                                          ),
+                                        child: ElAnimatedDefaultTextStyle(
+                                          duration: context
+                                              .themeDuration(Duration.zero),
+                                          style: ElDefaultTextStyle.of(context)
+                                              .style
+                                              .copyWith(
+                                                color: context.isHover ||
+                                                        isActive
+                                                    ? context.elTheme.primary
+                                                    : context.isDark
+                                                        ? Colors.grey.shade100
+                                                        : Colors.grey.shade800,
+                                                fontSize: 14,
+                                              ),
+                                          child: ElText(e.$1),
                                         ),
                                       );
                                     });

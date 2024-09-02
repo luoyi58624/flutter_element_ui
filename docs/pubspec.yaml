@@ -16,6 +16,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   syntax_highlight: ^0.4.0
   decimal: ^3.0.0
+  flutter_element_ui:
+    path: ../
 
 dev_dependencies:
   flutter_test:

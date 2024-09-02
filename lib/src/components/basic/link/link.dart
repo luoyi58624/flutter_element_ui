@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import '../../../components/basic/text.dart';
-import '../../../service.dart';
 import './web.dart' if (dart.library.io) './io.dart';
 
 /// 超链接地址显示、隐藏动画控制器
@@ -201,7 +199,7 @@ class ElLink extends StatelessWidget {
       href: href,
       to: $to,
       child: Builder(builder: (context) {
-        return HoverBuilder(
+        return ElHoverBuilder(
           cursor: styleProp.cursor,
           onEnter: $enabledPreview == false
               ? null
@@ -233,7 +231,7 @@ class ElLink extends StatelessWidget {
                     _delayHideOverlay = _hide.delay(_delayTime);
                   }
                 },
-          builder: (context) => TapBuilder(
+          builder: (context) => ElTapBuilder(
             onTap: $to,
             builder: (context) {
               if (child is Widget) {
@@ -241,7 +239,7 @@ class ElLink extends StatelessWidget {
               } else {
                 return ElDefaultTextStyle.merge(
                   style: TextStyle(
-                    color: HoverBuilder.of(context)
+                    color: ElHoverBuilder.of(context)
                         ? styleProp.activeColor
                         : styleProp.color,
                     decoration:
@@ -249,11 +247,11 @@ class ElLink extends StatelessWidget {
                             ? TextDecoration.underline
                             : styleProp.decoration ==
                                     ElLinkDecoration.hoverUnderline
-                                ? (HoverBuilder.of(context)
+                                ? (ElHoverBuilder.of(context)
                                     ? TextDecoration.underline
                                     : TextDecoration.none)
                                 : TextDecoration.none,
-                    decorationColor: HoverBuilder.of(context)
+                    decorationColor: ElHoverBuilder.of(context)
                         ? styleProp.activeColor
                         : styleProp.color,
                   ),

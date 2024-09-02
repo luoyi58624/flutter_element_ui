@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
@@ -7,7 +5,6 @@ import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
 import '../../basic/link/link.dart';
-import '../../basic/text.dart';
 
 part 'menu_modal.dart';
 

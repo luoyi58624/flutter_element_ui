@@ -2,10 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
-
-
-import '../basic/text.dart';
-
 class ElEditor extends StatefulWidget {
   const ElEditor({
     super.key,
@@ -151,8 +147,9 @@ class ElEditorState extends State<ElEditor>
               expands: true,
               showSelectionHandles: true,
               // showSelectionHandles: true,
-              selectionColor:
-                  focusNode.hasFocus ? context.elTheme.primary.light5(context) : null,
+              selectionColor: focusNode.hasFocus
+                  ? context.elTheme.primary.light5(context)
+                  : null,
               selectionControls: textSelectionControls,
               onSelectionChanged: _handleSelectionChanged,
               onSelectionHandleTapped: _handleSelectionHandleTapped,

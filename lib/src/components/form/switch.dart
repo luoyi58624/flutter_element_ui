@@ -128,7 +128,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
               modelValue = !value;
               HapticFeedback.mediumImpact();
             },
-      child: HoverBuilder(
+      child: ElHoverBuilder(
         disabled: widget.disabled,
         cursor: SystemMouseCursors.click,
         builder: (context) {

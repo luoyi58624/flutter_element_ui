@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import 'components/basic/text.dart';
 import 'utils/app_theme.dart';
 import 'components/basic/scrollbar.dart';
 
@@ -48,14 +47,15 @@ class ElConfigProvider extends StatelessWidget {
     if ($textStyle.fontSize == null) {
       $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
     }
-    el.globalFontSize = $textStyle.fontSize!;
+    GlobalConfig.globalFontSize = $textStyle.fontSize!;
     return BrightnessWidget(
       brightness: $brightness,
       child: Material(
-        animationDuration: el.config.themeDuration,
+        animationDuration: el.themeDuration,
         color: $isDark ? el.darkTheme.bgColor : el.theme.bgColor,
         textStyle: $textStyle,
-        child: ElDefaultTextStyle(
+        child: ElAnimatedDefaultTextStyle(
+          duration: el.themeDuration,
           style: $textStyle,
           child: ScrollConfiguration(
             behavior: behavior,

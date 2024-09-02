@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
-
-
-import 'package:flutter_element_ui/global.dart';
-
-import '../../../../service.dart';
 import '../../../../utils/font.dart';
 import '../../../basic/icon.dart';
-import '../../../basic/text.dart';
 import '../base.dart';
 import '../inherited_data.dart';
 

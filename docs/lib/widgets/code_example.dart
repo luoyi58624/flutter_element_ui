@@ -48,7 +48,8 @@ class CodeExampleWidget extends HookWidget {
     } else {
       $code.value = (context.isDark ? _darkCode : _lightCode)!.highlight(code);
     }
-    return Container(
+    return AnimatedContainer(
+      duration: el.themeDuration,
       decoration: BoxDecoration(
         borderRadius: el.config.cardRadius,
         border: Border.all(
@@ -69,7 +70,6 @@ class CodeExampleWidget extends HookWidget {
             scrollDirection: Axis.horizontal,
             child: ObsBuilder(builder: (context) {
               Widget result = Container(
-                color: context.elTheme.bgColor,
                 padding: const EdgeInsets.all(16),
                 child: ElText(
                   $code.value,

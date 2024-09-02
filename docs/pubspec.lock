@@ -227,7 +227,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9b1aa0529136babe4ec7dde05ac9feeba09b11d4"
+      resolved-ref: "32e9d04a623969c474d3220ce9098b59496661d0"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -247,7 +247,7 @@ packages:
     source: path
     version: "0.0.1"
   flutter_element_ui:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: ".."
       relative: true
@@ -279,10 +279,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: c1421a98a0e37704651925ccfbadb926d724f88b
+      resolved-ref: e128f0114782f4f321db19dc1b9a953239a57fe0
       url: "https://github.com/luoyi58624/flutter_obs.git"
     source: git
-    version: "1.5.4"
+    version: "1.6.2"
   flutter_shaders:
     dependency: transitive
     description:
@@ -419,7 +419,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9859912fde992c697b412ef08855d79cd544c0dc"
+      resolved-ref: c9c2abb060e631165002263288d652158c10f517
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"
@@ -792,10 +792,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
+      sha256: f33d6bb662f0e4f79dcd7ada2e6170f3b3a2530c28fc41f49a411ddedd576a77
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.2"
+    version: "4.5.0"
   vector_graphics:
     dependency: transitive
     description:

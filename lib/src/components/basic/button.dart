@@ -3,12 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/global.dart';
 
-
-
-import '../../service.dart';
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
-import 'text.dart';
 import 'icon.dart';
 
 typedef _ButtonStyleProp = ({
@@ -155,10 +151,10 @@ class ElButton extends StatelessWidget {
           defaultStyle.enableFeedback ??
           el.config.enableFeedback,
     );
-    var currentWidget = HoverBuilder(
+    var currentWidget = ElHoverBuilder(
       disabled: disabled,
       cursor: SystemMouseCursors.click,
-      builder: (context) => TapBuilder(
+      builder: (context) => ElTapBuilder(
         onTap: () {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
           if (onPressed != null) onPressed!();
@@ -188,6 +184,7 @@ class _Button extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final buttonDuration = el.config.buttonStyle.animatedDuration;
     final buttonStyle = _useButtonStyle(context, styleProp);
     final $padding =
         styleProp.circle || styleProp.link ? null : styleProp.padding;
@@ -207,17 +204,18 @@ class _Button extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: el.config.buttonStyle.animatedDuration,
+      duration: context.themeDuration(buttonDuration),
       constraints: $constraints,
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
-      child: ElDefaultTextStyle.merge(
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: ElFont.medium,
-          color: buttonStyle.textColor,
-        ),
+      child: ElAnimatedDefaultTextStyle(
+        duration: context.themeDuration(buttonDuration),
+        style: ElDefaultTextStyle.of(context).style.copyWith(
+              fontSize: 15,
+              fontWeight: ElFont.medium,
+              color: buttonStyle.textColor,
+            ),
         child: buildChild(buttonStyle),
       ),
     );
@@ -289,8 +287,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final $isHover = HoverBuilder.of(context);
-  final $isTap = TapBuilder.of(context);
+  final $isHover = ElHoverBuilder.of(context);
+  final $isTap = ElTapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
@@ -402,7 +400,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
         ? Border.all(
             color: borderColor.value!,
             width: 1,
-            strokeAlign: BorderSide.strokeAlignOutside,
+            // strokeAlign: BorderSide.strokeAlignOutside,
           )
         : null
   );

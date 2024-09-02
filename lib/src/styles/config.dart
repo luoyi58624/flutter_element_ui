@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
@@ -32,15 +33,6 @@ class ElConfigData {
   /// 全局触觉回馈，默认false
   final bool enableFeedback;
 
-  /// 全局通用的过渡动画持续时间
-  final Duration globalDuration;
-
-  /// 主题颜色过渡持续时间，建议和 MaterialApp 进行同步，防止切换暗黑模式出现不一致问题
-  final Duration themeDuration;
-
-  /// 主题动画过渡曲线，建议和 MaterialApp 进行同步
-  final Curve themeCurve;
-
   /// 全局文本样式，它只作用于 [ElText] 小部件
   final TextStyle textStyle;
 
@@ -67,9 +59,6 @@ class ElConfigData {
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.cardRadius = const BorderRadius.all(Radius.circular(6)),
     this.enableFeedback = false,
-    this.globalDuration = const Duration(milliseconds: 250),
-    this.themeDuration = const Duration(milliseconds: 100),
-    this.themeCurve = Curves.linear,
     this.textStyle = const TextStyle(),
     this.buttonStyle = const ElButtonStyle(),
     this.linkStyle = const ElLinkStyle(),

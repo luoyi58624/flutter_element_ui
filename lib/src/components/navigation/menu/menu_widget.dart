@@ -58,7 +58,7 @@ class _MenuItemState extends State<_MenuItem> {
             sizeCurve: Curves.fastOutSlowIn,
             crossFadeState:
                 expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: el.config.globalDuration,
+            duration: 250.ms,
           )
       ],
     );
@@ -87,7 +87,7 @@ class _MenuItemState extends State<_MenuItem> {
       },
       child: Builder(builder: (context) {
         return ColoredBox(
-          color: bgColor.on(HoverBuilder.of(context), scale: 6),
+          color: bgColor.on(ElHoverBuilder.of(context), scale: 6),
           child: SizedBox(
             height: 56,
             child: Padding(
@@ -123,10 +123,7 @@ class _MenuItemState extends State<_MenuItem> {
                         width: 40,
                         margin: const EdgeInsets.only(left: 8),
                         child: AnimatedRotation(
-                          duration: max(
-                                  el.config.globalDuration.inMilliseconds - 50,
-                                  0)
-                              .ms,
+                          duration: 200.ms,
                           turns: expanded ? 0.5 : 0,
                           child: ElIcon(
                             ElIcons.arrowDown,
@@ -150,7 +147,7 @@ class _MenuItemState extends State<_MenuItem> {
         child: result,
       );
     } else {
-      return HoverBuilder(
+      return ElHoverBuilder(
         builder: (context) => result,
       );
     }

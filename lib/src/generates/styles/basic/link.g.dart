@@ -12,6 +12,7 @@ extension ElLinkStyleExtension on ElLinkStyle {
     Color? color,
     Color? activeColor,
     ElLinkDecoration? decoration,
+    ElLinkTarget? target,
     bool? enabledPreview,
     bool? enableFeedback,
   }) {
@@ -20,6 +21,7 @@ extension ElLinkStyleExtension on ElLinkStyle {
       color: color ?? this.color,
       activeColor: activeColor ?? this.activeColor,
       decoration: decoration ?? this.decoration,
+      target: target ?? this.target,
       enabledPreview: enabledPreview ?? this.enabledPreview,
       enableFeedback: enableFeedback ?? this.enableFeedback,
     );
@@ -32,6 +34,7 @@ extension ElLinkStyleExtension on ElLinkStyle {
       color: other.color,
       activeColor: other.activeColor,
       decoration: other.decoration,
+      target: other.target,
       enabledPreview: other.enabledPreview,
       enableFeedback: other.enableFeedback,
     );

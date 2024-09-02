@@ -1,23 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
 import '../styles/config.dart';
 import '../styles/theme.dart';
 
-/// 默认的文本样式
-TextStyle defaultTextStyle = TextStyle(
-  fontFamily: null,
-  fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
-      ? ['.AppleSystemUIFont', 'PingFang SC']
-      : PlatformUtil.isWindows
-          ? ['Microsoft YaHei', '微软雅黑']
-          : null,
-);
-
 mixin ElThemeService {
-  /// 全局文本尺寸，当注入 [ElConfigProvider] 时初始化，如果你没有指定字体尺寸，
-  /// 默认情况下在移动端字体为 15 像素，桌面端为 16 像素。
-  late double globalFontSize;
+  /// 全局主题过渡持续时间。
+  ///
+  /// [MaterialApp] 提供了 themeAnimationDuration 属性，如果你有切换黑暗模式的需求，
+  /// 那么你应当将此属性和 MaterialApp 进行同步，这样可以防止切换暗黑模式时颜色过渡出现不一致问题。
+  Duration get themeDuration => GlobalConfig.themeDuration;
+
+  set themeDuration(Duration v) {
+    GlobalConfig.themeDuration = v;
+  }
 
   /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [

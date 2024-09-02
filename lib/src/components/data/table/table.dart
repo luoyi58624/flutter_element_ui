@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import '../../basic/text.dart';
 import 'config.dart';
 
 part 'table_header.dart';

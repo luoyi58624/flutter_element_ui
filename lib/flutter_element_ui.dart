@@ -1,6 +1,7 @@
 library flutter_element_ui;
 
-export 'package:flutter_obs/flutter_obs.dart';
+export 'package:luoyi_flutter_base/luoyi_flutter_base.dart'
+    show ElText, ElHoverBuilder, ElTapBuilder;
 
 export 'src/app.dart';
 export 'src/service.dart' show el;
@@ -9,7 +10,6 @@ export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
-export 'src/components/basic/text.dart' show ElText, ElDefaultTextStyle;
 
 export 'src/components/basic/link/link.dart';
 
@@ -71,6 +71,3 @@ export 'src/utils/app_theme.dart';
 export 'src/utils/shortcut.dart';
 
 export 'src/widgets/model_value.dart';
-
-export 'src/widgets/html/list.dart';
-export 'src/widgets/html/typography.dart';

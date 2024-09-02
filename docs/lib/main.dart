@@ -36,21 +36,18 @@ class _MainAppState extends State<MainApp> {
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterUtil.isMobile.value = context.sm;
-    el.config = const ElConfigData(themeDuration: Duration.zero);
-    ElFont.bold = FontWeight.w600;
+    el.themeDuration = 0.ms;
     return ObsBuilder(builder: (context) {
       return MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
         showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
         showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-        themeAnimationDuration: el.config.themeDuration,
-        themeAnimationCurve: el.config.themeCurve,
+        themeAnimationDuration: el.themeDuration,
         theme: ElThemeUtil.buildMaterialTheme(
           context,
           brightness: GlobalState.brightness,
         ),
-        // theme: ThemeData(brightness: GlobalState.brightness),
         darkTheme: ElThemeUtil.buildMaterialTheme(
           context,
           brightness: Brightness.dark,
