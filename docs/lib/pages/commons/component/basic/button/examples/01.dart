@@ -16,7 +16,7 @@ class Example1 extends StatelessWidget {
           ],
         );
     Widget buildWrap(Iterable<Widget> children) =>
-        Wrap(spacing: 8, runSpacing: 8, children: children.toList());
+        Wrap(children: children.toList());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,6 +24,7 @@ class Example1 extends StatelessWidget {
         CodeExampleWidget(
           code: code1,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildWrap([
                 ...buttonTypes.map(
@@ -51,6 +52,25 @@ class Example1 extends StatelessWidget {
                     onPressed: null,
                     type: type,
                     round: true,
+                  ),
+                ),
+              ),
+              buildWrap(
+                buttonTypes.map(
+                  (type) => ElButton(
+                    onPressed: null,
+                    type: type,
+                    child: const ElIcon(ElIcons.aim),
+                  ),
+                ),
+              ),
+              buildWrap(
+                buttonTypes.map(
+                  (type) => ElButton(
+                    onPressed: null,
+                    type: type,
+                    circle: true,
+                    child: const ElIcon(ElIcons.aim),
                   ),
                 ),
               ),
@@ -83,7 +103,9 @@ String get code1 => '''
 ElButton(onPressed: () {}, child: 'Default'),
 ElButton(onPressed: () {}, child: 'Primary', type: 'primary'),
 ElButton(onPressed: () {}, child: 'Primary', type: 'success', plain: true),
-ElButton(onPressed: () {}, child: 'Primary', type: 'warning', round: true),''';
+ElButton(onPressed: () {}, child: 'Primary', type: 'warning', round: true),
+ElButton(onPressed: () {}, child: const ElIcon(ElIcons.aim)),
+ElButton(onPressed: () {}, child: const ElIcon(ElIcons.aim), circle: true)''';
 
 String get code2 => '''
 import 'package:docs/global.dart';

@@ -1,4 +1,5 @@
 import 'package:docs/global.dart';
+import 'package:docs/widgets/test.dart';
 import 'package:flutter/material.dart';
 
 class SlideWidget extends StatelessWidget {
@@ -39,9 +40,8 @@ class SlideWidget extends StatelessWidget {
                                         RouterUtil.currentPath.value == e.$2;
                                     return ElHoverBuilder(builder: (context) {
                                       return AnimatedContainer(
-                                        duration: context.themeDuration(
-                                          Duration.zero,
-                                        ),
+                                        duration: context.themeDuration ??
+                                            Duration.zero,
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 16,
@@ -60,8 +60,8 @@ class SlideWidget extends StatelessWidget {
                                               : null,
                                         ),
                                         child: ElAnimatedDefaultTextStyle(
-                                          duration: context
-                                              .themeDuration(Duration.zero),
+                                          duration: context.themeDuration ??
+                                              Duration.zero,
                                           style: ElDefaultTextStyle.of(context)
                                               .style
                                               .copyWith(

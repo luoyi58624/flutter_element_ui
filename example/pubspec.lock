@@ -380,7 +380,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fc28339da60b21f8205977db3f07682b164cc5f0
+      resolved-ref: "3c0544f7337aa1c8e49f4f9a9d85f7a43ee903a0"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"

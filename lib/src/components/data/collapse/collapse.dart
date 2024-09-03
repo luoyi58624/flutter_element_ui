@@ -18,7 +18,7 @@ class ElCollapse extends HookWidget {
   /// * false 折叠小部件
   final bool value;
 
-  /// 支持任意子组件
+  /// 子组件
   final Widget child;
 
   /// 动画时间
@@ -30,7 +30,7 @@ class ElCollapse extends HookWidget {
   /// 折叠方向，默认垂直折叠
   final Axis axis;
 
-  /// 子组件对齐位置，默认顶部居中
+  /// 子组件对齐位置，默认顶部居中，如果改为水平折叠，你也需要调整对齐参数保证视觉统一
   final Alignment alignment;
 
   @override
@@ -40,10 +40,7 @@ class ElCollapse extends HookWidget {
       initialValue: value ? 1.0 : 0.0,
     );
     final animate = CurvedAnimation(parent: controller, curve: curve);
-    useEffect(() {
-      value ? controller.forward() : controller.reverse();
-      return null;
-    }, [value]);
+    value ? controller.forward() : controller.reverse();
     return AnimatedBuilder(
       animation: controller.view,
       builder: (context, child) {

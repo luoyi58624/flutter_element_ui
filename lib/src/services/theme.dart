@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_element_ui/global.dart';
 
 import '../styles/config.dart';
 import '../styles/theme.dart';
+
+final globalThemeDuration = Obs<Duration?>(null);
 
 /// Element UI 提供的主题服务就是全局变量，直接修改 el.theme、el.darkTheme、el.config
 /// 即可应用全局主题，它不依赖 [InheritedWidget] 小部件，对于颜色主题，请通过 context.elTheme
@@ -15,6 +18,13 @@ mixin ElThemeService {
 
   set themeDuration(Duration v) {
     GlobalConfig.themeDuration = v;
+  }
+
+  Future<void> changeTheme(VoidCallback fun) async {
+    globalThemeDuration.value = el.themeDuration;
+    fun();
+    await themeDuration.delay();
+    globalThemeDuration.value = null;
   }
 
   /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示

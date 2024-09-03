@@ -204,13 +204,13 @@ class _Button extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: context.themeDuration(buttonDuration),
+      duration: context.themeDuration ?? buttonDuration,
       constraints: $constraints,
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
       child: ElAnimatedDefaultTextStyle(
-        duration: context.themeDuration(buttonDuration),
+        duration: context.themeDuration ?? buttonDuration,
         style: ElDefaultTextStyle.of(context).style.copyWith(
               fontSize: 15,
               fontWeight: ElFont.medium,
