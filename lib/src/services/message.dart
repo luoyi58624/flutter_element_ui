@@ -411,7 +411,8 @@ class _DefaultMessage extends StatelessWidget {
             : 450;
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
     return SelectionArea(
-      child: Container(
+      child: AnimatedContainer(
+        duration: el.themeDuration,
         constraints: BoxConstraints(
           maxWidth: maxWidth,
           minHeight: _messageHeight,

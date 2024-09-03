@@ -30,9 +30,6 @@ class _MainAppState extends State<MainApp> {
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterUtil.isMobile.value = context.sm;
-
-    // 不应用主题切换动画
-    el.themeDuration = 0.ms;
     return ObsBuilder(builder: (context) {
       return MaterialApp.router(
         routerConfig: router,
@@ -48,16 +45,20 @@ class _MainAppState extends State<MainApp> {
           context,
           brightness: Brightness.dark,
         ),
-        builder: (context, child) => CupertinoTheme(
-          data: ElThemeUtil.buildCupertinoThemeData(
-            context,
-            brightness: GlobalState.brightness,
-          ),
-          child: ElConfigProvider(
-            brightness: GlobalState.brightness,
+        builder: (context, child) {
+          final brightness = GlobalState.brightness;
+          return ElConfigProvider(
+            brightness: brightness,
+            builder: (context, child) => CupertinoTheme(
+              data: ElThemeUtil.buildCupertinoThemeData(
+                context,
+                brightness: brightness,
+              ),
+              child: child!,
+            ),
             child: child!,
-          ),
-        ),
+          );
+        },
       );
     });
   }

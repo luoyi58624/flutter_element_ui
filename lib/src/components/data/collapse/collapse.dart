@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/global.dart';
 
 class ElCollapse extends HookWidget {
-  /// Element UI 实现基础折叠小部件动画
+  /// Element UI 实现的最基础折叠小部件，它只有一个作用，以动画形式控制小部件的展开、折叠
   const ElCollapse(
     this.value, {
     super.key,
@@ -27,7 +27,7 @@ class ElCollapse extends HookWidget {
   /// 动画曲线
   final Curve curve;
 
-  /// 折叠方向，默认垂直折叠，可选水平折叠
+  /// 折叠方向，默认垂直折叠
   final Axis axis;
 
   /// 子组件对齐位置，默认顶部居中

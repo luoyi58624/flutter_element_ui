@@ -10,7 +10,9 @@ class GlobalState {
 
   static final _isDark = Obs(false);
 
-  /// 当前是否是暗黑主题
+  /// 当前是否是暗黑主题，当前应用的主题策略是：
+  /// * 如果系统是亮色模式，那么允许用户手动切换
+  /// * 如果系统已经设置为暗黑模式，那么将强制应用为暗黑模式，不允许手动切换
   static bool get isDark {
     switch (MainApp.currentThemeMode) {
       case ThemeMode.system:
