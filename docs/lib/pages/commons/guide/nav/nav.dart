@@ -11,37 +11,19 @@ class NavPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    final flag1 = useState(true);
-    final flag2 = useState(false);
+    final flag = useState(true);
     return [
-      ElSwitch(flag1),
+      ElSwitch(flag),
       ElCollapse(
-        flag1,
-        alignment: Alignment.center,
-        child: Container(
-          width: 300,
-          child: Text(str),
+        flag.value,
+        child: SizedBox(
+          child: ElText(str),
         ),
       ),
-      ElSwitch(flag2),
-      ElCollapse2(
-        value: flag2.value,
-        alignment: Alignment.topLeft,
-        child: Container(
-          width: 300,
-          child: Text(str),
-        ),
-      ),
-      const Text('text'),
-      // AnimatedContainer(
-      //   duration: 300.ms,
-      //   color: Colors.grey,
-      //   child: flag.value ? Text('data' * 10) : Text('data' * 100),
-      // ),
       ExpansionTile(
         title: Text('hello'),
         children: [
-          Text(str),
+          ElText(str),
         ],
       ),
     ];
