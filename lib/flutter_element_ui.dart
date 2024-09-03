@@ -13,13 +13,14 @@ export 'src/components/basic/scrollbar.dart';
 
 export 'src/components/basic/link/link.dart';
 
+export 'src/components/data/collapse/collapse.dart';
+export 'src/components/data/collapse/collapse_panel.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/table/config.dart';
 export 'src/components/data/avatar.dart';
 export 'src/components/data/badge.dart';
 export 'src/components/data/calendar.dart';
 export 'src/components/data/card.dart';
-export 'src/components/data/collapse.dart';
 export 'src/components/data/image.dart';
 export 'src/components/data/tag.dart';
 

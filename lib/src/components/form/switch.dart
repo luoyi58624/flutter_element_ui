@@ -96,7 +96,10 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
       duration: const Duration(milliseconds: 200),
     );
     final offset = containerWidth / 2 - containerHeight / 2;
-    animation = Tween(begin: -offset, end: offset).animate(controller);
+    animation = Tween(begin: -offset, end: offset).animate(CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
@@ -133,7 +136,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
         cursor: SystemMouseCursors.click,
         builder: (context) {
           return AnimatedContainer(
-            duration: context.themeDuration(300.ms),
+            duration: 300.ms,
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(

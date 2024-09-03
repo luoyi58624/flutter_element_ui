@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/global.dart';
 
-import '../../utils/icons.dart';
-import '../basic/icon.dart';
+import '../../../utils/icons.dart';
+import '../../basic/icon.dart';
 
 class _CollapseData extends InheritedWidget {
   const _CollapseData(
@@ -35,8 +35,8 @@ class _CollapseData extends InheritedWidget {
 }
 
 /// 折叠菜单
-class ElCollapse extends StatelessWidget {
-  const ElCollapse(
+class ElCollapsePanel extends StatelessWidget {
+  const ElCollapsePanel(
     this.modelValue, {
     super.key,
     required this.children,

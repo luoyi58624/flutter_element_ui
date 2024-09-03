@@ -72,11 +72,11 @@ class CollapsePage extends HookWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            ElCollapse(expanded1, children: children),
+            ElCollapsePanel(expanded1, children: children),
             const Gap(16),
             const H4('手风琴模式'),
             const Gap(16),
-            ElCollapse(expanded2, accordion: true, children: children),
+            ElCollapsePanel(expanded2, accordion: true, children: children),
           ],
         ),
       ),
