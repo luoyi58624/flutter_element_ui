@@ -1,8 +1,5 @@
 library flutter_element_ui;
 
-export 'package:luoyi_flutter_base/luoyi_flutter_base.dart'
-    show ElText, ElHoverBuilder, ElTapBuilder;
-
 export 'src/app.dart';
 export 'src/service.dart' show el;
 

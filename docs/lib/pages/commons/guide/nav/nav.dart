@@ -14,7 +14,7 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     final flag = useState(true);
     return [
-      ElHoverBuilder(builder: (context) {
+      HoverBuilder(builder: (context) {
         return AnimatedContainer(
           duration: context.themeDuration ?? Duration.zero,
           width: 100,

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_element_ui/global.dart';
 
+import '../components/basic/text.dart';
+
 /// 自定义轻提示构建
 typedef ElToastBuilder = Widget Function(
   BuildContext context,

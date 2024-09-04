@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
-import 'package:luoyi_flutter_base/element_ui/components/duration.dart';
 
-import 'services/theme.dart';
+import 'components/basic/text.dart';
 import 'utils/app_theme.dart';
 import 'components/basic/scrollbar.dart';
 
@@ -58,28 +57,24 @@ class ElConfigProvider extends StatelessWidget {
     // 在 Overlay 之上构建自定义小部件，可以避免一些上下文bug
     if (builder != null) result = builder!(context, result);
 
-    return ObsBuilder(
-      builder: (context) {
-        return ElThemeDuration(
-          duration: globalThemeDuration.value,
-          child: BrightnessWidget(
-            brightness: $brightness,
-            child: Material(
-              animationDuration: el.themeDuration,
-              color: $isDark ? el.darkTheme.bgColor : el.theme.bgColor,
-              textStyle: $textStyle,
-              child: ElAnimatedDefaultTextStyle(
-                duration: el.themeDuration,
-                style: $textStyle,
-                child: ScrollConfiguration(
-                  behavior: behavior,
-                  child: result,
-                ),
-              ),
+    return GlobalThemeStyle(
+      child: BrightnessWidget(
+        brightness: $brightness,
+        child: Material(
+          animationDuration: el.config.themeDuration,
+          color: $isDark ? el.darkTheme.bgColor : el.theme.bgColor,
+          textStyle: $textStyle,
+          child: ElAnimatedDefaultTextStyle(
+            duration: el.config.themeDuration,
+            curve: el.config.themeCurve,
+            style: $textStyle,
+            child: ScrollConfiguration(
+              behavior: behavior,
+              child: result,
             ),
           ),
-        );
-      }
+        ),
+      ),
     );
   }
 }

@@ -77,7 +77,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: ElHoverBuilder(
+        child: HoverBuilder(
           builder: (context) => buildTextField(context),
         ),
       ),
@@ -90,8 +90,8 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       enabledBorder: OutlineInputBorder(
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
-          width: ElHoverBuilder.of(context) ? 1.2 : 1,
-          color: ElHoverBuilder.of(context)
+          width: HoverBuilder.of(context) ? 1.2 : 1,
+          color: HoverBuilder.of(context)
               ? context.elTheme.borderHoverColor
               : context.elTheme.borderColor,
         ),

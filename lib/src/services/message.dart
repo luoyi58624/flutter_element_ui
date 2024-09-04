@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
 import '../components/basic/icon.dart';
+import '../components/basic/text.dart';
 import '../components/data/badge.dart';
 import '../utils/assert.dart';
 import '../utils/font.dart';
@@ -350,7 +351,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: ElHoverBuilder(
+                  child: HoverBuilder(
                     onlyCursor: true,
                     onEnter: (e) {
                       if (_removeTimer != null) {
@@ -412,7 +413,7 @@ class _DefaultMessage extends StatelessWidget {
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
     return SelectionArea(
       child: AnimatedContainer(
-        duration: el.themeDuration,
+        duration: el.config.themeDuration,
         constraints: BoxConstraints(
           maxWidth: maxWidth,
           minHeight: _messageHeight,
@@ -451,12 +452,12 @@ class _DefaultMessage extends StatelessWidget {
                   onTap: () {
                     message.removeMessage();
                   },
-                  child: ElHoverBuilder(
+                  child: HoverBuilder(
                     cursor: SystemMouseCursors.click,
                     builder: (context) {
                       return ElIcon(
                         ElIcons.close,
-                        color: ElHoverBuilder.of(context)
+                        color: HoverBuilder.of(context)
                             ? themeColor
                             : context.isDark
                                 ? Colors.grey.shade600

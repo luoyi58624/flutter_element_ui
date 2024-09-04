@@ -50,7 +50,7 @@ class CodeExampleWidget extends HookWidget {
       $code.value = (context.isDark ? _darkCode : _lightCode)!.highlight(code);
     }
     return AnimatedContainer(
-      duration: el.themeDuration,
+      duration: el.config.themeDuration,
       decoration: BoxDecoration(
         borderRadius: el.config.cardRadius,
         border: Border.all(
@@ -105,7 +105,7 @@ class CodeExampleWidget extends HookWidget {
           ElCollapse(
             isExpanded.value,
             child: AnimatedContainer(
-              duration: el.themeDuration,
+              duration: el.config.themeDuration,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: context.elTheme.bgColor.deepen(3),

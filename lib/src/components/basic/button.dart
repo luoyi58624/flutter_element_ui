@@ -151,10 +151,10 @@ class ElButton extends StatelessWidget {
           defaultStyle.enableFeedback ??
           el.config.enableFeedback,
     );
-    var currentWidget = ElHoverBuilder(
+    var currentWidget = HoverBuilder(
       disabled: disabled,
       cursor: SystemMouseCursors.click,
-      builder: (context) => ElTapBuilder(
+      builder: (context) => TapBuilder(
         onTap: () {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
           if (onPressed != null) onPressed!();
@@ -204,13 +204,13 @@ class _Button extends HookWidget {
     );
 
     return AnimatedContainer(
-      duration: context.themeDuration ?? buttonDuration,
+      duration: context.elThemeDuration ?? buttonDuration,
       constraints: $constraints,
       alignment: Alignment.center,
       padding: $padding,
       decoration: $decoration,
       child: ElAnimatedDefaultTextStyle(
-        duration: context.themeDuration ?? buttonDuration,
+        duration: context.elThemeDuration ?? buttonDuration,
         style: ElDefaultTextStyle.of(context).style.copyWith(
               fontSize: 15,
               fontWeight: ElFont.medium,
@@ -287,8 +287,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final $isHover = ElHoverBuilder.of(context);
-  final $isTap = ElTapBuilder.of(context);
+  final $isHover = HoverBuilder.of(context);
+  final $isTap = TapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =

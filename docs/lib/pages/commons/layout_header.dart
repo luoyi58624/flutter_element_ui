@@ -93,7 +93,7 @@ class LayoutHeader extends StatelessWidget {
                       onTapDown: (e) {
                         context.go(ElLink.getHref(context)!);
                       },
-                      child: ElHoverBuilder(
+                      child: HoverBuilder(
                         cursor: SystemMouseCursors.click,
                         builder: (context) {
                           final isActive = RouterUtil.currentPath.value
@@ -110,7 +110,7 @@ class LayoutHeader extends StatelessWidget {
                                     e.$1,
                                     style: TextStyle(
                                         fontSize: 14,
-                                        color: ElHoverBuilder.of(context)
+                                        color: HoverBuilder.of(context)
                                             ? context.elTheme.primary
                                             : null),
                                   ),

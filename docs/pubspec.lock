@@ -141,10 +141,10 @@ packages:
     dependency: transitive
     description:
       name: dio
-      sha256: "0dfb6b6a1979dac1c1245e17cef824d7b452ea29bd33d3467269f9bef3715fb0"
+      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
       url: "https://pub.dev"
     source: hosted
-    version: "5.6.0"
+    version: "5.7.0"
   dio_smart_retry:
     dependency: transitive
     description:
@@ -419,7 +419,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3c0544f7337aa1c8e49f4f9a9d85f7a43ee903a0"
+      resolved-ref: b0d09a69ee9459b6d004162f4607d7e3913185f4
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"

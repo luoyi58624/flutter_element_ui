@@ -126,7 +126,7 @@ class ElCollapseItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElHoverBuilder(
+          HoverBuilder(
             onlyCursor: true,
             cursor: SystemMouseCursors.click,
             builder: (context) {
@@ -147,7 +147,7 @@ class ElCollapseItem extends StatelessWidget {
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
-                      duration: el.themeDuration,
+                      duration: el.config.themeDuration,
                       height: $data.height,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
