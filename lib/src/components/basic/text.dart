@@ -2,11 +2,18 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-/// 由于 [DefaultTextStyle] 被 Material 深度绑定，导致 Element 组件完全没法应用自己的文本主题，
-/// 所以 [ElText] 将会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式。
-///
-/// 但是，[ElText] 并不能完全代替 [Text]，如果你使用 Material 组件，我建议你依旧使用 [Text]，
-/// 因为有些小部件会使用 [DefaultTextStyle] 注入一些默认样式，使用 [ElText] 是无法享受的。
+// 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
+// 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
+//
+// 究其原因是我实在不想依赖 Material 的文本设计系统，它太繁杂了，官方给它设计了 10 种左右的文本主题，
+// 目前我体会不到它的任何好处，我只想拥有一种全局默认的文本样式，然后根据需求自己封装不同类型的文本小部件。
+//
+// 然后问题便在于 Material 系列的小部件不会合并祖先默认文本样式，因为它们有自身那一套庞大的设计体系，
+// 所以我只能被迫再搞一个独立的默认文本样式，用于绕开 Material 的限制。
+//
+// 那为什么 Element UI 非要使用 Material 组件？
+// 注意：Material 是一个系列，你平时用 Scaffold 脚手架内部也用到了 Material 小部件，
+// 你不可能只用 Element UI 提供的组件，我也不可能脱离 Material 从头去设计所有组件。
 class ElText extends StatelessWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(
@@ -72,21 +79,21 @@ class ElText extends StatelessWidget {
   TextStyle? get textStyle => style;
 
   /// 构建当前文本样式
-  TextStyle _buildTextStyle(BuildContext context, TextStyle? style) {
-    return ElDefaultTextStyle.of(context).style.merge(textStyle).merge(style);
+  TextStyle _buildTextStyle(ElDefaultTextStyle defaultStyle, TextStyle? style) {
+    return defaultStyle.style.merge(textStyle).merge(style);
   }
 
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(BuildContext context, List children) {
+  List<InlineSpan> _buildRichText(ElDefaultTextStyle defaultStyle, List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
-      richChildren.add(_buildInlineSpan(context, child));
+      richChildren.add(_buildInlineSpan(defaultStyle, child));
     }
     return richChildren;
   }
 
   /// 使用递归构建富文本片段
-  InlineSpan _buildInlineSpan(BuildContext context, dynamic data) {
+  InlineSpan _buildInlineSpan(ElDefaultTextStyle defaultStyle, dynamic data) {
     // 1. 如果是文本片段则直接返回
     if (data is TextSpan || data is WidgetSpan) return data;
 
@@ -106,7 +113,7 @@ class ElText extends StatelessWidget {
       if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data._buildTextStyle(context, data.style),
+          style: data._buildTextStyle(defaultStyle, data.style),
           semanticsLabel: data.semanticsLabel,
         );
       } else if (data.data is List) {
@@ -123,8 +130,8 @@ class ElText extends StatelessWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElText));
         if (!hasWidget) {
           return TextSpan(
-            style: data._buildTextStyle(context, data.style),
-            children: _buildRichText(context, data.data),
+            style: data._buildTextStyle(defaultStyle, data.style),
+            children: _buildRichText(defaultStyle, data.data),
           );
         }
       }
@@ -143,7 +150,7 @@ class ElText extends StatelessWidget {
     // 5. 如果是数组，则递归渲染
     if (data is List) {
       return TextSpan(
-        children: _buildRichText(context, data),
+        children: _buildRichText(defaultStyle, data),
       );
     }
 
@@ -156,58 +163,51 @@ class ElText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var $style = _buildTextStyle(context, style);
+    final $defaultStyle = ElDefaultTextStyle.of(context);
+    var $style = _buildTextStyle($defaultStyle, style);
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
       $style.copyWith(fontWeight: FontWeight.bold);
     }
     final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+    Widget result = Builder(builder: (context) {
+      return RichText(
+        text: TextSpan(
+          style: $style,
+          children: _buildRichText($defaultStyle, data is List ? data : [data]),
+        ),
+        textAlign: $defaultStyle.textAlign ?? TextAlign.start,
+        textDirection: textDirection,
+        softWrap: $defaultStyle.softWrap,
+        overflow: $defaultStyle.overflow,
+        textScaler: textScaler ?? TextScaler.noScaling,
+        maxLines: $defaultStyle.maxLines,
+        locale: locale,
+        strutStyle: strutStyle,
+        textWidthBasis: $defaultStyle.textWidthBasis,
+        textHeightBehavior: textHeightBehavior,
+        selectionRegistrar: registrar,
+        selectionColor: selectionColor ??
+            DefaultSelectionStyle.of(context).selectionColor ??
+            DefaultSelectionStyle.defaultColor,
+      );
+    });
+
+    if (registrar == null) return result;
     return HoverBuilder(
         onlyCursor: true,
-        cursor: registrar == null
-            ? null
-            : DefaultSelectionStyle.of(context).mouseCursor ??
-                HoverBuilder.mouseCursor(context) ??
-                SystemMouseCursors.text,
+        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+            HoverBuilder.mouseCursor(context) ??
+            SystemMouseCursors.text,
         builder: (context) {
-          return DefaultTextStyle.merge(
-            style: $style,
-            textAlign: textAlign,
-            softWrap: softWrap,
-            overflow: overflow,
-            maxLines: maxLines,
-            child: Builder(builder: (context) {
-              final $defaultStyle = DefaultTextStyle.of(context);
-              return RichText(
-                text: TextSpan(
-                  style: $defaultStyle.style,
-                  children:
-                      _buildRichText(context, data is List ? data : [data]),
-                ),
-                textAlign: $defaultStyle.textAlign ?? TextAlign.start,
-                textDirection: textDirection,
-                softWrap: $defaultStyle.softWrap,
-                overflow: $defaultStyle.overflow,
-                textScaler: textScaler ?? TextScaler.noScaling,
-                maxLines: $defaultStyle.maxLines,
-                locale: locale,
-                strutStyle: strutStyle,
-                textWidthBasis: $defaultStyle.textWidthBasis,
-                textHeightBehavior: textHeightBehavior,
-                selectionRegistrar: registrar,
-                selectionColor: selectionColor ??
-                    DefaultSelectionStyle.of(context).selectionColor ??
-                    DefaultSelectionStyle.defaultColor,
-              );
-            }),
-          );
+          return result;
         });
   }
 }
 
-/// 之所以不使用 [DefaultTextStyle] 是因为很多小部件都不尊重祖先提供的默认文本样式，
-/// 例如使用频率非常高的 [Material] 小部件，它会导致 Element UI 注入的全局文本样式无效。
 class ElDefaultTextStyle extends DefaultTextStyle {
+  /// 之所以不使用 [DefaultTextStyle] 是因为 [Material] 小部件不尊重祖先提供的默认文本样式，
+  /// 它会覆盖 Element UI 注入的全局文本样式。
   const ElDefaultTextStyle({
     super.key,
     required super.style,
@@ -261,6 +261,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
 }
 
 class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
+  /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件
   const ElAnimatedDefaultTextStyle({
     super.key,
     required this.child,
