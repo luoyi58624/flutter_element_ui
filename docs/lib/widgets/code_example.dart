@@ -102,7 +102,7 @@ class CodeExampleWidget extends HookWidget {
               ],
             ),
           ),
-          ElCollapse(
+          ElCollapseTransition(
             isExpanded.value,
             child: AnimatedContainer(
               duration: el.config.themeDuration,

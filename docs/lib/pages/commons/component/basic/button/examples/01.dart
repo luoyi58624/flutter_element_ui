@@ -7,14 +7,6 @@ class Example1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final buttonTypes = [null, ...el.themeTypes];
-    Widget buildTitle(String title) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Gap(28),
-            H4(title),
-            const Gap(16),
-          ],
-        );
     Widget buildWrap(Iterable<Widget> children) =>
         Wrap(children: children.toList());
     return Column(

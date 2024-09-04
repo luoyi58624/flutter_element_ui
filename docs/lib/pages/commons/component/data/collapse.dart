@@ -1,12 +1,18 @@
 import 'package:docs/global.dart';
+import 'package:docs/pages/commons/responsive_page.dart';
 
 import 'package:flutter/material.dart';
 
-class CollapsePage extends HookWidget {
+import 'examples/01.dart';
+
+class CollapsePage extends ResponsivePage {
   const CollapsePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  String get title => 'Collapse 折叠面板';
+
+  @override
+  List<Widget> buildPage(BuildContext context) {
     final expanded1 = useState([]);
     final expanded2 = useState([]);
 
@@ -44,19 +50,13 @@ class CollapsePage extends HookWidget {
       ),
     ];
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            ElCollapsePanel(expanded1, children: children),
-            const Gap(16),
-            const H4('手风琴模式'),
-            const Gap(16),
-            ElCollapsePanel(expanded2, accordion: true, children: children),
-          ],
-        ),
-      ),
-    );
+    return [
+      const Example1(),
+      ElCollapsePanel(expanded1, children: children),
+      const Gap(16),
+      const H4('手风琴模式'),
+      const Gap(16),
+      ElCollapsePanel(expanded2, accordion: true, children: children),
+    ];
   }
 }

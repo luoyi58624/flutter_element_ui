@@ -205,12 +205,8 @@ class ElText extends StatelessWidget {
   }
 }
 
-/// 适用于 [ElText] 的默认文本样式小部件，与 [DefaultTextStyle] 不同的是，
-/// Element UI 所有组件都会尊重祖先提供的默认文本样式，即任意一个组件需要提供默认文本样式时，
-/// 都会通过 merge 方法合并祖先的文本样式。
-///
-/// 而 Material 系列的组件大多应用 [Material] 小部件，该小部件会在内部直接构造新的
-/// [ElAnimatedDefaultTextStyle] 默认文本样式，从而造成全局提供的默认文本样式直接失效。
+/// 之所以不使用 [DefaultTextStyle] 是因为很多小部件都不尊重祖先提供的默认文本样式，
+/// 例如使用频率非常高的 [Material] 小部件，它会导致 Element UI 注入的全局文本样式无效。
 class ElDefaultTextStyle extends DefaultTextStyle {
   const ElDefaultTextStyle({
     super.key,
