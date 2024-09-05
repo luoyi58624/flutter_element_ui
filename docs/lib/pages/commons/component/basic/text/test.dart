@@ -73,7 +73,7 @@ class _ElText extends HookWidget {
           child: SingleChildScrollView(
             child: flag2.value
                 ? Wrap(
-                    children: ElAnimateText(
+                    children: ElText(
                           '哈',
                           duration: 500.ms,
                           style: TextStyle(
@@ -96,7 +96,7 @@ class _ElText extends HookWidget {
                           flag.value ? Colors.green : context.elTheme.textColor,
                     ),
                     child: Wrap(
-                      children: const ElAnimateText('哈') * 1000,
+                      children: const ElText('哈') * 1000,
                     ),
                   ),
           ),

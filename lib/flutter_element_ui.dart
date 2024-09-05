@@ -8,7 +8,6 @@ export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
 export 'src/components/basic/text.dart';
-export 'src/components/basic/animate_text.dart';
 
 export 'src/components/basic/link/link.dart';
 
