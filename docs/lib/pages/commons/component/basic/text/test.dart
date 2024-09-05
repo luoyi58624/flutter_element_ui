@@ -28,23 +28,25 @@ class _Text extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final flag = useState(false);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const H4('Text 动画测试'),
-          ElSwitch(flag),
-          AnimatedDefaultTextStyle(
-            duration: context.elThemeDuration ?? 1000.ms,
-            style: TextStyle(
-              fontSize: flag.value ? 28 : 16,
-              color: flag.value ? Colors.green : context.elTheme.textColor,
+    return Column(
+      children: [
+        const H4('Text 动画测试'),
+        ElSwitch(flag),
+        Expanded(
+          child: SingleChildScrollView(
+            child: AnimatedDefaultTextStyle(
+              duration: context.elThemeDuration ?? 200.ms,
+              style: TextStyle(
+                fontSize: flag.value ? 28 : 16,
+                color: flag.value ? Colors.green : context.elTheme.textColor,
+              ),
+              child: Wrap(
+                children: const Text('a') * 2000,
+              ),
             ),
-            child: Wrap(
-              children: const Text('这是一段文字') * 1000,
-            ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -55,23 +57,47 @@ class _ElText extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final flag = useState(false);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const H4('ElText 动画测试'),
-          ElSwitch(flag),
-          ElAnimatedDefaultTextStyle(
-            duration: context.elThemeDuration ?? 1000.ms,
-            style: TextStyle(
-              fontSize: flag.value ? 28 : 16,
-              color: flag.value ? Colors.green : context.elTheme.textColor,
-            ),
-            child: Wrap(
-              children: const ElText('这是一段文字') * 1000,
-            ),
+    final flag2 = useState(false);
+    return Column(
+      children: [
+        const H4('ElText 动画测试'),
+        ElSwitch(flag),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElSwitch(flag2),
+            ElText(flag2.value ? 'ElText 动画' : 'ElAnimatedDefaultTextStyle 动画'),
+          ],
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: flag2.value
+                ? Wrap(
+                    children: ElAnimateText(
+                          'a',
+                          duration: 200.ms,
+                          style: TextStyle(
+                            fontSize: flag.value ? 28 : 16,
+                            color: flag.value
+                                ? Colors.yellow
+                                : context.elTheme.textColor,
+                          ),
+                        ) *
+                        2000)
+                : ElAnimatedDefaultTextStyle(
+                    duration: context.elThemeDuration ?? 200.ms,
+                    style: TextStyle(
+                      fontSize: flag.value ? 28 : 16,
+                      color:
+                          flag.value ? Colors.green : context.elTheme.textColor,
+                    ),
+                    child: Wrap(
+                      children: const ElText('a') * 2000,
+                    ),
+                  ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

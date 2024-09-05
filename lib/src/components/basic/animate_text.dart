@@ -1,7 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/global.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 // 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
 // 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
@@ -36,14 +35,15 @@ class ElAnimateText extends StatefulWidget {
     this.selectionColor,
   });
 
-  ///
-  final Duration? duration;
-
   /// 渲染的文本内容，支持传递任意小部件，如果是[List]集合，则会渲染成富文本。
   ///
   /// 渲染富文本有一点需要注意，嵌套的组件会被转换成 TextSpan、WidgetSpan，
   /// 所以如果是文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
+
+  /// 文字动画持续时间，只有当 [duration] 和 [style] 不为 null，才会初始化动画控制器，
+  /// 或者你也可以使用 [ElAnimatedDefaultTextStyle] 小部件
+  final Duration? duration;
 
   /// 文本样式
   final TextStyle? style;
@@ -175,92 +175,121 @@ class _ElAnimateTextState extends State<ElAnimateText>
     with SingleTickerProviderStateMixin {
   TextStyle? _style;
 
-  late final controller = AnimationController(
-    vsync: this,
-    duration: el.themeDuration,
-  )..addListener(() {
-      _style = styleAnimate.value;
-    });
+  AnimationController? controller;
 
-  late Animation<TextStyle> styleAnimate = TextStyleTween(begin: widget.style)
-      .animate(CurvedAnimation(parent: controller, curve: Curves.linear));
+  Animation<TextStyle>? styleAnimate;
 
   @override
-  void didUpdateWidget(covariant ElAnimateText oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.style != oldWidget.style) {
-      styleAnimate = TextStyleTween(
-        begin: _style ?? oldWidget.style,
-        end: widget.style,
-      ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
-      controller.forward(from: 0);
+  void initState() {
+    super.initState();
+    if (widget.style != null && widget.duration != null) {
+      controller = AnimationController(
+        vsync: this,
+        duration: widget.duration,
+      );
+    }
+    if (controller != null) {
+      styleAnimate = TextStyleTween(begin: widget.style)
+          .animate(CurvedAnimation(parent: controller!, curve: Curves.linear));
+      controller!.addListener(() {
+        _style = styleAnimate!.value;
+      });
     }
   }
 
   @override
-  void reassemble() {
-    super.reassemble();
-    FlutterUtil.nextTick(() {
-      controller.duration = el.themeDuration;
-      styleAnimate = TextStyleTween(
-        begin: _style ?? widget.style,
-        end: widget.style,
-      ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
-    });
+  void didUpdateWidget(covariant ElAnimateText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.style != oldWidget.style ||
+        widget.duration != oldWidget.duration) {
+      if (widget.style == null || widget.duration == null) {
+        if (controller != null) {
+          controller!.dispose();
+          controller = null;
+          styleAnimate = null;
+        }
+      } else {
+        if (controller == null) {
+          controller = AnimationController(
+            vsync: this,
+            duration: widget.duration,
+          );
+          styleAnimate = TextStyleTween(begin: widget.style).animate(
+              CurvedAnimation(parent: controller!, curve: Curves.linear));
+          controller!.addListener(() {
+            _style = styleAnimate!.value;
+          });
+        } else {
+          styleAnimate = TextStyleTween(
+            begin: _style ?? oldWidget.style,
+            end: widget.style,
+          ).animate(CurvedAnimation(parent: controller!, curve: Curves.linear));
+          controller!.forward(from: 0);
+        }
+      }
+    }
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    if (controller != null) controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-        animation: controller.view,
+    if (controller == null) {
+      return buildText(context, widget.style);
+    } else {
+      return AnimatedBuilder(
+        animation: controller!.view,
         builder: (context, child) {
-          final $defaultStyle = ElDefaultTextStyle.of(context);
-          var $style = widget._buildTextStyle($defaultStyle, styleAnimate.value);
-          // 同步 Text 小部件的加粗文本逻辑
-          if (MediaQuery.boldTextOf(context)) {
-            $style.copyWith(fontWeight: FontWeight.bold);
-          }
-          final SelectionRegistrar? registrar =
-              SelectionContainer.maybeOf(context);
-          Widget result = Builder(builder: (context) {
-            return RichText(
-              text: TextSpan(
-                style: $style,
-                children: widget._buildRichText($defaultStyle,
-                    widget.data is List ? widget.data : [widget.data]),
-              ),
-              textAlign: $defaultStyle.textAlign ?? TextAlign.start,
-              textDirection: widget.textDirection,
-              softWrap: $defaultStyle.softWrap,
-              overflow: $defaultStyle.overflow,
-              textScaler: widget.textScaler ?? TextScaler.noScaling,
-              maxLines: $defaultStyle.maxLines,
-              locale: widget.locale,
-              strutStyle: widget.strutStyle,
-              textWidthBasis: $defaultStyle.textWidthBasis,
-              textHeightBehavior: widget.textHeightBehavior,
-              selectionRegistrar: registrar,
-              selectionColor: widget.selectionColor ??
-                  DefaultSelectionStyle.of(context).selectionColor ??
-                  DefaultSelectionStyle.defaultColor,
-            );
-          });
+          return buildText(context, styleAnimate!.value);
+        },
+      );
+    }
+  }
 
-          if (registrar == null) return result;
-          return HoverBuilder(
-              onlyCursor: true,
-              cursor: DefaultSelectionStyle.of(context).mouseCursor ??
-                  HoverBuilder.mouseCursor(context) ??
-                  SystemMouseCursors.text,
-              builder: (context) {
-                return result;
-              });
+  Widget buildText(BuildContext context, TextStyle? style) {
+    final $defaultStyle = ElDefaultTextStyle.of(context);
+    var $style = widget._buildTextStyle($defaultStyle, style);
+    // 同步 Text 小部件的加粗文本逻辑
+    if (MediaQuery.boldTextOf(context)) {
+      $style.copyWith(fontWeight: FontWeight.bold);
+    }
+    final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+    Widget result = Builder(builder: (context) {
+      return RichText(
+        text: TextSpan(
+          style: $style,
+          children: widget._buildRichText(
+              $defaultStyle, widget.data is List ? widget.data : [widget.data]),
+        ),
+        textAlign: $defaultStyle.textAlign ?? TextAlign.start,
+        textDirection: widget.textDirection,
+        softWrap: $defaultStyle.softWrap,
+        overflow: $defaultStyle.overflow,
+        textScaler: widget.textScaler ?? TextScaler.noScaling,
+        maxLines: $defaultStyle.maxLines,
+        locale: widget.locale,
+        strutStyle: widget.strutStyle,
+        textWidthBasis: $defaultStyle.textWidthBasis,
+        textHeightBehavior: widget.textHeightBehavior,
+        selectionRegistrar: registrar,
+        selectionColor: widget.selectionColor ??
+            DefaultSelectionStyle.of(context).selectionColor ??
+            DefaultSelectionStyle.defaultColor,
+      );
+    });
+
+    if (registrar == null) return result;
+    return HoverBuilder(
+        onlyCursor: true,
+        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+            HoverBuilder.mouseCursor(context) ??
+            SystemMouseCursors.text,
+        builder: (context) {
+          return result;
         });
   }
 }
