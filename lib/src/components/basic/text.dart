@@ -41,8 +41,11 @@ class ElText extends StatefulWidget {
   /// 所以如果是文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
 
-  /// 文字动画持续时间，只有当 [duration] 和 [style] 不为 null，才会初始化动画控制器，
-  /// 或者你也可以使用 [ElAnimatedDefaultTextStyle] 小部件
+  /// 文字动画持续时间，默认 [el.themeDuration]，如果不想应用动画，请设置 [Duration.zero]。
+  // 提示：ElText 的性能肯定不如原生 Text 小部件，毕竟每个 ElText 都会创建一个动画控制器，
+  // 而 Text 通过 AnimatedDefaultTextStyle 只创建一个动画控制器，所以 ElText 性能会差很多，
+  // 通过 Flutter 调试工具测试的帧率大概是 60% 左右，不过实际体验感官不大，在线测试链接：
+  // https://luoyi58624.github.io/flutter_element_ui/#/component/text
   final Duration? duration;
 
   /// 文本样式
@@ -86,23 +89,17 @@ class ElText extends StatefulWidget {
   /// 自定义当前文本样式，覆写它可以实现自定义样式文本，例如：H1、H2...
   TextStyle? get textStyle => style;
 
-  /// 构建当前文本样式
-  TextStyle _buildTextStyle(ElDefaultTextStyle defaultStyle, TextStyle? style) {
-    return defaultStyle.style.merge(textStyle).merge(style);
-  }
-
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(
-      ElDefaultTextStyle defaultStyle, List children) {
+  List<InlineSpan> _buildRichText(List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
-      richChildren.add(_buildInlineSpan(defaultStyle, child));
+      richChildren.add(_buildInlineSpan(child));
     }
     return richChildren;
   }
 
   /// 使用递归构建富文本片段
-  InlineSpan _buildInlineSpan(ElDefaultTextStyle defaultStyle, dynamic data) {
+  InlineSpan _buildInlineSpan(dynamic data) {
     // 1. 如果是文本片段则直接返回
     if (data is TextSpan || data is WidgetSpan) return data;
 
@@ -122,7 +119,7 @@ class ElText extends StatefulWidget {
       if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data._buildTextStyle(defaultStyle, data.style),
+          style: data.style,
           semanticsLabel: data.semanticsLabel,
         );
       } else if (data.data is List) {
@@ -139,8 +136,8 @@ class ElText extends StatefulWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElText));
         if (!hasWidget) {
           return TextSpan(
-            style: data._buildTextStyle(defaultStyle, data.style),
-            children: _buildRichText(defaultStyle, data.data),
+            style: data.style,
+            children: _buildRichText(data.data),
           );
         }
       }
@@ -159,7 +156,7 @@ class ElText extends StatefulWidget {
     // 5. 如果是数组，则递归渲染
     if (data is List) {
       return TextSpan(
-        children: _buildRichText(defaultStyle, data),
+        children: _buildRichText(data),
       );
     }
 
@@ -172,6 +169,7 @@ class ElText extends StatefulWidget {
 }
 
 class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
+  late ElDefaultTextStyle defaultStyle;
   TextStyle? _style;
 
   late AnimationController controller = AnimationController(
@@ -198,8 +196,10 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     }
     if (widget.style != oldWidget.style) {
       styleAnimate = TextStyleTween(
-        begin: _style ?? oldWidget.style,
-        end: widget.style,
+        begin: defaultStyle.style
+            .merge(widget.textStyle)
+            .merge(_style ?? oldWidget.style),
+        end: defaultStyle.style.merge(widget.textStyle).merge(widget.style),
       ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
       controller.forward(from: 0);
     }
@@ -213,6 +213,7 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    defaultStyle = ElDefaultTextStyle.of(context);
     return AnimatedBuilder(
       animation: controller.view,
       builder: (context, child) {
@@ -222,8 +223,7 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
   }
 
   Widget buildText(BuildContext context, TextStyle? style) {
-    final $defaultStyle = ElDefaultTextStyle.of(context);
-    var $style = widget._buildTextStyle($defaultStyle, style);
+    var $style = defaultStyle.style.merge(widget.textStyle).merge(style);
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
       $style.copyWith(fontWeight: FontWeight.bold);
@@ -234,17 +234,17 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
         text: TextSpan(
           style: $style,
           children: widget._buildRichText(
-              $defaultStyle, widget.data is List ? widget.data : [widget.data]),
+              widget.data is List ? widget.data : [widget.data]),
         ),
-        textAlign: $defaultStyle.textAlign ?? TextAlign.start,
+        textAlign: defaultStyle.textAlign ?? TextAlign.start,
         textDirection: widget.textDirection,
-        softWrap: $defaultStyle.softWrap,
-        overflow: $defaultStyle.overflow,
+        softWrap: defaultStyle.softWrap,
+        overflow: defaultStyle.overflow,
         textScaler: widget.textScaler ?? TextScaler.noScaling,
-        maxLines: $defaultStyle.maxLines,
+        maxLines: defaultStyle.maxLines,
         locale: widget.locale,
         strutStyle: widget.strutStyle,
-        textWidthBasis: $defaultStyle.textWidthBasis,
+        textWidthBasis: defaultStyle.textWidthBasis,
         textHeightBehavior: widget.textHeightBehavior,
         selectionRegistrar: registrar,
         selectionColor: widget.selectionColor ??
@@ -333,6 +333,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
   bool updateShouldNotify(ElDefaultTextStyle oldWidget) => true;
 }
 
+/// 此组件暂时不外提供，因为 [ElText] 已经内置动画
 class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
   /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件
   const ElAnimatedDefaultTextStyle({

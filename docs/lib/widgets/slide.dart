@@ -58,21 +58,17 @@ class SlideWidget extends StatelessWidget {
                                                     )
                                               : null,
                                         ),
-                                        child: ElAnimatedDefaultTextStyle(
-                                          duration: context.elThemeDuration ??
-                                              Duration.zero,
-                                          style: ElDefaultTextStyle.of(context)
-                                              .style
-                                              .copyWith(
-                                                color: context.isHover ||
-                                                        isActive
-                                                    ? context.elTheme.primary
-                                                    : context.isDark
-                                                        ? Colors.grey.shade100
-                                                        : Colors.grey.shade800,
-                                                fontSize: 14,
-                                              ),
-                                          child: ElText(e.$1),
+                                        child: ElText(
+                                          e.$1,
+                                          duration: Duration.zero,
+                                          style: TextStyle(
+                                            color: context.isHover || isActive
+                                                ? context.elTheme.primary
+                                                : context.isDark
+                                                    ? Colors.grey.shade100
+                                                    : Colors.grey.shade800,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       );
                                     });
