@@ -31,7 +31,7 @@ class ElConfigData {
   /// 全局卡片圆角值（大尺寸控件）：卡片、弹窗...
   final BorderRadius cardRadius;
 
-  /// 全局触觉回馈，默认false
+  /// 全局触觉回馈，默认false，如果为true，则所有点击事件将自动添加：HapticFeedback.mediumImpact();
   final bool enableFeedback;
 
   /// 全局文本样式，它只作用于 [ElText] 小部件

@@ -40,10 +40,6 @@ List<RouteBase> buildComponentRoutes(String path) {
       builder: (context, state) => const NotFoundPage(),
     ),
     RouterUtil.buildRoute(
-      path: '${path}link',
-      builder: (context, state) => const NotFoundPage(),
-    ),
-    RouterUtil.buildRoute(
       path: '${path}text',
       builder: (context, state) => const TextPage(),
     ),

@@ -219,7 +219,8 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     required super.child,
   });
 
-  /// 为了保证文本继承性，不再允许直接构造 [ElDefaultTextStyle]，只能通过 [merge] 方法注入默认的文本样式
+  /// 为了彻底保证文本继承性，不再允许直接构造 [ElDefaultTextStyle]，
+  /// 只能通过 [merge] 方法注入默认的文本样式
   static Widget merge({
     Key? key,
     TextStyle? style,

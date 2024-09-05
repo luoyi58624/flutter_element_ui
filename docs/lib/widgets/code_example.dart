@@ -80,6 +80,9 @@ class CodeExampleWidget extends HookWidget {
                     await Clipboard.setData(ClipboardData(text: code));
                     el.message.success('复制成功');
                   },
+                  onTapDown: (e){
+                    HapticFeedback.mediumImpact();
+                  },
                   link: true,
                   child: Icon(
                     Icons.copy,
@@ -91,6 +94,9 @@ class CodeExampleWidget extends HookWidget {
                 ElButton(
                   onPressed: () {
                     isExpanded.value = !isExpanded.value;
+                  },
+                  onTapDown: (e){
+                    HapticFeedback.mediumImpact();
                   },
                   link: true,
                   child: Icon(

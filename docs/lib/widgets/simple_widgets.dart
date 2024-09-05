@@ -21,9 +21,9 @@ class SectionTitle extends StatelessWidget {
   }
 }
 
-class SectionTip extends StatelessWidget {
-  /// 段落提示
-  const SectionTip(this.text, {super.key});
+class SectionText extends StatelessWidget {
+  /// 段落文本
+  const SectionText(this.text, {super.key});
 
   final dynamic text;
 

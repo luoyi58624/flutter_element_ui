@@ -235,7 +235,6 @@ class RouterUtil {
         ('Color 色彩', '/${RootRoute.component.$2}/color'),
         ('Icon 图标', '/${RootRoute.component.$2}/icon'),
         ('Layout 布局', '/${RootRoute.component.$2}/layout'),
-        ('Link 链接', '/${RootRoute.component.$2}/link'),
         ('Text 文本', '/${RootRoute.component.$2}/text'),
         ('Scrollbar 滚动条', '/${RootRoute.component.$2}/scrollbar'),
         ('Typography 排版', '/${RootRoute.component.$2}/typography'),

@@ -53,6 +53,9 @@ class ElButton extends StatelessWidget {
     this.loading = false,
     this.enableFeedback,
     this.onPressed,
+    this.onTapDown,
+    this.onTapUp,
+    this.onTapCancel,
   });
 
   /// 支持任意类型子组件：
@@ -119,6 +122,9 @@ class ElButton extends StatelessWidget {
 
   /// 点击事件
   final VoidCallback? onPressed;
+  final GestureTapDownCallback? onTapDown;
+  final GestureTapUpCallback? onTapUp;
+  final GestureTapCancelCallback? onTapCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +165,9 @@ class ElButton extends StatelessWidget {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
           if (onPressed != null) onPressed!();
         },
+        onTapDown: onTapDown,
+        onTapUp: onTapUp,
+        onTapCancel: onTapCancel,
         disabled: disabled,
         delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
         builder: (context) => _Button(child, styleProp),

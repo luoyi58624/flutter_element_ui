@@ -137,12 +137,6 @@ class NavPage extends ResponsivePage {
   }
 }
 
-extension _Ext on Widget {
-  List<Widget> operator *(int other) {
-    return List.generate(other, (index) => this);
-  }
-}
-
 class _Text extends StatefulWidget {
   const _Text(this.style);
 

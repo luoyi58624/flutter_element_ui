@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Example3 extends StatelessWidget {
   const Example3({super.key});
@@ -11,7 +10,7 @@ class Example3 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('自定义文本组件'),
-        const SectionTip([
+        const SectionText([
           '这些组件 Element UI 没有提供，你需要自行封装，',
           ElLink(
             href:
