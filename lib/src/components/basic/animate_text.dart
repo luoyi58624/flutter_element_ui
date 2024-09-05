@@ -175,79 +175,51 @@ class _ElAnimateTextState extends State<ElAnimateText>
     with SingleTickerProviderStateMixin {
   TextStyle? _style;
 
-  AnimationController? controller;
+  late AnimationController controller = AnimationController(
+    vsync: this,
+    duration: widget.duration ?? el.themeDuration,
+  )..addListener(() {
+      _style = styleAnimate.value;
+    });
 
-  Animation<TextStyle>? styleAnimate;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.style != null && widget.duration != null) {
-      controller = AnimationController(
-        vsync: this,
-        duration: widget.duration,
-      );
-    }
-    if (controller != null) {
-      styleAnimate = TextStyleTween(begin: widget.style)
-          .animate(CurvedAnimation(parent: controller!, curve: Curves.linear));
-      controller!.addListener(() {
-        _style = styleAnimate!.value;
-      });
-    }
-  }
+  late Animation<TextStyle> styleAnimate = TextStyleTween(
+    begin: widget.style ?? const TextStyle(),
+  ).animate(CurvedAnimation(
+    parent: controller,
+    curve: Curves.linear,
+  ));
 
   @override
   void didUpdateWidget(covariant ElAnimateText oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.style != oldWidget.style ||
-        widget.duration != oldWidget.duration) {
-      if (widget.style == null || widget.duration == null) {
-        if (controller != null) {
-          controller!.dispose();
-          controller = null;
-          styleAnimate = null;
-        }
-      } else {
-        if (controller == null) {
-          controller = AnimationController(
-            vsync: this,
-            duration: widget.duration,
-          );
-          styleAnimate = TextStyleTween(begin: widget.style).animate(
-              CurvedAnimation(parent: controller!, curve: Curves.linear));
-          controller!.addListener(() {
-            _style = styleAnimate!.value;
-          });
-        } else {
-          styleAnimate = TextStyleTween(
-            begin: _style ?? oldWidget.style,
-            end: widget.style,
-          ).animate(CurvedAnimation(parent: controller!, curve: Curves.linear));
-          controller!.forward(from: 0);
-        }
-      }
+    if (context.elThemeDuration != null) {
+      controller.duration = el.themeDuration;
+    } else {
+      controller.duration = widget.duration ?? el.themeDuration;
+    }
+    if (widget.style != oldWidget.style) {
+      styleAnimate = TextStyleTween(
+        begin: _style ?? oldWidget.style,
+        end: widget.style,
+      ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
+      controller.forward(from: 0);
     }
   }
 
   @override
   void dispose() {
-    if (controller != null) controller!.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null) {
-      return buildText(context, widget.style);
-    } else {
-      return AnimatedBuilder(
-        animation: controller!.view,
-        builder: (context, child) {
-          return buildText(context, styleAnimate!.value);
-        },
-      );
-    }
+    return AnimatedBuilder(
+      animation: controller.view,
+      builder: (context, child) {
+        return buildText(context, styleAnimate.value);
+      },
+    );
   }
 
   Widget buildText(BuildContext context, TextStyle? style) {

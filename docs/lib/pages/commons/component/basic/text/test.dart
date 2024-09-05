@@ -35,13 +35,13 @@ class _Text extends HookWidget {
         Expanded(
           child: SingleChildScrollView(
             child: AnimatedDefaultTextStyle(
-              duration: context.elThemeDuration ?? 200.ms,
+              duration: context.elThemeDuration ?? 500.ms,
               style: TextStyle(
-                fontSize: flag.value ? 28 : 16,
+                fontSize: flag.value ? 18 : 14,
                 color: flag.value ? Colors.green : context.elTheme.textColor,
               ),
               child: Wrap(
-                children: const Text('a') * 2000,
+                children: const Text('哈') * 1000,
               ),
             ),
           ),
@@ -74,25 +74,29 @@ class _ElText extends HookWidget {
             child: flag2.value
                 ? Wrap(
                     children: ElAnimateText(
-                          'a',
-                          duration: 200.ms,
+                          '哈',
+                          duration: 500.ms,
                           style: TextStyle(
-                            fontSize: flag.value ? 28 : 16,
+                            fontSize: flag.value
+                                ? 18
+                                : context.isDark
+                                    ? 22
+                                    : 14,
                             color: flag.value
                                 ? Colors.yellow
                                 : context.elTheme.textColor,
                           ),
                         ) *
-                        2000)
+                        1000)
                 : ElAnimatedDefaultTextStyle(
-                    duration: context.elThemeDuration ?? 200.ms,
+                    duration: context.elThemeDuration ?? 500.ms,
                     style: TextStyle(
-                      fontSize: flag.value ? 28 : 16,
+                      fontSize: flag.value ? 18 : 14,
                       color:
                           flag.value ? Colors.green : context.elTheme.textColor,
                     ),
                     child: Wrap(
-                      children: const ElText('a') * 2000,
+                      children: const ElAnimateText('哈') * 1000,
                     ),
                   ),
           ),
