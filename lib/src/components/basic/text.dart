@@ -3,17 +3,17 @@ import 'package:flutter/widgets.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 // 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
-// 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
+// 当你使用一些小部件用到 DefaultTextStyle 时，你可能还是需要使用 Text 小部件。
 //
 // 究其原因是我实在不想依赖 Material 的文本设计系统，它太繁杂了，官方给它设计了 10 种左右的文本主题，
 // 目前我体会不到它的任何好处，我只想拥有一种全局默认的文本样式，然后根据需求自己封装不同类型的文本小部件。
 //
 // 然后问题便在于 Material 系列的小部件不会合并祖先默认文本样式，因为它们有自身那一套庞大的设计体系，
-// 所以我只能被迫再搞一个独立的默认文本样式，用于绕开 Material 的限制。
+// 所以我只能被迫再搞一个独立的默认文本样式，用于避免各种问题。
 //
 // 那为什么 Element UI 非要使用 Material 组件？
-// 注意：Material 是一个系列，你平时用 Scaffold 脚手架内部也用到了 Material 小部件，
-// 你不可能只用 Element UI 提供的组件，我也不可能脱离 Material 从头去设计所有组件。
+// 注意：Material 是一个系列，你平时用 Scaffold 脚手架内部也使用了 Material 小部件，
+// 在实际业务开发中你不可能只使用 Element UI 提供的组件，我也不可能脱离 Material 丰富的轮子去从头设计所有组件。
 class ElText extends StatelessWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(
@@ -84,7 +84,8 @@ class ElText extends StatelessWidget {
   }
 
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(ElDefaultTextStyle defaultStyle, List children) {
+  List<InlineSpan> _buildRichText(
+      ElDefaultTextStyle defaultStyle, List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
       richChildren.add(_buildInlineSpan(defaultStyle, child));
@@ -206,20 +207,19 @@ class ElText extends StatelessWidget {
 }
 
 class ElDefaultTextStyle extends DefaultTextStyle {
-  /// 之所以不使用 [DefaultTextStyle] 是因为 [Material] 小部件不尊重祖先提供的默认文本样式，
-  /// 它会覆盖 Element UI 注入的全局文本样式。
-  const ElDefaultTextStyle({
+  const ElDefaultTextStyle._({
     super.key,
     required super.style,
     super.textAlign,
-    super.softWrap = true,
-    super.overflow = TextOverflow.clip,
+    super.softWrap,
+    super.overflow,
     super.maxLines,
-    super.textWidthBasis = TextWidthBasis.parent,
+    super.textWidthBasis,
     super.textHeightBehavior,
     required super.child,
   });
 
+  /// 为了保证文本继承性，不再允许直接构造 [ElDefaultTextStyle]，只能通过 [merge] 方法注入默认的文本样式
   static Widget merge({
     Key? key,
     TextStyle? style,
@@ -232,17 +232,30 @@ class ElDefaultTextStyle extends DefaultTextStyle {
   }) {
     return Builder(
       builder: (BuildContext context) {
-        final ElDefaultTextStyle parent = ElDefaultTextStyle.of(context);
-        return ElDefaultTextStyle(
-          key: key,
-          style: parent.style.merge(style),
-          textAlign: textAlign ?? parent.textAlign,
-          softWrap: softWrap ?? parent.softWrap,
-          overflow: overflow ?? parent.overflow,
-          maxLines: maxLines ?? parent.maxLines,
-          textWidthBasis: textWidthBasis ?? parent.textWidthBasis,
-          child: child,
-        );
+        final ElDefaultTextStyle? parent = ElDefaultTextStyle.maybeOf(context);
+        if (parent != null) {
+          return ElDefaultTextStyle._(
+            key: key,
+            style: parent.style.merge(style),
+            textAlign: textAlign ?? parent.textAlign,
+            softWrap: softWrap ?? parent.softWrap,
+            overflow: overflow ?? parent.overflow,
+            maxLines: maxLines ?? parent.maxLines,
+            textWidthBasis: textWidthBasis ?? parent.textWidthBasis,
+            child: child,
+          );
+        } else {
+          return ElDefaultTextStyle._(
+            key: key,
+            style: style ?? const TextStyle(),
+            textAlign: textAlign,
+            softWrap: softWrap ?? true,
+            overflow: overflow ?? TextOverflow.clip,
+            maxLines: maxLines,
+            textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
+            child: child,
+          );
+        }
       },
     );
   }
@@ -304,7 +317,7 @@ class _ElAnimatedDefaultTextStyleState
 
   @override
   Widget build(BuildContext context) {
-    return ElDefaultTextStyle(
+    return ElDefaultTextStyle._(
       style: _style!.evaluate(animation),
       textAlign: widget.textAlign,
       softWrap: widget.softWrap,

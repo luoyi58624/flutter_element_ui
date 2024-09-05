@@ -1,17 +1,22 @@
+import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 import 'examples/01.dart';
+import 'examples/02.dart';
+import 'examples/03.dart';
 
-class TextPage extends StatelessWidget {
+class TextPage extends ResponsivePage {
   const TextPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Example1(),
-      ],
-    );
+  String get title => 'Text 文本';
+
+  @override
+  List<Widget> buildPage(BuildContext context) {
+    return [
+      const Example1(),
+      const Example2(),
+      const Example3(),
+    ];
   }
 }

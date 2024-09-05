@@ -90,7 +90,7 @@ class DesignPage extends ResponsivePage {
             child: ElText(
               [
                 ElText(e.$1, style: TextStyle(fontWeight: FontUtil.medium)),
-                (e.$2)
+                e.$2
               ],
             ),
           ),

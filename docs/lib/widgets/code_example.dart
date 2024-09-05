@@ -10,12 +10,12 @@ Highlighter? _darkCode;
 class CodeExampleWidget extends HookWidget {
   const CodeExampleWidget({
     super.key,
-    required this.child,
     required this.code,
+    required this.children,
   });
 
-  final Widget child;
   final String code;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,10 @@ class CodeExampleWidget extends HookWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: child,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
           ),
           const ElDivider(),
           SizedBox(

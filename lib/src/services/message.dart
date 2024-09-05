@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/global.dart';
 
 import '../components/basic/icon.dart';
-import '../components/basic/text.dart';
 import '../components/data/badge.dart';
 import '../utils/assert.dart';
 import '../utils/font.dart';
@@ -240,7 +239,7 @@ class ElMessageInstance {
   }
 }
 
-/// 封装消息提示队列显示、隐藏、以及交互
+/// 消息提示队列显示、隐藏、以及交互小部件
 class _Message extends StatefulWidget {
   const _Message(
     this.id,

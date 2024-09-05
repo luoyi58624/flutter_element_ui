@@ -25,26 +25,23 @@ class Example1 extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitle('折叠动画'),
+        const SectionTitle('折叠动画'),
         CodeExampleWidget(
           code: code1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ElButton(
-                onPressed: () {
-                  show.value = !show.value;
-                },
-                child: 'Click Me',
+          children: [
+            ElButton(
+              onPressed: () {
+                show.value = !show.value;
+              },
+              child: 'Click Me',
+            ),
+            ElCollapseTransition(
+              show.value,
+              child: Column(
+                children: [container, container],
               ),
-              ElCollapseTransition(
-                show.value,
-                child: Column(
-                  children: [container, container],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

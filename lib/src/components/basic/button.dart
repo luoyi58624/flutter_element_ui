@@ -32,7 +32,6 @@ typedef _ButtonStyleProp = ({
 class ElButton extends StatelessWidget {
   const ElButton({
     super.key,
-    required this.onPressed,
     required this.child,
     this.width,
     this.height,
@@ -53,15 +52,13 @@ class ElButton extends StatelessWidget {
     this.disabled = false,
     this.loading = false,
     this.enableFeedback,
+    this.onPressed,
   });
 
   /// 支持任意类型子组件：
   /// * 如果是基础类型，则自动渲染为[Text]
   /// * 如果是[Widget]，则直接渲染
   final dynamic child;
-
-  /// 点击事件
-  final VoidCallback? onPressed;
 
   /// 指定按钮宽度，如果[block]或[circle]为true，那么将失效
   final double? width;
@@ -119,6 +116,9 @@ class ElButton extends StatelessWidget {
 
   /// 是否开启触觉回馈，默认全局关闭
   final bool? enableFeedback;
+
+  /// 点击事件
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

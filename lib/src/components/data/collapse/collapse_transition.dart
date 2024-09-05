@@ -40,7 +40,11 @@ class ElCollapseTransition extends HookWidget {
       initialValue: value ? 1.0 : 0.0,
     );
     final animate = CurvedAnimation(parent: controller, curve: curve);
-    value ? controller.forward() : controller.reverse();
+
+    useEffect(() {
+      value ? controller.forward() : controller.reverse();
+      return null;
+    }, [value]);
     return AnimatedBuilder(
       animation: controller.view,
       builder: (context, child) {

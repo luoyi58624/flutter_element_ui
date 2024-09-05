@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../commons/home.dart';
 import '../commons/layout_header.dart';
-import '../desktop/setting.dart';
+import '../commons/setting.dart';
 
 class MobileHomeLayout extends StatelessWidget {
   const MobileHomeLayout({super.key});

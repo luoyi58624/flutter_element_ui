@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../commons/layout_header.dart';
-import 'setting.dart';
+import '../commons/setting.dart';
 
 class DesktopLayout extends StatelessWidget {
   const DesktopLayout({super.key, required this.child});

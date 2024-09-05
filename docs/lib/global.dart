@@ -6,3 +6,4 @@ export 'state.dart';
 export 'router.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/code_example.dart';
+export 'pages/commons/responsive_page.dart';

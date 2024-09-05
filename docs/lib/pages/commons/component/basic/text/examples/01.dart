@@ -6,17 +6,19 @@ class Example1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        H1('一级标题 (H1)'),
-        H2('二级标题 (H2)'),
-        H3('三级标题 (H3)'),
-        H4('四级标题 (H4)'),
-        H5('五级标题 (H5)'),
-        H6('六级标题 (H6)'),
-        ElText('普通文本 (ElText)'),
+        const SectionTitle('普通文本'),
+        CodeExampleWidget(
+          code: code,
+          children: const [
+            ElText('Hello, 这是一段普通文本'),
+          ],
+        ),
       ],
     );
   }
 }
+
+String get code => '''ElText('Hello，这是一段普通文本'),''';

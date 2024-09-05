@@ -12,79 +12,74 @@ class Example1 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildTitle('基础用法'),
+        const SectionTitle('基础用法'),
         CodeExampleWidget(
           code: code1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildWrap([
-                ...buttonTypes.map(
-                  (type) => ElButton(
-                    child: (type ?? 'Default').firstUpperCase,
-                    onPressed: null,
-                    type: type,
-                  ),
-                ),
-              ]),
-              buildWrap(
-                buttonTypes.map(
-                  (type) => ElButton(
-                    child: (type ?? 'Default').firstUpperCase,
-                    onPressed: null,
-                    type: type,
-                    plain: true,
-                  ),
+          children: [
+            buildWrap([
+              ...buttonTypes.map(
+                (type) => ElButton(
+                  child: (type ?? 'Default').firstUpperCase,
+                  onPressed: null,
+                  type: type,
                 ),
               ),
-              buildWrap(
-                buttonTypes.map(
-                  (type) => ElButton(
-                    child: (type ?? 'Default').firstUpperCase,
-                    onPressed: null,
-                    type: type,
-                    round: true,
-                  ),
+            ]),
+            buildWrap(
+              buttonTypes.map(
+                (type) => ElButton(
+                  child: (type ?? 'Default').firstUpperCase,
+                  onPressed: null,
+                  type: type,
+                  plain: true,
                 ),
               ),
-              buildWrap(
-                buttonTypes.map(
-                  (type) => ElButton(
-                    onPressed: null,
-                    type: type,
-                    child: const ElIcon(ElIcons.aim),
-                  ),
+            ),
+            buildWrap(
+              buttonTypes.map(
+                (type) => ElButton(
+                  child: (type ?? 'Default').firstUpperCase,
+                  onPressed: null,
+                  type: type,
+                  round: true,
                 ),
               ),
-              buildWrap(
-                buttonTypes.map(
-                  (type) => ElButton(
-                    onPressed: null,
-                    type: type,
-                    circle: true,
-                    child: const ElIcon(ElIcons.aim),
-                  ),
+            ),
+            buildWrap(
+              buttonTypes.map(
+                (type) => ElButton(
+                  onPressed: null,
+                  type: type,
+                  child: const ElIcon(ElIcons.aim),
                 ),
               ),
-            ],
-          ),
+            ),
+            buildWrap(
+              buttonTypes.map(
+                (type) => ElButton(
+                  onPressed: null,
+                  type: type,
+                  circle: true,
+                  child: const ElIcon(ElIcons.aim),
+                ),
+              ),
+            ),
+          ],
         ),
         const Gap(8),
         CodeExampleWidget(
           code: code2,
-          child: Column(
-            children: [
-              buildWrap(
-                buttonTypes.map(
-                  (type) => ElButton(
-                    child: (type ?? 'Default').firstUpperCase,
-                    onPressed: null,
-                    type: type,
-                  ),
+          children: [
+            buildWrap(
+              buttonTypes.map(
+                (type) => ElButton(
+                  child: (type ?? 'Default').firstUpperCase,
+                  onPressed: null,
+                  type: type,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
