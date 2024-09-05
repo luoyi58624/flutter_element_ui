@@ -1,5 +1,4 @@
 import 'package:docs/global.dart';
-import 'package:docs/widgets/test.dart';
 import 'package:flutter/material.dart';
 
 class SlideWidget extends StatelessWidget {

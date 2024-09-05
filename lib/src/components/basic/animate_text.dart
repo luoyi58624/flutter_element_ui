@@ -87,21 +87,22 @@ class ElAnimateText extends StatefulWidget {
   TextStyle? get textStyle => style;
 
   /// 构建当前文本样式
-  TextStyle _buildTextStyle(BuildContext context, TextStyle? style) {
-    return ElDefaultTextStyle.of(context).style.merge(textStyle).merge(style);
+  TextStyle _buildTextStyle(ElDefaultTextStyle defaultStyle, TextStyle? style) {
+    return defaultStyle.style.merge(textStyle).merge(style);
   }
 
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(BuildContext context, List children) {
+  List<InlineSpan> _buildRichText(
+      ElDefaultTextStyle defaultStyle, List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
-      richChildren.add(_buildInlineSpan(context, child));
+      richChildren.add(_buildInlineSpan(defaultStyle, child));
     }
     return richChildren;
   }
 
   /// 使用递归构建富文本片段
-  InlineSpan _buildInlineSpan(BuildContext context, dynamic data) {
+  InlineSpan _buildInlineSpan(ElDefaultTextStyle defaultStyle, dynamic data) {
     // 1. 如果是文本片段则直接返回
     if (data is TextSpan || data is WidgetSpan) return data;
 
@@ -121,7 +122,7 @@ class ElAnimateText extends StatefulWidget {
       if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data._buildTextStyle(context, data.style),
+          style: data._buildTextStyle(defaultStyle, data.style),
           semanticsLabel: data.semanticsLabel,
         );
       } else if (data.data is List) {
@@ -138,8 +139,8 @@ class ElAnimateText extends StatefulWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElAnimateText));
         if (!hasWidget) {
           return TextSpan(
-            style: data._buildTextStyle(context, data.style),
-            children: _buildRichText(context, data.data),
+            style: data._buildTextStyle(defaultStyle, data.style),
+            children: _buildRichText(defaultStyle, data.data),
           );
         }
       }
@@ -158,7 +159,7 @@ class ElAnimateText extends StatefulWidget {
     // 5. 如果是数组，则递归渲染
     if (data is List) {
       return TextSpan(
-        children: _buildRichText(context, data),
+        children: _buildRichText(defaultStyle, data),
       );
     }
 
@@ -176,7 +177,7 @@ class _ElAnimateTextState extends State<ElAnimateText>
 
   late final controller = AnimationController(
     vsync: this,
-    duration: el.config.themeDuration,
+    duration: el.themeDuration,
   )..addListener(() {
       _style = styleAnimate.value;
     });
@@ -200,7 +201,7 @@ class _ElAnimateTextState extends State<ElAnimateText>
   void reassemble() {
     super.reassemble();
     FlutterUtil.nextTick(() {
-      controller.duration = el.config.themeDuration;
+      controller.duration = el.themeDuration;
       styleAnimate = TextStyleTween(
         begin: _style ?? widget.style,
         end: widget.style,
@@ -219,52 +220,46 @@ class _ElAnimateTextState extends State<ElAnimateText>
     return AnimatedBuilder(
         animation: controller.view,
         builder: (context, child) {
-          var $style = widget._buildTextStyle(context, styleAnimate.value);
+          final $defaultStyle = ElDefaultTextStyle.of(context);
+          var $style = widget._buildTextStyle($defaultStyle, styleAnimate.value);
           // 同步 Text 小部件的加粗文本逻辑
           if (MediaQuery.boldTextOf(context)) {
             $style.copyWith(fontWeight: FontWeight.bold);
           }
           final SelectionRegistrar? registrar =
               SelectionContainer.maybeOf(context);
+          Widget result = Builder(builder: (context) {
+            return RichText(
+              text: TextSpan(
+                style: $style,
+                children: widget._buildRichText($defaultStyle,
+                    widget.data is List ? widget.data : [widget.data]),
+              ),
+              textAlign: $defaultStyle.textAlign ?? TextAlign.start,
+              textDirection: widget.textDirection,
+              softWrap: $defaultStyle.softWrap,
+              overflow: $defaultStyle.overflow,
+              textScaler: widget.textScaler ?? TextScaler.noScaling,
+              maxLines: $defaultStyle.maxLines,
+              locale: widget.locale,
+              strutStyle: widget.strutStyle,
+              textWidthBasis: $defaultStyle.textWidthBasis,
+              textHeightBehavior: widget.textHeightBehavior,
+              selectionRegistrar: registrar,
+              selectionColor: widget.selectionColor ??
+                  DefaultSelectionStyle.of(context).selectionColor ??
+                  DefaultSelectionStyle.defaultColor,
+            );
+          });
+
+          if (registrar == null) return result;
           return HoverBuilder(
               onlyCursor: true,
-              cursor: registrar == null
-                  ? null
-                  : DefaultSelectionStyle.of(context).mouseCursor ??
-                      HoverBuilder.mouseCursor(context) ??
-                      SystemMouseCursors.text,
+              cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+                  HoverBuilder.mouseCursor(context) ??
+                  SystemMouseCursors.text,
               builder: (context) {
-                return DefaultTextStyle.merge(
-                  style: $style,
-                  textAlign: widget.textAlign,
-                  softWrap: widget.softWrap,
-                  overflow: widget.overflow,
-                  maxLines: widget.maxLines,
-                  child: Builder(builder: (context) {
-                    final $defaultStyle = DefaultTextStyle.of(context);
-                    return RichText(
-                      text: TextSpan(
-                        style: $defaultStyle.style,
-                        children: widget._buildRichText(context,
-                            widget.data is List ? widget.data : [widget.data]),
-                      ),
-                      textAlign: $defaultStyle.textAlign ?? TextAlign.start,
-                      textDirection: widget.textDirection,
-                      softWrap: $defaultStyle.softWrap,
-                      overflow: $defaultStyle.overflow,
-                      textScaler: widget.textScaler ?? TextScaler.noScaling,
-                      maxLines: $defaultStyle.maxLines,
-                      locale: widget.locale,
-                      strutStyle: widget.strutStyle,
-                      textWidthBasis: $defaultStyle.textWidthBasis,
-                      textHeightBehavior: widget.textHeightBehavior,
-                      selectionRegistrar: registrar,
-                      selectionColor: widget.selectionColor ??
-                          DefaultSelectionStyle.of(context).selectionColor ??
-                          DefaultSelectionStyle.defaultColor,
-                    );
-                  }),
-                );
+                return result;
               });
         });
   }

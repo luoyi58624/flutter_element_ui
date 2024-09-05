@@ -149,7 +149,7 @@ class ElLink extends StatelessWidget {
       _linkOverlay = OverlayEntry(
         builder: (_) => const _LinkOverlay(),
       );
-      Overlay.of(GlobalConfig.context).insert(_linkOverlay!);
+      Overlay.of(el.context).insert(_linkOverlay!);
     }
   }
 

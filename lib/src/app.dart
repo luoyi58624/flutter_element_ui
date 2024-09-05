@@ -4,6 +4,7 @@ import 'package:flutter_element_ui/global.dart';
 
 import 'utils/app_theme.dart';
 import 'components/basic/scrollbar.dart';
+import 'widgets/global_theme_duration.dart';
 
 /// Element UI 不再提供 [ElApp] 这样的复杂顶级小部件，而是提供一个简单的全局配置小部件，
 /// 您可以使用任意 App 构建应用，例如：[MaterialApp]、[CupertinoApp]、[WidgetsApp]，
@@ -60,12 +61,12 @@ class ElConfigProvider extends StatelessWidget {
       child: BrightnessWidget(
         brightness: $brightness,
         child: Material(
-          animationDuration: el.config.themeDuration,
+          animationDuration: el.themeDuration,
           color: $isDark ? el.darkTheme.bgColor : el.theme.bgColor,
           textStyle: $textStyle,
           child: ElAnimatedDefaultTextStyle(
-            duration: el.config.themeDuration,
-            curve: el.config.themeCurve,
+            duration: el.themeDuration,
+            curve: el.themeCurve,
             style: $textStyle,
             child: ScrollConfiguration(
               behavior: behavior,

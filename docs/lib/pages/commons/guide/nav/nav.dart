@@ -65,7 +65,7 @@ class NavPage extends ResponsivePage {
       // ),
       // flag2.value
       //     ? AnimatedDefaultTextStyle(
-      //         duration: el.config.themeDuration,
+      //         duration: el.themeDuration,
       //         style: TextStyle(
       //           fontSize: flag.value ? 28 : 16,
       //           color: context.isDark ? Colors.red : Colors.black,
@@ -84,7 +84,7 @@ class NavPage extends ResponsivePage {
       flag3.value
           ?
           // AnimatedDefaultTextStyle(
-          //         duration: el.config.themeDuration,
+          //         duration: el.themeDuration,
           //         style: TextStyle(
           //           fontSize: flag.value ? 28 : 16,
           //           color: context.isDark ? Colors.red : Colors.black,
@@ -101,36 +101,38 @@ class NavPage extends ResponsivePage {
           //         }),
           //       )
           AnimatedDefaultTextStyle(
-              duration: el.config.themeDuration,
+              duration: el.themeDuration,
               style: TextStyle(
                 fontSize: flag.value ? 28 : 16,
                 color: context.isDark ? Colors.red : Colors.black,
               ),
-              child: Text(
-                '这是一段文字' * 10000,
+              child: Wrap(
+                children: Text(
+                      '这是一段文字',
+                    ) *
+                    2000,
               ),
             )
+          // Wrap(
+          //     children: ElAnimateText(
+          //           '这是一段文字',
+          //           style: TextStyle(
+          //             fontSize: flag.value ? 28 : 16,
+          //             color: context.isDark ? Colors.green : Colors.black,
+          //           ),
+          //         ) *
+          //         2000,
+          //   )
           : ElAnimatedDefaultTextStyle(
-              duration: el.config.themeDuration,
+              duration: el.themeDuration,
               style: TextStyle(
                 fontSize: flag.value ? 28 : 16,
                 color: context.isDark ? Colors.yellow : Colors.black,
               ),
               child: Wrap(
-                children: const ElText('这是一段文字') * 1000,
+                children: const ElText('这是一段文字') * 2000,
               ),
             ),
-
-      // Wrap(
-      //     children: ElAnimateText(
-      //           '这是一段文字',
-      //           style: TextStyle(
-      //             fontSize: flag.value ? 28 : 16,
-      //             color: context.isDark ? Colors.yellow : Colors.black,
-      //           ),
-      //         ) *
-      //         1000,
-      //   ),
     ];
   }
 }
@@ -153,7 +155,7 @@ class _Text extends StatefulWidget {
 class _TextState extends State<_Text> with SingleTickerProviderStateMixin {
   late final controller = AnimationController(
     vsync: this,
-    duration: el.config.themeDuration,
+    duration: el.themeDuration,
   )..addListener(() {
       _style = styleAnimate.value;
     });
@@ -185,7 +187,7 @@ class _TextState extends State<_Text> with SingleTickerProviderStateMixin {
     super.reassemble();
 
     FlutterUtil.nextTick(() {
-      controller.duration = el.config.themeDuration;
+      controller.duration = el.themeDuration;
       i(controller.duration);
     });
   }

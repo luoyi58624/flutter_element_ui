@@ -52,21 +52,6 @@ class ElConfigData {
   /// 轻提示全局样式
   final ElToastStyle toastStyle;
 
-  /// 全局主题过渡持续时间，如果使用了 [MaterialApp] 构建应用，请将该属性设置到 themeAnimationDuration，
-  /// 这样可以防止切换暗黑模式时颜色过渡出现不一致问题
-  Duration get themeDuration => GlobalConfig.themeDuration;
-
-  set themeDuration(Duration v) {
-    GlobalConfig.themeDuration = v;
-  }
-
-  /// 全局主题过渡动画曲线
-  Curve get themeCurve => GlobalConfig.themeCurve;
-
-  set themeCurve(Curve v) {
-    GlobalConfig.themeCurve = v;
-  }
-
   /// Element UI 全局配置，定义了所有组件的默认配置信息
   const ElConfigData({
     this.headerHeight = 56,

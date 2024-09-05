@@ -80,7 +80,7 @@ class _CardWidget extends StatelessWidget {
     Widget result = Padding(
       padding: const EdgeInsets.all(8.0),
       child: AnimatedContainer(
-        duration: el.config.themeDuration,
+        duration: el.themeDuration,
         decoration: BoxDecoration(
           color: context.elTheme.cardColor,
           border: Border.all(color: context.elTheme.borderColor),
@@ -123,7 +123,7 @@ class _CardWidget extends StatelessWidget {
                       context.go(href);
                     },
                     child: AnimatedContainer(
-                      duration: el.config.themeDuration,
+                      duration: el.themeDuration,
                       height: 50,
                       decoration: BoxDecoration(
                         color:

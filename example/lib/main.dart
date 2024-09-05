@@ -25,11 +25,11 @@ class _App extends StatelessWidget {
       el.config = el.config.copyWith(
         textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
       );
-      el.config.themeDuration = 0.ms;
+      el.themeDuration = 0.ms;
 
       return MaterialApp.router(
         routerConfig: router,
-        themeAnimationDuration: el.config.themeDuration,
+        themeAnimationDuration: el.themeDuration,
         theme: ElThemeUtil.buildMaterialTheme(
           context,
           brightness: GlobalState.brightness,

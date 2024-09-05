@@ -419,7 +419,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "9658912e6b63c336e128ea7fde73a44a0c5be364"
+      resolved-ref: d58d092bda892e0d9922bb9f0a9dd4720cdc4a85
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"

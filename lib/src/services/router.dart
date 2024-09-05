@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/global.dart';
 
 mixin ElRouterService {
   /// 根节点路由导航key，请务必挂载此 key。
@@ -17,8 +16,14 @@ mixin ElRouterService {
   ///   navigatorKey: el.navigatorKey,
   /// );
   /// ```
-  GlobalKey<NavigatorState> get navigatorKey => GlobalConfig.navigatorKey;
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   /// 全局 context 对象
-  BuildContext get context => GlobalConfig.context;
+  BuildContext get context {
+    assert(
+    navigatorKey.currentWidget != null &&
+        navigatorKey.currentWidget is Navigator,
+    '请在 WidgetsApp、MaterialApp、CupertinoApp 等任意顶级 App 组件中设置 navigatorKey');
+    return navigatorKey.currentContext!;
+  }
 }

@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter_element_ui/global.dart';
 
 import '../styles/config.dart';
 import '../styles/theme.dart';
+import '../widgets/global_theme_duration.dart';
 
 /// Element UI 提供的主题服务就是全局变量，直接修改 el.theme、el.darkTheme、el.config
 /// 即可应用全局主题，它不依赖 [InheritedWidget] 小部件，对于颜色主题，请通过 context.elTheme
@@ -28,7 +29,14 @@ mixin ElThemeService {
 
   /// Element UI 全局断点，它涵盖 320px -> 2560px 范围设备的断点，
   /// 你可以使用它，但不允许自定义，因为会破坏很多组件的响应式逻辑。
-  ResponsiveData get responsive => GlobalConfig.responsive;
+  ResponsiveData get responsive => responsiveData;
+
+  /// 切换全局主题动画持续时间，它等同于 [MaterialApp] 中 themeAnimationDuration 属性，
+  /// 如果使用了 [MaterialApp] 构建应用，请将该属性设置到 themeAnimationDuration。
+  Duration themeDuration = const Duration(milliseconds: 200);
+
+  /// 切换全局主题动画曲线，这是 [MaterialApp] 中 themeAnimationCurve 属性
+  Curve themeCurve = Curves.linear;
 
   /// 通过此方法改变主题这样可以令应用中所有动画小部件的过渡动画保持一致，
   /// 因为切换主题前它会应用全局过渡时间和全局过渡动画曲线。
