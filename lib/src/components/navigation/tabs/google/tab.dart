@@ -24,7 +24,7 @@ class ElGoogleTab extends ElBaseTab {
         return ColoredBox(
           color: HoverBuilder.of(context)
               ? context.isDark
-                  ? context.elTheme.primary.light1(context)
+                  ? context.elTheme.primary.elLight1(context)
                   : Colors.grey.shade100
               : Colors.transparent,
           child: _TabContent($indexData.index, title: title),

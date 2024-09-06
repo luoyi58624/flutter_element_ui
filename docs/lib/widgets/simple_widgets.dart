@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SectionTitle extends StatelessWidget {
   /// 段落标题
@@ -14,7 +13,12 @@ class SectionTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         const Gap(28),
-        H4(title),
+        H2(
+          title,
+          style: TextStyle(
+            color: context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+          ),
+        ),
         const Gap(16),
       ],
     );
@@ -29,17 +33,12 @@ class SectionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElDefaultTextStyle.merge(
-      style: const TextStyle(fontSize: 14),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ElText(
-            text,
-          ),
-          const Gap(12),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElText(text),
+        const Gap(12),
+      ],
     );
   }
 }

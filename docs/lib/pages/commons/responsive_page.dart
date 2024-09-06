@@ -25,12 +25,19 @@ abstract class ResponsivePage extends HookWidget {
             ),
           )
         : ColumnWidget(
-          scroll: true,
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-          children: [
-            H1(title),
-            ...buildPage(context),
-          ],
-        );
+            scroll: true,
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+            children: [
+              H1(
+                title,
+                style: TextStyle(
+                  color: context.isDark
+                      ? Colors.grey.shade300
+                      : Colors.grey.shade800,
+                ),
+              ),
+              ...buildPage(context),
+            ],
+          );
   }
 }

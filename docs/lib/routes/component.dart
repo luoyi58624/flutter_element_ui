@@ -2,6 +2,7 @@ import 'package:docs/global.dart';
 import 'package:docs/pages/commons/not_found.dart';
 
 import '../pages/commons/component/basic/button/button.dart';
+import '../pages/commons/component/basic/color/color.dart';
 import '../pages/commons/component/basic/text/text.dart';
 import '../pages/commons/component/data/collapse.dart';
 import '../pages/commons/component/feedback/message/message.dart';
@@ -29,7 +30,7 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}color',
-      builder: (context, state) => const NotFoundPage(),
+      builder: (context, state) => const ColorPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}icon',

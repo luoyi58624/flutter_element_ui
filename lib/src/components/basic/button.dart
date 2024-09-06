@@ -278,16 +278,16 @@ const double _opacity = 0.6;
 
 extension _ButtonColorExtension on Color {
   /// hover 悬停颜色，颜色会变得更浅
-  Color hover(BuildContext context) => light2(context);
+  Color hover(BuildContext context) => elLight2(context);
 
   /// tap 按下颜色，颜色会变得更深
-  Color tap(BuildContext context) => light3(context, reverse: true);
+  Color tap(BuildContext context) => elLight3(context, reverse: true);
 
   /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => light9(context);
+  Color themeLightBg(BuildContext context) => elLight9(context);
 
   /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => light6(context);
+  Color themeLightBorder(BuildContext context) => elLight6(context);
 }
 
 /// 计算按钮样式 hook

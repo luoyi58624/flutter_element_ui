@@ -475,8 +475,8 @@ class _DefaultMessage extends StatelessWidget {
 
 extension _MessageColorExtension on Color {
   /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => light9(context);
+  Color themeLightBg(BuildContext context) => elLight9(context);
 
   /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => light8(context);
+  Color themeLightBorder(BuildContext context) => elLight8(context);
 }

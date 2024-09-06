@@ -148,7 +148,7 @@ class ElEditorState extends State<ElEditor>
               showSelectionHandles: true,
               // showSelectionHandles: true,
               selectionColor: focusNode.hasFocus
-                  ? context.elTheme.primary.light5(context)
+                  ? context.elTheme.primary.elLight5(context)
                   : null,
               selectionControls: textSelectionControls,
               onSelectionChanged: _handleSelectionChanged,

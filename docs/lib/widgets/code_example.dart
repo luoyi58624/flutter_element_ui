@@ -133,21 +133,40 @@ class CodeExampleWidget extends HookWidget {
               ),
             ),
             Positioned(
-              top: 16,
+              top: 10,
               right: 16,
               child: AnimatedOpacity(
                 duration: 200.ms,
                 opacity: context.isHover ? 1.0 : 0.0,
-                child: ElButton(
-                  onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: code));
-                    el.message.success('复制成功');
+                child: HoverBuilder(
+                  cursor: SystemMouseCursors.click,
+                  builder: (context) {
+                    return GestureDetector(
+                      onTap: () async {
+                        await Clipboard.setData(ClipboardData(text: code));
+                        el.message.success('复制成功');
+                      },
+                      onTapDown: (e) {
+                        HapticFeedback.mediumImpact();
+                      },
+                      child: AnimatedContainer(
+                        duration: context.elThemeDuration ?? 250.ms,
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: el.config.radius,
+                          color: context.isDark
+                              ? Colors.grey.shade700
+                              : Colors.grey.shade300,
+                        ),
+                        child: ElIcon(
+                          ElIcons.documentCopy,
+                          color: context.isDark
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade700,
+                        ),
+                      ),
+                    );
                   },
-                  onTapDown: (e) {
-                    HapticFeedback.mediumImpact();
-                  },
-                  link: true,
-                  child: const ElIcon(ElIcons.documentCopy),
                 ),
               ),
             )
@@ -174,7 +193,7 @@ class _PreviewButton extends HookWidget {
       parent: controller,
       curve: Curves.easeOut,
     );
-    final iconAnimate = ColorTween(
+    final iconColorAnimate = ColorTween(
       begin: context.isDark ? Colors.grey.shade600 : Colors.grey.shade300,
       end: context.elTheme.primary,
     ).animate(curve);
@@ -217,14 +236,14 @@ class _PreviewButton extends HookWidget {
                         turns: isExpanded.value ? 0.5 : 0,
                         child: ElTriangle(
                           direction: AxisDirection.down,
-                          color: iconAnimate.value,
+                          color: iconColorAnimate.value,
                         ),
                       ),
                       const Gap(8),
                       Opacity(
                         opacity: controller.value,
                         child: AnimatedSwitcher(
-                          duration: 100.ms,
+                          duration: 50.ms,
                           child: ElText(
                             isExpanded.value ? '隐藏代码' : '查看代码',
                             key: ValueKey(isExpanded.value),
