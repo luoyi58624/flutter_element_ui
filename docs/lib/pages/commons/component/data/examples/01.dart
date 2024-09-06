@@ -7,7 +7,6 @@ class Example1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final show = useState(true);
-
     final container = Container(
       width: 200,
       height: 100,

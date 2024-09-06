@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
 
-class ElCollapseTransition extends HookWidget {
+class ElCollapseTransition extends StatefulWidget {
   /// Element UI 折叠动画小部件
   const ElCollapseTransition(
     this.value, {
     super.key,
     required this.child,
+    this.keepState = true,
     this.duration = const Duration(milliseconds: 300),
     this.curve = Curves.easeInOut,
     this.axis = Axis.vertical,
@@ -21,6 +21,9 @@ class ElCollapseTransition extends HookWidget {
   /// 折叠的子组件
   final Widget child;
 
+  /// 当子组件被折叠时是否保留状态，默认true
+  final bool keepState;
+
   /// 折叠动画时间
   final Duration duration;
 
@@ -34,30 +37,85 @@ class ElCollapseTransition extends HookWidget {
   final Alignment alignment;
 
   @override
-  Widget build(BuildContext context) {
-    final controller = useAnimationController(
-      duration: duration,
-      initialValue: value ? 1.0 : 0.0,
-    );
-    final animate = CurvedAnimation(parent: controller, curve: curve);
+  State<ElCollapseTransition> createState() => _ElCollapseTransitionState();
+}
 
-    useEffect(() {
-      value ? controller.forward() : controller.reverse();
-      return null;
-    }, [value]);
+class _ElCollapseTransitionState extends State<ElCollapseTransition>
+    with SingleTickerProviderStateMixin {
+  late bool show = widget.value;
+  late final controller = AnimationController(
+    vsync: this,
+    duration: widget.duration,
+    value: widget.value ? 1.0 : 0.0,
+  );
+  late Animation animate = CurvedAnimation(
+    parent: controller,
+    curve: widget.curve,
+  );
+
+  void listenAnimationStatus(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed && show) {
+      setState(() {
+        show = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.keepState) {
+      controller.addStatusListener(listenAnimationStatus);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant ElCollapseTransition oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.duration != oldWidget.duration) {
+      controller.duration = widget.duration;
+    }
+    if (widget.curve != oldWidget.curve) {
+      animate = CurvedAnimation(parent: controller, curve: widget.curve);
+    }
+    if (widget.keepState != oldWidget.keepState) {
+      if (widget.keepState) {
+        controller.removeStatusListener(listenAnimationStatus);
+      } else {
+        controller.addStatusListener(listenAnimationStatus);
+      }
+    }
+    if (widget.value != oldWidget.value) {
+      if (!show && widget.value) show = true;
+      widget.value ? controller.forward() : controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller.view,
       builder: (context, child) {
-        return ClipRect(
-          child: Align(
-            alignment: alignment,
-            widthFactor: axis == Axis.horizontal ? animate.value : null,
-            heightFactor: axis == Axis.vertical ? animate.value : null,
-            child: child,
-          ),
-        );
+        return show
+            ? ClipRect(
+                child: Align(
+                  alignment: widget.alignment,
+                  widthFactor:
+                      widget.axis == Axis.horizontal ? animate.value : null,
+                  heightFactor:
+                      widget.axis == Axis.vertical ? animate.value : null,
+                  child: child,
+                ),
+              )
+            : const SizedBox();
       },
-      child: child,
+      child: widget.child,
     );
   }
 }

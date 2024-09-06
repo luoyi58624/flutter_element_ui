@@ -38,14 +38,16 @@ class ElText extends StatefulWidget {
   /// 渲染的文本内容，支持传递任意小部件，如果是[List]集合，则会渲染成富文本。
   ///
   /// 渲染富文本有一点需要注意，嵌套的组件会被转换成 TextSpan、WidgetSpan，
-  /// 所以如果是文本组件，那么只有 style、semanticsLabel 等属性会生效
+  /// 所以如果是继承 [ElText] 的文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
 
   /// 文字动画持续时间，默认跟随 [el.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
   /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
   final Duration? duration;
 
-  /// 文本样式
+  /// 文本样式，当你改变它时会自动应用过渡动画，其代价则是牺牲性能，调试工具测试的帧率只有默认写法的 60% 左右，
+  /// 在线测试链接：
+  /// https://luoyi58624.github.io/flutter_element_ui/#/component/text
   final TextStyle? style;
 
   /// 文本基线对齐样式
@@ -354,7 +356,6 @@ class ElDefaultTextStyle extends DefaultTextStyle {
   bool updateShouldNotify(ElDefaultTextStyle oldWidget) => true;
 }
 
-/// 此组件暂时不外提供，因为 [ElText] 已经内置动画
 class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
   /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件
   const ElAnimatedDefaultTextStyle({
