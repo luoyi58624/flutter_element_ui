@@ -43,8 +43,6 @@ class ElText extends StatefulWidget {
 
   /// 文字动画持续时间，默认跟随 [el.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
   /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
-  ///
-  /// 提示：如果有多个相同文本
   final Duration? duration;
 
   /// 文本样式

@@ -24,6 +24,7 @@ class Example2 extends StatelessWidget {
                 decoration: ElLinkDecoration.hoverUnderline,
                 child: 'github链接',
               ),
+              ElButton(child: '链接按钮', type: 'success', link: true),
               ElButton(child: 'Hello', type: 'primary'),
             ]),
           ],
@@ -45,5 +46,6 @@ ElText([
     decoration: ElLinkDecoration.hoverUnderline,
     child: 'github链接',
   ),
+  ElButton(child: '链接按钮', type: 'success', link: true),
   ElButton(child: 'Hello', type: 'primary'),
 ]),''';
