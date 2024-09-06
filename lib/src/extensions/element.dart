@@ -19,7 +19,7 @@ extension ElBuildContextExtension on BuildContext {
   /// ```
   ///
   /// 当切换主题时，请调用 [el.changeTheme] 方法，此方法接收 [VoidCallback] 函数，
-  /// 在执行自定义函数前会设置全局过渡时间和全局过渡动画曲线。
+  /// 在执行自定义逻辑前会帮你设置全局过渡时间和全局过渡动画曲线。
   Duration? get elThemeDuration => GlobalThemeStyle.duration(this);
 
   /// 全局默认主题过渡动画曲线。

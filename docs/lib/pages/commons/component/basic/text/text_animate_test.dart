@@ -77,24 +77,45 @@ class _ElText extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final flag = useState(false);
+    final flag2 = useState(false);
     return Column(
       children: [
         const H4('ElText 动画测试'),
         ElSwitch(flag),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElSwitch(flag2),
+            ElText(flag2.value ? 'ElAnimatedDefaultTextStyle' : 'ElText 动画'),
+          ],
+        ),
         Expanded(
           child: SingleChildScrollView(
-            child: Wrap(
-                children: ElText(
-                      'Text',
-                      duration: 300.ms,
-                      style: flag.value
-                          ? const TextStyle(
-                              fontSize: 18,
-                              color: Colors.green,
-                            )
-                          : null,
-                    ) *
-                    count),
+            child: flag2.value
+                ? ElAnimatedDefaultTextStyle(
+                    duration: context.elThemeDuration ?? 300.ms,
+                    style: flag.value
+                        ? const TextStyle(
+                            fontSize: 18,
+                            color: Colors.green,
+                          )
+                        : ElDefaultTextStyle.of(context).style,
+                    child: Wrap(
+                      children: const ElText('Text') * count,
+                    ),
+                  )
+                : Wrap(
+                    children: ElText(
+                          'Text',
+                          duration: 300.ms,
+                          style: flag.value
+                              ? const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.green,
+                                )
+                              : null,
+                        ) *
+                        count),
           ),
         ),
       ],

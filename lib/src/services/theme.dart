@@ -5,9 +5,8 @@ import '../styles/config.dart';
 import '../styles/theme.dart';
 import '../widgets/global_theme_duration.dart';
 
-/// Element UI 提供的主题服务就是全局变量，直接修改 el.theme、el.darkTheme、el.config
-/// 即可应用全局主题，它不依赖 [InheritedWidget] 小部件，对于颜色主题，请通过 context.elTheme
-/// 访问自适应颜色变量。
+/// Element UI 提供的主题服务就是全局变量，与 Material 主题系统不同，它不依赖 [InheritedWidget] 小部件，
+/// 你可以直接在任意位置修改 el.theme、el.darkTheme、el.config 等主题变量
 mixin ElThemeService {
   /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [

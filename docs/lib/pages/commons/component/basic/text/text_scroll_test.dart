@@ -47,7 +47,7 @@ class _Text extends HookWidget {
         : ColumnWidget(
             scroll: true,
             children: List.generate(
-              10000,
+              1000,
               (index) => Text('Text - ${index + 1}'),
             ),
           );
@@ -69,7 +69,7 @@ class _ElText extends HookWidget {
         : ColumnWidget(
             scroll: true,
             children: List.generate(
-              10000,
+              1000,
               (index) => ElText('ElText - ${index + 1}'),
             ),
           );
