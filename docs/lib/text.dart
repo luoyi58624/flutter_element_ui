@@ -17,6 +17,7 @@ class _ElApp extends StatelessWidget {
     el.themeDuration = Duration.zero;
     return ObsBuilder(builder: (context) {
       return MaterialApp(
+        navigatorKey: el.navigatorKey,
         home: HomePage(),
         theme: ThemeData(brightness: brightness),
         themeMode: ThemeMode.dark,
@@ -46,20 +47,72 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: HoverBuilder(builder: (context) {
-          return ElText(
-            '文字',
-            duration: 300.ms,
-            style: context.isHover
-                ? const TextStyle(
-                    fontSize: 50,
-                    color: Colors.blue,
-                  )
-                : null,
-          );
-        }),
+      body: Column(
+        children: [
+          const ElText([
+            'xxx',
+            '富文本',
+            'xxx',
+            Text(
+              'xxx',
+              style: TextStyle(color: Colors.teal),
+            ),
+            TextSpan(
+              text: 'xxx',
+              style: TextStyle(color: Colors.green),
+            ),
+            ElText(
+              'xxx',
+              style: TextStyle(color: Colors.red),
+            ),
+            ElText(
+              ['xxx', '富文本', 'ccc'],
+              style: TextStyle(color: Colors.blue),
+            ),
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Icon(Icons.home),
+            ),
+            H1('一级标题'),
+            P(
+              B([
+                ElLink(child: '百度', href: 'https://www.baidu.com'),
+              ]),
+            ),
+          ]),
+          RichText(
+            text: TextSpan(
+              text: '普通文本',
+              style: TextStyle(
+                color: context.elTheme.textColor,
+              ),
+              children: [TextSpan(text: '一级标题')],
+            ),
+          ),
+        ],
       ),
+      // body: const ElText([
+      //   H1('一级标题', style: TextStyle(color: Colors.red)),
+      //   H2('二级标题', style: TextStyle(color: Colors.orange)),
+      //   H3('三级标题', style: TextStyle(color: Colors.green)),
+      //   H4('四级标题', style: TextStyle(color: Colors.cyan)),
+      //   H5('五级标题', style: TextStyle(color: Colors.purple)),
+      //   H6('六级标题', style: TextStyle(color: Colors.grey)),
+      // ]),
+      // body: Center(
+      //   child: HoverBuilder(builder: (context) {
+      //     return ElText(
+      //       '文字',
+      //       duration: 300.ms,
+      //       style: context.isHover
+      //           ? const TextStyle(
+      //               fontSize: 50,
+      //               color: Colors.blue,
+      //             )
+      //           : null,
+      //     );
+      //   }),
+      // ),
     );
   }
 }

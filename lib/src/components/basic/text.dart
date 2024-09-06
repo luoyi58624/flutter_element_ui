@@ -29,7 +29,7 @@ class ElText extends StatefulWidget {
     this.overflow,
     this.textScaler,
     this.maxLines,
-    this.semanticsLabel = 'Text',
+    this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
     this.selectionColor,
@@ -43,6 +43,8 @@ class ElText extends StatefulWidget {
 
   /// 文字动画持续时间，默认跟随 [el.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
   /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
+  ///
+  /// 提示：如果有多个相同文本
   final Duration? duration;
 
   /// 文本样式
@@ -83,7 +85,7 @@ class ElText extends StatefulWidget {
   @override
   State<ElText> createState() => ElTextState();
 
-  /// 自定义当前文本样式，覆写它可以实现自定义样式文本，例如：H1、H2...
+  /// 自定义当前文本样式，覆写它可以实现自定义样式文本
   TextStyle? get textStyle => null;
 
   /// 构建富文本片段集合
@@ -116,7 +118,9 @@ class ElText extends StatefulWidget {
       if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data.style,
+          style: data.textStyle != null
+              ? data.textStyle!.merge(data.style)
+              : data.style,
           semanticsLabel: data.semanticsLabel,
         );
       } else if (data.data is List) {
@@ -133,7 +137,9 @@ class ElText extends StatefulWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElText));
         if (!hasWidget) {
           return TextSpan(
-            style: data.style,
+            style: data.textStyle != null
+                ? data.textStyle!.merge(data.style)
+                : data.style,
             children: _buildRichText(data.data),
           );
         }
