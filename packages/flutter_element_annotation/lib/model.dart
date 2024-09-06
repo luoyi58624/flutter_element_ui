@@ -38,10 +38,10 @@ class ElModel {
     this.generateToString = false,
   });
 
-  /// 生成 formJson 方法
+  /// 生成 formJson 方法（暂未实现）
   final bool formJson;
 
-  /// 生成 toJson 方法
+  /// 生成 toJson 方法（暂未实现）
   final bool toJson;
 
   /// 生成 copyWith 方法

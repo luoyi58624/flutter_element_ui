@@ -22,7 +22,6 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     MainApp.currentThemeMode = ThemeMode.system;
-    // 如果用户已经开启全局黑暗模式，那么不允许应用手动控制暗黑模式开关
     if (MainApp.currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
         MainApp.currentThemeMode = ThemeMode.dark;

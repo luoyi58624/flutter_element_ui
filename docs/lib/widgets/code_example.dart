@@ -21,6 +21,45 @@ class CodeExampleWidget extends HookWidget {
   Widget build(BuildContext context) {
     final $code = useState<TextSpan>(const TextSpan());
     final isExpanded = useState(false);
+    initCodeStyle(context, $code);
+    return HoverBuilder(builder: (context) {
+      return Material(
+        elevation: context.isHover ? 4 : 0,
+        shadowColor: Colors.black38,
+        borderRadius: el.config.cardRadius,
+        child: AnimatedContainer(
+          duration: el.themeDuration,
+          decoration: BoxDecoration(
+            color: context.elTheme.bgColor,
+            borderRadius: el.config.cardRadius,
+            border: Border.all(
+              color: context.elTheme.borderColor,
+              width: 1,
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
+              ),
+              const ElDivider(),
+              _PreviewButton(isExpanded, context.isHover),
+              buildCodePreview(isExpanded, $code),
+            ],
+          ),
+        ),
+      );
+    });
+  }
+
+  /// 初始化预览代码样式，全局只加载一次
+  void initCodeStyle(BuildContext context, $code) {
     if (_initialize == false || _lightCode == null || _darkCode == null) {
       FlutterUtil.nextTick(() async {
         await Highlighter.initialize(['dart']);
@@ -49,71 +88,16 @@ class CodeExampleWidget extends HookWidget {
     } else {
       $code.value = (context.isDark ? _darkCode : _lightCode)!.highlight(code);
     }
-    return AnimatedContainer(
-      duration: el.themeDuration,
-      decoration: BoxDecoration(
-        borderRadius: el.config.cardRadius,
-        border: Border.all(
-          color: context.elTheme.borderColor,
-          width: 1,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: children,
-            ),
-          ),
-          const ElDivider(),
-          SizedBox(
-            height: 36,
-            child: Row(
-              children: [
-                const Spacer(),
-                ElButton(
-                  onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: code));
-                    el.message.success('复制成功');
-                  },
-                  onTapDown: (e){
-                    HapticFeedback.mediumImpact();
-                  },
-                  link: true,
-                  child: Icon(
-                    Icons.copy,
-                    size: 16,
-                    color: context.elTheme.iconColor,
-                  ),
-                ),
-                const Gap(4),
-                ElButton(
-                  onPressed: () {
-                    isExpanded.value = !isExpanded.value;
-                  },
-                  onTapDown: (e){
-                    HapticFeedback.mediumImpact();
-                  },
-                  link: true,
-                  child: Icon(
-                    Icons.code,
-                    size: 20,
-                    color: isExpanded.value
-                        ? context.elTheme.primary
-                        : context.elTheme.iconColor,
-                  ),
-                ),
-                const Gap(8),
-              ],
-            ),
-          ),
-          ElCollapseTransition(
-            isExpanded.value,
-            child: AnimatedContainer(
+  }
+
+  /// 构建预览代码块
+  Widget buildCodePreview(isExpanded, $code) {
+    return ElCollapseTransition(
+      isExpanded.value,
+      child: HoverBuilder(builder: (context) {
+        return Stack(
+          children: [
+            AnimatedContainer(
               duration: el.themeDuration,
               width: double.infinity,
               decoration: BoxDecoration(
@@ -148,9 +132,117 @@ class CodeExampleWidget extends HookWidget {
                 }),
               ),
             ),
+            Positioned(
+              top: 16,
+              right: 16,
+              child: AnimatedOpacity(
+                duration: 200.ms,
+                opacity: context.isHover ? 1.0 : 0.0,
+                child: ElButton(
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: code));
+                    el.message.success('复制成功');
+                  },
+                  onTapDown: (e) {
+                    HapticFeedback.mediumImpact();
+                  },
+                  link: true,
+                  child: const ElIcon(ElIcons.documentCopy),
+                ),
+              ),
+            )
+          ],
+        );
+      }),
+    );
+  }
+}
+
+const _doubleOffset = 80.0;
+
+/// 构建展开预览代码按钮
+class _PreviewButton extends HookWidget {
+  const _PreviewButton(this.isExpanded, this.codeHover);
+
+  final ValueNotifier<bool> isExpanded;
+  final bool codeHover;
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = useAnimationController(duration: 250.ms);
+    final curve = CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeOut,
+    );
+    final iconAnimate = ColorTween(
+      begin: context.isDark ? Colors.grey.shade600 : Colors.grey.shade300,
+      end: context.elTheme.primary,
+    ).animate(curve);
+    final offsetAnimate = Tween(
+      begin: _doubleOffset / 2,
+      end: 0.0,
+    ).animate(curve);
+
+    return HoverBuilder(
+      cursor: SystemMouseCursors.click,
+      builder: (context) {
+        codeHover ? controller.forward() : controller.reverse();
+        return GestureDetector(
+          onTap: () {
+            isExpanded.value = !isExpanded.value;
+          },
+          child: AnimatedContainer(
+            duration: context.elThemeDuration ?? 300.ms,
+            height: 40,
+            decoration: BoxDecoration(
+                color: context.isHover
+                    ? context.elTheme.primary.mix(context.elTheme.bgColor, 96)
+                    : context.elTheme.bgColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: el.config.cardRadius.bottomLeft,
+                  bottomRight: el.config.cardRadius.bottomRight,
+                )),
+            alignment: Alignment.center,
+            child: AnimatedBuilder(
+              animation: controller.view,
+              builder: (context, child) => Transform.translate(
+                offset: Offset(offsetAnimate.value, 0),
+                child: SizedBox(
+                  width: _doubleOffset,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      AnimatedRotation(
+                        duration: 300.ms,
+                        turns: isExpanded.value ? 0.5 : 0,
+                        child: ElTriangle(
+                          direction: AxisDirection.down,
+                          color: iconAnimate.value,
+                        ),
+                      ),
+                      const Gap(8),
+                      Opacity(
+                        opacity: controller.value,
+                        child: AnimatedSwitcher(
+                          duration: 100.ms,
+                          child: ElText(
+                            isExpanded.value ? '隐藏代码' : '查看代码',
+                            key: ValueKey(isExpanded.value),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: context.elTheme.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

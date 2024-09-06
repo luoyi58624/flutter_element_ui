@@ -32,6 +32,7 @@ class Example1 extends HookWidget {
               onPressed: () {
                 show.value = !show.value;
               },
+              type: 'primary',
               child: 'Click Me',
             ),
             ElCollapseTransition(

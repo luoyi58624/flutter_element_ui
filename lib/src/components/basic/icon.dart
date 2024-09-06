@@ -3,8 +3,6 @@ import 'package:flutter_element_ui/global.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../service.dart';
-
 class ElIconTheme extends InheritedWidget {
   /// icon
   const ElIconTheme({
@@ -84,7 +82,6 @@ class _SvgWidget extends ElIcon {
             color!,
             BlendMode.srcIn,
           );
-    // return SizedBox();
     return DartUtil.isHttp(child as String)
         ? SvgPicture.network(
             child!,

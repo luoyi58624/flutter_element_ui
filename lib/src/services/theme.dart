@@ -5,10 +5,8 @@ import '../styles/config.dart';
 import '../styles/theme.dart';
 import '../widgets/global_theme_duration.dart';
 
-/// Element UI 提供的主题服务就是全局变量，与 Material 主题系统不同，它不依赖 [InheritedWidget] 小部件，
-/// 你可以直接在任意位置修改 el.theme、el.darkTheme、el.config 等主题变量
 mixin ElThemeService {
-  /// Element UI 颜色主题类型集合，因为枚举有点繁琐，所以类型使用字符串表示
+  /// Element UI 颜色主题类型集合，因为枚举略显繁琐，所以类型使用字符串表示
   final List<String> themeTypes = const [
     'primary',
     'success',
@@ -31,10 +29,11 @@ mixin ElThemeService {
   ResponsiveData get responsive => responsiveData;
 
   /// 切换全局主题动画持续时间，它等同于 [MaterialApp] 中 themeAnimationDuration 属性，
-  /// 如果使用了 [MaterialApp] 构建应用，请将该属性设置到 themeAnimationDuration。
+  /// 如果使用了 [MaterialApp] 构建应用，请将它设置到 themeAnimationDuration，
+  /// 这样可以同步 Material 组件和 Element 组件的过渡动画。
   Duration themeDuration = const Duration(milliseconds: 200);
 
-  /// 切换全局主题动画曲线，这是 [MaterialApp] 中 themeAnimationCurve 属性
+  /// 切换全局主题动画曲线，等同于 [MaterialApp] 中 themeAnimationCurve 属性
   Curve themeCurve = Curves.linear;
 
   /// 通过此方法改变主题这样可以令应用中所有动画小部件的过渡动画保持一致，

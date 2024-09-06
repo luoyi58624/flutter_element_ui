@@ -45,9 +45,7 @@ class ElText extends StatefulWidget {
   /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
   final Duration? duration;
 
-  /// 文本样式，当你改变它时会自动应用过渡动画，其代价则是牺牲性能，调试工具测试的帧率只有默认写法的 60% 左右，
-  /// 在线测试链接：
-  /// https://luoyi58624.github.io/flutter_element_ui/#/component/text
+  /// 文本样式，当你改变它时会自动应用过渡动画
   final TextStyle? style;
 
   /// 文本基线对齐样式
