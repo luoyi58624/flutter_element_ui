@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
@@ -80,7 +80,7 @@ class ElCollapsePanel extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: context.elTheme.borderColor),
-          borderRadius: el.config.cardRadius,
+          borderRadius: context.elTheme.cardStyle.radius,
         ),
         child: ListView.separated(
           shrinkWrap: true,
@@ -120,7 +120,7 @@ class ElCollapseItem extends StatelessWidget {
     final $data = _CollapseData.of(context);
     final $indexData = ChildIndexData.of(context);
 
-    final $cardRadius = el.config.cardRadius;
+    final $cardRadius = context.elTheme.cardStyle.radius;
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -147,7 +147,7 @@ class ElCollapseItem extends StatelessWidget {
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
                     return AnimatedContainer(
-                      duration: el.themeDuration,
+                      duration: context.elConfig.themeDuration,
                       height: $data.height,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
@@ -175,8 +175,8 @@ class ElCollapseItem extends StatelessWidget {
                                     color: context.isDark
                                         ? context.elTheme.textColor
                                         : isActive
-                                            ? el.darkTheme.textColor
-                                            : el.theme.textColor,
+                                            ? context.darkTheme.textColor
+                                            : context.theme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -185,8 +185,8 @@ class ElCollapseItem extends StatelessWidget {
                             color: context.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? el.darkTheme.textColor
-                                    : el.theme.textColor,
+                                    ? context.darkTheme.textColor
+                                    : context.theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

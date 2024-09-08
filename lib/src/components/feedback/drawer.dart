@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 const int _duration = 225;
 
@@ -55,7 +55,7 @@ class _ElDrawerState extends State<ElDrawer>
                 left: _positionAnimation!.value,
                 child: Container(
                   width: widget.width,
-                  color: context.elTheme.modalColor,
+                  color: context.elTheme.modalStyle.color,
                   child: widget.child,
                 ),
               ),

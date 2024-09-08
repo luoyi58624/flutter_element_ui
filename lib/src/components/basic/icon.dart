@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -54,8 +54,8 @@ class ElIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElIconTheme.maybeOf(context);
     final $icon = child ?? $theme?.icon;
-    final $size = size ?? $theme?.size ?? el.config.iconSize;
-    final $color = color ?? $theme?.color ?? context.elTheme.iconColor;
+    final $size = size ?? $theme?.size ?? context.elTheme.iconStyle.size;
+    final $color = color ?? $theme?.color ?? context.elTheme.iconStyle.color;
     if ($icon is String) {
       return _SvgWidget($icon, size: $size, color: $color, package: package);
     } else if ($icon is IconData) {

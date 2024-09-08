@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 mixin ElOverlayMixin<T extends StatefulWidget, D> on State<T> {
   /// 是否显示弹窗

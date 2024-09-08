@@ -39,8 +39,8 @@ class ElHeader extends ElLayoutWidget {
     return SafeArea(
       bottom: false,
       child: AnimatedColoredBox(
-        duration: el.themeDuration,
-        color: bgColor ?? context.elTheme.headerColor,
+        duration: context.elConfig.themeDuration,
+        color: bgColor ?? context.elTheme.headerStyle.color,
         child: ObsBuilder(builder: (context) {
           return SizedBox(
             height: max(

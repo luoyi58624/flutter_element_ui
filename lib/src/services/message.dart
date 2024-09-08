@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
+import 'package:flutter_element_ui/src/extensions/context.dart';
 
 import '../components/basic/icon.dart';
 import '../components/data/badge.dart';
@@ -100,7 +101,7 @@ class ElMessageInstance {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final style = el.config.messageStyle;
+    final style = (context ?? el.context).elTheme.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {
@@ -412,7 +413,7 @@ class _DefaultMessage extends StatelessWidget {
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
     return SelectionArea(
       child: AnimatedContainer(
-        duration: el.themeDuration,
+        duration: context.elConfig.themeDuration,
         constraints: BoxConstraints(
           maxWidth: maxWidth,
           minHeight: _messageHeight,
@@ -423,7 +424,7 @@ class _DefaultMessage extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: themeColor.themeLightBg(context),
-          borderRadius: el.config.cardRadius,
+          borderRadius: context.elTheme.cardStyle.radius,
           border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
         child: ElIconTheme(
@@ -440,7 +441,9 @@ class _DefaultMessage extends StatelessWidget {
                 child: ElText(
                   message.content,
                   style: TextStyle(
-                    color: context.isDark ? el.darkTheme.textColor : themeColor,
+                    color: context.isDark
+                        ? context.darkTheme.textColor
+                        : themeColor,
                     fontWeight: ElFont.medium,
                   ),
                 ),

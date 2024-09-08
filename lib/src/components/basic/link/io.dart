@@ -1,4 +1,4 @@
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import 'link.dart';
 

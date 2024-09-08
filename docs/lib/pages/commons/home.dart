@@ -80,11 +80,11 @@ class _CardWidget extends StatelessWidget {
     Widget result = Padding(
       padding: const EdgeInsets.all(8.0),
       child: AnimatedContainer(
-        duration: el.themeDuration,
+        duration: context.elConfig.themeDuration,
         decoration: BoxDecoration(
           color: context.elTheme.cardColor,
           border: Border.all(color: context.elTheme.borderColor),
-          borderRadius: el.config.cardRadius,
+          borderRadius: context.elTheme.cardStyle.radius,
         ),
         child: Column(
           children: [
@@ -123,7 +123,7 @@ class _CardWidget extends StatelessWidget {
                       context.go(href);
                     },
                     child: AnimatedContainer(
-                      duration: el.themeDuration,
+                      duration: context.elConfig.themeDuration,
                       height: 50,
                       decoration: BoxDecoration(
                         color:
@@ -131,8 +131,8 @@ class _CardWidget extends StatelessWidget {
                                 ? context.elTheme.primary
                                 : context.elTheme.cardColor,
                         borderRadius: BorderRadius.only(
-                          bottomLeft: el.config.cardRadius.bottomLeft,
-                          bottomRight: el.config.cardRadius.bottomRight,
+                          bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                          bottomRight: context.elTheme.cardStyle.radius.bottomRight,
                         ),
                       ),
                       child: Center(

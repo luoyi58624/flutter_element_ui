@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 class ElShortcutUtil {
   ElShortcutUtil._();

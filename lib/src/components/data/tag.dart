@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
-
-import '../../service.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 class ElTag extends StatelessWidget {
   const ElTag(
@@ -43,7 +42,7 @@ class ElTag extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: fill ? el.darkTheme.textColor : color,
+            color: fill ? context.darkTheme.textColor : color,
             fontSize: 12,
           ),
           strutStyle: const StrutStyle(

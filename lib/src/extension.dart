@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
+import 'package:flutter_element_ui/src/extensions/context.dart';
+import 'package:flutter_element_ui/src/styles/config_data.dart';
+import 'package:flutter_element_ui/src/theme.dart';
 
-import '../styles/theme.dart';
-import '../widgets/global_theme_duration.dart';
+import 'styles/theme_data.dart';
+import 'widgets/global_theme_duration.dart';
 
 extension ElBuildContextExtension on BuildContext {
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme => isDark ? el.darkTheme : el.theme;
+  ElThemeData get elTheme => isDark ? darkTheme : theme;
+
+  /// Element UI 全局配置
+  ElConfigData get elConfig => ElThemeInheritedWidget.of(this).config;
 
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {
@@ -66,7 +72,7 @@ extension ElColorExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) =>
-      isDark ? el.darkTheme.textColor : el.theme.textColor;
+      isDark ? context.darkTheme.textColor : context.theme.textColor;
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色

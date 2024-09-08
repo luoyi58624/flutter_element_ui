@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../service.dart';
 import '../../../widgets/model_value.dart';

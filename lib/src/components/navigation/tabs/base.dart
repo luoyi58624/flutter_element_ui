@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import 'inherited_data.dart';
 
@@ -89,7 +89,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
         width: double.infinity,
         height: widget.height,
         child: AnimatedColoredBox(
-          duration: el.themeDuration,
+          duration: context.elConfig.themeDuration,
           color: bgColor,
           child: Padding(
             padding: tabPadding,

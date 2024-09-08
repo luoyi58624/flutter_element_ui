@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 // 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
 // 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
@@ -41,7 +41,7 @@ class ElText extends StatefulWidget {
   /// 所以如果是继承 [ElText] 的文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
 
-  /// 文字动画持续时间，默认跟随 [el.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
+  /// 文字动画持续时间，默认跟随 [context.elConfig.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
   /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
   final Duration? duration;
 
@@ -176,7 +176,7 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
 
   late AnimationController controller = AnimationController(
     vsync: this,
-    duration: widget.duration ?? el.themeDuration,
+    duration: widget.duration ?? context.elConfig.themeDuration,
   )
     ..addListener(() {
       _tempStyle = styleAnimate.value;
@@ -198,9 +198,9 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
   void didUpdateWidget(covariant ElText oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (context.elThemeDuration != null) {
-      controller.duration = el.themeDuration;
+      controller.duration = context.elConfig.themeDuration;
     } else {
-      controller.duration = widget.duration ?? el.themeDuration;
+      controller.duration = widget.duration ?? context.elConfig.themeDuration;
     }
     if (widget.style != oldWidget.style) {
       isDidUpdate = true;
@@ -355,7 +355,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
 }
 
 class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
-  /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件
+  /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件，
   const ElAnimatedDefaultTextStyle({
     super.key,
     required this.child,
@@ -372,6 +372,8 @@ class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
   }) : assert(maxLines == null || maxLines > 0);
 
   final Widget child;
+
+  /// 提示：使用自定义文本样式前注意通过 [ElDefaultTextStyle.of] 合并祖先样式
   final TextStyle style;
   final TextAlign? textAlign;
   final bool softWrap;

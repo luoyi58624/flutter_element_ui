@@ -1,14 +1,16 @@
 import 'package:flutter/widgets.dart';
 
+import '../../../global.dart';
+
 class ElCollapseTransition extends StatefulWidget {
   /// Element UI 折叠动画小部件
   const ElCollapseTransition(
     this.value, {
     super.key,
     required this.child,
-    this.keepState = true,
-    this.duration = const Duration(milliseconds: 300),
-    this.curve = Curves.easeInOut,
+    this.keepState,
+    this.duration,
+    this.curve,
     this.axis = Axis.vertical,
     this.alignment = Alignment.topLeft,
   });
@@ -22,13 +24,13 @@ class ElCollapseTransition extends StatefulWidget {
   final Widget child;
 
   /// 当子组件被折叠时是否保留状态，默认true
-  final bool keepState;
+  final bool? keepState;
 
   /// 折叠动画时间
-  final Duration duration;
+  final Duration? duration;
 
   /// 折叠动画曲线
-  final Curve curve;
+  final Curve? curve;
 
   /// 折叠方向，默认垂直折叠
   final Axis axis;
@@ -45,12 +47,12 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   late bool show = widget.value;
   late final controller = AnimationController(
     vsync: this,
-    duration: widget.duration,
+    duration: widget.duration ?? context.elTheme.collapseStyle.duration,
     value: widget.value ? 1.0 : 0.0,
   );
   late Animation animate = CurvedAnimation(
     parent: controller,
-    curve: widget.curve,
+    curve: widget.curve ?? context.elTheme.collapseStyle.curve,
   );
 
   void listenAnimationStatus(AnimationStatus status) {
@@ -64,7 +66,7 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   @override
   void initState() {
     super.initState();
-    if (!widget.keepState) {
+    if (!(widget.keepState ?? context.elTheme.collapseStyle.keepState)) {
       controller.addStatusListener(listenAnimationStatus);
     }
   }
@@ -76,10 +78,13 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
       controller.duration = widget.duration;
     }
     if (widget.curve != oldWidget.curve) {
-      animate = CurvedAnimation(parent: controller, curve: widget.curve);
+      animate = CurvedAnimation(
+        parent: controller,
+        curve: widget.curve ?? context.elTheme.collapseStyle.curve,
+      );
     }
     if (widget.keepState != oldWidget.keepState) {
-      if (widget.keepState) {
+      if (widget.keepState ?? context.elTheme.collapseStyle.keepState) {
         controller.removeStatusListener(listenAnimationStatus);
       } else {
         controller.addStatusListener(listenAnimationStatus);

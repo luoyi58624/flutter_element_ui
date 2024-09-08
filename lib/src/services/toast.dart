@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_element_ui/global.dart';
-
-import '../components/basic/text.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 /// 自定义轻提示构建
 typedef ElToastBuilder = Widget Function(
@@ -37,12 +35,12 @@ class ElToastInstance {
     ElToastBuilder? builder,
   }) async {
     final $context = context ?? el.context;
-    await _beforeHook(enabledFeedback);
+    await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       return builder != null
           ? builder($context, content)
-          : el.config.toastStyle.builder != null
-              ? el.config.toastStyle.builder!($context, content)
+          : $context.elTheme.toastStyle.builder != null
+              ? $context.elTheme.toastStyle.builder!($context, content)
               : type == null
                   ? _Toast(content)
                   : _ThemeToast(content, type);
@@ -57,10 +55,11 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry =
-        OverlayEntry(builder: (context) => _ThemeToast(content, 'primary'));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(
+      builder: (context) => _ThemeToast(content, 'primary'),
+    );
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -71,10 +70,11 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry =
-        OverlayEntry(builder: (context) => _ThemeToast(content, 'success'));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(
+      builder: (context) => _ThemeToast(content, 'success'),
+    );
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -85,10 +85,11 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry =
-        OverlayEntry(builder: (context) => _ThemeToast(content, 'info'));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(
+      builder: (context) => _ThemeToast(content, 'info'),
+    );
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -99,10 +100,11 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry =
-        OverlayEntry(builder: (context) => _ThemeToast(content, 'warning'));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(
+      builder: (context) => _ThemeToast(content, 'warning'),
+    );
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -113,10 +115,11 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry =
-        OverlayEntry(builder: (context) => _ThemeToast(content, 'error'));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(
+      builder: (context) => _ThemeToast(content, 'error'),
+    );
     if ($context.mounted) _afterHook($context, duration);
   }
 
@@ -128,14 +131,14 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    await _beforeHook(enabledFeedback);
-    _toastOverlayEntry = OverlayEntry(builder: (context) => builder(content));
     final $context = context ?? el.context;
+    await _beforeHook($context, enabledFeedback);
+    _toastOverlayEntry = OverlayEntry(builder: (context) => builder(content));
     if ($context.mounted) _afterHook($context, duration);
   }
 
-  Future<void> _beforeHook(bool? enabledFeedback) async {
-    if (enabledFeedback ?? el.config.toastStyle.enableFeedback) {
+  Future<void> _beforeHook(BuildContext context, bool? enabledFeedback) async {
+    if (enabledFeedback ?? context.elTheme.toastStyle.enableFeedback) {
       HapticFeedback.mediumImpact();
     }
     remove();
@@ -149,7 +152,7 @@ class ElToastInstance {
   void _afterHook(BuildContext context, int? duration) {
     Overlay.of(context).insert(_toastOverlayEntry!);
     _removeToastTimer = remove.delay(
-      duration ?? el.config.toastStyle.closeDuration,
+      duration ?? context.elTheme.toastStyle.closeDuration,
     );
   }
 

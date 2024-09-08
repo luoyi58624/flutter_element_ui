@@ -26,9 +26,7 @@ class GlobalState {
 
   /// 手动设置暗黑模式，只有当前主题模式是跟随系统时才生效
   static set isDark(bool v) {
-    el.changeTheme(() {
-      if (MainApp.currentThemeMode == ThemeMode.system) _isDark.value = v;
-    });
+    if (MainApp.currentThemeMode == ThemeMode.system) _isDark.value = v;
   }
 
   static Brightness get brightness =>

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
@@ -129,8 +129,9 @@ class ElButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(type, 'ElButton');
-    final defaultStyle = el.config.buttonStyle;
-    final buttonHeight = height ?? defaultStyle.height ?? el.config.baseHeight;
+    final defaultStyle = context.elTheme.buttonStyle;
+    final buttonHeight =
+        height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     _ButtonStyleProp styleProp = (
       width: width,
       height: buttonHeight,
@@ -143,7 +144,7 @@ class ElButton extends StatelessWidget {
       round: round,
       block: block,
       borderRadius:
-          borderRadius ?? defaultStyle.borderRadius ?? el.config.radius,
+          borderRadius ?? defaultStyle.borderRadius ?? context.elConfig.radius,
       margin: margin ?? defaultStyle.margin,
       padding: padding ??
           defaultStyle.padding ??
@@ -155,7 +156,7 @@ class ElButton extends StatelessWidget {
       loading: loading,
       enableFeedback: enableFeedback ??
           defaultStyle.enableFeedback ??
-          el.config.enableFeedback,
+          context.elConfig.enableFeedback,
     );
     var currentWidget = HoverBuilder(
       disabled: disabled,
@@ -169,7 +170,7 @@ class ElButton extends StatelessWidget {
         onTapUp: onTapUp,
         onTapCancel: onTapCancel,
         disabled: disabled,
-        delay: el.config.buttonStyle.animatedDuration.inMilliseconds,
+        delay: defaultStyle.animatedDuration.inMilliseconds,
         builder: (context) => _Button(child, styleProp),
       ),
     );
@@ -193,7 +194,7 @@ class _Button extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonDuration = el.config.buttonStyle.animatedDuration;
+    final buttonDuration = context.elTheme.buttonStyle.animatedDuration;
     final buttonStyle = _useButtonStyle(context, styleProp);
     final $padding =
         styleProp.circle || styleProp.link ? null : styleProp.padding;
@@ -348,7 +349,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? el.darkTheme.textColor
+              ? context.darkTheme.textColor
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {

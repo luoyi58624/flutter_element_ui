@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
-import '../styles/theme.dart';
+import '../styles/theme_data.dart';
 import 'font.dart';
 
 class ElMaterialThemeData {
@@ -46,14 +46,9 @@ class ElThemeUtil {
 
   /// 通过平台主题模式构建全局文本样式
   static TextStyle buildGlobalTextStyle(Brightness brightness) {
-    return GlobalConfig.defaultTextStyle
-        .copyWith(
-          fontWeight: ElFont.normal,
-          color: brightness == Brightness.dark
-              ? el.darkTheme.textColor
-              : el.theme.textColor,
-        )
-        .merge(el.config.textStyle);
+    return GlobalConfig.defaultTextStyle.copyWith(
+      fontWeight: ElFont.normal,
+    );
   }
 
   /// 基于 Element UI 主题系统构建 Material 主题
@@ -67,10 +62,9 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
-    final darkTheme = el.darkTheme;
+    final lightTheme = context.theme;
+    final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final elConfig = el.config;
     final textStyle = buildGlobalTextStyle(brightness);
     if (data.translucenceStatusBar) {
       () {
@@ -85,7 +79,7 @@ class ElThemeUtil {
     }
 
     final cardBorder = RoundedRectangleBorder(
-      borderRadius: elConfig.cardRadius,
+      borderRadius: elTheme.cardStyle.radius,
     );
 
     final themeData = ThemeData(
@@ -115,7 +109,7 @@ class ElThemeUtil {
       // 背景颜色
       scaffoldBackgroundColor: elTheme.bgColor,
       // 图标颜色
-      iconTheme: IconThemeData(color: elTheme.iconColor),
+      iconTheme: IconThemeData(color: elTheme.iconStyle.color),
     );
 
     return themeData.copyWith(
@@ -124,20 +118,20 @@ class ElThemeUtil {
         toolbarHeight: data.appbarHeight,
         elevation: data.appbarElevation,
         scrolledUnderElevation: data.appbarScrollElevation,
-        backgroundColor: elTheme.headerColor,
+        backgroundColor: elTheme.headerStyle.color,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.black87,
         titleTextStyle: textStyle.copyWith(
           fontSize: 18,
           fontWeight: ElFont.bold,
-          color: elTheme.headerColor.isDark
+          color: elTheme.headerStyle.color.isDark
               ? darkTheme.textColor
               : lightTheme.textColor,
         ),
         iconTheme: IconThemeData(
-          color: elTheme.headerColor.isDark
-              ? darkTheme.iconColor
-              : lightTheme.iconColor,
+          color: elTheme.headerStyle.color.isDark
+              ? darkTheme.iconStyle.color
+              : lightTheme.iconStyle.color,
         ),
       ),
       tabBarTheme: TabBarTheme(
@@ -150,14 +144,14 @@ class ElThemeUtil {
           fontSize: 15,
           color: elTheme.primary,
         ),
-        unselectedLabelColor: elTheme.headerColor.isDark
+        unselectedLabelColor: elTheme.headerStyle.color.isDark
             ? darkTheme.textColor.deepen(10)
             : lightTheme.textColor,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         elevation: 4,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: elTheme.headerColor,
+        backgroundColor: elTheme.headerStyle.color,
         unselectedLabelStyle: textStyle.copyWith(
           fontSize: 12,
           fontWeight: ElFont.medium,
@@ -171,16 +165,16 @@ class ElThemeUtil {
         selectedIconTheme: IconThemeData(color: elTheme.primary, size: 26),
       ),
       cardTheme: CardTheme(
-        color: elTheme.cardColor,
+        color: elTheme.cardStyle.color,
         // m3会将此颜色和color进行混合从而产生一个新的material颜色 (生成一个淡淡的Primary Color)，
         // 这里将其重置为透明，表示卡片用默认color展示
         surfaceTintColor: Colors.transparent,
-        elevation: elTheme.cardElevation,
+        elevation: elTheme.cardStyle.elevation,
         margin: const EdgeInsets.all(8),
         shape: cardBorder,
       ),
       drawerTheme: DrawerThemeData(
-        backgroundColor: elTheme.modalColor,
+        backgroundColor: elTheme.modalStyle.color,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
@@ -196,7 +190,7 @@ class ElThemeUtil {
           color: elTheme.textColor.deepen(10),
           fontSize: 13,
         ),
-        iconColor: elTheme.iconColor,
+        iconColor: elTheme.iconStyle.color,
       ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: textStyle.copyWith(
@@ -214,9 +208,9 @@ class ElThemeUtil {
         collapsedShape: Border.all(width: 0, style: BorderStyle.none),
       ),
       popupMenuTheme: PopupMenuThemeData(
-        color: elTheme.modalColor,
+        color: elTheme.modalStyle.color,
         surfaceTintColor: Colors.transparent,
-        elevation: elTheme.modalElevation,
+        elevation: elTheme.modalStyle.elevation,
         enableFeedback: true,
         textStyle: textStyle.copyWith(fontSize: 14),
         shape: cardBorder,
@@ -230,7 +224,7 @@ class ElThemeUtil {
           color: elTheme.textColor.deepen(16),
           fontSize: 15,
         ),
-        elevation: elTheme.modalElevation,
+        elevation: elTheme.modalStyle.elevation,
         backgroundColor: elTheme.bgColor,
         surfaceTintColor: Colors.transparent,
         shape: cardBorder,
@@ -260,8 +254,8 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
-    final darkTheme = el.darkTheme;
+    final lightTheme = context.theme;
+    final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
     final textStyle = buildGlobalTextStyle(brightness);
 

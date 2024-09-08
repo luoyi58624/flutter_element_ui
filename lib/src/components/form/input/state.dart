@@ -25,7 +25,6 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       maxLines: widget.maxLines,
       style: TextStyle(
         color: context.elTheme.textColor,
-        fontSize: el.config.textStyle.fontSize,
       ).merge(widget.style),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
@@ -50,15 +49,16 @@ class ElInputState extends ElModelValueState<ElInput, String> {
     if (useFormDataModel) {
       controller.text = formData!.model[formItemData!.prop];
     }
-    final defaultStyle = el.config.inputStyle;
-    final $height = widget.height ?? defaultStyle.height ?? el.config.baseHeight;
+    final defaultStyle = context.elTheme.inputStyle;
+    final $height =
+        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     _styleProp = (
       height: $height,
       borderRadius: isRound
           ? BorderRadius.circular($height / 2)
           : (widget.borderRadius ??
               defaultStyle.borderRadius ??
-              el.config.radius),
+              context.elConfig.radius),
       margin: widget.margin ?? defaultStyle.margin,
       padding: widget.padding ??
           (widget.round == true
@@ -92,7 +92,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
         borderSide: BorderSide(
           width: HoverBuilder.of(context) ? 1.2 : 1,
           color: HoverBuilder.of(context)
-              ? context.elTheme.borderHoverColor
+              ? context.elTheme.borderColor.deepen(16)
               : context.elTheme.borderColor,
         ),
       ),

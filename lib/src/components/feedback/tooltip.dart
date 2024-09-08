@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../others/triangle/triangle.dart';
 
@@ -37,7 +37,7 @@ class _ElTooltipState extends State<ElTooltip> {
   Timer? delayHideOverlay;
   Size? contentSize;
 
-  Color get bgColor => widget.bgColor ?? context.elTheme.tooltipColor;
+  Color get bgColor => widget.bgColor ?? context.elTheme.tooltipStyle.color;
 
   /// 将 Overlay 组件永久插入小部件树中，这样做可以保留内部状态
   late final Widget _overlayWidget = ObsBuilder(
@@ -135,7 +135,7 @@ class _ElTooltipState extends State<ElTooltip> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: el.config.radius,
+        borderRadius: context.elConfig.radius,
       ),
       child: ElDefaultTextStyle.merge(
         style: TextStyle(

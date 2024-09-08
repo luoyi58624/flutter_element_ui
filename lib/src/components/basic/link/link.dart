@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import './web.dart' if (dart.library.io) './io.dart';
 
@@ -172,7 +172,7 @@ class ElLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultStyle = el.config.linkStyle;
+    final defaultStyle = context.elTheme.linkStyle;
     _LinkStyleProp styleProp = (
       cursor: cursor ?? defaultStyle.cursor,
       color: color ?? defaultStyle.color,
@@ -182,7 +182,7 @@ class ElLink extends StatelessWidget {
       enabledPreview: enabledPreview ?? defaultStyle.enableFeedback,
       enableFeedback: enableFeedback ??
           defaultStyle.enableFeedback ??
-          el.config.enableFeedback,
+          context.elConfig.enableFeedback,
     );
     final $href = getFullHref(href);
     final $to = $href == null ? null : () => toHref($href, styleProp.target);

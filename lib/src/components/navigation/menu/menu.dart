@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/global.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
 import '../../basic/link/link.dart';
-import '../../basic/text.dart';
 
 part 'menu_modal.dart';
 
@@ -64,7 +63,7 @@ class ElMenu extends StatefulWidget {
   /// 嵌套子菜单距离上一层级的间距
   final double gap;
 
-  /// 菜单栏背景颜色，默认跟随侧边栏背景色
+  /// 菜单栏背景颜色，默认: theme.asideStyle.color
   final Color? bgColor;
 
   /// 菜单图标大小，默认20
@@ -162,7 +161,8 @@ class _ElMenuState extends State<ElMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = widget.bgColor ?? context.elTheme.asideBgColor;
+    final $bgColor =
+        widget.bgColor ?? context.elTheme.asideStyle.color;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return Material(
       color: $bgColor,
