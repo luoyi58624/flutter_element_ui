@@ -47,7 +47,7 @@ class LayoutHeader extends StatelessWidget {
                   icon: Icon(
                     GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
                   ),
-                  color: context.elTheme.iconColor,
+                  color: context.elTheme.iconStyle.color,
                 );
               }),
               IconButton(
@@ -86,55 +86,57 @@ class LayoutHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ...RootRoute.values.map(
-                (e) => ElLink(
-                  href: '/${e.$2}',
-                  child: Builder(builder: (context) {
-                    return GestureDetector(
-                      onTapDown: (e) {
-                        context.go(ElLink.getHref(context)!);
-                      },
-                      child: HoverBuilder(
-                        cursor: SystemMouseCursors.click,
-                        builder: (context) {
-                          final isActive = RouterUtil.currentPath.value
-                              .startsWith('/${e.$2}');
-                          return Stack(
-                            children: [
-                              Container(
-                                height: el.config.headerHeight,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                child: Center(
-                                  child: H6(
-                                    e.$1,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: HoverBuilder.of(context)
-                                            ? context.elTheme.primary
-                                            : null),
-                                  ),
-                                ),
-                              ),
-                              if (isActive)
-                                Positioned(
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 2,
-                                    decoration: BoxDecoration(
-                                      color: context.elTheme.primary,
+                    (e) =>
+                    ElLink(
+                      href: '/${e.$2}',
+                      child: Builder(builder: (context) {
+                        return GestureDetector(
+                          onTapDown: (e) {
+                            context.go(ElLink.getHref(context)!);
+                          },
+                          child: HoverBuilder(
+                            cursor: SystemMouseCursors.click,
+                            builder: (context) {
+                              final isActive = RouterUtil.currentPath.value
+                                  .startsWith('/${e.$2}');
+                              return Stack(
+                                children: [
+                                  Container(
+                                    height: context.elTheme.headerStyle.height,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    child: Center(
+                                      child: H6(
+                                        e.$1,
+                                        duration: 0.ms,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: HoverBuilder.of(context)
+                                                ? context.elTheme.primary
+                                                : null),
+                                      ),
                                     ),
                                   ),
-                                ),
-                            ],
-                          );
-                        },
-                      ),
-                    );
-                  }),
-                ),
+                                  if (isActive)
+                                    Positioned(
+                                      left: 0,
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        height: 2,
+                                        decoration: BoxDecoration(
+                                          color: context.elTheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        );
+                      }),
+                    ),
               )
             ],
           );
@@ -154,7 +156,7 @@ class _GithubLogo extends StatelessWidget {
       width: 24,
       height: 24,
       colorFilter: ColorFilter.mode(
-        context.elTheme.iconColor,
+        context.elTheme.iconStyle.color,
         BlendMode.srcIn,
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../styles/theme_data.dart';
@@ -44,13 +45,6 @@ class ElMaterialThemeData {
 class ElThemeUtil {
   ElThemeUtil._();
 
-  /// 通过平台主题模式构建全局文本样式
-  static TextStyle buildGlobalTextStyle(Brightness brightness) {
-    return GlobalConfig.defaultTextStyle.copyWith(
-      fontWeight: ElFont.normal,
-    );
-  }
-
   /// 基于 Element UI 主题系统构建 Material 主题
   ///
   /// * context 通过上下文获取 [ElTheme] 配置，请注意传递正确的[context]，
@@ -65,7 +59,7 @@ class ElThemeUtil {
     final lightTheme = context.theme;
     final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = buildGlobalTextStyle(brightness);
+    final textStyle = ElApp.of(context).textStyle;
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -257,7 +251,7 @@ class ElThemeUtil {
     final lightTheme = context.theme;
     final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = buildGlobalTextStyle(brightness);
+    final textStyle = ElApp.of(context).textStyle;
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 

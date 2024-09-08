@@ -29,40 +29,44 @@ class _MainAppState extends State<MainApp> {
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterUtil.isMobile.value = context.sm;
-    Theme.of(context);
     final themeDuration = 0.ms;
     return ObsBuilder(builder: (context) {
-      return MaterialApp.router(
-        routerConfig: router,
-        debugShowCheckedModeBanner: false,
-        showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-        showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-        themeAnimationDuration: themeDuration,
-        theme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness: GlobalState.brightness,
+      return ElApp(
+        brightness: GlobalState.brightness,
+        config: ElConfigData(
+          themeDuration: themeDuration,
         ),
-        darkTheme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness: Brightness.dark,
+        theme: ElThemeData(
+          collapseStyle: ElCollapseStyle(
+            duration: 300.ms,
+          ),
         ),
-        builder: (context, child) {
-          final brightness = GlobalState.brightness;
-          return ElTheme(
-            brightness: brightness,
-            config: ElConfigData(
-              themeDuration: themeDuration,
+        child: ObsBuilder(builder: (context) {
+          return MaterialApp.router(
+            routerConfig: router,
+            debugShowCheckedModeBanner: false,
+            showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+            themeAnimationDuration: themeDuration,
+            theme: ElThemeUtil.buildMaterialTheme(
+              context,
+              brightness: GlobalState.brightness,
             ),
-            builder: (context, child) => CupertinoTheme(
-              data: ElThemeUtil.buildCupertinoThemeData(
-                context,
-                brightness: brightness,
+            // darkTheme: ElThemeUtil.buildMaterialTheme(
+            //   context,
+            //   brightness: Brightness.dark,
+            // ),
+            builder: ElApp.builder(
+              (context, child) => CupertinoTheme(
+                data: ElThemeUtil.buildCupertinoThemeData(
+                  context,
+                  brightness: GlobalState.brightness,
+                ),
+                child: child!,
               ),
-              child: child!,
             ),
-            child: child!,
           );
-        },
+        }),
       );
     });
   }

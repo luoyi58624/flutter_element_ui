@@ -91,7 +91,10 @@ class ElThemeData {
     this.iconStyle = const ElIconStyle(
       color: Color(0xff404040),
     ),
-    this.linkStyle = const ElLinkStyle(),
+    this.linkStyle = const ElLinkStyle(
+      color: ElLinkStyle.hrefColor,
+      activeColor: ElLinkStyle.hrefColor,
+    ),
     this.inputStyle = const ElInputStyle(),
     this.collapseStyle = const ElCollapseStyle(),
     this.cardStyle = const ElCardStyle(
@@ -99,7 +102,7 @@ class ElThemeData {
       elevation: 2,
     ),
     this.modalStyle = const ElModalStyle(
-      color: Colors.black26,
+      color: Color(0xffffffff),
       elevation: 2,
     ),
     this.messageStyle = const ElMessageStyle(),
@@ -128,7 +131,10 @@ class ElThemeData {
     this.iconStyle = const ElIconStyle(
       color: Color(0xfff6f6f6),
     ),
-    this.linkStyle = const ElLinkStyle(),
+    this.linkStyle = const ElLinkStyle(
+      color: ElLinkStyle.darkHrefColor,
+      activeColor: ElLinkStyle.darkHrefColor,
+    ),
     this.inputStyle = const ElInputStyle(),
     this.collapseStyle = const ElCollapseStyle(),
     this.cardStyle = const ElCardStyle(
@@ -136,7 +142,7 @@ class ElThemeData {
       elevation: 4,
     ),
     this.modalStyle = const ElModalStyle(
-      color: Colors.black26,
+      color: Color(0xff3f3f46),
       elevation: 4,
     ),
     this.messageStyle = const ElMessageStyle(),

@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'src/theme.dart';
+export 'src/app.dart';
 export 'src/service.dart' show el;
 export 'src/extension.dart';
 

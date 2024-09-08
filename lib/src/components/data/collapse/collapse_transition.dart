@@ -66,9 +66,11 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   @override
   void initState() {
     super.initState();
-    if (!(widget.keepState ?? context.elTheme.collapseStyle.keepState)) {
-      controller.addStatusListener(listenAnimationStatus);
-    }
+    FlutterUtil.nextTick(() {
+      if (!(widget.keepState ?? context.elTheme.collapseStyle.keepState)) {
+        controller.addStatusListener(listenAnimationStatus);
+      }
+    });
   }
 
   @override
@@ -76,6 +78,9 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
     super.didUpdateWidget(oldWidget);
     if (widget.duration != oldWidget.duration) {
       controller.duration = widget.duration;
+    }
+    if (widget.duration == null) {
+      controller.duration = context.elTheme.collapseStyle.duration;
     }
     if (widget.curve != oldWidget.curve) {
       animate = CurvedAnimation(

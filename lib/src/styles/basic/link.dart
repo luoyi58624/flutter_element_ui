@@ -7,14 +7,15 @@ import '../../components/basic/link/link.dart';
 
 part '../../generates/styles/basic/link.g.dart';
 
-const Color hrefColor = Color.fromRGBO(9, 105, 218, 1);
-
 @ElModel.copy()
 class ElLinkStyle {
+  static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1.0);
+  static const Color darkHrefColor = Color.fromRGBO(64, 158, 255, 1.0);
+
   const ElLinkStyle({
     this.cursor = SystemMouseCursors.click,
-    this.color = hrefColor,
-    this.activeColor = hrefColor,
+    required this.color,
+    required this.activeColor,
     this.decoration = ElLinkDecoration.none,
     this.target = ElLinkTarget.blank,
     this.enabledPreview,

@@ -23,7 +23,7 @@ class GlobalSetting extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.close,
-                    color: context.elTheme.iconColor,
+                    color: context.elTheme.iconStyle.color,
                   ),
                 ),
                 const Gap(8),

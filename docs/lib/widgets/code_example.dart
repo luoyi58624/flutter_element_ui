@@ -188,7 +188,8 @@ class _PreviewButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useAnimationController(duration: 250.ms);
+    final controller =
+        useAnimationController(duration: 250.ms);
     final curve = CurvedAnimation(
       parent: controller,
       curve: Curves.easeOut,
@@ -213,7 +214,7 @@ class _PreviewButton extends HookWidget {
           child: AnimatedContainer(
             duration: context.elThemeDuration ??
                 context.elTheme.collapseStyle.duration,
-            curve: context.elTheme.collapseStyle.curve,
+            curve: context.elThemeCurve ?? context.elTheme.collapseStyle.curve,
             height: 40,
             decoration: BoxDecoration(
                 color: context.isHover
@@ -245,7 +246,7 @@ class _PreviewButton extends HookWidget {
                       Opacity(
                         opacity: controller.value,
                         child: AnimatedSwitcher(
-                          duration: 50.ms,
+                          duration: 150.ms,
                           child: ElText(
                             isExpanded.value ? '隐藏代码' : '查看代码',
                             key: ValueKey(isExpanded.value),

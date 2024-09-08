@@ -41,6 +41,10 @@ class InstallPage extends ResponsivePage {
       result,
       Center(child: ElSwitch(flag)),
       const Gap(50),
+      Text(
+        '想那些',
+        style: Theme.of(context).textTheme.titleLarge,
+      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
