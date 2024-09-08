@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
-import 'package:flutter_element_ui/src/extensions/context.dart';
 import 'package:flutter_element_ui/src/styles/config_data.dart';
-import 'package:flutter_element_ui/src/theme.dart';
 
 import 'styles/theme_data.dart';
 import 'widgets/global_theme_duration.dart';
@@ -12,7 +10,7 @@ extension ElBuildContextExtension on BuildContext {
   ElThemeData get elTheme => isDark ? darkTheme : theme;
 
   /// Element UI 全局配置
-  ElConfigData get elConfig => ElThemeInheritedWidget.of(this).config;
+  ElConfigData get elConfig => ElTheme.of(this).config;
 
   /// Element UI 主题颜色集合
   Map<String, Color> get elThemeColors => {

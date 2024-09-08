@@ -8,10 +8,10 @@ import 'components/basic/scrollbar.dart';
 import 'components/basic/text.dart';
 import 'widgets/global_theme_duration.dart';
 
-/// Element UI 没有提供 [ElApp] 顶级小部件，而是仅提供一个全局主题配置小部件，
+/// Element UI 不再提供 [ElApp] 顶级小部件，而是仅提供一个全局主题配置小部件，
 /// 您可以使用任意 App 构建应用，例如：[MaterialApp]、[CupertinoApp]、[WidgetsApp]。
 class ElTheme extends StatefulWidget {
-  /// Element UI 全局主题配置注入，使用方式：
+  /// Element UI 全局主题配置小部件：
   /// ```dart
   /// MaterialApp(
   ///   builder: (context, child) => ElTheme(
@@ -56,6 +56,20 @@ class ElTheme extends StatefulWidget {
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
   final ScrollBehavior behavior;
 
+  /// 通过上下文 context 访问注入的全局主题配置
+  static ({
+    ElThemeData theme,
+    ElThemeData darkTheme,
+    ElConfigData config,
+  }) of(BuildContext context) {
+    final data = _ElThemeInheritedWidget.of(context);
+    return (
+      theme: data.theme,
+      darkTheme: data.darkTheme,
+      config: data.config,
+    );
+  }
+
   @override
   State<ElTheme> createState() => _ElThemeState();
 }
@@ -71,7 +85,7 @@ class _ElThemeState extends State<ElTheme> {
     Brightness $brightness =
         widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
-    // 创建默认遮罩小部件，否则当使用全局 context 插入弹窗、消息等 api 时会报错
+    // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
     Widget result = Overlay(initialEntries: [
       OverlayEntry(builder: (context) => widget.child),
     ]);
@@ -80,7 +94,7 @@ class _ElThemeState extends State<ElTheme> {
     if (widget.builder != null) result = widget.builder!(context, result);
 
     return GlobalThemeStyle(
-      child: ElThemeInheritedWidget(
+      child: _ElThemeInheritedWidget(
         widget.theme,
         widget.darkTheme,
         widget.config,
@@ -117,12 +131,11 @@ class _ElThemeState extends State<ElTheme> {
   }
 }
 
-class ElThemeInheritedWidget extends InheritedWidget {
-  const ElThemeInheritedWidget(
+class _ElThemeInheritedWidget extends InheritedWidget {
+  const _ElThemeInheritedWidget(
     this.theme,
     this.darkTheme,
     this.config, {
-    super.key,
     required super.child,
   });
 
@@ -135,11 +148,11 @@ class ElThemeInheritedWidget extends InheritedWidget {
   /// 全局配置
   final ElConfigData config;
 
-  static ElThemeInheritedWidget of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElThemeInheritedWidget>()!;
+  static _ElThemeInheritedWidget of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElThemeInheritedWidget>()!;
 
   @override
-  bool updateShouldNotify(ElThemeInheritedWidget oldWidget) {
+  bool updateShouldNotify(_ElThemeInheritedWidget oldWidget) {
     return true;
   }
 }
