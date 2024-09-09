@@ -67,7 +67,7 @@ class SlideWidget extends StatelessWidget {
                                                 : context.isDark
                                                     ? Colors.grey.shade100
                                                     : Colors.grey.shade800,
-                                            fontSize: 0.875.rem,
+                                            fontSize: 0.875.rem(context),
                                           ),
                                         ),
                                       );

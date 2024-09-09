@@ -83,20 +83,20 @@ class ElText extends StatefulWidget {
   @override
   State<ElText> createState() => ElTextState();
 
-  /// 自定义当前文本样式，覆写它可以实现自定义样式文本
-  TextStyle? get textStyle => null;
+  /// 自定义默认的文本样式
+  TextStyle? buildDefaultTextStyle(BuildContext context) => null;
 
   /// 构建富文本片段集合
-  List<InlineSpan> _buildRichText(List children) {
+  List<InlineSpan> _buildRichText(BuildContext context, List children) {
     List<InlineSpan> richChildren = [];
     for (final child in children) {
-      richChildren.add(_buildInlineSpan(child));
+      richChildren.add(_buildInlineSpan(context, child));
     }
     return richChildren;
   }
 
   /// 使用递归构建富文本片段
-  InlineSpan _buildInlineSpan(dynamic data) {
+  InlineSpan _buildInlineSpan(BuildContext context, dynamic data) {
     // 1. 如果是文本片段则直接返回
     if (data is TextSpan || data is WidgetSpan) return data;
 
@@ -116,8 +116,8 @@ class ElText extends StatefulWidget {
       if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data.textStyle != null
-              ? data.textStyle!.merge(data.style)
+          style: data.buildDefaultTextStyle(context) != null
+              ? data.buildDefaultTextStyle(context)!.merge(data.style)
               : data.style,
           semanticsLabel: data.semanticsLabel,
         );
@@ -135,10 +135,10 @@ class ElText extends StatefulWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElText));
         if (!hasWidget) {
           return TextSpan(
-            style: data.textStyle != null
-                ? data.textStyle!.merge(data.style)
+            style: data.buildDefaultTextStyle(context) != null
+                ? data.buildDefaultTextStyle(context)!.merge(data.style)
                 : data.style,
-            children: _buildRichText(data.data),
+            children: _buildRichText(context, data.data),
           );
         }
       }
@@ -157,7 +157,7 @@ class ElText extends StatefulWidget {
     // 5. 如果是数组，则递归渲染
     if (data is List) {
       return TextSpan(
-        children: _buildRichText(data),
+        children: _buildRichText(context, data),
       );
     }
 
@@ -205,7 +205,8 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     if (widget.style != oldWidget.style) {
       isDidUpdate = true;
       defaultStyle = ElDefaultTextStyle.of(context);
-      final textStyle = defaultStyle.style.merge(widget.textStyle);
+      final textStyle =
+          defaultStyle.style.merge(widget.buildDefaultTextStyle(context));
       final oldStyle = textStyle.merge(_tempStyle ?? oldWidget.style);
       final newStyle = textStyle.merge(widget.style);
       styleAnimate = TextStyleTween(
@@ -234,11 +235,12 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
       animation: controller.view,
       builder: (context, child) {
         if (_tempStyle == null) {
-          style =
-              defaultStyle.style.merge(widget.textStyle).merge(widget.style);
+          style = defaultStyle.style
+              .merge(widget.buildDefaultTextStyle(context))
+              .merge(widget.style);
         } else {
           style = defaultStyle.style
-              .merge(widget.textStyle)
+              .merge(widget.buildDefaultTextStyle(context))
               .merge(styleAnimate.value);
         }
         return buildText(context, style);
@@ -255,8 +257,10 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     Widget result = RichText(
       text: TextSpan(
         style: $style,
-        children: widget
-            ._buildRichText(widget.data is List ? widget.data : [widget.data]),
+        children: widget._buildRichText(
+          context,
+          widget.data is List ? widget.data : [widget.data],
+        ),
       ),
       textAlign: defaultStyle.textAlign ?? TextAlign.start,
       textDirection: widget.textDirection,
