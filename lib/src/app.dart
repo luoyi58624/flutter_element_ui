@@ -2,17 +2,19 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extension.dart';
+import 'package:flutter_element_ui/src/extensions/responsive.dart';
+import 'package:flutter_element_ui/src/extensions/theme.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
-import 'components/basic/scrollbar.dart';
 import 'components/basic/text.dart';
+import 'extensions/brightness.dart';
 import 'styles/config_data.dart';
 import 'styles/theme_data.dart';
 import 'utils/font.dart';
+import 'widgets/scroll_behavior.dart';
 
-/// 为了尽可能减少与其他主题系统的兼容性问题，[ElApp] 被设计为一个全局配置小部件，
-/// 你必须使用 [MaterialApp]、[CupertinoApp]、[WidgetsApp] 等任意顶级小部件构建应用。
+/// 为了尽可能减少上手成本，[ElApp] 被设计为一个简单的全局配置小部件，而不是基于 [WidgetsApp] 提供大量的配置参数，
+/// Element UI 允许你自由地使用 [MaterialApp]、[CupertinoApp]、[WidgetsApp] 等任意顶级 App 构建应用。
 class ElApp extends StatefulWidget {
   /// Element UI 全局配置小部件，使用方式：
   /// ```dart
@@ -23,10 +25,9 @@ class ElApp extends StatefulWidget {
   /// );
   /// ```
   ///
-  /// 代码结构解析：
-  /// 1. 首先使用 [ElApp] 注入全局主题数据；
-  /// 2. 然后使用 [MaterialApp] 构建应用基础设施；
-  /// 3. 最后使用 [ElApp.builder] 构建默认的文本主题、浮层小部件、滚动配置...
+  /// 1. [ElApp] 仅负责注入全局主题数据
+  /// 2. [MaterialApp] 是官方默认构建应用的首选方式，你可以使用任意 App 构建应用
+  /// 3. [ElApp.builder] 则负责构建 Element UI 的文本主题、浮层小部件、滚动配置...
   const ElApp({
     super.key,
     required this.child,
@@ -64,24 +65,11 @@ class ElApp extends StatefulWidget {
   static ElThemeModel of(BuildContext context) =>
       _AppInheritedWidget.of(context).themeModel;
 
-  /// 在 [WidgetsApp]、[MaterialApp] 等顶级 App 下方构建 Element UI 小部件基础设施，
-  /// 下面逻辑之所以不放在 build 中是为了防止被覆盖。
-  /// ```dart
-  /// MaterialApp(
-  ///   builder: ElApp.builder(),
-  /// );
-  ///
-  /// // 插入自定义小部件
-  /// MaterialApp(
-  ///   builder: ElApp.builder(
-  ///     (context, child) => SizeBox(child: child!),
-  ///   ),
-  /// );
-  /// ```
+  /// 在 [WidgetsApp]、[MaterialApp] 等顶级 App 下方构建 Element UI 小部件基础设施
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
-        assert(child != null, 'ElTheme builder 子组件不能为空');
+        assert(child != null, 'ElApp builder child 参数不能为空');
 
         final $data = _AppInheritedWidget.of(context);
         // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
@@ -121,11 +109,11 @@ class _ElAppState extends State<ElApp> {
   void didUpdateWidget(covariant ElApp oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.brightness != oldWidget.brightness) {
-      changeTheme();
+      _changeTheme();
     }
   }
 
-  void changeTheme() {
+  void _changeTheme() {
     if (_timer != null) {
       _timer!.cancel();
       _timer = null;
@@ -149,7 +137,14 @@ class _ElAppState extends State<ElApp> {
         widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
     // 构建默认的文本样式
-    var $textStyle = GlobalConfig.defaultTextStyle
+    var $textStyle = TextStyle(
+      fontFamily: null,
+      fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
+          ? ['.AppleSystemUIFont', 'PingFang SC']
+          : PlatformUtil.isWindows
+              ? ['Microsoft YaHei', '微软雅黑']
+              : null,
+    )
         .copyWith(
             fontWeight: ElFont.normal,
             color: $brightness == Brightness.dark
@@ -159,7 +154,7 @@ class _ElAppState extends State<ElApp> {
     if ($textStyle.fontSize == null) {
       $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
     }
-    GlobalConfig.globalFontSize = $textStyle.fontSize!;
+    ElFont.globalFontSize = $textStyle.fontSize!;
 
     return BrightnessWidget(
       brightness: $brightness,
@@ -170,12 +165,10 @@ class _ElAppState extends State<ElApp> {
           config: widget.config,
           textStyle: $textStyle,
           globalThemeDuration: _globalThemeDuration,
-          globalthemeCurve: _globalThemeCurve,
+          globalThemeCurve: _globalThemeCurve,
         ),
         widget.behavior,
-        child: Builder(builder: (context) {
-          return widget.child;
-        }),
+        child: widget.child,
       ),
     );
   }
@@ -190,7 +183,7 @@ class ElThemeModel {
   /// 当切换主题模式时，临时设置全局默认的动画时间: [config.themeDuration]，
   /// 这样可以保持动画过渡的一致性。
   final Duration? globalThemeDuration;
-  final Curve? globalthemeCurve;
+  final Curve? globalThemeCurve;
 
   ElThemeModel({
     required this.theme,
@@ -198,7 +191,7 @@ class ElThemeModel {
     required this.config,
     required this.textStyle,
     this.globalThemeDuration,
-    this.globalthemeCurve,
+    this.globalThemeCurve,
   });
 }
 

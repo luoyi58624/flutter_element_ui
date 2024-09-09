@@ -2,7 +2,6 @@ library flutter_element_ui;
 
 export 'src/app.dart';
 export 'src/service.dart' show el;
-export 'src/extension.dart';
 
 export 'src/components/basic/button.dart';
 export 'src/components/basic/container.dart';
@@ -52,6 +51,14 @@ export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
+export 'src/extensions/brightness.dart' show ElBrightnessExtension;
+export 'src/extensions/color.dart';
+export 'src/extensions/event.dart';
+export 'src/extensions/font.dart';
+export 'src/extensions/responsive.dart';
+export 'src/extensions/theme.dart' show ElThemeExtension;
+export 'src/extensions/widget.dart';
+
 export 'src/services/message.dart';
 
 export 'src/styles/theme_data.dart';
@@ -84,4 +91,7 @@ export 'src/utils/important.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/shortcut.dart';
 
+export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
+export 'src/widgets/scroll_behavior.dart';
+export 'src/widgets/tap.dart';

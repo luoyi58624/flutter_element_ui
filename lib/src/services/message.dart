@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_element_ui/src/global.dart';
-import 'package:flutter_element_ui/src/extensions/context.dart';
 
 import '../components/basic/icon.dart';
 import '../components/data/badge.dart';
