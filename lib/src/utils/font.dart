@@ -1,11 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
+import '../app.dart';
+
 class ElFont {
   ElFont._();
 
-  /// 全局文本尺寸，当构建 [ElApp] 时初始化
-  static late double globalFontSize;
+  /// 访问全局字体大小
+  static double get globalFontSize => ElApp.of(el.context).textStyle.fontSize!;
 
   /// 普通字重
   static FontWeight get normal => FontUtil.normal;
@@ -21,4 +23,15 @@ class ElFont {
   static FontWeight get bold => FontUtil.bold;
 
   static set bold(FontWeight v) => FontUtil.bold = v;
+
+  /// [ElApp] 应用的默认文本样式，默认样式仅适用于中文，你可以在构建 [ElApp] 之前自定义它，
+  /// 也可以通过 [ElApp] textStyle 参数覆盖它
+  static TextStyle defaultTextStyle = TextStyle(
+    fontFamily: null,
+    fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
+        ? ['.AppleSystemUIFont', 'PingFang SC']
+        : PlatformUtil.isWindows
+            ? ['Microsoft YaHei', '微软雅黑']
+            : null,
+  );
 }

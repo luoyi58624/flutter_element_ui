@@ -6,6 +6,7 @@ export 'extensions/color.dart';
 export 'extensions/responsive.dart';
 export 'extensions/theme.dart';
 export 'extensions/widget.dart';
+export 'extensions/private.dart';
 
 export 'widgets/hover.dart';
 export 'widgets/tap.dart';

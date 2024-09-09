@@ -8,12 +8,13 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/text.dart';
 import 'extensions/brightness.dart';
+import 'global.dart';
 import 'styles/config_data.dart';
 import 'styles/theme_data.dart';
 import 'utils/font.dart';
 import 'widgets/scroll_behavior.dart';
 
-/// 为了尽可能减少上手成本，[ElApp] 被设计为一个简单的全局配置小部件，而不是基于 [WidgetsApp] 提供大量的配置参数，
+/// 为了尽可能减少上手成本，[ElApp] 只是一个简单的全局配置小部件，而不是基于 [WidgetsApp] 提供大量的配置参数，
 /// Element UI 允许你自由地使用 [MaterialApp]、[CupertinoApp]、[WidgetsApp] 等任意顶级 App 构建应用。
 class ElApp extends StatefulWidget {
   /// Element UI 全局配置小部件，使用方式：
@@ -26,8 +27,8 @@ class ElApp extends StatefulWidget {
   /// ```
   ///
   /// 1. [ElApp] 仅负责注入全局主题数据
-  /// 2. [MaterialApp] 是官方默认构建应用的首选方式，你可以使用任意 App 构建应用
-  /// 3. [ElApp.builder] 则负责构建 Element UI 的文本主题、浮层小部件、滚动配置...
+  /// 2. [MaterialApp] 是官方默认构建应用的首选方式，你也可以使用其他 App 构建应用
+  /// 3. [ElApp.builder] 则负责构建 Element UI 的默认文本主题、浮层小部件、滚动配置...
   const ElApp({
     super.key,
     required this.child,
@@ -113,6 +114,7 @@ class _ElAppState extends State<ElApp> {
     }
   }
 
+  /// 当亮度发生变化时，会设置全局主题变更持续时间和动画曲线，这样可以同步整体页面动画过渡效果
   void _changeTheme() {
     if (_timer != null) {
       _timer!.cancel();
@@ -137,24 +139,18 @@ class _ElAppState extends State<ElApp> {
         widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
     // 构建默认的文本样式
-    var $textStyle = TextStyle(
-      fontFamily: null,
-      fontFamilyFallback: (PlatformUtil.isMacOS || PlatformUtil.isIOS)
-          ? ['.AppleSystemUIFont', 'PingFang SC']
-          : PlatformUtil.isWindows
-              ? ['Microsoft YaHei', '微软雅黑']
-              : null,
-    )
+    var $textStyle = ElFont.defaultTextStyle
         .copyWith(
             fontWeight: ElFont.normal,
             color: $brightness == Brightness.dark
                 ? widget.darkTheme.textColor
                 : widget.theme.textColor)
         .merge(widget.textStyle);
+
+    // 如果未设置字体大小，则根据平台应用设置不同尺寸的字体，移动端使用 15px，桌面端使用 16px
     if ($textStyle.fontSize == null) {
       $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
     }
-    ElFont.globalFontSize = $textStyle.fontSize!;
 
     return BrightnessWidget(
       brightness: $brightness,
@@ -174,15 +170,24 @@ class _ElAppState extends State<ElApp> {
   }
 }
 
+/// 全局注入的主题模型数据，允许通过 [ElApp.of] 方法访问它们
 class ElThemeModel {
+  /// 亮色主题配置
   final ElThemeData theme;
+
+  /// 暗色主题配置
   final ElThemeData darkTheme;
+
+  /// 全局通用配置
   final ElConfigData config;
+
+  /// 最终的全局文本样式，Element UI 预先提供一个默认的文本样式，然后合并颜色主题，最后合并用户自定义的文本样式
   final TextStyle textStyle;
 
-  /// 当切换主题模式时，临时设置全局默认的动画时间: [config.themeDuration]，
-  /// 这样可以保持动画过渡的一致性。
+  /// 当切换主题模式时，会临时设置全局默认的动画时间: [config.themeDuration]，这样可以保持动画过渡的一致性
   final Duration? globalThemeDuration;
+
+  /// 全局动画曲线，同上
   final Curve? globalThemeCurve;
 
   ElThemeModel({

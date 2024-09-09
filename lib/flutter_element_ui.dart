@@ -56,7 +56,7 @@ export 'src/extensions/color.dart';
 export 'src/extensions/event.dart';
 export 'src/extensions/font.dart';
 export 'src/extensions/responsive.dart';
-export 'src/extensions/theme.dart' show ElThemeExtension;
+export 'src/extensions/theme.dart';
 export 'src/extensions/widget.dart';
 
 export 'src/services/message.dart';

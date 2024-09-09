@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/brightness.dart';
+import 'package:flutter_element_ui/src/extensions/private.dart';
 
 import '../app.dart';
 import '../styles/config_data.dart';
@@ -37,11 +38,4 @@ extension ElThemeExtension on BuildContext {
 
   /// 全局默认主题过渡动画曲线。
   Curve? get elThemeCurve => ElApp.of(this).globalThemeCurve;
-}
-
-/// BuildContext 扩展方法，仅限内部使用
-extension BuildContextExtension on BuildContext {
-  ElThemeData get theme => ElApp.of(this).theme;
-
-  ElThemeData get darkTheme => ElApp.of(this).darkTheme;
 }

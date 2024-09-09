@@ -279,16 +279,16 @@ const double _opacity = 0.6;
 
 extension _ButtonColorExtension on Color {
   /// hover 悬停颜色，颜色会变得更浅
-  Color hover(BuildContext context) => elLight2(context);
+  Color hover(BuildContext context) => elLight2();
 
   /// tap 按下颜色，颜色会变得更深
-  Color tap(BuildContext context) => elLight3(context, reverse: true);
+  Color tap(BuildContext context) => elLight3(reverse: true);
 
   /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => elLight9(context);
+  Color themeLightBg(BuildContext context) => elLight9();
 
   /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => elLight6(context);
+  Color themeLightBorder(BuildContext context) => elLight6();
 }
 
 /// 计算按钮样式 hook
@@ -350,7 +350,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $textColor = style.color ??
           (style.bgColor == null
               ? context.darkTheme.textColor
-              : style.bgColor!.elTextColor(context));
+              : style.bgColor!.elTextColor);
       // 镂空按钮
       if (style.plain) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;

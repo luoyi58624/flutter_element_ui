@@ -68,7 +68,7 @@ class _MenuItemState extends State<_MenuItem> {
     Color bgColor = $data.bgColor;
     Color menuItemColor = isActive
         ? context.elTheme.navigationMenuStyle.activeTextColor
-        : bgColor.elTextColor(context);
+        : bgColor.elTextColor;
     Widget result = GestureDetector(
       onTap: () {
         if (hasChild) {

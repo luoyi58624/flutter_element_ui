@@ -422,9 +422,9 @@ class _DefaultMessage extends StatelessWidget {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: themeColor.themeLightBg(context),
+          color: themeColor.themeLightBg,
           borderRadius: context.elTheme.cardStyle.radius,
-          border: Border.all(color: themeColor.themeLightBorder(context)),
+          border: Border.all(color: themeColor.themeLightBorder),
         ),
         child: ElIconTheme(
           color: themeColor,
@@ -477,8 +477,8 @@ class _DefaultMessage extends StatelessWidget {
 
 extension _MessageColorExtension on Color {
   /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => elLight9(context);
+  Color get themeLightBg => elLight9();
 
   /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => elLight8(context);
+  Color get themeLightBorder => elLight8();
 }

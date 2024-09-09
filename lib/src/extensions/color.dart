@@ -2,36 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 extension ElColorExtension on Color {
-  Color elLight1(BuildContext context, {bool reverse = false}) =>
-      _light(context, 1, reverse);
+  /// 适应当前应用的主题默认，生成不同级别的颜色
+  /// * reverse - 是否应用反转颜色
+  Color elLight(int level, bool reverse) {
+    if (!reverse) {
+      return el.context.isDark ? _darkenColor(level) : _brightenColor(level);
+    } else {
+      return el.context.isDark ? _brightenColor(level) : _darkenColor(level);
+    }
+  }
 
-  Color elLight2(BuildContext context, {bool reverse = false}) =>
-      _light(context, 2, reverse);
+  Color elLight1({bool reverse = false}) => elLight(1, reverse);
 
-  Color elLight3(BuildContext context, {bool reverse = false}) =>
-      _light(context, 3, reverse);
+  Color elLight2({bool reverse = false}) => elLight(2, reverse);
 
-  Color elLight4(BuildContext context, {bool reverse = false}) =>
-      _light(context, 4, reverse);
+  Color elLight3({bool reverse = false}) => elLight(3, reverse);
 
-  Color elLight5(BuildContext context, {bool reverse = false}) =>
-      _light(context, 5, reverse);
+  Color elLight4({bool reverse = false}) => elLight(4, reverse);
 
-  Color elLight6(BuildContext context, {bool reverse = false}) =>
-      _light(context, 6, reverse);
+  Color elLight5({bool reverse = false}) => elLight(5, reverse);
 
-  Color elLight7(BuildContext context, {bool reverse = false}) =>
-      _light(context, 7, reverse);
+  Color elLight6({bool reverse = false}) => elLight(6, reverse);
 
-  Color elLight8(BuildContext context, {bool reverse = false}) =>
-      _light(context, 8, reverse);
+  Color elLight7({bool reverse = false}) => elLight(7, reverse);
 
-  Color elLight9(BuildContext context, {bool reverse = false}) =>
-      _light(context, 9, reverse);
+  Color elLight8({bool reverse = false}) => elLight(8, reverse);
+
+  Color elLight9({bool reverse = false}) => elLight(9, reverse);
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
-  Color elTextColor(BuildContext context) =>
-      isDark ? context.darkTheme.textColor : context.theme.textColor;
+  Color get elTextColor =>
+      isDark ? el.context.darkTheme.textColor : el.context.theme.textColor;
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色
@@ -41,14 +42,4 @@ extension _ColorExtension on Color {
 
   /// 将白色和主题色进行混合，权重越小，越接近白色，权重越大，越接近主题色
   Color _brightenColor(int level) => mix(Colors.white, level * 10);
-
-  /// 适应当前应用的主题默认，生成不同级别的颜色
-  /// * reverse - 是否应用反转颜色
-  Color _light(BuildContext context, int level, bool reverse) {
-    if (!reverse) {
-      return context.isDark ? _darkenColor(level) : _brightenColor(level);
-    } else {
-      return context.isDark ? _brightenColor(level) : _darkenColor(level);
-    }
-  }
 }

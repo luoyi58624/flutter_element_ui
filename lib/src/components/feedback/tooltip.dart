@@ -139,7 +139,7 @@ class _ElTooltipState extends State<ElTooltip> {
       ),
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
-          color: bgColor.elTextColor(context),
+          color: bgColor.elTextColor,
           fontSize: 12,
         ),
         child: result,

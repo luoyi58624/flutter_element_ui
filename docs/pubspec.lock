@@ -227,7 +227,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "27399b4f674397f208d7680970a530ab1491b205"
+      resolved-ref: "887b84f9a3f131a4eb64a3bb1f15005b276e086b"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
