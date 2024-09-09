@@ -32,6 +32,9 @@ class GlobalState {
   static Brightness get brightness =>
       isDark ? Brightness.dark : Brightness.light;
 
+
+  static final globalFontSize = Obs(16.0);
+
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,

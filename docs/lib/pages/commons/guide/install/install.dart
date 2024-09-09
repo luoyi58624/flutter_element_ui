@@ -42,11 +42,12 @@ class InstallPage extends ResponsivePage {
       Center(child: ElSwitch(flag)),
       const Gap(50),
       ElButton(
-          onPressed: () {
-            // el.globalKey.currentContext!.push(ChildPage());
-            el.context.push(ChildPage());
-          },
-          child: '下一页'),
+        onPressed: () {
+          // el.globalKey.currentContext!.push(ChildPage());
+          el.context.push(ChildPage());
+        },
+        child: '下一页',
+      ),
       Container(
         width: 50,
         height: 50,

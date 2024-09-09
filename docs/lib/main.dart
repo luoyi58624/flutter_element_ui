@@ -7,7 +7,7 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   /// 当前应用的主题模式，默认跟随系统，如果当前平台启用了全局暗黑模式，那么此变量将强制为 dark，
@@ -15,14 +15,9 @@ class MainApp extends StatefulWidget {
   static late ThemeMode currentThemeMode;
 
   @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  @override
   Widget build(BuildContext context) {
     MainApp.currentThemeMode = ThemeMode.system;
-    if (MainApp.currentThemeMode == ThemeMode.system) {
+    if (currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
         MainApp.currentThemeMode = ThemeMode.dark;
       }
@@ -41,6 +36,9 @@ class _MainAppState extends State<MainApp> {
             duration: 300.ms,
           ),
         ),
+        textStyle: TextStyle(
+          fontSize: GlobalState.globalFontSize.value,
+        ),
         child: ObsBuilder(builder: (context) {
           return MaterialApp.router(
             routerConfig: router,
@@ -52,10 +50,10 @@ class _MainAppState extends State<MainApp> {
               context,
               brightness: GlobalState.brightness,
             ),
-            // darkTheme: ElThemeUtil.buildMaterialTheme(
-            //   context,
-            //   brightness: Brightness.dark,
-            // ),
+            darkTheme: ElThemeUtil.buildMaterialTheme(
+              context,
+              brightness: Brightness.dark,
+            ),
             builder: ElApp.builder(
               (context, child) => CupertinoTheme(
                 data: ElThemeUtil.buildCupertinoThemeData(

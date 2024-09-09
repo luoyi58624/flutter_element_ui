@@ -15,7 +15,7 @@ import 'pages/commons/home.dart';
 import 'routes/component.dart';
 
 final GoRouter router = GoRouter.routingConfig(
-  navigatorKey: el.routerKey,
+  navigatorKey: el.navigatorKey,
   initialLocation: '/',
   errorPageBuilder: (context, state) => const NoTransitionPage(
     child: NotFoundPage(),

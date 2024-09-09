@@ -5,6 +5,7 @@ import '../pages/commons/guide/design/design.dart';
 import '../pages/commons/guide/install/install.dart';
 import '../pages/commons/guide/nav/nav.dart';
 import '../pages/commons/guide/quick_start/quick_start.dart';
+import '../pages/commons/guide/theme.dart';
 
 List<RouteBase> buildGuideRoutes(String path) {
   return [
@@ -33,7 +34,7 @@ List<RouteBase> buildGuideRoutes(String path) {
     GoRoute(
       path: '${path}theme',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: NotFoundPage(),
+        child: ThemePage(),
       ),
     ),
     GoRoute(

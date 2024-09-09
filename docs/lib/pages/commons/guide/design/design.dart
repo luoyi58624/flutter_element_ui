@@ -1,7 +1,6 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../../responsive_page.dart';
 import 'svg/consistency.dart';
 import 'svg/controllability.dart';
 import 'svg/efficiency.dart';

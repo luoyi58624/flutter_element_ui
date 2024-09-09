@@ -8,7 +8,6 @@ import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/text.dart';
 import 'extensions/brightness.dart';
-import 'global.dart';
 import 'styles/config_data.dart';
 import 'styles/theme_data.dart';
 import 'utils/font.dart';
@@ -75,7 +74,9 @@ class ElApp extends StatefulWidget {
         final $data = _AppInheritedWidget.of(context);
         // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
         Widget result = Overlay(initialEntries: [
-          OverlayEntry(builder: (context) => child!),
+          OverlayEntry(
+            builder: (context) => child!,
+          ),
         ]);
 
         // 在 Overlay 之上构建自定义小部件，可以避免 context 上下文bug
@@ -98,10 +99,10 @@ class ElApp extends StatefulWidget {
       };
 
   @override
-  State<ElApp> createState() => _ElAppState();
+  State<ElApp> createState() => ElAppState();
 }
 
-class _ElAppState extends State<ElApp> {
+class ElAppState extends State<ElApp> {
   Duration? _globalThemeDuration;
   Curve? _globalThemeCurve;
   Timer? _timer;
@@ -132,6 +133,8 @@ class _ElAppState extends State<ElApp> {
       }
     }.delay(max(500, widget.config.themeDuration.inMilliseconds));
   }
+
+  bool get isDark => widget.brightness == Brightness.dark;
 
   @override
   Widget build(BuildContext context) {

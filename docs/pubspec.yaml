@@ -19,6 +19,7 @@ dependencies:
   flutter_element_ui:
     path: ../
   mix: ^1.4.6
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
