@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-class HoverBuilder extends StatefulWidget {
+class ElHoverBuilder extends StatefulWidget {
   /// hover构建器
-  const HoverBuilder({
+  const ElHoverBuilder({
     super.key,
     required this.builder,
     this.cursor,
@@ -45,10 +45,10 @@ class HoverBuilder extends StatefulWidget {
       _HoverInheritedWidget.maybeOf(context)?.mouseCursor;
 
   @override
-  State<HoverBuilder> createState() => _HoverBuilderState();
+  State<ElHoverBuilder> createState() => _HoverBuilderState();
 }
 
-class _HoverBuilderState extends State<HoverBuilder> {
+class _HoverBuilderState extends State<ElHoverBuilder> {
   bool isHover = false;
 
   @override

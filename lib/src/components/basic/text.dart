@@ -275,10 +275,10 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     );
 
     if (registrar == null) return result;
-    return HoverBuilder(
+    return ElHoverBuilder(
         onlyCursor: true,
         cursor: DefaultSelectionStyle.of(context).mouseCursor ??
-            HoverBuilder.mouseCursor(context) ??
+            ElHoverBuilder.mouseCursor(context) ??
             SystemMouseCursors.text,
         builder: (context) {
           return result;

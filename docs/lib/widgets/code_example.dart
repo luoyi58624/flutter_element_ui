@@ -22,7 +22,7 @@ class CodeExampleWidget extends HookWidget {
     final $code = useState<TextSpan>(const TextSpan());
     final isExpanded = useState(false);
     initCodeStyle(context, $code);
-    return HoverBuilder(builder: (context) {
+    return ElHoverBuilder(builder: (context) {
       return Material(
         elevation: context.isHover ? 4 : 0,
         shadowColor: Colors.black38,
@@ -94,7 +94,7 @@ class CodeExampleWidget extends HookWidget {
   Widget buildCodePreview(isExpanded, $code) {
     return ElCollapseTransition(
       isExpanded.value,
-      child: HoverBuilder(builder: (context) {
+      child: ElHoverBuilder(builder: (context) {
         return Stack(
           children: [
             AnimatedContainer(
@@ -138,7 +138,7 @@ class CodeExampleWidget extends HookWidget {
               child: AnimatedOpacity(
                 duration: 200.ms,
                 opacity: context.isHover ? 1.0 : 0.0,
-                child: HoverBuilder(
+                child: ElHoverBuilder(
                   cursor: SystemMouseCursors.click,
                   builder: (context) {
                     return GestureDetector(
@@ -203,7 +203,7 @@ class _PreviewButton extends HookWidget {
       end: 0.0,
     ).animate(curve);
 
-    return HoverBuilder(
+    return ElHoverBuilder(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         codeHover ? controller.forward() : controller.reverse();

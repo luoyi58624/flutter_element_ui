@@ -111,7 +111,7 @@ class _CardWidget extends StatelessWidget {
               ),
             ),
             const ElDivider(),
-            TapBuilder(builder: (context) {
+            ElTapBuilder(builder: (context) {
               return ElLink(
                 href: href,
                 child: Builder(builder: (context) {
@@ -127,7 +127,7 @@ class _CardWidget extends StatelessWidget {
                       height: 50,
                       decoration: BoxDecoration(
                         color:
-                            TapBuilder.of(context) || HoverBuilder.of(context)
+                            ElTapBuilder.of(context) || ElHoverBuilder.of(context)
                                 ? context.elTheme.primary
                                 : context.elTheme.cardStyle.color,
                         borderRadius: BorderRadius.only(
@@ -139,8 +139,8 @@ class _CardWidget extends StatelessWidget {
                         child: ElText(
                           '查看详情',
                           style: TextStyle(
-                            color: TapBuilder.of(context) ||
-                                    HoverBuilder.of(context)
+                            color: ElTapBuilder.of(context) ||
+                                    ElHoverBuilder.of(context)
                                 ? Colors.white
                                 : context.elTheme.primary,
                           ),

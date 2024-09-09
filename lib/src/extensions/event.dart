@@ -4,9 +4,9 @@ import '../widgets/hover.dart';
 import '../widgets/tap.dart';
 
 extension ElEventExtension on BuildContext {
-  bool get isHover => HoverBuilder.of(this);
+  bool get isHover => ElHoverBuilder.of(this);
 
-  bool get isTap => TapBuilder.of(this);
+  bool get isTap => ElTapBuilder.of(this);
 
   /// 构建由响应事件触发的颜色状态
   Color buildEventColor(

@@ -158,10 +158,10 @@ class ElButton extends StatelessWidget {
           defaultStyle.enableFeedback ??
           context.elConfig.enableFeedback,
     );
-    var currentWidget = HoverBuilder(
+    var currentWidget = ElHoverBuilder(
       disabled: disabled,
       cursor: SystemMouseCursors.click,
-      builder: (context) => TapBuilder(
+      builder: (context) => ElTapBuilder(
         onTap: () {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
           if (onPressed != null) onPressed!();
@@ -297,8 +297,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final $isHover = HoverBuilder.of(context);
-  final $isTap = TapBuilder.of(context);
+  final $isHover = ElHoverBuilder.of(context);
+  final $isTap = ElTapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =

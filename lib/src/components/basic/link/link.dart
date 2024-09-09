@@ -205,7 +205,7 @@ class ElLink extends StatelessWidget {
       href: href,
       to: $to,
       child: Builder(builder: (context) {
-        return HoverBuilder(
+        return ElHoverBuilder(
           cursor: styleProp.cursor,
           onEnter: $enabledPreview == false
               ? null
@@ -237,7 +237,7 @@ class ElLink extends StatelessWidget {
                     _delayHideOverlay = _hide.delay(_delayTime);
                   }
                 },
-          builder: (context) => TapBuilder(
+          builder: (context) => ElTapBuilder(
             onTap: $to,
             builder: (context) {
               if (child is Widget) {
@@ -245,7 +245,7 @@ class ElLink extends StatelessWidget {
               } else {
                 return ElDefaultTextStyle.merge(
                   style: TextStyle(
-                    color: HoverBuilder.of(context)
+                    color: ElHoverBuilder.of(context)
                         ? styleProp.activeColor
                         : styleProp.color,
                     decoration:
@@ -253,11 +253,11 @@ class ElLink extends StatelessWidget {
                             ? TextDecoration.underline
                             : styleProp.decoration ==
                                     ElLinkDecoration.hoverUnderline
-                                ? (HoverBuilder.of(context)
+                                ? (ElHoverBuilder.of(context)
                                     ? TextDecoration.underline
                                     : TextDecoration.none)
                                 : TextDecoration.none,
-                    decorationColor: HoverBuilder.of(context)
+                    decorationColor: ElHoverBuilder.of(context)
                         ? styleProp.activeColor
                         : styleProp.color,
                   ),

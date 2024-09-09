@@ -114,7 +114,7 @@ abstract class _ResizerWidget extends HookWidget {
           right: right,
           child: DeferPointer(
               paintOnTop: true,
-              child: HoverBuilder(
+              child: ElHoverBuilder(
                 onlyCursor: true,
                 cursor: isRow
                     ? SystemMouseCursors.resizeColumn
