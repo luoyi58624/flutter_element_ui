@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThemePage extends ResponsivePage {
   const ThemePage({super.key});
@@ -52,12 +51,8 @@ class _ChildPage extends StatelessWidget {
       body: Column(
         children: [
           ElText(
-            ElFont.globalFontSize,
-            style: TextStyle(fontSize: ElFont.globalFontSize),
-          ),
-          Text(
-            'hello',
-            style: TextStyle(fontSize: 16.sp),
+            context.globalFontSize,
+            style: TextStyle(fontSize: 1.rem(context)),
           ),
           ObsBuilder(builder: (context) {
             return Slider(

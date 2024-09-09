@@ -227,7 +227,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "767aa7817bfc49bee18bff036d92dceb208f92f4"
+      resolved-ref: "2cbb429e03d46dd312c5493cf5456bc575863de3"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -283,14 +283,6 @@ packages:
       url: "https://github.com/luoyi58624/flutter_obs.git"
     source: git
     version: "1.6.3"
-  flutter_screenutil:
-    dependency: "direct main"
-    description:
-      name: flutter_screenutil
-      sha256: "8239210dd68bee6b0577aa4a090890342d04a136ce1c81f98ee513fc0ce891de"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.9.3"
   flutter_shaders:
     dependency: transitive
     description:
