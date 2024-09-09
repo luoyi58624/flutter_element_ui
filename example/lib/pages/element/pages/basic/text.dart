@@ -134,11 +134,11 @@ class TextPage extends StatelessWidget {
         WidgetSpan(
           alignment: PlaceholderAlignment.baseline,
           baseline: TextBaseline.alphabetic,
-          child: ElHoverBuilder(builder: (context) {
+          child: HoverBuilder(builder: (context) {
             return ElText(
               'xxx',
               style: TextStyle(
-                color: ElHoverBuilder.of(context) ? Colors.red : null,
+                color: HoverBuilder.of(context) ? Colors.red : null,
               ),
             );
           }),

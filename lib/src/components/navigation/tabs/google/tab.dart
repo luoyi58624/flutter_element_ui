@@ -20,11 +20,11 @@ class ElGoogleTab extends ElBaseTab {
       onTapDown: (e) {
         $tabsData.modelValue.value = $indexData.index;
       },
-      child: ElHoverBuilder(builder: (context) {
+      child: HoverBuilder(builder: (context) {
         return ColoredBox(
-          color: ElHoverBuilder.of(context)
-              ? el.isDark
-                  ? context.elTheme.primary.elLight1()
+          color: HoverBuilder.of(context)
+              ? context.isDark
+                  ? context.elTheme.primary.elLight1(context)
                   : Colors.grey.shade100
               : Colors.transparent,
           child: _TabContent($indexData.index, title: title),
@@ -46,7 +46,7 @@ class _TabActiveLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedColoredBox(
       duration: context.elConfig.themeDuration,
-      color: el.isDark ? context.elTheme.primary : Colors.white,
+      color: context.isDark ? context.elTheme.primary : Colors.white,
       child: SizedBox.fromSize(
         size: size,
         child: _TabContent(index, title: tab.title),
@@ -104,12 +104,12 @@ class _TabContent extends ElBaseTab {
                   tabList.removeAt(index);
                   $tabsData.children.value = tabList;
                 },
-                child: ElHoverBuilder(builder: (context) {
+                child: HoverBuilder(builder: (context) {
                   return Container(
                     width: 16,
                     height: 16,
                     decoration: BoxDecoration(
-                      color: ElHoverBuilder.of(context)
+                      color: HoverBuilder.of(context)
                           ? Colors.grey.shade400
                           : null,
                       borderRadius: BorderRadius.circular(8),

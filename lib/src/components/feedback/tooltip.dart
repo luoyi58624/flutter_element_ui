@@ -154,7 +154,7 @@ class _ElTooltipState extends State<ElTooltip> {
     FlutterUtil.nextTick(() {
       buildCount.value++;
     });
-    return ElHoverBuilder(
+    return HoverBuilder(
       onlyCursor: true,
       onEnter: (e) {
         if (delayHideOverlay == null) {

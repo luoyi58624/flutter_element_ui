@@ -350,7 +350,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: ElHoverBuilder(
+                  child: HoverBuilder(
                     onlyCursor: true,
                     onEnter: (e) {
                       if (_removeTimer != null) {
@@ -453,12 +453,12 @@ class _DefaultMessage extends StatelessWidget {
                   onTap: () {
                     message.removeMessage();
                   },
-                  child: ElHoverBuilder(
+                  child: HoverBuilder(
                     cursor: SystemMouseCursors.click,
                     builder: (context) {
                       return ElIcon(
                         ElIcons.close,
-                        color: ElHoverBuilder.of(context)
+                        color: HoverBuilder.of(context)
                             ? themeColor
                             : el.isDark
                                 ? Colors.grey.shade600
