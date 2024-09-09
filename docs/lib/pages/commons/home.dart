@@ -105,7 +105,7 @@ class _CardWidget extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   color:
-                      context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
+                      el.isDark ? Colors.grey.shade300 : Colors.blueGrey,
                 ),
                 textAlign: TextAlign.center,
               ),

@@ -82,11 +82,11 @@ class CodeExampleWidget extends HookWidget {
         _darkCode = Highlighter(language: 'dart', theme: darkCodeTheme);
         if (context.mounted) {
           $code.value =
-              (context.isDark ? _darkCode : _lightCode)!.highlight(code);
+              (el.isDark ? _darkCode : _lightCode)!.highlight(code);
         }
       });
     } else {
-      $code.value = (context.isDark ? _darkCode : _lightCode)!.highlight(code);
+      $code.value = (el.isDark ? _darkCode : _lightCode)!.highlight(code);
     }
   }
 
@@ -154,13 +154,13 @@ class CodeExampleWidget extends HookWidget {
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           borderRadius: context.elTheme.cardStyle.radius,
-                          color: context.isDark
+                          color: el.isDark
                               ? Colors.grey.shade700
                               : Colors.grey.shade300,
                         ),
                         child: ElIcon(
                           ElIcons.documentCopy,
-                          color: context.isDark
+                          color: el.isDark
                               ? Colors.grey.shade300
                               : Colors.grey.shade700,
                         ),
@@ -195,7 +195,7 @@ class _PreviewButton extends HookWidget {
       curve: Curves.easeOut,
     );
     final iconColorAnimate = ColorTween(
-      begin: context.isDark ? Colors.grey.shade600 : Colors.grey.shade300,
+      begin: el.isDark ? Colors.grey.shade600 : Colors.grey.shade300,
       end: context.elTheme.primary,
     ).animate(curve);
     final offsetAnimate = Tween(

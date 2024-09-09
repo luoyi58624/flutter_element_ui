@@ -4,11 +4,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/extensions/responsive.dart';
 import 'package:flutter_element_ui/src/extensions/theme.dart';
+import 'package:flutter_element_ui/src/service.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/text.dart';
-import 'extensions/brightness.dart';
-import 'global.dart';
+import 'widgets/brightness.dart';
 import 'styles/config_data.dart';
 import 'styles/theme_data.dart';
 import 'utils/font.dart';
@@ -62,17 +62,13 @@ class ElApp extends StatefulWidget {
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
   final ScrollBehavior behavior;
 
-  /// 通过上下文 context 访问注入的全局主题配置
-  static ElThemeModel of(BuildContext context) =>
-      _AppInheritedWidget.of(context).themeModel;
-
   /// 在 [WidgetsApp]、[MaterialApp] 等顶级 App 下方构建 Element UI 小部件基础设施
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
         assert(child != null, 'ElApp builder child 参数不能为空');
 
-        final $data = _AppInheritedWidget.of(context);
+        final $data = AppProvider.of(context);
         // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
         Widget result = Overlay(initialEntries: [
           OverlayEntry(builder: (context) => child!),
@@ -82,13 +78,13 @@ class ElApp extends StatefulWidget {
         if (builder != null) result = builder(context, result);
 
         return Material(
-          animationDuration: $data.themeModel.config.themeDuration,
+          animationDuration: $data.config.themeDuration,
           color: context.elTheme.bgColor,
-          textStyle: $data.themeModel.textStyle,
+          textStyle: $data.textStyle,
           child: ElAnimatedDefaultTextStyle(
-            duration: $data.themeModel.config.themeDuration,
-            curve: $data.themeModel.config.themeCurve,
-            style: $data.themeModel.textStyle,
+            duration: $data.config.themeDuration,
+            curve: $data.config.themeCurve,
+            style: $data.textStyle,
             child: ScrollConfiguration(
               behavior: $data.behavior,
               child: result,
@@ -154,24 +150,37 @@ class _ElAppState extends State<ElApp> {
 
     return BrightnessWidget(
       brightness: $brightness,
-      child: _AppInheritedWidget(
-        ElThemeModel(
-          theme: widget.theme,
-          darkTheme: widget.darkTheme,
-          config: widget.config,
-          textStyle: $textStyle,
-          globalThemeDuration: _globalThemeDuration,
-          globalThemeCurve: _globalThemeCurve,
-        ),
+      child: AppProvider(
+        widget.theme,
+        widget.darkTheme,
+        widget.config,
+        $textStyle,
+        _globalThemeDuration,
+        _globalThemeCurve,
         widget.behavior,
-        child: widget.child,
+        child: Builder(
+            key: elAppKey,
+            builder: (context) {
+              return widget.child;
+            }),
       ),
     );
   }
 }
 
-/// 全局注入的主题模型数据，允许通过 [ElApp.of] 方法访问它们
-class ElThemeModel {
+class AppProvider extends InheritedWidget {
+  const AppProvider(
+    this.theme,
+    this.darkTheme,
+    this.config,
+    this.textStyle,
+    this.globalThemeDuration,
+    this.globalThemeCurve,
+    this.behavior, {
+    super.key,
+    required super.child,
+  });
+
   /// 亮色主题配置
   final ElThemeData theme;
 
@@ -190,29 +199,11 @@ class ElThemeModel {
   /// 全局动画曲线，同上
   final Curve? globalThemeCurve;
 
-  ElThemeModel({
-    required this.theme,
-    required this.darkTheme,
-    required this.config,
-    required this.textStyle,
-    this.globalThemeDuration,
-    this.globalThemeCurve,
-  });
-}
-
-class _AppInheritedWidget extends InheritedWidget {
-  const _AppInheritedWidget(
-    this.themeModel,
-    this.behavior, {
-    required super.child,
-  });
-
-  final ElThemeModel themeModel;
+  /// 全局滚动行为
   final ScrollBehavior behavior;
 
-  static _AppInheritedWidget of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>();
+  static AppProvider of(BuildContext context) {
+    final result = context.dependOnInheritedWidgetOfExactType<AppProvider>();
     assert(
         result != null,
         '当前上下文 context 没有找到 Element UI 全局主题配置，'
@@ -221,7 +212,7 @@ class _AppInheritedWidget extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(_AppInheritedWidget oldWidget) {
+  bool updateShouldNotify(AppProvider oldWidget) {
     return true;
   }
 }

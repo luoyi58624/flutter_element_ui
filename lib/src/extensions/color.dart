@@ -6,9 +6,9 @@ extension ElColorExtension on Color {
   /// * reverse - 是否应用反转颜色
   Color elLight(int level, bool reverse) {
     if (!reverse) {
-      return el.context.isDark ? _darkenColor(level) : _brightenColor(level);
+      return el.isDark ? _darkenColor(level) : _brightenColor(level);
     } else {
-      return el.context.isDark ? _brightenColor(level) : _darkenColor(level);
+      return el.isDark ? _brightenColor(level) : _darkenColor(level);
     }
   }
 
@@ -32,7 +32,7 @@ extension ElColorExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color get elTextColor =>
-      isDark ? el.context.darkTheme.textColor : el.context.theme.textColor;
+      isDark ? el.darkTheme.textColor : el.theme.textColor;
 }
 
 /// 模拟 Element UI 九种渐变明亮度颜色

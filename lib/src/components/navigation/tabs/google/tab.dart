@@ -23,7 +23,7 @@ class ElGoogleTab extends ElBaseTab {
       child: ElHoverBuilder(builder: (context) {
         return ColoredBox(
           color: ElHoverBuilder.of(context)
-              ? context.isDark
+              ? el.isDark
                   ? context.elTheme.primary.elLight1()
                   : Colors.grey.shade100
               : Colors.transparent,
@@ -46,7 +46,7 @@ class _TabActiveLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedColoredBox(
       duration: context.elConfig.themeDuration,
-      color: context.isDark ? context.elTheme.primary : Colors.white,
+      color: el.isDark ? context.elTheme.primary : Colors.white,
       child: SizedBox.fromSize(
         size: size,
         child: _TabContent(index, title: tab.title),

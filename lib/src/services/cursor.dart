@@ -22,7 +22,7 @@ class ElCursorInstance {
         child: const SizedBox(),
       ),
     );
-    Overlay.of(el.context).insert(_overlayEntry!);
+    Overlay.of(el.routerContext).insert(_overlayEntry!);
   }
 
   /// 重置全局光标

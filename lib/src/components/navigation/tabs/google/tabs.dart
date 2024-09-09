@@ -41,7 +41,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
   @override
   Color get bgColor =>
       widget.bgColor ??
-      (context.isDark ? Colors.grey.shade800 : Colors.grey.shade300);
+      (el.isDark ? Colors.grey.shade800 : Colors.grey.shade300);
 
   @override
   EdgeInsetsGeometry get tabPadding =>

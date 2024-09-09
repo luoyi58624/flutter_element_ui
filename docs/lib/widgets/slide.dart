@@ -50,7 +50,7 @@ class SlideWidget extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           color: isActive
-                                              ? context.isDark
+                                              ? el.isDark
                                                   ? Colors.grey.shade800
                                                   : context.elTheme.primary.mix(
                                                       Colors.white,
@@ -64,7 +64,7 @@ class SlideWidget extends StatelessWidget {
                                           style: TextStyle(
                                             color: context.isHover || isActive
                                                 ? context.elTheme.primary
-                                                : context.isDark
+                                                : el.isDark
                                                     ? Colors.grey.shade100
                                                     : Colors.grey.shade800,
                                             fontSize: 0.875.rem,

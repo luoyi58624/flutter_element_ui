@@ -100,7 +100,7 @@ class ElMessageInstance {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final style = (context ?? el.context).elTheme.messageStyle;
+    final style = (context ?? el.routerContext).elTheme.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {
@@ -134,7 +134,7 @@ class ElMessageInstance {
     _messageList.add(model);
 
     // 插入浮层元素
-    Overlay.of(context ?? el.context).insert(overlayEntry);
+    Overlay.of(context ?? el.routerContext).insert(overlayEntry);
     return model;
   }
 
@@ -440,8 +440,8 @@ class _DefaultMessage extends StatelessWidget {
                 child: ElText(
                   message.content,
                   style: TextStyle(
-                    color: context.isDark
-                        ? context.darkTheme.textColor
+                    color: el.isDark
+                        ? el.darkTheme.textColor
                         : themeColor,
                     fontWeight: ElFont.medium,
                   ),
@@ -460,7 +460,7 @@ class _DefaultMessage extends StatelessWidget {
                         ElIcons.close,
                         color: ElHoverBuilder.of(context)
                             ? themeColor
-                            : context.isDark
+                            : el.isDark
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade400,
                       );

@@ -4,9 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../styles/theme_data.dart';
-import 'font.dart';
-
 class ElMaterialThemeData {
   static final data = ElMaterialThemeData();
 
@@ -56,10 +53,10 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = context.theme;
-    final darkTheme = context.darkTheme;
+    final lightTheme = el.theme;
+    final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = ElApp.of(context).textStyle;
+    final textStyle = el.textStyle;
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -248,10 +245,10 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = context.theme;
-    final darkTheme = context.darkTheme;
+    final lightTheme = el.theme;
+    final darkTheme = el.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = ElApp.of(context).textStyle;
+    final textStyle = el.textStyle;
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 

@@ -8,7 +8,7 @@ import 'routes/element.dart';
 import 'routes/test.dart';
 
 final router = GoRouter(
-  navigatorKey: el.navigatorKey,
+  navigatorKey: el.routerKey,
   initialLocation: '/',
   routes: [
     StatefulShellRoute.indexedStack(

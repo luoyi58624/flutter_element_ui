@@ -16,7 +16,7 @@ class SectionTitle extends StatelessWidget {
         H2(
           title,
           style: TextStyle(
-            color: context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+            color: el.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
           ),
         ),
         const Gap(16),

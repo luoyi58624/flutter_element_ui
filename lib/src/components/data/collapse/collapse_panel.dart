@@ -172,21 +172,21 @@ class ElCollapseItem extends StatelessWidget {
                               ? title
                               : ElDefaultTextStyle.merge(
                                   style: TextStyle(
-                                    color: context.isDark
+                                    color: el.isDark
                                         ? context.elTheme.textColor
                                         : isActive
-                                            ? context.darkTheme.textColor
-                                            : context.theme.textColor,
+                                            ? el.darkTheme.textColor
+                                            : el.theme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
-                            color: context.isDark
+                            color: el.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? context.darkTheme.textColor
-                                    : context.theme.textColor,
+                                    ? el.darkTheme.textColor
+                                    : el.theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

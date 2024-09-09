@@ -302,7 +302,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
-      context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
+      context.elTheme.textColor.deepen(el.isDark ? 0 : 24);
   Color? $themeTypeColor;
   if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
@@ -349,7 +349,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? context.darkTheme.textColor
+              ? el.darkTheme.textColor
               : style.bgColor!.elTextColor);
       // 镂空按钮
       if (style.plain) {

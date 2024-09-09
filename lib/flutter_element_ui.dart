@@ -1,6 +1,6 @@
 library flutter_element_ui;
 
-export 'src/app.dart';
+export 'src/app.dart' show ElApp;
 export 'src/service.dart' show el;
 
 export 'src/components/basic/button.dart';
@@ -51,7 +51,7 @@ export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
-export 'src/extensions/brightness.dart' show ElBrightnessExtension;
+export 'src/widgets/brightness.dart' show ElBrightnessExtension;
 export 'src/extensions/color.dart';
 export 'src/extensions/event.dart';
 export 'src/extensions/font.dart';

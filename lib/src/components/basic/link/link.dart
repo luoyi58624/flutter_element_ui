@@ -150,7 +150,7 @@ class ElLink extends StatelessWidget {
         builder: (_) => const _LinkOverlay(),
       );
       try {
-        Overlay.of(el.context).insert(_linkOverlay!);
+        Overlay.of(el.routerContext).insert(_linkOverlay!);
       } catch (e) {
         _linkOverlay = null;
         rethrow;
@@ -311,7 +311,7 @@ class _LinkOverlayState extends State<_LinkOverlay>
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
-                  color: context.isDark
+                  color: el.isDark
                       ? Colors.grey.shade700
                       : Colors.grey.shade300,
                   borderRadius:
