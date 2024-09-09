@@ -281,66 +281,22 @@ class ElThemeUtil {
 }
 
 TextTheme _textTheme(TextStyle style, ElThemeData elTheme) {
+  i(style.fontSize);
   return TextTheme(
-    displayLarge: style.copyWith(
-      fontWeight: ElFont.bold,
-      color: elTheme.textColor,
-    ),
-    displayMedium: style.copyWith(
-      fontWeight: ElFont.medium,
-      color: elTheme.textColor,
-    ),
-    displaySmall: style.copyWith(
-      fontWeight: ElFont.medium,
-      color: elTheme.textColor,
-    ),
-    headlineLarge: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    headlineMedium: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    headlineSmall: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    titleLarge: style.copyWith(
-      fontWeight: ElFont.bold,
-      color: elTheme.textColor,
-    ),
-    titleMedium: style.copyWith(
-      fontWeight: ElFont.bold,
-      color: elTheme.textColor,
-    ),
-    titleSmall: style.copyWith(
-      fontWeight: ElFont.bold,
-      color: elTheme.textColor,
-    ),
-    bodyLarge: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    bodyMedium: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    bodySmall: style.copyWith(
-      fontWeight: ElFont.normal,
-      color: elTheme.textColor,
-    ),
-    labelLarge: style.copyWith(
-      fontWeight: ElFont.medium,
-      color: elTheme.textColor,
-    ),
-    labelMedium: style.copyWith(
-      fontWeight: ElFont.medium,
-      color: elTheme.textColor,
-    ),
-    labelSmall: style.copyWith(
-      fontWeight: ElFont.medium,
-      color: elTheme.textColor,
-    ),
+    displayLarge: style.copyWith(fontWeight: ElFont.bold),
+    displayMedium: style.copyWith(fontWeight: ElFont.medium),
+    displaySmall: style.copyWith(fontWeight: ElFont.medium),
+    headlineLarge: style.copyWith(fontWeight: ElFont.normal),
+    headlineMedium: style.copyWith(fontWeight: ElFont.normal),
+    headlineSmall: style.copyWith(fontWeight: ElFont.normal),
+    titleLarge: style.copyWith(fontWeight: ElFont.bold),
+    titleMedium: style.copyWith(fontWeight: ElFont.bold),
+    titleSmall: style.copyWith(fontWeight: ElFont.bold),
+    bodyLarge: style.copyWith(fontWeight: ElFont.normal),
+    bodyMedium: style.copyWith(fontWeight: ElFont.normal),
+    bodySmall: style.copyWith(fontWeight: ElFont.normal),
+    labelLarge: style.copyWith(fontWeight: ElFont.medium),
+    labelMedium: style.copyWith(fontWeight: ElFont.medium),
+    labelSmall: style.copyWith(fontWeight: ElFont.medium),
   );
 }

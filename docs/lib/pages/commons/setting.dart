@@ -42,9 +42,9 @@ class GlobalSetting extends StatelessWidget {
                 return Slider(
                   min: 8,
                   max: 24,
-                  label: GlobalState.globalFontSize.value.round().toString(),
-                  value: GlobalState.globalFontSize.value,
-                  onChanged: (v) => GlobalState.globalFontSize.value = v,
+                  label: GlobalState.globalFontSize.round().toString(),
+                  value: GlobalState.globalFontSize,
+                  onChanged: (v) => GlobalState.globalFontSize = v,
                 );
               }),
             ],

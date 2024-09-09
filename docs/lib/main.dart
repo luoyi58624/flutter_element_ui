@@ -16,6 +16,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalState.initGlobalFontSize(context.sm ? 15 : 16);
     MainApp.currentThemeMode = ThemeMode.system;
     if (currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
@@ -37,7 +38,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
         textStyle: TextStyle(
-          fontSize: GlobalState.globalFontSize.value,
+          fontSize: GlobalState.globalFontSize,
         ),
         child: ObsBuilder(builder: (context) {
           return MaterialApp.router(

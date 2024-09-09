@@ -58,11 +58,11 @@ class _ChildPage extends StatelessWidget {
             return Slider(
               min: 8,
               max: 36,
-              label: GlobalState.globalFontSize.value
+              label: GlobalState.globalFontSize
                   .toStringAsFixed(2)
                   .toString(),
-              value: GlobalState.globalFontSize.value,
-              onChanged: (v) => GlobalState.globalFontSize.value = v,
+              value: GlobalState.globalFontSize,
+              onChanged: (v) => GlobalState.globalFontSize = v,
             );
           }),
         ],
