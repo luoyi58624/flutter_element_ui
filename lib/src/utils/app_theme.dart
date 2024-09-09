@@ -53,10 +53,10 @@ class ElThemeUtil {
   }) {
     data ??= ElMaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
-    final darkTheme = el.darkTheme;
+    final lightTheme = ElApp.of(context).theme;
+    final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = el.textStyle;
+    final textStyle = ElApp.of(context).textStyle;
     if (data.translucenceStatusBar) {
       () {
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -245,10 +245,10 @@ class ElThemeUtil {
     Brightness brightness = Brightness.light,
   }) {
     bool isDarkMode = brightness == Brightness.dark;
-    final lightTheme = el.theme;
-    final darkTheme = el.darkTheme;
+    final lightTheme = ElApp.of(context).theme;
+    final darkTheme = context.darkTheme;
     final elTheme = isDarkMode ? darkTheme : lightTheme;
-    final textStyle = el.textStyle;
+    final textStyle = ElApp.of(context).textStyle;
 
     CupertinoThemeData themeData = CupertinoThemeData(brightness: brightness);
 

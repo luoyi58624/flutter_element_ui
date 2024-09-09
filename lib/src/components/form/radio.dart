@@ -38,7 +38,7 @@ class ElRadio<T> extends StatelessWidget {
     final $value = value ?? (label as T);
     final elTheme = context.elTheme;
     final double disabledColorOpacity = disabled ? 0.5 : 1.0;
-    return HoverBuilder(
+    return ElHoverBuilder(
       disabled: disabled,
       builder: (context) {
         return Padding(

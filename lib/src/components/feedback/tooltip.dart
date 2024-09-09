@@ -139,7 +139,7 @@ class _ElTooltipState extends State<ElTooltip> {
       ),
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
-          color: bgColor.elTextColor,
+          color: bgColor.elTextColor(context),
           fontSize: 12,
         ),
         child: result,
@@ -154,7 +154,7 @@ class _ElTooltipState extends State<ElTooltip> {
     FlutterUtil.nextTick(() {
       buildCount.value++;
     });
-    return HoverBuilder(
+    return ElHoverBuilder(
       onlyCursor: true,
       onEnter: (e) {
         if (delayHideOverlay == null) {

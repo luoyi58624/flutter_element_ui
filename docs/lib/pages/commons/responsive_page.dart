@@ -31,7 +31,7 @@ abstract class ResponsivePage extends HookWidget {
               H1(
                 title,
                 style: TextStyle(
-                  color: el.isDark
+                  color: context.isDark
                       ? Colors.grey.shade300
                       : Colors.grey.shade800,
                 ),

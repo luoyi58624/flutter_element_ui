@@ -19,7 +19,7 @@ mixin ElRouterService {
   final GlobalKey<NavigatorState> routerKey = GlobalKey();
 
   /// Element UI 全局路由导航 context 对象
-  BuildContext get routerContext {
+  BuildContext get context {
     assert(() {
       if (routerKey.currentWidget == null ||
           routerKey.currentWidget is! Navigator) {

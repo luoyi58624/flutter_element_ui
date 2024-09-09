@@ -68,7 +68,7 @@ class _MenuItemState extends State<_MenuItem> {
     Color bgColor = $data.bgColor;
     Color menuItemColor = isActive
         ? context.elTheme.navigationMenuStyle.activeTextColor
-        : bgColor.elTextColor;
+        : bgColor.elTextColor(context);
     Widget result = GestureDetector(
       onTap: () {
         if (hasChild) {
@@ -87,7 +87,7 @@ class _MenuItemState extends State<_MenuItem> {
       },
       child: Builder(builder: (context) {
         return ColoredBox(
-          color: bgColor.on(HoverBuilder.of(context), scale: 6),
+          color: bgColor.on(ElHoverBuilder.of(context), scale: 6),
           child: SizedBox(
             height: 56,
             child: Padding(
@@ -147,7 +147,7 @@ class _MenuItemState extends State<_MenuItem> {
         child: result,
       );
     } else {
-      return HoverBuilder(
+      return ElHoverBuilder(
         builder: (context) => result,
       );
     }

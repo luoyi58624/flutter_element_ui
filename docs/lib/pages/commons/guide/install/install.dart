@@ -16,7 +16,7 @@ class InstallPage extends ResponsivePage {
 
     Widget result = Ink(
       decoration: BoxDecoration(
-        color: el.isDark ? Colors.grey.shade800 : Colors.grey.shade100,
+        color: context.isDark ? Colors.grey.shade800 : Colors.grey.shade100,
         borderRadius: BorderRadius.circular(6),
       ),
       child: InkWell(
@@ -44,13 +44,13 @@ class InstallPage extends ResponsivePage {
       ElButton(
           onPressed: () {
             // el.globalKey.currentContext!.push(ChildPage());
-            el.routerContext.push(ChildPage());
+            el.context.push(ChildPage());
           },
           child: '下一页'),
       Container(
         width: 50,
         height: 50,
-        color: getColor(),
+        color: context.isDark ? Colors.red : Colors.green,
       ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -76,8 +76,4 @@ class Square extends StatelessWidget {
       color: Colors.green,
     );
   }
-}
-
-Color getColor() {
-  return el.isDark ? Colors.red : Colors.green;
 }

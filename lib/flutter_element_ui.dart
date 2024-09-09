@@ -51,7 +51,7 @@ export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
-export 'src/widgets/brightness.dart' show ElBrightnessExtension;
+export 'src/extensions/brightness.dart' show ElBrightnessExtension;
 export 'src/extensions/color.dart';
 export 'src/extensions/event.dart';
 export 'src/extensions/font.dart';

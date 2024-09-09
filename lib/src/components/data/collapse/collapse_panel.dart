@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/src/app.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
@@ -126,7 +127,7 @@ class ElCollapseItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          HoverBuilder(
+          ElHoverBuilder(
             onlyCursor: true,
             cursor: SystemMouseCursors.click,
             builder: (context) {
@@ -172,21 +173,21 @@ class ElCollapseItem extends StatelessWidget {
                               ? title
                               : ElDefaultTextStyle.merge(
                                   style: TextStyle(
-                                    color: el.isDark
+                                    color: context.isDark
                                         ? context.elTheme.textColor
                                         : isActive
-                                            ? el.darkTheme.textColor
-                                            : el.theme.textColor,
+                                            ? context.darkTheme.textColor
+                                            : ElApp.of(context).theme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
-                            color: el.isDark
+                            color: context.isDark
                                 ? context.elTheme.textColor
                                 : isActive
-                                    ? el.darkTheme.textColor
-                                    : el.theme.textColor,
+                                    ? context.darkTheme.textColor
+                                    : ElApp.of(context).theme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

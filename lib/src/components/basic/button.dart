@@ -158,10 +158,10 @@ class ElButton extends StatelessWidget {
           defaultStyle.enableFeedback ??
           context.elConfig.enableFeedback,
     );
-    var currentWidget = HoverBuilder(
+    var currentWidget = ElHoverBuilder(
       disabled: disabled,
       cursor: SystemMouseCursors.click,
-      builder: (context) => TapBuilder(
+      builder: (context) => ElTapBuilder(
         onTap: () {
           if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
           if (onPressed != null) onPressed!();
@@ -279,16 +279,16 @@ const double _opacity = 0.6;
 
 extension _ButtonColorExtension on Color {
   /// hover 悬停颜色，颜色会变得更浅
-  Color hover(BuildContext context) => elLight2();
+  Color hover(BuildContext context) => elLight2(context);
 
   /// tap 按下颜色，颜色会变得更深
-  Color tap(BuildContext context) => elLight3(reverse: true);
+  Color tap(BuildContext context) => elLight3(context, reverse: true);
 
   /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => elLight9();
+  Color themeLightBg(BuildContext context) => elLight9(context);
 
   /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => elLight6();
+  Color themeLightBorder(BuildContext context) => elLight6(context);
 }
 
 /// 计算按钮样式 hook
@@ -297,12 +297,12 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
 
-  final $isHover = HoverBuilder.of(context);
-  final $isTap = TapBuilder.of(context);
+  final $isHover = ElHoverBuilder.of(context);
+  final $isTap = ElTapBuilder.of(context);
   final $bgColor = context.elTheme.bgColor;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
-      context.elTheme.textColor.deepen(el.isDark ? 0 : 24);
+      context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
   Color? $themeTypeColor;
   if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
@@ -349,8 +349,8 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? el.darkTheme.textColor
-              : style.bgColor!.elTextColor);
+              ? context.darkTheme.textColor
+              : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {
         textColor.value = $isHover || $isTap ? $textColor : $primaryColor;

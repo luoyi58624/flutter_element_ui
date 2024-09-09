@@ -34,7 +34,7 @@ class ElToastInstance {
     bool? enabledFeedback,
     ElToastBuilder? builder,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       return builder != null
@@ -55,7 +55,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(
       builder: (context) => _ThemeToast(content, 'primary'),
@@ -70,7 +70,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(
       builder: (context) => _ThemeToast(content, 'success'),
@@ -85,7 +85,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(
       builder: (context) => _ThemeToast(content, 'info'),
@@ -100,7 +100,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(
       builder: (context) => _ThemeToast(content, 'warning'),
@@ -115,7 +115,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(
       builder: (context) => _ThemeToast(content, 'error'),
@@ -131,7 +131,7 @@ class ElToastInstance {
     int? duration,
     bool? enabledFeedback,
   }) async {
-    final $context = context ?? el.routerContext;
+    final $context = context ?? el.context;
     await _beforeHook($context, enabledFeedback);
     _toastOverlayEntry = OverlayEntry(builder: (context) => builder(content));
     if ($context.mounted) _afterHook($context, duration);
@@ -178,7 +178,7 @@ class _Toast extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-            color: el.isDark
+            color: context.isDark
                 ? const Color.fromRGBO(82, 82, 82, 0.85)
                 : const Color.fromRGBO(0, 0, 0, 0.65),
             borderRadius: BorderRadius.circular(6),

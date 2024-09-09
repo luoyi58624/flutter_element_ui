@@ -22,37 +22,32 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      el.config = el.config.copyWith(
-        textStyle: TextStyle(fontFamily: FontUtil.fontFamily),
-      );
-      context.elConfig.themeDuration = 0.ms;
-
-      return MaterialApp.router(
-        routerConfig: router,
-        themeAnimationDuration: context.elConfig.themeDuration,
-        theme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness: GlobalState.brightness,
-        ),
-        darkTheme: ElThemeUtil.buildMaterialTheme(
-          context,
-          brightness: Brightness.dark,
-        ),
-        showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-        showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-        debugShowCheckedModeBanner: false,
-        builder: (context, child) => ElConfigProvider(
-          brightness: GlobalState.brightness,
-          builder: (context, child) => CupertinoTheme(
-            data: ElThemeUtil.buildCupertinoThemeData(
-              context,
-              brightness: Theme.of(context).brightness,
-            ),
-            child: child!,
+      return ElApp(
+        child: MaterialApp.router(
+          routerConfig: router,
+          themeAnimationDuration: context.elConfig.themeDuration,
+          theme: ElThemeUtil.buildMaterialTheme(
+            context,
+            brightness: GlobalState.brightness,
           ),
-          child: child!,
-        ),
-      ).globalShortcut;
+          darkTheme: ElThemeUtil.buildMaterialTheme(
+            context,
+            brightness: Brightness.dark,
+          ),
+          showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+          showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+          debugShowCheckedModeBanner: false,
+          builder: ElApp.builder(
+            (context, child) => CupertinoTheme(
+              data: ElThemeUtil.buildCupertinoThemeData(
+                context,
+                brightness: Theme.of(context).brightness,
+              ),
+              child: child!,
+            ),
+          ),
+        ).globalShortcut,
+      );
     });
   }
 }

@@ -25,7 +25,7 @@ class MyStackTestPage extends HookWidget {
                 onTap: () {
                   flag.value = !flag.value;
                 },
-                child: HoverBuilder(
+                child: ElHoverBuilder(
                   onlyCursor: true,
                   cursor: SystemMouseCursors.click,
                   builder: (context) {

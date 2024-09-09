@@ -100,7 +100,7 @@ class ElMessageInstance {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final style = (context ?? el.routerContext).elTheme.messageStyle;
+    final style = (context ?? el.context).elTheme.messageStyle;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {
@@ -134,7 +134,7 @@ class ElMessageInstance {
     _messageList.add(model);
 
     // 插入浮层元素
-    Overlay.of(context ?? el.routerContext).insert(overlayEntry);
+    Overlay.of(context ?? el.context).insert(overlayEntry);
     return model;
   }
 
@@ -350,7 +350,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: HoverBuilder(
+                  child: ElHoverBuilder(
                     onlyCursor: true,
                     onEnter: (e) {
                       if (_removeTimer != null) {
@@ -422,9 +422,9 @@ class _DefaultMessage extends StatelessWidget {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: themeColor.themeLightBg,
+          color: themeColor.themeLightBg(context),
           borderRadius: context.elTheme.cardStyle.radius,
-          border: Border.all(color: themeColor.themeLightBorder),
+          border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
         child: ElIconTheme(
           color: themeColor,
@@ -440,8 +440,8 @@ class _DefaultMessage extends StatelessWidget {
                 child: ElText(
                   message.content,
                   style: TextStyle(
-                    color: el.isDark
-                        ? el.darkTheme.textColor
+                    color: context.isDark
+                        ? context.darkTheme.textColor
                         : themeColor,
                     fontWeight: ElFont.medium,
                   ),
@@ -453,14 +453,14 @@ class _DefaultMessage extends StatelessWidget {
                   onTap: () {
                     message.removeMessage();
                   },
-                  child: HoverBuilder(
+                  child: ElHoverBuilder(
                     cursor: SystemMouseCursors.click,
                     builder: (context) {
                       return ElIcon(
                         ElIcons.close,
-                        color: HoverBuilder.of(context)
+                        color: ElHoverBuilder.of(context)
                             ? themeColor
-                            : el.isDark
+                            : context.isDark
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade400,
                       );
@@ -477,8 +477,8 @@ class _DefaultMessage extends StatelessWidget {
 
 extension _MessageColorExtension on Color {
   /// 应用主题透明背景颜色
-  Color get themeLightBg => elLight9();
+  Color themeLightBg(BuildContext context) => elLight9(context);
 
   /// 应用主题透明边框颜色
-  Color get themeLightBorder => elLight8();
+  Color themeLightBorder(BuildContext context) => elLight8(context);
 }

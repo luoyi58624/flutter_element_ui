@@ -37,7 +37,7 @@ class SlideWidget extends StatelessWidget {
                                   child: ObsBuilder(builder: (context) {
                                     final isActive =
                                         RouterUtil.currentPath.value == e.$2;
-                                    return HoverBuilder(builder: (context) {
+                                    return ElHoverBuilder(builder: (context) {
                                       return AnimatedContainer(
                                         duration: context.elThemeDuration ??
                                             Duration.zero,
@@ -50,7 +50,7 @@ class SlideWidget extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           color: isActive
-                                              ? el.isDark
+                                              ? context.isDark
                                                   ? Colors.grey.shade800
                                                   : context.elTheme.primary.mix(
                                                       Colors.white,
@@ -64,7 +64,7 @@ class SlideWidget extends StatelessWidget {
                                           style: TextStyle(
                                             color: context.isHover || isActive
                                                 ? context.elTheme.primary
-                                                : el.isDark
+                                                : context.isDark
                                                     ? Colors.grey.shade100
                                                     : Colors.grey.shade800,
                                             fontSize: 0.875.rem,

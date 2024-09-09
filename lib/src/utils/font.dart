@@ -7,7 +7,7 @@ class ElFont {
   ElFont._();
 
   /// 访问全局字体大小
-  static double get globalFontSize => el.textStyle.fontSize!;
+  static double get globalFontSize => ElApp.of(el.context).textStyle.fontSize!;
 
   /// 普通字重
   static FontWeight get normal => FontUtil.normal;

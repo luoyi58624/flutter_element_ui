@@ -57,7 +57,7 @@ class DesignPage extends ResponsivePage {
   Widget _buildCard(BuildContext context, Widget svg, String title) {
     return Expanded(
       child: Card(
-        // color: el.isDark
+        // color: context.isDark
         //     ? const Color.fromRGBO(29, 29, 29, 1)
         //     : const Color.fromRGBO(250, 250, 250, 1),
         // borderRadius: context.elTheme.cardStyle.radius,
