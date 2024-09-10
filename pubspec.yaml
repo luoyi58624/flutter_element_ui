@@ -29,8 +29,6 @@ dev_dependencies:
     path: ./packages/flutter_element_generator
 
 flutter:
-  assets:
-    - assets/icons/
   fonts:
     - family: element
       fonts:

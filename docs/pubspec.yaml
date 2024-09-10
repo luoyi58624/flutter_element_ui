@@ -18,7 +18,6 @@ dependencies:
   decimal: ^3.0.0
   flutter_element_ui:
     path: ../
-  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

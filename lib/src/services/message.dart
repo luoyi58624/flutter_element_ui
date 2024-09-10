@@ -394,11 +394,11 @@ class _DefaultMessage extends StatelessWidget {
   final ElMessageModel message;
 
   Widget get messageIcon {
-    if (message.type == 'primary') return const ElIcon(ElIcons.elemeFilled);
-    if (message.type == 'success') return const ElIcon(ElIcons.successFilled);
-    if (message.type == 'warning') return const ElIcon(ElIcons.warningFilled);
-    if (message.type == 'error') return const ElIcon(ElIcons.circleCloseFilled);
-    return const ElIcon(ElIcons.infoFilled);
+    if (message.type == 'primary') return const ElIcon(ElIcons.platformEleme);
+    if (message.type == 'success') return const ElIcon(ElIcons.success);
+    if (message.type == 'warning') return const ElIcon(ElIcons.warning);
+    if (message.type == 'error') return const ElIcon(ElIcons.error);
+    return const ElIcon(ElIcons.info);
   }
 
   @override

@@ -2,7 +2,6 @@ import 'package:docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Example1 extends StatelessWidget {
   const Example1({super.key});
@@ -15,7 +14,7 @@ class Example1 extends StatelessWidget {
         const SectionTitle('基础用法'),
         CodeExampleWidget(code: code1, children: [
           Wrap(
-            children: ElIcons2.values
+            children: ElIcons.values
                 .map(
                   (e) => ElIcon(e),
                 )

@@ -36,7 +36,7 @@ class NumberInputWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElIcon(
-                      ElIcons.arrowUpBold,
+                      ElIcons.arrowUp,
                       size: 16,
                     ),
                   ),
@@ -49,7 +49,7 @@ class NumberInputWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: ElIcon(
-                      ElIcons.arrowDownBold,
+                      ElIcons.arrowDown,
                       size: 16,
                     ),
                   ),
