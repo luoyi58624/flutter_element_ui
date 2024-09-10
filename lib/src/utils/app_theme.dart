@@ -281,7 +281,6 @@ class ElThemeUtil {
 }
 
 TextTheme _textTheme(TextStyle style, ElThemeData elTheme) {
-  i(style.fontSize);
   return TextTheme(
     displayLarge: style.copyWith(fontWeight: ElFont.bold),
     displayMedium: style.copyWith(fontWeight: ElFont.medium),

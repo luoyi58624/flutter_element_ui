@@ -353,7 +353,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {
-        textColor.value = $isHover || $isTap ? $textColor : $primaryColor;
+        textColor.value = $isHover || $isTap ? $primaryColor.elTextColor(context) : $primaryColor;
         bgColor.value = PlatformUtil.isDesktop
             ? ($isTap
                 ? $primaryColor.tap(context)
@@ -373,7 +373,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
       }
       // 主题按钮
       else {
-        textColor.value = $textColor;
+        textColor.value = $primaryColor.elTextColor(context);
         bgColor.value = $isTap
             ? $primaryColor.tap(context)
             : $isHover

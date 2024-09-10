@@ -1,9 +1,9 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-import 'examples/01.dart';
-import 'examples/02.dart';
-import 'examples/03.dart';
+import 'examples/example1.dart';
+import 'examples/example2.dart';
+import 'examples/example3.dart';
 
 class MaterialOverviewPage extends StatelessWidget {
   const MaterialOverviewPage({super.key});

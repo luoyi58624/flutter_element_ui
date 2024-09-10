@@ -419,7 +419,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5396ed2e111d237eb491516e12d0e64556563440"
+      resolved-ref: "81b11bfed1e64b561df316867eed8175d9d8804c"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"
@@ -543,6 +543,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  pixel_snap:
+    dependency: "direct main"
+    description:
+      name: pixel_snap
+      sha256: "677410ea37b07cd37ecb6d5e6c0d8d7615a7cf3bd92ba406fd1ac57e937d1fb0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   platform:
     dependency: transitive
     description:

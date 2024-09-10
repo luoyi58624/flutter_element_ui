@@ -33,9 +33,10 @@ class MainApp extends StatelessWidget {
           themeDuration: themeDuration,
         ),
         theme: ElThemeData(
-          collapseStyle: ElCollapseStyle(
-            duration: 300.ms,
-          ),
+          primary: GlobalState.primaryColor.value,
+        ),
+        darkTheme: ElThemeData.dark(
+          primary: GlobalState.primaryColor.value,
         ),
         textStyle: TextStyle(
           fontSize: GlobalState.globalFontSize,

@@ -12,7 +12,7 @@ class ThemePage extends ResponsivePage {
     return [
       ElButton(
         onPressed: () {
-          el.context.push(_ChildPage());
+          el.context.push(const _ChildPage());
         },
         child: '下一页',
       ),
@@ -26,7 +26,7 @@ class ThemePage extends ResponsivePage {
 }
 
 class _ChildPage extends StatelessWidget {
-  const _ChildPage({super.key});
+  const _ChildPage();
 
   @override
   Widget build(BuildContext context) {

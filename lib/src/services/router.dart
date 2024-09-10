@@ -20,11 +20,18 @@ mixin ElRouterService {
 
   /// Element UI 全局路由导航 context 对象。
   ///
-  /// 注意：它只能用于全局导航，同时你必须对 Flutter 上下文有一定的了解，否则请不要滥用它。
-  // 还有一点：不要将它用于访问 [InheritedWidget] 小部件，因为这样做是不会注册依赖关系，
-  // 只有通过当前组件本身的 context 访问才能与目标 [InheritedWidget] 进行依赖绑定，
-  // 最常见的例子就是切换黑暗模式，如果代码中使用 el.context.isDark 访问当前是否是黑暗模式，
-  // 那么目标小部件将不会发生任何变化，因为使用 el.context 只是将 Navigator 与 BrightnessWidget 进行绑定。
+  /// 注意：它只能用于全局导航、或者在页面上显示弹窗，请不要滥用它。
+  // 还有一个十分常见的坑需要注意一下，就是不要将它用于访问 InheritedWidget 小部件，
+  // 例如使用全局 context 判断暗黑模式：el.context.isDark；
+  //
+  // 这样做的弊端在于，当我们访问 InheritedWidget 小部件的数据时，是通过 context 调用
+  // dependOnInheritedWidgetOfExactType 方法，这个 api 除了返回数据之外，
+  // 更重要的一点是注册依赖关系，当数据发生改变时，会通知依赖它的小部件执行重建，
+  // 如果你使用全局 context 访问数据，由于全局 context 来自于 Navigator 导航器，
+  // 所以注册的依赖将变成 Navigator 与 InheritedWidget，当数据发生变更时，
+  // 只会通知 Navigator 重建，而不会通知目标小部件重建，导致页面不会发生任何变化。
+  //
+  // 这也是为什么 Element UI 很多扩展方法都要求你必须传递当前 context，而不是在内部直接使用全局 context 的原因。
   BuildContext get context {
     assert(() {
       if (navigatorKey.currentWidget == null ||

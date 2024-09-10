@@ -120,10 +120,10 @@ class ElThemeData {
 
   const ElThemeData.dark({
     this.primary = const Color(0xff0ea5e9),
-    this.success = const Color(0xff14b8a6),
-    this.info = const Color(0xff64748B),
-    this.warning = const Color(0xfffbbf24),
-    this.error = const Color(0xfffb7185),
+    this.success = const Color(0xff67C23A),
+    this.info = const Color(0xff909399),
+    this.warning = const Color(0xffE6A23C),
+    this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xff2b2b2b),
     this.borderColor = const Color(0xffa3a3a3),
     this.textColor = const Color(0xfff2f2f2),

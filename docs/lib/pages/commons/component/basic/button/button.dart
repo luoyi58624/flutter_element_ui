@@ -1,7 +1,7 @@
 import 'package:docs/pages/commons/responsive_page.dart';
 import 'package:flutter/material.dart';
 
-import 'examples/01.dart';
+import 'examples/example1.dart';
 
 class ButtonPage extends ResponsivePage {
   const ButtonPage({super.key});

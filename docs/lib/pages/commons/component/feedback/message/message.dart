@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'examples/01.dart';
+import 'examples/example1.dart';
 
 class MessagePage extends StatelessWidget {
   const MessagePage({super.key});

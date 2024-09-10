@@ -3,18 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
 
+/// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
 bool _initialize = false;
+
+/// 亮色代码主题
 Highlighter? _lightCode;
+
+/// 暗色代码主题
 Highlighter? _darkCode;
 
 class CodeExampleWidget extends HookWidget {
+  /// 代码示例小部件
   const CodeExampleWidget({
     super.key,
     required this.code,
     required this.children,
   });
 
+  /// 示例代码字符串，代码展示效果基于第三方库：[syntax_highlight]
   final String code;
+
+  /// 效果预览
   final List<Widget> children;
 
   @override
@@ -23,14 +32,13 @@ class CodeExampleWidget extends HookWidget {
     final isExpanded = useState(false);
     initCodeStyle(context, $code);
     return ElHoverBuilder(builder: (context) {
-      return Material(
+      return Card(
         elevation: context.isHover ? 4 : 0,
         shadowColor: Colors.black38,
-        borderRadius: context.elTheme.cardStyle.radius,
+        margin: EdgeInsets.zero,
         child: AnimatedContainer(
           duration: context.elConfig.themeDuration,
           decoration: BoxDecoration(
-            color: context.elTheme.bgColor,
             borderRadius: context.elTheme.cardStyle.radius,
             border: Border.all(
               color: context.elTheme.borderColor,
@@ -64,6 +72,7 @@ class CodeExampleWidget extends HookWidget {
       FlutterUtil.nextTick(() async {
         await Highlighter.initialize(['dart']);
         _initialize = true;
+        // 亮色主题使用默认配置
         var lightCodeTheme = await HighlighterTheme.loadFromAssets(
           [
             'packages/syntax_highlight/themes/light_vs.json',
@@ -71,6 +80,7 @@ class CodeExampleWidget extends HookWidget {
           ],
           const TextStyle(color: Color(0xFF000088)),
         );
+        // 暗色主题使用自定义的配置文件
         var darkCodeTheme = await HighlighterTheme.loadFromAssets(
           [
             'assets/code_themes/dark_vs.json',
@@ -188,8 +198,7 @@ class _PreviewButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        useAnimationController(duration: 250.ms);
+    final controller = useAnimationController(duration: 250.ms);
     final curve = CurvedAnimation(
       parent: controller,
       curve: Curves.easeOut,

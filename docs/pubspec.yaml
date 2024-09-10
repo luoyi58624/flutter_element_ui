@@ -19,6 +19,7 @@ dependencies:
   flutter_element_ui:
     path: ../
   mix: ^1.4.6
+  pixel_snap: ^0.1.5
 
 dev_dependencies:
   flutter_test:

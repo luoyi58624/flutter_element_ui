@@ -12,14 +12,14 @@ class SectionTitle extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Gap(28),
+        const Gap(36),
         H2(
           title,
           style: TextStyle(
             color: context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
           ),
         ),
-        const Gap(16),
+        const Gap(20),
       ],
     );
   }
@@ -37,7 +37,7 @@ class SectionText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ElText(text),
-        const Gap(12),
+        const Gap(20),
       ],
     );
   }

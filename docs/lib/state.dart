@@ -8,6 +8,9 @@ import 'main.dart';
 class GlobalState {
   GlobalState._();
 
+  /// 主题色
+  static final primaryColor = Obs(ElThemeData.theme.primary);
+
   static final _isDark = Obs(false);
 
   /// 当前是否是暗黑主题，当前应用的主题策略是：
@@ -40,7 +43,7 @@ class GlobalState {
     _globalFontSize!.value = v;
   }
 
-  static initGlobalFontSize(double v){
+  static initGlobalFontSize(double v) {
     _globalFontSize ??= Obs(v);
   }
 

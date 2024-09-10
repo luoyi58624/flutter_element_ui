@@ -7,7 +7,7 @@ part '../../generates/styles/data/collapse.g.dart';
 class ElCollapseStyle {
   const ElCollapseStyle({
     this.keepState = true,
-    this.duration = const Duration(milliseconds: 200),
+    this.duration = const Duration(milliseconds: 250),
     this.curve = Curves.easeInOut,
   });
 
