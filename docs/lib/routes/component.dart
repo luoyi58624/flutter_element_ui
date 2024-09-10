@@ -1,14 +1,14 @@
 import 'package:docs/global.dart';
 import 'package:docs/pages/commons/not_found.dart';
 
-import '../pages/commons/component/basic/button/button.dart';
-import '../pages/commons/component/basic/color/color.dart';
-import '../pages/commons/component/basic/text/text.dart';
-import '../pages/commons/component/data/collapse.dart';
-import '../pages/commons/component/feedback/message/message.dart';
-import '../pages/commons/overview/cupertino/cupertino.dart';
-import '../pages/commons/overview/element/element.dart';
-import '../pages/commons/overview/material/material.dart';
+import '../pages/commons/component/basic/button/index.dart';
+import '../pages/commons/component/basic/color/index.dart';
+import '../pages/commons/component/basic/text/index.dart';
+import '../pages/commons/component/data/index.dart';
+import '../pages/commons/component/feedback/message/index.dart';
+import '../pages/commons/overview/cupertino/index.dart';
+import '../pages/commons/overview/element/index.dart';
+import '../pages/commons/overview/material/index.dart';
 
 List<RouteBase> buildComponentRoutes(String path) {
   return [

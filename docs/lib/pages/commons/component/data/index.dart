@@ -1,5 +1,4 @@
 import 'package:docs/global.dart';
-import 'package:docs/pages/commons/responsive_page.dart';
 
 import 'package:flutter/material.dart';
 

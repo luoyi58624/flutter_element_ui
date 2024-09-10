@@ -1,11 +1,11 @@
 import 'package:docs/global.dart';
 import 'package:docs/pages/commons/not_found.dart';
 
-import '../pages/commons/guide/design/design.dart';
-import '../pages/commons/guide/install/install.dart';
-import '../pages/commons/guide/nav/nav.dart';
-import '../pages/commons/guide/quick_start/quick_start.dart';
-import '../pages/commons/guide/theme.dart';
+import '../pages/commons/guide/design/index.dart';
+import '../pages/commons/guide/install/index.dart';
+import '../pages/commons/guide/nav/index.dart';
+import '../pages/commons/guide/quick_start/index.dart';
+import '../pages/commons/guide/theme/index.dart';
 
 List<RouteBase> buildGuideRoutes(String path) {
   return [
