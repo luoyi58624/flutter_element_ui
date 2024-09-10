@@ -17,7 +17,7 @@ class Example1 extends StatelessWidget {
           Wrap(
             children: ElIcons2.values
                 .map(
-                  (e) => Icon(e),
+                  (e) => ElIcon(e),
                 )
                 .toList(),
           )

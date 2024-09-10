@@ -89,7 +89,7 @@ class ElThemeData {
     this.textColor = const Color(0xff323232),
     this.buttonStyle = const ElButtonStyle(),
     this.iconStyle = const ElIconStyle(
-      color: Color(0xff404040),
+      color: Color.fromRGBO(96, 98, 102, 1.0),
     ),
     this.linkStyle = const ElLinkStyle(
       color: ElLinkStyle.hrefColor,

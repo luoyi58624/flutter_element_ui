@@ -9,12 +9,12 @@ part '../../generates/styles/basic/icon.g.dart';
 @ElModel.copy()
 class ElIconStyle {
   const ElIconStyle({
-    this.size = 18,
+    this.size,
     required this.color,
   });
 
   /// icon 默认尺寸
-  final double size;
+  final double? size;
 
   /// icon 颜色
   final Color color;
