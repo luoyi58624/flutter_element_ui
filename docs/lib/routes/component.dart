@@ -3,6 +3,7 @@ import 'package:docs/pages/commons/not_found.dart';
 
 import '../pages/commons/component/basic/button/index.dart';
 import '../pages/commons/component/basic/color/index.dart';
+import '../pages/commons/component/basic/icon/index.dart';
 import '../pages/commons/component/basic/text/index.dart';
 import '../pages/commons/component/data/index.dart';
 import '../pages/commons/component/feedback/message/index.dart';
@@ -34,7 +35,7 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}icon',
-      builder: (context, state) => const NotFoundPage(),
+      builder: (context, state) => const IconPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}layout',

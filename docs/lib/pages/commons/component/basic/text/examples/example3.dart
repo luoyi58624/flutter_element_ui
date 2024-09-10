@@ -18,6 +18,7 @@ class Example3 extends StatelessWidget {
             child: '查看示例',
           )
         ]),
+        textGap,
         CodeExampleWidget(
           code: code,
           children: const [

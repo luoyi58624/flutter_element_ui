@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class FlutterColorData {
   FlutterColorData._();
@@ -71,6 +70,7 @@ class Example1 extends StatelessWidget {
       children: [
         const SectionTitle('主色'),
         const SectionText('Element UI 默认的主题色是明亮、友好的蓝色。'),
+        textGap,
         CodeExampleWidget(
           code: code,
           children: [
@@ -134,26 +134,28 @@ class Example1 extends StatelessWidget {
               decoration: BoxDecoration(
                 color: context.elTheme.primary,
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ElText(
-                    'Primary Color',
-                    style: TextStyle(
-                        color: GlobalState.primaryColor.value
-                            .elTextColor(context)),
-                  ),
-                  const Gap(4),
-                  ElText(
-                    context.elTheme.primary.toHex(),
-                    style: TextStyle(
-                      fontSize: 0.875.rem(context),
-                      color:
-                          GlobalState.primaryColor.value.elTextColor(context),
+              child: SelectionArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElText(
+                      'Primary Color',
+                      style: TextStyle(
+                          color: GlobalState.primaryColor.value
+                              .elTextColor(context)),
                     ),
-                  ),
-                ],
+                    const Gap(4),
+                    ElText(
+                      context.elTheme.primary.toHex(),
+                      style: TextStyle(
+                        fontSize: 0.875.rem(context),
+                        color:
+                            GlobalState.primaryColor.value.elTextColor(context),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Row(

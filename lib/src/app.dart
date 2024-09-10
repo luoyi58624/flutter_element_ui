@@ -31,6 +31,7 @@ class ElApp extends StatefulWidget {
   const ElApp({
     super.key,
     required this.child,
+    this.materialBuilder,
     this.brightness,
     this.theme = ElThemeData.theme,
     this.darkTheme = ElThemeData.darkTheme,
@@ -42,6 +43,10 @@ class ElApp extends StatefulWidget {
   /// 接收 [WidgetsApp]、[MaterialApp] builder 提供的 child 参数，请不要在这里插入自定义组件，
   /// 你应当使用 [builder] 构建自定义子组件，它可以避免上下文 context 的问题。
   final Widget child;
+
+  /// 构建自定义 [Material] 小部件，用于自定义 [builder] 函数中默认的 [Material]，
+  /// 你必须构建一个全局的 [Material] 小部件，否则文字小部件会出现黄色双下划线错误。
+  final TransitionBuilder? materialBuilder;
 
   /// 应用的主题模式，为 null 则表示跟随系统
   final Brightness? brightness;
@@ -65,7 +70,7 @@ class ElApp extends StatefulWidget {
   static ElThemeModel of(BuildContext context) =>
       _AppInheritedWidget.of(context).themeModel;
 
-  /// 在 [WidgetsApp]、[MaterialApp] 等顶级 App 下方构建 Element UI 小部件基础设施
+  /// 构建 Element UI 默认文本主题、默认的 [Overlay] 浮层、滚动配置...
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
@@ -82,20 +87,26 @@ class ElApp extends StatefulWidget {
         // 在 Overlay 之上构建自定义小部件，可以避免 context 上下文bug
         if (builder != null) result = builder(context, result);
 
-        return Material(
-          animationDuration: $data.themeModel.config.themeDuration,
-          color: context.elTheme.bgColor,
-          textStyle: $data.themeModel.textStyle,
-          child: ElAnimatedDefaultTextStyle(
-            duration: $data.themeModel.config.themeDuration,
-            curve: $data.themeModel.config.themeCurve,
-            style: $data.themeModel.textStyle,
-            child: ScrollConfiguration(
-              behavior: $data.behavior,
-              child: result,
-            ),
+        result = ElAnimatedDefaultTextStyle(
+          duration: $data.themeModel.config.themeDuration,
+          curve: $data.themeModel.config.themeCurve,
+          style: $data.themeModel.textStyle,
+          child: ScrollConfiguration(
+            behavior: $data.behavior,
+            child: result,
           ),
         );
+
+        if ($data.materialBuilder != null) {
+          return $data.materialBuilder!(context, result);
+        } else {
+          return Material(
+            animationDuration: $data.themeModel.config.themeDuration,
+            color: context.elTheme.bgColor,
+            textStyle: $data.themeModel.textStyle,
+            child: result,
+          );
+        }
       };
 
   @override
@@ -166,6 +177,7 @@ class ElAppState extends State<ElApp> {
           globalThemeDuration: _globalThemeDuration,
           globalThemeCurve: _globalThemeCurve,
         ),
+        widget.materialBuilder,
         widget.behavior,
         child: widget.child,
       ),
@@ -206,11 +218,13 @@ class ElThemeModel {
 class _AppInheritedWidget extends InheritedWidget {
   const _AppInheritedWidget(
     this.themeModel,
+    this.materialBuilder,
     this.behavior, {
     required super.child,
   });
 
   final ElThemeModel themeModel;
+  final TransitionBuilder? materialBuilder;
   final ScrollBehavior behavior;
 
   static _AppInheritedWidget of(BuildContext context) {

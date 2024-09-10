@@ -23,16 +23,13 @@ extension ElThemeExtension on BuildContext {
 
   /// 全局默认主题过渡持续时间。
   ///
-  /// 应用场景：当你使用诸如 [AnimationController] 等动画小部件时，如果直接应用了 300 毫秒的过渡动画，
-  /// 当更改全局主题（切换黑暗模式）时，就可能会出现动画过渡不协调问题，此时解决办法是：
+  /// 当你使用 [AnimatedContainer] 动画小部件时，如果直接应用了 300 毫秒的过渡动画，
+  /// 当切换黑暗模式时，就可能会出现动画过渡不协调问题，此时解决办法是：
   /// ```dart
-  /// AnimationController(
+  /// AnimatedContainer(
   ///   duration: context.elThemeDuration ?? 300.ms
   /// ),
   /// ```
-  ///
-  /// 当切换主题时，请调用 [el.changeTheme] 方法，此方法接收 [VoidCallback] 函数，
-  /// 在执行自定义逻辑前会帮你设置全局过渡时间和全局过渡动画曲线。
   Duration? get elThemeDuration => ElApp.of(this).globalThemeDuration;
 
   /// 全局默认主题过渡动画曲线。

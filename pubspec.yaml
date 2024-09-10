@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   flutter_element_annotation:
     path: ./packages/flutter_element_annotation
-#  luoyi_flutter_base: ^2.6.0
+  #  luoyi_flutter_base: ^2.6.0
   luoyi_flutter_base:
     git:
       url: https://github.com/luoyi58624/luoyi_flutter_base.git
@@ -31,4 +31,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/icons/
-
+  fonts:
+    - family: element
+      fonts:
+        - asset: assets/element.ttf

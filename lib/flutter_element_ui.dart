@@ -87,6 +87,7 @@ export 'src/styles/navigation/navigation_menu.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/font.dart';
 export 'src/utils/icons.dart';
+export 'src/utils/icons2.dart';
 export 'src/utils/important.dart';
 export 'src/utils/app_theme.dart';
 export 'src/utils/shortcut.dart';

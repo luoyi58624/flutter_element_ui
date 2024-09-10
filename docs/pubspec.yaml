@@ -18,8 +18,7 @@ dependencies:
   decimal: ^3.0.0
   flutter_element_ui:
     path: ../
-  mix: ^1.4.6
-  pixel_snap: ^0.1.5
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

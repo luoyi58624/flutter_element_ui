@@ -1,6 +1,12 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
+/// 标题间距
+const Widget titleGap = Gap(36);
+
+/// 普通文字间距
+const Widget textGap = Gap(20);
+
 class SectionTitle extends StatelessWidget {
   /// 段落标题
   const SectionTitle(this.title, {super.key});
@@ -12,14 +18,14 @@ class SectionTitle extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Gap(36),
+        titleGap,
         H2(
           title,
           style: TextStyle(
             color: context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
           ),
         ),
-        const Gap(20),
+        textGap,
       ],
     );
   }
@@ -37,7 +43,6 @@ class SectionText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ElText(text),
-        const Gap(20),
       ],
     );
   }
