@@ -5,7 +5,7 @@ import 'package:flutter_element_ui/src/global.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ElIconTheme extends InheritedWidget {
-  /// icon
+  /// 提供默认的图标主题
   const ElIconTheme({
     super.key,
     required super.child,
@@ -55,11 +55,8 @@ class ElIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElIconTheme.maybeOf(context);
     final $icon = child ?? $theme?.icon;
-    final $size = size ??
-        $theme?.size ??
-        context.elTheme.iconStyle.size ??
-        1.5.rem(context);
-    final $color = color ?? $theme?.color ?? context.elTheme.iconStyle.color;
+    final $size = size ?? $theme?.size ?? 1.5.rem(context);
+    final $color = color ?? $theme?.color ?? context.elTheme.iconColor;
     if ($icon is String) {
       return _SvgWidget($icon, size: $size, color: $color, package: package);
     } else if ($icon is IconData) {

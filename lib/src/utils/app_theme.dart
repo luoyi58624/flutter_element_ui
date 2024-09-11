@@ -100,7 +100,7 @@ class ElThemeUtil {
       // 背景颜色
       scaffoldBackgroundColor: elTheme.bgColor,
       // 图标颜色
-      iconTheme: IconThemeData(color: elTheme.iconStyle.color),
+      iconTheme: IconThemeData(color: elTheme.iconColor),
     );
 
     return themeData.copyWith(
@@ -121,8 +121,8 @@ class ElThemeUtil {
         ),
         iconTheme: IconThemeData(
           color: elTheme.headerStyle.color.isDark
-              ? darkTheme.iconStyle.color
-              : lightTheme.iconStyle.color,
+              ? darkTheme.iconColor
+              : lightTheme.iconColor,
         ),
       ),
       tabBarTheme: TabBarTheme(
@@ -181,7 +181,7 @@ class ElThemeUtil {
           color: elTheme.textColor.deepen(10),
           fontSize: 13,
         ),
-        iconColor: elTheme.iconStyle.color,
+        iconColor: elTheme.iconColor,
       ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: textStyle.copyWith(

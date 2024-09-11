@@ -167,7 +167,7 @@ class Example1 extends StatelessWidget {
                         aspectRatio: 1.0,
                         child: GestureDetector(
                           onTap: () async {
-                            CommonUtil.copyColor(e);
+                            CommonUtil.copy(e.toHex(), copyMessage: e.toHex());
                           },
                           child: ElHoverBuilder(
                               cursor: SystemMouseCursors.click,

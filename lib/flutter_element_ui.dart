@@ -65,7 +65,6 @@ export 'src/styles/theme_data.dart';
 export 'src/styles/config_data.dart';
 
 export 'src/styles/basic/button.dart';
-export 'src/styles/basic/icon.dart';
 export 'src/styles/basic/input.dart';
 export 'src/styles/basic/link.dart';
 

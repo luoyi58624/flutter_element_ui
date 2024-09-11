@@ -21,10 +21,7 @@ class GlobalSetting extends StatelessWidget {
                   onPressed: () {
                     Scaffold.of(context).closeEndDrawer();
                   },
-                  icon: Icon(
-                    Icons.close,
-                    color: context.elTheme.iconStyle.color,
-                  ),
+                  icon: const ElIcon(Icons.close),
                 ),
                 const Gap(8),
               ],

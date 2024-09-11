@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/font.dart';
 
 import 'package:flutter_element_ui/src/global.dart';
 
@@ -33,6 +34,9 @@ class ElMessageModel {
   /// 消息内容
   final String content;
 
+  /// 消息图标
+  final Widget? icon;
+
   /// 是否显示关闭按钮
   final bool showClose;
 
@@ -56,6 +60,7 @@ class ElMessageModel {
     this.id,
     this.type,
     this.content,
+    this.icon,
     this.showClose,
     this._overlayEntry,
     this._willRemove,
@@ -82,7 +87,7 @@ class ElMessageInstance {
   /// * context 默认使用全局context，如果你需要让它作用于局部页面，请传递当前context
   /// * content 消息内容
   /// * type 主题类型
-  /// * icon 自定义图标，如果 content 是 [Widget]，此属性无效
+  /// * icon 自定义消息图标，如果 content 是 [Widget]，则此属性无效
   /// * duration 持续时间，单位毫秒
   /// * showClose 是否显示关闭按钮
   /// * offset 第一条消息距离顶部窗口的距离
@@ -128,7 +133,7 @@ class ElMessageInstance {
     );
 
     // 创建消息模型对象并添加到消息列表
-    final model = ElMessageModel._(id, type, content,
+    final model = ElMessageModel._(id, type, content, icon,
         showClose ?? style.showClose, overlayEntry, false, Obs(0));
 
     _messageList.add(model);
@@ -142,6 +147,7 @@ class ElMessageInstance {
   ElMessageModel primary(
     String content, {
     BuildContext? context,
+    Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
@@ -151,6 +157,7 @@ class ElMessageInstance {
       content,
       context: context,
       type: 'primary',
+      icon: icon,
       duration: duration,
       showClose: showClose,
       offset: offset,
@@ -162,6 +169,7 @@ class ElMessageInstance {
   ElMessageModel success(
     String content, {
     BuildContext? context,
+    Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
@@ -171,6 +179,7 @@ class ElMessageInstance {
       content,
       context: context,
       type: 'success',
+      icon: icon,
       duration: duration,
       showClose: showClose,
       offset: offset,
@@ -182,6 +191,7 @@ class ElMessageInstance {
   ElMessageModel info(
     String content, {
     BuildContext? context,
+    Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
@@ -191,6 +201,7 @@ class ElMessageInstance {
       content,
       context: context,
       type: 'info',
+      icon: icon,
       duration: duration,
       showClose: showClose,
       offset: offset,
@@ -202,6 +213,7 @@ class ElMessageInstance {
   ElMessageModel warning(
     String content, {
     BuildContext? context,
+    Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
@@ -211,6 +223,7 @@ class ElMessageInstance {
       content,
       context: context,
       type: 'warning',
+      icon: icon,
       duration: duration,
       showClose: showClose,
       offset: offset,
@@ -222,6 +235,7 @@ class ElMessageInstance {
   ElMessageModel error(
     String content, {
     BuildContext? context,
+    Widget? icon,
     int? duration,
     bool? showClose,
     double? offset,
@@ -231,6 +245,7 @@ class ElMessageInstance {
       content,
       context: context,
       type: 'error',
+      icon: icon,
       duration: duration,
       showClose: showClose,
       offset: offset,
@@ -431,7 +446,7 @@ class _DefaultMessage extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              messageIcon,
+              message.icon ?? messageIcon,
               const Gap(10),
               ConstrainedBox(
                 constraints: BoxConstraints(
@@ -463,6 +478,7 @@ class _DefaultMessage extends StatelessWidget {
                             : context.isDark
                                 ? Colors.grey.shade600
                                 : Colors.grey.shade400,
+                        size: 1.25.rem(context),
                       );
                     },
                   ),

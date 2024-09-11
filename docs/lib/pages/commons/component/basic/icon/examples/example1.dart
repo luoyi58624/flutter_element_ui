@@ -11,25 +11,59 @@ class Example1 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('基础用法'),
-        CodeExampleWidget(code: code1, children: [
-          Wrap(
-            children: ElIcons.values
-                .map(
-                  (e) => ElIcon(e),
-                )
-                .toList(),
-          )
-        ]),
+        const SectionTitle('使用方法'),
+        CodeExampleWidget(
+          code: code1,
+          children: const [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 16,
+              children: [
+                ElIcon(ElIcons.sHome),
+                ElIcon(ElIcons.edit),
+                ElIcon(ElIcons.share),
+                ElIcon(ElIcons.delete),
+                ElButton(
+                  type: 'primary',
+                  margin: EdgeInsets.zero,
+                  leftIcon: ElIcon(ElIcons.search),
+                  child: '搜索',
+                ),
+                ElButton(
+                  type: 'primary',
+                  margin: EdgeInsets.zero,
+                  rightIcon: ElIcon(ElIcons.upload2),
+                  child: '上传',
+                ),
+              ],
+            ),
+          ],
+        ),
       ],
     );
   }
 }
 
 String get code1 => '''
-ElButton(onPressed: () {}, child: 'Default'),
-ElButton(onPressed: () {}, child: 'Primary', type: 'primary'),
-ElButton(onPressed: () {}, child: 'Primary', type: 'success', plain: true),
-ElButton(onPressed: () {}, child: 'Primary', type: 'warning', round: true),
-ElButton(onPressed: () {}, child: const ElIcon(ElIcons.aim)),
-ElButton(onPressed: () {}, child: const ElIcon(ElIcons.aim), circle: true)''';
+Wrap(
+  crossAxisAlignment: WrapCrossAlignment.center,
+  spacing: 16,
+  children: [
+    ElIcon(ElIcons.sHome),
+    ElIcon(ElIcons.edit),
+    ElIcon(ElIcons.share),
+    ElIcon(ElIcons.delete),
+    ElButton(
+      type: 'primary',
+      margin: EdgeInsets.zero,
+      leftIcon: ElIcon(ElIcons.search),
+      child: '搜索',
+    ),
+    ElButton(
+      type: 'primary',
+      margin: EdgeInsets.zero,
+      rightIcon: ElIcon(ElIcons.upload2),
+      child: '上传',
+    ),
+  ],
+),''';

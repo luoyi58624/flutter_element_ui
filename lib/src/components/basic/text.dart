@@ -25,7 +25,7 @@ class ElText extends StatefulWidget {
     this.textAlign,
     this.textDirection,
     this.locale,
-    this.softWrap = true,
+    this.softWrap,
     this.overflow,
     this.textScaler,
     this.maxLines,
@@ -61,7 +61,7 @@ class ElText extends StatefulWidget {
   final Locale? locale;
 
   /// 是否自动换行
-  final bool softWrap;
+  final bool? softWrap;
 
   /// 文本超出样式
   final TextOverflow? overflow;
@@ -262,15 +262,15 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
           widget.data is List ? widget.data : [widget.data],
         ),
       ),
-      textAlign: defaultStyle.textAlign ?? TextAlign.start,
+      textAlign: widget.textAlign ?? defaultStyle.textAlign ?? TextAlign.start,
+      softWrap: widget.softWrap ?? defaultStyle.softWrap,
+      overflow: widget.overflow ?? defaultStyle.overflow,
       textDirection: widget.textDirection,
-      softWrap: defaultStyle.softWrap,
-      overflow: defaultStyle.overflow,
       textScaler: widget.textScaler ?? TextScaler.noScaling,
-      maxLines: defaultStyle.maxLines,
+      maxLines: widget.maxLines ?? defaultStyle.maxLines,
       locale: widget.locale,
       strutStyle: widget.strutStyle,
-      textWidthBasis: defaultStyle.textWidthBasis,
+      textWidthBasis: widget.textWidthBasis ?? defaultStyle.textWidthBasis,
       textHeightBehavior: widget.textHeightBehavior,
       selectionRegistrar: registrar,
       selectionColor: widget.selectionColor ??
