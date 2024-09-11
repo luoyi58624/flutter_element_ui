@@ -37,7 +37,7 @@ class ElApp extends StatefulWidget {
     this.darkTheme = ElThemeData.darkTheme,
     this.config = ElConfigData.data,
     this.textStyle,
-    this.behavior = const ElScrollBehavior(),
+    this.scrollBehavior = const ElScrollBehavior(),
   });
 
   /// 接收 [WidgetsApp]、[MaterialApp] builder 提供的 child 参数，请不要在这里插入自定义组件，
@@ -64,7 +64,7 @@ class ElApp extends StatefulWidget {
   final TextStyle? textStyle;
 
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
-  final ScrollBehavior behavior;
+  final ScrollBehavior scrollBehavior;
 
   /// 通过上下文 context 访问注入的全局主题配置
   static ElThemeModel of(BuildContext context) =>
@@ -92,7 +92,7 @@ class ElApp extends StatefulWidget {
           curve: $data.themeModel.config.themeCurve,
           style: $data.themeModel.textStyle,
           child: ScrollConfiguration(
-            behavior: $data.behavior,
+            behavior: $data.scrollBehavior,
             child: result,
           ),
         );
@@ -178,7 +178,7 @@ class ElAppState extends State<ElApp> {
           globalThemeCurve: _globalThemeCurve,
         ),
         widget.materialBuilder,
-        widget.behavior,
+        widget.scrollBehavior,
         child: widget.child,
       ),
     );
@@ -219,13 +219,13 @@ class _AppInheritedWidget extends InheritedWidget {
   const _AppInheritedWidget(
     this.themeModel,
     this.materialBuilder,
-    this.behavior, {
+    this.scrollBehavior, {
     required super.child,
   });
 
   final ElThemeModel themeModel;
   final TransitionBuilder? materialBuilder;
-  final ScrollBehavior behavior;
+  final ScrollBehavior scrollBehavior;
 
   static _AppInheritedWidget of(BuildContext context) {
     final result =

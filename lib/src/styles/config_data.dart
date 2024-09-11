@@ -22,8 +22,6 @@ class ElConfigData {
 
   /// 切换全局主题动画时间，它等同于 [MaterialApp] 中 themeAnimationDuration 属性，
   /// 如果使用了 [MaterialApp] 构建应用，请将二者进行同步，这样可以避免动画不一致问题。
-  ///
-  /// 提示：默认情况下无需处理，因为当前动画效果与 MaterialApp 保持一致。
   final Duration themeDuration;
 
   /// 切换全局主题动画曲线，它等同于 [MaterialApp] 中 themeAnimationCurve 属性
@@ -33,7 +31,7 @@ class ElConfigData {
     this.baseHeight = 36,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.enableFeedback = false,
-    this.themeDuration = const Duration(milliseconds: 200),
+    this.themeDuration = Duration.zero,
     this.themeCurve = Curves.linear,
   });
 }

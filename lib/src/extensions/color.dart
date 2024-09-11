@@ -141,9 +141,9 @@ extension ElColorThemeExtension on Color {
   Color elLight(BuildContext context, int level, bool reverse) {
     assert(level >= 1 && level <= 9, 'elLight 颜色级别范围必须是 1 - 9，但却得到: $level');
     if (!reverse) {
-      return context.isDark ? _darkenColor(level) : _brightenColor(level);
+      return context.isDark ? _darken(level) : _brighten(level);
     } else {
-      return context.isDark ? _brightenColor(level) : _darkenColor(level);
+      return context.isDark ? _brighten(level) : _darken(level);
     }
   }
 
@@ -194,11 +194,8 @@ extension ElColorThemeExtension on Color {
   }
 }
 
-/// 模拟 Element UI 九种渐变明亮度颜色
+// 我看不太懂官方写的 scss 源码，所以目前做不到完全还原，只能尽量模拟。
 extension _ColorExtension on Color {
-  /// 将黑色和主题色进行混合，权重越小，越接近黑色，权重越大，越接近主题色
-  Color _darkenColor(int level) => mix(Colors.black, level * 8);
-
-  /// 将白色和主题色进行混合，权重越小，越接近白色，权重越大，越接近主题色
-  Color _brightenColor(int level) => mix(Colors.white, level * 10);
+  Color _darken(int level) => mix(const Color(0xff222222), level * 9);
+  Color _brighten(int level) => mix(Colors.white, level * 10);
 }
