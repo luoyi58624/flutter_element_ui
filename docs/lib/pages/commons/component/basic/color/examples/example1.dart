@@ -147,7 +147,7 @@ class Example1 extends StatelessWidget {
                     ),
                     const Gap(4),
                     ElText(
-                      context.elTheme.primary.toHex(),
+                      context.elTheme.primary.toHex().toUpperCase(),
                       style: TextStyle(
                         fontSize: 0.875.rem(context),
                         color:
@@ -200,7 +200,7 @@ class Example1 extends StatelessWidget {
 }
 
 String get code => '''
-// elColors 是 Color 对象的扩展函数，它会返回 elLight1 - elLight9 等 9 种级别颜色
+// Element UI 对颜色提供了 9 种级别的扩展函数：elLight1 - elLight9
 Row(
   children: context.elTheme.primary.elColors(context).map((e) => Expanded(
     child: AspectRatio(
@@ -220,7 +220,8 @@ Row(
               decoration: BoxDecoration(
                 color: e,
                 border: Border.all(
-                  // 直接写 0 会有 1 像素边框，啥原理我也不知道
+                  // 不能直接写 0，flutter 的边框存在臭名昭著的bug: 
+                  // https://github.com/flutter/flutter/issues/14288
                   width: context.isHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
                 ),

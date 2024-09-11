@@ -16,15 +16,7 @@ class Example2 extends StatelessWidget {
           size: 2.rem(context),
           child: LayoutBuilder(builder: (context, constraints) {
             final sumCount = ElIcons.values.length;
-            final rowCount = constraints.xs
-                ? 2
-                : constraints.sm
-                    ? 3
-                    : constraints.md
-                        ? 6
-                        : constraints.lg
-                            ? 9
-                            : 14;
+            final rowCount = (constraints.maxWidth / 125).floor();
             // 禁止绘制底部边框的网格索引值
             int bottomBorderIndex = sumCount % rowCount;
             bottomBorderIndex = sumCount -
