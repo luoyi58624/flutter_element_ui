@@ -126,7 +126,7 @@ class CodeExampleWidget extends HookWidget {
                       $code.value,
                       softWrap: false,
                       style: const TextStyle(
-                        fontFamily: 'Consolas',
+                        fontFamily: MyFonts.consolas,
                         fontSize: 14,
                       ),
                     ),
@@ -230,8 +230,12 @@ class _PreviewButton extends HookWidget {
                     ? context.elTheme.primary.mix(context.elTheme.bgColor, 96)
                     : context.elTheme.bgColor,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                  bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                  bottomLeft: isExpanded.value
+                      ? Radius.zero
+                      : context.elTheme.cardStyle.radius.bottomLeft,
+                  bottomRight: isExpanded.value
+                      ? Radius.zero
+                      : context.elTheme.cardStyle.radius.bottomRight,
                 )),
             alignment: Alignment.center,
             child: AnimatedBuilder(

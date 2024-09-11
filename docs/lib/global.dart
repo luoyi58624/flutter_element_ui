@@ -5,6 +5,7 @@ export 'extension.dart';
 export 'state.dart';
 export 'router.dart';
 export 'utils/commons.dart';
+export 'utils/font.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/code_example.dart';
 export 'pages/commons/responsive_page.dart';

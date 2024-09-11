@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../styles/basic/input.dart';
+part of '../../../styles/form/input.dart';
 
 // **************************************************************************
 // ElModelGenerator

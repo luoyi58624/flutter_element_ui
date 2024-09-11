@@ -47,3 +47,78 @@ class SectionText extends StatelessWidget {
     );
   }
 }
+
+class SectionCard extends StatelessWidget {
+  const SectionCard({
+    super.key,
+    this.type = 'primary',
+    required this.title,
+    required this.content,
+  });
+
+  final String type;
+  final String title;
+  final List<dynamic> content;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ElDefaultTextStyle.merge(
+          style: const TextStyle(fontFamily: MyFonts.consolas),
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 20,
+            ),
+            decoration: BoxDecoration(
+              color: context.elThemeColors[type]!.elLight9(context),
+              borderRadius: context.elTheme.cardStyle.radius,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                H4(title),
+                const Gap(8),
+                ...content.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: e is Widget ? e : ElText(e),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          child: Container(
+            width: context.elTheme.cardStyle.radius.bottomLeft.x,
+            decoration: BoxDecoration(
+              color: context.elThemeColors[type],
+              borderRadius: BorderRadius.only(
+                topLeft: context.elTheme.cardStyle.radius.topLeft,
+                bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class FlutterHookLink extends StatelessWidget {
+  const FlutterHookLink({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElLink(
+      href: 'https://pub.dev/packages/flutter_hooks',
+      child: 'flutter_hooks',
+    );
+  }
+}

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/event.dart';
+import 'package:flutter_element_ui/src/extensions/font.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../service.dart';
+import '../../../utils/font.dart';
 import '../../../widgets/model_value.dart';
 import '../../basic/icon.dart';
 import '../form.dart';
@@ -18,7 +21,7 @@ typedef _InputStyleProp = ({
   EdgeInsetsGeometry? padding,
 });
 
-/// Flutter 输入框非常复杂，如果基于 [EditableText] 需要实现大量兼容性代码，
+/// Flutter 输入框相当复杂，如果基于 [EditableText] 需要实现大量兼容性代码，
 /// 而 [TextField] 本身已经做了很多兼容处理，所以 [ElInput] 是直接基于 [TextField] 实现
 class ElInput extends ElModelValue<String> {
   /// Element UI 输入框组件
@@ -33,11 +36,12 @@ class ElInput extends ElModelValue<String> {
     this.padding,
     this.round = false,
     this.disabled = false,
-    this.minLines = 1,
-    this.maxLines = -1,
+    this.minLines,
+    this.maxLines = 1,
     this.style,
     this.prefixIcon,
     this.suffixIcon,
+    this.placeholder,
     this.textInputAction,
     this.onTap,
     this.onClean,
@@ -80,6 +84,9 @@ class ElInput extends ElModelValue<String> {
 
   /// 后缀图标
   final ElIcon? suffixIcon;
+
+  /// 输入框提示文本
+  final String? placeholder;
 
   /// 输入法控件执行的操作: none、done、search、send、next...
   final TextInputAction? textInputAction;

@@ -17,28 +17,6 @@ class ElInputState extends ElModelValueState<ElInput, String> {
   bool get useFormDataModel =>
       formItemData != null && formItemData!.prop != null;
 
-  Widget buildTextField(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      minLines: widget.minLines,
-      maxLines: widget.maxLines,
-      style: TextStyle(
-        color: context.elTheme.textColor,
-      ).merge(widget.style),
-      decoration: _buildInputDecoration(context),
-      textInputAction: widget.textInputAction,
-      cursorColor: context.elTheme.textColor,
-      cursorWidth: 1,
-      onChanged: (v) {
-        modelValue = v;
-        if (useFormDataModel) {
-          formData!.model[formItemData!.prop!] = v;
-        }
-      },
-    );
-  }
-
   @override
   Widget builder(BuildContext context, String value) {
     if (controller.text != value) {
@@ -84,14 +62,36 @@ class ElInputState extends ElModelValueState<ElInput, String> {
     );
   }
 
+  Widget buildTextField(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      focusNode: focusNode,
+      minLines: widget.minLines,
+      maxLines: widget.maxLines,
+      style: TextStyle(
+        color: context.elTheme.textColor,
+      ).merge(widget.style),
+      decoration: _buildInputDecoration(context),
+      textInputAction: widget.textInputAction,
+      cursorColor: context.elTheme.textColor,
+      cursorWidth: 1,
+      onChanged: (v) {
+        modelValue = v;
+        if (useFormDataModel) {
+          formData!.model[formItemData!.prop!] = v;
+        }
+      },
+    );
+  }
+
   InputDecoration _buildInputDecoration(BuildContext context) {
     return InputDecoration(
       contentPadding: _styleProp.padding,
       enabledBorder: OutlineInputBorder(
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
-          width: ElHoverBuilder.of(context) ? 1.2 : 1,
-          color: ElHoverBuilder.of(context)
+          width: context.isHover ? 1.2 : 1,
+          color: context.isHover
               ? context.elTheme.borderColor.deepen(16)
               : context.elTheme.borderColor,
         ),
@@ -103,6 +103,11 @@ class ElInputState extends ElModelValueState<ElInput, String> {
           color: context.elTheme.primary,
         ),
       ),
+      hintText: widget.placeholder,
+      hintStyle: ElDefaultTextStyle.of(context).style.copyWith(
+            // fontSize: 0.875.rem(context),
+            color: context.elTheme.placeholderColor,
+          ),
       // suffixIcon: currentValue != ''
       //     ? GestureDetector(
       //   onTap: () {

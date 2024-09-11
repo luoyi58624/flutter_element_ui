@@ -10,10 +10,10 @@ extension ElEventExtension on BuildContext {
 
   /// 构建由响应事件触发的颜色状态
   Color buildEventColor(
-      Color color, {
-        Color? activeColor,
-        Color? hoverColor,
-      }) {
+    Color color, {
+    Color? activeColor,
+    Color? hoverColor,
+  }) {
     Color result = color;
     if (activeColor != null) {
       if (isTap) {

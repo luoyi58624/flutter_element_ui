@@ -4,14 +4,14 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-part '../../generates/styles/basic/input.g.dart';
+part '../../generates/styles/form/input.g.dart';
 
 @ElModel.copy()
 class ElInputStyle {
   const ElInputStyle({
     this.height,
     this.borderRadius,
-    this.margin = const EdgeInsets.all(4),
+    this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
   });
 

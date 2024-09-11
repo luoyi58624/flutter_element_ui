@@ -23,30 +23,34 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
       return ElApp(
-        child: MaterialApp.router(
-          routerConfig: router,
-          themeAnimationDuration: context.elConfig.themeDuration,
-          theme: ElThemeUtil.buildMaterialTheme(
-            context,
-            brightness: GlobalState.brightness,
-          ),
-          darkTheme: ElThemeUtil.buildMaterialTheme(
-            context,
-            brightness: Brightness.dark,
-          ),
-          showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-          showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-          debugShowCheckedModeBanner: false,
-          builder: ElApp.builder(
-            (context, child) => CupertinoTheme(
-              data: ElThemeUtil.buildCupertinoThemeData(
+        child: Builder(
+          builder: (context) {
+            return MaterialApp.router(
+              routerConfig: router,
+              themeAnimationDuration: context.elConfig.themeDuration,
+              theme: ElThemeUtil.buildMaterialTheme(
                 context,
-                brightness: Theme.of(context).brightness,
+                brightness: GlobalState.brightness,
               ),
-              child: child!,
-            ),
-          ),
-        ).globalShortcut,
+              darkTheme: ElThemeUtil.buildMaterialTheme(
+                context,
+                brightness: Brightness.dark,
+              ),
+              showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+              showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+              debugShowCheckedModeBanner: false,
+              builder: ElApp.builder(
+                (context, child) => CupertinoTheme(
+                  data: ElThemeUtil.buildCupertinoThemeData(
+                    context,
+                    brightness: Theme.of(context).brightness,
+                  ),
+                  child: child!,
+                ),
+              ),
+            ).globalShortcut;
+          }
+        ),
       );
     });
   }

@@ -8,6 +8,7 @@ import '../pages/commons/component/basic/scrollbar/index.dart';
 import '../pages/commons/component/basic/text/index.dart';
 import '../pages/commons/component/data/index.dart';
 import '../pages/commons/component/feedback/message/index.dart';
+import '../pages/commons/component/form/input/index.dart';
 import '../pages/commons/overview/cupertino/index.dart';
 import '../pages/commons/overview/element/index.dart';
 import '../pages/commons/overview/material/index.dart';
@@ -52,6 +53,82 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}typography',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}autocomplete',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}cascader',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}checkbox',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}color-picker',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}date-picker',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}datetime-picker',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}form',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}input',
+      builder: (context, state) => const InputPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}input-number',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}radio',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}rate',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}select',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}slider',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}switch',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}time-picker',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}time-select',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}transfer',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}tree-select',
+      builder: (context, state) => const NotFoundPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}upload',
       builder: (context, state) => const NotFoundPage(),
     ),
     RouterUtil.buildRoute(

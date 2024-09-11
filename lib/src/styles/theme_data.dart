@@ -33,8 +33,11 @@ class ElThemeData {
   /// 边框颜色
   final Color borderColor;
 
-  /// 字体默认颜色
+  /// 默认文本颜色
   final Color textColor;
+
+  /// 占位文本颜色
+  final Color placeholderColor;
 
   /// 图标默认颜色
   final Color iconColor;
@@ -87,6 +90,7 @@ class ElThemeData {
     this.bgColor = const Color(0xfffafafa),
     this.borderColor = const Color(0xffDCDFE6),
     this.textColor = const Color(0xff323232),
+    this.placeholderColor = const Color(0xffA8ABB2),
     this.iconColor = const Color.fromRGBO(96, 98, 102, 1.0),
     this.buttonStyle = const ElButtonStyle(),
     this.linkStyle = const ElLinkStyle(
@@ -125,6 +129,7 @@ class ElThemeData {
     this.bgColor = const Color(0xff2b2b2b),
     this.borderColor = const Color(0xffa3a3a3),
     this.textColor = const Color(0xfff2f2f2),
+    this.placeholderColor = const Color(0xff8D9095),
     this.iconColor = const Color(0xfff6f6f6),
     this.buttonStyle = const ElButtonStyle(),
     this.linkStyle = const ElLinkStyle(

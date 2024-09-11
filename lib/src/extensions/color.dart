@@ -110,16 +110,16 @@ extension ElColorExtension on Color {
   }
 
   /// 将当前颜色和另一种颜色按一定比例进行混合
-  /// * otherColor 相混合的第二种颜色
+  /// * color2 与之混合的颜色
   /// * scale 0-100，比值越小就越接近color1，比值越大就接近color2
-  Color mix(Color otherColor, int scale) {
+  Color mix(Color color2, int scale) {
     assert(scale >= 0 && scale <= 100);
     var p = scale / 100;
     return Color.fromARGB(
-      ((otherColor.alpha - alpha) * p + alpha).round(),
-      ((otherColor.red - red) * p + red).round(),
-      ((otherColor.green - green) * p + green).round(),
-      ((otherColor.blue - blue) * p + blue).round(),
+      ((color2.alpha - alpha) * p + alpha).round(),
+      ((color2.red - red) * p + red).round(),
+      ((color2.green - green) * p + green).round(),
+      ((color2.blue - blue) * p + blue).round(),
     );
   }
 
@@ -127,6 +127,7 @@ extension ElColorExtension on Color {
   Color on(bool flag, {int scale = 10, Color? color}) =>
       flag ? (color ?? deepen(scale)) : this;
 
+  /// 将当前颜色和另一种颜色进行线性插值
   Color lerp(Color otherColor, double t) {
     assert(Color.lerp(this, otherColor, t) != null);
     return Color.lerp(this, otherColor, t)!;
@@ -135,8 +136,8 @@ extension ElColorExtension on Color {
 
 extension ElColorThemeExtension on Color {
   /// 根据当前颜色返回符合 Element 主题系统颜色。
-  /// * 如果当前是亮色模式，则与 [Colors.white] 进行混合，级别越高，颜色越接近白色
-  /// * 如果当前是暗色模式，则与 [Colors.black] 进行混合，级别越高，颜色越接近黑色
+  /// * 如果当前是亮色模式，则与白色进行混合，level 级别越高，颜色越接近白色
+  /// * 如果当前是暗色模式，则与黑色进行混合，level 级别越高，颜色越接近黑色
   /// * reverse - 是否应用反转颜色
   Color elLight(BuildContext context, int level, bool reverse) {
     assert(level >= 1 && level <= 9, 'elLight 颜色级别范围必须是 1 - 9，但却得到: $level');
@@ -194,8 +195,9 @@ extension ElColorThemeExtension on Color {
   }
 }
 
-// 我看不太懂官方写的 scss 源码，所以目前做不到完全还原，只能尽量模拟。
+// 我看不太懂官方写的 scss 源码，所以只能尽量模拟颜色效果
 extension _ColorExtension on Color {
   Color _darken(int level) => mix(const Color(0xff222222), level * 9);
+
   Color _brighten(int level) => mix(Colors.white, level * 10);
 }

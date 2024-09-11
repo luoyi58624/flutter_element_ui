@@ -98,7 +98,9 @@ class ElText extends StatefulWidget {
   /// 使用递归构建富文本片段
   InlineSpan _buildInlineSpan(BuildContext context, dynamic data) {
     // 1. 如果是文本片段则直接返回
-    if (data is TextSpan || data is WidgetSpan) return data;
+    if (data is TextSpan || data is WidgetSpan) {
+      return data;
+    }
 
     // 2. 处理 Text 小部件，对于嵌套的子组件，TextSpan 本身就只接受少量参数，所以其他参数会被忽略
     if (data is Text) {
