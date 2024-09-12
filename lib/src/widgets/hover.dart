@@ -55,14 +55,13 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
   Widget build(BuildContext context) {
     // 仅限桌面端，移动端不存在hover
     if (PlatformUtil.isDesktop) {
+      final cursor = widget.cursor ?? MouseCursor.defer;
+      if(widget.disabled) isHover = false;
       return _HoverInheritedWidget(
         isHover: isHover,
-        mouseCursor:
-            widget.disabled ? SystemMouseCursors.forbidden : widget.cursor,
+        mouseCursor: cursor,
         child: MouseRegion(
-          cursor: widget.disabled
-              ? SystemMouseCursors.forbidden
-              : (widget.cursor ?? MouseCursor.defer),
+          cursor: cursor,
           onHover: widget.disabled ? null : widget.onHover,
           onEnter: widget.disabled ? null : _onEnter,
           onExit: widget.disabled ? null : _onExit,

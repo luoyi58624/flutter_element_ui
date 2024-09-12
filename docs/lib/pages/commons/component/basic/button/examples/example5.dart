@@ -1,28 +1,25 @@
 import 'package:docs/global.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Example1 extends StatelessWidget {
-  const Example1({super.key});
+class Example5 extends StatelessWidget {
+  const Example5({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('使用方法'),
+        const SectionTitle('图标按钮'),
         CodeExampleWidget(
-          code: code1,
+          code: code,
           children: const [
             Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              spacing: 16,
+              spacing: 8,
+              runSpacing: 8,
               children: [
-                ElIcon(ElIcons.sHome),
-                ElIcon(ElIcons.edit),
-                ElIcon(ElIcons.share),
-                ElIcon(ElIcons.delete),
+                ElButton(type: 'primary', child: ElIcon(ElIcons.edit)),
+                ElButton(type: 'primary', child: ElIcon(ElIcons.share)),
+                ElButton(type: 'primary', child: ElIcon(ElIcons.delete)),
                 ElButton(
                   type: 'primary',
                   leftIcon: ElIcon(ElIcons.search),
@@ -42,24 +39,20 @@ class Example1 extends StatelessWidget {
   }
 }
 
-String get code1 => '''
+String get code => '''
 Wrap(
-  crossAxisAlignment: WrapCrossAlignment.center,
-  spacing: 16,
+  spacing: 8,
   children: [
-    ElIcon(ElIcons.sHome),
-    ElIcon(ElIcons.edit),
-    ElIcon(ElIcons.share),
-    ElIcon(ElIcons.delete),
+    ElButton(type: 'primary', child: ElIcon(ElIcons.edit)),
+    ElButton(type: 'primary', child: ElIcon(ElIcons.share)),
+    ElButton(type: 'primary', child: ElIcon(ElIcons.delete)),
     ElButton(
       type: 'primary',
-      margin: EdgeInsets.zero,
       leftIcon: ElIcon(ElIcons.search),
       child: '搜索',
     ),
     ElButton(
       type: 'primary',
-      margin: EdgeInsets.zero,
       rightIcon: ElIcon(ElIcons.upload2),
       child: '上传',
     ),

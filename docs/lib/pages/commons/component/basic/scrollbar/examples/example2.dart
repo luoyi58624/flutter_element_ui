@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class Example2 extends HookWidget {
   const Example2({super.key});
@@ -11,7 +10,6 @@ class Example2 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('使用 IOS 滚动条'),
-        textGap,
         CodeExampleWidget(
           code: code,
           children: const [

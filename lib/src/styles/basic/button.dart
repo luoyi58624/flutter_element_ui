@@ -11,7 +11,6 @@ class ElButtonStyle {
   const ElButtonStyle({
     this.height,
     this.borderRadius,
-    this.margin = const EdgeInsets.all(4),
     this.padding,
     this.animatedDuration = const Duration(milliseconds: 75),
     this.enableFeedback,
@@ -22,9 +21,6 @@ class ElButtonStyle {
 
   /// 按钮圆角，默认：radius
   final BorderRadius? borderRadius;
-
-  /// 按钮外边距
-  final EdgeInsetsGeometry? margin;
 
   /// 按钮内边距，默认为高度的一半
   final EdgeInsetsGeometry? padding;

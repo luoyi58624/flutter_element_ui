@@ -17,8 +17,7 @@ class InstallPage extends ResponsivePage {
         title: 'Tip',
         content: [
           'ElApp 与 MaterialApp 不同，它的功能非常简单，只负责注入全局配置信息，'
-              '所以你依然需要使用 MaterialApp 或其他顶级 APP 构建应用，但如果你是初学者，'
-              '请直接使用 MaterialApp 构建应用，防止踩坑。',
+              '所以你依然需要使用 MaterialApp 或其他顶级 APP 构建应用。',
           '而 ElApp.builder() 则是默认构建一些预设内容，例如：文本主题、滚动配置，而这些内容你完全可以自己实现，'
               '更多详细信息可以查阅源码。'
         ],

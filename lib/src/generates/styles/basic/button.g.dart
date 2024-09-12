@@ -18,7 +18,6 @@ extension ElButtonStyleExtension on ElButtonStyle {
     return ElButtonStyle(
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
-      margin: margin ?? this.margin,
       padding: padding ?? this.padding,
       animatedDuration: animatedDuration ?? this.animatedDuration,
       enableFeedback: enableFeedback ?? this.enableFeedback,
@@ -30,7 +29,6 @@ extension ElButtonStyleExtension on ElButtonStyle {
     return copyWith(
       height: other.height,
       borderRadius: other.borderRadius,
-      margin: other.margin,
       padding: other.padding,
       animatedDuration: other.animatedDuration,
       enableFeedback: other.enableFeedback,

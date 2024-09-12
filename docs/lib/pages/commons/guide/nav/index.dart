@@ -9,24 +9,26 @@ class NavPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
+    final count = useState(0);
     return [
-      ElHoverBuilder(builder: (context) {
-        return AnimatedContainer(
-          duration: 100.ms,
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 12,
-              ),
-            ],
-          ),
-        );
-      }),
+      ElButton(
+        onPressed: () {
+          count.value++;
+        },
+        child: ElText('count: ${count.value}'),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          count.value++;
+        },
+        child: Text('count: ${count.value}'),
+      ),
+      ElButton2(
+        onPressed: () {
+          count.value++;
+        },
+        child: ElText('count: ${count.value}'),
+      ),
     ];
   }
 }

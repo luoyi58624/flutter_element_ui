@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/global.dart';
+import 'package:flutter_element_ui/src/utils/common.dart';
 
 import '../../utils/assert.dart';
 import '../../utils/font.dart';
@@ -145,40 +147,45 @@ class ElButton extends StatelessWidget {
       block: block,
       borderRadius:
           borderRadius ?? defaultStyle.borderRadius ?? context.elConfig.radius,
-      margin: margin ?? defaultStyle.margin,
+      margin: margin,
       padding: padding ??
           defaultStyle.padding ??
           EdgeInsets.symmetric(horizontal: buttonHeight / 2),
       leftIcon: leftIcon,
       rightIcon: rightIcon,
       circle: circle,
-      disabled: disabled,
+      disabled: loading || disabled,
       loading: loading,
       enableFeedback: enableFeedback ??
           defaultStyle.enableFeedback ??
           context.elConfig.enableFeedback,
     );
-    var currentWidget = ElHoverBuilder(
-      disabled: disabled,
-      cursor: SystemMouseCursors.click,
-      builder: (context) => ElTapBuilder(
-        onTap: () {
-          if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
-          if (onPressed != null) onPressed!();
+    Widget result = ElTapBuilder(
+      onTap: () {
+        if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
+        if (onPressed != null) onPressed!();
+      },
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
+      onTapCancel: onTapCancel,
+      disabled: styleProp.disabled,
+      delay: defaultStyle.animatedDuration.inMilliseconds,
+      builder: (context) => ElHoverBuilder(
+        disabled: styleProp.disabled,
+        cursor: styleProp.loading
+            ? ElUtils.loadingCursor
+            : styleProp.disabled
+                ? SystemMouseCursors.forbidden
+                : SystemMouseCursors.click,
+        builder: (context) {
+          return _Button(child, styleProp);
         },
-        onTapDown: onTapDown,
-        onTapUp: onTapUp,
-        onTapCancel: onTapCancel,
-        disabled: disabled,
-        delay: defaultStyle.animatedDuration.inMilliseconds,
-        builder: (context) => _Button(child, styleProp),
       ),
     );
+
     return Padding(
       padding: styleProp.margin ?? EdgeInsets.zero,
-      child: block && !circle
-          ? currentWidget
-          : UnconstrainedBox(child: currentWidget),
+      child: block && !circle ? result : UnconstrainedBox(child: result),
     );
   }
 }
@@ -235,7 +242,7 @@ class _Button extends HookWidget {
     late Widget childWidget;
     if (child is Widget) {
       if (child is ElIcon) {
-        childWidget = buildIcon(child, buttonStyle);
+        childWidget = buildIconTheme(child, buttonStyle);
       } else {
         childWidget = child;
       }
@@ -246,24 +253,29 @@ class _Button extends HookWidget {
       );
     }
 
-    if (styleProp.leftIcon != null || styleProp.rightIcon != null) {
-      childWidget = Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          if (styleProp.leftIcon != null)
-            buildIcon(styleProp.leftIcon!, buttonStyle),
-          Padding(
+    if (styleProp.loading ||
+        styleProp.leftIcon != null ||
+        styleProp.rightIcon != null) {
+      childWidget = buildIconTheme(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (styleProp.loading) const ElLoading(),
+            if (styleProp.leftIcon != null) styleProp.leftIcon!,
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: childWidget),
-          if (styleProp.rightIcon != null)
-            buildIcon(styleProp.rightIcon!, buttonStyle)
-        ],
+              child: childWidget,
+            ),
+            if (styleProp.rightIcon != null) styleProp.rightIcon!,
+          ],
+        ),
+        buttonStyle,
       );
     }
     return childWidget;
   }
 
-  Widget buildIcon(Widget iconWidget, _ButtonStyleHook buttonStyle) {
+  Widget buildIconTheme(Widget iconWidget, _ButtonStyleHook buttonStyle) {
     return ElIconTheme(
       color: buttonStyle.textColor,
       size: styleProp.height / 2 - 2,
@@ -276,6 +288,7 @@ typedef _ButtonStyleHook = ({Color? bgColor, Color? textColor, Border? border});
 
 /// 改变按钮透明度样式值
 const double _opacity = 0.6;
+const double _textDisabledOpacity = 0.36;
 
 extension _ButtonColorExtension on Color {
   /// hover 悬停颜色，颜色会变得更浅
@@ -306,6 +319,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
   Color? $themeTypeColor;
   if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
+  // 计算链接按钮
   if (style.link) {
     $isThemeType
         ? textColor.value = $themeTypeColor!
@@ -316,7 +330,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
             .on($isTap, color: $defaultTextColor.tap(context));
     borderColor.value = null;
     if (style.disabled) {
-      textColor.value = textColor.value!.withOpacity(_opacity);
+      textColor.value = textColor.value!.withOpacity(_textDisabledOpacity);
     }
   }
   // 计算文字按钮样式
@@ -329,7 +343,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
         : textColor.value = $defaultTextColor;
     borderColor.value = null;
     if (style.disabled) {
-      textColor.value = textColor.value!.withOpacity(_opacity);
+      textColor.value = textColor.value!.withOpacity(_textDisabledOpacity);
     }
   } else {
     // 计算默认按钮样式

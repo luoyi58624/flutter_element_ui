@@ -1,23 +1,24 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
-
-import '../../../service.dart';
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
 
 part 'util.dart';
 
 class ElLoading extends StatelessWidget {
-  const ElLoading({super.key, required this.size, required this.color});
+  const ElLoading({
+    super.key,
+    this.size,
+    this.color,
+    this.loading = true,
+  });
 
   final double? size;
   final Color? color;
+  final bool loading;
 
   /// 显示 Loading 弹窗，如果之前打开了一个，将关闭之前的弹窗。
   ///
@@ -65,6 +66,7 @@ class ElLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _LoadingWidget(
+      loading: loading,
       child: ElIcon(
         ElIcons.loading,
         size: size,
@@ -77,7 +79,7 @@ class ElLoading extends StatelessWidget {
 class _LoadingWidget extends StatefulWidget {
   const _LoadingWidget({
     required this.child,
-    this.loading = true,
+    required this.loading,
   });
 
   final Widget child;

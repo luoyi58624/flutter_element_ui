@@ -59,5 +59,4 @@ class _InputExample extends HookWidget {
     final input = useState(''); // 当输入框的值发生变化时，input会自动同步
     return ElInput(input);
   }
-}
-''';
+}''';

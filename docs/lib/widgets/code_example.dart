@@ -119,42 +119,50 @@ class CodeExampleWidget extends HookWidget {
     return ElHoverBuilder(builder: (context) {
       return Stack(
         children: [
-          AnimatedContainer(
-            duration: context.elConfig.themeDuration,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: context.elTheme.bgColor.deepen(3),
-              borderRadius: _onlyCode
-                  ? context.elTheme.cardStyle.radius
-                  : BorderRadius.only(
-                      bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                      bottomRight: context.elTheme.cardStyle.radius.bottomRight,
-                    ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              // 固定最大高度在桌面端滚动体验不太好，暂时隐藏
+              // maxHeight: 500,
             ),
             child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ObsBuilder(builder: (context) {
-                Widget result = Container(
-                  padding: const EdgeInsets.all(16),
-                  child: ElText(
-                    $code.value,
-                    softWrap: false,
-                    style: const TextStyle(
-                      fontFamily: MyFonts.consolas,
-                      fontSize: 14,
-                      height: 1.5,
-                    ),
-                  ),
-                );
-                if (GlobalState.enableGlobalTextSelected.value) {
-                  if (RouterUtil.isMobile.value == true) {
-                    return SelectionArea(child: result);
-                  }
-                  return result;
-                } else {
-                  return SelectionArea(child: result);
-                }
-              }),
+              child: AnimatedContainer(
+                duration: context.elConfig.themeDuration,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: context.elTheme.bgColor.deepen(3),
+                  borderRadius: _onlyCode
+                      ? context.elTheme.cardStyle.radius
+                      : BorderRadius.only(
+                          bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                          bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                        ),
+                ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ObsBuilder(builder: (context) {
+                    Widget result = Container(
+                      padding: const EdgeInsets.all(16),
+                      child: ElText(
+                        $code.value,
+                        softWrap: false,
+                        style: const TextStyle(
+                          fontFamily: MyFonts.consolas,
+                          fontSize: 14,
+                          height: 1.5,
+                        ),
+                      ),
+                    );
+                    if (GlobalState.enableGlobalTextSelected.value) {
+                      if (RouterUtil.isMobile.value == true) {
+                        return SelectionArea(child: result);
+                      }
+                      return result;
+                    } else {
+                      return SelectionArea(child: result);
+                    }
+                  }),
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -162,7 +170,7 @@ class CodeExampleWidget extends HookWidget {
             right: 16,
             child: AnimatedOpacity(
               duration: 200.ms,
-              opacity: context.isHover ? 1.0 : 0.0,
+              opacity: PlatformUtil.isMobile || context.isHover ? 1.0 : 0.0,
               child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {
