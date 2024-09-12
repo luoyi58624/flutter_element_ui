@@ -1,8 +1,6 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../../responsive_page.dart';
-
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -18,11 +16,14 @@ class NavPage extends ResponsivePage {
           width: 100,
           height: 100,
           decoration: BoxDecoration(
-            color: Colors.blue,
-            border: Border.all(
-              width: context.isHover ? 4 : 0.00000000001,
-              color: Colors.red,
-            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 12,
+              ),
+            ],
           ),
         );
       }),

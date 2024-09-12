@@ -310,17 +310,27 @@ class _LinkOverlayState extends State<_LinkOverlay>
                   maxWidth: MediaQuery.of(context).size.width - 50,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: context.isDark
-                      ? Colors.grey.shade700
-                      : Colors.grey.shade300,
-                  borderRadius:
-                      const BorderRadius.only(topRight: Radius.circular(4)),
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(227, 227, 227, 1),
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
+                  border: Border(
+                    top: _linkBorderSide,
+                    right: _linkBorderSide,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 0),
+                      blurRadius: 12,
+                      spreadRadius: 0,
+                    ),
+                  ],
                 ),
                 child: ObsBuilder(builder: (context) {
                   return ElText(
                     _href.value,
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(
+                        fontSize: 12, color: Color.fromRGBO(71, 71, 71, 1)),
                     overflow: TextOverflow.ellipsis,
                   );
                 }),
@@ -330,3 +340,8 @@ class _LinkOverlayState extends State<_LinkOverlay>
     );
   }
 }
+
+const BorderSide _linkBorderSide = BorderSide(
+  // width: 0.5,
+  color: Color.fromRGBO(174, 174, 174, 0.4),
+);
