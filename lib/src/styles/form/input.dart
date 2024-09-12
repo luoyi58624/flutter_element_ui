@@ -13,6 +13,7 @@ class ElInputStyle {
     this.borderRadius,
     this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.textStyle = const TextStyle(fontSize: 14),
   });
 
   /// 输入框高度，默认全局 baseHeight
@@ -26,4 +27,7 @@ class ElInputStyle {
 
   /// 输入框内边距
   final EdgeInsetsGeometry? padding;
+
+  /// 输入框文本样式
+  final TextStyle textStyle;
 }

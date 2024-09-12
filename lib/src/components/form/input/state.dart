@@ -69,8 +69,9 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       minLines: widget.minLines,
       maxLines: widget.maxLines,
       style: TextStyle(
+        fontSize: 14,
         color: context.elTheme.textColor,
-      ).merge(widget.style),
+      ).merge(widget.textStyle),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
       cursorColor: context.elTheme.textColor,
@@ -90,7 +91,6 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       enabledBorder: OutlineInputBorder(
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
-          width: context.isHover ? 1.2 : 1,
           color: context.isHover
               ? context.elTheme.borderColor.deepen(16)
               : context.elTheme.borderColor,
@@ -105,7 +105,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       ),
       hintText: widget.placeholder,
       hintStyle: ElDefaultTextStyle.of(context).style.copyWith(
-            // fontSize: 0.875.rem(context),
+            fontSize: 14,
             color: context.elTheme.placeholderColor,
           ),
       // suffixIcon: currentValue != ''

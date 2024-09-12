@@ -7,7 +7,6 @@ import 'package:flutter_element_ui/src/extensions/theme.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import 'components/basic/text.dart';
-import 'extensions/brightness.dart';
 import 'styles/config_data.dart';
 import 'styles/theme_data.dart';
 import 'utils/font.dart';
@@ -67,7 +66,7 @@ class ElApp extends StatefulWidget {
   final ScrollBehavior scrollBehavior;
 
   /// 通过上下文 context 访问注入的全局主题配置
-  static ElThemeModel of(BuildContext context) =>
+  static ElAppData of(BuildContext context) =>
       _AppInheritedWidget.of(context).themeModel;
 
   /// 构建 Element UI 默认文本主题、默认的 [Overlay] 浮层、滚动配置...
@@ -166,27 +165,28 @@ class ElAppState extends State<ElApp> {
       $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
     }
 
-    return BrightnessWidget(
-      brightness: $brightness,
-      child: _AppInheritedWidget(
-        ElThemeModel(
-          theme: widget.theme,
-          darkTheme: widget.darkTheme,
-          config: widget.config,
-          textStyle: $textStyle,
-          globalThemeDuration: _globalThemeDuration,
-          globalThemeCurve: _globalThemeCurve,
-        ),
-        widget.materialBuilder,
-        widget.scrollBehavior,
-        child: widget.child,
+    return _AppInheritedWidget(
+      ElAppData(
+        brightness: $brightness,
+        theme: widget.theme,
+        darkTheme: widget.darkTheme,
+        config: widget.config,
+        textStyle: $textStyle,
+        globalThemeDuration: _globalThemeDuration,
+        globalThemeCurve: _globalThemeCurve,
       ),
+      widget.materialBuilder,
+      widget.scrollBehavior,
+      child: widget.child,
     );
   }
 }
 
-/// 全局注入的主题模型数据，允许通过 [ElApp.of] 方法访问它们
-class ElThemeModel {
+/// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
+class ElAppData {
+  /// 当前主题模式
+  final Brightness brightness;
+
   /// 亮色主题配置
   final ElThemeData theme;
 
@@ -205,7 +205,8 @@ class ElThemeModel {
   /// 全局动画曲线，同上
   final Curve? globalThemeCurve;
 
-  ElThemeModel({
+  ElAppData({
+    required this.brightness,
     required this.theme,
     required this.darkTheme,
     required this.config,
@@ -223,7 +224,7 @@ class _AppInheritedWidget extends InheritedWidget {
     required super.child,
   });
 
-  final ElThemeModel themeModel;
+  final ElAppData themeModel;
   final TransitionBuilder? materialBuilder;
   final ScrollBehavior scrollBehavior;
 

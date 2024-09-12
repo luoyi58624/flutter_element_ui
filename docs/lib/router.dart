@@ -197,7 +197,7 @@ class RouterUtil {
         ('设计', '/${RootRoute.guide.$2}/design'),
         ('导航', '/${RootRoute.guide.$2}/nav'),
         ('安装', '/${RootRoute.guide.$2}/install'),
-        ('快速开始', '/${RootRoute.guide.$2}/quickstart'),
+        // ('快速开始', '/${RootRoute.guide.$2}/quickstart'),
       ],
     ),
     (

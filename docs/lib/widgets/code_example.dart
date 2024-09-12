@@ -18,7 +18,16 @@ class CodeExampleWidget extends HookWidget {
     super.key,
     required this.code,
     required this.children,
-  });
+  }) : _onlyCode = false;
+
+  /// 仅展示代码
+  const CodeExampleWidget.code({
+    super.key,
+    required this.code,
+  })  : _onlyCode = true,
+        children = const [];
+
+  final bool _onlyCode;
 
   /// 示例代码字符串，代码展示效果基于第三方库：[syntax_highlight]
   final String code;
@@ -32,37 +41,42 @@ class CodeExampleWidget extends HookWidget {
     final isExpanded = useState(false);
     initCodeStyle(context, $code);
     return ElHoverBuilder(builder: (context) {
-      return Card(
-        elevation: context.isHover ? 4 : 0,
-        shadowColor: Colors.black38,
-        margin: EdgeInsets.zero,
-        child: AnimatedContainer(
-          duration: context.elConfig.themeDuration,
-          decoration: BoxDecoration(
-            borderRadius: context.elTheme.cardStyle.radius,
-            border: Border.all(
-              color: context.elTheme.borderColor,
-              width: 1,
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
+      return _onlyCode
+          ? buildCodePreview($code)
+          : Card(
+              elevation: context.isHover ? 4 : 0,
+              shadowColor: Colors.black38,
+              margin: EdgeInsets.zero,
+              child: AnimatedContainer(
+                duration: context.elConfig.themeDuration,
+                decoration: BoxDecoration(
+                  borderRadius: context.elTheme.cardStyle.radius,
+                  border: Border.all(
+                    color: context.elTheme.borderColor,
+                    width: 1,
+                  ),
+                ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: children,
+                      ),
+                    ),
+                    const ElDivider(),
+                    _PreviewButton(isExpanded, context.isHover),
+                    ElCollapseTransition(
+                      isExpanded.value,
+                      child: buildCodePreview($code),
+                    ),
+                  ],
                 ),
               ),
-              const ElDivider(),
-              _PreviewButton(isExpanded, context.isHover),
-              buildCodePreview(isExpanded, $code),
-            ],
-          ),
-        ),
-      );
+            );
     });
   }
 
@@ -101,89 +115,90 @@ class CodeExampleWidget extends HookWidget {
   }
 
   /// 构建预览代码块
-  Widget buildCodePreview(isExpanded, $code) {
-    return ElCollapseTransition(
-      isExpanded.value,
-      child: ElHoverBuilder(builder: (context) {
-        return Stack(
-          children: [
-            AnimatedContainer(
-              duration: context.elConfig.themeDuration,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: context.elTheme.bgColor.deepen(3),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                  bottomRight: context.elTheme.cardStyle.radius.bottomRight,
-                ),
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: ObsBuilder(builder: (context) {
-                  Widget result = Container(
-                    padding: const EdgeInsets.all(16),
-                    child: ElText(
-                      $code.value,
-                      softWrap: false,
-                      style: const TextStyle(
-                        fontFamily: MyFonts.consolas,
-                        fontSize: 14,
+  Widget buildCodePreview($code) {
+    return ElHoverBuilder(builder: (context) {
+      return Stack(
+        children: [
+          AnimatedContainer(
+            duration: context.elConfig.themeDuration,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: context.elTheme.bgColor.deepen(3),
+              borderRadius: _onlyCode
+                  ? context.elTheme.cardStyle.radius
+                  : BorderRadius.only(
+                      bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                      bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                    ),
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ObsBuilder(builder: (context) {
+                Widget result = Container(
+                  padding: const EdgeInsets.all(16),
+                  child: ElText(
+                    $code.value,
+                    softWrap: false,
+                    style: const TextStyle(
+                      fontFamily: MyFonts.consolas,
+                      fontSize: 14,
+                      height: 1.5,
+                    ),
+                  ),
+                );
+                if (GlobalState.enableGlobalTextSelected.value) {
+                  if (RouterUtil.isMobile.value == true) {
+                    return SelectionArea(child: result);
+                  }
+                  return result;
+                } else {
+                  return SelectionArea(child: result);
+                }
+              }),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 16,
+            child: AnimatedOpacity(
+              duration: 200.ms,
+              opacity: context.isHover ? 1.0 : 0.0,
+              child: ElHoverBuilder(
+                cursor: SystemMouseCursors.click,
+                builder: (context) {
+                  return GestureDetector(
+                    onTap: () async {
+                      await Clipboard.setData(ClipboardData(text: code));
+                      el.message.success('复制成功');
+                    },
+                    onTapDown: (e) {
+                      HapticFeedback.mediumImpact();
+                    },
+                    child: AnimatedContainer(
+                      duration: context.elThemeDuration ?? 250.ms,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: context.elTheme.cardStyle.radius,
+                        color: context.isDark
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade300,
+                      ),
+                      child: ElIcon(
+                        ElIcons.documentCopy,
+                        color: context.isDark
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade700,
+                        size: 18,
                       ),
                     ),
                   );
-                  if (GlobalState.enableGlobalTextSelected.value) {
-                    if (RouterUtil.isMobile.value == true) {
-                      return SelectionArea(child: result);
-                    }
-                    return result;
-                  } else {
-                    return SelectionArea(child: result);
-                  }
-                }),
+                },
               ),
             ),
-            Positioned(
-              top: 10,
-              right: 16,
-              child: AnimatedOpacity(
-                duration: 200.ms,
-                opacity: context.isHover ? 1.0 : 0.0,
-                child: ElHoverBuilder(
-                  cursor: SystemMouseCursors.click,
-                  builder: (context) {
-                    return GestureDetector(
-                      onTap: () async {
-                        await Clipboard.setData(ClipboardData(text: code));
-                        el.message.success('复制成功');
-                      },
-                      onTapDown: (e) {
-                        HapticFeedback.mediumImpact();
-                      },
-                      child: AnimatedContainer(
-                        duration: context.elThemeDuration ?? 250.ms,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          borderRadius: context.elTheme.cardStyle.radius,
-                          color: context.isDark
-                              ? Colors.grey.shade700
-                              : Colors.grey.shade300,
-                        ),
-                        child: ElIcon(
-                          ElIcons.documentCopy,
-                          color: context.isDark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade700,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            )
-          ],
-        );
-      }),
-    );
+          )
+        ],
+      );
+    });
   }
 }
 

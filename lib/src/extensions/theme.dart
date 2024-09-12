@@ -1,9 +1,18 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../app.dart';
 import '../global.dart';
 import '../styles/config_data.dart';
 import '../styles/theme_data.dart';
+
+extension ElBrightnessExtension on BuildContext {
+  /// 获取当平台亮度模式
+  Brightness get brightness => ElApp.of(this).brightness;
+
+  /// 当前环境是否是暗黑模式
+  bool get isDark => brightness == Brightness.dark;
+}
 
 extension ElThemeExtension on BuildContext {
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题

@@ -1,5 +1,4 @@
 import 'package:docs/global.dart';
-import 'package:docs/pages/commons/responsive_page.dart';
 import 'package:flutter/material.dart';
 
 class InstallPage extends ResponsivePage {
@@ -10,71 +9,64 @@ class InstallPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    final count = useState(0);
-    final flag = useState(false);
-    final d = 500.ms;
-
-    Widget result = Ink(
-      decoration: BoxDecoration(
-        color: context.isDark ? Colors.grey.shade800 : Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(6),
-        hoverDuration: 100.ms,
-        onTap: () {
-          count.value++;
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12.0,
-            vertical: 8.0,
-          ),
-          child: ElText(
-            'count: ${count.value}',
-            style: TextStyle(fontWeight: ElFont.medium, fontSize: 15),
-          ),
-        ),
-      ),
-    );
     return [
-      result,
-      Center(child: ElSwitch(flag)),
-      const Gap(50),
-      ElButton(
-        onPressed: () {
-          // el.globalKey.currentContext!.push(ChildPage());
-          el.context.push(ChildPage());
-        },
-        child: '下一页',
-      ),
-      Container(
-        width: 50,
-        height: 50,
-        color: context.isDark ? Colors.red : Colors.green,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          FadeInLeft(animate: flag.value, duration: d, child: Square()),
-          FadeInUp(animate: flag.value, duration: d, child: Square()),
-          FadeInDown(animate: flag.value, duration: d, child: Square()),
-          FadeInRight(animate: flag.value, duration: d, child: Square()),
+      const SectionTitle('添加依赖'),
+      CodeExampleWidget.code(code: code1),
+      const SectionTitle('编辑 main.dart'),
+      const SectionCard(
+        title: 'Tip',
+        content: [
+          'ElApp 与 MaterialApp 不同，它的功能非常简单，只负责注入全局配置信息，'
+              '所以你依然需要使用 MaterialApp 或其他顶级 APP 构建应用，但如果你是初学者，'
+              '请直接使用 MaterialApp 构建应用，防止踩坑。',
+          '而 ElApp.builder() 则是默认构建一些预设内容，例如：文本主题、滚动配置，而这些内容你完全可以自己实现，'
+              '更多详细信息可以查阅源码。'
         ],
       ),
+      textGap,
+      CodeExampleWidget.code(code: code2),
     ];
   }
 }
 
-class Square extends StatelessWidget {
-  const Square({super.key});
+String get code1 => '''flutter pub add flutter_element_ui''';
+
+String get code2 => '''
+import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      color: Colors.green,
+    return ElApp(
+      child: MaterialApp(
+        home: const HomePage(),
+        builder: ElApp.builder(),
+      ),
     );
   }
 }
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('首页'),
+      ),
+      body: const Center(
+        child: ElButton(
+          child: 'Hello'
+        ),
+      ),
+    );
+  }
+}''';

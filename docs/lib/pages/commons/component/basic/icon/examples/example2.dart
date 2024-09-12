@@ -12,6 +12,21 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('图标集合'),
+        const SectionCard(
+          type: 'warning',
+          title: 'Warning',
+          content: [
+            ElText([
+              '这里的图标来源于 ',
+              ElLink(
+                href: 'https://element.eleme.io/#/zh-CN/component/icon',
+                child: 'Element UI',
+              ),
+              '，而不是 Element Plus',
+            ]),
+          ],
+        ),
+        textGap,
         ElIconTheme(
           size: 2.rem(context),
           child: LayoutBuilder(builder: (context, constraints) {

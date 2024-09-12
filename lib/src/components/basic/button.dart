@@ -7,7 +7,7 @@ import '../../utils/assert.dart';
 import '../../utils/font.dart';
 import 'icon.dart';
 
-typedef _ButtonStyleProp = ({
+typedef _StyleProp = ({
   double? width,
   double height,
   Color? bgColor,
@@ -132,7 +132,7 @@ class ElButton extends StatelessWidget {
     final defaultStyle = context.elTheme.buttonStyle;
     final buttonHeight =
         height ?? defaultStyle.height ?? context.elConfig.baseHeight;
-    _ButtonStyleProp styleProp = (
+    _StyleProp styleProp = (
       width: width,
       height: buttonHeight,
       bgColor: bgColor,
@@ -187,7 +187,7 @@ class _Button extends HookWidget {
   const _Button(this.child, this.styleProp);
 
   final dynamic child;
-  final _ButtonStyleProp styleProp;
+  final _StyleProp styleProp;
 
   /// child类型为基础类型
   bool get isBaseType => child == null || DartUtil.isBaseType(child);
@@ -292,7 +292,7 @@ extension _ButtonColorExtension on Color {
 }
 
 /// 计算按钮样式 hook
-_ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
+_ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
   final bgColor = useState<Color?>(null);
   final textColor = useState<Color?>(null);
   final borderColor = useState<Color?>(null);
@@ -353,7 +353,9 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {
-        textColor.value = $isHover || $isTap ? $primaryColor.elTextColor(context) : $primaryColor;
+        textColor.value = $isHover || $isTap
+            ? $primaryColor.elTextColor(context)
+            : $primaryColor;
         bgColor.value = PlatformUtil.isDesktop
             ? ($isTap
                 ? $primaryColor.tap(context)
@@ -407,11 +409,7 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _ButtonStyleProp style) {
     bgColor: bgColor.value,
     textColor: textColor.value,
     border: borderColor.value != null
-        ? Border.all(
-            color: borderColor.value!,
-            width: 1,
-            // strokeAlign: BorderSide.strokeAlignOutside,
-          )
+        ? Border.all(color: borderColor.value!, width: 1)
         : null
   );
 }

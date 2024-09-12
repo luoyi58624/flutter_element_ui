@@ -13,6 +13,7 @@ import '../form.dart';
 import '../form_item.dart';
 
 part 'state.dart';
+part 'style.dart';
 
 typedef _InputStyleProp = ({
   double height,
@@ -38,7 +39,7 @@ class ElInput extends ElModelValue<String> {
     this.disabled = false,
     this.minLines,
     this.maxLines = 1,
-    this.style,
+    this.textStyle,
     this.prefixIcon,
     this.suffixIcon,
     this.placeholder,
@@ -77,7 +78,7 @@ class ElInput extends ElModelValue<String> {
   final int? maxLines;
 
   /// 输入框文本样式
-  final TextStyle? style;
+  final TextStyle? textStyle;
 
   /// 前缀图标
   final ElIcon? prefixIcon;
