@@ -7,7 +7,7 @@ class _ElButtonState extends State<ElButton2> {
   late ElButtonStyle defaultStyle;
   double? width;
   late double height;
-  late EdgeInsetsGeometry padding;
+  EdgeInsetsGeometry? padding;
   late _StyleProp styleProp;
 
   Widget get child =>
@@ -22,9 +22,7 @@ class _ElButtonState extends State<ElButton2> {
     width = widget.width;
     height =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
-    padding = widget.padding ??
-        defaultStyle.padding ??
-        EdgeInsets.symmetric(horizontal: height / 2);
+    padding = widget.padding ?? defaultStyle.padding;
     styleProp = (
       bgColor: widget.bgColor,
       color: widget.color,
@@ -90,10 +88,18 @@ class _ElButtonState extends State<ElButton2> {
       child: _ButtonData(
         duration: defaultStyle.animatedDuration,
         height: height,
+        padding: widget.padding ?? defaultStyle.padding,
         borderRadius: widget.borderRadius ??
             defaultStyle.borderRadius ??
             context.elConfig.radius,
-        child: result,
+        child: ElDefaultTextStyle.merge(
+          style: ElDefaultTextStyle.of(context).style.copyWith(
+                fontSize: 15,
+                fontWeight: ElFont.medium,
+                // color: buttonStyle.textColor,
+              ),
+          child: result,
+        ),
       ),
     );
   }
@@ -113,11 +119,13 @@ class _ButtonData extends InheritedWidget {
     required super.child,
     required this.duration,
     required this.height,
+    required this.padding,
     required this.borderRadius,
   });
 
   final Duration duration;
   final double height;
+  final EdgeInsetsGeometry? padding;
   final BorderRadiusGeometry borderRadius;
 
   static _ButtonData of(BuildContext context) {

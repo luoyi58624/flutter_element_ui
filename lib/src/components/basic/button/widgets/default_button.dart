@@ -20,6 +20,8 @@ class _DefaultButton extends StatelessWidget {
       constraints: const BoxConstraints(
         minWidth: _minWidth,
       ),
+      padding:
+          $data.padding ?? EdgeInsets.symmetric(horizontal: $data.height / 2),
       decoration: BoxDecoration(
         color: $isTap || $isHover ? $primaryColor.themeLightBg(context) : null,
         border: Border.all(

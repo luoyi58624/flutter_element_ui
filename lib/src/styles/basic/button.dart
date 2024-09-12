@@ -12,7 +12,7 @@ class ElButtonStyle {
     this.height,
     this.borderRadius,
     this.padding,
-    this.animatedDuration = const Duration(milliseconds: 75),
+    this.animatedDuration = const Duration(milliseconds: 100),
     this.enableFeedback,
   });
 

@@ -17,12 +17,12 @@ class NavPage extends ResponsivePage {
         },
         child: ElText('count: ${count.value}'),
       ),
-      ElevatedButton(
-        onPressed: () {
-          count.value++;
-        },
-        child: Text('count: ${count.value}'),
-      ),
+      // ElevatedButton(
+      //   onPressed: () {
+      //     count.value++;
+      //   },
+      //   child: Text('count: ${count.value}'),
+      // ),
       ElButton2(
         onPressed: () {
           count.value++;
