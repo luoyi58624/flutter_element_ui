@@ -5,13 +5,16 @@ import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../styles/basic/button.dart';
 import '../../../utils/font.dart';
+import '../../feedback/loading/loading.dart';
 import '../icon.dart';
 
 part 'state.dart';
 
-part 'style.dart';
+part 'widgets/button_content.dart';
 
-part 'widgets/default_button.dart';
+part 'widgets/button_wrapper.dart';
+
+part 'widgets/button_text_style.dart';
 
 class ElButton2 extends StatefulWidget {
   const ElButton2({
@@ -34,6 +37,8 @@ class ElButton2 extends StatefulWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
+    this.loadingWidget,
+    this.loadingBuilder,
     this.enableFeedback,
     this.onPressed,
     this.onTapDown,
@@ -94,11 +99,21 @@ class ElButton2 extends StatefulWidget {
   /// 禁用按钮，默认false
   final bool disabled;
 
+  /// 是否开启触觉回馈，默认全局关闭
+  final bool? enableFeedback;
+
   /// 开启 loading
   final bool loading;
 
-  /// 是否开启触觉回馈，默认全局关闭
-  final bool? enableFeedback;
+  /// 自定义 loading 小部件
+  final Widget? loadingWidget;
+
+  /// loading 构造器，与 [loadingWidget] 不同的是，前者只是代替默认的 loading 小部件，
+  /// 后者将替换按钮整个内容。
+  final Widget Function(
+    BuildContext context,
+    ElButtonProp prop,
+  )? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

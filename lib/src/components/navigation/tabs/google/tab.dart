@@ -44,7 +44,7 @@ class _TabActiveLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedColoredBox(
+    return ElAnimatedColoredBox(
       duration: context.elConfig.themeDuration,
       color: context.isDark ? context.elTheme.primary : Colors.white,
       child: SizedBox.fromSize(

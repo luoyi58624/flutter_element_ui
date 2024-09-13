@@ -52,7 +52,7 @@ class CodeExampleWidget extends HookWidget {
                 decoration: BoxDecoration(
                   borderRadius: context.elTheme.cardStyle.radius,
                   border: Border.all(
-                    color: context.elTheme.borderColor,
+                    color: context.elTheme.colors.border,
                     width: 1,
                   ),
                 ),
@@ -121,20 +121,22 @@ class CodeExampleWidget extends HookWidget {
         children: [
           ConstrainedBox(
             constraints: const BoxConstraints(
-              // 固定最大高度在桌面端滚动体验不太好，暂时隐藏
-              // maxHeight: 500,
-            ),
+                // 固定最大高度在桌面端滚动体验不太好，暂时隐藏
+                // maxHeight: 500,
+                ),
             child: SingleChildScrollView(
               child: AnimatedContainer(
                 duration: context.elConfig.themeDuration,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: context.elTheme.bgColor.deepen(3),
+                  color: context.elTheme.colors.bg.deepen(3),
                   borderRadius: _onlyCode
                       ? context.elTheme.cardStyle.radius
                       : BorderRadius.only(
-                          bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                          bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                          bottomLeft:
+                              context.elTheme.cardStyle.radius.bottomLeft,
+                          bottomRight:
+                              context.elTheme.cardStyle.radius.bottomRight,
                         ),
                 ),
                 child: SingleChildScrollView(
@@ -250,8 +252,8 @@ class _PreviewButton extends HookWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: context.isHover
-                    ? context.elTheme.primary.mix(context.elTheme.bgColor, 96)
-                    : context.elTheme.bgColor,
+                    ? context.elTheme.primary.mix(context.elTheme.colors.bg, 96)
+                    : context.elTheme.colors.bg,
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value
                       ? Radius.zero

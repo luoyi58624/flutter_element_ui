@@ -7,7 +7,6 @@ import 'package:flutter_element_ui/src/global.dart';
 
 import '../components/basic/icon.dart';
 import '../components/data/badge.dart';
-import '../utils/assert.dart';
 import '../utils/font.dart';
 import '../utils/icons.dart';
 
@@ -456,7 +455,7 @@ class _DefaultMessage extends StatelessWidget {
                   message.content,
                   style: TextStyle(
                     color: context.isDark
-                        ? context.darkTheme.textColor
+                        ? context.darkTheme.colors.text
                         : themeColor,
                     fontWeight: ElFont.medium,
                   ),

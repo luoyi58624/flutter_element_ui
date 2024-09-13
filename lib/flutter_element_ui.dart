@@ -90,8 +90,11 @@ export 'src/utils/common.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/shortcut.dart';
 
+export 'src/widgets/animation.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/null_widget.dart';
 export 'src/widgets/scroll_behavior.dart';
+export 'src/widgets/size_builder.dart';
+export 'src/widgets/size_builder2.dart';
 export 'src/widgets/tap.dart';

@@ -10,7 +10,6 @@ extension ElButtonStyleExtension on ElButtonStyle {
   ElButtonStyle copyWith({
     double? height,
     BorderRadius? borderRadius,
-    EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
     Duration? animatedDuration,
     bool? enableFeedback,

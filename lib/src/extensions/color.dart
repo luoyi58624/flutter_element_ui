@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/extensions/event.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../app.dart';
@@ -127,12 +128,33 @@ extension ElColorExtension on Color {
   Color on(bool flag, {int scale = 10, Color? color}) =>
       flag ? (color ?? deepen(scale)) : this;
 
+  /// 根据事件状态返回新的颜色
+  Color buildEventColor(
+    BuildContext context, {
+    ColorEventBuilder? tapBuilder,
+    ColorEventBuilder? hoverBuilder,
+  }) {
+    if (tapBuilder != null) {
+      if (context.isTap) {
+        return tapBuilder(this);
+      }
+    }
+    if (hoverBuilder != null) {
+      if (context.isHover) {
+        return hoverBuilder(this);
+      }
+    }
+    return this;
+  }
+
   /// 将当前颜色和另一种颜色进行线性插值
   Color lerp(Color otherColor, double t) {
     assert(Color.lerp(this, otherColor, t) != null);
     return Color.lerp(this, otherColor, t)!;
   }
 }
+
+typedef ColorEventBuilder = Color Function(Color color);
 
 extension ElColorThemeExtension on Color {
   /// 根据当前颜色返回符合 Element 主题系统颜色。
@@ -176,8 +198,9 @@ extension ElColorThemeExtension on Color {
       elLight(context, 9, reverse);
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
-  Color elTextColor(BuildContext context) =>
-      isDark ? context.darkTheme.textColor : ElApp.of(context).theme.textColor;
+  Color elTextColor(BuildContext context) => isDark
+      ? context.darkTheme.colors.text
+      : ElApp.of(context).theme.colors.text;
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
   List<Color> elColors(BuildContext context) {

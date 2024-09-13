@@ -84,7 +84,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
       .withOpacity(disabledOpacity);
 
   Color get inactiveBgColor =>
-      (widget.inactiveBgColor ?? context.elTheme.borderColor)
+      (widget.inactiveBgColor ?? context.elTheme.colors.border)
           .withOpacity(disabledOpacity);
 
   @override

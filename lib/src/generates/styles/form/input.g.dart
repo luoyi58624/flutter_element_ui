@@ -12,12 +12,14 @@ extension ElInputStyleExtension on ElInputStyle {
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? margin,
     EdgeInsetsGeometry? padding,
+    TextStyle? textStyle,
   }) {
     return ElInputStyle(
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
+      textStyle: this.textStyle.merge(textStyle),
     );
   }
 
@@ -28,6 +30,7 @@ extension ElInputStyleExtension on ElInputStyle {
       borderRadius: other.borderRadius,
       margin: other.margin,
       padding: other.padding,
+      textStyle: textStyle?.merge(other.textStyle),
     );
   }
 }

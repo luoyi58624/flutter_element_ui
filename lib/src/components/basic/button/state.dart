@@ -3,27 +3,66 @@ part of 'index.dart';
 /// 按钮宽度最小为 64
 const double _minWidth = 64;
 
-class _ElButtonState extends State<ElButton2> {
+/// 改变按钮透明度样式值
+const double _disabledOpacity = 0.6;
+
+/// 文字类型按钮被禁用时透明值
+const double _textButtonDisabledOpacity = 0.36;
+
+typedef ElButtonProp = ({
+  double height,
+  Duration duration,
+  Color? bgColor,
+  Color? color,
+  String? type,
+  bool text,
+  bool link,
+  bool plain,
+  bool round,
+  bool block,
+  BorderRadiusGeometry borderRadius,
+  EdgeInsetsGeometry? padding,
+  ElIcon? leftIcon,
+  ElIcon? rightIcon,
+  bool circle,
+  bool disabled,
+  bool loading,
+  bool enableFeedback,
+});
+
+class _ElButtonState extends State<ElButton2> with TickerProviderStateMixin {
   late ElButtonStyle defaultStyle;
-  double? width;
-  late double height;
-  EdgeInsetsGeometry? padding;
-  late _StyleProp styleProp;
+  late ElButtonProp prop;
+  late AnimationController sizeController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 300),
+  );
+
+  late Animation sizeAnimation;
 
   Widget get child =>
       widget.child is Widget ? widget.child : ElText(widget.child);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ElButton2 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
 
   /// 设置按钮尺寸
   void setButtonSize(BuildContext context) {}
 
   /// 设置样式
-  void setStyleProp() {
+  void setProp() {
     defaultStyle = context.elTheme.buttonStyle;
-    width = widget.width;
-    height =
-        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
-    padding = widget.padding ?? defaultStyle.padding;
-    styleProp = (
+    prop = (
+      height:
+          widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight,
+      duration: defaultStyle.animatedDuration,
       bgColor: widget.bgColor,
       color: widget.color,
       type: widget.type,
@@ -35,6 +74,7 @@ class _ElButtonState extends State<ElButton2> {
       borderRadius: widget.borderRadius ??
           defaultStyle.borderRadius ??
           context.elConfig.radius,
+      padding: widget.padding ?? defaultStyle.padding,
       leftIcon: widget.leftIcon,
       rightIcon: widget.rightIcon,
       circle: widget.circle,
@@ -50,20 +90,20 @@ class _ElButtonState extends State<ElButton2> {
   Widget buildEvent({required WidgetBuilder builder}) {
     return ElTapBuilder(
       onTap: () {
-        if (styleProp.enableFeedback) HapticFeedback.mediumImpact();
+        if (prop.enableFeedback) HapticFeedback.mediumImpact();
         if (widget.onPressed != null) widget.onPressed!();
       },
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
-      disabled: styleProp.disabled,
+      disabled: prop.disabled,
       delay: defaultStyle.animatedDuration.inMilliseconds,
       builder: (context) {
         return ElHoverBuilder(
-          disabled: styleProp.disabled,
-          cursor: styleProp.loading
+          disabled: prop.disabled,
+          cursor: prop.loading
               ? ElUtils.loadingCursor
-              : styleProp.disabled
+              : prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           builder: (context) => builder(context),
@@ -74,31 +114,20 @@ class _ElButtonState extends State<ElButton2> {
 
   /// 构建按钮外观
   Widget buildButton(BuildContext context) {
-    Widget result = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        child,
-      ],
-    );
-    if (widget.type == null) {
-      result = _DefaultButton(child: result);
-    } else {}
     return UnconstrainedBox(
-      child: _ButtonData(
-        duration: defaultStyle.animatedDuration,
-        height: height,
-        padding: widget.padding ?? defaultStyle.padding,
-        borderRadius: widget.borderRadius ??
-            defaultStyle.borderRadius ??
-            context.elConfig.radius,
-        child: ElDefaultTextStyle.merge(
-          style: ElDefaultTextStyle.of(context).style.copyWith(
-                fontSize: 15,
-                fontWeight: ElFont.medium,
-                // color: buttonStyle.textColor,
-              ),
-          child: result,
+      child: _ElButtonTextStyle(
+        bgColor: widget.bgColor,
+        type: widget.type,
+        text: widget.text,
+        plain: widget.plain,
+        link: widget.link,
+        disabled: prop.disabled,
+        child: _ElButtonWrapper(
+          prop: prop,
+          child: ElButtonContent(
+            prop: prop,
+            child: child,
+          ),
         ),
       ),
     );
@@ -107,36 +136,11 @@ class _ElButtonState extends State<ElButton2> {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(widget.type, 'ElButton');
-    setStyleProp();
+    setProp();
     return buildEvent(
       builder: (context) => buildButton(context),
     );
   }
-}
-
-class _ButtonData extends InheritedWidget {
-  const _ButtonData({
-    required super.child,
-    required this.duration,
-    required this.height,
-    required this.padding,
-    required this.borderRadius,
-  });
-
-  final Duration duration;
-  final double height;
-  final EdgeInsetsGeometry? padding;
-  final BorderRadiusGeometry borderRadius;
-
-  static _ButtonData of(BuildContext context) {
-    final _ButtonData? result =
-        context.dependOnInheritedWidgetOfExactType<_ButtonData>();
-    assert(result != null, 'No _ButtonData found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_ButtonData oldWidget) => true;
 }
 
 extension _ButtonColorExtension on Color {

@@ -38,7 +38,7 @@ class ElHeader extends ElLayoutWidget {
     final $data = _ElLayoutInheritedWidget.of(context);
     return SafeArea(
       bottom: false,
-      child: AnimatedColoredBox(
+      child: ElAnimatedColoredBox(
         duration: context.elConfig.themeDuration,
         color: bgColor ?? context.elTheme.headerStyle.color,
         child: ObsBuilder(builder: (context) {

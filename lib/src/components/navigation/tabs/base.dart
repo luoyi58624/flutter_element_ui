@@ -68,7 +68,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
 
   Widget buildTabs(BuildContext context);
 
-  Color get bgColor => widget.bgColor ?? context.elTheme.bgColor;
+  Color get bgColor => widget.bgColor ?? context.elTheme.colors.bg;
 
   EdgeInsetsGeometry get tabPadding => EdgeInsets.zero;
 
@@ -88,7 +88,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
       child: SizedBox(
         width: double.infinity,
         height: widget.height,
-        child: AnimatedColoredBox(
+        child: ElAnimatedColoredBox(
           duration: context.elConfig.themeDuration,
           color: bgColor,
           child: Padding(

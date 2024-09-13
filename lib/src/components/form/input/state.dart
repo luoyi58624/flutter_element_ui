@@ -70,11 +70,11 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       maxLines: widget.maxLines,
       style: TextStyle(
         fontSize: 14,
-        color: context.elTheme.textColor,
+        color: context.elTheme.colors.text,
       ).merge(widget.textStyle),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
-      cursorColor: context.elTheme.textColor,
+      cursorColor: context.elTheme.colors.text,
       cursorWidth: 1,
       onChanged: (v) {
         modelValue = v;
@@ -92,8 +92,8 @@ class ElInputState extends ElModelValueState<ElInput, String> {
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
           color: context.isHover
-              ? context.elTheme.borderColor.deepen(16)
-              : context.elTheme.borderColor,
+              ? context.elTheme.colors.border.deepen(16)
+              : context.elTheme.colors.border,
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -106,7 +106,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       hintText: widget.placeholder,
       hintStyle: ElDefaultTextStyle.of(context).style.copyWith(
             fontSize: 14,
-            color: context.elTheme.placeholderColor,
+            color: context.elTheme.colors.placeholderText,
           ),
       // suffixIcon: currentValue != ''
       //     ? GestureDetector(

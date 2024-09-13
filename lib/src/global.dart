@@ -10,5 +10,6 @@ export 'extensions/private.dart';
 export 'utils/assert.dart';
 export 'utils/common.dart';
 
+export 'widgets/animation.dart';
 export 'widgets/hover.dart';
 export 'widgets/tap.dart';

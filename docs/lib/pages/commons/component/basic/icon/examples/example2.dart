@@ -37,13 +37,13 @@ class Example2 extends StatelessWidget {
             bottomBorderIndex = sumCount -
                 (bottomBorderIndex == 0 ? rowCount : bottomBorderIndex);
             final defaultBorder = BorderSide(
-              color: context.elTheme.borderColor,
+              color: context.elTheme.colors.border,
             );
             return DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: context.elTheme.cardStyle.radius,
                 border: Border.all(
-                  color: context.elTheme.borderColor,
+                  color: context.elTheme.colors.border,
                 ),
               ),
               child: GridView.count(

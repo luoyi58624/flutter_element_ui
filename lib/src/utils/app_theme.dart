@@ -98,9 +98,9 @@ class ElThemeUtil {
       //   TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
       // }),
       // 背景颜色
-      scaffoldBackgroundColor: elTheme.bgColor,
+      scaffoldBackgroundColor: elTheme.colors.bg,
       // 图标颜色
-      iconTheme: IconThemeData(color: elTheme.iconColor),
+      iconTheme: IconThemeData(color: elTheme.colors.icon),
     );
 
     return themeData.copyWith(
@@ -116,13 +116,13 @@ class ElThemeUtil {
           fontSize: 18,
           fontWeight: ElFont.bold,
           color: elTheme.headerStyle.color.isDark
-              ? darkTheme.textColor
-              : lightTheme.textColor,
+              ? darkTheme.colors.text
+              : lightTheme.colors.text,
         ),
         iconTheme: IconThemeData(
           color: elTheme.headerStyle.color.isDark
-              ? darkTheme.iconColor
-              : lightTheme.iconColor,
+              ? darkTheme.colors.icon
+              : lightTheme.colors.icon,
         ),
       ),
       tabBarTheme: TabBarTheme(
@@ -136,8 +136,8 @@ class ElThemeUtil {
           color: elTheme.primary,
         ),
         unselectedLabelColor: elTheme.headerStyle.color.isDark
-            ? darkTheme.textColor.deepen(10)
-            : lightTheme.textColor,
+            ? darkTheme.colors.text.deepen(10)
+            : lightTheme.colors.text,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         elevation: 4,
@@ -178,10 +178,10 @@ class ElThemeUtil {
         ),
         subtitleTextStyle: textStyle.copyWith(
           fontWeight: ElFont.normal,
-          color: elTheme.textColor.deepen(10),
+          color: elTheme.colors.text.deepen(10),
           fontSize: 13,
         ),
-        iconColor: elTheme.iconColor,
+        iconColor: elTheme.colors.icon,
       ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: textStyle.copyWith(
@@ -212,11 +212,11 @@ class ElThemeUtil {
           fontWeight: ElFont.bold,
         ),
         contentTextStyle: textStyle.copyWith(
-          color: elTheme.textColor.deepen(16),
+          color: elTheme.colors.text.deepen(16),
           fontSize: 15,
         ),
         elevation: elTheme.modalStyle.elevation,
-        backgroundColor: elTheme.bgColor,
+        backgroundColor: elTheme.colors.bg,
         surfaceTintColor: Colors.transparent,
         shape: cardBorder,
         actionsPadding: const EdgeInsets.all(8),

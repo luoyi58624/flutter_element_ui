@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_ui/src/styles/color_data.dart';
 
 part '../generates/styles/theme_data.g.dart';
 
@@ -27,20 +28,8 @@ class ElThemeData {
   /// 错误颜色
   final Color error;
 
-  /// 全局背景色
-  final Color bgColor;
-
-  /// 边框颜色
-  final Color borderColor;
-
-  /// 默认文本颜色
-  final Color textColor;
-
-  /// 占位文本颜色
-  final Color placeholderColor;
-
-  /// 图标默认颜色
-  final Color iconColor;
+  /// 常规颜色主题：文本、图标、边框
+  final ElColorData colors;
 
   /// 按钮全局样式
   final ElButtonStyle buttonStyle;
@@ -87,11 +76,7 @@ class ElThemeData {
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
-    this.bgColor = const Color(0xfffafafa),
-    this.borderColor = const Color(0xffDCDFE6),
-    this.textColor = const Color(0xff323232),
-    this.placeholderColor = const Color(0xffA8ABB2),
-    this.iconColor = const Color.fromRGBO(96, 98, 102, 1.0),
+    this.colors = const ElColorData(),
     this.buttonStyle = const ElButtonStyle(),
     this.linkStyle = const ElLinkStyle(
       color: ElLinkStyle.hrefColor,
@@ -126,11 +111,7 @@ class ElThemeData {
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
-    this.bgColor = const Color(0xff2b2b2b),
-    this.borderColor = const Color(0xffa3a3a3),
-    this.textColor = const Color(0xfff2f2f2),
-    this.placeholderColor = const Color(0xff8D9095),
-    this.iconColor = const Color(0xfff6f6f6),
+    this.colors = const ElColorData.dark(),
     this.buttonStyle = const ElButtonStyle(),
     this.linkStyle = const ElLinkStyle(
       color: ElLinkStyle.darkHrefColor,

@@ -18,6 +18,7 @@ dependencies:
   decimal: ^3.0.0
   flutter_element_ui:
     path: ../
+  boxy: ^2.2.0
 
 dev_dependencies:
   flutter_test:

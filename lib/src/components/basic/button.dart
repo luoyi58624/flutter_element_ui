@@ -312,10 +312,10 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
 
   final $isHover = ElHoverBuilder.of(context);
   final $isTap = ElTapBuilder.of(context);
-  final $bgColor = context.elTheme.bgColor;
+  final $bgColor = context.elTheme.colors.bg;
   final $isThemeType = el.themeTypes.contains(style.type);
   final $defaultTextColor =
-      context.elTheme.textColor.deepen(context.isDark ? 0 : 24);
+      context.elTheme.colors.text.deepen(context.isDark ? 0 : 24);
   Color? $themeTypeColor;
   if ($isThemeType) $themeTypeColor = context.elThemeColors[style.type]!;
 
@@ -356,14 +356,14 @@ _ButtonStyleHook _useButtonStyle(BuildContext context, _StyleProp style) {
           ? $primaryColor
           : $isHover
               ? $primaryColor.themeLightBorder(context)
-              : context.elTheme.borderColor;
+              : context.elTheme.colors.border;
     }
     // 计算主题按钮样式
     else {
       final $primaryColor = style.bgColor ?? context.elThemeColors[style.type]!;
       final $textColor = style.color ??
           (style.bgColor == null
-              ? context.darkTheme.textColor
+              ? context.darkTheme.colors.text
               : style.bgColor!.elTextColor(context));
       // 镂空按钮
       if (style.plain) {

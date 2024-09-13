@@ -80,7 +80,7 @@ class ElCollapsePanel extends StatelessWidget {
       onChanged,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: context.elTheme.borderColor),
+          border: Border.all(color: context.elTheme.colors.border),
           borderRadius: context.elTheme.cardStyle.radius,
         ),
         child: ListView.separated(
@@ -154,7 +154,7 @@ class ElCollapseItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isActive
                             ? context.elTheme.primary
-                            : context.elTheme.bgColor,
+                            : context.elTheme.colors.bg,
                         borderRadius: $indexData.index == $indexData.start
                             ? BorderRadius.only(
                                 topLeft: $cardRadius.topLeft,
@@ -174,20 +174,20 @@ class ElCollapseItem extends StatelessWidget {
                               : ElDefaultTextStyle.merge(
                                   style: TextStyle(
                                     color: context.isDark
-                                        ? context.elTheme.textColor
+                                        ? context.elTheme.colors.text
                                         : isActive
-                                            ? context.darkTheme.textColor
-                                            : ElApp.of(context).theme.textColor,
+                                            ? context.darkTheme.colors.text
+                                            : ElApp.of(context).theme.colors.text,
                                   ),
                                   child: Text('$title'),
                                 ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
                             color: context.isDark
-                                ? context.elTheme.textColor
+                                ? context.elTheme.colors.text
                                 : isActive
-                                    ? context.darkTheme.textColor
-                                    : ElApp.of(context).theme.textColor,
+                                    ? context.darkTheme.colors.text
+                                    : ElApp.of(context).theme.colors.text,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)
