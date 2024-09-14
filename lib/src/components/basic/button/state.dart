@@ -149,6 +149,7 @@ class _ElButtonState extends State<ElButton> {
           $textColor = $themeColor.elTextColor(context);
           if (disabled) {
             $bgColor = $bgColor.withOpacity(_disabledOpacity);
+            $textColor = $textColor.withOpacity(_disabledOpacity);
           }
         }
       }

@@ -49,6 +49,7 @@ class Example2 extends StatelessWidget {
               child: GridView.count(
                   crossAxisCount: rowCount,
                   shrinkWrap: true,
+                  physics: const ScrollPhysics(),
                   children: ElIcons.values.keys.mapIndexed(
                     (index, key) {
                       BorderSide rightBorder = BorderSide.none;
@@ -59,21 +60,21 @@ class Example2 extends StatelessWidget {
                       if (index < bottomBorderIndex) {
                         bottomBorder = defaultBorder;
                       }
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            right: rightBorder,
-                            bottom: bottomBorder,
-                          ),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            CommonUtil.copy('ElIcon(ElIcons.$key)');
-                          },
-                          child: ElHoverBuilder(
-                            cursor: SystemMouseCursors.click,
-                            builder: (context) {
-                              return Center(
+                      return GestureDetector(
+                        onTap: () {
+                          CommonUtil.copy('ElIcon(ElIcons.$key)');
+                        },
+                        child: ElHoverBuilder(
+                          cursor: SystemMouseCursors.click,
+                          builder: (context) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  right: rightBorder,
+                                  bottom: bottomBorder,
+                                ),
+                              ),
+                              child: Center(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,9 +103,9 @@ class Example2 extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     },

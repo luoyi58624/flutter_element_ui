@@ -32,6 +32,7 @@ RoutingConfig _buildDesktopRoutingConfig() {
   return RoutingConfig(
     redirect: RouterUtil.redirect,
     routes: [
+      /// [ShellRoute] 表示嵌套导航，构建器包含第三个参数：child，它表示当前导航的子路由页面
       ShellRoute(
         pageBuilder: (context, state, child) => NoTransitionPage(
           child: DesktopLayout(child: child),
@@ -82,6 +83,7 @@ RoutingConfig _buildMobileRoutingConfig() {
   return RoutingConfig(
     redirect: RouterUtil.redirect,
     routes: [
+      /// 能够保持页面状态的嵌套导航，切换过程中页面状态不会丢失
       StatefulShellRoute.indexedStack(
         pageBuilder: (context, state, navigationShell) => NoTransitionPage(
           child: MobileLayout(

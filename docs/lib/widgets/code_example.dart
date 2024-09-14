@@ -43,37 +43,39 @@ class CodeExampleWidget extends HookWidget {
     return ElHoverBuilder(builder: (context) {
       return _onlyCode
           ? buildCodePreview($code)
-          : Card(
-              elevation: context.isHover ? 4 : 0,
-              shadowColor: Colors.black38,
-              margin: EdgeInsets.zero,
-              child: AnimatedContainer(
-                duration: context.elConfig.themeDuration,
-                decoration: BoxDecoration(
-                  borderRadius: context.elTheme.cardStyle.radius,
-                  border: Border.all(
-                    color: context.elTheme.colors.border,
-                    width: 1,
+          : RepaintBoundary(
+              child: Card(
+                elevation: context.isHover ? 4 : 0,
+                shadowColor: Colors.black38,
+                margin: EdgeInsets.zero,
+                child: AnimatedContainer(
+                  duration: context.elConfig.themeDuration,
+                  decoration: BoxDecoration(
+                    borderRadius: context.elTheme.cardStyle.radius,
+                    border: Border.all(
+                      color: context.elTheme.colors.border,
+                      width: 1,
+                    ),
                   ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: children,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: children,
+                        ),
                       ),
-                    ),
-                    const ElDivider(),
-                    _PreviewButton(isExpanded, context.isHover),
-                    ElCollapseTransition(
-                      isExpanded.value,
-                      child: buildCodePreview($code),
-                    ),
-                  ],
+                      const ElDivider(),
+                      _PreviewButton(isExpanded, context.isHover),
+                      ElCollapseTransition(
+                        isExpanded.value,
+                        child: buildCodePreview($code),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -105,18 +107,27 @@ class CodeExampleWidget extends HookWidget {
         _lightCode = Highlighter(language: 'dart', theme: lightCodeTheme);
         _darkCode = Highlighter(language: 'dart', theme: darkCodeTheme);
         if (context.mounted) {
-          $code.value =
-              (context.isDark ? _darkCode : _lightCode)!.highlight(code);
+          $code.value = (GlobalState.forceDarkCodeExample.value
+                  ? _darkCode
+                  : (context.isDark ? _darkCode : _lightCode))!
+              .highlight(code);
         }
       });
     } else {
-      $code.value = (context.isDark ? _darkCode : _lightCode)!.highlight(code);
+      $code.value = (GlobalState.forceDarkCodeExample.value
+              ? _darkCode
+              : (context.isDark ? _darkCode : _lightCode))!
+          .highlight(code);
     }
   }
 
   /// 构建预览代码块
   Widget buildCodePreview($code) {
     return ElHoverBuilder(builder: (context) {
+      final $bgColor = (GlobalState.forceDarkCodeExample.value
+              ? ElApp.of(context).darkTheme.colors.bg
+              : context.elTheme.colors.bg)
+          .deepen(3);
       return Stack(
         children: [
           ConstrainedBox(
@@ -124,45 +135,52 @@ class CodeExampleWidget extends HookWidget {
                 // 固定最大高度在桌面端滚动体验不太好，暂时隐藏
                 // maxHeight: 500,
                 ),
-            child: SingleChildScrollView(
-              child: AnimatedContainer(
-                duration: context.elConfig.themeDuration,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: context.elTheme.colors.bg.deepen(3),
-                  borderRadius: _onlyCode
-                      ? context.elTheme.cardStyle.radius
-                      : BorderRadius.only(
-                          bottomLeft:
-                              context.elTheme.cardStyle.radius.bottomLeft,
-                          bottomRight:
-                              context.elTheme.cardStyle.radius.bottomRight,
+            child: TextSelectionTheme(
+              data: TextSelectionThemeData(
+                selectionColor: $bgColor.isDark
+                    ? Colors.blueAccent.withOpacity(0.5)
+                    : Colors.blue.withOpacity(0.36),
+              ),
+              child: SingleChildScrollView(
+                child: AnimatedContainer(
+                  duration: context.elConfig.themeDuration,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: $bgColor,
+                    borderRadius: _onlyCode
+                        ? context.elTheme.cardStyle.radius
+                        : BorderRadius.only(
+                            bottomLeft:
+                                context.elTheme.cardStyle.radius.bottomLeft,
+                            bottomRight:
+                                context.elTheme.cardStyle.radius.bottomRight,
+                          ),
+                  ),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ObsBuilder(builder: (context) {
+                      Widget result = Container(
+                        padding: const EdgeInsets.all(16),
+                        child: ElText(
+                          $code.value,
+                          softWrap: false,
+                          style: const TextStyle(
+                            fontFamily: MyFonts.consolas,
+                            fontSize: 14,
+                            height: 1.5,
+                          ),
                         ),
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ObsBuilder(builder: (context) {
-                    Widget result = Container(
-                      padding: const EdgeInsets.all(16),
-                      child: ElText(
-                        $code.value,
-                        softWrap: false,
-                        style: const TextStyle(
-                          fontFamily: MyFonts.consolas,
-                          fontSize: 14,
-                          height: 1.5,
-                        ),
-                      ),
-                    );
-                    if (GlobalState.enableGlobalTextSelected.value) {
-                      if (RouterUtil.isMobile.value == true) {
+                      );
+                      if (GlobalState.enableGlobalTextSelected.value) {
+                        if (RouterUtil.isMobile.value == true) {
+                          return SelectionArea(child: result);
+                        }
+                        return result;
+                      } else {
                         return SelectionArea(child: result);
                       }
-                      return result;
-                    } else {
-                      return SelectionArea(child: result);
-                    }
-                  }),
+                    }),
+                  ),
                 ),
               ),
             ),

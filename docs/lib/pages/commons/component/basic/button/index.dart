@@ -8,6 +8,7 @@ import 'examples/example4.dart';
 import 'examples/example5.dart';
 import 'examples/example6.dart';
 import 'examples/example7.dart';
+import 'examples/example8.dart';
 
 class ButtonPage extends ResponsivePage {
   const ButtonPage({super.key});
@@ -27,6 +28,7 @@ class ButtonPage extends ResponsivePage {
       Example5(),
       Example6(),
       Example7(),
+      Example8(),
     ];
   }
 }
