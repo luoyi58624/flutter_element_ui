@@ -89,7 +89,6 @@ export 'src/utils/common.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/shortcut.dart';
 
-export 'src/widgets/animates/animated_size.dart';
 export 'src/widgets/animates/animated_widgets.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
