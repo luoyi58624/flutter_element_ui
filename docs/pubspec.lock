@@ -417,16 +417,16 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2caaad443c382f6bbe2c787b1dc4bc25bdd92ca0"
+      resolved-ref: cd41b30ae8168068328ce7db9b4509a5f77e55e4
       url: "https://github.com/luoyi58624/luoyi_dart_base.git"
     source: git
-    version: "1.13.1"
+    version: "1.13.2"
   luoyi_flutter_base:
     dependency: "direct overridden"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "81b11bfed1e64b561df316867eed8175d9d8804c"
+      resolved-ref: "7df42f1a652b22520d9db1860bfb9b20d5e4b312"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"
@@ -863,10 +863,10 @@ packages:
     dependency: transitive
     description:
       name: win32_registry
-      sha256: "723b7f851e5724c55409bb3d5a32b203b3afe8587eaf5dafb93a5fed8ecda0d6"
+      sha256: "21ec76dfc731550fd3e2ce7a33a9ea90b828fdf19a5c3bcf556fa992cfa99852"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.4"
+    version: "1.1.5"
   xdg_directories:
     dependency: transitive
     description:

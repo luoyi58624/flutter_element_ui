@@ -10,80 +10,32 @@ const double _disabledOpacity = 0.6;
 const double _textButtonDisabledOpacity = 0.36;
 
 typedef ElButtonProp = ({
-  double? width,
-  double height,
-  Duration duration,
-  Color? bgColor,
-  Color? color,
-  String? type,
-  bool text,
-  bool link,
-  bool plain,
-  bool round,
-  bool block,
-  BorderRadiusGeometry borderRadius,
-  EdgeInsetsGeometry? padding,
-  ElIcon? leftIcon,
-  ElIcon? rightIcon,
-  Widget? loadingWidget,
-  bool circle,
   bool disabled,
-  bool loading,
-  bool enableFeedback,
 });
 
 class _ElButtonState extends State<ElButton> {
   late ElButtonStyle defaultStyle;
-  late ElButtonProp prop;
-
-  /// 构建最终样式
-  void buildProp() {
-    defaultStyle = context.elTheme.buttonStyle;
-    prop = (
-      width: null,
-      height:
-          widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight,
-      duration: defaultStyle.animatedDuration,
-      bgColor: widget.bgColor,
-      color: widget.color,
-      type: widget.type,
-      text: widget.text,
-      link: widget.link,
-      plain: widget.plain,
-      round: widget.round,
-      block: widget.block,
-      borderRadius: widget.borderRadius ??
-          defaultStyle.borderRadius ??
-          context.elConfig.radius,
-      padding: widget.padding ?? defaultStyle.padding,
-      leftIcon: widget.leftIcon,
-      rightIcon: widget.rightIcon,
-      loadingWidget: widget.loadingWidget,
-      circle: widget.circle,
-      disabled: widget.loading || widget.disabled,
-      loading: widget.loading,
-      enableFeedback: widget.enableFeedback ??
-          defaultStyle.enableFeedback ??
-          context.elConfig.enableFeedback,
-    );
-  }
+  late double buttonHeight;
+  late bool disabled;
 
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
     return ElTapBuilder(
       onTap: () {
-        if (prop.enableFeedback) HapticFeedback.mediumImpact();
+        if (widget.enableFeedback ??
+            defaultStyle.enableFeedback ??
+            context.elConfig.enableFeedback) HapticFeedback.mediumImpact();
         if (widget.onPressed != null) widget.onPressed!();
       },
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
-      disabled: prop.disabled,
+      disabled: disabled,
       delay: defaultStyle.animatedDuration.inMilliseconds,
       builder: (context) {
         return ElHoverBuilder(
-          disabled: prop.disabled,
-          cursor: prop.disabled
+          disabled: disabled,
+          cursor: disabled
               ? SystemMouseCursors.forbidden
               : SystemMouseCursors.click,
           builder: (context) => builder(context),
@@ -102,34 +54,34 @@ class _ElButtonState extends State<ElButton> {
     Color? $borderColor;
 
     // 链接按钮
-    if (prop.link) {
-      $textColor = (prop.type == null
+    if (widget.link) {
+      $textColor = (widget.type == null
               ? $elTheme.colors.regularText
-              : context.elThemeColors[prop.type]!)
+              : context.elThemeColors[widget.type]!)
           .buildEventColor(
         context,
         tapBuilder: (color) => color.tap(context),
         hoverBuilder: (color) => color.withOpacity(_disabledOpacity),
       );
-      if (prop.disabled) {
+      if (disabled) {
         $textColor = $textColor.withOpacity(_textButtonDisabledOpacity);
       }
     }
     // 文字按钮
-    else if (prop.text) {
+    else if (widget.text) {
       final pageBgColor = $elTheme.colors.bg;
       $bgColor = pageBgColor
           .on(context.isHover, color: pageBgColor.deepen(4))
           .on(context.isTap, color: pageBgColor.deepen(10));
-      $textColor = prop.type == null && prop.bgColor == null
+      $textColor = widget.type == null && widget.bgColor == null
           ? $elTheme.colors.regularText
-          : context.elThemeColors[prop.type]!;
-      if (prop.disabled) {
+          : context.elThemeColors[widget.type]!;
+      if (disabled) {
         $textColor = $textColor.withOpacity(_textButtonDisabledOpacity);
       }
     } else {
       // 默认按钮
-      if (prop.type == null && prop.bgColor == null) {
+      if (widget.type == null && widget.bgColor == null) {
         $bgColor = context.isTap || context.isHover
             ? $elTheme.primary.themeLightBg(context)
             : $elTheme.colors.bg;
@@ -137,7 +89,7 @@ class _ElButtonState extends State<ElButton> {
         $textColor = context.isTap || context.isHover
             ? $elTheme.primary
             : $elTheme.colors.regularText;
-        if (prop.disabled) {
+        if (disabled) {
           $textColor = $textColor.withOpacity(_textButtonDisabledOpacity);
         }
 
@@ -147,14 +99,15 @@ class _ElButtonState extends State<ElButton> {
                 ? $elTheme.primary.themeLightBorder(context)
                 : $defaultBorderColor;
 
-        if (prop.disabled) {
+        if (disabled) {
           $borderColor = $borderColor.withOpacity(_disabledOpacity);
         }
       } else {
-        final $themeColor = prop.bgColor ?? context.elThemeColors[prop.type]!;
+        final $themeColor =
+            widget.bgColor ?? context.elThemeColors[widget.type]!;
 
         // 镂空按钮
-        if (prop.plain) {
+        if (widget.plain) {
           $bgColor = PlatformUtil.isDesktop
               ? (context.isTap
                   ? $themeColor.tap(context)
@@ -179,7 +132,7 @@ class _ElButtonState extends State<ElButton> {
                   ? $themeColor
                   : $themeColor.themeLightBorder(context));
 
-          if (prop.disabled) {
+          if (disabled) {
             $bgColor = $bgColor.withOpacity(_disabledOpacity);
             $textColor = $textColor.withOpacity(_textButtonDisabledOpacity);
             $borderColor = $borderColor.withOpacity(_disabledOpacity);
@@ -194,7 +147,7 @@ class _ElButtonState extends State<ElButton> {
                   : $themeColor;
 
           $textColor = $themeColor.elTextColor(context);
-          if (prop.disabled) {
+          if (disabled) {
             $bgColor = $bgColor.withOpacity(_disabledOpacity);
           }
         }
@@ -205,27 +158,30 @@ class _ElButtonState extends State<ElButton> {
         ? const Border()
         : Border.all(color: $borderColor, width: 1);
 
-    BorderRadiusGeometry $borderRadius = prop.round || prop.circle
-        ? BorderRadius.circular(prop.height / 2)
-        : prop.borderRadius;
+    BorderRadiusGeometry $borderRadius = widget.round || widget.circle
+        ? BorderRadius.circular(buttonHeight / 2)
+        : widget.borderRadius ??
+            defaultStyle.borderRadius ??
+            context.elConfig.radius;
 
-    final $horizontalPadding = prop.height / 2;
+    final $horizontalPadding = buttonHeight / 2;
 
-    final $padding = prop.circle || prop.link
+    final $padding = widget.circle || widget.link
         ? null
-        : (prop.padding ??
-            (prop.round
+        : (widget.padding ??
+            defaultStyle.padding ??
+            (widget.round
                 ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
                 : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
 
-    final $constraints = prop.link
+    final $constraints = widget.link
         ? null
         : BoxConstraints(
-            minHeight: prop.height,
-            minWidth: (prop.circle
-                ? prop.height
+            minHeight: buttonHeight,
+            minWidth: (widget.circle
+                ? buttonHeight
                 : widget.child is ElIcon
-                    ? prop.height * 1.25
+                    ? buttonHeight * 1.25
                     : _minWidth),
           );
 
@@ -236,7 +192,7 @@ class _ElButtonState extends State<ElButton> {
         color: $textColor,
       ),
       child: AnimatedContainer(
-        duration: context.elThemeDuration ?? prop.duration,
+        duration: context.elThemeDuration ?? defaultStyle.animatedDuration,
         alignment: Alignment.center,
         padding: $padding,
         constraints: $constraints,
@@ -250,14 +206,16 @@ class _ElButtonState extends State<ElButton> {
         }),
       ),
     );
-    return prop.block && !prop.circle ? result : UnconstrainedBox(child: result);
+    return widget.block && !widget.circle
+        ? result
+        : UnconstrainedBox(child: result);
   }
 
   /// 构建默认的图标主题
   Widget buildIconTheme(BuildContext context, Widget iconWidget) {
     return ElIconTheme(
       color: ElDefaultTextStyle.of(context).style.color,
-      size: prop.height / 2 - 2,
+      size: buttonHeight / 2 - 2,
       child: iconWidget,
     );
   }
@@ -278,20 +236,20 @@ class _ElButtonState extends State<ElButton> {
       );
     }
 
-    if (prop.loading || prop.leftIcon != null || prop.rightIcon != null) {
+    if (widget.loading || widget.leftIcon != null || widget.rightIcon != null) {
       $child = buildIconTheme(
         context,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (prop.loading) prop.loadingWidget ?? const ElLoading(),
-            if (prop.leftIcon != null) prop.leftIcon!,
+            if (widget.loading) widget.loadingWidget ?? const ElLoading(),
+            if (widget.leftIcon != null) widget.leftIcon!,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: $child,
             ),
-            if (prop.rightIcon != null) prop.rightIcon!,
+            if (widget.rightIcon != null) widget.rightIcon!,
           ],
         ),
       );
@@ -302,7 +260,10 @@ class _ElButtonState extends State<ElButton> {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(widget.type, 'ElButton');
-    buildProp();
+    defaultStyle = context.elTheme.buttonStyle;
+    buttonHeight =
+        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
+    disabled = widget.loading || widget.disabled;
     return buildEvent(
       builder: (context) => buildButtonWrapper(context),
     );
