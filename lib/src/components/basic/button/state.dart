@@ -35,9 +35,11 @@ class _ElButtonState extends State<ElButton> {
       builder: (context) {
         return ElHoverBuilder(
           disabled: disabled,
-          cursor: disabled
-              ? SystemMouseCursors.forbidden
-              : SystemMouseCursors.click,
+          cursor: widget.loading
+              ? MouseCursor.defer
+              : disabled
+                  ? SystemMouseCursors.forbidden
+                  : SystemMouseCursors.click,
           builder: (context) => builder(context),
         );
       },
@@ -207,9 +209,27 @@ class _ElButtonState extends State<ElButton> {
         }),
       ),
     );
-    return widget.block && !widget.circle
+    result = widget.block && !widget.circle
         ? result
         : UnconstrainedBox(child: result);
+    if (widget.loadingWidget != null) {
+      result = Stack(
+        children: [
+          result,
+          if (widget.loading)
+            Positioned.fill(
+              child: ElDefaultTextStyle.merge(
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                ),
+                child: Center(child: widget.loadingWidget!),
+              ),
+            ),
+        ],
+      );
+    }
+    return result;
   }
 
   /// 构建默认的图标主题
@@ -237,24 +257,50 @@ class _ElButtonState extends State<ElButton> {
       );
     }
 
-    if (widget.loading || widget.leftIcon != null || widget.rightIcon != null) {
-      $child = buildIconTheme(
-        context,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (widget.loading) widget.loadingWidget ?? const ElLoading(),
-            if (widget.leftIcon != null) widget.leftIcon!,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: $child,
-            ),
-            if (widget.rightIcon != null) widget.rightIcon!,
-          ],
-        ),
+    Widget? leftIcon;
+    if (widget.leftIcon != null) {
+      if (widget.loadingWidget == null && widget.loading) {
+        leftIcon = const ElLoading();
+      } else {
+        leftIcon = widget.leftIcon;
+      }
+    } else {
+      if (widget.loadingWidget == null && widget.loading){
+        leftIcon = const ElLoading();
+      }
+    }
+
+    Widget childContent = Padding(
+      padding: EdgeInsets.only(
+        left: leftIcon != null ? 6.0 : 0.0,
+        right: widget.rightIcon != null ? 6.0 : 0.0,
+      ),
+      child: $child,
+    );
+
+    childContent = Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (leftIcon != null) leftIcon,
+        childContent,
+        if (widget.rightIcon != null) widget.rightIcon!,
+      ],
+    );
+
+    if (widget.loadingWidget != null) {
+      childContent = Opacity(
+        opacity: widget.loading == true ? 0.0 : 1.0,
+        child: childContent,
       );
     }
+
+    $child = buildIconTheme(
+      context,
+      childContent,
+    );
+
     return $child;
   }
 

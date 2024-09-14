@@ -65,9 +65,9 @@ class _LoadingButton2 extends HookWidget {
         }.delay(1500);
       },
       loading: loading.value,
-      loadingText: '加载中...',
+      loadingWidget: const ElText('加载中...'),
       type: 'primary',
-      child: '提交',
+      child: '提交表单',
     );
   }
 }
@@ -95,7 +95,7 @@ class _LoadingButton10 extends HookWidget {
         ),
       ),
       type: 'primary',
-      child: ('自定义 Loading'),
+      child: '提 交',
     );
   }
 }

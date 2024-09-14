@@ -49,7 +49,7 @@ class GlobalState {
 
   /// 强制黑暗模式代码示例
   static final forceDarkCodeExample = Obs(
-    false,
+    true,
     watch: (newValue, oldValue) {
       FlutterUtil.refreshApp();
     },

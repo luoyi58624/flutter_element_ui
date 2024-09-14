@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/event.dart';
@@ -31,8 +32,6 @@ class ElButton extends StatefulWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
-    this.loadingText,
-    this.onlyShowLoading = false,
     this.loadingWidget,
     this.enableFeedback,
     this.onPressed,
@@ -100,15 +99,7 @@ class ElButton extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
-  /// loading 文字
-  final String? loadingText;
-
-  /// 是否只显示 loading 图标，默认 false。
-  ///
-  /// 如果设置了 [loadingText]，那么会忽略 loading 图标
-  final bool onlyShowLoading;
-
-  /// 自定义 loading 小部件
+  /// loading 小部件，如果不为空，它会隐藏按钮原有内容，并且背景颜色变为灰色
   final Widget? loadingWidget;
 
   /// 点击事件
