@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initFont(
+    windows: true,
+  );
   runApp(const MainApp());
 }
 
@@ -35,6 +38,7 @@ class MainApp extends StatelessWidget {
           primary: GlobalState.primaryColor.value,
         ),
         textStyle: TextStyle(
+          fontFamily: FontUtil.fontFamily,
           fontSize: GlobalState.globalFontSize,
         ),
         child: ObsBuilder(builder: (context) {
