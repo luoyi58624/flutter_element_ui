@@ -10,14 +10,8 @@ import '../icon.dart';
 
 part 'state.dart';
 
-part 'widgets/button_content.dart';
-
-part 'widgets/button_wrapper.dart';
-
-part 'widgets/button_text_style.dart';
-
-class ElButton2 extends StatefulWidget {
-  const ElButton2({
+class ElButton extends StatefulWidget {
+  const ElButton({
     super.key,
     required this.child,
     this.width,
@@ -37,8 +31,9 @@ class ElButton2 extends StatefulWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
+    this.loadingText,
+    this.onlyShowLoading = false,
     this.loadingWidget,
-    this.loadingBuilder,
     this.enableFeedback,
     this.onPressed,
     this.onTapDown,
@@ -105,15 +100,16 @@ class ElButton2 extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
+  /// loading 文字
+  final String? loadingText;
+
+  /// 是否只显示 loading 图标，默认 false。
+  ///
+  /// 如果设置了 [loadingText]，那么会忽略 loading 图标
+  final bool onlyShowLoading;
+
   /// 自定义 loading 小部件
   final Widget? loadingWidget;
-
-  /// loading 构造器，与 [loadingWidget] 不同的是，前者只是代替默认的 loading 小部件，
-  /// 后者将替换按钮整个内容。
-  final Widget Function(
-    BuildContext context,
-    ElButtonProp prop,
-  )? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;
@@ -122,5 +118,5 @@ class ElButton2 extends StatefulWidget {
   final GestureTapCancelCallback? onTapCancel;
 
   @override
-  State<ElButton2> createState() => _ElButtonState();
+  State<ElButton> createState() => _ElButtonState();
 }

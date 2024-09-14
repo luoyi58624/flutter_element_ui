@@ -9,6 +9,7 @@ import '../pages/commons/component/basic/text/index.dart';
 import '../pages/commons/component/data/index.dart';
 import '../pages/commons/component/feedback/message/index.dart';
 import '../pages/commons/component/form/input/index.dart';
+import '../pages/commons/component/other/animated_size/index.dart';
 import '../pages/commons/overview/cupertino/index.dart';
 import '../pages/commons/overview/element/index.dart';
 import '../pages/commons/overview/material/index.dart';
@@ -138,6 +139,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}message',
       builder: (context, state) => const MessagePage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}animated_size',
+      builder: (context, state) => const AnimatedSizePage(),
     ),
   ];
 }

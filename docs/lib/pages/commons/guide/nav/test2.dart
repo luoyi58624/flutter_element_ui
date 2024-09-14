@@ -61,7 +61,7 @@ class MyDelegate extends BoxyDelegate {
         .deflate(EdgeInsets.only(top: firstSize.height))
         .tighten(width: firstSize.width));
 
-    secondChild.position(Offset(-100, firstSize.height + 100));
+    secondChild.position(Offset(0, firstSize.height + 100));
 
     return Size(
       firstSize.width,

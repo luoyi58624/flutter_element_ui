@@ -327,6 +327,7 @@ class RouterUtil {
       [
         ('Divider 分割线', '/${RootRoute.component.$2}/Divider'),
         ('Watermark 水印', '/${RootRoute.component.$2}/Watermark'),
+        ('AnimatedSize 动画尺寸', '/${RootRoute.component.$2}/animated_size'),
       ],
     ),
   ];

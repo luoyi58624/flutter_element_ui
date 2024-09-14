@@ -3,7 +3,6 @@ library flutter_element_ui;
 export 'src/app.dart' show ElApp;
 export 'src/service.dart' show el;
 
-export 'src/components/basic/button.dart';
 export 'src/components/basic/button/index.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
@@ -90,7 +89,8 @@ export 'src/utils/common.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/shortcut.dart';
 
-export 'src/widgets/animation.dart';
+export 'src/widgets/animates/animated_size.dart';
+export 'src/widgets/animates/animated_widgets.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/null_widget.dart';
