@@ -9,7 +9,8 @@ import '../../basic/icon.dart';
 part 'util.dart';
 
 class ElLoading extends StatelessWidget {
-  const ElLoading({
+  const ElLoading(
+    this.icon, {
     super.key,
     this.size,
     this.color,
@@ -18,6 +19,7 @@ class ElLoading extends StatelessWidget {
 
   final double? size;
   final Color? color;
+  final IconData icon;
   final bool loading;
 
   /// 显示 Loading 弹窗，如果之前打开了一个，将关闭之前的弹窗。
@@ -68,7 +70,7 @@ class ElLoading extends StatelessWidget {
     return _LoadingWidget(
       loading: loading,
       child: ElIcon(
-        ElIcons.loading,
+        icon,
         size: size,
         color: color,
       ),

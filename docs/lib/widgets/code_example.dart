@@ -48,6 +48,7 @@ class CodeExampleWidget extends HookWidget {
                 elevation: context.isHover ? 4 : 0,
                 shadowColor: Colors.black38,
                 margin: EdgeInsets.zero,
+                // color: context.elTheme.colors.bg,
                 child: AnimatedContainer(
                   duration: context.elConfig.themeDuration,
                   decoration: BoxDecoration(

@@ -37,6 +37,21 @@ class Example4 extends StatelessWidget {
                     (type) => ElButton(
                       type: type,
                       text: true,
+                      bg: true,
+                      child: (type ?? 'Default').firstUpperCase,
+                    ),
+                  )
+                  .toList(),
+            ),
+            const Gap(12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: ButtonPage.buttonTypes
+                  .map(
+                    (type) => ElButton(
+                      type: type,
+                      text: true,
                       disabled: true,
                       child: (type ?? 'Default').firstUpperCase,
                     ),
@@ -50,4 +65,6 @@ class Example4 extends StatelessWidget {
   }
 }
 
-String get code => '''ElButton(child: 'Hello', text: true),''';
+String get code => '''
+ElButton(child: 'Hello', text: true),
+ElButton(child: 'Hello', text: true, bg: true),''';

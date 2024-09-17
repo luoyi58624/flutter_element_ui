@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/event.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../styles/basic/button.dart';
 import '../../../utils/font.dart';
+import '../../../utils/icons.dart';
 import '../../feedback/loading/loading.dart';
 import '../icon.dart';
 
@@ -21,6 +21,7 @@ class ElButton extends StatefulWidget {
     this.color,
     this.type,
     this.text = false,
+    this.bg = false,
     this.link = false,
     this.plain = false,
     this.round = false,
@@ -32,7 +33,8 @@ class ElButton extends StatefulWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
-    this.loadingWidget,
+    this.loadingIcon = ElIcons.loading,
+    this.loadingBuilder,
     this.enableFeedback,
     this.onPressed,
     this.onTapDown,
@@ -62,6 +64,9 @@ class ElButton extends StatefulWidget {
 
   /// 文字按钮，默认false
   final bool text;
+
+  /// 文字按钮是否添加背景
+  final bool bg;
 
   /// 链接按钮，默认false，若为true，[child]将强制渲染成文字
   final bool link;
@@ -99,8 +104,12 @@ class ElButton extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
-  /// loading 小部件，如果不为空，它会隐藏按钮原有内容，并且背景颜色变为灰色
-  final Widget? loadingWidget;
+  /// 自定义 loading 图标，默认 [ElIcons.loading]，默认在左侧弹出 loading 图标，
+  /// 如果 [leftIcon] 不为空，那么 [leftIcon] 将被替换成 loading
+  final IconData loadingIcon;
+
+  /// 自定义 loading 小部件，与 [loadingIcon] 不同，它会隐藏按钮原有内容
+  final Widget Function(Color color)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

@@ -1,6 +1,8 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
+int _loadingDuration = 3000;
+
 class Example6 extends StatelessWidget {
   const Example6({super.key});
 
@@ -17,12 +19,21 @@ class Example6 extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: [
-                _LoadingButton1(),
-                _LoadingButton2(),
-                _LoadingButton4(),
-                _LoadingButton5(),
-                _LoadingButton6(),
-                _LoadingButton10(),
+                _Loading1(),
+                _Loading2(),
+                _Loading3(),
+                _Loading4(),
+              ],
+            ),
+            Gap(8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _CustomLoading1(),
+                _CustomLoading2(),
+                _CustomLoading3(),
+                _CustomLoading4(),
               ],
             ),
           ],
@@ -32,8 +43,8 @@ class Example6 extends StatelessWidget {
   }
 }
 
-class _LoadingButton1 extends HookWidget {
-  const _LoadingButton1();
+class _Loading1 extends HookWidget {
+  const _Loading1();
 
   @override
   Widget build(BuildContext context) {
@@ -43,16 +54,16 @@ class _LoadingButton1 extends HookWidget {
         loading.value = true;
         () {
           loading.value = false;
-        }.delay(1500);
+        }.delay(_loadingDuration);
       },
       loading: loading.value,
-      child: ('Default'),
+      child: '提交',
     );
   }
 }
 
-class _LoadingButton2 extends HookWidget {
-  const _LoadingButton2();
+class _Loading2 extends HookWidget {
+  const _Loading2();
 
   @override
   Widget build(BuildContext context) {
@@ -62,56 +73,7 @@ class _LoadingButton2 extends HookWidget {
         loading.value = true;
         () {
           loading.value = false;
-        }.delay(1500);
-      },
-      loading: loading.value,
-      loadingWidget: const ElText('加载中...'),
-      type: 'primary',
-      child: '提交表单',
-    );
-  }
-}
-
-class _LoadingButton10 extends HookWidget {
-  const _LoadingButton10();
-
-  @override
-  Widget build(BuildContext context) {
-    final loading = useState(false);
-    return ElButton(
-      onPressed: () {
-        loading.value = true;
-        () {
-          loading.value = false;
-        }.delay(1500);
-      },
-      loading: loading.value,
-      loadingWidget: const SizedBox(
-        width: 16,
-        height: 16,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: Colors.white,
-        ),
-      ),
-      type: 'primary',
-      child: '提 交',
-    );
-  }
-}
-
-class _LoadingButton4 extends HookWidget {
-  const _LoadingButton4();
-
-  @override
-  Widget build(BuildContext context) {
-    final loading = useState(false);
-    return ElButton(
-      onPressed: () {
-        loading.value = true;
-        () {
-          loading.value = false;
-        }.delay(1500);
+        }.delay(_loadingDuration);
       },
       loading: loading.value,
       type: 'primary',
@@ -121,8 +83,8 @@ class _LoadingButton4 extends HookWidget {
   }
 }
 
-class _LoadingButton5 extends HookWidget {
-  const _LoadingButton5();
+class _Loading3 extends HookWidget {
+  const _Loading3();
 
   @override
   Widget build(BuildContext context) {
@@ -132,17 +94,18 @@ class _LoadingButton5 extends HookWidget {
         loading.value = true;
         () {
           loading.value = false;
-        }.delay(1500);
+        }.delay(_loadingDuration);
       },
       loading: loading.value,
       type: 'primary',
-      child: '',
+      rightIcon: const ElIcon(ElIcons.upload2),
+      child: '上传',
     );
   }
 }
 
-class _LoadingButton6 extends HookWidget {
-  const _LoadingButton6();
+class _Loading4 extends HookWidget {
+  const _Loading4();
 
   @override
   Widget build(BuildContext context) {
@@ -152,13 +115,151 @@ class _LoadingButton6 extends HookWidget {
         loading.value = true;
         () {
           loading.value = false;
-        }.delay(1500);
+        }.delay(_loadingDuration);
       },
       loading: loading.value,
       type: 'primary',
-      child: '',
+      loadingIcon: ElIcons.eleme,
+      child: '自定义Icon',
     );
   }
 }
 
-String get code => '''ElButton(child: 'Hello', text: true),''';
+class _CustomLoading1 extends HookWidget {
+  const _CustomLoading1();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+        () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      loadingBuilder: (color) => const ElText('加载中...'),
+      type: 'primary',
+      child: '自定义加载内容',
+    );
+  }
+}
+
+class _CustomLoading2 extends HookWidget {
+  const _CustomLoading2();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+        () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      loadingBuilder: (color) => SizedBox(
+        width: 16,
+        height: 16,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: color,
+        ),
+      ),
+      type: 'primary',
+      child: '自定义Loading',
+    );
+  }
+}
+
+class _CustomLoading3 extends HookWidget {
+  const _CustomLoading3();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+            () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      loadingBuilder: (color) => SizedBox(
+        width: 16,
+        height: 16,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: color,
+        ),
+      ),
+      type: 'primary',
+      text: true,
+      child: '提 交',
+    );
+  }
+}
+
+class _CustomLoading4 extends HookWidget {
+  const _CustomLoading4();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+            () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      loadingBuilder: (color) => SizedBox(
+        width: 16,
+        height: 16,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: color,
+        ),
+      ),
+      type: 'primary',
+      plain: true,
+      child: '提 交',
+    );
+  }
+}
+
+String get code => '''
+// 默认在左边显示 loading 图标
+ElButton(loading: true, child: '提交'),
+// 如果存在 leftIcon，则会将左图标替换成 loading
+ElButton(loading: true, type: 'primary', leftIcon: const ElIcon(ElIcons.edit), child: '编辑'),
+// 设置右图标，loading依旧出现在左边
+ElButton(loading: true, type: 'primary', rightIcon: const ElIcon(ElIcons.upload2), child: '上传'),
+// 允许自定义 IconData
+ElButton(loading: true, type: 'primary', loadingIcon: ElIcons.eleme, child: '自定义Icon'),
+// loadingBuilder 支持渲染任意小部件，它会替换按钮原有内容
+ElButton(
+  loading: true,
+  type: 'primary',
+  loadingBuilder: (color) => const ElText('加载中...'), 
+  child: '自定义加载内容',
+),
+// 渲染官方提供的进度指示器
+ElButton(
+  loading: true,
+  type: 'primary',
+  loadingBuilder: (color) => SizedBox(
+    width: 16,
+    height: 16,
+    child: CircularProgressIndicator(
+      strokeWidth: 2,
+      color: color,
+    ),
+  ),
+  child: '自定义Loading',
+),
+''';

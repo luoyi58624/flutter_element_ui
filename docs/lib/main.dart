@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initFont(
-    windows: true,
-  );
+  // await initFont(
+  //   windows: true,
+  // );
+  // if (PlatformUtil.isWindows) {
+  //   ElFont.bold = FontWeight.w700;
+  // }
   runApp(const MainApp());
 }
 

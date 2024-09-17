@@ -13,6 +13,7 @@ import '../pages/commons/component/other/animated_size/index.dart';
 import '../pages/commons/overview/cupertino/index.dart';
 import '../pages/commons/overview/element/index.dart';
 import '../pages/commons/overview/material/index.dart';
+import '../widgets/demo.dart';
 
 List<RouteBase> buildComponentRoutes(String path) {
   return [
@@ -54,7 +55,7 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}typography',
-      builder: (context, state) => const NotFoundPage(),
+      builder: (context, state) => const ExampleSmoothScroll(),
     ),
     RouterUtil.buildRoute(
       path: '${path}autocomplete',
