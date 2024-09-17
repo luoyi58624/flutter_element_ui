@@ -29,11 +29,13 @@ class Example6 extends StatelessWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 _CustomLoading1(),
                 _CustomLoading2(),
                 _CustomLoading3(),
                 _CustomLoading4(),
+                _CustomLoading5(),
               ],
             ),
           ],
@@ -183,22 +185,15 @@ class _CustomLoading3 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-            () {
+        () {
           loading.value = false;
         }.delay(_loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: (color) => SizedBox(
-        width: 16,
-        height: 16,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: color,
-        ),
-      ),
+      loadingBuilder: loadingBuilder,
       type: 'primary',
-      text: true,
-      child: '提 交',
+      plain: true,
+      child: '镂空按钮',
     );
   }
 }
@@ -212,25 +207,49 @@ class _CustomLoading4 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-            () {
+        () {
           loading.value = false;
         }.delay(_loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: (color) => SizedBox(
-        width: 16,
-        height: 16,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: color,
-        ),
-      ),
+      loadingBuilder: loadingBuilder,
       type: 'primary',
-      plain: true,
-      child: '提 交',
+      text: true,
+      child: '文字按钮',
     );
   }
 }
+
+class _CustomLoading5 extends HookWidget {
+  const _CustomLoading5();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+        () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      loadingBuilder: loadingBuilder,
+      type: 'primary',
+      link: true,
+      child: '链接按钮',
+    );
+  }
+}
+
+var loadingBuilder = (color) => SizedBox(
+      width: 16,
+      height: 16,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color: color,
+      ),
+    );
 
 String get code => '''
 // 默认在左边显示 loading 图标

@@ -4,7 +4,6 @@ import 'package:flutter_element_ui/src/extensions/event.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../styles/basic/button.dart';
-import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../feedback/loading/loading.dart';
 import '../icon.dart';
@@ -109,7 +108,7 @@ class ElButton extends StatefulWidget {
   final IconData loadingIcon;
 
   /// 自定义 loading 小部件，与 [loadingIcon] 不同，它会隐藏按钮原有内容
-  final Widget Function(Color color)? loadingBuilder;
+  final Widget Function(Color? color)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

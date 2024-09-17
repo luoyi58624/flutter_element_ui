@@ -124,11 +124,11 @@ extension ElColorExtension on Color {
     );
   }
 
-  /// 根据事件状态返回新的颜色
+  /// 根据状态返回新的颜色
   Color on(bool flag, {int scale = 10, Color? color}) =>
       flag ? (color ?? deepen(scale)) : this;
 
-  /// 根据事件状态返回新的颜色
+  /// 根据事件构建新的颜色
   Color buildEventColor(
     BuildContext context, {
     ColorEventBuilder? tapBuilder,
@@ -203,7 +203,7 @@ extension ElColorThemeExtension on Color {
       : ElApp.of(context).theme.colors.text;
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
-  List<Color> elColors(BuildContext context) {
+  List<Color> elLights(BuildContext context) {
     return [
       elLight1(context),
       elLight2(context),
@@ -218,7 +218,6 @@ extension ElColorThemeExtension on Color {
   }
 }
 
-// 我看不太懂官方写的 scss 源码，所以只能尽量模拟颜色效果
 extension _ColorExtension on Color {
   Color _darken(int level) => mix(const Color(0xff222222), level * 9);
 

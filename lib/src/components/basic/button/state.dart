@@ -12,6 +12,7 @@ const double _textDisabledOpacity = 0.36;
 /// 主题按钮 text 禁用透明度
 const double _themeButtonTextDisabledOpacity = 0.85;
 
+/// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
 
 extension _ButtonColorExtension on Color {
@@ -77,30 +78,31 @@ class _ElButtonState extends State<ElButton> {
   Widget buildButtonWrapper(BuildContext context) {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.colors.border;
+    final $isHover = context.isHover;
+    final $isTap = context.isTap;
+
     Color? $bgColor;
     Color? $textColor;
     Color? $borderColor;
+    Color? $loadingTextColor;
 
-    late Color $loadingTextColor;
-
+    // 处理自定义加载器按钮外观，如果传递了 loadingBuilder，那么按钮原本内容将被隐藏
     if (widget.loadingBuilder != null && widget.loading) {
-      if (widget.link) {
-      } else if (widget.text) {
+      if (widget.link || widget.text) {
         $loadingTextColor = widget.type == null && widget.bgColor == null
             ? $elTheme.colors.regularText
             : context.elThemeColors[widget.type]!;
       } else {
-        if (widget.type == null && widget.bgColor == null) {
-        } else {
-          if (widget.plain) {
-          } else {
-            $bgColor = context.isDark
-                ? const Color.fromRGBO(57, 57, 57, 1.0)
-                : const Color.fromRGBO(224, 224, 224, 1.0);
-            $loadingTextColor = context.isDark
-                ? const Color.fromRGBO(118, 118, 118, 1.0)
-                : const Color.fromRGBO(166, 166, 166, 1.0);
-          }
+        $bgColor = context.isDark
+            ? const Color.fromRGBO(57, 57, 57, 1.0)
+            : const Color.fromRGBO(224, 224, 224, 1.0);
+        $loadingTextColor = context.isDark
+            ? const Color.fromRGBO(118, 118, 118, 1.0)
+            : const Color.fromRGBO(166, 166, 166, 1.0);
+        if ((widget.type == null && widget.bgColor == null) || widget.plain) {
+          $borderColor = context.isDark
+              ? const Color.fromRGBO(57, 57, 57, 1.0)
+              : const Color.fromRGBO(224, 224, 224, 1.0);
         }
       }
     } else {
@@ -122,13 +124,14 @@ class _ElButtonState extends State<ElButton> {
       else if (widget.text) {
         final pageBgColor = $elTheme.colors.bg;
         if (widget.bg) {
-          $bgColor = pageBgColor.deepen(4)
-              .on(context.isHover, color: pageBgColor.deepen(2))
-              .on(context.isTap, color: pageBgColor.deepen(8));
+          $bgColor = pageBgColor
+              .deepen(4)
+              .on($isHover, color: pageBgColor.deepen(2))
+              .on($isTap, color: pageBgColor.deepen(8));
         } else {
-          if (context.isTap) {
+          if ($isTap) {
             $bgColor = pageBgColor.deepen(8);
-          } else if (context.isHover) {
+          } else if ($isHover) {
             $bgColor = pageBgColor.deepen(4);
           }
         }
@@ -141,20 +144,20 @@ class _ElButtonState extends State<ElButton> {
       } else {
         // 默认按钮
         if (widget.type == null && widget.bgColor == null) {
-          $bgColor = context.isTap || context.isHover
+          $bgColor = $isTap || $isHover
               ? $elTheme.primary.themeLightBg(context)
               : $elTheme.colors.bg;
 
-          $textColor = context.isTap || context.isHover
+          $textColor = $isTap || $isHover
               ? $elTheme.primary
               : $elTheme.colors.regularText;
           if (disabled) {
             $textColor = $textColor.withOpacity(_textDisabledOpacity);
           }
 
-          $borderColor = context.isTap
+          $borderColor = $isTap
               ? $elTheme.primary
-              : context.isHover
+              : $isHover
                   ? $elTheme.primary.themeLightBorder(context)
                   : $defaultBorderColor;
 
@@ -168,26 +171,24 @@ class _ElButtonState extends State<ElButton> {
           // 镂空按钮
           if (widget.plain) {
             $bgColor = PlatformUtil.isDesktop
-                ? (context.isTap
+                ? ($isTap
                     ? $themeColor.tap(context)
-                    : context.isHover
+                    : $isHover
                         ? $themeColor
                         : $themeColor.themeLightBg(context))
-                : (context.isTap
-                    ? $themeColor
-                    : $themeColor.themeLightBg(context));
+                : ($isTap ? $themeColor : $themeColor.themeLightBg(context));
 
-            $textColor = context.isTap || context.isHover
+            $textColor = $isTap || $isHover
                 ? $themeColor.elTextColor(context)
                 : $themeColor;
 
             $borderColor = PlatformUtil.isDesktop
-                ? (context.isTap
+                ? ($isTap
                     ? $themeColor.tap(context)
-                    : context.isHover
+                    : $isHover
                         ? $themeColor
                         : $themeColor.themeLightBorder(context))
-                : (context.isTap
+                : ($isTap
                     ? $themeColor
                     : $themeColor.themeLightBorder(context));
 
@@ -199,9 +200,9 @@ class _ElButtonState extends State<ElButton> {
           }
           // 主题按钮
           else {
-            $bgColor = context.isTap
+            $bgColor = $isTap
                 ? $themeColor.tap(context)
-                : context.isHover
+                : $isHover
                     ? $themeColor.hover(context)
                     : $themeColor;
 
@@ -244,7 +245,7 @@ class _ElButtonState extends State<ElButton> {
                 ? buttonHeight
                 : widget.child is ElIcon
                     ? buttonHeight * 1.25
-                    : _minWidth),
+                    : widget.width ?? _minWidth),
           );
 
     Widget result = ElDefaultTextStyle.merge(

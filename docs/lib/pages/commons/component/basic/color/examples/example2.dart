@@ -1,6 +1,5 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Example2 extends StatelessWidget {
   const Example2({super.key});

@@ -160,7 +160,7 @@ class Example1 extends StatelessWidget {
             ),
             Row(
               children: context.elTheme.primary
-                  .elColors(context)
+                  .elLights(context)
                   .map(
                     (e) => Expanded(
                       child: AspectRatio(
@@ -202,7 +202,7 @@ class Example1 extends StatelessWidget {
 String get code => '''
 // Element UI 对颜色提供了 9 种级别的扩展函数：elLight1 - elLight9
 Row(
-  children: context.elTheme.primary.elColors(context).map((e) => Expanded(
+  children: context.elTheme.primary.elLights(context).map((e) => Expanded(
     child: AspectRatio(
       aspectRatio: 1.0,
       child: GestureDetector(
@@ -220,7 +220,7 @@ Row(
               decoration: BoxDecoration(
                 color: e,
                 border: Border.all(
-                  // 不能直接写 0，flutter 的边框存在臭名昭著的bug: 
+                  // 不能直接写 0，flutter 的边框存在bug: 
                   // https://github.com/flutter/flutter/issues/14288
                   width: context.isHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
