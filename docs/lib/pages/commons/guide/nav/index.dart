@@ -1,5 +1,6 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/link.dart';
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -29,7 +30,31 @@ class NavPage extends ResponsivePage {
       //   },
       //   child: Text('count: ${count.value}'),
       // ),
-      // const Gap(8),
+      const Gap(8),
+      Link(
+        uri: Uri.parse('https://www.baidu.com'),
+        builder: (context, open) => ElButton(
+          onPressed: (){
+            open!();
+          },
+          type: 'primary',
+          link: true,
+          child: '链接',
+        ),
+      ),
+      const Gap(8),
+      Link(
+        uri: Uri.parse('/component/button'),
+        builder: (context, open) => ElButton(
+          onPressed: (){
+            open!();
+          },
+          type: 'primary',
+          link: true,
+          child: '按钮页面',
+        ),
+      ),
+      const Gap(8),
       ElButton(
         onPressed: () {
           count.value++;
