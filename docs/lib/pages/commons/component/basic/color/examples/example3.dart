@@ -14,7 +14,6 @@ class Example3 extends StatelessWidget {
         textGap,
         CodeExampleWidget(
           code: code,
-          expanded: true,
           children: const [
             SizedBox(
               height: 300,
@@ -52,10 +51,7 @@ class MainApp extends StatelessWidget {
           theme: ElThemeData(
             primary: value,
           ),
-          child: MaterialApp(
-            home: const HomePage(),
-            builder: ElApp.builder(),
-          ),
+          child: const HomePage(),
         );
       },
     );

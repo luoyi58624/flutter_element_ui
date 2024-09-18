@@ -42,11 +42,13 @@ final Obs<String> _href = Obs('');
 
 class _ElLinkInheritedWidget extends InheritedWidget {
   const _ElLinkInheritedWidget(
-    this.toLink, {
+    this.toLink,
+    this.href, {
     required super.child,
   });
 
   final FollowLink? toLink;
+  final String href;
 
   static _ElLinkInheritedWidget of(BuildContext context) {
     final _ElLinkInheritedWidget? result =
@@ -97,28 +99,40 @@ class ElLink extends StatefulWidget {
 
   /// 定义链接锚点，如果不为空，当初始化时会将它存放于 [anchorMap] 集合中。
   ///
-  /// 提示：内部会自动添加 # 符号，你只需随便设置一个字符串即可。
+  /// 提示：内部会自动添加 # 符号。
   final String? name;
 
   /// 超链接瞄点 Map 集合，如果设置了 [name]，初始化时会将当前 [ElLink] 对象存放到此集合中，
-  /// 销毁时会自动移除，通常情况下你需要监听路由地址变化，拿到锚点字符串，然后通过全局滚动 api 实现页面内跳转，
-  /// 以下是 go_router 的代码示例：
-  /// ```dart
-  /// ElUtils.nextTick(() {
-  ///   final key = Uri.decodeComponent(state.uri.toString()).split('#').last;
-  ///   final context = ElLink.anchorMap['#$key']?.currentContext;
-  ///   if (context != null) {
-  ///     Scrollable.ensureVisible(context);
-  ///   }
-  /// });
-  /// ```
+  /// 销毁时会自动移除。
   static final Map<String, GlobalKey> anchorMap = {};
 
-  /// 跳转超链接，如果子组件存在 [GestureDetector] 事件小部件，那么它将覆盖默认的点击事件，
+  /// 滚动到锚点位置
+  static void scrollAnchor(String url) {
+    BuildContext? context;
+    // 如果 url 存在 # 锚点符号，则尝试解析 url 地址获取 ElLink 的 context 对象
+    if (url.contains('#')) {
+      final key = Uri.decodeComponent(url).split('#').last;
+      context = anchorMap['#$key']?.currentContext;
+    }
+    // 若是单纯的字符串，则当作 name 直接访问
+    else {
+      context = anchorMap['#$url']?.currentContext;
+    }
+    if (context != null) {
+      Scrollable.ensureVisible(context);
+    }
+  }
+
+  /// 跳转链接，如果子组件存在 [GestureDetector] 事件小部件，那么它将覆盖默认的点击事件，
   /// 所以提供此函数供用户手动跳转链接。
-  static void to(BuildContext context) {
-    final toLink = _ElLinkInheritedWidget.of(context).toLink;
-    if (toLink != null) toLink();
+  static void toLink(BuildContext context) {
+    final $toLink = _ElLinkInheritedWidget.of(context).toLink;
+    if ($toLink != null) $toLink();
+  }
+
+  /// 获取超链接地址
+  static String getLink(BuildContext context) {
+    return _ElLinkInheritedWidget.of(context).href;
   }
 
   @override
@@ -181,6 +195,7 @@ class _ElLinkState extends State<ElLink> {
 
     return _ElLinkInheritedWidget(
       toLink,
+      widget.href,
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
           color: ElHoverBuilder.of(context) ? $activeColor : $color,

@@ -19,17 +19,9 @@ GoRouterRedirect _routerRedirect = (BuildContext context, GoRouterState state) {
   if (state.fullPath != null) {
     // 设置当前路由地址响应式变量
     RouterState.currentPath.value = state.fullPath!;
-
-    // 如果 uri 存在 # 锚点符号，则尝试进行页面内跳转
-    if (state.uri.toString().contains('#')) {
-      ElUtils.nextTick(() {
-        final key = Uri.decodeComponent(state.uri.toString()).split('#').last;
-        final context = ElLink.anchorMap['#$key']?.currentContext;
-        if (context != null) {
-          Scrollable.ensureVisible(context);
-        }
-      });
-    }
+    ElUtils.nextTick((){
+      ElLink.scrollAnchor(state.uri.toString());
+    });
   }
   return null;
 };

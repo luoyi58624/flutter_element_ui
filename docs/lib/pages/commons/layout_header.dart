@@ -62,7 +62,7 @@ class LayoutHeader extends StatelessWidget {
                   child: Builder(builder: (context) {
                     return IconButton(
                       onPressed: () {
-                        ElLink.to(context);
+                        context.go(ElLink.getLink(context));
                       },
                       icon: const _GithubLogo(),
                     );
@@ -86,45 +86,54 @@ class LayoutHeader extends StatelessWidget {
               ...RootRoute.values.map(
                 (e) => ElLink(
                   href: '/${e.$2}',
-                  child: ElHoverBuilder(
-                    cursor: SystemMouseCursors.click,
+                  child: Builder(
                     builder: (context) {
-                      final isActive =
-                          RouterState.currentPath.value.startsWith('/${e.$2}');
-                      return Stack(
-                        children: [
-                          Container(
-                            height: context.elTheme.headerStyle.height,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
-                            child: Center(
-                              child: H6(
-                                e.$1,
-                                duration: 0.ms,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: ElHoverBuilder.of(context)
-                                        ? context.elTheme.primary
-                                        : context.elTheme.colors.text),
-                              ),
-                            ),
-                          ),
-                          if (isActive)
-                            Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: Container(
-                                height: 2,
-                                decoration: BoxDecoration(
-                                  color: context.elTheme.primary,
+                      return GestureDetector(
+                        onTapDown: (e){
+                          context.go(ElLink.getLink(context));
+                        },
+                        child: ElHoverBuilder(
+                          cursor: SystemMouseCursors.click,
+                          builder: (context) {
+                            final isActive =
+                                RouterState.currentPath.value.startsWith('/${e.$2}');
+                            return Stack(
+                              children: [
+                                Container(
+                                  height: context.elTheme.headerStyle.height,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  child: Center(
+                                    child: H6(
+                                      e.$1,
+                                      duration: 0.ms,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: ElHoverBuilder.of(context)
+                                              ? context.elTheme.primary
+                                              : context.elTheme.colors.text),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                        ],
+                                if (isActive)
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 2,
+                                      decoration: BoxDecoration(
+                                        color: context.elTheme.primary,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
                       );
-                    },
+                    }
                   ),
                 ),
               )

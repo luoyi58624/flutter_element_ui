@@ -20,7 +20,7 @@ class Example1 extends StatelessWidget {
             builder: (context) {
               return ElButton(
                 onPressed: () {
-                  ElLink.to(context);
+                  context.go(ElLink.getLink(context));
                 },
                 child: '跳转',
               );
