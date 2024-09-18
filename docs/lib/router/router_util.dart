@@ -45,7 +45,7 @@ class RouterUtil {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) => RouterState.isMobile.value == true
-          ? ElPlatformUtil.isIOS
+          ? ElPlatform.isIOS
               ? CupertinoPage(child: builder(context, state))
               : MaterialPage(child: builder(context, state))
           : NoTransitionPage(

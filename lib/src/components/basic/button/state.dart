@@ -171,7 +171,7 @@ class _ElButtonState extends State<ElButton> {
 
           // 镂空按钮
           if (widget.plain) {
-            $bgColor = ElPlatformUtil.isDesktop
+            $bgColor = ElPlatform.isDesktop
                 ? ($isTap
                     ? $themeColor.tap(context)
                     : $isHover
@@ -183,7 +183,7 @@ class _ElButtonState extends State<ElButton> {
                 ? $themeColor.elTextColor(context)
                 : $themeColor;
 
-            $borderColor = ElPlatformUtil.isDesktop
+            $borderColor = ElPlatform.isDesktop
                 ? ($isTap
                     ? $themeColor.tap(context)
                     : $isHover

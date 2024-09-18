@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 Future<void> _setElFontWeight() async {
   if (kIsWeb) return;
   await DeviceUtil.init();
-  if (ElPlatformUtil.isAndroid) {
+  if (ElPlatform.isAndroid) {
     // 小米手机400字重太细了，将normal设置为500
     if (DeviceUtil.isXiaomi) {
       ElFont.normal = FontWeight.w500;

@@ -85,6 +85,7 @@ export 'src/styles/layout/header.dart';
 
 export 'src/styles/navigation/navigation_menu.dart';
 
+export 'src/utils/platform/platform.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/font.dart';
 export 'src/utils/common.dart';

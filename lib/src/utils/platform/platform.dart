@@ -1,7 +1,7 @@
 import 'platform_web.dart' if (dart.library.io) 'platform_io.dart';
 
-class ElPlatformUtil {
-  ElPlatformUtil._();
+class ElPlatform {
+  ElPlatform._();
 
   /// macos、macos web
   static final bool isMacOS = GeneralPlatform.isMacOS;

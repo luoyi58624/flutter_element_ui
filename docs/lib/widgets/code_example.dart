@@ -196,7 +196,7 @@ class CodeExampleWidget extends HookWidget {
             right: 16,
             child: AnimatedOpacity(
               duration: 200.ms,
-              opacity: ElPlatformUtil.isMobile || context.isHover ? 1.0 : 0.0,
+              opacity: ElPlatform.isMobile || context.isHover ? 1.0 : 0.0,
               child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {

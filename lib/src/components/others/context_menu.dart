@@ -34,7 +34,7 @@ class ElContextMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget result = child;
-    if (ElPlatformUtil.isMobile && !disabledLongPress) {
+    if (ElPlatform.isMobile && !disabledLongPress) {
       result = GestureDetector(
         onLongPress: () {
           _handler();
@@ -48,7 +48,7 @@ class ElContextMenu extends StatelessWidget {
           if (e.kind == PointerDeviceKind.mouse &&
               e.buttons == kSecondaryMouseButton) {
             _localPosition = e.position;
-            if (ElPlatformUtil.isDesktop) _handler();
+            if (ElPlatform.isDesktop) _handler();
           }
         },
         child: result,

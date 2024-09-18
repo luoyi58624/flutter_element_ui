@@ -7,7 +7,7 @@ void main() async {
   // await initFont(
   //   windows: true,
   // );
-  // if (ElPlatformUtil.isWindows) {
+  // if (ElPlatform.isWindows) {
   //   ElFont.bold = FontWeight.w700;
   // }
   runApp(const MainApp());

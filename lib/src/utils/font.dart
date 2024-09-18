@@ -19,9 +19,9 @@ class ElFont {
   /// 也可以通过 [ElApp] textStyle 参数覆盖它
   static TextStyle defaultTextStyle = TextStyle(
     fontFamily: null,
-    fontFamilyFallback: (ElPlatformUtil.isMacOS || ElPlatformUtil.isIOS)
+    fontFamilyFallback: (ElPlatform.isMacOS || ElPlatform.isIOS)
         ? ['.AppleSystemUIFont', 'PingFang SC']
-        : ElPlatformUtil.isWindows
+        : ElPlatform.isWindows
             ? ['Microsoft YaHei', '微软雅黑']
             : null,
   );

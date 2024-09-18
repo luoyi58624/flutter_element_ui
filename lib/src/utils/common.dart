@@ -9,7 +9,7 @@ class ElUtils {
   /// loading 加载光标
   static MouseCursor get loadingCursor {
     if (kIsWeb) return SystemMouseCursors.wait;
-    if (ElPlatformUtil.isMacOS) {
+    if (ElPlatform.isMacOS) {
       return SystemMouseCursors.forbidden;
     } else {
       return SystemMouseCursors.wait;
