@@ -12,8 +12,6 @@ class ElButtonStyle {
     this.height,
     this.borderRadius,
     this.padding,
-    this.animatedDuration = const Duration(milliseconds: 100),
-    this.enableFeedback,
   });
 
   /// 按钮高度，默认全局 baseHeight
@@ -24,10 +22,4 @@ class ElButtonStyle {
 
   /// 按钮内边距，默认为高度的一半
   final EdgeInsetsGeometry? padding;
-
-  /// 按钮动画持续时间
-  final Duration animatedDuration;
-
-  /// 是否开启触觉回馈，默认跟随全局
-  final bool? enableFeedback;
 }

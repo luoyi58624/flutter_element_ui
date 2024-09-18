@@ -1,27 +1,35 @@
-import 'package:flutter_element_ui/src/global.dart';
-import 'package:web/web.dart';
+import 'package:flutter/widgets.dart';
+import 'package:url_launcher/link.dart';
 
-// ignore: depend_on_referenced_packages
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-
+import '../../../widgets/hover.dart';
+import 'base_link.dart';
 import 'link.dart';
 
-final hash = urlStrategy is PathUrlStrategy ? '' : '/#';
+class ElLink extends ElBaseLink {
+  const ElLink({
+    super.key,
+    required super.href,
+    required super.builder,
+    super.target,
+    super.cursor,
+    super.color,
+    super.activeColor,
+    super.decoration,
+  });
 
-String? getFullHref(String? href) {
-  if (href == null) return null;
-  if (DartUtil.isHttp(href)) return href;
-  return window.location.origin + hash + href;
-}
-
-void toHref(String href, ElLinkTarget target) {
-  if (target == ElLinkTarget.blank) {
-    window.open(href, '_blank');
-  } else if (target == ElLinkTarget.self) {
-    window.location.href = href;
-  } else if (target == ElLinkTarget.parent) {
-    window.open(href, '_parent');
-  } else if (target == ElLinkTarget.top) {
-    window.open(href, '_top');
+  @override
+  Widget build(BuildContext context) {
+    return Link(
+      uri: Uri.parse(href),
+      target: target == ElLinkTarget.self ? LinkTarget.self : LinkTarget.blank,
+      builder: (context, open) => ElHoverBuilder(
+        cursor: cursor,
+        builder: (context) {
+          return buildTextTheme(context, builder(() {
+            if (open != null) open();
+          }));
+        },
+      ),
+    );
   }
 }

@@ -30,9 +30,9 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => ElLink(
                                 href: e.$2,
-                                child: GestureDetector(
+                                builder: (to) => GestureDetector(
                                   onTapDown: (event) {
-                                    context.go(e.$2);
+                                    to();
                                   },
                                   child: ObsBuilder(builder: (context) {
                                     final isActive =

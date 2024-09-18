@@ -1,13 +1,9 @@
 import 'package:example/global.dart';
 import 'package:example/pages/element/pages/form/slider.dart';
 
-import '../../pages/element/pages/basic/button.dart';
-import '../../pages/element/pages/basic/color.dart';
-import '../../pages/element/pages/basic/text.dart';
 import '../../pages/element/pages/data/table.dart';
 import '../../pages/element/pages/form/form.dart';
 import '../pages/element/layout/layout.dart';
-import '../pages/element/pages/basic/font.dart';
 import '../pages/element/pages/data/badge.dart';
 import '../pages/element/pages/data/collapse.dart';
 import '../pages/element/pages/data/image.dart';
@@ -40,38 +36,6 @@ final elementRoute = StatefulShellBranch(routes: [
     builder: (context, state, navigationShell) =>
         ElementLayoutPage(navigationShell),
     branches: [
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.basic}/button',
-            builder: (context, state) => const ButtonPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.basic}/text',
-            builder: (context, state) => const TextPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.basic}/color',
-            builder: (context, state) => const ColorPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.basic}/font',
-            builder: (context, state) => const FontPage(),
-          ),
-        ],
-      ),
       StatefulShellBranch(
         routes: [
           GoRoute(

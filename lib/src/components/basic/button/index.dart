@@ -32,9 +32,8 @@ class ElButton extends StatefulWidget {
     this.circle = false,
     this.disabled = false,
     this.loading = false,
-    this.loadingIcon = ElIcons.loading,
+    this.loadingWidget = const ElLoading(ElIcons.loading),
     this.loadingBuilder,
-    this.enableFeedback,
     this.onPressed,
     this.onTapDown,
     this.onTapUp,
@@ -64,10 +63,10 @@ class ElButton extends StatefulWidget {
   /// 文字按钮，默认false
   final bool text;
 
-  /// 文字按钮是否添加背景
+  /// 文字按钮是否添加默认背景
   final bool bg;
 
-  /// 链接按钮，默认false，若为true，[child]将强制渲染成文字
+  /// 链接按钮，默认false，相比文字按钮，它没有任何边距、以及宽高
   final bool link;
 
   /// 镂空按钮，默认false
@@ -97,18 +96,14 @@ class ElButton extends StatefulWidget {
   /// 禁用按钮，默认false
   final bool disabled;
 
-  /// 是否开启触觉回馈，默认全局关闭
-  final bool? enableFeedback;
-
   /// 开启 loading
   final bool loading;
 
-  /// 自定义 loading 图标，默认 [ElIcons.loading]，默认在左侧弹出 loading 图标，
-  /// 如果 [leftIcon] 不为空，那么 [leftIcon] 将被替换成 loading
-  final IconData loadingIcon;
+  /// loading 图标，在左侧显示，如果 [leftIcon] 不为空，则 [leftIcon] 将被替换成 loading
+  final Widget loadingWidget;
 
-  /// 自定义 loading 小部件，与 [loadingIcon] 不同，它会隐藏按钮原有内容
-  final Widget Function(Color? color)? loadingBuilder;
+  /// loading 构建器，它会隐藏按钮原有内容
+  final Widget Function(Color color)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

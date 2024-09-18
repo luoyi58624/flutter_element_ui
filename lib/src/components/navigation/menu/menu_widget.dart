@@ -144,7 +144,7 @@ class _MenuItemState extends State<_MenuItem> {
       return ElLink(
         href: widget.menuItem.key,
         cursor: MouseCursor.defer,
-        child: result,
+        builder: (to) => result,
       );
     } else {
       return ElHoverBuilder(

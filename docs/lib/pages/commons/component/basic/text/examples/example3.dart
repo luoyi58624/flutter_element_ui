@@ -10,13 +10,19 @@ class Example3 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('自定义文本组件'),
-        const SectionText([
+        SectionText([
           '这些组件 Element UI 没有提供，你需要自行封装，',
           ElLink(
             href:
                 'https://gitee.com/luoyi666/flutter_base/blob/main/lib/src/widgets/html/typography.dart',
-            child: '查看示例',
-          )
+            decoration: ElLinkDecoration.hoverUnderline,
+            builder: (to) => GestureDetector(
+              onTap: () {
+                to();
+              },
+              child: const ElText('查看示例'),
+            ),
+          ),
         ]),
         textGap,
         CodeExampleWidget(

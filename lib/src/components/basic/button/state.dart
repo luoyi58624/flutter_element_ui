@@ -12,6 +12,9 @@ const double _textDisabledOpacity = 0.36;
 /// 主题按钮 text 禁用透明度
 const double _themeButtonTextDisabledOpacity = 0.85;
 
+/// 按钮动画持续时间，默认 100 毫秒
+const int _duration = 100;
+
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
 
@@ -50,16 +53,13 @@ class _ElButtonState extends State<ElButton> {
   Widget buildEvent({required WidgetBuilder builder}) {
     return ElTapBuilder(
       onTap: () {
-        if (widget.enableFeedback ??
-            defaultStyle.enableFeedback ??
-            context.elConfig.enableFeedback) HapticFeedback.mediumImpact();
         if (widget.onPressed != null) widget.onPressed!();
       },
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
       disabled: disabled,
-      delay: defaultStyle.animatedDuration.inMilliseconds,
+      delay: _duration,
       builder: (context) {
         return ElHoverBuilder(
           disabled: disabled,
@@ -78,6 +78,7 @@ class _ElButtonState extends State<ElButton> {
   Widget buildButtonWrapper(BuildContext context) {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.colors.border;
+    final $isDark = context.isDark;
     final $isHover = context.isHover;
     final $isTap = context.isTap;
 
@@ -93,14 +94,14 @@ class _ElButtonState extends State<ElButton> {
             ? $elTheme.colors.regularText
             : context.elThemeColors[widget.type]!;
       } else {
-        $bgColor = context.isDark
+        $bgColor = $isDark
             ? const Color.fromRGBO(57, 57, 57, 1.0)
             : const Color.fromRGBO(224, 224, 224, 1.0);
-        $loadingTextColor = context.isDark
+        $loadingTextColor = $isDark
             ? const Color.fromRGBO(118, 118, 118, 1.0)
             : const Color.fromRGBO(166, 166, 166, 1.0);
         if ((widget.type == null && widget.bgColor == null) || widget.plain) {
-          $borderColor = context.isDark
+          $borderColor = $isDark
               ? const Color.fromRGBO(57, 57, 57, 1.0)
               : const Color.fromRGBO(224, 224, 224, 1.0);
         }
@@ -253,7 +254,8 @@ class _ElButtonState extends State<ElButton> {
         color: $textColor,
       ),
       child: AnimatedContainer(
-        duration: context.elThemeDuration ?? defaultStyle.animatedDuration,
+        duration:
+            context.elThemeDuration ?? const Duration(milliseconds: _duration),
         alignment: Alignment.center,
         padding: $padding,
         constraints: $constraints,
@@ -270,24 +272,26 @@ class _ElButtonState extends State<ElButton> {
     result = widget.block && !widget.circle
         ? result
         : UnconstrainedBox(child: result);
-    if (widget.loadingBuilder != null) {
+    if (widget.loadingBuilder != null && widget.loading) {
+      assert($loadingTextColor != null,
+          ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
       result = Stack(
         children: [
           result,
-          if (widget.loading)
-            Positioned.fill(
-              child: ElDefaultTextStyle.merge(
-                style: _defaultTextStyle.copyWith(
+          Positioned.fill(
+            child: ElDefaultTextStyle.merge(
+              style: _defaultTextStyle.copyWith(
+                color: $loadingTextColor,
+              ),
+              child: Center(
+                child: buildIconTheme(
                   color: $loadingTextColor,
-                ),
-                child: Center(
-                  child: buildIconTheme(
-                    color: $loadingTextColor,
-                    child: widget.loadingBuilder!($loadingTextColor),
-                  ),
+                  child:
+                      widget.loadingBuilder!($loadingTextColor!),
                 ),
               ),
             ),
+          ),
         ],
       );
     }
@@ -318,13 +322,13 @@ class _ElButtonState extends State<ElButton> {
     Widget? leftIcon;
     if (widget.leftIcon != null) {
       if (widget.loadingBuilder == null && widget.loading) {
-        leftIcon = ElLoading(widget.loadingIcon);
+        leftIcon = widget.loadingWidget;
       } else {
         leftIcon = widget.leftIcon;
       }
     } else {
       if (widget.loadingBuilder == null && widget.loading) {
-        leftIcon = ElLoading(widget.loadingIcon);
+        leftIcon = widget.loadingWidget;
       }
     }
 

@@ -31,7 +31,7 @@ class InstallPage extends ResponsivePage {
       textGap,
       CodeExampleWidget.code(code: code2),
       titleGap,
-      const SectionCard(
+      SectionCard(
         title: '使用声明式路由构建应用',
         content: [
           ElText([
@@ -39,7 +39,12 @@ class InstallPage extends ResponsivePage {
                 '声明式路由支持完善的导航历史功能，这里推荐使用官方提供的 ',
             ElLink(
               href: 'https://pub.dev/packages/go_router',
-              child: 'go_router',
+              builder: (to) => GestureDetector(
+                onTap: () {
+                  to();
+                },
+                child: const ElText('go_router'),
+              ),
             ),
             '。',
           ]),
@@ -172,4 +177,3 @@ class ChildPage extends StatelessWidget {
     );
   }
 }''';
-

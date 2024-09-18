@@ -10,14 +10,12 @@ extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? baseHeight,
     BorderRadius? radius,
-    bool? enableFeedback,
     Duration? themeDuration,
     Curve? themeCurve,
   }) {
     return ElConfigData(
       baseHeight: baseHeight ?? this.baseHeight,
       radius: radius ?? this.radius,
-      enableFeedback: enableFeedback ?? this.enableFeedback,
       themeDuration: themeDuration ?? this.themeDuration,
       themeCurve: themeCurve ?? this.themeCurve,
     );
@@ -28,7 +26,6 @@ extension ElConfigDataExtension on ElConfigData {
     return copyWith(
       baseHeight: other.baseHeight,
       radius: other.radius,
-      enableFeedback: other.enableFeedback,
       themeDuration: other.themeDuration,
       themeCurve: other.themeCurve,
     );

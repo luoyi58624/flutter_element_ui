@@ -27,10 +27,15 @@ class Example3 extends StatelessWidget {
                   .map(
                     (type) => ElLink(
                       href: githubLink,
-                      child: ElButton(
-                        type: type,
-                        link: true,
-                        child: (type ?? 'Default').firstUpperCase,
+                      builder: (to) => GestureDetector(
+                        onTap: () {
+                          to();
+                        },
+                        child: ElButton(
+                          type: type,
+                          link: true,
+                          child: (type ?? 'Default').firstUpperCase,
+                        ),
                       ),
                     ),
                   )

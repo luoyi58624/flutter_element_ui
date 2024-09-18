@@ -15,30 +15,15 @@ class NavPage extends ResponsivePage {
     final disabled = useState(false);
     final loading = useState(false);
 
-    final childWidth = useObs(0.0);
-    final username = useState('');
     return [
-      // ElButton(
-      //   onPressed: () {
-      //     count.value++;
-      //   },
-      //   child: ElText('count: ${count.value}'),
-      // ),
-      // ElevatedButton(
-      //   onPressed: () {
-      //     count.value++;
-      //   },
-      //   child: Text('count: ${count.value}'),
-      // ),
       const Gap(8),
       Link(
         uri: Uri.parse('https://www.baidu.com'),
         builder: (context, open) => ElButton(
-          onPressed: (){
+          onPressed: () {
             open!();
           },
           type: 'primary',
-          link: true,
           child: '链接',
         ),
       ),
@@ -46,11 +31,10 @@ class NavPage extends ResponsivePage {
       Link(
         uri: Uri.parse('/component/button'),
         builder: (context, open) => ElButton(
-          onPressed: (){
+          onPressed: () {
             open!();
           },
           type: 'primary',
-          link: true,
           child: '按钮页面',
         ),
       ),
@@ -62,7 +46,6 @@ class NavPage extends ResponsivePage {
         child: ElText('count: ${count.value}'),
       ),
       const Gap(8),
-
       ElButton(
         onPressed: () {
           count.value++;

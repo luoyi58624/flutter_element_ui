@@ -11,15 +11,11 @@ extension ElButtonStyleExtension on ElButtonStyle {
     double? height,
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? padding,
-    Duration? animatedDuration,
-    bool? enableFeedback,
   }) {
     return ElButtonStyle(
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
       padding: padding ?? this.padding,
-      animatedDuration: animatedDuration ?? this.animatedDuration,
-      enableFeedback: enableFeedback ?? this.enableFeedback,
     );
   }
 
@@ -29,8 +25,6 @@ extension ElButtonStyleExtension on ElButtonStyle {
       height: other.height,
       borderRadius: other.borderRadius,
       padding: other.padding,
-      animatedDuration: other.animatedDuration,
-      enableFeedback: other.enableFeedback,
     );
   }
 }

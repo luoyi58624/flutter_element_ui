@@ -121,7 +121,7 @@ class _Loading4 extends HookWidget {
       },
       loading: loading.value,
       type: 'primary',
-      loadingIcon: ElIcons.eleme,
+      loadingWidget: const ElLoading(ElIcons.eleme),
       child: '自定义Icon',
     );
   }

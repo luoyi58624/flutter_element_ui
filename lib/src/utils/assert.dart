@@ -2,7 +2,9 @@ import '../service.dart';
 
 abstract class ElAssert {
   /// Element UI 内部错误
-  static const String elementError = 'Element UI内部程序错误，此错误并非用户问题，请提交ISSUE';
+  static String elementError(String message) {
+    return 'Element UI 内部错误: $message';
+  }
 
   /// 主题类型断言，要么传递空，要么必须是五种主题类型的其中一个
   static void themeType(String? type, String componentName) {
