@@ -67,7 +67,7 @@ class DesignPage extends ResponsivePage {
             ElText(
               title,
               style: TextStyle(
-                fontWeight: FontUtil.medium,
+                fontWeight: ElFont.medium,
                 fontSize: 18,
               ),
             ),
@@ -88,7 +88,7 @@ class DesignPage extends ResponsivePage {
           (e) => Li(
             child: ElText(
               [
-                ElText(e.$1, style: TextStyle(fontWeight: FontUtil.medium)),
+                ElText(e.$1, style: TextStyle(fontWeight: ElFont.medium)),
                 e.$2
               ],
             ),

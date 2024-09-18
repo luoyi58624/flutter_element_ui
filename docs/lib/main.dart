@@ -44,7 +44,6 @@ class MainApp extends StatelessWidget {
           baseHeight: 36,
         ),
         textStyle: TextStyle(
-          fontFamily: FontUtil.fontFamily,
           fontSize: GlobalState.globalFontSize,
         ),
         child: ObsBuilder(builder: (context) {
