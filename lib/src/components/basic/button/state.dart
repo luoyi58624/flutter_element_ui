@@ -259,6 +259,7 @@ class _ElButtonState extends State<ElButton> {
         alignment: Alignment.center,
         padding: $padding,
         constraints: $constraints,
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           color: $bgColor,
           border: $border,

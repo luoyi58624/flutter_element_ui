@@ -9,6 +9,8 @@ import 'examples/example5.dart';
 import 'examples/example6.dart';
 import 'examples/example7.dart';
 import 'examples/example8.dart';
+import 'examples/example9.dart';
+import 'examples/example10.dart';
 
 class ButtonPage extends ResponsivePage {
   const ButtonPage({super.key});
@@ -21,14 +23,16 @@ class ButtonPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return const [
-      Example1(),
-      Example2(),
-      Example3(),
-      Example4(),
-      Example5(),
-      Example6(),
-      Example7(),
-      Example8(),
+      Example1(title: '基础用法'),
+      Example2(title: '禁用状态'),
+      Example3(title: '链接按钮'),
+      Example4(title: '文字按钮'),
+      Example5(title: '图标按钮'),
+      Example6(title: '加载状态'),
+      Example7(title: '自定义颜色'),
+      Example8(title: '块级按钮'),
+      Example9(title: '自定义尺寸'),
+      Example10(title: '拆分按钮'),
     ];
   }
 }

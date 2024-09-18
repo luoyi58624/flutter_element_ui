@@ -18,12 +18,14 @@ class CodeExampleWidget extends HookWidget {
     super.key,
     required this.code,
     required this.children,
+    this.expanded = false,
   }) : _onlyCode = false;
 
   /// 仅展示代码
   const CodeExampleWidget.code({
     super.key,
     required this.code,
+    this.expanded = false,
   })  : _onlyCode = true,
         children = const [];
 
@@ -35,10 +37,13 @@ class CodeExampleWidget extends HookWidget {
   /// 效果预览
   final List<Widget> children;
 
+  /// 是否默认展开代码示例，默认false
+  final bool expanded;
+
   @override
   Widget build(BuildContext context) {
     final $code = useState<TextSpan>(const TextSpan());
-    final isExpanded = useState(false);
+    final isExpanded = useState(expanded);
     initCodeStyle(context, $code);
     return ElHoverBuilder(builder: (context) {
       return _onlyCode
@@ -173,7 +178,7 @@ class CodeExampleWidget extends HookWidget {
                         ),
                       );
                       if (GlobalState.enableGlobalTextSelected.value) {
-                        if (RouterUtil.isMobile.value == true) {
+                        if (RouterState.isMobile.value == true) {
                           return SelectionArea(child: result);
                         }
                         return result;

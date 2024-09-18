@@ -1,6 +1,8 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
+import '../../router/router_config.dart';
+
 class MobileComponentLayout extends StatelessWidget {
   const MobileComponentLayout({super.key});
 
@@ -15,7 +17,7 @@ class MobileComponentLayout extends StatelessWidget {
       body: ColumnWidget(
         scroll: true,
         repaintBoundary: true,
-        children: RouterUtil.componentSlideRoutes
+        children: SlideRouterConfig.componentSlideRoutes
             .map((e) => CardWidget(
                   title: e.$1,
                   elevation: 1,

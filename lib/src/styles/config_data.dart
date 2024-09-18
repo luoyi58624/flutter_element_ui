@@ -8,7 +8,7 @@ class ElConfigData {
   /// Element UI 默认全局配置
   static const ElConfigData data = ElConfigData();
 
-  /// 通用控件高度，不能低于 36 像素
+  /// 通用控件高度，默认 36 像素，此属性会影响许多组件，最低尺寸不能低于 28 像素
   final double baseHeight;
 
   /// 基础控件圆角值（小尺寸控件）: 按钮、输入框...
@@ -26,5 +26,5 @@ class ElConfigData {
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.themeDuration = Duration.zero,
     this.themeCurve = Curves.linear,
-  }) : assert(baseHeight >= 36);
+  }) : assert(baseHeight >= 28);
 }

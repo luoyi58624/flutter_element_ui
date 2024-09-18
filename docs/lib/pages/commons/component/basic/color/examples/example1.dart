@@ -220,8 +220,7 @@ Row(
               decoration: BoxDecoration(
                 color: e,
                 border: Border.all(
-                  // 不能直接写 0，flutter 的边框存在bug: 
-                  // https://github.com/flutter/flutter/issues/14288
+                  // 直接写 0 将出现 1px 的边框，我也不清楚原因
                   width: context.isHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
                 ),

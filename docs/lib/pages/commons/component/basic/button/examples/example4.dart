@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import '../index.dart';
 
 class Example4 extends StatelessWidget {
-  const Example4({super.key});
-
+  const Example4({super.key, required this.title});
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('文字按钮'),
+        SectionTitle(title),
         CodeExampleWidget(
           code: code,
           children: [

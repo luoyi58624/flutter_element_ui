@@ -2,6 +2,8 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../router/router_config.dart';
+
 class LayoutHeader extends StatelessWidget {
   const LayoutHeader({super.key});
 
@@ -28,7 +30,7 @@ class LayoutHeader extends StatelessWidget {
               IconButton(
                 tooltip: '刷新路由配置',
                 onPressed: () {
-                  RouterUtil.isMobile.notify();
+                  RouterState.isMobile.notify();
                   el.message.success('全局路由已刷新');
                 },
                 icon: const Icon(Icons.refresh),
@@ -76,7 +78,7 @@ class LayoutHeader extends StatelessWidget {
 
   Widget buildDesktopNav(BuildContext context) {
     return ObsBuilder(
-        watch: [RouterUtil.currentPath],
+        watch: [RouterState.currentPath],
         builder: (context) {
           return Row(
             mainAxisSize: MainAxisSize.min,
@@ -88,7 +90,7 @@ class LayoutHeader extends StatelessWidget {
                     cursor: SystemMouseCursors.click,
                     builder: (context) {
                       final isActive =
-                          RouterUtil.currentPath.value.startsWith('/${e.$2}');
+                          RouterState.currentPath.value.startsWith('/${e.$2}');
                       return Stack(
                         children: [
                           Container(

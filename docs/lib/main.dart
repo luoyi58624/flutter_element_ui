@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
       }
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
-    RouterUtil.isMobile.value = context.sm;
+    RouterState.isMobile.value = context.sm;
     return ObsBuilder(builder: (context) {
       return ElApp(
         brightness: GlobalState.brightness,
@@ -39,6 +39,9 @@ class MainApp extends StatelessWidget {
         ),
         darkTheme: ElThemeData.dark(
           primary: GlobalState.primaryColor.value,
+        ),
+        config: const ElConfigData(
+          baseHeight: 36,
         ),
         textStyle: TextStyle(
           fontFamily: FontUtil.fontFamily,

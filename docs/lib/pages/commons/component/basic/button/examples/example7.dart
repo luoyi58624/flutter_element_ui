@@ -2,14 +2,14 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example7 extends StatelessWidget {
-  const Example7({super.key});
-
+  const Example7({super.key, required this.title});
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('自定义颜色'),
+        SectionTitle(title),
         CodeExampleWidget(
           code: code,
           children: const [

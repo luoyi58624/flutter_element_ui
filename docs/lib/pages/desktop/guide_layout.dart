@@ -1,6 +1,6 @@
-import 'package:docs/global.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../router/router_config.dart';
 import '../../widgets/slide.dart';
 
 class DesktopGuideLayout extends StatelessWidget {
@@ -12,7 +12,7 @@ class DesktopGuideLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SlideWidget(RouterUtil.guideSlideRoutes),
+        SlideWidget(SlideRouterConfig.guideSlideRoutes),
         Expanded(child: child),
       ],
     );

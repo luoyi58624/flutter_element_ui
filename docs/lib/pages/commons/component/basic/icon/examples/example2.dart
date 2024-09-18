@@ -8,6 +8,7 @@ class Example2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keys = ElIcons.values.keys.toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,101 +18,67 @@ class Example2 extends StatelessWidget {
           title: 'Warning',
           content: [
             ElText([
-              '这里的图标来源于 ',
+              '这里的图标基于 ',
               ElLink(
                 href: 'https://element.eleme.io/#/zh-CN/component/icon',
                 child: 'Element UI',
               ),
-              '，而不是 Element Plus',
+              '，而不是 Element Plus，图标素材来自 ',
+              ElLink(
+                href:
+                    'https://www.iconfont.cn/collections/detail?spm=a313x.collections_index.i1.d9df05512.74d73a81YpH5vp&cid=21385',
+                child: 'iconfont',
+              ),
             ]),
           ],
         ),
         textGap,
         ElIconTheme(
           size: 2.rem(context),
-          child: LayoutBuilder(builder: (context, constraints) {
-            final sumCount = ElIcons.values.length;
-            final rowCount = (constraints.maxWidth / 125).floor();
-            // 禁止绘制底部边框的网格索引值
-            int bottomBorderIndex = sumCount % rowCount;
-            bottomBorderIndex = sumCount -
-                (bottomBorderIndex == 0 ? rowCount : bottomBorderIndex);
-            final defaultBorder = BorderSide(
-              color: context.elTheme.colors.border,
-            );
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: context.elTheme.cardStyle.radius,
-                border: Border.all(
-                  color: context.elTheme.colors.border,
-                ),
-              ),
-              child: GridView.count(
-                  crossAxisCount: rowCount,
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  children: ElIcons.values.keys.mapIndexed(
-                    (index, key) {
-                      BorderSide rightBorder = BorderSide.none;
-                      BorderSide bottomBorder = BorderSide.none;
-                      if (index % rowCount != rowCount - 1) {
-                        rightBorder = defaultBorder;
-                      }
-                      if (index < bottomBorderIndex) {
-                        bottomBorder = defaultBorder;
-                      }
-                      return GestureDetector(
-                        onTap: () {
-                          CommonUtil.copy('ElIcon(ElIcons.$key)');
-                        },
-                        child: ElHoverBuilder(
-                          cursor: SystemMouseCursors.click,
-                          builder: (context) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  right: rightBorder,
-                                  bottom: bottomBorder,
-                                ),
-                              ),
-                              child: Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ElIcon(
-                                      ElIcons.values[key],
-                                      color: context.isHover
-                                          ? context.elTheme.primary
-                                          : null,
-                                    ),
-                                    const Gap(16),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: ElText(
-                                        key,
-                                        softWrap: false,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: context.isHover
-                                              ? context.elTheme.primary
-                                              : null,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+          child: GridWidget(
+            size: 125,
+            borderColor: context.elTheme.colors.border,
+            borderRadius: context.elTheme.cardStyle.radius,
+            itemCount: ElIcons.values.length,
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                CommonUtil.copy('ElIcon(ElIcons.$key)');
+              },
+              child: ElHoverBuilder(
+                cursor: SystemMouseCursors.copy,
+                builder: (context) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElIcon(
+                          ElIcons.values[keys[index]],
+                          color:
+                              context.isHover ? context.elTheme.primary : null,
                         ),
-                      );
-                    },
-                  ).toList()),
-            );
-          }),
+                        const Gap(16),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ElText(
+                            keys[index],
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: context.isHover
+                                  ? context.elTheme.primary
+                                  : null,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
         ),
       ],
     );

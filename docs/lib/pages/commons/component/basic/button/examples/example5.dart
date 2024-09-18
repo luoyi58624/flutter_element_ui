@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/widgets.dart';
 
 class Example5 extends StatelessWidget {
-  const Example5({super.key});
+  const Example5({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('图标按钮'),
+        SectionTitle(title),
         CodeExampleWidget(
           code: code,
           children: const [

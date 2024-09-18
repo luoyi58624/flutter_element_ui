@@ -13,15 +13,20 @@ abstract class ResponsivePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // i(router.routerDelegate.currentConfiguration.uri);
+    i('build');
     return context.sm
         ? Scaffold(
             appBar: AppBar(
               title: Text(title),
             ),
-            body: ColumnWidget(
-              scroll: true,
-              padding: const EdgeInsets.all(8),
-              children: buildPage(context),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: buildPage(context),
+                ),
+              ),
             ),
           )
         : ColumnWidget(

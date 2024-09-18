@@ -4,14 +4,30 @@ import 'package:flutter/widgets.dart';
 import '../index.dart';
 
 class Example1 extends StatelessWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('基础用法'),
+        SectionTitle(title),
+        ElLink(
+          href: '/component/button#split-button',
+          child: Builder(
+            builder: (context) {
+              return ElButton(
+                onPressed: () {
+                  ElLink.to(context);
+                },
+                child: '跳转',
+              );
+            }
+          ),
+        ),
+        const Gap(8),
         CodeExampleWidget(
           code: code,
           children: [

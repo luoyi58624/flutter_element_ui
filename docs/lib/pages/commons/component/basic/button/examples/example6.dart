@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 int _loadingDuration = 3000;
 
 class Example6 extends StatelessWidget {
-  const Example6({super.key});
-
+  const Example6({super.key, required this.title});
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('加载状态'),
+        SectionTitle(title),
         CodeExampleWidget(
           code: code,
           children: const [
@@ -256,11 +256,10 @@ String get code => '''
 ElButton(loading: true, child: '提交'),
 // 如果存在 leftIcon，则会将左图标替换成 loading
 ElButton(loading: true, type: 'primary', leftIcon: const ElIcon(ElIcons.edit), child: '编辑'),
-// 设置右图标，loading依旧出现在左边
 ElButton(loading: true, type: 'primary', rightIcon: const ElIcon(ElIcons.upload2), child: '上传'),
-// 允许自定义 IconData
-ElButton(loading: true, type: 'primary', loadingIcon: ElIcons.eleme, child: '自定义Icon'),
-// loadingBuilder 支持渲染任意小部件，它会替换按钮原有内容
+// 自定义加载图标
+ElButton(loading: true, type: 'primary', loadingWidget: const ElLoading(ElIcons.eleme), child: '自定义Icon'),
+// loadingBuilder 会替换按钮原有内容
 ElButton(
   loading: true,
   type: 'primary',

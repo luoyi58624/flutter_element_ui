@@ -1,19 +1,20 @@
 import 'package:docs/global.dart';
 import 'package:docs/pages/commons/not_found.dart';
 
-import '../pages/commons/component/basic/button/index.dart';
-import '../pages/commons/component/basic/color/index.dart';
-import '../pages/commons/component/basic/icon/index.dart';
-import '../pages/commons/component/basic/scrollbar/index.dart';
-import '../pages/commons/component/basic/text/index.dart';
-import '../pages/commons/component/data/index.dart';
-import '../pages/commons/component/feedback/message/index.dart';
-import '../pages/commons/component/form/input/index.dart';
-import '../pages/commons/component/other/animated_size/index.dart';
-import '../pages/commons/overview/cupertino/index.dart';
-import '../pages/commons/overview/element/index.dart';
-import '../pages/commons/overview/material/index.dart';
-import '../widgets/demo.dart';
+import '../../pages/commons/component/basic/button/index.dart';
+import '../../pages/commons/component/basic/color/index.dart';
+import '../../pages/commons/component/basic/icon/index.dart';
+import '../../pages/commons/component/basic/scrollbar/index.dart';
+import '../../pages/commons/component/basic/text/index.dart';
+import '../../pages/commons/component/data/index.dart';
+import '../../pages/commons/component/feedback/message/index.dart';
+import '../../pages/commons/component/form/input/index.dart';
+import '../../pages/commons/component/other/animated_size/index.dart';
+import '../../pages/commons/overview/cupertino/index.dart';
+import '../../pages/commons/overview/element/index.dart';
+import '../../pages/commons/overview/material/index.dart';
+import '../../widgets/demo.dart';
+import '../router_util.dart';
 
 List<RouteBase> buildComponentRoutes(String path) {
   return [
