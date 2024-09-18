@@ -59,6 +59,8 @@ export 'src/extensions/responsive.dart';
 export 'src/extensions/theme.dart';
 export 'src/extensions/widget.dart';
 
+export 'src/hooks/obs.dart';
+
 export 'src/services/message.dart';
 
 export 'src/styles/theme_data.dart';
@@ -94,6 +96,7 @@ export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/null_widget.dart';
 export 'src/widgets/scroll_behavior.dart';
+export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/size_builder.dart';
 export 'src/widgets/size_builder2.dart';
 export 'src/widgets/tap.dart';
