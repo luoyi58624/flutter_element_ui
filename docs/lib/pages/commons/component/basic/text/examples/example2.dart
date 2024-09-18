@@ -12,28 +12,23 @@ class Example2 extends StatelessWidget {
         const SectionTitle('富文本'),
         CodeExampleWidget(
           code: code,
-          children: [
+          children: const [
             ElText([
               'hello, ',
-              const ElText(
+              ElText(
                 '这是一段富文本, ',
                 style: TextStyle(color: Colors.green),
               ),
               ElLink(
                 href: 'https://github.com/luoyi58624/flutter_element_ui',
-                target: ElLinkTarget.blank,
+                target: LinkTarget.blank,
                 decoration: ElLinkDecoration.hoverUnderline,
-                builder: (to) => GestureDetector(
-                  onTap: () {
-                    to();
-                  },
-                  child: const ElText('github链接'),
-                ),
+                child: 'github链接',
               ),
               ' ',
-              const ElButton(child: '链接按钮', type: 'success', link: true),
+              ElButton(child: '链接按钮', type: 'success', link: true),
               ' ',
-              const ElButton(child: 'Hello', type: 'primary'),
+              ElButton(child: 'Hello', type: 'primary'),
             ]),
           ],
         ),

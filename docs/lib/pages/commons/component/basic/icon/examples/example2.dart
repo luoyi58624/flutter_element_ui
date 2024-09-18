@@ -12,7 +12,7 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('图标集合'),
-        SectionCard(
+        const SectionCard(
           type: 'warning',
           title: 'Warning',
           content: [
@@ -20,12 +20,7 @@ class Example2 extends StatelessWidget {
               '这里的图标来源于 ',
               ElLink(
                 href: 'https://element.eleme.io/#/zh-CN/component/icon',
-                builder: (to) => GestureDetector(
-                  onTap: () {
-                    to();
-                  },
-                  child: const ElText('Element UI'),
-                ),
+                child: 'Element UI',
               ),
               '，而不是 Element Plus',
             ]),

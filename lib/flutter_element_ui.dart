@@ -8,7 +8,8 @@ export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
 export 'src/components/basic/text.dart';
-export 'src/components/basic/link/link.dart';
+export 'src/components/basic/link.dart';
+export 'package:url_launcher/link.dart' show LinkTarget;
 
 export 'src/components/data/collapse/collapse_transition.dart';
 export 'src/components/data/collapse/collapse_panel.dart';

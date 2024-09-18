@@ -30,50 +30,44 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => ElLink(
                                 href: e.$2,
-                                builder: (to) => GestureDetector(
-                                  onTapDown: (event) {
-                                    to();
-                                  },
-                                  child: ObsBuilder(builder: (context) {
-                                    final isActive =
-                                        RouterUtil.currentPath.value == e.$2;
-                                    return ElHoverBuilder(builder: (context) {
-                                      return AnimatedContainer(
-                                        duration: context.elThemeDuration ??
-                                            Duration.zero,
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 10,
+                                child: ObsBuilder(builder: (context) {
+                                  final isActive =
+                                      RouterUtil.currentPath.value == e.$2;
+                                  return ElHoverBuilder(builder: (context) {
+                                    return AnimatedContainer(
+                                      duration: context.elThemeDuration ??
+                                          Duration.zero,
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: isActive
+                                            ? context.isDark
+                                                ? Colors.grey.shade800
+                                                : context.elTheme.primary.mix(
+                                                    Colors.white,
+                                                    90,
+                                                  )
+                                            : null,
+                                      ),
+                                      child: ElText(
+                                        e.$1,
+                                        duration: Duration.zero,
+                                        style: TextStyle(
+                                          color: context.isHover || isActive
+                                              ? context.elTheme.primary
+                                              : context.isDark
+                                                  ? Colors.grey.shade100
+                                                  : Colors.grey.shade800,
+                                          fontSize: 0.875.rem(context),
                                         ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: isActive
-                                              ? context.isDark
-                                                  ? Colors.grey.shade800
-                                                  : context.elTheme.primary.mix(
-                                                      Colors.white,
-                                                      90,
-                                                    )
-                                              : null,
-                                        ),
-                                        child: ElText(
-                                          e.$1,
-                                          duration: Duration.zero,
-                                          style: TextStyle(
-                                            color: context.isHover || isActive
-                                                ? context.elTheme.primary
-                                                : context.isDark
-                                                    ? Colors.grey.shade100
-                                                    : Colors.grey.shade800,
-                                            fontSize: 0.875.rem(context),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                                  }),
-                                ),
+                                      ),
+                                    );
+                                  });
+                                }),
                               ),
                             )
                             .toList(),

@@ -4,7 +4,7 @@ import 'package:flutter_element_ui/src/global.dart';
 import '../../../utils/font.dart';
 import '../../../utils/icons.dart';
 import '../../basic/icon.dart';
-import '../../basic/link/link.dart';
+import '../../basic/link.dart';
 
 part 'menu_modal.dart';
 

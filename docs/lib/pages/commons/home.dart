@@ -111,45 +111,36 @@ class _CardWidget extends StatelessWidget {
               ),
             ),
             const ElDivider(),
-            ElTapBuilder(builder: (context) {
-              return ElLink(
-                href: href,
-                builder: (to) => GestureDetector(
-                  onTapDown: (e) {
-                    HapticFeedback.mediumImpact();
-                  },
-                  onTap: () {
-                    to();
-                  },
-                  child: AnimatedContainer(
-                    duration: context.elConfig.themeDuration,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color:
-                          ElTapBuilder.of(context) || ElHoverBuilder.of(context)
-                              ? context.elTheme.primary
-                              : context.elTheme.cardStyle.color,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                        bottomRight:
-                            context.elTheme.cardStyle.radius.bottomRight,
-                      ),
+            ElLink(
+              href: href,
+              child: Builder(builder: (context) {
+                return AnimatedContainer(
+                  duration: context.elConfig.themeDuration,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color:
+                        ElTapBuilder.of(context) || ElHoverBuilder.of(context)
+                            ? context.elTheme.primary
+                            : context.elTheme.cardStyle.color,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                      bottomRight: context.elTheme.cardStyle.radius.bottomRight,
                     ),
-                    child: Center(
-                      child: ElText(
-                        '查看详情',
-                        style: TextStyle(
-                          color: ElTapBuilder.of(context) ||
-                                  ElHoverBuilder.of(context)
-                              ? Colors.white
-                              : context.elTheme.primary,
-                        ),
+                  ),
+                  child: Center(
+                    child: ElText(
+                      '查看详情',
+                      style: TextStyle(
+                        color: ElTapBuilder.of(context) ||
+                                ElHoverBuilder.of(context)
+                            ? Colors.white
+                            : context.elTheme.primary,
                       ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           ],
         ),
       ),

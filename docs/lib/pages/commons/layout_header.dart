@@ -13,16 +13,11 @@ class LayoutHeader extends StatelessWidget {
         children: [
           ElLink(
             href: '/',
-            builder: (to) => GestureDetector(
-              onTapDown: (e) {
-                to();
-              },
-              child: ElIcon(
-                'assets/images/element-plus-logo.svg',
-                color: context.elTheme.primary,
-                size: 28,
-                package: null,
-              ),
+            child: ElIcon(
+              'assets/images/element-plus-logo.svg',
+              color: context.elTheme.primary,
+              size: 28,
+              package: null,
             ),
           ),
           const Expanded(child: SizedBox()),
@@ -61,13 +56,15 @@ class LayoutHeader extends StatelessWidget {
                 message: '跳转 GitHub 链接',
                 child: ElLink(
                   href: 'https://github.com/luoyi58624/flutter_element_ui',
-                  target: ElLinkTarget.blank,
-                  builder: (to) => IconButton(
-                    onPressed: () {
-                      to();
-                    },
-                    icon: const _GithubLogo(),
-                  ),
+                  target: LinkTarget.blank,
+                  child: Builder(builder: (context) {
+                    return IconButton(
+                      onPressed: () {
+                        ElLink.to(context);
+                      },
+                      icon: const _GithubLogo(),
+                    );
+                  }),
                 ),
               ),
             ],
@@ -87,50 +84,45 @@ class LayoutHeader extends StatelessWidget {
               ...RootRoute.values.map(
                 (e) => ElLink(
                   href: '/${e.$2}',
-                  builder: (to) => GestureDetector(
-                    onTapDown: (e) {
-                      to();
-                    },
-                    child: ElHoverBuilder(
-                      cursor: SystemMouseCursors.click,
-                      builder: (context) {
-                        final isActive =
-                            RouterUtil.currentPath.value.startsWith('/${e.$2}');
-                        return Stack(
-                          children: [
-                            Container(
-                              height: context.elTheme.headerStyle.height,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
+                  child: ElHoverBuilder(
+                    cursor: SystemMouseCursors.click,
+                    builder: (context) {
+                      final isActive =
+                          RouterUtil.currentPath.value.startsWith('/${e.$2}');
+                      return Stack(
+                        children: [
+                          Container(
+                            height: context.elTheme.headerStyle.height,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                            ),
+                            child: Center(
+                              child: H6(
+                                e.$1,
+                                duration: 0.ms,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: ElHoverBuilder.of(context)
+                                        ? context.elTheme.primary
+                                        : context.elTheme.colors.text),
                               ),
-                              child: Center(
-                                child: H6(
-                                  e.$1,
-                                  duration: 0.ms,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: ElHoverBuilder.of(context)
-                                          ? context.elTheme.primary
-                                          : context.elTheme.colors.text),
+                            ),
+                          ),
+                          if (isActive)
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: Container(
+                                height: 2,
+                                decoration: BoxDecoration(
+                                  color: context.elTheme.primary,
                                 ),
                               ),
                             ),
-                            if (isActive)
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  height: 2,
-                                  decoration: BoxDecoration(
-                                    color: context.elTheme.primary,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        );
-                      },
-                    ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               )

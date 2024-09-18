@@ -119,14 +119,9 @@ class FlutterHookLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElLink(
+    return const ElLink(
       href: 'https://pub.dev/packages/flutter_hooks',
-      builder: (to) => GestureDetector(
-        onTap: () {
-          to();
-        },
-        child: const ElText('flutter_hooks'),
-      ),
+      child: 'flutter_hooks',
     );
   }
 }

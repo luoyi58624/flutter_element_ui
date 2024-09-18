@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-import '../../components/basic/link/link.dart';
+import '../../components/basic/link.dart';
 
 part '../../generates/styles/basic/link.g.dart';
 
