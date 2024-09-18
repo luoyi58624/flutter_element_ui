@@ -76,7 +76,7 @@ class _MenuItemState extends State<_MenuItem> {
             isManual = true;
             expanded = !expanded;
           });
-          FlutterUtil.nextTick(() async {
+          ElUtils.nextTick(() async {
             isManual = false;
           });
         } else {

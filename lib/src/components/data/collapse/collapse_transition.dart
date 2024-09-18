@@ -66,7 +66,7 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   @override
   void initState() {
     super.initState();
-    FlutterUtil.nextTick(() {
+    ElUtils.nextTick(() {
       if (!(widget.keepState ?? context.elTheme.collapseStyle.keepState)) {
         controller.addStatusListener(listenAnimationStatus);
       }

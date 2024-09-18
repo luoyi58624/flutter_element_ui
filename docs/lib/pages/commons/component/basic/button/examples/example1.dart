@@ -15,7 +15,7 @@ class Example1 extends StatelessWidget {
       children: [
         SectionTitle(title),
         ElLink(
-          href: '/component/button#split-button',
+          href: '/component/button#分割按钮',
           child: Builder(
             builder: (context) {
               return ElButton(

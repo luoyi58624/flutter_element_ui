@@ -9,7 +9,7 @@ mixin ElWidgetSize<T extends StatefulWidget> on State<T> {
   void calcWidgetSize() {
     if (_flag) {
       _flag = false;
-      FlutterUtil.nextTick(() {
+      ElUtils.nextTick(() {
         i(context.size);
         setState(() {
           widgetSize = context.size!;

@@ -1,4 +1,5 @@
 import 'package:docs/global.dart';
+import 'package:docs/router/router_config.dart';
 import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
@@ -21,6 +22,9 @@ class ButtonPage extends ResponsivePage {
   String get title => 'Button 按钮';
 
   @override
+  String get path => '/${RootRoute.component.$2}/button';
+
+  @override
   List<Widget> buildPage(BuildContext context) {
     return const [
       Example1(title: '基础用法'),
@@ -32,7 +36,7 @@ class ButtonPage extends ResponsivePage {
       Example7(title: '自定义颜色'),
       Example8(title: '块级按钮'),
       Example9(title: '自定义尺寸'),
-      Example10(title: '拆分按钮'),
+      Example10(title: '分割按钮'),
     ];
   }
 }

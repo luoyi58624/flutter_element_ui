@@ -22,8 +22,12 @@ GoRouterRedirect _routerRedirect = (BuildContext context, GoRouterState state) {
 
     // 如果 uri 存在 # 锚点符号，则尝试进行页面内跳转
     if (state.uri.toString().contains('#')) {
-      FlutterUtil.nextTick(() {
-        i(state.uri);
+      ElUtils.nextTick(() {
+        final key = Uri.decodeComponent(state.uri.toString()).split('#').last;
+        final context = ElLink.anchorMap['#$key']?.currentContext;
+        if (context != null) {
+          Scrollable.ensureVisible(context);
+        }
       });
     }
   }
@@ -41,7 +45,7 @@ class RouterUtil {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) => RouterState.isMobile.value == true
-          ? PlatformUtil.isIOS
+          ? ElPlatformUtil.isIOS
               ? CupertinoPage(child: builder(context, state))
               : MaterialPage(child: builder(context, state))
           : NoTransitionPage(

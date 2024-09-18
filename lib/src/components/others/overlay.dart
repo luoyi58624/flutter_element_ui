@@ -38,7 +38,7 @@ abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        FlutterUtil.nextTick(() {
+        ElUtils.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });

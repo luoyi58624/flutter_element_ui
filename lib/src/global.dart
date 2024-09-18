@@ -7,9 +7,13 @@ export 'extensions/theme.dart';
 export 'extensions/widget.dart';
 export 'extensions/private.dart';
 
+export 'hooks/obs.dart';
+
 export 'utils/assert.dart';
 export 'utils/common.dart';
+export 'utils/platform/platform.dart';
 
 export 'widgets/animates/animated_widgets.dart';
 export 'widgets/hover.dart';
 export 'widgets/tap.dart';
+export 'widgets/simple_widgets.dart';

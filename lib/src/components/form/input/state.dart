@@ -111,7 +111,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       // suffixIcon: currentValue != ''
       //     ? GestureDetector(
       //   onTap: () {
-      //     FlutterUtil.unFocus();
+      //     ElUtils.unFocus();
       //     controller.clear();
       //     setState(() {
       //       currentValue = '';

@@ -86,7 +86,7 @@ class ElCollapsePanel extends StatelessWidget {
         child: ListView.separated(
           shrinkWrap: true,
           itemCount: children.length,
-          itemBuilder: (context, index) => ChildIndexData(
+          itemBuilder: (context, index) => ElChildIndexData(
             index: index,
             start: 0,
             end: children.length - 1,
@@ -119,7 +119,7 @@ class ElCollapseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $data = _CollapseData.of(context);
-    final $indexData = ChildIndexData.of(context);
+    final $indexData = ElChildIndexData.of(context);
 
     final $cardRadius = context.elTheme.cardStyle.radius;
     return SizedBox(

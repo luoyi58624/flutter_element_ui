@@ -51,7 +51,7 @@ class GlobalState {
   static final forceDarkCodeExample = Obs(
     true,
     watch: (newValue, oldValue) {
-      FlutterUtil.refreshApp();
+      ElUtils.refreshApp();
     },
   );
 

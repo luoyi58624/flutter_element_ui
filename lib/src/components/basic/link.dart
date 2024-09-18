@@ -60,7 +60,7 @@ class _ElLinkInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(_ElLinkInheritedWidget oldWidget) => true;
 }
 
-class ElLink extends StatelessWidget {
+class ElLink extends StatefulWidget {
   /// Element UI 超链接小部件，它基于第三方库 [url_launcher] 进行的封装，在 web 平台上会渲染成原生 a 标签
   const ElLink({
     super.key,
@@ -71,14 +71,8 @@ class ElLink extends StatelessWidget {
     this.color,
     this.activeColor,
     this.decoration,
+    this.name,
   });
-
-  /// 跳转超链接，如果子组件存在 [GestureDetector] 事件小部件，那么它将覆盖默认的点击事件，
-  /// 所以提供此函数供用户手动跳转链接。
-  static void to(BuildContext context) {
-    final toLink = _ElLinkInheritedWidget.of(context).toLink;
-    if (toLink != null) toLink();
-  }
 
   /// 超链接地址，除了支持 http 链接外，还支持 flutter 声明的路由
   final String href;
@@ -100,6 +94,55 @@ class ElLink extends StatelessWidget {
 
   /// 超链接下划线样式
   final ElLinkDecoration? decoration;
+
+  /// 定义链接锚点，如果不为空，当初始化时会将它存放于 [anchorMap] 集合中。
+  ///
+  /// 提示：内部会自动添加 # 符号，你只需随便设置一个字符串即可。
+  final String? name;
+
+  /// 超链接瞄点 Map 集合，如果设置了 [name]，初始化时会将当前 [ElLink] 对象存放到此集合中，
+  /// 销毁时会自动移除，通常情况下你需要监听路由地址变化，拿到锚点字符串，然后通过全局滚动 api 实现页面内跳转，
+  /// 以下是 go_router 的代码示例：
+  /// ```dart
+  /// ElUtils.nextTick(() {
+  ///   final key = Uri.decodeComponent(state.uri.toString()).split('#').last;
+  ///   final context = ElLink.anchorMap['#$key']?.currentContext;
+  ///   if (context != null) {
+  ///     Scrollable.ensureVisible(context);
+  ///   }
+  /// });
+  /// ```
+  static final Map<String, GlobalKey> anchorMap = {};
+
+  /// 跳转超链接，如果子组件存在 [GestureDetector] 事件小部件，那么它将覆盖默认的点击事件，
+  /// 所以提供此函数供用户手动跳转链接。
+  static void to(BuildContext context) {
+    final toLink = _ElLinkInheritedWidget.of(context).toLink;
+    if (toLink != null) toLink();
+  }
+
+  @override
+  State<ElLink> createState() => _ElLinkState();
+}
+
+class _ElLinkState extends State<ElLink> {
+  final globalKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.name != null) {
+      ElLink.anchorMap['#${widget.name}'] = globalKey;
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.name != null) {
+      ElLink.anchorMap.remove('#${widget.name}');
+    }
+  }
 
   void _show(String href) {
     _delayShowOverlay = null;
@@ -132,9 +175,9 @@ class ElLink extends StatelessWidget {
 
   Widget buildTextTheme(BuildContext context, FollowLink? toLink) {
     final $defaultStyle = context.elTheme.linkStyle;
-    final $color = color ?? $defaultStyle.color;
-    final $activeColor = activeColor ?? $defaultStyle.activeColor;
-    final $decoration = decoration ?? $defaultStyle.decoration;
+    final $color = widget.color ?? $defaultStyle.color;
+    final $activeColor = widget.activeColor ?? $defaultStyle.activeColor;
+    final $decoration = widget.decoration ?? $defaultStyle.decoration;
 
     return _ElLinkInheritedWidget(
       toLink,
@@ -150,24 +193,25 @@ class ElLink extends StatelessWidget {
                   : TextDecoration.none,
           decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
         ),
-        child: child is Widget ? child : ElText(child),
+        child: widget.child is Widget ? widget.child : ElText(widget.child),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final flag = kIsWeb || !DartUtil.isHttp(href);
+    final flag = kIsWeb || !DartUtil.isHttp(widget.href);
     return Link(
-      uri: Uri.parse(href),
-      target: target,
+      key: globalKey,
+      uri: Uri.parse(widget.href),
+      target: widget.target,
       builder: (context, toLink) {
         return GestureDetector(
           onTap: () {
             if (toLink != null) toLink();
           },
           child: ElHoverBuilder(
-            cursor: cursor,
+            cursor: widget.cursor,
             onEnter: flag
                 ? null
                 : (e) {
@@ -182,9 +226,10 @@ class ElLink extends StatelessWidget {
                       }
                     }
                     if (_linkOverlay == null) {
-                      _delayShowOverlay = (() => _show(href)).delay(_delayTime);
+                      _delayShowOverlay =
+                          (() => _show(widget.href)).delay(_delayTime);
                     } else {
-                      _show(href);
+                      _show(widget.href);
                     }
                   },
             onExit: flag

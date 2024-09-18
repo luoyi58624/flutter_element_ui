@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 import '../components/basic/scrollbar.dart';
 
@@ -10,7 +10,7 @@ class _CustomScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(context, child, details) {
     // 如果是安卓平台，统一使用 M3 的过度滚动效果
-    if (PlatformUtil.isAndroid) {
+    if (ElPlatformUtil.isAndroid) {
       return StretchingOverscrollIndicator(
         axisDirection: details.direction,
         child: child,
@@ -27,15 +27,15 @@ class ElScrollBehavior extends _CustomScrollBehavior {
 
   @override
   Widget buildScrollbar(context, child, details) {
-    if (PlatformUtil.isWindows ||
-        PlatformUtil.isMacOS ||
-        PlatformUtil.isLinux) {
+    if (ElPlatformUtil.isWindows ||
+        ElPlatformUtil.isMacOS ||
+        ElPlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
         child: child,
       );
     }
-    if (PlatformUtil.isIOS) {
+    if (ElPlatformUtil.isIOS) {
       return CupertinoScrollbar(
         controller: details.controller,
         child: child,

@@ -8,7 +8,7 @@ class EditorTestPage extends HookWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FlutterUtil.unFocus();
+        ElUtils.unFocus();
       },
       child: Scaffold(
         appBar: AppBar(

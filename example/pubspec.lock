@@ -211,7 +211,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2cbb429e03d46dd312c5493cf5456bc575863de3"
+      resolved-ref: a91f2c072fda7fc602c9bf49e53b941442d98a1a
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -380,7 +380,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7df42f1a652b22520d9db1860bfb9b20d5e4b312"
+      resolved-ref: "355cd9bfd11caa0ee2f16e5937b0c83808406b65"
       url: "https://github.com/luoyi58624/luoyi_flutter_base.git"
     source: git
     version: "2.6.0"

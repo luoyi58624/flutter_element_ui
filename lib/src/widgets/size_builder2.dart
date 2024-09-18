@@ -67,7 +67,7 @@ import 'package:flutter_element_ui/src/global.dart';
 //   @override
 //   Widget build(BuildContext context) {
 //     if (hasInitialize) {
-//       FlutterUtil.nextTick(() {
+//       ElUtils.nextTick(() {
 //         setAnimate(key.currentContext!.size!);
 //       });
 //     } else {
@@ -151,7 +151,7 @@ class _Render extends RenderProxyBox {
     if (oldSize == newSize) return;
 
     oldSize = newSize;
-    FlutterUtil.nextTick(() {
+    ElUtils.nextTick(() {
       onChanged(newSize);
     });
   }

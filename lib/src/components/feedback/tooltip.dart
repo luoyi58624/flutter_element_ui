@@ -46,7 +46,7 @@ class _ElTooltipState extends State<ElTooltip> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        FlutterUtil.nextTick(() {
+        ElUtils.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });
@@ -86,7 +86,7 @@ class _ElTooltipState extends State<ElTooltip> {
   @override
   void initState() {
     super.initState();
-    FlutterUtil.nextTick(() async {
+    ElUtils.nextTick(() async {
       overlayEntry = OverlayEntry(builder: (_) {
         return _overlayWidget;
       });
@@ -151,7 +151,7 @@ class _ElTooltipState extends State<ElTooltip> {
 
   @override
   Widget build(BuildContext context) {
-    FlutterUtil.nextTick(() {
+    ElUtils.nextTick(() {
       buildCount.value++;
     });
     return ElHoverBuilder(

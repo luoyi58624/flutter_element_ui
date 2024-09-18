@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../../utils/font.dart';
+import '../../../../widgets/custom_layout.dart';
 import '../../../basic/icon.dart';
-import '../../../basic/text.dart';
 import '../base.dart';
 import '../inherited_data.dart';
 
@@ -74,7 +74,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
                 ),
                 children: [
                   ...children.mapIndexed(
-                    (i, e) => ChildIndexData(
+                    (i, e) => ElChildIndexData(
                       index: i,
                       child: LayoutId(
                         id: i,

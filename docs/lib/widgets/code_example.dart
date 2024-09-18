@@ -91,7 +91,7 @@ class CodeExampleWidget extends HookWidget {
   /// 初始化预览代码样式，全局只加载一次
   void initCodeStyle(BuildContext context, $code) {
     if (_initialize == false || _lightCode == null || _darkCode == null) {
-      FlutterUtil.nextTick(() async {
+      ElUtils.nextTick(() async {
         await Highlighter.initialize(['dart']);
         _initialize = true;
         // 亮色主题使用默认配置
@@ -196,7 +196,7 @@ class CodeExampleWidget extends HookWidget {
             right: 16,
             child: AnimatedOpacity(
               duration: 200.ms,
-              opacity: PlatformUtil.isMobile || context.isHover ? 1.0 : 0.0,
+              opacity: ElPlatformUtil.isMobile || context.isHover ? 1.0 : 0.0,
               child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {
