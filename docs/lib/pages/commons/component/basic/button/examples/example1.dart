@@ -16,16 +16,14 @@ class Example1 extends StatelessWidget {
         SectionTitle(title),
         ElLink(
           href: '/component/button#分割按钮',
-          child: Builder(
-            builder: (context) {
-              return ElButton(
-                onPressed: () {
-                  context.go(ElLink.getLink(context));
-                },
-                child: '跳转',
-              );
-            }
-          ),
+          child: Builder(builder: (context) {
+            return ElButton(
+              onPressed: () {
+                ElLink.toLink(context);
+              },
+              child: '跳转',
+            );
+          }),
         ),
         const Gap(8),
         CodeExampleWidget(

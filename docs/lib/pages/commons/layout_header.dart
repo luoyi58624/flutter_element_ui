@@ -62,7 +62,7 @@ class LayoutHeader extends StatelessWidget {
                   child: Builder(builder: (context) {
                     return IconButton(
                       onPressed: () {
-                        context.go(ElLink.getLink(context));
+                        ElLink.toLink(context);
                       },
                       icon: const _GithubLogo(),
                     );
@@ -86,12 +86,11 @@ class LayoutHeader extends StatelessWidget {
               ...RootRoute.values.map(
                 (e) => ElLink(
                   href: '/${e.$2}',
-                  title: e.$1,
                   child: Builder(
                     builder: (context) {
                       return GestureDetector(
                         onTapDown: (e){
-                          context.go(ElLink.getLink(context));
+                          ElLink.toLink(context);
                         },
                         child: ElHoverBuilder(
                           cursor: SystemMouseCursors.click,

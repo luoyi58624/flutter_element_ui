@@ -48,7 +48,6 @@ class NavPage extends ResponsivePage {
         child: ElText('count: ${count.value}'),
       ),
       const Gap(8),
-      MyLink(),
     ];
   }
 }

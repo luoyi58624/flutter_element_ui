@@ -1,8 +1,34 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 import 'package:url_launcher/link.dart';
 
 import './web.dart' if (dart.library.io) './io.dart';
+
+/// 超链接地址显示、隐藏动画控制器
+AnimationController? _controller;
+
+/// 透明动画持续时间
+const int _animationTime = 200;
+
+/// 延迟显示、隐藏时间
+const int _delayTime = 300;
+
+/// 超链接地址预览浮层
+OverlayEntry? _linkOverlay;
+
+/// 延迟显示控制器
+Timer? _delayShowOverlay;
+
+/// 延迟隐藏控制器
+Timer? _delayHideOverlay;
+
+/// 移除浮层前需要先执行隐藏动画，动画结束后再移除浮层
+Timer? _delayRemoveOverlay;
+
+/// 响应式变量 - 超链接预览地址
+final Obs<String> _href = Obs('');
 
 enum ElLinkDecoration {
   /// 不显示下划线
@@ -15,71 +41,60 @@ enum ElLinkDecoration {
   hoverUnderline,
 }
 
-class _ElLinkInheritedWidget extends InheritedWidget {
-  const _ElLinkInheritedWidget(
-    this.toLink,
-    this.href, {
+class _LinkInheritedWidget extends InheritedWidget {
+  const _LinkInheritedWidget(
+    this.toLink, {
     required super.child,
   });
 
-  final VoidCallback? toLink;
-  final String href;
+  final VoidCallback toLink;
 
-  static _ElLinkInheritedWidget of(BuildContext context) {
-    final _ElLinkInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_ElLinkInheritedWidget>();
+  static _LinkInheritedWidget of(BuildContext context) {
+    final _LinkInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
     assert(result != null,
         '当前上下文 context 无法获取 ElLink 实例，请尝试使用 Builder 小部件转发 context');
     return result!;
   }
 
   @override
-  bool updateShouldNotify(_ElLinkInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_LinkInheritedWidget oldWidget) => true;
 }
 
 class ElLink extends StatefulWidget {
-  /// Element UI 超链接小部件，它基于第三方库 [url_launcher] 进行的封装，在 web 平台上会渲染成原生 a 标签
+  /// 超链接小部件，链接跳转基于 [url_launcher] 第三方库，当鼠标悬停时会在左下角显示链接地址
   const ElLink({
     super.key,
-    required this.href,
     required this.child,
-    this.title,
-    this.allowDrag,
-    this.target = LinkTarget.self,
-    this.cursor = SystemMouseCursors.click,
+    required this.href,
     this.color,
     this.activeColor,
     this.decoration,
+    this.cursor = SystemMouseCursors.click,
+    this.target = LinkTarget.self,
     this.name,
   });
 
-  /// 超链接地址，除了支持 http 链接外，还支持 flutter 声明的路由
-  final String href;
-
-  /// 超链接子组件，如果不是 Widget 类型，则默认渲染成 [ElText]
+  /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
   final dynamic child;
 
-  /// 超链接标题描述，在 web 平台上，超链接可以允许被拖拽，该属性是用于描述拖拽的链接名字，
-  /// 如果 [child] 不是 [Widget] 类型，则标题默认应用 [child] 内容
-  final String? title;
+  /// 超链接地址
+  final String href;
 
-  /// 是否允许拖拽超链接（仅限 web 平台），此属性支持全局配置，默认true
-  final bool? allowDrag;
-
-  /// 打开链接的目标位置，默认 [LinkTarget.self]
-  final LinkTarget target;
-
-  /// 自定义光标样式，默认 [SystemMouseCursors.click]
-  final MouseCursor cursor;
-
-  /// 超链接文本颜色
+  /// 默认的超链接文本颜色
   final Color? color;
 
   /// 激活的超链接文本颜色
   final Color? activeColor;
 
-  /// 超链接下划线样式
+  /// 超链接下划线显示逻辑
   final ElLinkDecoration? decoration;
+
+  /// 自定义光标样式，默认点击
+  final MouseCursor cursor;
+
+  /// 打开链接的目标位置，默认 blank 新窗口打开
+  final LinkTarget target;
 
   /// 定义链接锚点，如果不为空，当初始化时会将它存放于 [anchorMap] 集合中。
   ///
@@ -107,16 +122,9 @@ class ElLink extends StatefulWidget {
     }
   }
 
-  /// 跳转链接，如果子组件存在 [GestureDetector] 事件小部件，那么它将覆盖默认的点击事件，
-  /// 所以提供此函数供用户手动跳转链接。
+  /// 从当前上下文获取最近的超链接实例并触发跳转
   static void toLink(BuildContext context) {
-    final $toLink = _ElLinkInheritedWidget.of(context).toLink;
-    if ($toLink != null) $toLink();
-  }
-
-  /// 获取链接地址
-  static String getLink(BuildContext context) {
-    return _ElLinkInheritedWidget.of(context).href;
+    _LinkInheritedWidget.of(context).toLink();
   }
 
   @override
@@ -125,12 +133,24 @@ class ElLink extends StatefulWidget {
 
 class _ElLinkState extends State<ElLink> {
   final globalKey = GlobalKey();
+  late String href;
+
+  bool get isHttpLink => DartUtil.isHttp(href);
 
   @override
   void initState() {
     super.initState();
+    href = getFullHref(widget.href);
     if (widget.name != null) {
       ElLink.anchorMap['#${widget.name}'] = globalKey;
+    }
+  }
+
+  @override
+  void didUpdateWidget(ElLink oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.href != oldWidget.href) {
+      href = getFullHref(widget.href);
     }
   }
 
@@ -142,15 +162,47 @@ class _ElLinkState extends State<ElLink> {
     }
   }
 
-  Widget buildTextTheme(BuildContext context, VoidCallback? toLink) {
+  void _show(String href) {
+    _delayShowOverlay = null;
+    _href.value = href;
+
+    if (_linkOverlay == null) {
+      _linkOverlay = OverlayEntry(
+        builder: (_) => const _LinkOverlay(),
+      );
+      try {
+        Overlay.of(el.context).insert(_linkOverlay!);
+      } catch (e) {
+        _linkOverlay = null;
+        rethrow;
+      }
+    }
+  }
+
+  void _hide() {
+    if (_linkOverlay != null) {
+      _delayHideOverlay = null;
+      _controller!.reverse();
+      _delayRemoveOverlay = () {
+        _delayRemoveOverlay = null;
+        _linkOverlay!.remove();
+        _linkOverlay = null;
+      }.delay(_animationTime);
+    }
+  }
+
+  void _toLink() {
+    toLink(href, widget.target);
+  }
+
+  Widget buildTextTheme(BuildContext context, VoidCallback toLink) {
     final $defaultStyle = context.elTheme.linkStyle;
     final $color = widget.color ?? $defaultStyle.color;
     final $activeColor = widget.activeColor ?? $defaultStyle.activeColor;
     final $decoration = widget.decoration ?? $defaultStyle.decoration;
 
-    return _ElLinkInheritedWidget(
+    return _LinkInheritedWidget(
       toLink,
-      widget.href,
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
           color: ElHoverBuilder.of(context) ? $activeColor : $color,
@@ -170,15 +222,119 @@ class _ElLinkState extends State<ElLink> {
 
   @override
   Widget build(BuildContext context) {
-    return LinkWidget(
+    return GestureDetector(
       key: globalKey,
-      href: widget.href,
-      title: widget.title ??
-          (widget.child is! Widget ? widget.child.toString() : ''),
-      allowDrag: widget.allowDrag ?? context.elTheme.linkStyle.allowDrag,
-      target: widget.target,
-      cursor: widget.cursor,
-      builder: (context, toLink) => buildTextTheme(context, toLink),
+      onTap: () {
+        _toLink();
+      },
+      child: ElHoverBuilder(
+        cursor: widget.cursor,
+        onEnter: !isHttpLink
+            ? null
+            : (e) {
+                if (_delayHideOverlay != null) {
+                  _delayHideOverlay!.cancel();
+                  _delayHideOverlay = null;
+                } else {
+                  if (_delayRemoveOverlay != null) {
+                    _controller!.forward();
+                    _delayRemoveOverlay!.cancel();
+                    _delayRemoveOverlay = null;
+                  }
+                }
+                if (_linkOverlay == null) {
+                  _delayShowOverlay = (() => _show(href)).delay(_delayTime);
+                } else {
+                  _show(href);
+                }
+              },
+        onExit: !isHttpLink
+            ? null
+            : (e) {
+                if (_delayShowOverlay != null) {
+                  _delayShowOverlay!.cancel();
+                  _delayShowOverlay = null;
+                }
+                if (_linkOverlay != null) {
+                  _delayHideOverlay = _hide.delay(_delayTime);
+                }
+              },
+        builder: (context) => buildTextTheme(context, _toLink),
+      ),
     );
   }
 }
+
+class _LinkOverlay extends StatefulWidget {
+  const _LinkOverlay();
+
+  @override
+  State<_LinkOverlay> createState() => _LinkOverlayState();
+}
+
+class _LinkOverlayState extends State<_LinkOverlay>
+    with SingleTickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: _animationTime.ms);
+    _controller!.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    _controller = null;
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 0,
+      bottom: 0,
+      child: AnimatedBuilder(
+          animation: _controller!,
+          builder: (context, child) {
+            return Opacity(
+              opacity: _controller!.value,
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 50,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(227, 227, 227, 1),
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
+                  border: Border(
+                    top: _linkBorderSide,
+                    right: _linkBorderSide,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 0),
+                      blurRadius: 12,
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ObsBuilder(builder: (context) {
+                  return ElText(
+                    _href.value,
+                    style: const TextStyle(
+                        fontSize: 12, color: Color.fromRGBO(71, 71, 71, 1)),
+                    overflow: TextOverflow.ellipsis,
+                  );
+                }),
+              ),
+            );
+          }),
+    );
+  }
+}
+
+const BorderSide _linkBorderSide = BorderSide(
+  // width: 0.5,
+  color: Color.fromRGBO(174, 174, 174, 0.4),
+);
