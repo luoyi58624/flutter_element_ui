@@ -10,7 +10,7 @@ import 'common.dart';
 final _hash = urlStrategy is PathUrlStrategy ? '' : '#';
 String? _baseHref;
 
-void initBaseHref() {
+void _initBaseHref() {
   final target = document.getElementsByTagName('base').item(0);
   if (target != null) {
     _baseHref = target.getAttribute('href');
@@ -20,10 +20,11 @@ void initBaseHref() {
   }
 }
 
+/// 获取预览链接地址
 String? getPreviewLink(String href) {
-  if (_baseHref == null) initBaseHref();
-  if (DartUtil.isHttp(href)) return href;
+  if (_baseHref == null) _initBaseHref();
   if (_baseHref == null) return null;
+  if (DartUtil.isHttp(href)) return href;
   if (_hash != '') {
     return '${window.location.origin}${_baseHref!}/$_hash$href';
   } else {
@@ -31,6 +32,7 @@ String? getPreviewLink(String href) {
   }
 }
 
+/// 跳转链接
 void toLink(String href, LinkTarget target) {
   if (DartUtil.isHttp(href)) {
     if (target == LinkTarget.blank) {

@@ -63,7 +63,6 @@ class Example3 extends StatelessWidget {
 String get code => '''
 ElButton(child: 'Hello', link: true),
 
-// 超链接小部件，在 web 平台上它会渲染成原生 a 标签，在客户端上如果链接地址是 http 开头，那么它会在左下角显示预览地址
 ElLink(
   href: 'https://github.com/luoyi58624/flutter_element_ui',
   child: Builder(

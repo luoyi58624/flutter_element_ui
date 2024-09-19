@@ -44,16 +44,11 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 当 primaryColor 发生变化时，将自动重建小部件
-    return ValueListenableBuilder(
-      valueListenable: primaryColor,
-      builder: (context, value, _) {
-        return ElApp(
-          theme: ElThemeData(
-            primary: value,
-          ),
-          child: const HomePage(),
-        );
-      },
+    return ElApp(
+      theme: ElThemeData(
+        primary: primaryColor.value,
+      ),
+      child: const HomePage(),
     );
   }
 }
@@ -72,6 +67,7 @@ class HomePage extends StatelessWidget {
           onPressed: () {
             colorIndex++;
             primaryColor.value = colors[colorIndex % colors.length];
+            ElUtils.refreshApp();
           },
           type: 'primary',
           child: 'Change Theme',

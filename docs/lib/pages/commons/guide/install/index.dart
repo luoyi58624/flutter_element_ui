@@ -13,40 +13,27 @@ class InstallPage extends ResponsivePage {
       const SectionTitle('添加依赖'),
       CodeExampleWidget.code(code: code1),
       const SectionTitle('编辑 main.dart'),
-      const SectionCard(
-        title: 'Tip',
-        content: [
-          'ElApp 与 MaterialApp 不同，它只负责注入全局配置信息，所以你依然需要使用 MaterialApp 构建应用。',
-          '而 ElApp.builder() 则是构建 TextTheme、ScrollConfiguration 等预设小部件，这些内容你可以自己实现。',
-        ],
-      ),
-      textGap,
-      const SectionCard(
-        type: 'success',
-        title: 'Tip',
-        content: [
-          'Element UI 允许你使用任意 App 构建应用，只不过 MaterialApp 是官方默认的构建方式。',
-        ],
-      ),
-      textGap,
       CodeExampleWidget.code(code: code2),
       titleGap,
-      const SectionCard(
-        title: '使用声明式路由构建应用',
-        content: [
-          ElText([
-            'Element UI 作为桌面端组件库，你应当使用声明式路由构建应用，相比命令式路由，'
-                '声明式路由支持完善的导航历史功能，这里推荐使用官方提供的 ',
-            ElLink(
-              href: 'https://pub.dev/packages/go_router',
-              child: 'go_router',
-            ),
-            '。',
-          ]),
-        ],
-      ),
-      textGap,
+      const SectionCard(title: 'Tip', content: [
+        ElText([
+          '如果你开发 PC 应用，请使用声明式路由构建应用，相比命令式路由最大的优点在于它支持完善的导航历史功能，'
+              '这里推荐使用官方提供的 ',
+          ElLink(
+            href: 'https://pub.dev/packages/go_router',
+            child: 'go_router',
+          ),
+          '。',
+        ]),
+      ]),
+      const SectionTitle('安装 go_router 依赖'),
       CodeExampleWidget.code(code: code3),
+      const SectionTitle('修改 main.dart'),
+      CodeExampleWidget.code(code: code4),
+      textGap,
+      const SectionCard(type: 'success', title: 'Tip', content: [
+        'Flutter 相比 Web 最大的优点就是查阅源码极为方便，所以此文档的作用也仅限于让用户快速上手、查看效果演示。',
+      ]),
     ];
   }
 }
@@ -66,9 +53,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ElApp 只负责注入全局配置信息，所以你依然需要使用 MaterialApp 或其他顶级 App 构建应用
     return ElApp(
       child: MaterialApp(
+        // 必须绑定路由导航 key，因为很多 api 依赖 el.context
+        navigatorKey: el.navigatorKey,
         home: const HomePage(),
+        // 构建 Element 默认文本主题、滚动配置等内容
         builder: ElApp.builder(),
       ),
     );
@@ -93,7 +84,9 @@ class HomePage extends StatelessWidget {
   }
 }''';
 
-String get code3 => '''
+String get code3 => '''flutter pub add go_router''';
+
+String get code4 => '''
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
@@ -103,6 +96,8 @@ void main() {
 }
 
 final router = GoRouter(
+  // 绑定路由导航 key
+  navigatorKey: el.navigatorKey,
   routes: [
     GoRoute(
       path: '/',

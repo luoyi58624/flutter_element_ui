@@ -50,7 +50,7 @@ class CodeExampleWidget extends HookWidget {
           ? buildCodePreview($code)
           : RepaintBoundary(
               child: Card(
-                elevation: context.isHover ? 4 : 0,
+                elevation: 0,
                 shadowColor: Colors.black38,
                 margin: EdgeInsets.zero,
                 // color: context.elTheme.colors.bg,

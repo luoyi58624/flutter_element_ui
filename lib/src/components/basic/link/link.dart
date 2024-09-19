@@ -62,7 +62,10 @@ class _LinkInheritedWidget extends InheritedWidget {
 }
 
 class ElLink extends StatelessWidget {
-  /// 超链接小部件，链接跳转基于 [url_launcher] 第三方库，当鼠标悬停时会在左下角显示链接地址
+  /// 超链接小部件，链接跳转基于 [url_launcher] 第三方库，当鼠标悬停时会在左下角显示链接地址。
+  ///
+  /// 提示：[url_launcher] 提供的 [Link] 小部件可以渲染成原生 A 标签，但因为可定制太少所以没有将其作为内部实现，
+  /// 如果你想让链接更接近原生，可以尝试使用它。
   const ElLink({
     super.key,
     required this.child,
