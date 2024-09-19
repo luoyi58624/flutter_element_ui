@@ -8,7 +8,7 @@ export 'src/components/basic/container.dart';
 export 'src/components/basic/icon.dart';
 export 'src/components/basic/scrollbar.dart';
 export 'src/components/basic/text.dart';
-export 'src/components/basic/link.dart';
+export 'src/components/basic/link/link.dart';
 export 'package:url_launcher/link.dart' show LinkTarget;
 
 export 'src/components/data/collapse/collapse_transition.dart';
@@ -95,7 +95,6 @@ export 'src/utils/shortcut.dart';
 export 'src/widgets/animates/animated_widgets.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
-export 'src/widgets/null_widget.dart';
 export 'src/widgets/scroll_behavior.dart';
 export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/size_builder.dart';

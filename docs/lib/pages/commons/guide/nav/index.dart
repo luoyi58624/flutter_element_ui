@@ -2,6 +2,8 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
+import 'test.dart';
+
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -46,64 +48,7 @@ class NavPage extends ResponsivePage {
         child: ElText('count: ${count.value}'),
       ),
       const Gap(8),
-      ElButton(
-        onPressed: () {
-          count.value++;
-        },
-        type: 'primary',
-        child: ElText('count: ${count.value}'),
-      ),
-      const Gap(8),
-      ElButton(
-        onPressed: () {
-          count.value++;
-        },
-        type: 'primary',
-        plain: true,
-        child: const ElText('提 交'),
-      ),
-      const Gap(8),
-      ElButton(
-        onPressed: () {
-          count.value++;
-        },
-        type: 'primary',
-        child: const ElText(''),
-      ),
-      const Gap(8),
-      ElButton(
-        onPressed: () {
-          disabled.value = true;
-          () {
-            disabled.value = false;
-          }.delay(1500);
-        },
-        disabled: disabled.value,
-        child: ElText('count: ${count.value}'),
-      ),
-      const Gap(8),
-      ElButton(
-        onPressed: () {
-          loading.value = true;
-          () {
-            loading.value = false;
-          }.delay(1500);
-        },
-        loading: loading.value,
-        child: ElText('count: ${count.value}'),
-      ),
-      const Gap(8),
-      ElButton(
-        onPressed: () {
-          loading.value = true;
-          () {
-            loading.value = false;
-          }.delay(1500);
-        },
-        type: 'primary',
-        loading: loading.value,
-        child: ElText('count: ${count.value}'),
-      ),
+      MyLink(),
     ];
   }
 }

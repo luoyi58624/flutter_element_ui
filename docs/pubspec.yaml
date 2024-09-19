@@ -19,6 +19,8 @@ dependencies:
   flutter_element_ui:
     path: ../
   boxy: ^2.2.0
+  web: ^1.0.0
+  url_strategy: ^0.3.0
 
 dev_dependencies:
   flutter_test:

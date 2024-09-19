@@ -1,5 +1,17 @@
 import 'package:flutter/widgets.dart';
 
+class ElNullWidget extends StatelessWidget {
+  const ElNullWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    throw FlutterError(
+      'ElNullWidget 通常用于混入 build 方法，子类如果没有执行 super.build 函数将抛出此异常',
+    );
+  }
+}
+
+
 class ElChildIndexData extends InheritedWidget {
   /// 一个功能小部件，让迭代的列表子元素确认自身所在的位置
   const ElChildIndexData({

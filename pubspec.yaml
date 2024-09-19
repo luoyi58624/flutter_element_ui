@@ -20,6 +20,7 @@ dependencies:
   defer_pointer: ^0.0.2
   web: ^1.0.0
   url_launcher: ^6.3.0
+  pointer_interceptor: ^0.10.1+2
 
 dev_dependencies:
   flutter_test:

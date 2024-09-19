@@ -14,12 +14,14 @@ import 'router_config.dart';
 import 'routes/component.dart';
 import 'routes/guide.dart';
 
+String? _getUrlScheme(String url) => Uri.tryParse(url)?.scheme;
+
 /// 监听路由跳转
 GoRouterRedirect _routerRedirect = (BuildContext context, GoRouterState state) {
   if (state.fullPath != null) {
     // 设置当前路由地址响应式变量
     RouterState.currentPath.value = state.fullPath!;
-    ElUtils.nextTick((){
+    ElUtils.nextTick(() {
       ElLink.scrollAnchor(state.uri.toString());
     });
   }

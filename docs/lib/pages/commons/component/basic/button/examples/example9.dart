@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 
 class Example9 extends StatelessWidget {
   const Example9({super.key, required this.title});
+
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,8 +15,7 @@ class Example9 extends StatelessWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            '你可以通过设置 width、height、padding 等属性自由地创建各种尺寸按钮，'
-                '相比传统预设 size 选项灵活性更高。'
+            'Element UI 没有提供 size 选项，你可以通过设置 width、height、padding、block 等属性自由地创建各种尺寸按钮，'
           ],
         ),
         textGap,
@@ -33,6 +34,12 @@ class Example9 extends StatelessWidget {
                 const ElButton(
                   width: 160,
                   height: 48,
+                  type: 'primary',
+                  child: ElText('按钮', style: TextStyle(fontSize: 20)),
+                ),
+                const ElButton(
+                  height: 48,
+                  block: true,
                   type: 'primary',
                   child: ElText('按钮', style: TextStyle(fontSize: 20)),
                 ),
@@ -65,6 +72,12 @@ Wrap(
     ElButton(
       width: 160,
       height: 48,
+      type: 'primary',
+      child: ElText('按钮', style: TextStyle(fontSize: 20)),
+    ),
+    const ElButton(
+      height: 48,
+      block: true,
       type: 'primary',
       child: ElText('按钮', style: TextStyle(fontSize: 20)),
     ),

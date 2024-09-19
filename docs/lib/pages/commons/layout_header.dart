@@ -86,6 +86,7 @@ class LayoutHeader extends StatelessWidget {
               ...RootRoute.values.map(
                 (e) => ElLink(
                   href: '/${e.$2}',
+                  title: e.$1,
                   child: Builder(
                     builder: (context) {
                       return GestureDetector(

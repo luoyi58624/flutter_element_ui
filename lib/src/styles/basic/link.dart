@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-import '../../components/basic/link.dart';
+import '../../components/basic/link/link.dart';
 
 part '../../generates/styles/basic/link.g.dart';
 
@@ -16,6 +16,7 @@ class ElLinkStyle {
     required this.color,
     required this.activeColor,
     this.decoration = ElLinkDecoration.none,
+    this.allowDrag = true,
   });
 
   /// 默认的超链接文本颜色
@@ -26,4 +27,7 @@ class ElLinkStyle {
 
   /// 超链接下划线显示逻辑
   final ElLinkDecoration decoration;
+
+  /// 是否允许拖拽超链接（仅限 web 平台）
+  final bool allowDrag;
 }
