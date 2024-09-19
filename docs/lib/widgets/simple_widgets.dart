@@ -19,14 +19,28 @@ class SectionTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         titleGap,
-        ElLink(
-          href: '${ResponsivePageData.of(context).path}#$title',
+        // ElLink(
+        //   href: '${ResponsivePageData.of(context).path}#$title',
+        //   child: ElAnchor(
+        //     name: title,
+        //     child: H2(
+        //       title,
+        //       style: TextStyle(
+        //         color: context.isDark
+        //             ? Colors.grey.shade300
+        //             : Colors.grey.shade800,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        ElAnchor(
           name: title,
           child: H2(
             title,
             style: TextStyle(
-              color:
-                  context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+              color: context.isDark
+                  ? Colors.grey.shade300
+                  : Colors.grey.shade800,
             ),
           ),
         ),

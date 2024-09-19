@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-mixin ElRouterService {
+mixin RouterService {
   /// 全局路由导航key，请一定要在顶级 App 中挂载此 key。
   ///
   /// 当使用命令式路由：

@@ -19,7 +19,7 @@ class Example1 extends StatelessWidget {
           child: Builder(builder: (context) {
             return ElButton(
               onPressed: () {
-                ElLink.toLink(context);
+                ElLink.to(context);
               },
               child: '跳转',
             );

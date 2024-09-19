@@ -47,6 +47,7 @@ export 'src/components/layout/page.dart';
 export 'src/components/navigation/menu/menu.dart';
 export 'src/components/navigation/tabs/tabs.dart';
 
+export 'src/components/others/anchor.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
@@ -61,7 +62,7 @@ export 'src/extensions/widget.dart';
 
 export 'src/hooks/obs.dart';
 
-export 'src/services/message.dart';
+export 'src/services/message.dart' show ElMessageModel, ElMessageBuilder;
 
 export 'src/styles/theme_data.dart';
 export 'src/styles/config_data.dart';

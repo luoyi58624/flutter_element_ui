@@ -11,12 +11,12 @@ typedef ElToastBuilder = Widget Function(
   dynamic content,
 );
 
-mixin ElToastService {
+mixin ToastService {
   /// Element UI 轻提示实例对象，在屏幕上显示一段简单的文本提示，每次只能显示一条消息
-  final ElToastInstance toast = ElToastInstance();
+  final ToastInstance toast = ToastInstance();
 }
 
-class ElToastInstance {
+class ToastInstance {
   OverlayEntry? _toastOverlayEntry;
   Timer? _removeToastTimer;
 

@@ -115,7 +115,7 @@ class _CardWidget extends StatelessWidget {
               child: Builder(builder: (context) {
                 return GestureDetector(
                   onTap: (){
-                    ElLink.toLink(context);
+                    ElLink.to(context);
                   },
                   child: AnimatedContainer(
                     duration: context.elConfig.themeDuration,

@@ -2,12 +2,12 @@ import 'package:flutter/widgets.dart';
 
 import '../service.dart';
 
-mixin ElCursorService {
+mixin CursorService {
   /// 设置全局光标实例对象
-  final ElCursorInstance globalCursor = ElCursorInstance();
+  final CursorInstance globalCursor = CursorInstance();
 }
 
-class ElCursorInstance {
+class CursorInstance {
   OverlayEntry? _overlayEntry;
 
   /// 设置全局光标，它会在页面上方创建一层完全透明的遮罩，然后捕获全局鼠标光标悬停样式，

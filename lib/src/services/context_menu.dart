@@ -4,12 +4,12 @@ import 'package:flutter_element_ui/src/global.dart';
 
 import '../service.dart';
 
-mixin ElContextMenuService {
+mixin ContextMenuService {
   /// 全局右键菜单实例
-  final ElContextMenuInstance contextMenu = ElContextMenuInstance();
+  final ContextMenuInstance contextMenu = ContextMenuInstance();
 }
 
-class ElContextMenuInstance {
+class ContextMenuInstance {
   /// 保存用户鼠标点击的全局坐标点
   Offset localPosition = Offset.zero;
 }

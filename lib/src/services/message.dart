@@ -67,12 +67,12 @@ class ElMessageModel {
   );
 }
 
-mixin ElMessageService {
+mixin MessageService {
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
-  final ElMessageInstance message = ElMessageInstance();
+  final MessageInstance message = MessageInstance();
 }
 
-class ElMessageInstance {
+class MessageInstance {
   /// 消息id
   int _id = 0;
 

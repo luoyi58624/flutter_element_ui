@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import 'services/anchor.dart';
 import 'services/context_menu.dart';
 import 'services/cursor.dart';
 import 'services/message.dart';
@@ -14,9 +15,10 @@ final GlobalKey elAppKey = GlobalKey();
 
 class ElService
     with
-        ElOtherService,
-        ElRouterService,
-        ElContextMenuService,
-        ElCursorService,
-        ElMessageService,
-        ElToastService {}
+        AnchorService,
+        OtherService,
+        RouterService,
+        ContextMenuService,
+        CursorService,
+        MessageService,
+        ToastService {}

@@ -43,11 +43,11 @@ enum ElLinkDecoration {
 
 class _LinkInheritedWidget extends InheritedWidget {
   const _LinkInheritedWidget(
-    this.toLink, {
+    this.to, {
     required super.child,
   });
 
-  final VoidCallback toLink;
+  final VoidCallback to;
 
   static _LinkInheritedWidget of(BuildContext context) {
     final _LinkInheritedWidget? result =
@@ -61,7 +61,7 @@ class _LinkInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(_LinkInheritedWidget oldWidget) => true;
 }
 
-class ElLink extends StatefulWidget {
+class ElLink extends StatelessWidget {
   /// 超链接小部件，链接跳转基于 [url_launcher] 第三方库，当鼠标悬停时会在左下角显示链接地址
   const ElLink({
     super.key,
@@ -72,7 +72,6 @@ class ElLink extends StatefulWidget {
     this.decoration,
     this.cursor = SystemMouseCursors.click,
     this.target = LinkTarget.blank,
-    this.name,
   });
 
   /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
@@ -96,58 +95,9 @@ class ElLink extends StatefulWidget {
   /// 打开链接的目标位置，默认 blank 新窗口打开
   final LinkTarget target;
 
-  /// 定义链接锚点，如果不为空，当初始化时会将它存放于 [anchorMap] 集合中。
-  ///
-  /// 提示：内部会自动添加 # 符号。
-  final String? name;
-
-  /// 超链接瞄点 Map 集合，如果设置了 [name]，初始化时会将当前 [ElLink] 对象存放到此集合中，
-  /// 销毁时会自动移除。
-  static final Map<String, GlobalKey> anchorMap = {};
-
-  /// 滚动到锚点位置
-  static void scrollAnchor(String url) {
-    BuildContext? context;
-    // 如果 url 存在 # 锚点符号，则尝试解析 url 地址获取 ElLink 的 context 对象
-    if (url.contains('#')) {
-      final key = Uri.decodeComponent(url).split('#').last;
-      context = anchorMap['#$key']?.currentContext;
-    }
-    // 若是单纯的字符串，则当作 name 直接访问
-    else {
-      context = anchorMap['#$url']?.currentContext;
-    }
-    if (context != null) {
-      Scrollable.ensureVisible(context);
-    }
-  }
-
   /// 从当前上下文获取最近的超链接实例并触发跳转
-  static void toLink(BuildContext context) {
-    _LinkInheritedWidget.of(context).toLink();
-  }
-
-  @override
-  State<ElLink> createState() => _ElLinkState();
-}
-
-class _ElLinkState extends State<ElLink> {
-  final globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.name != null) {
-      ElLink.anchorMap['#${widget.name}'] = globalKey;
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (widget.name != null) {
-      ElLink.anchorMap.remove('#${widget.name}');
-    }
+  static void to(BuildContext context) {
+    _LinkInheritedWidget.of(context).to();
   }
 
   void _show(String href) {
@@ -180,14 +130,14 @@ class _ElLinkState extends State<ElLink> {
   }
 
   void _toLink() {
-    toLink(widget.href, widget.target);
+    toLink(href, target);
   }
 
   Widget buildTextTheme(BuildContext context, VoidCallback toLink) {
     final $defaultStyle = context.elTheme.linkStyle;
-    final $color = widget.color ?? $defaultStyle.color;
-    final $activeColor = widget.activeColor ?? $defaultStyle.activeColor;
-    final $decoration = widget.decoration ?? $defaultStyle.decoration;
+    final $color = color ?? $defaultStyle.color;
+    final $activeColor = activeColor ?? $defaultStyle.activeColor;
+    final $decoration = decoration ?? $defaultStyle.decoration;
 
     return _LinkInheritedWidget(
       toLink,
@@ -203,21 +153,20 @@ class _ElLinkState extends State<ElLink> {
                   : TextDecoration.none,
           decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
         ),
-        child: widget.child is Widget ? widget.child : ElText(widget.child),
+        child: child is Widget ? child : ElText(child),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final previewLink = getPreviewLink(widget.href);
+    final previewLink = getPreviewLink(href);
     return GestureDetector(
-      key: globalKey,
       onTap: () {
         _toLink();
       },
       child: ElHoverBuilder(
-        cursor: widget.cursor,
+        cursor: cursor,
         onEnter: previewLink == null
             ? null
             : (e) {
