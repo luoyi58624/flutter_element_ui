@@ -5,11 +5,12 @@ import 'package:web/web.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-final hash = urlStrategy is PathUrlStrategy ? '' : '/#';
+final hash = urlStrategy is PathUrlStrategy ? '' : '#';
 
 String getFullHref(String href) {
+  i(window.location.pathname);
   if (DartUtil.isHttp(href)) return href;
-  return window.location.origin + hash + href;
+  return window.location.origin + window.location.pathname + hash + href;
 }
 
 void toLink(String href, LinkTarget target) {

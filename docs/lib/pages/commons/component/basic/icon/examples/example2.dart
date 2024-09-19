@@ -45,7 +45,7 @@ class Example2 extends StatelessWidget {
                 CommonUtil.copy('ElIcon(ElIcons.$key)');
               },
               child: ElHoverBuilder(
-                cursor: SystemMouseCursors.copy,
+                cursor: SystemMouseCursors.click,
                 builder: (context) {
                   return Center(
                     child: Column(
