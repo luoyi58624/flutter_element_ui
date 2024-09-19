@@ -71,7 +71,7 @@ class ElLink extends StatefulWidget {
     this.activeColor,
     this.decoration,
     this.cursor = SystemMouseCursors.click,
-    this.target = LinkTarget.self,
+    this.target = LinkTarget.blank,
     this.name,
   });
 
@@ -133,24 +133,12 @@ class ElLink extends StatefulWidget {
 
 class _ElLinkState extends State<ElLink> {
   final globalKey = GlobalKey();
-  late String href;
-
-  bool get isHttpLink => DartUtil.isHttp(href);
 
   @override
   void initState() {
     super.initState();
-    href = getFullHref(widget.href);
     if (widget.name != null) {
       ElLink.anchorMap['#${widget.name}'] = globalKey;
-    }
-  }
-
-  @override
-  void didUpdateWidget(ElLink oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.href != oldWidget.href) {
-      href = getFullHref(widget.href);
     }
   }
 
@@ -192,7 +180,7 @@ class _ElLinkState extends State<ElLink> {
   }
 
   void _toLink() {
-    toLink(href, widget.target);
+    toLink(widget.href, widget.target);
   }
 
   Widget buildTextTheme(BuildContext context, VoidCallback toLink) {
@@ -222,6 +210,7 @@ class _ElLinkState extends State<ElLink> {
 
   @override
   Widget build(BuildContext context) {
+    final previewLink = getPreviewLink(widget.href);
     return GestureDetector(
       key: globalKey,
       onTap: () {
@@ -229,7 +218,7 @@ class _ElLinkState extends State<ElLink> {
       },
       child: ElHoverBuilder(
         cursor: widget.cursor,
-        onEnter: !isHttpLink
+        onEnter: previewLink == null
             ? null
             : (e) {
                 if (_delayHideOverlay != null) {
@@ -243,12 +232,13 @@ class _ElLinkState extends State<ElLink> {
                   }
                 }
                 if (_linkOverlay == null) {
-                  _delayShowOverlay = (() => _show(href)).delay(_delayTime);
+                  _delayShowOverlay =
+                      (() => _show(previewLink)).delay(_delayTime);
                 } else {
-                  _show(href);
+                  _show(previewLink);
                 }
               },
-        onExit: !isHttpLink
+        onExit: previewLink == null
             ? null
             : (e) {
                 if (_delayShowOverlay != null) {
