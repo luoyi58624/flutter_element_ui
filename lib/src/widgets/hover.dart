@@ -9,6 +9,7 @@ class ElHoverBuilder extends StatefulWidget {
     super.key,
     required this.builder,
     this.cursor,
+    this.hitTestBehavior,
     this.disabled = false,
     this.onlyCursor = false,
     this.onEnter,
@@ -20,6 +21,9 @@ class ElHoverBuilder extends StatefulWidget {
 
   /// 鼠标悬停光标样式，默认点击
   final MouseCursor? cursor;
+
+  /// 命中测试
+  final HitTestBehavior? hitTestBehavior;
 
   /// 是否开启禁用样式，默认false
   final bool disabled;
@@ -62,6 +66,7 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
         mouseCursor: cursor,
         child: MouseRegion(
           cursor: cursor,
+          hitTestBehavior: widget.hitTestBehavior,
           onHover: widget.disabled ? null : widget.onHover,
           onEnter: widget.disabled ? null : _onEnter,
           onExit: widget.disabled ? null : _onExit,

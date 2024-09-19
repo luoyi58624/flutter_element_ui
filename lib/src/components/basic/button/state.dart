@@ -32,10 +32,19 @@ extension _ButtonColorExtension on Color {
   Color themeLightBorder(BuildContext context) => elLight6(context);
 }
 
+typedef _ColorStyle = ({
+  Color? bgColor,
+  Color? textColor,
+  Color? borderColor,
+  Color? loadingTextColor
+});
+
 class _ElButtonState extends State<ElButton> {
   late ElButtonStyle defaultStyle;
   late double buttonHeight;
   late bool disabled;
+  late BorderRadiusGeometry borderRadius;
+  late _ColorStyle _colorStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +53,29 @@ class _ElButtonState extends State<ElButton> {
     buttonHeight =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     disabled = widget.loading || widget.disabled;
-    return buildEvent(
+    borderRadius = widget.round || widget.circle
+        ? BorderRadius.circular(buttonHeight / 2)
+        : widget.borderRadius ??
+            defaultStyle.borderRadius ??
+            context.elConfig.radius;
+
+    Widget result = buildEvent(
       builder: (context) => buildButtonWrapper(context),
+    );
+
+    result = widget.block && !widget.circle
+        ? result
+        : UnconstrainedBox(child: result);
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: result,
     );
   }
 
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
     return ElTapBuilder(
+      hitTestBehavior: HitTestBehavior.deferToChild,
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
       },
@@ -68,6 +92,7 @@ class _ElButtonState extends State<ElButton> {
               : disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
+          hitTestBehavior: HitTestBehavior.deferToChild,
           builder: (context) => builder(context),
         );
       },
@@ -76,6 +101,165 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context) {
+    _colorStyle = calcColor(context);
+
+    final $horizontalPadding = buttonHeight / 2;
+
+    final $padding = widget.circle || widget.link
+        ? null
+        : (widget.padding ??
+            defaultStyle.padding ??
+            (widget.round
+                ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
+                : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
+
+    final $constraints = widget.link
+        ? null
+        : BoxConstraints(
+            minHeight: buttonHeight,
+            minWidth: (widget.circle
+                ? buttonHeight
+                : widget.child is ElIcon
+                    ? buttonHeight * 1.25
+                    : widget.width ?? _minWidth),
+          );
+
+    Widget result = Center(
+      child: Builder(builder: (context) {
+        return buildButtonContent(context);
+      }),
+    );
+
+    if ($padding != null) {
+      result = Padding(padding: $padding, child: result);
+    }
+
+    if ($constraints != null) {
+      result = ConstrainedBox(constraints: $constraints, child: result);
+    }
+
+    if (_colorStyle.borderColor != null) {
+      result = ElAnimatedDecoratedBox(
+        duration:
+            context.elThemeDuration ?? const Duration(milliseconds: _duration),
+        decoration: BoxDecoration(
+          border: Border.all(color: _colorStyle.borderColor!, width: 1),
+          borderRadius: borderRadius,
+        ),
+        child: result,
+      );
+    }
+
+    if (_colorStyle.bgColor != null) {
+      result = ElAnimatedColoredBox(
+        duration:
+            context.elThemeDuration ?? const Duration(milliseconds: _duration),
+        color: _colorStyle.bgColor!,
+        child: result,
+      );
+    }
+
+    result = ElDefaultTextStyle.merge(
+      style: _defaultTextStyle.copyWith(
+        color: _colorStyle.textColor,
+      ),
+      child: result,
+    );
+
+    if (widget.loadingBuilder != null && widget.loading) {
+      assert(_colorStyle.loadingTextColor != null,
+          ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
+      result = Stack(
+        children: [
+          result,
+          Positioned.fill(
+            child: ElDefaultTextStyle.merge(
+              style: _defaultTextStyle.copyWith(
+                color: _colorStyle.loadingTextColor,
+              ),
+              child: Center(
+                child: buildIconTheme(
+                  color: _colorStyle.loadingTextColor,
+                  child: widget.loadingBuilder!(_colorStyle.loadingTextColor!),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    return result;
+  }
+
+  /// 构建默认的图标主题
+  Widget buildIconTheme({
+    required Widget child,
+    Color? color,
+  }) {
+    return ElIconTheme(
+      color: color,
+      size: buttonHeight / 2 - 2,
+      child: child,
+    );
+  }
+
+  /// 构建按钮内容
+  Widget buildButtonContent(BuildContext context) {
+    late Widget $child;
+    if (widget.child is Widget) {
+      $child = widget.child;
+    } else {
+      $child = ElText('${widget.child}');
+    }
+
+    Widget? leftIcon;
+    if (widget.leftIcon != null) {
+      if (widget.loadingBuilder == null && widget.loading) {
+        leftIcon = widget.loadingWidget;
+      } else {
+        leftIcon = widget.leftIcon;
+      }
+    } else {
+      if (widget.loadingBuilder == null && widget.loading) {
+        leftIcon = widget.loadingWidget;
+      }
+    }
+
+    Widget childContent = Padding(
+      padding: EdgeInsets.only(
+        left: leftIcon != null ? 6.0 : 0.0,
+        right: widget.rightIcon != null ? 6.0 : 0.0,
+      ),
+      child: $child,
+    );
+
+    childContent = Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (leftIcon != null) leftIcon,
+        childContent,
+        if (widget.rightIcon != null) widget.rightIcon!,
+      ],
+    );
+
+    if (widget.loadingBuilder != null) {
+      childContent = Opacity(
+        opacity: widget.loading == true ? 0.0 : 1.0,
+        child: childContent,
+      );
+    }
+
+    $child = buildIconTheme(
+      color: ElDefaultTextStyle.of(context).style.color,
+      child: childContent,
+    );
+
+    return $child;
+  }
+
+  _ColorStyle calcColor(BuildContext context) {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.colors.border;
     final $isDark = context.isDark;
@@ -218,152 +402,11 @@ class _ElButtonState extends State<ElButton> {
       }
     }
 
-    final $border = $borderColor == null
-        ? const Border()
-        : Border.all(color: $borderColor, width: 1);
-
-    BorderRadiusGeometry $borderRadius = widget.round || widget.circle
-        ? BorderRadius.circular(buttonHeight / 2)
-        : widget.borderRadius ??
-            defaultStyle.borderRadius ??
-            context.elConfig.radius;
-
-    final $horizontalPadding = buttonHeight / 2;
-
-    final $padding = widget.circle || widget.link
-        ? null
-        : (widget.padding ??
-            defaultStyle.padding ??
-            (widget.round
-                ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
-                : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
-
-    final $constraints = widget.link
-        ? null
-        : BoxConstraints(
-            minHeight: buttonHeight,
-            minWidth: (widget.circle
-                ? buttonHeight
-                : widget.child is ElIcon
-                    ? buttonHeight * 1.25
-                    : widget.width ?? _minWidth),
-          );
-
-    Widget result = ElDefaultTextStyle.merge(
-      style: _defaultTextStyle.copyWith(
-        color: $textColor,
-      ),
-      child: AnimatedContainer(
-        duration:
-            context.elThemeDuration ?? const Duration(milliseconds: _duration),
-        alignment: Alignment.center,
-        padding: $padding,
-        constraints: $constraints,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: $bgColor,
-          border: $border,
-          borderRadius: $borderRadius,
-        ),
-        child: Builder(builder: (context) {
-          return buildButtonContent(context);
-        }),
-      ),
+    return (
+      bgColor: $bgColor,
+      textColor: $textColor,
+      borderColor: $borderColor,
+      loadingTextColor: $loadingTextColor,
     );
-    result = widget.block && !widget.circle
-        ? result
-        : UnconstrainedBox(child: result);
-    if (widget.loadingBuilder != null && widget.loading) {
-      assert($loadingTextColor != null,
-          ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
-      result = Stack(
-        children: [
-          result,
-          Positioned.fill(
-            child: ElDefaultTextStyle.merge(
-              style: _defaultTextStyle.copyWith(
-                color: $loadingTextColor,
-              ),
-              child: Center(
-                child: buildIconTheme(
-                  color: $loadingTextColor,
-                  child:
-                      widget.loadingBuilder!($loadingTextColor!),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-    return result;
-  }
-
-  /// 构建默认的图标主题
-  Widget buildIconTheme({
-    required Widget child,
-    Color? color,
-  }) {
-    return ElIconTheme(
-      color: color,
-      size: buttonHeight / 2 - 2,
-      child: child,
-    );
-  }
-
-  /// 构建按钮内容
-  Widget buildButtonContent(BuildContext context) {
-    late Widget $child;
-    if (widget.child is Widget) {
-      $child = widget.child;
-    } else {
-      $child = ElText('${widget.child}');
-    }
-
-    Widget? leftIcon;
-    if (widget.leftIcon != null) {
-      if (widget.loadingBuilder == null && widget.loading) {
-        leftIcon = widget.loadingWidget;
-      } else {
-        leftIcon = widget.leftIcon;
-      }
-    } else {
-      if (widget.loadingBuilder == null && widget.loading) {
-        leftIcon = widget.loadingWidget;
-      }
-    }
-
-    Widget childContent = Padding(
-      padding: EdgeInsets.only(
-        left: leftIcon != null ? 6.0 : 0.0,
-        right: widget.rightIcon != null ? 6.0 : 0.0,
-      ),
-      child: $child,
-    );
-
-    childContent = Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (leftIcon != null) leftIcon,
-        childContent,
-        if (widget.rightIcon != null) widget.rightIcon!,
-      ],
-    );
-
-    if (widget.loadingBuilder != null) {
-      childContent = Opacity(
-        opacity: widget.loading == true ? 0.0 : 1.0,
-        child: childContent,
-      );
-    }
-
-    $child = buildIconTheme(
-      color: ElDefaultTextStyle.of(context).style.color,
-      child: childContent,
-    );
-
-    return $child;
   }
 }

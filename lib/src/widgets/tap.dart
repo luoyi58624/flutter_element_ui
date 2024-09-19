@@ -9,6 +9,7 @@ class ElTapBuilder extends StatefulWidget {
   const ElTapBuilder({
     super.key,
     required this.builder,
+    this.hitTestBehavior,
     this.delay = 100,
     this.disabled = false,
     this.onTap,
@@ -18,6 +19,9 @@ class ElTapBuilder extends StatefulWidget {
   }) : assert(delay >= 0);
 
   final WidgetBuilder builder;
+
+  /// 命中测试
+  final HitTestBehavior? hitTestBehavior;
 
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
   /// 否则你应当直接使用[GestureDetector]，同时，如果你需要根据状态变更应用过渡动画，
@@ -50,6 +54,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
     return _TapInheritedWidget(
       isTap: isTap,
       child: GestureDetector(
+        behavior: widget.hitTestBehavior,
         onTap: widget.disabled ? null : widget.onTap,
         onTapDown: widget.disabled
             ? null

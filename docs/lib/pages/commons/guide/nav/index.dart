@@ -48,6 +48,21 @@ class NavPage extends ResponsivePage {
         child: ElText('count: ${count.value}'),
       ),
       const Gap(8),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          hitTestBehavior: HitTestBehavior.deferToChild,
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ),
+      ),
     ];
   }
 }
