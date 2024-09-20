@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/cupertino.dart';
 
 class Example2 extends HookWidget {
-  const Example2({super.key});
+  const Example2({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('使用 IOS 滚动条'),
+        SectionTitle(title),
         CodeExample(
           code: code,
           children: const [

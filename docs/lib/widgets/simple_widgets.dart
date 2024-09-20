@@ -38,9 +38,8 @@ class SectionTitle extends StatelessWidget {
           child: H2(
             title,
             style: TextStyle(
-              color: context.isDark
-                  ? Colors.grey.shade300
-                  : Colors.grey.shade800,
+              color:
+                  context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
             ),
           ),
         ),
@@ -128,6 +127,26 @@ class SectionCard extends StatelessWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class FlutterHookTip extends StatelessWidget {
+  const FlutterHookTip(this.name,{super.key});
+
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return SectionCard(
+      title: 'Tip',
+      content: [
+        ElText([
+          '$name 不仅支持传统写法，还支持双向绑定，推荐你使用 ',
+          const FlutterHookLink(),
+          ' 代替 StatefulWidget，用法更加精简',
+        ]),
       ],
     );
   }

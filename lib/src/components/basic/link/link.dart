@@ -77,10 +77,9 @@ class ElLink extends StatelessWidget {
   ///  ),
   /// ),
   /// ```
-  // 我尝试过将其作为内部实现，但它完全没有任何定制性，同时对性能有一定的影响，官网描述得也很清楚，
-  // 嵌入 HTML 是一种潜在的昂贵操作：https://api.flutter.dev/flutter/widgets/HtmlElementView-class.html，
-  // docs 文档的侧边栏列表渲染大量超链接导致跳转页面变得很不跟手，究其原因还是 html 渲染器本身性能就很低，
-  // 所以我最终还是弃用它的实现。
+  // 我尝试过将 Link 作为内部实现，但它对性能影响很大，嵌入大量的 HTML 是一项昂贵的操作，
+  // 同时 Flutter Web 的 html 渲染器本身性能就很低，导致 docs 文档的侧边栏跳转页面变得很不跟手，
+  // 所以我最终弃用它。
   const ElLink({
     super.key,
     required this.child,

@@ -5,15 +5,7 @@ import 'package:flutter_element_ui/src/global.dart';
 // 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
 // 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
 //
-// 究其原因是我不想依赖 Material 的文本设计系统，它太繁杂了，官方给它设计了 10 种左右的文本主题，
-// 而我只想拥有一种全局默认的文本样式，然后根据需求自己封装不同类型的文本小部件。
-//
-// 然后问题便在于 Material 系列的小部件不会合并祖先默认文本样式，因为它们有自身那一套庞大的设计体系，
-// 所以我只能再搞一个独立的默认文本样式。
-//
-// 那为什么 Element UI 非要使用 Material 组件？
-// 注意：Material 是一个基础组件，你平时用 Scaffold 脚手架内部也用到了 Material 小部件，
-// 你不可能只用 Element UI 提供的组件，我也不可能脱离 Material 从头去设计所有组件。
+// 因为我要求所有的子孙组件文本样式都必须继承祖先默认提供的样式，而 DefaultTextStyle 在很多情况下会破坏这一点。
 class ElText extends StatefulWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(
@@ -305,8 +297,8 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     required super.child,
   });
 
-  /// 为了彻底保证文本继承性，不再允许直接构造 [ElDefaultTextStyle]，
-  /// 只能通过 [merge] 方法注入默认的文本样式
+  /// 为了保证文本继承性，不允许直接构造 [ElDefaultTextStyle]，
+  /// 只能通过 [merge] 方法设置默认的文本样式
   static Widget merge({
     Key? key,
     TextStyle? style,

@@ -12,7 +12,7 @@ class MessagePage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      const Example1(),
+      const Example1(title: '主色'),
     ];
   }
 }

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Example2 extends StatelessWidget {
-  const Example2({super.key});
+  const Example2({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class Example2 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('图标集合'),
+        SectionTitle(title),
         const SectionCard(
           type: 'warning',
           title: 'Warning',
@@ -42,7 +44,7 @@ class Example2 extends StatelessWidget {
             itemCount: ElIcons.values.length,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                CommonUtil.copy('ElIcon(ElIcons.$key)');
+                CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
               },
               child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,

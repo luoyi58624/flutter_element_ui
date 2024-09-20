@@ -2,14 +2,17 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example1 extends HookWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('基础用法'),
+        const FlutterHookTip('ElInput'),
+        SectionTitle(title),
         CodeExample(
           code: code,
           children: [
@@ -36,7 +39,6 @@ class _InputExample extends HookWidget {
           width: 200,
           child: ElInput(
             input,
-            margin: EdgeInsets.zero,
             placeholder: '请输入内容',
           ),
         ),
@@ -56,7 +58,20 @@ class _InputExample extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final input = useState(''); // 当输入框的值发生变化时，input会自动同步
-    return ElInput(input);
+    final input = useState('');
+    return Row(
+      children: [
+        SizedBox(
+          width: 200,
+          child: ElInput(
+            input,
+            margin: EdgeInsets.zero,
+            placeholder: '请输入内容',
+          ),
+        ),
+        const Gap(8),
+        ElText(' - \${input.value}'),
+      ],
+    );
   }
 }''';

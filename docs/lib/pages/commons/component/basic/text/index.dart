@@ -33,9 +33,9 @@ class TextPage extends ResponsivePage {
         type: 'primary',
         child: const ElText('文本滚动性能测试'),
       ),
-      const Example1(),
-      const Example2(),
-      const Example3(),
+      const Example1(title: '普通文本'),
+      const Example2(title: '富文本'),
+      const Example3(title: '自定义文本组件'),
       const Gap(50),
     ];
   }

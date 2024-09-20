@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
@@ -7,17 +9,21 @@ class CodeExample extends HookWidget {
     super.key,
     required this.code,
     required this.children,
+    this.expanded = false,
   });
 
   /// 示例代码字符串
   final String code;
+
+  /// 是否默认展开
+  final bool expanded;
 
   /// 效果预览小部件
   final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {
-    final isExpanded = useState(false);
+    final isExpanded = useState(expanded);
 
     return ElHoverBuilder(builder: (context) {
       return RepaintBoundary(
@@ -46,7 +52,7 @@ class CodeExample extends HookWidget {
                   ),
                 ),
                 const ElDivider(),
-                _PreviewButton(isExpanded, context.isHover),
+                _PreviewButton(isExpanded),
                 ElCollapseTransition(
                   isExpanded.value,
                   child: CodePreview(
@@ -67,13 +73,13 @@ class CodeExample extends HookWidget {
 }
 
 const _doubleOffset = 80.0;
+Timer? _delayShow;
 
 /// 构建展开预览代码按钮
 class _PreviewButton extends HookWidget {
-  const _PreviewButton(this.isExpanded, this.codeHover);
+  const _PreviewButton(this.isExpanded);
 
   final ValueNotifier<bool> isExpanded;
-  final bool codeHover;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +100,18 @@ class _PreviewButton extends HookWidget {
     return ElHoverBuilder(
       cursor: SystemMouseCursors.click,
       builder: (context) {
-        codeHover ? controller.forward() : controller.reverse();
+        if (context.isHover) {
+          _delayShow = () {
+            _delayShow = null;
+            controller.forward();
+          }.delay(100);
+        } else {
+          if (_delayShow != null) {
+            _delayShow!.cancel();
+            _delayShow = null;
+          }
+          controller.reverse();
+        }
         return GestureDetector(
           onTap: () {
             isExpanded.value = !isExpanded.value;

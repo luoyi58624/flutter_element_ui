@@ -15,8 +15,8 @@ class IconPage extends ResponsivePage {
     return const [
       titleGap,
       SectionText('Element UI 提供了一套常用的图标集合。'),
-      Example1(),
-      Example2(),
+      Example1(title: '使用方法'),
+      Example2(title: '图标集合'),
     ];
   }
 }

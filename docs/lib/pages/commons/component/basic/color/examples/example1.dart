@@ -61,14 +61,16 @@ class FlutterColorData {
 }
 
 class Example1 extends StatelessWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('主色'),
+        SectionTitle(title),
         const SectionText('Element UI 默认的主题色是明亮、友好的蓝色。'),
         textGap,
         CodeExample(

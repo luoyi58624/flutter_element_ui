@@ -2,7 +2,9 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example1 extends HookWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class Example1 extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('折叠动画'),
+        SectionTitle(title),
         CodeExample(
           code: code1,
           children: [

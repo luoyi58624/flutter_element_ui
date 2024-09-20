@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example2 extends StatelessWidget {
-  const Example2({super.key});
+  const Example2({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('辅助色'),
+        SectionTitle(title),
         const SectionText('除了主颜色外，您需要在不同的场景中使用不同的场景颜色 (例如，危险的颜色表示危险的操作)'),
         textGap,
         FlatCodeExample(
@@ -22,8 +24,9 @@ class Example2 extends StatelessWidget {
                 runSpacing: 8,
                 children: [
                   ...el.themeTypes.whereIndexed((i, v) => i != 0).map(
-                        (e) => buildThemeColor(context, e, context.elThemeColors[e]!),
-                  )
+                        (e) => buildThemeColor(
+                            context, e, context.elThemeColors[e]!),
+                      )
                 ],
               ),
             ),

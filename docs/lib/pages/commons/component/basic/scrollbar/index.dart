@@ -15,8 +15,8 @@ class ScrollbarPage extends ResponsivePage {
     return const [
       titleGap,
       SectionText('Element UI 风格滚动条，其特征是当鼠标进入滚动区域时将立即显示，当离开滚动区域则立即隐藏。'),
-      Example1(),
-      Example2(),
+      Example1(title: '基础用法'),
+      Example2(title: '使用 IOS 滚动条'),
     ];
   }
 }

@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example3 extends StatelessWidget {
-  const Example3({super.key});
+  const Example3({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('动态全局主题色'),
+        SectionTitle(title),
         const SectionText('下面代码以最简单的方式展示如何更新全局主题'),
         textGap,
         FlatCodeExample(

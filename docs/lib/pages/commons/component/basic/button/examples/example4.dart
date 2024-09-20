@@ -82,12 +82,6 @@ class Example4 extends HookWidget {
                   child: const ElIcon(ElIcons.sHome),
                 ),
                 ElButton(
-                  onPressed: () {
-                    loading.value = true;
-                    () {
-                      loading.value = false;
-                    }.delay(1000);
-                  },
                   height: 32,
                   iconSize: 18,
                   text: true,
@@ -98,12 +92,6 @@ class Example4 extends HookWidget {
                   child: const ElIcon(ElIcons.share),
                 ),
                 ElButton(
-                  onPressed: () {
-                    loading.value = true;
-                    () {
-                      loading.value = false;
-                    }.delay(1000);
-                  },
                   height: 32,
                   iconSize: 18,
                   text: true,
@@ -114,12 +102,6 @@ class Example4 extends HookWidget {
                   child: const ElIcon(ElIcons.editOutline),
                 ),
                 ElButton(
-                  onPressed: () {
-                    loading.value = true;
-                    () {
-                      loading.value = false;
-                    }.delay(1000);
-                  },
                   height: 32,
                   iconSize: 18,
                   text: true,

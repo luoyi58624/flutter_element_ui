@@ -9,6 +9,7 @@ import '../../pages/commons/component/basic/text/index.dart';
 import '../../pages/commons/component/data/index.dart';
 import '../../pages/commons/component/feedback/message/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
+import '../../pages/commons/component/form/switch/index.dart';
 import '../../pages/commons/component/other/animated_size/index.dart';
 import '../../pages/commons/overview/cupertino/index.dart';
 import '../../pages/commons/overview/element/index.dart';
@@ -112,7 +113,7 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}switch',
-      builder: (context, state) => const NotFoundPage(),
+      builder: (context, state) => const SwitchPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}time-picker',

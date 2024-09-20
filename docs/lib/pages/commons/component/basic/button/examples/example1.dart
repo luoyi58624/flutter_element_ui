@@ -28,6 +28,7 @@ class Example1 extends StatelessWidget {
         const Gap(8),
         CodeExample(
           code: code,
+          expanded: true,
           children: [
             Wrap(
               spacing: 8,

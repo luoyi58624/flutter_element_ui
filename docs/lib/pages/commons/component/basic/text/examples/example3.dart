@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example3 extends StatelessWidget {
-  const Example3({super.key});
+  const Example3({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('自定义文本组件'),
+        SectionTitle(title),
         const SectionText([
           '这些组件 Element UI 没有提供，你需要自行封装，',
           ElLink(

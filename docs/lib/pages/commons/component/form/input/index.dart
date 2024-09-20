@@ -16,17 +16,7 @@ class InputPage extends ResponsivePage {
       titleGap,
       const SectionText('通过鼠标或键盘输入字符'),
       textGap,
-      const SectionCard(
-        title: 'Tip',
-        content: [
-          ElText([
-            'ElInput 支持双向绑定，推荐你使用 ',
-            FlutterHookLink(),
-            ' 代替 StatefulWidget，用法更加精简',
-          ]),
-        ],
-      ),
-      Example1(),
+      const Example1(title: '基础用法'),
       // Example2(),
     ];
   }

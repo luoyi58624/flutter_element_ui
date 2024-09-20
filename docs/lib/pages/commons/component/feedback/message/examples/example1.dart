@@ -2,7 +2,9 @@ import 'package:docs/global.dart';
 import 'package:flutter/widgets.dart';
 
 class Example1 extends StatelessWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {

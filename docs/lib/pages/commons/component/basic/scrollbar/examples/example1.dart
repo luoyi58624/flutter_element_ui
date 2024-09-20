@@ -2,14 +2,16 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 class Example1 extends HookWidget {
-  const Example1({super.key});
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle('基础用法'),
+        SectionTitle(title),
         const SectionText(
             '下面这个示例仅供参考，通常情况下你不需要手动添加滚动条，因为 ElApp 默认使用 ElScrollBehavior 作为全局滚动配置'),
         textGap,
