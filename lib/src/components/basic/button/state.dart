@@ -39,11 +39,21 @@ typedef _ColorStyle = ({
   Color? loadingTextColor
 });
 
+class ElLoadingBuilderState {
+  /// 按钮 loading 颜色
+  final Color color;
+
+  /// 按钮 loading 尺寸
+  final double size;
+
+  ElLoadingBuilderState({required this.color, required this.size});
+}
+
 class _ElButtonState extends State<ElButton> {
   late ElButtonStyle defaultStyle;
   late double buttonHeight;
+  late double iconSize;
   late bool disabled;
-  late BorderRadiusGeometry borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +61,8 @@ class _ElButtonState extends State<ElButton> {
     defaultStyle = context.elTheme.buttonStyle;
     buttonHeight =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
+    iconSize = widget.iconSize ?? buttonHeight / 2 - 2;
     disabled = widget.loading || widget.disabled;
-    borderRadius = widget.round || widget.circle
-        ? BorderRadius.circular(buttonHeight / 2)
-        : widget.borderRadius ??
-            defaultStyle.borderRadius ??
-            context.elConfig.radius;
 
     Widget result = buildEvent(
       builder: (context) => buildButtonWrapper(context),
@@ -146,7 +152,11 @@ class _ElButtonState extends State<ElButton> {
         decoration: BoxDecoration(
           color: colorStyle.bgColor,
           border: $border,
-          borderRadius: borderRadius,
+          borderRadius: widget.round || widget.circle
+              ? BorderRadius.circular(buttonHeight / 2)
+              : widget.borderRadius ??
+                  defaultStyle.borderRadius ??
+                  context.elConfig.radius,
         ),
         child: result,
       ),
@@ -166,7 +176,12 @@ class _ElButtonState extends State<ElButton> {
               child: Center(
                 child: buildIconTheme(
                   color: colorStyle.loadingTextColor,
-                  child: widget.loadingBuilder!(colorStyle.loadingTextColor!),
+                  child: widget.loadingBuilder!(
+                    ElLoadingBuilderState(
+                      color: colorStyle.loadingTextColor!,
+                      size: iconSize,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -178,13 +193,10 @@ class _ElButtonState extends State<ElButton> {
   }
 
   /// 构建默认的图标主题
-  Widget buildIconTheme({
-    required Widget child,
-    Color? color,
-  }) {
+  Widget buildIconTheme({required Widget child, Color? color}) {
     return ElIconTheme(
       color: color,
-      size: buttonHeight / 2 - 2,
+      size: iconSize,
       child: child,
     );
   }

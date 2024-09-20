@@ -2,8 +2,6 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import 'test.dart';
-
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -67,8 +65,8 @@ class NavPage extends ResponsivePage {
                 color: Colors.green,
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 50, vertical: 36),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 36),
                 child: Center(child: ElText('count: ${count.value}')),
               ),
             ),

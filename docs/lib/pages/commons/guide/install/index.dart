@@ -11,9 +11,9 @@ class InstallPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const SectionTitle('添加依赖'),
-      CodeExampleWidget.code(code: code1),
+      CodePreviewWidget(code: code1),
       const SectionTitle('编辑 main.dart'),
-      CodeExampleWidget.code(code: code2),
+      CodePreviewWidget(code: code2),
       titleGap,
       const SectionCard(title: 'Tip', content: [
         ElText([
@@ -27,9 +27,9 @@ class InstallPage extends ResponsivePage {
         ]),
       ]),
       const SectionTitle('安装 go_router 依赖'),
-      CodeExampleWidget.code(code: code3),
+      CodePreviewWidget(code: code3),
       const SectionTitle('修改 main.dart'),
-      CodeExampleWidget.code(code: code4),
+      CodePreviewWidget(code: code4),
     ];
   }
 }

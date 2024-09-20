@@ -5,7 +5,9 @@ int _loadingDuration = 3000;
 
 class Example6 extends StatelessWidget {
   const Example6({super.key, required this.title});
+
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -162,12 +164,12 @@ class _CustomLoading2 extends HookWidget {
         }.delay(_loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: (color) => SizedBox(
-        width: 16,
-        height: 16,
+      loadingBuilder: (state) => SizedBox(
+        width: state.size,
+        height: state.size,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: color,
+          color: state.color,
         ),
       ),
       type: 'primary',
@@ -242,12 +244,12 @@ class _CustomLoading5 extends HookWidget {
   }
 }
 
-var loadingBuilder = (color) => SizedBox(
-      width: 16,
-      height: 16,
+var loadingBuilder = (ElLoadingBuilderState state) => SizedBox(
+      width: state.size,
+      height: state.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: color,
+        color: state.color,
       ),
     );
 
@@ -263,21 +265,24 @@ ElButton(loading: true, type: 'primary', loadingWidget: const ElLoading(ElIcons.
 ElButton(
   loading: true,
   type: 'primary',
-  loadingBuilder: (color) => const ElText('加载中...'), 
+  loadingBuilder: (state) => const ElText('加载中...'), 
   child: '自定义加载内容',
 ),
 // 渲染官方提供的进度指示器
 ElButton(
   loading: true,
   type: 'primary',
-  loadingBuilder: (color) => SizedBox(
-    width: 16,
-    height: 16,
-    child: CircularProgressIndicator(
-      strokeWidth: 2,
-      color: color,
-    ),
-  ),
+  loadingBuilder: loadingBuilder,
   child: '自定义Loading',
 ),
+
+// 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用，此示例便是封装官方提供的 Material 加载指示器
+var loadingBuilder = (ElLoadingBuilderState state) => SizedBox(
+      width: state.size,
+      height: state.size,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color: state.color,
+      ),
+    );
 ''';

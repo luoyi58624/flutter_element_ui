@@ -26,6 +26,7 @@ class ElButton extends StatefulWidget {
     this.block = false,
     this.borderRadius,
     this.padding,
+    this.iconSize,
     this.leftIcon,
     this.rightIcon,
     this.circle = false,
@@ -83,11 +84,15 @@ class ElButton extends StatefulWidget {
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
 
+  /// 图标尺寸，默认根据按钮高度自动计算，当自定义各种尺寸按钮时自动计算出来的效果往往不是很好，
+  /// 这时你可以自己手动微调图标大小。
+  final double? iconSize;
+
   /// 按钮左图标，默认null
-  final ElIcon? leftIcon;
+  final Widget? leftIcon;
 
   /// 按钮右图标，默认null
-  final ElIcon? rightIcon;
+  final Widget? rightIcon;
 
   /// 圆形按钮，默认false
   final bool circle;
@@ -102,7 +107,7 @@ class ElButton extends StatefulWidget {
   final Widget loadingWidget;
 
   /// loading 构建器，它会隐藏按钮原有内容
-  final Widget Function(Color color)? loadingBuilder;
+  final Widget Function(ElLoadingBuilderState state)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

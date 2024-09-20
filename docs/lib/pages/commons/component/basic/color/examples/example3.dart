@@ -35,43 +35,25 @@ List<Color> colors = [
   Colors.cyan
 ];
 
-/// 主题色响应式变量，ValueNotifier 是官方提供的简易状态器
-final primaryColor = ValueNotifier(ElThemeData.theme.primary);
+var primaryColor = ElThemeData.theme.primary;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 当 primaryColor 发生变化时，将自动重建小部件
     return ElApp(
       theme: ElThemeData(
-        primary: primaryColor.value,
+        primary: primaryColor,
       ),
-      child: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Example'),
-      ),
-      body: Center(
-        child: ElButton(
-          onPressed: () {
-            colorIndex++;
-            primaryColor.value = colors[colorIndex % colors.length];
-            ElUtils.refreshApp();
-          },
-          type: 'primary',
-          child: 'Change Theme',
-        ),
+      child: ElButton(
+        onPressed: () {
+          colorIndex++;
+          primaryColor = colors[colorIndex % colors.length];
+          ElUtils.refreshApp();
+        },
+        type: 'primary',
+        child: 'Change Theme',
       ),
     );
   }
@@ -81,59 +63,36 @@ String get code => '''
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 
+void main() {
+  runApp(const MainApp());
+}
+
 int colorIndex = 0;
 
 List<Color> colors = [
   ElThemeData.theme.primary,
+  Colors.orange,
   Colors.purple,
   Colors.green,
-  Colors.cyan
 ];
 
-/// 主题色响应式变量，ValueNotifier 是官方提供的简易状态器
-final primaryColor = ValueNotifier(ElThemeData.theme.primary);
-
-void main() {
-  runApp(const MainApp());
-}
+var primaryColor = ElThemeData.theme.primary;
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 当 primaryColor 发生变化时，将自动重建小部件
-    return ValueListenableBuilder(
-      valueListenable: primaryColor,
-      builder: (context, value, _) {
-        return ElApp(
-          theme: ElThemeData(
-            primary: value,
-          ),
-          child: MaterialApp(
-            home: const HomePage(),
-            builder: ElApp.builder(),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Example'),
+    return ElApp(
+      theme: ElThemeData(
+        primary: primaryColor,
       ),
-      body: Center(
-        child: ElButton(
+      child: MaterialApp(
+        home: ElButton(
           onPressed: () {
             colorIndex++;
-            primaryColor.value = colors[colorIndex % colors.length];
+            primaryColor = colors[colorIndex % colors.length];
+            ElUtils.refreshApp();
           },
           type: 'primary',
           child: 'Change Theme',

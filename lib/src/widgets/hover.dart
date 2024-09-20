@@ -19,7 +19,7 @@ class ElHoverBuilder extends StatefulWidget {
 
   final WidgetBuilder builder;
 
-  /// 鼠标悬停光标样式，默认点击
+  /// 鼠标悬停光标样式
   final MouseCursor? cursor;
 
   /// 命中测试
