@@ -71,7 +71,7 @@ class Example1 extends StatelessWidget {
         const SectionTitle('主色'),
         const SectionText('Element UI 默认的主题色是明亮、友好的蓝色。'),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             buildPresetColors(context),

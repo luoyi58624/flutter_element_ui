@@ -21,7 +21,7 @@ class Example9 extends HookWidget {
           ],
         ),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             Wrap(

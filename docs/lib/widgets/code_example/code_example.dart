@@ -1,27 +1,23 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-class CodeExampleWidget extends HookWidget {
-  /// 代码示例小部件，
-  const CodeExampleWidget({
+class CodeExample extends HookWidget {
+  /// 代码示例小部件，适用于传统的上下布局结构，上方为组件演示预览，下方为折叠的代码示例
+  const CodeExample({
     super.key,
     required this.code,
     required this.children,
-    this.expanded = false,
   });
 
-  /// 示例代码字符串，代码展示效果基于第三方库：[syntax_highlight]
+  /// 示例代码字符串
   final String code;
 
-  /// 效果预览
+  /// 效果预览小部件
   final List<Widget> children;
-
-  /// 是否默认展开代码示例，默认false
-  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
-    final isExpanded = useState(expanded);
+    final isExpanded = useState(false);
 
     return ElHoverBuilder(builder: (context) {
       return RepaintBoundary(
@@ -30,8 +26,7 @@ class CodeExampleWidget extends HookWidget {
           shadowColor: Colors.black38,
           margin: EdgeInsets.zero,
           // color: context.elTheme.colors.bg,
-          child: AnimatedContainer(
-            duration: context.elConfig.themeDuration,
+          child: Container(
             decoration: BoxDecoration(
               borderRadius: context.elTheme.cardStyle.radius,
               border: Border.all(
@@ -54,7 +49,7 @@ class CodeExampleWidget extends HookWidget {
                 _PreviewButton(isExpanded, context.isHover),
                 ElCollapseTransition(
                   isExpanded.value,
-                  child: CodePreviewWidget(
+                  child: CodePreview(
                     code: code,
                     borderRadius: BorderRadius.only(
                       bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,

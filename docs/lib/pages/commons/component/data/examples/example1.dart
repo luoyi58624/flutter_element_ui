@@ -25,7 +25,7 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('折叠动画'),
-        CodeExampleWidget(
+        CodeExample(
           code: code1,
           children: [
             ElButton(

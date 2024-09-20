@@ -11,7 +11,7 @@ class Example2 extends HookWidget {
       children: [
         const SectionTitle('使用 IOS 滚动条'),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: const [
             SizedBox(

@@ -10,7 +10,7 @@ class Example2 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('使用 IOS 滚动条'),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: const [
             SizedBox(

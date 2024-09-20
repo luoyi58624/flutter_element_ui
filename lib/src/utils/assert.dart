@@ -1,7 +1,7 @@
 import '../service.dart';
 
 abstract class ElAssert {
-  /// Element UI 内部错误
+  /// Element UI 内部错误，这不是用来描述用户引发的错误，而是用来对某些代码期望值添加的一层防护措施。
   static String elementError(String message) {
     return 'Element UI 内部错误: $message';
   }

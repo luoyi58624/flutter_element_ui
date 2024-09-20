@@ -16,7 +16,7 @@ class ElUtils {
     }
   }
 
-  /// 刷新整个应用，效果相当于热更新
+  /// 刷新整个应用
   static void refreshApp() {
     WidgetsBinding.instance.reassembleApplication();
   }

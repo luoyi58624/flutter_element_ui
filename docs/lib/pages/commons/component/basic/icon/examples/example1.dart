@@ -12,7 +12,7 @@ class Example1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('使用方法'),
-        CodeExampleWidget(
+        CodeExample(
           code: code1,
           children: const [
             Wrap(

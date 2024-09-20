@@ -11,7 +11,7 @@ class Example2 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('文本内容动画尺寸填充'),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             ElInput(username),

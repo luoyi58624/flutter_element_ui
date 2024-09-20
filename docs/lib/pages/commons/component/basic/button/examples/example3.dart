@@ -19,7 +19,7 @@ class Example3 extends StatelessWidget {
           content: ['链接按钮的外观与普通文字完全一样，你可以搭配 ElLink 一起使用'],
         ),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             Wrap(

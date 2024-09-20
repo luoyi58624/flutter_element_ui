@@ -13,7 +13,7 @@ class Example1 extends HookWidget {
         const SectionText(
             '下面这个示例仅供参考，通常情况下你不需要手动添加滚动条，因为 ElApp 默认使用 ElScrollBehavior 作为全局滚动配置'),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: const [
             SizedBox(

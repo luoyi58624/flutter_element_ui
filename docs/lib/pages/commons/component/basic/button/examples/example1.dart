@@ -26,7 +26,7 @@ class Example1 extends StatelessWidget {
           }),
         ),
         const Gap(8),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             Wrap(

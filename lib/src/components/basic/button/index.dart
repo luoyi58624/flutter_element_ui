@@ -45,7 +45,12 @@ class ElButton extends StatefulWidget {
   /// * 如果是[Widget]，则直接渲染
   final dynamic child;
 
-  /// 指定按钮宽度，如果[block]或[circle]为true，那么将失效
+  /// 指定按钮宽度，按钮的宽度受很多因素影响，具体表现有以下几种情况（按优先级排序）：
+  /// * [block]，它会解除按钮约束，通常情况下按钮将充满整个空间，这取决于父级约束条件
+  /// * [link]，按钮宽度、高度、内边距全部清空，和普通文字无异
+  /// * [circle]，按钮宽度强制等于高度，因为此时按钮是圆形
+  /// * [width]，这一步用户指定的宽度将生效
+  /// * 最后一步：如果 [child] 是 [ElIcon]，那么 width = height * 1.25，否则最小宽度为 64 像素
   final double? width;
 
   /// 按钮高度，默认36
@@ -103,7 +108,9 @@ class ElButton extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
-  /// loading 图标，在左侧显示，如果 [leftIcon] 不为空，则 [leftIcon] 将被替换成 loading
+  /// loading 图标，开启 loading 时将在左侧显示。
+  /// * 如果 [leftIcon] 不为空，则 [leftIcon] 将被替换成 loading
+  /// * 如果是单纯的图标按钮，我们希望替换原有的图标，那么你应当使用 [loadingBuilder] 构建器
   final Widget loadingWidget;
 
   /// loading 构建器，它会隐藏按钮原有内容

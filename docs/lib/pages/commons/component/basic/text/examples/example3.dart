@@ -20,7 +20,7 @@ class Example3 extends StatelessWidget {
           ),
         ]),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: const [
             H1('一级标题 (H1)'),

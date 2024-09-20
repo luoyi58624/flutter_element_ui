@@ -12,12 +12,14 @@ class Example2 extends StatelessWidget {
         const SectionTitle('辅助色'),
         const SectionText('除了主颜色外，您需要在不同的场景中使用不同的场景颜色 (例如，危险的颜色表示危险的操作)'),
         textGap,
-        CodeExampleWidget(
+        FlatCodeExample(
           code: code,
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [
                   ...el.themeTypes.whereIndexed((i, v) => i != 0).map(
                         (e) => buildThemeColor(context, e, context.elThemeColors[e]!),
@@ -25,7 +27,7 @@ class Example2 extends StatelessWidget {
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ],
     );
@@ -34,7 +36,7 @@ class Example2 extends StatelessWidget {
   Widget buildThemeColor(BuildContext context, String title, Color themeColor) {
     return Container(
       constraints: const BoxConstraints(
-        maxWidth: 200,
+        maxWidth: 160,
       ),
       margin: const EdgeInsets.only(right: 8.0),
       decoration: BoxDecoration(
@@ -46,7 +48,7 @@ class Example2 extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            height: 100,
+            height: 75,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 16),
             decoration: BoxDecoration(

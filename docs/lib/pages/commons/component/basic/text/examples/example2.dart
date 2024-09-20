@@ -10,7 +10,7 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('富文本'),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: const [
             ElText([

@@ -40,10 +40,10 @@ typedef _ColorStyle = ({
 });
 
 class ElLoadingBuilderState {
-  /// 按钮 loading 颜色
+  /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
   final Color color;
 
-  /// 按钮 loading 尺寸
+  /// 按钮 loading 尺寸，它的大小和按钮图标一致
   final double size;
 
   ElLoadingBuilderState({required this.color, required this.size});
@@ -123,9 +123,8 @@ class _ElButtonState extends State<ElButton> {
             minHeight: buttonHeight,
             minWidth: (widget.circle
                 ? buttonHeight
-                : widget.child is ElIcon
-                    ? buttonHeight * 1.25
-                    : widget.width ?? _minWidth),
+                : widget.width ??
+                    (widget.child is ElIcon ? buttonHeight * 1.25 : _minWidth)),
           );
 
     Widget result = Center(

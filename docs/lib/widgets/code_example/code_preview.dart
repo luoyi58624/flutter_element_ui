@@ -12,19 +12,27 @@ Highlighter? _lightCode;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
-class CodePreviewWidget extends HookWidget {
+class CodePreview extends HookWidget {
   /// 示例代码预览小部件，展示效果基于第三方库：[syntax_highlight]
-  const CodePreviewWidget({
+  const CodePreview({
     super.key,
     required this.code,
+    this.height,
     this.borderRadius,
   });
 
   /// 示例代码字符串
   final String code;
 
-  /// 自定义预览边框圆角
+  final double? height;
   final BorderRadiusGeometry? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    final $code = useState<TextSpan>(const TextSpan());
+    initCodeStyle(context, $code);
+    return buildCodePreview($code);
+  }
 
   /// 初始化预览代码样式，全局只加载一次
   void initCodeStyle(BuildContext context, $code) {
@@ -65,13 +73,6 @@ class CodePreviewWidget extends HookWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final $code = useState<TextSpan>(const TextSpan());
-    initCodeStyle(context, $code);
-    return buildCodePreview($code);
-  }
-
   /// 构建预览代码块
   Widget buildCodePreview($code) {
     return ElHoverBuilder(builder: (context) {
@@ -81,52 +82,44 @@ class CodePreviewWidget extends HookWidget {
           .deepen(3);
       return Stack(
         children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-                // 固定最大高度在桌面端滚动体验不太好，暂时隐藏
-                // maxHeight: 500,
-                ),
-            child: TextSelectionTheme(
-              data: TextSelectionThemeData(
-                selectionColor: $bgColor.isDark
-                    ? Colors.blueAccent.withOpacity(0.5)
-                    : Colors.blue.withOpacity(0.36),
+          TextSelectionTheme(
+            data: TextSelectionThemeData(
+              selectionColor: $bgColor.isDark
+                  ? Colors.blueAccent.withOpacity(0.5)
+                  : Colors.blue.withOpacity(0.36),
+            ),
+            child: AnimatedContainer(
+              duration: context.elConfig.themeDuration,
+              width: double.infinity,
+              height: height,
+              decoration: BoxDecoration(
+                color: $bgColor,
+                borderRadius: borderRadius ?? context.elTheme.cardStyle.radius,
               ),
               child: SingleChildScrollView(
-                child: AnimatedContainer(
-                  duration: context.elConfig.themeDuration,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: $bgColor,
-                    borderRadius:
-                        borderRadius ?? context.elTheme.cardStyle.radius,
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ObsBuilder(builder: (context) {
-                      Widget result = Container(
-                        padding: const EdgeInsets.all(16),
-                        child: ElText(
-                          $code.value,
-                          softWrap: false,
-                          style: const TextStyle(
-                            fontFamily: MyFonts.consolas,
-                            fontSize: 14,
-                            height: 1.5,
-                          ),
-                        ),
-                      );
-                      if (GlobalState.enableGlobalTextSelected.value) {
-                        if (RouterState.isMobile.value == true) {
-                          return SelectionArea(child: result);
-                        }
-                        return result;
-                      } else {
-                        return SelectionArea(child: result);
-                      }
-                    }),
-                  ),
-                ),
+                scrollDirection: Axis.horizontal,
+                child: ObsBuilder(builder: (context) {
+                  Widget result = Container(
+                    padding: const EdgeInsets.all(16),
+                    child: ElText(
+                      $code.value,
+                      softWrap: false,
+                      style: const TextStyle(
+                        fontFamily: MyFonts.consolas,
+                        fontSize: 14,
+                        height: 1.5,
+                      ),
+                    ),
+                  );
+                  if (GlobalState.enableGlobalTextSelected.value) {
+                    if (RouterState.isMobile.value == true) {
+                      return SelectionArea(child: result);
+                    }
+                    return result;
+                  } else {
+                    return SelectionArea(child: result);
+                  }
+                }),
               ),
             ),
           ),

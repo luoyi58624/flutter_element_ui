@@ -14,7 +14,7 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        CodeExampleWidget(
+        CodeExample(
           code: code1,
           children: [
             Wrap(
@@ -50,7 +50,7 @@ class Example2 extends StatelessWidget {
           ],
         ),
         // const Gap(8),
-        // CodeExampleWidget(
+        // CodeExample(
         //   code: code2,
         //   children: [
         //     buildWrap(

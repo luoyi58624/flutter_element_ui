@@ -10,7 +10,7 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('基础用法'),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             const SingleChildScrollView(

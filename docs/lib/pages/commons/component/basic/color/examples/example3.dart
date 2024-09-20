@@ -10,16 +10,12 @@ class Example3 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('动态全局主题色'),
-        const SectionText('下面代码以最简单的方式展示如何更新全局主题，你可以直接复制到 main.dart 中运行'),
+        const SectionText('下面代码以最简单的方式展示如何更新全局主题'),
         textGap,
-        CodeExampleWidget(
+        FlatCodeExample(
           code: code,
-          children: const [
-            SizedBox(
-              height: 300,
-              child: MainApp(),
-            ),
-          ],
+          noBorderRadius: true,
+          child: const MainApp(),
         ),
       ],
     );
@@ -30,9 +26,9 @@ int colorIndex = 0;
 
 List<Color> colors = [
   ElThemeData.theme.primary,
+  Colors.orange,
   Colors.purple,
   Colors.green,
-  Colors.cyan
 ];
 
 var primaryColor = ElThemeData.theme.primary;
@@ -46,14 +42,21 @@ class MainApp extends StatelessWidget {
       theme: ElThemeData(
         primary: primaryColor,
       ),
-      child: ElButton(
-        onPressed: () {
-          colorIndex++;
-          primaryColor = colors[colorIndex % colors.length];
-          ElUtils.refreshApp();
-        },
-        type: 'primary',
-        child: 'Change Theme',
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Example'),
+        ),
+        body: Center(
+          child: ElButton(
+            onPressed: () {
+              colorIndex++;
+              primaryColor = colors[colorIndex % colors.length];
+              ElUtils.refreshApp(); // 刷新应用状态，正常情况下你应当使用状态管理
+            },
+            type: 'primary',
+            child: 'Change Theme',
+          ),
+        ),
       ),
     );
   }
@@ -88,14 +91,21 @@ class MainApp extends StatelessWidget {
         primary: primaryColor,
       ),
       child: MaterialApp(
-        home: ElButton(
-          onPressed: () {
-            colorIndex++;
-            primaryColor = colors[colorIndex % colors.length];
-            ElUtils.refreshApp();
-          },
-          type: 'primary',
-          child: 'Change Theme',
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Example'),
+          ),
+          body: Center(
+            child: ElButton(
+              onPressed: () {
+                colorIndex++;
+                primaryColor = colors[colorIndex % colors.length];
+                ElUtils.refreshApp(); // 刷新应用状态，正常情况下你应当使用状态管理
+              },
+              type: 'primary',
+              child: 'Change Theme',
+            ),
+          ),
         ),
       ),
     );

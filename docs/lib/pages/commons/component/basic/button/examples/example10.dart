@@ -15,7 +15,7 @@ class Example10 extends StatelessWidget {
           content: ['拆分按钮是具有主要操作和次要操作的按钮，主要用于打开菜单'],
         ),
         textGap,
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             Wrap(

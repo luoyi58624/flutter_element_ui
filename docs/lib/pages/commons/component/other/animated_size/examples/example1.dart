@@ -11,7 +11,7 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionTitle('基本使用'),
-        CodeExampleWidget(
+        CodeExample(
           code: code,
           children: [
             ElSwitch(flag),

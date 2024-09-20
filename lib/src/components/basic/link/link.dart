@@ -64,8 +64,23 @@ class _LinkInheritedWidget extends InheritedWidget {
 class ElLink extends StatelessWidget {
   /// 超链接小部件，链接跳转基于 [url_launcher] 第三方库，当鼠标悬停时会在左下角显示链接地址。
   ///
-  /// 提示：[url_launcher] 提供的 [Link] 小部件可以渲染成原生 A 标签，但因为可定制太少所以没有将其作为内部实现，
-  /// 如果你想让链接更接近原生，可以尝试使用它。
+  /// 提示：[url_launcher] 提供的 [Link] 小部件可以渲染成原生 A 标签，如果你想让链接更接近原生，可以尝试使用它：
+  /// ```
+  /// Link(
+  ///  uri: Uri.parse('https://flutter.cn/'),
+  ///  builder: (context, open) => ElButton(
+  ///    onPressed: () {
+  ///      open!();
+  ///    },
+  ///    type: 'primary',
+  ///    child: '链接',
+  ///  ),
+  /// ),
+  /// ```
+  // 我尝试过将其作为内部实现，但它完全没有任何定制性，同时对性能有一定的影响，官网描述得也很清楚，
+  // 嵌入 HTML 是一种潜在的昂贵操作：https://api.flutter.dev/flutter/widgets/HtmlElementView-class.html，
+  // docs 文档的侧边栏列表渲染大量超链接导致跳转页面变得很不跟手，究其原因还是 html 渲染器本身性能就很低，
+  // 所以我最终还是弃用它的实现。
   const ElLink({
     super.key,
     required this.child,
