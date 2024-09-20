@@ -45,20 +45,32 @@ class NavPage extends ResponsivePage {
         onPressed: () {
           count.value++;
         },
+        width: 300,
+        height: 300,
+        circle: true,
+        type: 'primary',
         child: ElText('count: ${count.value}'),
       ),
       const Gap(8),
-      ClipRRect(
-        borderRadius: BorderRadius.circular(50),
+      GestureDetector(
+        onTap: () {
+          count.value++;
+        },
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
-          child: Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(50),
+          child: UnconstrainedBox(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                border: Border.all(color: Colors.red),
+                color: Colors.green,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 50, vertical: 36),
+                child: Center(child: ElText('count: ${count.value}')),
+              ),
             ),
           ),
         ),

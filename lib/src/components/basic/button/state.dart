@@ -44,7 +44,6 @@ class _ElButtonState extends State<ElButton> {
   late double buttonHeight;
   late bool disabled;
   late BorderRadiusGeometry borderRadius;
-  late _ColorStyle _colorStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -63,19 +62,14 @@ class _ElButtonState extends State<ElButton> {
       builder: (context) => buildButtonWrapper(context),
     );
 
-    result = widget.block && !widget.circle
+    return widget.block && !widget.circle
         ? result
         : UnconstrainedBox(child: result);
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: result,
-    );
   }
 
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
     return ElTapBuilder(
-      hitTestBehavior: HitTestBehavior.deferToChild,
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
       },
@@ -101,7 +95,11 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context) {
-    _colorStyle = calcColor(context);
+    final colorStyle = calcColorStyle(context);
+
+    final $border = colorStyle.borderColor == null
+        ? const Border()
+        : Border.all(color: colorStyle.borderColor!, width: 1);
 
     final $horizontalPadding = buttonHeight / 2;
 
@@ -138,36 +136,24 @@ class _ElButtonState extends State<ElButton> {
       result = ConstrainedBox(constraints: $constraints, child: result);
     }
 
-    if (_colorStyle.borderColor != null) {
-      result = ElAnimatedDecoratedBox(
+    result = ElDefaultTextStyle.merge(
+      style: _defaultTextStyle.copyWith(
+        color: colorStyle.textColor,
+      ),
+      child: ElAnimatedDecoratedBox(
         duration:
             context.elThemeDuration ?? const Duration(milliseconds: _duration),
         decoration: BoxDecoration(
-          border: Border.all(color: _colorStyle.borderColor!, width: 1),
+          color: colorStyle.bgColor,
+          border: $border,
           borderRadius: borderRadius,
         ),
         child: result,
-      );
-    }
-
-    if (_colorStyle.bgColor != null) {
-      result = ElAnimatedColoredBox(
-        duration:
-            context.elThemeDuration ?? const Duration(milliseconds: _duration),
-        color: _colorStyle.bgColor!,
-        child: result,
-      );
-    }
-
-    result = ElDefaultTextStyle.merge(
-      style: _defaultTextStyle.copyWith(
-        color: _colorStyle.textColor,
       ),
-      child: result,
     );
 
     if (widget.loadingBuilder != null && widget.loading) {
-      assert(_colorStyle.loadingTextColor != null,
+      assert(colorStyle.loadingTextColor != null,
           ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
       result = Stack(
         children: [
@@ -175,12 +161,12 @@ class _ElButtonState extends State<ElButton> {
           Positioned.fill(
             child: ElDefaultTextStyle.merge(
               style: _defaultTextStyle.copyWith(
-                color: _colorStyle.loadingTextColor,
+                color: colorStyle.loadingTextColor,
               ),
               child: Center(
                 child: buildIconTheme(
-                  color: _colorStyle.loadingTextColor,
-                  child: widget.loadingBuilder!(_colorStyle.loadingTextColor!),
+                  color: colorStyle.loadingTextColor,
+                  child: widget.loadingBuilder!(colorStyle.loadingTextColor!),
                 ),
               ),
             ),
@@ -259,7 +245,8 @@ class _ElButtonState extends State<ElButton> {
     return $child;
   }
 
-  _ColorStyle calcColor(BuildContext context) {
+  /// 计算按钮颜色样式
+  _ColorStyle calcColorStyle(BuildContext context) {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.colors.border;
     final $isDark = context.isDark;

@@ -17,7 +17,7 @@ class InstallPage extends ResponsivePage {
       titleGap,
       const SectionCard(title: 'Tip', content: [
         ElText([
-          '如果你开发 PC 应用，请使用声明式路由构建应用，相比命令式路由最大的优点在于它支持完善的导航历史功能，'
+          '如果你开发桌面应用，请使用声明式路由构建应用，相比命令式路由最大的优点在于它支持完善的导航历史功能，'
               '这里推荐使用官方提供的 ',
           ElLink(
             href: 'https://pub.dev/packages/go_router',
@@ -30,10 +30,6 @@ class InstallPage extends ResponsivePage {
       CodeExampleWidget.code(code: code3),
       const SectionTitle('修改 main.dart'),
       CodeExampleWidget.code(code: code4),
-      textGap,
-      const SectionCard(type: 'success', title: 'Tip', content: [
-        'Flutter 相比 Web 最大的优点就是查阅源码极为方便，所以此文档的作用也仅限于让用户快速上手、查看效果演示。',
-      ]),
     ];
   }
 }
