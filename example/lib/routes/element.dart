@@ -15,7 +15,6 @@ import '../pages/element/pages/feedback/tooltip.dart';
 import '../pages/element/pages/form/input.dart';
 import '../pages/element/pages/form/input_number.dart';
 import '../pages/element/pages/form/radio.dart';
-import '../pages/element/pages/form/switch.dart';
 import '../pages/element/pages/layout/basic.dart';
 import '../pages/element/pages/layout/overlay.dart';
 import '../pages/element/pages/navigation/menu.dart';
@@ -73,14 +72,6 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.form}/radio',
             builder: (context, state) => const RadioPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.form}/switch',
-            builder: (context, state) => const SwitchPage(),
           ),
         ],
       ),

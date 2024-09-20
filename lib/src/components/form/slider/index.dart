@@ -5,60 +5,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-class ElSlider extends HookWidget {
+import '../../../widgets/model_value.dart';
+
+part 'state.dart';
+
+class ElSlider extends ElModelValue<double> {
   const ElSlider(
-    this.modelValue, {
+    super.modelValue, {
     super.key,
-    this.sliderSize = 18,
+    super.onChanged,
+    this.min = 0.0,
+    this.max = 100.0,
+    this.height = 18,
+    this.sliderSize = 8,
     this.thumbSize = 4,
   });
 
-  final ValueNotifier<double> modelValue;
+  /// 滑块最小值，默认 0
+  final double min;
 
-  /// 整体滑块尺寸
+  /// 滑块最小值，默认 100
+  final double max;
+
+  /// 滑块高度
+  final double height;
+
+  /// 滑块尺寸
   final double sliderSize;
 
-  /// 滑块轨道尺寸
+  /// 轨道尺寸
   final double thumbSize;
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          height: sliderSize,
-          child: Center(
-            child: Container(
-              height: thumbSize,
-              color: context.elTheme.sliderStyle.inactiveColor,
-            ),
-          ),
-        ),
-        ObsBuilder(builder: (context) {
-          return Positioned(
-            left: max(modelValue.value, 0),
-            child: GestureDetector(
-              onHorizontalDragUpdate: (e) {
-                modelValue.value += e.delta.dx;
-              },
-              onHorizontalDragEnd: (e) {
-                modelValue.value = max(modelValue.value, 0);
-              },
-              child: Container(
-                width: sliderSize,
-                height: sliderSize,
-                decoration: BoxDecoration(
-                  color: context.elTheme.sliderStyle.activeColor ??
-                      context.elTheme.primary,
-                  borderRadius: BorderRadius.circular(sliderSize / 2),
-                ),
-              ),
-            ),
-          );
-        }),
-      ],
-    );
-  }
+  State<ElSlider> createState() => _ElSliderState();
 }
 
 class ElSlider2 extends LeafRenderObjectWidget {

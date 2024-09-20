@@ -73,7 +73,9 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
             },
       child: ElHoverBuilder(
         disabled: widget.disabled,
-        cursor: SystemMouseCursors.click,
+        cursor: widget.disabled
+            ? SystemMouseCursors.forbidden
+            : SystemMouseCursors.click,
         builder: (context) {
           return AnimatedContainer(
             duration: context.elThemeDuration ?? _duration,

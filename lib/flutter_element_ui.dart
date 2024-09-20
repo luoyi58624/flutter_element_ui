@@ -38,7 +38,7 @@ export 'src/components/form/radio.dart';
 export 'src/components/form/input/input.dart';
 export 'src/components/form/input_number.dart';
 export 'src/components/form/switch/index.dart';
-export 'src/components/form/slider.dart';
+export 'src/components/form/slider/index.dart';
 
 export 'src/components/layout/body.dart';
 export 'src/components/layout/layout.dart';

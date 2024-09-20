@@ -9,6 +9,7 @@ import '../../pages/commons/component/basic/text/index.dart';
 import '../../pages/commons/component/data/index.dart';
 import '../../pages/commons/component/feedback/message/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
+import '../../pages/commons/component/form/slider/index.dart';
 import '../../pages/commons/component/form/switch/index.dart';
 import '../../pages/commons/component/other/animated_size/index.dart';
 import '../../pages/commons/overview/cupertino/index.dart';
@@ -109,7 +110,7 @@ List<RouteBase> buildComponentRoutes(String path) {
     ),
     RouterUtil.buildRoute(
       path: '${path}slider',
-      builder: (context, state) => const NotFoundPage(),
+      builder: (context, state) => const SliderPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}switch',

@@ -16,11 +16,11 @@ class _FontTestPageState extends State<FontTestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: ObsBuilder(builder: (context) {
-          return Text('动态字体 - ${FontUtil.fontFamily ?? '系统字体'}');
-        }),
-      ),
+      // appBar: AppBar(
+      //   title: ObsBuilder(builder: (context) {
+      //     return Text('动态字体 - ${FontUtil.fontFamily ?? '系统字体'}');
+      //   }),
+      // ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -37,7 +37,7 @@ class _FontTestPageState extends State<FontTestPage> {
                 onPressed: loading
                     ? null
                     : () {
-                        FontUtil.loadFont();
+                        // FontUtil.loadFont();
                       },
                 child: const Text('加载系统字体'),
               ),
@@ -45,8 +45,8 @@ class _FontTestPageState extends State<FontTestPage> {
                 onPressed: loading
                     ? null
                     : () async {
-                        await FontUtil.loadFont(FontPreset.initialFont);
-                        debugPrint(FontUtil.fontFamily);
+                        // await FontUtil.loadFont(FontPreset.initialFont);
+                        // debugPrint(FontUtil.fontFamily);
                       },
                 child: const Text('加载初始化字体'),
               ),
@@ -57,11 +57,11 @@ class _FontTestPageState extends State<FontTestPage> {
                         setState(() {
                           loading = true;
                         });
-                        await FontUtil.loadFont(GoogleFonts.notoSansSc([
-                          FontWeight.normal,
-                          FontWeight.w500,
-                          FontWeight.bold
-                        ]));
+                        // await FontUtil.loadFont(GoogleFonts.notoSansSc([
+                        //   FontWeight.normal,
+                        //   FontWeight.w500,
+                        //   FontWeight.bold
+                        // ]));
                         setState(() {
                           loading = false;
                         });
