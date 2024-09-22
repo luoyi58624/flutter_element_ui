@@ -1,8 +1,8 @@
 part of 'index.dart';
 
-abstract class ElBaseSlider extends StatelessWidget {
-  /// Slider 滑块抽象类
-  const ElBaseSlider({
+abstract class ElBaseThumb extends StatelessWidget {
+  /// Element UI 滑块按钮抽象类
+  const ElBaseThumb({
     super.key,
     required this.size,
   });
@@ -15,9 +15,9 @@ abstract class ElBaseSlider extends StatelessWidget {
       _SlideInheritedWidget.of(context).state;
 }
 
-class ElDefaultSlider extends ElBaseSlider {
-  /// Element UI 默认样式 slider 滑块
-  const ElDefaultSlider({
+class ElDefaultThumb extends ElBaseThumb {
+  /// Element UI 默认样式按钮
+  const ElDefaultThumb({
     super.key,
     super.size = 20,
     this.color = Colors.white,

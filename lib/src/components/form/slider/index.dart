@@ -18,7 +18,7 @@ class ElSlider extends ElModelValue<double> {
     super.modelValue, {
     super.key,
     super.onChanged,
-    this.sliderWidget = const ElDefaultSlider(),
+    this.thumbWidget = const ElDefaultThumb(),
     this.min = 0.0,
     this.max = 100.0,
     this.sliderSize = 8,
@@ -30,7 +30,7 @@ class ElSlider extends ElModelValue<double> {
   });
 
   /// Slider 滑块小部件，你可以继承 [ElBaseSlider] 实现自定义 Slider 样式
-  final ElBaseSlider sliderWidget;
+  final ElBaseThumb thumbWidget;
 
   /// 滑块最小值，默认 0
   final double min;

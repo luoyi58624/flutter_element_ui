@@ -57,6 +57,7 @@ class _Example2 extends HookWidget {
         Slider(
           value: progress.value,
           max: 100,
+          thumbColor: Colors.red,
           onChanged: (v) => progress.value = v,
         ),
       ],

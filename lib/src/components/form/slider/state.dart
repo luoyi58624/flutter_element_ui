@@ -105,7 +105,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
                 widget.activeThumbSize) /
             2);
     _trackPadding = EdgeInsets.symmetric(
-      horizontal: widget.sliderWidget.size / 2,
+      horizontal: widget.thumbWidget.size / 2,
     );
     if (isDrag) {
       el.cursor.set(widget.cursor ?? ElCursorUtil.grabbing);
@@ -114,7 +114,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     }
     return RepaintBoundary(
       child: LayoutBuilder(builder: (context, constraints) {
-        double $sliderSize = constraints.maxWidth - widget.sliderWidget.size;
+        double $sliderSize = constraints.maxWidth - widget.thumbWidget.size;
         if (_maxDragSize == null) {
           _maxDragSize = $sliderSize;
         } else if ($sliderSize != _maxDragSize) {
@@ -126,7 +126,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           children: [
             buildTrack(),
             buildPrimaryTrack(),
-            buildSlider(),
+            buildThumb(),
           ],
         );
       }),
@@ -136,7 +136,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   /// 构建 Slider 轨道
   Widget buildTrack() {
     return SizedBox(
-      height: widget.sliderWidget.size,
+      height: widget.thumbWidget.size,
       child: Center(
         child: Padding(
           padding: _trackPadding,
@@ -183,7 +183,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     return Positioned(
       child: IgnorePointer(
         child: SizedBox(
-          height: widget.sliderWidget.size,
+          height: widget.thumbWidget.size,
           child: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -204,7 +204,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   }
 
   /// 构建 Slider 滑块按钮
-  Widget buildSlider() {
+  Widget buildThumb() {
     return Positioned(
       left: sliderValue,
       child: GestureDetector(
@@ -235,7 +235,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
                 ElSliderState(
                   isDrag: isDrag,
                 ),
-                child: widget.sliderWidget,
+                child: widget.thumbWidget,
               );
             }),
       ),
