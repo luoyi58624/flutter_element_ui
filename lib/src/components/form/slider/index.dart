@@ -26,6 +26,7 @@ class ElSlider extends ElModelValue<double> {
     this.hoverThumbSize = 6,
     this.activeThumbSize = 6,
     this.disabledThumbRadius = false,
+    this.cursor,
   });
 
   /// Slider 滑块小部件，你可以继承 [ElBaseSlider] 实现自定义 Slider 样式
@@ -52,12 +53,14 @@ class ElSlider extends ElModelValue<double> {
   /// 是否禁用轨道圆角，默认 false
   final bool disabledThumbRadius;
 
+  /// 自定义光标样式
+  final MouseCursor? cursor;
+
   @override
   State<ElSlider> createState() => _ElSliderState();
 }
 
 class ElSliderState {
-
   /// 是否开始拖拽
   final bool isDrag;
 

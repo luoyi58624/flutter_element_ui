@@ -12,6 +12,7 @@ class SliderPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
+      textGap,
       ElButton(
         onPressed: () {
           context.push(const _ElSliderPage());
@@ -45,7 +46,7 @@ class _ElSliderPage extends HookWidget {
                 ),
                 child: Column(
                   children: List.generate(
-                      500,
+                      100,
                       (index) => Padding(
                             padding: const EdgeInsets.only(bottom: 18.0),
                             child: Row(
@@ -64,7 +65,7 @@ class _ElSliderPage extends HookWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: List.generate(
-                  500,
+                  100,
                   (index) => Row(
                     children: [
                       ElText('${index + 1}'),

@@ -37,30 +37,22 @@ class ElDefaultSlider extends ElBaseSlider {
   @override
   Widget build(BuildContext context) {
     final $data = of(context);
-    return ElTapBuilder(builder: (context) {
-      return ElHoverBuilder(
-          cursor: $data.isDrag || context.isTap
-              ? ElCursorUtil.grabbing
-              : ElCursorUtil.grab,
-          builder: (context) {
-            return AnimatedScale(
-              duration: const Duration(milliseconds: 100),
-              scale: $data.isDrag || context.isHover ? 1.2 : 1.0,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(size / 2),
-                  border: Border.all(
-                    width: ringSize,
-                    color: ringColor ?? context.elTheme.primary,
-                  ),
-                ),
-              ),
-            );
-          });
-    });
+    return AnimatedScale(
+      duration: const Duration(milliseconds: 100),
+      scale: $data.isDrag || context.isHover ? 1.2 : 1.0,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(size / 2),
+          border: Border.all(
+            width: ringSize,
+            color: ringColor ?? context.elTheme.primary,
+          ),
+        ),
+      ),
+    );
   }
 }

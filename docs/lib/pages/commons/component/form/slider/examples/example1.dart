@@ -18,8 +18,11 @@ class Example1 extends StatelessWidget {
         CodeExample(
           code: code,
           children: const [
-            _SliderExample(),
-            _SliderExample2(),
+            _Example(),
+            Gap(16),
+            _Example2(),
+            Gap(16),
+            _Example3(),
           ],
         ),
       ],
@@ -27,8 +30,8 @@ class Example1 extends StatelessWidget {
   }
 }
 
-class _SliderExample extends HookWidget {
-  const _SliderExample();
+class _Example extends HookWidget {
+  const _Example();
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +39,14 @@ class _SliderExample extends HookWidget {
     return Column(
       children: [
         ElText(progress.value.toString()),
-        ElSlider(
-          progress,
-          max: 30,
-        ),
+        ElSlider(progress),
       ],
     );
   }
 }
 
-class _SliderExample2 extends HookWidget {
-  const _SliderExample2();
+class _Example2 extends HookWidget {
+  const _Example2();
 
   @override
   Widget build(BuildContext context) {
@@ -64,22 +64,36 @@ class _SliderExample2 extends HookWidget {
   }
 }
 
-String get code => '''
-class _SwitchExample extends HookWidget {
-  const _SwitchExample();
+class _Example3 extends HookWidget {
+  const _Example3();
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    final progress = useState(0.0);
+    return Column(
       children: [
-        ElSwitch(flag),
-        Switch(value: flag.value, onChanged: (v) => flag.value = v),
-        CupertinoSwitch(value: flag.value, onChanged: (v) => flag.value = v),
-        ElSwitch(flag.value, onChanged: (v) => flag.value = v),
+        ElText(progress.value.toString()),
+        CupertinoSlider(
+          value: progress.value,
+          max: 100,
+          onChanged: (v) => progress.value = v,
+        ),
+      ],
+    );
+  }
+}
+
+String get code => '''
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = useState(0.0);
+    return Column(
+      children: [
+        ElText(progress.value.toString()),
+        ElSlider(progress),
       ],
     );
   }

@@ -58,8 +58,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   }
 
   void _startDrag() {
-    el.globalCursor.setCursor(
-        isDrag || context.isTap ? ElCursorUtil.grabbing : ElCursorUtil.grab);
+    el.cursor.set(widget.cursor ?? ElCursorUtil.grabbing);
     isDrag = true;
   }
 
@@ -78,14 +77,14 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     setState(() {
       isDrag = false;
     });
-    el.globalCursor.resetCursor();
+    el.cursor.remove();
   }
 
   void cancelDrag() {
     setState(() {
       isDrag = false;
     });
-    el.globalCursor.resetCursor();
+    el.cursor.remove();
   }
 
   double _calcSliderValue() {
@@ -227,12 +226,16 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
             : () {
                 cancelDrag();
               },
-        child: _SlideInheritedWidget(
-          ElSliderState(
-            isDrag: isDrag,
-          ),
-          child: widget.sliderWidget,
-        ),
+        child: ElHoverBuilder(
+            cursor: widget.cursor ?? ElCursorUtil.grab,
+            builder: (context) {
+              return _SlideInheritedWidget(
+                ElSliderState(
+                  isDrag: isDrag,
+                ),
+                child: widget.sliderWidget,
+              );
+            }),
       ),
     );
   }

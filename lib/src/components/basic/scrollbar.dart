@@ -126,7 +126,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
     // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
-    el.globalCursor.setCursor();
+    el.cursor.set();
     isDragScroll = true;
     // 处理直接从边缘处立即拖动滚动条
     if (isScrollbarHover == false) {
@@ -139,8 +139,8 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
-    el.globalCursor.resetCursor();
-    // 短暂延迟一段时间执行结束逻辑，因为受到 globalCursor 的影响会导致悬停状态丢失,
+    el.cursor.remove();
+    // 短暂延迟一段时间执行结束逻辑，因为受到 cursor 的影响会导致悬停状态丢失,
     // isScrollbarHover 状态需要在 onEnter 中判断鼠标是否在滚动条上
     () {
       isDragScroll = false;
@@ -188,7 +188,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   }
 
   /// 鼠标离开滚动区域事件，有两种事件会触发这段逻辑：
-  /// 1. 开始拖拽滚动条，因为设置 globalCursor 会在页面上创建全屏透明遮罩层
+  /// 1. 开始拖拽滚动条，因为设置 cursor 会在页面上创建全屏透明遮罩层
   /// 2. 鼠标直接离开滚动容器
   @override
   void handleHoverExit(PointerExitEvent event) {
