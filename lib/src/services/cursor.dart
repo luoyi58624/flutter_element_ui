@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
 
 import '../service.dart';
@@ -18,16 +19,18 @@ class CursorInstance {
   ///
   /// 它会在页面上方创建一层完全透明的遮罩，防止页面中其他元素捕获悬停状态。
   void set([MouseCursor? cursor]) {
-    _cursor.value = cursor ?? MouseCursor.defer;
-    if (_overlayEntry == null) {
-      _overlayEntry = OverlayEntry(
-        builder: (context) => ObsBuilder(builder: (context) {
-          return MouseRegion(
-            cursor: _cursor.value,
-          );
-        }),
-      );
-      Overlay.of(el.context).insert(_overlayEntry!);
+    if (ElPlatform.isDesktop) {
+      _cursor.value = cursor ?? MouseCursor.defer;
+      if (_overlayEntry == null) {
+        _overlayEntry = OverlayEntry(
+          builder: (context) => ObsBuilder(builder: (context) {
+            return MouseRegion(
+              cursor: _cursor.value,
+            );
+          }),
+        );
+        Overlay.of(el.context).insert(_overlayEntry!);
+      }
     }
   }
 

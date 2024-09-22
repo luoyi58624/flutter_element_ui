@@ -58,7 +58,6 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   }
 
   void _startDrag() {
-    el.cursor.set(widget.cursor ?? ElCursorUtil.grabbing);
     isDrag = true;
   }
 
@@ -77,14 +76,12 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     setState(() {
       isDrag = false;
     });
-    el.cursor.remove();
   }
 
   void cancelDrag() {
     setState(() {
       isDrag = false;
     });
-    el.cursor.remove();
   }
 
   double _calcSliderValue() {
@@ -110,6 +107,11 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     _trackPadding = EdgeInsets.symmetric(
       horizontal: widget.sliderWidget.size / 2,
     );
+    if (isDrag) {
+      el.cursor.set(widget.cursor ?? ElCursorUtil.grabbing);
+    } else {
+      el.cursor.remove();
+    }
     return RepaintBoundary(
       child: LayoutBuilder(builder: (context, constraints) {
         double $sliderSize = constraints.maxWidth - widget.sliderWidget.size;
