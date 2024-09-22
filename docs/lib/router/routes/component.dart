@@ -11,7 +11,9 @@ import '../../pages/commons/component/feedback/message/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
 import '../../pages/commons/component/form/slider/index.dart';
 import '../../pages/commons/component/form/switch/index.dart';
+import '../../pages/commons/component/navigation/nav_menu/index.dart';
 import '../../pages/commons/component/other/animated_size/index.dart';
+import '../../pages/commons/component/other/context_menu/index.dart';
 import '../../pages/commons/overview/cupertino/index.dart';
 import '../../pages/commons/overview/element/index.dart';
 import '../../pages/commons/overview/material/index.dart';
@@ -145,8 +147,16 @@ List<RouteBase> buildComponentRoutes(String path) {
       builder: (context, state) => const MessagePage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}nav_menu',
+      builder: (context, state) => const NavMenuPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}animated_size',
       builder: (context, state) => const AnimatedSizePage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}context_menu',
+      builder: (context, state) => const ContextMenuPage(),
     ),
   ];
 }

@@ -44,6 +44,7 @@ class MainApp extends StatelessWidget {
       theme: ElThemeData(
         primary: primaryColor,
       ),
+      // 演示代码就不可以再嵌套 MaterialApp 了，否则路由系统会出现异常
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Example'),
@@ -53,7 +54,8 @@ class MainApp extends StatelessWidget {
             onPressed: () {
               colorIndex++;
               primaryColor = colors[colorIndex % colors.length];
-              ElUtils.refreshApp(); // 刷新应用状态，正常情况下你应当使用状态管理
+              // 刷新应用状态，正常情况下你应当使用状态管理
+              ElUtils.refreshApp();
             },
             type: 'primary',
             child: 'Change Theme',
@@ -102,7 +104,8 @@ class MainApp extends StatelessWidget {
               onPressed: () {
                 colorIndex++;
                 primaryColor = colors[colorIndex % colors.length];
-                ElUtils.refreshApp(); // 刷新应用状态，正常情况下你应当使用状态管理
+                // 刷新应用状态，正常情况下你应当使用状态管理
+                ElUtils.refreshApp(); 
               },
               type: 'primary',
               child: 'Change Theme',

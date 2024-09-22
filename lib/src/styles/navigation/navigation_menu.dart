@@ -5,8 +5,8 @@ import '../../services/message.dart';
 part '../../generates/styles/navigation/navigation_menu.g.dart';
 
 @ElModel.copy()
-class ElNavigationMenuStyle {
-  const ElNavigationMenuStyle({
+class ElNavMenuStyle {
+  const ElNavMenuStyle({
     required this.activeTextColor,
   });
 

@@ -6,16 +6,16 @@ part of '../../../styles/navigation/navigation_menu.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElNavigationMenuStyleExtension on ElNavigationMenuStyle {
-  ElNavigationMenuStyle copyWith({
+extension ElNavMenuStyleExtension on ElNavMenuStyle {
+  ElNavMenuStyle copyWith({
     Color? activeTextColor,
   }) {
-    return ElNavigationMenuStyle(
+    return ElNavMenuStyle(
       activeTextColor: activeTextColor ?? this.activeTextColor,
     );
   }
 
-  ElNavigationMenuStyle merge([ElNavigationMenuStyle? other]) {
+  ElNavMenuStyle merge([ElNavMenuStyle? other]) {
     if (other == null) return this;
     return copyWith(
       activeTextColor: other.activeTextColor,

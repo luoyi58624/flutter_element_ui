@@ -26,7 +26,7 @@ extension ElThemeDataExtension on ElThemeData {
     ElSliderStyle? sliderStyle,
     ElHeaderStyle? headerStyle,
     ElAsideStyle? asideStyle,
-    ElNavigationMenuStyle? navigationMenuStyle,
+    ElNavMenuStyle? navigationMenuStyle,
   }) {
     return ElThemeData(
       primary: primary ?? this.primary,

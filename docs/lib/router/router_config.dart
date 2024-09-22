@@ -127,7 +127,7 @@ class SlideRouterConfig {
         ('Backtop 回到顶部', '/${RootRoute.component.$2}/Backtop'),
         ('Breadcrumb 面包屑', '/${RootRoute.component.$2}/Breadcrumb'),
         ('Dropdown 下拉菜单', '/${RootRoute.component.$2}/Dropdown'),
-        ('Menu 菜单', '/${RootRoute.component.$2}/Menu'),
+        ('NavMenu 导航菜单', '/${RootRoute.component.$2}/nav_menu'),
         ('Page Header 页头', '/${RootRoute.component.$2}/page-header'),
         ('Steps 步骤条', '/${RootRoute.component.$2}/Steps'),
         ('Tabs 标签页', '/${RootRoute.component.$2}/Tabs'),
@@ -154,6 +154,7 @@ class SlideRouterConfig {
         ('Divider 分割线', '/${RootRoute.component.$2}/Divider'),
         ('Watermark 水印', '/${RootRoute.component.$2}/Watermark'),
         ('AnimatedSize 动画尺寸', '/${RootRoute.component.$2}/animated_size'),
+        ('ContextMenuPage 右键菜单', '/${RootRoute.component.$2}/context_menu'),
       ],
     ),
   ];

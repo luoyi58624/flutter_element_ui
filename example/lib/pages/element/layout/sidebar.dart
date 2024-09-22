@@ -7,7 +7,7 @@ class LayoutSidebarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElMenu.router(
+    return ElNavMenu.router(
       menuList,
       router: router,
       rootRouterPath: ElementRoutes.root,

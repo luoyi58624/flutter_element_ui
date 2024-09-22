@@ -68,7 +68,7 @@ class ElThemeData {
   final ElAsideStyle asideStyle;
 
   /// 导航菜单全局样式
-  final ElNavigationMenuStyle navigationMenuStyle;
+  final ElNavMenuStyle navigationMenuStyle;
 
   const ElThemeData({
     this.primary = const Color(0xff409EFF),
@@ -100,7 +100,7 @@ class ElThemeData {
     ),
     this.headerStyle = const ElHeaderStyle(color: Color(0xffffffff)),
     this.asideStyle = const ElAsideStyle(color: Color(0xffffffff)),
-    this.navigationMenuStyle = const ElNavigationMenuStyle(
+    this.navigationMenuStyle = const ElNavMenuStyle(
       activeTextColor: Color(0xff409eff),
     ),
   });
@@ -135,7 +135,7 @@ class ElThemeData {
     ),
     this.headerStyle = const ElHeaderStyle(color: Color(0xff404040)),
     this.asideStyle = const ElAsideStyle(color: Color(0xff374151)),
-    this.navigationMenuStyle = const ElNavigationMenuStyle(
+    this.navigationMenuStyle = const ElNavMenuStyle(
       activeTextColor: Color(0xff6ee7b7),
     ),
   });

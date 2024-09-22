@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
 
-class InputPage extends ResponsivePage {
-  const InputPage({super.key});
+class ContextMenuPage extends ResponsivePage {
+  const ContextMenuPage({super.key});
 
   @override
-  String get title => 'Input 输入框';
+  String get title => 'ContextMenuPage 右键菜单';
 
   @override
   List<Widget> buildPage(BuildContext context) {

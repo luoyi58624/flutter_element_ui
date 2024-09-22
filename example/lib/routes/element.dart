@@ -17,7 +17,6 @@ import '../pages/element/pages/form/input_number.dart';
 import '../pages/element/pages/form/radio.dart';
 import '../pages/element/pages/layout/basic.dart';
 import '../pages/element/pages/layout/overlay.dart';
-import '../pages/element/pages/navigation/menu.dart';
 import '../pages/element/pages/navigation/tabs.dart';
 
 class ElementRoutes {
@@ -120,14 +119,6 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.data}/collapse',
             builder: (context, state) => const CollapsePage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.navigation}/menu',
-            builder: (context, state) => const MenuPage(),
           ),
         ],
       ),

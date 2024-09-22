@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 import 'services/anchor.dart';
-import 'services/context_menu.dart';
 import 'services/cursor.dart';
 import 'services/message.dart';
 import 'services/other.dart';
@@ -18,7 +17,6 @@ class ElService
         AnchorService,
         OtherService,
         RouterService,
-        ContextMenuService,
         CursorService,
         MessageService,
         ToastService {}
