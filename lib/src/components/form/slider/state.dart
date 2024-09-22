@@ -5,6 +5,12 @@ const _curve = Curves.easeInOut;
 
 class _ElSliderState extends ElModelValueState<ElSlider, double>
     with SingleTickerProviderStateMixin {
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: _duration,
+  );
+  late CurvedAnimation _curvedAnimation;
+
   /// 允许拖拽的最大尺寸
   double? _maxDragSize;
 
@@ -17,22 +23,24 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   /// 轨道内边距
   late EdgeInsetsGeometry _trackPadding;
 
+  /// 是否开始拖拽
   bool isDrag = false;
 
-  double get sliderValue => _maxDragSize! / widget.max * modelValue;
+  /// 当前 [modelValue] 在最大值、最小值之间的比例
+  double get _valueRatio =>
+      max((modelValue - widget.min), 0) / (widget.max - widget.min);
 
-  late final AnimationController animationController = AnimationController(
-    vsync: this,
-    duration: _duration,
-  );
-  late CurvedAnimation curvedAnimation;
+  /// 显示在视图上的滑块偏移值
+  double get _sliderValue {
+    assert(_maxDragSize != null, 'ElSlider _maxDragSize 未初始化');
+    return _maxDragSize! * _valueRatio;
+  }
 
   @override
   void initState() {
     super.initState();
-    _currentDragValue = modelValue;
-    curvedAnimation = CurvedAnimation(
-      parent: animationController,
+    _curvedAnimation = CurvedAnimation(
+      parent: _animationController,
       curve: _curve,
     );
   }
@@ -40,12 +48,18 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   @override
   void didUpdateWidget(covariant ElSlider oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.max != oldWidget.max) {
-      _currentDragValue = sliderValue;
+    if (widget.max != oldWidget.max || widget.min != oldWidget.min) {
+      _currentDragValue = _sliderValue;
       if (widget.max < modelValue) {
         ElUtils.nextTick(() {
           modelValue = widget.max;
-          _currentDragValue = sliderValue;
+          _currentDragValue = _sliderValue;
+        });
+      }
+      if (widget.min > modelValue) {
+        ElUtils.nextTick(() {
+          modelValue = widget.min;
+          _currentDragValue = _sliderValue;
         });
       }
     }
@@ -53,51 +67,51 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
 
   @override
   void dispose() {
-    animationController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
-  void _startDrag() {
-    isDrag = true;
-  }
-
+  /// 更新拖拽事件
   void _updateDrag(DragUpdateDetails e) {
     _currentDragValue += e.delta.dx;
-    modelValue = _calcSliderValue();
+    _updateSliderValue();
   }
 
+  /// 结束拖拽事件
   void _endDrag(DragEndDetails e) {
-    modelValue = _calcSliderValue();
-    if (_currentDragValue < 0) {
-      _currentDragValue = 0;
-    } else if (_currentDragValue > _maxDragSize!) {
-      _currentDragValue = _maxDragSize!;
-    }
     setState(() {
       isDrag = false;
+      if (_currentDragValue < 0) {
+        _currentDragValue = 0;
+      } else if (_currentDragValue > _maxDragSize!) {
+        _currentDragValue = _maxDragSize!;
+      }
     });
   }
 
+  /// 取消拖拽事件
   void cancelDrag() {
     setState(() {
       isDrag = false;
     });
   }
 
-  double _calcSliderValue() {
+  /// 更新滑块值，通知视图刷新
+  void _updateSliderValue() {
     late double value;
     if (_currentDragValue <= 0) {
       value = widget.min;
     } else if (_currentDragValue >= _maxDragSize!) {
       value = widget.max;
     } else {
-      value = _currentDragValue / _maxDragSize! * widget.max;
+      value = (_currentDragValue / _maxDragSize!) * (widget.max - widget.min);
+      value += widget.min;
     }
-    return value;
+    modelValue = value;
   }
 
   @override
-  Widget builder(BuildContext context, double value) {
+  Widget builder(BuildContext context) {
     _trackRadius = widget.disabledThumbRadius
         ? BorderRadius.zero
         : BorderRadius.circular(max(
@@ -108,18 +122,16 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
       horizontal: widget.thumbWidget.size / 2,
     );
     if (isDrag) {
-      el.cursor.set(widget.cursor ?? ElCursorUtil.grabbing);
+      el.cursor.add(widget.cursor ?? ElCursorUtil.grabbing);
     } else {
       el.cursor.remove();
     }
     return RepaintBoundary(
       child: LayoutBuilder(builder: (context, constraints) {
         double $sliderSize = constraints.maxWidth - widget.thumbWidget.size;
-        if (_maxDragSize == null) {
+        if (_maxDragSize == null || _maxDragSize != $sliderSize) {
           _maxDragSize = $sliderSize;
-        } else if ($sliderSize != _maxDragSize) {
-          _maxDragSize = $sliderSize;
-          _currentDragValue = sliderValue;
+          _currentDragValue = _sliderValue;
         }
         return Stack(
           clipBehavior: Clip.none,
@@ -142,9 +154,9 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           padding: _trackPadding,
           child: GestureDetector(
             onHorizontalDragDown: (e) {
-              _startDrag();
+              isDrag = true;
               _currentDragValue = e.localPosition.dx;
-              modelValue = _calcSliderValue();
+              _updateSliderValue();
             },
             onHorizontalDragUpdate: !isDrag
                 ? null
@@ -189,7 +201,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
             child: Padding(
               padding: _trackPadding,
               child: Container(
-                width: sliderValue,
+                width: _sliderValue,
                 height: widget.thumbSize,
                 decoration: BoxDecoration(
                   color: context.elTheme.primary,
@@ -206,11 +218,11 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   /// 构建 Slider 滑块按钮
   Widget buildThumb() {
     return Positioned(
-      left: sliderValue,
+      left: _sliderValue,
       child: GestureDetector(
         onHorizontalDragDown: (e) {
           setState(() {
-            _startDrag();
+            isDrag = true;
           });
         },
         onHorizontalDragUpdate: !isDrag

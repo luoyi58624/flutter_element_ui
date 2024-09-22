@@ -58,17 +58,17 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
   }
 
   @override
-  Widget builder(BuildContext context, bool value) {
+  Widget builder(BuildContext context) {
     if (_isInitial) {
       _isInitial = false;
     } else {
-      value ? controller.forward() : controller.reverse();
+      modelValue ? controller.forward() : controller.reverse();
     }
     return GestureDetector(
       onTap: widget.disabled
           ? null
           : () {
-              modelValue = !value;
+              modelValue = !modelValue;
               HapticFeedback.mediumImpact();
             },
       child: ElHoverBuilder(
@@ -83,7 +83,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(
-              color: value ? activeBgColor : inactiveBgColor,
+              color: modelValue ? activeBgColor : inactiveBgColor,
               borderRadius: BorderRadius.circular(containerHeight / 2),
             ),
             child: AnimatedBuilder(
@@ -97,7 +97,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
                     width: widget.size,
                     height: widget.size,
                     decoration: BoxDecoration(
-                      color: value ? activeColor : inactiveColor,
+                      color: modelValue ? activeColor : inactiveColor,
                       borderRadius: BorderRadius.circular(widget.size / 2),
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
+import 'examples/example2.dart';
 
 class SliderPage extends ResponsivePage {
   const SliderPage({super.key});
@@ -22,6 +23,7 @@ class SliderPage extends ResponsivePage {
         child: const ElText('ElSlider性能测试'),
       ),
       const Example1(title: '基础使用'),
+      const Example2(title: '设置最大值、最小值'),
     ];
   }
 }

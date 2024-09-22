@@ -18,8 +18,8 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       formItemData != null && formItemData!.prop != null;
 
   @override
-  Widget builder(BuildContext context, String value) {
-    if (controller.text != value) {
+  Widget builder(BuildContext context) {
+    if (controller.text != modelValue) {
       controller.value = controller.value.copyWith(
         text: modelValue,
       );

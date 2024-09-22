@@ -18,11 +18,15 @@ class Example1 extends StatelessWidget {
         CodeExample(
           code: code,
           children: const [
-            _Example(),
-            Gap(16),
-            _Example2(),
-            Gap(16),
-            _Example3(),
+            Row(
+              children: [
+                Expanded(child: _Example()),
+                Gap(16),
+                Expanded(child: _Example2()),
+                Gap(16),
+                Expanded(child: _Example3()),
+              ],
+            ),
           ],
         ),
       ],
@@ -35,11 +39,11 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progress = useState(0.0);
+    final progress = useState(50.0);
     return Column(
       children: [
-        ElText(progress.value.toString()),
-        ElSlider(progress),
+        ElText(progress.value.floor().toString()),
+        ElSlider(progress, min: 30, max: 100),
       ],
     );
   }
@@ -50,14 +54,14 @@ class _Example2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progress = useState(0.0);
+    final progress = useState(50.0);
     return Column(
       children: [
-        ElText(progress.value.toString()),
+        ElText(progress.value.floor().toString()),
         Slider(
           value: progress.value,
+          min: 30,
           max: 100,
-          thumbColor: Colors.red,
           onChanged: (v) => progress.value = v,
         ),
       ],
@@ -73,7 +77,7 @@ class _Example3 extends HookWidget {
     final progress = useState(0.0);
     return Column(
       children: [
-        ElText(progress.value.toString()),
+        ElText(progress.value.floor().toString()),
         CupertinoSlider(
           value: progress.value,
           max: 100,
@@ -90,11 +94,11 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progress = useState(0.0);
+    final progress = useState(50.0);
     return Column(
       children: [
         ElText(progress.value.toString()),
-        ElSlider(progress),
+        ElSlider(progress, min: 30, max: 100),
       ],
     );
   }

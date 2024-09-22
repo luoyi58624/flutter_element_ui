@@ -244,7 +244,7 @@ class _CustomLoading5 extends HookWidget {
   }
 }
 
-var loadingBuilder = (ElLoadingBuilderState state) => SizedBox(
+var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
       width: state.size,
       height: state.size,
       child: CircularProgressIndicator(
@@ -277,7 +277,7 @@ ElButton(
 ),
 
 // 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用，此示例便是封装官方提供的 Material 加载指示器
-var loadingBuilder = (ElLoadingBuilderState state) => SizedBox(
+var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
       width: state.size,
       height: state.size,
       child: CircularProgressIndicator(

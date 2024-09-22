@@ -43,7 +43,7 @@ abstract class ElModelValueState<T extends ElModelValue<D>, D>
   }
 
   /// 取代 [build] 方法构建小部件，自动适配响应式小部件
-  Widget builder(BuildContext context, D value);
+  Widget builder(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +51,11 @@ abstract class ElModelValueState<T extends ElModelValue<D>, D>
       return ValueListenableBuilder(
         valueListenable: widget.modelValue,
         builder: (context, status, _) {
-          return builder(context, status as D);
+          return builder(context);
         },
       );
     } else {
-      return builder(context, widget.modelValue as D);
+      return builder(context);
     }
   }
 }

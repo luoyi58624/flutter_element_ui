@@ -27,7 +27,8 @@ class ElSlider extends ElModelValue<double> {
     this.activeThumbSize = 6,
     this.disabledThumbRadius = false,
     this.cursor,
-  });
+  })  : assert(min >= 0.0, 'ElSlider 最小值必须大于等于 0'),
+        assert(max > min, 'ElSlider 最大值必须大于最小值');
 
   /// Slider 滑块小部件，你可以继承 [ElBaseSlider] 实现自定义 Slider 样式
   final ElBaseThumb thumbWidget;

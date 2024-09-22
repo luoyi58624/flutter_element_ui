@@ -113,8 +113,18 @@ class ElButton extends StatefulWidget {
   /// * 如果是单纯的图标按钮，我们希望替换原有的图标，那么你应当使用 [loadingBuilder] 构建器
   final Widget loadingWidget;
 
-  /// loading 构建器，它会隐藏按钮原有内容
-  final Widget Function(ElLoadingBuilderState state)? loadingBuilder;
+  /// loading 构建器，它会隐藏按钮原有内容，例如封装 Material 加载器：
+  /// ```dart
+  /// var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
+  ///   width: state.size,
+  ///   height: state.size,
+  ///   child: CircularProgressIndicator(
+  ///     strokeWidth: 2,
+  ///     color: state.color,
+  ///   ),
+  /// );
+  /// ```
+  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

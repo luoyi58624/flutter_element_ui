@@ -123,7 +123,7 @@ abstract class _ResizerWidget extends HookWidget {
                     ? GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onHorizontalDragStart: (e) {
-                          el.cursor.set(
+                          el.cursor.add(
                             SystemMouseCursors.resizeColumn,
                           );
                           isActive.value = true;
@@ -145,7 +145,7 @@ abstract class _ResizerWidget extends HookWidget {
                     : GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onVerticalDragStart: (e) {
-                          el.cursor.set(SystemMouseCursors.resizeRow);
+                          el.cursor.add(SystemMouseCursors.resizeRow);
                           isActive.value = true;
                         },
                         onVerticalDragUpdate: (e) {

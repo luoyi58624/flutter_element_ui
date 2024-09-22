@@ -126,7 +126,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
     // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
-    el.cursor.set();
+    el.cursor.add();
     isDragScroll = true;
     // 处理直接从边缘处立即拖动滚动条
     if (isScrollbarHover == false) {
