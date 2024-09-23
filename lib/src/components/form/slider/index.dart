@@ -11,27 +11,23 @@ import '../../../widgets/model_value.dart';
 
 part 'state.dart';
 
-part 'slider_widget.dart';
+part 'thumbs/default_thumb.dart';
+
+part 'thumbs/progress_thumb.dart';
 
 class ElSlider extends ElModelValue<double> {
   const ElSlider(
     super.modelValue, {
     super.key,
     super.onChanged,
-    this.thumbWidget = const ElDefaultThumb(),
+    this.sliderWidget = const ElDefaultSlider(),
     this.min = 0.0,
     this.max = 100.0,
-    this.sliderSize = 8,
-    this.thumbSize = 6,
-    this.hoverThumbSize = 6,
-    this.activeThumbSize = 6,
-    this.disabledThumbRadius = false,
-    this.cursor,
   })  : assert(min >= 0.0, 'ElSlider 最小值必须大于等于 0'),
         assert(max > min, 'ElSlider 最大值必须大于最小值');
 
-  /// Slider 滑块小部件，你可以继承 [ElBaseSlider] 实现自定义 Slider 样式
-  final ElBaseThumb thumbWidget;
+  /// Slider 滑块小部件，你可以继承 [ElBaseSlider] 实现自定义滑块按钮
+  final ElBaseSlider sliderWidget;
 
   /// 滑块最小值，默认 0
   final double min;
@@ -39,34 +35,78 @@ class ElSlider extends ElModelValue<double> {
   /// 滑块最小值，默认 100
   final double max;
 
-  /// 滑块尺寸
-  final double sliderSize;
-
-  /// 轨道尺寸
-  final double thumbSize;
-
-  /// 悬停时轨道尺寸
-  final double hoverThumbSize;
-
-  /// 开始拖拽激活时轨道尺寸
-  final double activeThumbSize;
-
-  /// 是否禁用轨道圆角，默认 false
-  final bool disabledThumbRadius;
-
-  /// 自定义光标样式
-  final MouseCursor? cursor;
-
   @override
   State<ElSlider> createState() => _ElSliderState();
+}
+
+abstract class ElBaseSlider extends StatefulWidget {
+  /// Element UI 滑块按钮抽象类，继承此类的小部件必须放置于 [ElSlider] 中
+  const ElBaseSlider({
+    super.key,
+    this.thumbSize = 20,
+    this.sliderSize,
+    this.trackSize = 6,
+    this.hoverTractSize = 6,
+    this.activeTractSize = 6,
+    this.tractRadius = 3,
+    this.cursor,
+    this.eventRange = ElSliderEventRange.track,
+  })  : assert(sliderSize == null || sliderSize >= thumbSize),
+        assert(thumbSize >= trackSize &&
+            thumbSize >= hoverTractSize &&
+            thumbSize >= activeTractSize);
+
+  /// 滑块按钮尺寸
+  final double thumbSize;
+
+  /// 滑块整体尺寸，默认等于 [thumbSize] 滑块按钮尺寸
+  final double? sliderSize;
+
+  /// 轨道尺寸
+  final double trackSize;
+
+  /// 悬停时轨道尺寸
+  final double hoverTractSize;
+
+  /// 开始拖拽激活时轨道尺寸
+  final double activeTractSize;
+
+  /// 轨道圆角
+  final double tractRadius;
+
+  /// 自定义光标样式，默认为抓握样式
+  final MouseCursor? cursor;
+
+  /// 滑块触发事件范围，由于手指精确范围太过狭小，移动端强制 [ElSliderEventRange.slider]
+  final ElSliderEventRange eventRange;
+
+  /// 通过上下文访问 ElSlider 注入的状态数据
+  ElSliderState of(BuildContext context) =>
+      _SlideInheritedWidget.of(context).state;
+}
+
+/// ElSlider 事件触发范围
+enum ElSliderEventRange {
+  /// 交互范围只在滑块按钮上
+  thumb,
+
+  /// 交互范围在滑块按钮上、以及轨道上（默认）
+  track,
+
+  /// 交互范围在整个 slider 上
+  slider,
 }
 
 class ElSliderState {
   /// 是否开始拖拽
   final bool isDrag;
 
+  /// 鼠标是否悬停在滑块上
+  final bool isHover;
+
   ElSliderState({
     required this.isDrag,
+    required this.isHover,
   });
 }
 
@@ -81,7 +121,8 @@ class _SlideInheritedWidget extends InheritedWidget {
   static _SlideInheritedWidget of(BuildContext context) {
     final _SlideInheritedWidget? result =
         context.dependOnInheritedWidgetOfExactType<_SlideInheritedWidget>();
-    assert(result != null, '无法获取 ElSliderState 数据，滑块小部件只能放置在 ElSlider 中');
+    assert(result != null,
+        '无法获取 ElSliderState 数据，你可能在单独使用滑块小部件，请将它放置在 ElSlider 中');
     return result!;
   }
 

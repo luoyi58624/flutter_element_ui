@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-// 注意：ElText 只会从 ElDefaultTextStyle 组件访问祖先默认的文本样式，所以，它并不能完全代替 Text 小部件，
-// 当你使用一些小部件用到 DefaultTextStyle 时，你可能需要使用 Text 小部件。
-//
-// 因为我要求所有的子孙组件文本样式都必须继承祖先默认提供的样式，而 DefaultTextStyle 在很多情况下会破坏这一点。
+/// 注意：[ElText] 只会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式，
+/// 所以，它并不能完全代替 [Text] 小部件。
+///
+/// 当你使用 Material、Cupertino 某些组件时，例如：[AppBar]，请使用 [Text] 小部件，
+/// 在大多数情况下二者并没有什么不同，无非就是在祖先样式上存在一些差异。
 class ElText extends StatefulWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(
@@ -285,6 +286,8 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
 }
 
 class ElDefaultTextStyle extends DefaultTextStyle {
+  /// 构建默认文本样式必须遵循继承性，所以不允许直接构造 [ElDefaultTextStyle]，
+  /// 请使用 [merge] 方法设置默认的文本样式
   const ElDefaultTextStyle._({
     super.key,
     required super.style,
@@ -297,8 +300,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     required super.child,
   });
 
-  /// 为了保证文本继承性，不允许直接构造 [ElDefaultTextStyle]，
-  /// 只能通过 [merge] 方法设置默认的文本样式
+  /// 将祖先提供的默认文本样式与自定义样式进行合并
   static Widget merge({
     Key? key,
     TextStyle? style,

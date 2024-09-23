@@ -32,6 +32,7 @@ extension _ButtonColorExtension on Color {
   Color themeLightBorder(BuildContext context) => elLight6(context);
 }
 
+/// 计算按钮颜色样式
 typedef _ColorStyle = ({
   Color? bgColor,
   Color? textColor,
@@ -54,6 +55,7 @@ class _ElButtonState extends State<ElButton> {
   late double buttonHeight;
   late double iconSize;
   late bool disabled;
+  late bool isIconChild;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,7 @@ class _ElButtonState extends State<ElButton> {
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     iconSize = widget.iconSize ?? buttonHeight / 2 - 2;
     disabled = widget.loading || widget.disabled;
+    isIconChild = widget.child is ElIcon || widget.child is Icon;
 
     Widget result = buildEvent(
       builder: (context) => buildButtonWrapper(context),
@@ -101,11 +104,11 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context) {
-    final colorStyle = calcColorStyle(context);
+    final $colorStyle = calcColorStyle(context);
 
-    final $border = colorStyle.borderColor == null
+    final $border = $colorStyle.borderColor == null
         ? const Border()
-        : Border.all(color: colorStyle.borderColor!, width: 1);
+        : Border.all(color: $colorStyle.borderColor!, width: 1);
 
     final $horizontalPadding = buttonHeight / 2;
 
@@ -124,7 +127,7 @@ class _ElButtonState extends State<ElButton> {
             minWidth: (widget.circle
                 ? buttonHeight
                 : widget.width ??
-                    (widget.child is ElIcon ? buttonHeight * 1.25 : _minWidth)),
+                    (isIconChild ? buttonHeight * 1.25 : _minWidth)),
           );
 
     Widget result = Center(
@@ -143,13 +146,13 @@ class _ElButtonState extends State<ElButton> {
 
     result = ElDefaultTextStyle.merge(
       style: _defaultTextStyle.copyWith(
-        color: colorStyle.textColor,
+        color: $colorStyle.textColor,
       ),
       child: ElAnimatedDecoratedBox(
         duration:
             context.elThemeDuration ?? const Duration(milliseconds: _duration),
         decoration: BoxDecoration(
-          color: colorStyle.bgColor,
+          color: $colorStyle.bgColor,
           border: $border,
           borderRadius: widget.round || widget.circle
               ? BorderRadius.circular(buttonHeight / 2)
@@ -162,7 +165,7 @@ class _ElButtonState extends State<ElButton> {
     );
 
     if (widget.loadingBuilder != null && widget.loading) {
-      assert(colorStyle.loadingTextColor != null,
+      assert($colorStyle.loadingTextColor != null,
           ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
       result = Stack(
         children: [
@@ -170,14 +173,14 @@ class _ElButtonState extends State<ElButton> {
           Positioned.fill(
             child: ElDefaultTextStyle.merge(
               style: _defaultTextStyle.copyWith(
-                color: colorStyle.loadingTextColor,
+                color: $colorStyle.loadingTextColor,
               ),
               child: Center(
                 child: buildIconTheme(
-                  color: colorStyle.loadingTextColor,
+                  color: $colorStyle.loadingTextColor,
                   child: widget.loadingBuilder!(
                     ElButtonLoadingState(
-                      color: colorStyle.loadingTextColor!,
+                      color: $colorStyle.loadingTextColor!,
                       size: iconSize,
                     ),
                   ),
@@ -217,7 +220,7 @@ class _ElButtonState extends State<ElButton> {
         leftIcon = widget.leftIcon;
       }
     } else {
-      if (widget.loadingBuilder == null && widget.loading) {
+      if (widget.loadingBuilder == null && widget.loading && !isIconChild) {
         leftIcon = widget.loadingWidget;
       }
     }
@@ -227,7 +230,12 @@ class _ElButtonState extends State<ElButton> {
         left: leftIcon != null ? 6.0 : 0.0,
         right: widget.rightIcon != null ? 6.0 : 0.0,
       ),
-      child: $child,
+      child: widget.loadingBuilder == null &&
+              widget.leftIcon == null &&
+              widget.loading &&
+              isIconChild
+          ? widget.loadingWidget
+          : $child,
     );
 
     childContent = Row(

@@ -78,7 +78,6 @@ class Example4 extends HookWidget {
                   text: true,
                   loading: loading.value,
                   padding: EdgeInsets.zero,
-                  loadingBuilder: iconLoading,
                   child: const ElIcon(ElIcons.sHome),
                 ),
                 ElButton(
@@ -88,7 +87,6 @@ class Example4 extends HookWidget {
                   type: 'primary',
                   loading: loading.value,
                   padding: EdgeInsets.zero,
-                  loadingBuilder: iconLoading,
                   child: const ElIcon(ElIcons.share),
                 ),
                 ElButton(
@@ -98,7 +96,6 @@ class Example4 extends HookWidget {
                   type: 'success',
                   loading: loading.value,
                   padding: EdgeInsets.zero,
-                  loadingBuilder: iconLoading,
                   child: const ElIcon(ElIcons.editOutline),
                 ),
                 ElButton(
@@ -108,7 +105,6 @@ class Example4 extends HookWidget {
                   type: 'error',
                   loading: loading.value,
                   padding: EdgeInsets.zero,
-                  loadingBuilder: iconLoading,
                   child: const ElIcon(ElIcons.delete),
                 ),
               ],
@@ -119,12 +115,6 @@ class Example4 extends HookWidget {
     );
   }
 }
-
-var iconLoading = (state) => ElLoading(
-      ElIcons.loading,
-      size: state.size,
-      color: state.color,
-    );
 
 String get code => '''
 ElButton(child: 'Hello', text: true),
@@ -137,11 +127,4 @@ ElButton(
   text: true,
   padding: EdgeInsets.zero,
   child: ElIcon(ElIcons.sHome),
-),
-
-// 默认加载只会在左侧显示 loading 图标，所以如果你想覆盖按钮图标应当使用 loadingBuilder
-var iconLoading = (state) => ElLoading(
-  ElIcons.loading,
-  size: state.size,
-  color: state.color,
-);''';
+),''';

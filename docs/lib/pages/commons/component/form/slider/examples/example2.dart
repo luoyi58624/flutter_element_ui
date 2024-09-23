@@ -35,6 +35,7 @@ class _Example extends HookWidget {
         ElText(progress.value.toString()),
         ElSlider(
           progress,
+          sliderWidget: const ElProgressSlider(),
         ),
       ],
     );
