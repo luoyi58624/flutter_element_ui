@@ -22,6 +22,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
 
   /// 是否开始拖拽
   bool isDrag = false;
+  bool isDragThumb = false;
 
   /// 鼠标是否悬停在 Slider 上
   final isHover = Obs(false);
@@ -129,7 +130,8 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           _currentDragValue = _sliderValue;
         }
         Widget result = SizedBox(
-          height: widget.sliderWidget.sliderSize ?? widget.sliderWidget.thumbSize,
+          height:
+              widget.sliderWidget.sliderSize ?? widget.sliderWidget.thumbSize,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -139,9 +141,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
             ],
           ),
         );
-        if (widget.sliderWidget.eventRange == ElSliderEventRange.slider) {
-          result = buildSliderEvent(child: result);
-        }
+
         return result;
       }),
     );
@@ -149,31 +149,28 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
 
   /// 构建 Slider 轨道
   Widget buildTrack() {
-    Widget result = ElHoverBuilder(
-        cursor: SystemMouseCursors.click,
-        builder: (context) {
-          ElUtils.nextTick(() {
-            isHover.value = context.isHover;
-          });
-          return Container(
-            height: widget.sliderWidget.trackSize,
-            decoration: BoxDecoration(
-              color: context.elTheme.sliderStyle.inactiveColor,
-              borderRadius: BorderRadius.circular(
-                widget.sliderWidget.tractRadius,
-              ),
-            ),
-          );
-        });
+    Widget result = Container(
+      height: widget.sliderWidget.trackSize,
+      decoration: BoxDecoration(
+        color: context.elTheme.sliderStyle.inactiveColor,
+        borderRadius: BorderRadius.circular(
+          widget.sliderWidget.tractRadius,
+        ),
+      ),
+    );
     if (widget.sliderWidget.eventRange == ElSliderEventRange.track) {
-      result = buildSliderEvent(child: result);
+      result = buildSliderEvent(child: result, isTrack: true);
     }
-    return Center(
+    result = Center(
       child: Padding(
         padding: _trackPadding,
         child: result,
       ),
     );
+    if (widget.sliderWidget.eventRange == ElSliderEventRange.slider) {
+      result = buildSliderEvent(child: result, isTrack: false);
+    }
+    return result;
   }
 
   /// 构建 Slider 拖拽形成的轨道
@@ -245,12 +242,14 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     );
   }
 
-  /// 根据配置的时间触发范围构建 Event 小部件
-  Widget buildSliderEvent({required Widget child}) {
+  /// 构建 Slider 小部件
+  Widget buildSliderEvent({required Widget child, required bool isTrack}) {
     return GestureDetector(
       onHorizontalDragDown: (e) {
         isDrag = true;
-        _currentDragValue = e.localPosition.dx;
+        _currentDragValue = isTrack
+            ? e.localPosition.dx
+            : e.localPosition.dx - widget.sliderWidget.thumbSize / 2;
         _updateSliderValue();
       },
       onHorizontalDragUpdate: !isDrag
@@ -268,7 +267,14 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           : () {
               cancelDrag();
             },
-      child: child,
+      child: ElHoverBuilder(
+          cursor: SystemMouseCursors.click,
+          builder: (context) {
+            ElUtils.nextTick(() {
+              isHover.value = context.isHover;
+            });
+            return child;
+          }),
     );
   }
 }
