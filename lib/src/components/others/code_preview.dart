@@ -44,7 +44,7 @@ class ElCodePreview extends StatefulWidget {
   final double? height;
 
   /// 代码示例背景圆角
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
 
   @override
   State<ElCodePreview> createState() => _ElCodePreviewState();
@@ -69,6 +69,9 @@ class _ElCodePreviewState extends State<ElCodePreview> {
 
   Color get bgColor =>
       widget.bgColor ?? context.elTheme.codePreviewStyle.bgColor;
+
+  BorderRadius get borderRadius =>
+      widget.borderRadius ?? context.elTheme.cardStyle.radius;
 
   @override
   void initState() {
@@ -131,9 +134,9 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             height: widget.height,
             decoration: BoxDecoration(
               color: bgColor,
-              borderRadius:
-                  widget.borderRadius ?? context.elTheme.cardStyle.radius,
+              borderRadius: borderRadius,
             ),
+            clipBehavior: Clip.hardEdge,
             child: IntrinsicHeight(
               child: Row(
                 children: [
@@ -184,11 +187,15 @@ class _ElCodePreviewState extends State<ElCodePreview> {
       padding: _padding,
       decoration: BoxDecoration(
         color: bgColor,
+        borderRadius: BorderRadius.only(
+          topLeft: borderRadius.topLeft,
+          bottomLeft: borderRadius.bottomLeft,
+        ),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black26,
-            blurRadius: 1,
-            offset: Offset(1, 0),
+            color: Colors.black38,
+            blurRadius: 2,
+            offset: Offset(2, 0),
           )
         ],
       ),
@@ -224,7 +231,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             duration: context.elThemeDuration ?? 250.ms,
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              borderRadius: context.elTheme.cardStyle.radius,
+              borderRadius: context.elConfig.radius,
               color:
                   bgColor.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
             ),

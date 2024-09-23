@@ -47,14 +47,6 @@ class GlobalState {
     _globalFontSize ??= Obs(v);
   }
 
-  /// 强制黑暗模式代码示例
-  static final forceDarkCodeExample = Obs(
-    true,
-    watch: (newValue, oldValue) {
-      ElUtils.refreshApp();
-    },
-  );
-
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(
     false,

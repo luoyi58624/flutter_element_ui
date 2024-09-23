@@ -46,15 +46,6 @@ class GlobalSetting extends StatelessWidget {
               }),
             ],
           ),
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '代码示例强制黑暗模式',
-              value: GlobalState.forceDarkCodeExample.value,
-              onChanged: (v) {
-                GlobalState.forceDarkCodeExample.value = v;
-              },
-            );
-          }),
           if (isRelease == false)
             ObsBuilder(builder: (context) {
               return CellWidget(
