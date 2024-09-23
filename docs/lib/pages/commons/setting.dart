@@ -93,15 +93,6 @@ class GlobalSetting extends StatelessWidget {
                 },
               );
             }),
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '全局文本选中(存在bug)',
-              value: GlobalState.enableGlobalTextSelected.value,
-              onChanged: (v) {
-                GlobalState.enableGlobalTextSelected.value = v;
-              },
-            );
-          }),
         ],
       ),
     );

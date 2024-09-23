@@ -41,7 +41,7 @@ class RouterUtil {
               ? CupertinoPage(child: builder(context, state))
               : MaterialPage(child: builder(context, state))
           : NoTransitionPage(
-              child: builder(context, state).buildSelectionArea,
+              child: builder(context, state),
             ),
     );
   }
@@ -59,8 +59,8 @@ class RouterUtil {
           routes: [
             GoRoute(
               path: '/',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: const HomePage().buildSelectionArea,
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: HomePage(),
               ),
               routes: [
                 ShellRoute(

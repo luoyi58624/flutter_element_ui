@@ -7,17 +7,6 @@ extension WidgetExt on Widget {
         child: this,
       );
 
-  /// 根据全局状态动态构建选中支持
-  Widget get buildSelectionArea {
-    return ObsBuilder(builder: (context) {
-      if (GlobalState.enableGlobalTextSelected.value) {
-        return SelectionArea(child: this);
-      } else {
-        return this;
-      }
-    });
-  }
-
   List<Widget> operator *(int other) {
     return List.generate(other, (index) => this);
   }
