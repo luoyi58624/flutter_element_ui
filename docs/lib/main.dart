@@ -37,9 +37,15 @@ class MainApp extends StatelessWidget {
         brightness: GlobalState.brightness,
         theme: ElThemeData(
           primary: GlobalState.primaryColor.value,
+          codePreviewStyle: const ElCodePreviewStyle(
+            fontFamily: MyFonts.consolas,
+          ),
         ),
         darkTheme: ElThemeData.dark(
           primary: GlobalState.primaryColor.value,
+          codePreviewStyle: const ElCodePreviewStyle(
+            fontFamily: MyFonts.consolas,
+          ),
         ),
         config: const ElConfigData(
           baseHeight: 36,

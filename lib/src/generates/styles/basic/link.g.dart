@@ -11,11 +11,13 @@ extension ElLinkStyleExtension on ElLinkStyle {
     Color? color,
     Color? activeColor,
     ElLinkDecoration? decoration,
+    bool? allowDrag,
   }) {
     return ElLinkStyle(
       color: color ?? this.color,
       activeColor: activeColor ?? this.activeColor,
       decoration: decoration ?? this.decoration,
+      allowDrag: allowDrag ?? this.allowDrag,
     );
   }
 
@@ -25,6 +27,7 @@ extension ElLinkStyleExtension on ElLinkStyle {
       color: other.color,
       activeColor: other.activeColor,
       decoration: other.decoration,
+      allowDrag: other.allowDrag,
     );
   }
 }

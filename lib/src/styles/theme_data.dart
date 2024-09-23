@@ -3,6 +3,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_element_ui/src/styles/color_data.dart';
 
+import 'other/code_preview.dart';
+
 part '../generates/styles/theme_data.g.dart';
 
 @ElModel.copy()
@@ -70,6 +72,9 @@ class ElThemeData {
   /// 导航菜单全局样式
   final ElNavMenuStyle navigationMenuStyle;
 
+  /// 代码预览全局样式
+  final ElCodePreviewStyle codePreviewStyle;
+
   const ElThemeData({
     this.primary = const Color(0xff409EFF),
     this.success = const Color(0xff67C23A),
@@ -102,6 +107,10 @@ class ElThemeData {
     this.asideStyle = const ElAsideStyle(color: Color(0xffffffff)),
     this.navigationMenuStyle = const ElNavMenuStyle(
       activeTextColor: Color(0xff409eff),
+    ),
+    this.codePreviewStyle = const ElCodePreviewStyle(
+      color: Color(0xFFD19A66),
+      bgColor: Color.fromRGBO(49, 49, 49, 1.0),
     ),
   });
 
@@ -137,6 +146,10 @@ class ElThemeData {
     this.asideStyle = const ElAsideStyle(color: Color(0xff374151)),
     this.navigationMenuStyle = const ElNavMenuStyle(
       activeTextColor: Color(0xff6ee7b7),
+    ),
+    this.codePreviewStyle = const ElCodePreviewStyle(
+      color: Color(0xFFD19A66),
+      bgColor: Color.fromRGBO(49, 49, 49, 1.0),
     ),
   });
 }

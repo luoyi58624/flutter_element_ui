@@ -40,7 +40,7 @@ class FlatCodeExample extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            child: CodePreview(
+            child: ElCodePreview(
               code: code,
               height: double.infinity,
               borderRadius: noBorderRadius
@@ -62,7 +62,7 @@ class FlatCodeExample extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: CodePreview(
+            child: ElCodePreview(
               code: code,
               height: double.infinity,
               borderRadius: BorderRadius.only(

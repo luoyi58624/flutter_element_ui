@@ -49,6 +49,7 @@ export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/tabs.dart';
 
 export 'src/components/others/anchor.dart';
+export 'src/components/others/code_preview.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
@@ -88,6 +89,8 @@ export 'src/styles/layout/aside.dart';
 export 'src/styles/layout/header.dart';
 
 export 'src/styles/navigation/navigation_menu.dart';
+
+export 'src/styles/other/code_preview.dart';
 
 export 'src/utils/platform/platform.dart';
 export 'src/utils/assert.dart';

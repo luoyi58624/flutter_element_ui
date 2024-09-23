@@ -55,7 +55,7 @@ class CodeExample extends HookWidget {
                 _PreviewButton(isExpanded),
                 ElCollapseTransition(
                   isExpanded.value,
-                  child: CodePreview(
+                  child: ElCodePreview(
                     code: code,
                     borderRadius: BorderRadius.only(
                       bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,

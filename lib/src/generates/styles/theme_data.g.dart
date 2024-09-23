@@ -27,6 +27,7 @@ extension ElThemeDataExtension on ElThemeData {
     ElHeaderStyle? headerStyle,
     ElAsideStyle? asideStyle,
     ElNavMenuStyle? navigationMenuStyle,
+    ElCodePreviewStyle? codePreviewStyle,
   }) {
     return ElThemeData(
       primary: primary ?? this.primary,
@@ -48,6 +49,7 @@ extension ElThemeDataExtension on ElThemeData {
       headerStyle: this.headerStyle.merge(headerStyle),
       asideStyle: this.asideStyle.merge(asideStyle),
       navigationMenuStyle: this.navigationMenuStyle.merge(navigationMenuStyle),
+      codePreviewStyle: this.codePreviewStyle.merge(codePreviewStyle),
     );
   }
 
@@ -74,6 +76,7 @@ extension ElThemeDataExtension on ElThemeData {
       asideStyle: asideStyle?.merge(other.asideStyle),
       navigationMenuStyle:
           navigationMenuStyle?.merge(other.navigationMenuStyle),
+      codePreviewStyle: codePreviewStyle?.merge(other.codePreviewStyle),
     );
   }
 }
