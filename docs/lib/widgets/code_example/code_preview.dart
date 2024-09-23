@@ -27,6 +27,17 @@ class CodePreview extends HookWidget {
   final double? height;
   final BorderRadiusGeometry? borderRadius;
 
+  TextStyle get _textStyle => const TextStyle(
+        fontFamily: MyFonts.consolas,
+        fontSize: 14,
+        height: 1.5,
+      );
+
+  EdgeInsetsGeometry get _padding => const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 10,
+      );
+
   @override
   Widget build(BuildContext context) {
     final $code = useState<TextSpan>(const TextSpan());
@@ -96,74 +107,117 @@ class CodePreview extends HookWidget {
                 color: $bgColor,
                 borderRadius: borderRadius ?? context.elTheme.cardStyle.radius,
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: ObsBuilder(builder: (context) {
-                  Widget result = Container(
-                    padding: const EdgeInsets.all(16),
-                    child: ElText(
-                      $code.value,
-                      softWrap: false,
-                      style: const TextStyle(
-                        fontFamily: MyFonts.consolas,
-                        fontSize: 14,
-                        height: 1.5,
-                      ),
-                    ),
-                  );
-                  if (GlobalState.enableGlobalTextSelected.value) {
-                    if (RouterState.isMobile.value == true) {
-                      return SelectionArea(child: result);
-                    }
-                    return result;
-                  } else {
-                    return SelectionArea(child: result);
-                  }
-                }),
+              child: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    buildLineNum(context, $bgColor),
+                    Expanded(child: buildCode($code)),
+                  ],
+                ),
               ),
             ),
           ),
           Positioned(
             top: 10,
             right: 16,
-            child: AnimatedOpacity(
-              duration: 200.ms,
-              opacity: ElPlatform.isMobile || context.isHover ? 1.0 : 0.0,
-              child: ElHoverBuilder(
-                cursor: SystemMouseCursors.click,
-                builder: (context) {
-                  return GestureDetector(
-                    onTap: () async {
-                      await Clipboard.setData(ClipboardData(text: code));
-                      el.message.success('复制成功');
-                    },
-                    onTapDown: (e) {
-                      HapticFeedback.mediumImpact();
-                    },
-                    child: AnimatedContainer(
-                      duration: context.elThemeDuration ?? 250.ms,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        borderRadius: context.elTheme.cardStyle.radius,
-                        color: context.isDark
-                            ? Colors.grey.shade700
-                            : Colors.grey.shade300,
-                      ),
-                      child: ElIcon(
-                        ElIcons.documentCopy,
-                        color: context.isDark
-                            ? Colors.grey.shade300
-                            : Colors.grey.shade700,
-                        size: 18,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          )
+            child: buildCopyButton(context),
+          ),
         ],
       );
     });
+  }
+
+  Widget buildCode($code) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: ObsBuilder(builder: (context) {
+        Widget result = Container(
+          padding: _padding,
+          child: ElText(
+            $code.value,
+            softWrap: false,
+            style: _textStyle,
+          ),
+        );
+        if (GlobalState.enableGlobalTextSelected.value) {
+          if (RouterState.isMobile.value == true) {
+            return SelectionArea(child: result);
+          }
+          return result;
+        } else {
+          return SelectionArea(child: result);
+        }
+      }),
+    );
+  }
+
+  Widget buildLineNum(BuildContext context, Color bgColor) {
+    final numLines = '\n'.allMatches(code).length + 1;
+
+    return Container(
+      height: double.infinity,
+      padding: _padding,
+      decoration: BoxDecoration(
+        color: bgColor,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black38,
+            blurRadius: 2,
+            offset: Offset(2, 0),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: List.generate(
+          numLines,
+          (index) => ElText(
+            '${index + 1}',
+            textAlign: TextAlign.right,
+            style: _textStyle.copyWith(
+              color: context.elTheme.colors.secondaryText,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCopyButton(BuildContext context) {
+    return AnimatedOpacity(
+      duration: 200.ms,
+      opacity: ElPlatform.isMobile || context.isHover ? 1.0 : 0.0,
+      child: ElHoverBuilder(
+        cursor: SystemMouseCursors.click,
+        builder: (context) {
+          return GestureDetector(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: code));
+              el.message.success('复制成功');
+            },
+            onTapDown: (e) {
+              HapticFeedback.mediumImpact();
+            },
+            child: AnimatedContainer(
+              duration: context.elThemeDuration ?? 250.ms,
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: context.elTheme.cardStyle.radius,
+                color: context.isDark
+                    ? Colors.grey.shade700
+                    : Colors.grey.shade300,
+              ),
+              child: ElIcon(
+                ElIcons.documentCopy,
+                color: context.isDark
+                    ? Colors.grey.shade300
+                    : Colors.grey.shade700,
+                size: 18,
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }

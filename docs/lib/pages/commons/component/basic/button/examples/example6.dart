@@ -25,6 +25,7 @@ class Example6 extends StatelessWidget {
                 _Loading2(),
                 _Loading3(),
                 _Loading4(),
+                _Loading5(),
               ],
             ),
             Gap(8),
@@ -101,7 +102,7 @@ class _Loading3 extends HookWidget {
         }.delay(_loadingDuration);
       },
       loading: loading.value,
-      type: 'primary',
+      type: 'success',
       rightIcon: const ElIcon(ElIcons.upload2),
       child: '上传',
     );
@@ -122,9 +123,29 @@ class _Loading4 extends HookWidget {
         }.delay(_loadingDuration);
       },
       loading: loading.value,
-      type: 'primary',
+      type: 'warning',
       loadingWidget: const ElLoading(ElIcons.eleme),
       child: '自定义Icon',
+    );
+  }
+}
+
+class _Loading5 extends HookWidget {
+  const _Loading5();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return ElButton(
+      onPressed: () {
+        loading.value = true;
+        () {
+          loading.value = false;
+        }.delay(_loadingDuration);
+      },
+      loading: loading.value,
+      type: 'error',
+      child: const ElIcon(ElIcons.delete),
     );
   }
 }
@@ -256,27 +277,29 @@ var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
 String get code => '''
 // 默认在左边显示 loading 图标
 ElButton(loading: true, child: '提交'),
+
 // 如果存在 leftIcon，则会将左图标替换成 loading
-ElButton(loading: true, type: 'primary', leftIcon: const ElIcon(ElIcons.edit), child: '编辑'),
-ElButton(loading: true, type: 'primary', rightIcon: const ElIcon(ElIcons.upload2), child: '上传'),
+ElButton(loading: true, leftIcon: const ElIcon(ElIcons.edit), child: '编辑'),
+ElButton(loading: true, rightIcon: const ElIcon(ElIcons.upload2), child: '上传'),
+
 // 自定义加载图标
-ElButton(loading: true, type: 'primary', loadingWidget: const ElLoading(ElIcons.eleme), child: '自定义Icon'),
+ElButton(loading: true, loadingWidget: const ElLoading(ElIcons.eleme), child: '自定义Icon'),
+
 // loadingBuilder 会替换按钮原有内容
 ElButton(
   loading: true,
-  type: 'primary',
   loadingBuilder: (state) => const ElText('加载中...'), 
   child: '自定义加载内容',
 ),
+
 // 渲染官方提供的进度指示器
 ElButton(
   loading: true,
-  type: 'primary',
   loadingBuilder: loadingBuilder,
   child: '自定义Loading',
 ),
 
-// 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用，此示例便是封装官方提供的 Material 加载指示器
+// 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用
 var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
       width: state.size,
       height: state.size,

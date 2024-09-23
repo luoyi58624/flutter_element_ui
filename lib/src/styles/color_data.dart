@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
+import 'package:flutter_element_ui/src/extensions/color.dart';
 
 part '../generates/styles/color_data.g.dart';
 
@@ -26,6 +27,13 @@ class ElColorData {
 
   /// 边框颜色
   final Color border;
+  final Color borderBase;
+
+  /// 对应 --el-border-color-light
+  Color get borderLight => border.mix(bg, 50);
+
+  /// 对应 --el-border-color-lighter
+  Color get borderLighter => border.mix(bg, 50);
 
   const ElColorData({
     this.bg = const Color(0xfffafafa),
@@ -35,6 +43,7 @@ class ElColorData {
     this.secondaryText = const Color(0xff909399),
     this.placeholderText = const Color(0xffA8ABB2),
     this.border = const Color(0xffDCDFE6),
+    this.borderBase = const Color(0xfff5f8ff),
   });
 
   const ElColorData.dark({
@@ -45,5 +54,6 @@ class ElColorData {
     this.secondaryText = const Color(0xffA3A6AD),
     this.placeholderText = const Color(0xff8D9095),
     this.border = const Color(0xffa3a3a3),
+    this.borderBase = const Color(0xffa3a3a3),
   });
 }

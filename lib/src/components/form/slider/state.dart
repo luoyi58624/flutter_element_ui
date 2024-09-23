@@ -5,11 +5,11 @@ const _curve = Curves.easeInOut;
 
 class _ElSliderState extends ElModelValueState<ElSlider, double>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController = AnimationController(
+  late final AnimationController animationController = AnimationController(
     vsync: this,
     duration: _duration,
   );
-  late CurvedAnimation _curvedAnimation;
+  late CurvedAnimation curvedAnimation;
 
   /// 允许拖拽的最大尺寸
   double? _maxDragSize;
@@ -40,8 +40,8 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
   @override
   void initState() {
     super.initState();
-    _curvedAnimation = CurvedAnimation(
-      parent: _animationController,
+    curvedAnimation = CurvedAnimation(
+      parent: animationController,
       curve: _curve,
     );
   }
@@ -68,7 +68,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    animationController.dispose();
     super.dispose();
   }
 

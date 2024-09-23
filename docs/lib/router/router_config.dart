@@ -213,8 +213,8 @@ class SlideRouterConfig {
         ),
         (
           'Progress 进度条',
-          '/${RootRoute.component.$2}/Progress',
-          WorkStatus.pending
+          '/${RootRoute.component.$2}/progress',
+          WorkStatus.processing
         ),
         ('Result 结果', '/${RootRoute.component.$2}/Result', WorkStatus.pending),
         (

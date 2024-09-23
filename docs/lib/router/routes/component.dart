@@ -6,7 +6,8 @@ import '../../pages/commons/component/basic/color/index.dart';
 import '../../pages/commons/component/basic/icon/index.dart';
 import '../../pages/commons/component/basic/scrollbar/index.dart';
 import '../../pages/commons/component/basic/text/index.dart';
-import '../../pages/commons/component/data/index.dart';
+import '../../pages/commons/component/data/collapse/index.dart';
+import '../../pages/commons/component/data/progress/index.dart';
 import '../../pages/commons/component/feedback/message/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
 import '../../pages/commons/component/form/slider/index.dart';
@@ -141,6 +142,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}collapse',
       builder: (context, state) => const CollapsePage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}progress',
+      builder: (context, state) => const ProgressPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}message',

@@ -13,6 +13,7 @@ export 'package:url_launcher/link.dart' show LinkTarget;
 
 export 'src/components/data/collapse/collapse_transition.dart';
 export 'src/components/data/collapse/collapse_panel.dart';
+export 'src/components/data/progress/index.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/table/config.dart';
 export 'src/components/data/avatar.dart';

@@ -2,7 +2,7 @@ import 'package:docs/global.dart';
 
 import 'package:flutter/material.dart';
 
-import 'examples/example1.dart';
+import './examples/example1.dart';
 
 class CollapsePage extends ResponsivePage {
   const CollapsePage({super.key});

@@ -31,7 +31,7 @@ class CodeExample extends HookWidget {
           elevation: 0,
           shadowColor: Colors.black38,
           margin: EdgeInsets.zero,
-          // color: context.elTheme.colors.bg,
+          color: context.elTheme.colors.bg,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: context.elTheme.cardStyle.radius,

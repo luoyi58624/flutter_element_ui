@@ -21,6 +21,8 @@ class ElIconTheme extends InheritedWidget {
   static ElIconTheme? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ElIconTheme>();
 
+  static ElIconTheme of(BuildContext context) => maybeOf(context)!;
+
   @override
   bool updateShouldNotify(ElIconTheme oldWidget) => oldWidget != this;
 }

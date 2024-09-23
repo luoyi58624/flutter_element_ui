@@ -10,45 +10,22 @@ class NavPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      GestureDetector(
-        onTapDown: (e) {
-          i('red');
-        },
-        child: Stack(
-          children: [
-            Container(
-              width: 300,
-              height: 300,
-              color: Colors.red,
-              child: Center(
-                child: GestureDetector(
-                  onTapDown: (e) {
-                    i('green');
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    color: Colors.green,
-                  ),
-                ),
+      Stack(
+        children: [
+          Container(
+            width: 300,
+            height: 300,
+            // color: Colors.white,
+            child: Center(
+              child: Container(
+                width: 100,
+                height: 100,
+                color: context.elTheme.colors.borderLighter,
+                // color: Colors.grey,
               ),
             ),
-            // Positioned.fill(
-            //   child: Center(
-            //     child: GestureDetector(
-            //       onTapDown: (e) {
-            //         i('green');
-            //       },
-            //       child: Container(
-            //         width: 100,
-            //         height: 100,
-            //         color: Colors.green,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+          ),
+        ],
       ),
     ];
   }
