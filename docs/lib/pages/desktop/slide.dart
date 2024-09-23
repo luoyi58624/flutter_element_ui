@@ -1,12 +1,25 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../router/router_config.dart';
+import '../../router/router_config.dart';
 
 class SlideWidget extends StatelessWidget {
   const SlideWidget(this.models, {super.key});
 
   final List<SlideRouteModelType> models;
+
+  Color buildStatusColor(BuildContext context, WorkStatus status) {
+    switch (status) {
+      case WorkStatus.pending:
+        return context.elTheme.info;
+      case WorkStatus.processing:
+        return context.elTheme.primary;
+      case WorkStatus.beta:
+        return context.elTheme.warning;
+      case WorkStatus.finished:
+        return context.elTheme.success;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,17 +75,43 @@ class SlideWidget extends StatelessWidget {
                                                       )
                                                 : null,
                                           ),
-                                          child: ElText(
-                                            e.$1,
-                                            duration: Duration.zero,
-                                            style: TextStyle(
-                                              color: context.isHover || isActive
-                                                  ? context.elTheme.primary
-                                                  : context.isDark
-                                                      ? Colors.grey.shade100
-                                                      : Colors.grey.shade800,
-                                              fontSize: 0.875.rem(context),
-                                            ),
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: 12,
+                                                height: 12,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: buildStatusColor(
+                                                    context,
+                                                    e.$3,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Gap(8),
+                                              Expanded(
+                                                child: ElText(
+                                                  e.$1,
+                                                  duration: Duration.zero,
+                                                  style: TextStyle(
+                                                    color: context.isHover ||
+                                                            isActive
+                                                        ? context
+                                                            .elTheme.primary
+                                                        : context.isDark
+                                                            ? Colors
+                                                                .grey.shade100
+                                                            : Colors
+                                                                .grey.shade800,
+                                                    fontSize:
+                                                        0.875.rem(context),
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         );
                                       });

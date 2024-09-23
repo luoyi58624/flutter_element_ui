@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../router/router_config.dart';
-import '../../widgets/slide.dart';
+import 'slide.dart';
 
 class DesktopGuideLayout extends StatelessWidget {
   const DesktopGuideLayout({super.key, required this.child});
