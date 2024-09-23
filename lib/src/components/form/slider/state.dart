@@ -22,7 +22,6 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
 
   /// 是否开始拖拽
   bool isDrag = false;
-  bool isDragThumb = false;
 
   /// 鼠标是否悬停在 Slider 上
   final isHover = Obs(false);

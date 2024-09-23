@@ -35,6 +35,7 @@ class _ElProgressState extends ElSingleAnimatedWidgetState<ElProgress> {
 
   @override
   Widget build(BuildContext context) {
+    LinearProgressIndicator();
     return LayoutBuilder(builder: (context, constraints) {
       final $maxSize = constraints.maxWidth;
       final $valueSize = constraints.maxWidth * valueRatio;
@@ -43,7 +44,7 @@ class _ElProgressState extends ElSingleAnimatedWidgetState<ElProgress> {
           child: Container(
             height: widget.size,
             decoration: BoxDecoration(
-              color: widget.bgColor ?? context.elTheme.colors.borderLighter,
+              color: widget.bgColor ?? context.elTheme.colors.borderLight,
               borderRadius: widget.round
                   ? BorderRadius.circular(widget.size / 2)
                   : widget.borderRadius,

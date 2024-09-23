@@ -12,7 +12,7 @@ Highlighter? _lightCode;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
-class CodePreview extends HookWidget {
+class CodePreview extends StatefulWidget {
   /// 示例代码预览小部件，展示效果基于第三方库：[syntax_highlight]
   const CodePreview({
     super.key,
@@ -27,6 +27,13 @@ class CodePreview extends HookWidget {
   final double? height;
   final BorderRadiusGeometry? borderRadius;
 
+  @override
+  State<CodePreview> createState() => _CodePreviewState();
+}
+
+class _CodePreviewState extends State<CodePreview> {
+  final code = Obs(const TextSpan());
+
   TextStyle get _textStyle => const TextStyle(
         fontFamily: MyFonts.consolas,
         fontSize: 14,
@@ -39,14 +46,26 @@ class CodePreview extends HookWidget {
       );
 
   @override
+  void initState() {
+    super.initState();
+    initCodeStyle(context);
+  }
+
+  @override
+  void didUpdateWidget(covariant CodePreview oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.code != oldWidget.code) {
+      initCodeStyle(context);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final $code = useState<TextSpan>(const TextSpan());
-    initCodeStyle(context, $code);
-    return buildCodePreview($code);
+    return buildCodePreview();
   }
 
   /// 初始化预览代码样式，全局只加载一次
-  void initCodeStyle(BuildContext context, $code) {
+  void initCodeStyle(BuildContext context) {
     if (_initialize == false || _lightCode == null || _darkCode == null) {
       ElUtils.nextTick(() async {
         await Highlighter.initialize(['dart']);
@@ -70,74 +89,75 @@ class CodePreview extends HookWidget {
         _lightCode = Highlighter(language: 'dart', theme: lightCodeTheme);
         _darkCode = Highlighter(language: 'dart', theme: darkCodeTheme);
         if (context.mounted) {
-          $code.value = (GlobalState.forceDarkCodeExample.value
+          code.value = (GlobalState.forceDarkCodeExample.value
                   ? _darkCode
                   : (context.isDark ? _darkCode : _lightCode))!
-              .highlight(code);
+              .highlight(widget.code);
         }
       });
     } else {
-      $code.value = (GlobalState.forceDarkCodeExample.value
+      code.value = (GlobalState.forceDarkCodeExample.value
               ? _darkCode
               : (context.isDark ? _darkCode : _lightCode))!
-          .highlight(code);
+          .highlight(widget.code);
     }
   }
 
   /// 构建预览代码块
-  Widget buildCodePreview($code) {
-    return ElHoverBuilder(builder: (context) {
-      final $bgColor = (GlobalState.forceDarkCodeExample.value
-              ? ElApp.of(context).darkTheme.colors.bg
-              : context.elTheme.colors.bg)
-          .deepen(3);
-      return Stack(
-        children: [
-          TextSelectionTheme(
-            data: TextSelectionThemeData(
-              selectionColor: $bgColor.isDark
-                  ? Colors.blueAccent.withOpacity(0.5)
-                  : Colors.blue.withOpacity(0.36),
+  Widget buildCodePreview() {
+    final $bgColor = (GlobalState.forceDarkCodeExample.value
+            ? ElApp.of(context).darkTheme.colors.bg
+            : context.elTheme.colors.bg)
+        .deepen(3);
+    return Stack(
+      children: [
+        TextSelectionTheme(
+          data: TextSelectionThemeData(
+            selectionColor: $bgColor.isDark
+                ? Colors.blueAccent.withOpacity(0.5)
+                : Colors.blue.withOpacity(0.36),
+          ),
+          child: AnimatedContainer(
+            duration: context.elConfig.themeDuration,
+            width: double.infinity,
+            height: widget.height,
+            decoration: BoxDecoration(
+              color: $bgColor,
+              borderRadius:
+                  widget.borderRadius ?? context.elTheme.cardStyle.radius,
             ),
-            child: AnimatedContainer(
-              duration: context.elConfig.themeDuration,
-              width: double.infinity,
-              height: height,
-              decoration: BoxDecoration(
-                color: $bgColor,
-                borderRadius: borderRadius ?? context.elTheme.cardStyle.radius,
-              ),
-              child: IntrinsicHeight(
-                child: Row(
-                  children: [
-                    buildLineNum(context, $bgColor),
-                    Expanded(child: buildCode($code)),
-                  ],
-                ),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  buildLineNum(context, $bgColor),
+                  Expanded(child: buildCode()),
+                ],
               ),
             ),
           ),
-          Positioned(
-            top: 10,
-            right: 16,
-            child: buildCopyButton(context),
-          ),
-        ],
-      );
-    });
+        ),
+        Positioned(
+          top: 10,
+          right: 16,
+          child: buildCopyButton(context),
+        ),
+      ],
+    );
   }
 
-  Widget buildCode($code) {
+  Widget buildCode() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: ObsBuilder(builder: (context) {
         Widget result = Container(
           padding: _padding,
-          child: ElText(
-            $code.value,
-            softWrap: false,
-            style: _textStyle,
-          ),
+          child: ObsBuilder(builder: (context) {
+            return ElText(
+              code.value,
+              softWrap: false,
+              style: _textStyle,
+            );
+          }),
         );
         if (GlobalState.enableGlobalTextSelected.value) {
           if (RouterState.isMobile.value == true) {
@@ -152,7 +172,7 @@ class CodePreview extends HookWidget {
   }
 
   Widget buildLineNum(BuildContext context, Color bgColor) {
-    final numLines = '\n'.allMatches(code).length + 1;
+    final numLines = '\n'.allMatches(widget.code).length + 1;
 
     return Container(
       height: double.infinity,
@@ -184,40 +204,34 @@ class CodePreview extends HookWidget {
   }
 
   Widget buildCopyButton(BuildContext context) {
-    return AnimatedOpacity(
-      duration: 200.ms,
-      opacity: ElPlatform.isMobile || context.isHover ? 1.0 : 0.0,
-      child: ElHoverBuilder(
-        cursor: SystemMouseCursors.click,
-        builder: (context) {
-          return GestureDetector(
-            onTap: () async {
-              await Clipboard.setData(ClipboardData(text: code));
-              el.message.success('复制成功');
-            },
-            onTapDown: (e) {
-              HapticFeedback.mediumImpact();
-            },
-            child: AnimatedContainer(
-              duration: context.elThemeDuration ?? 250.ms,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: context.elTheme.cardStyle.radius,
-                color: context.isDark
-                    ? Colors.grey.shade700
-                    : Colors.grey.shade300,
-              ),
-              child: ElIcon(
-                ElIcons.documentCopy,
-                color: context.isDark
-                    ? Colors.grey.shade300
-                    : Colors.grey.shade700,
-                size: 18,
-              ),
+    return ElHoverBuilder(
+      cursor: SystemMouseCursors.click,
+      builder: (context) {
+        return GestureDetector(
+          onTap: () async {
+            await Clipboard.setData(ClipboardData(text: widget.code));
+            el.message.success('复制成功');
+          },
+          onTapDown: (e) {
+            HapticFeedback.mediumImpact();
+          },
+          child: AnimatedContainer(
+            duration: context.elThemeDuration ?? 250.ms,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: context.elTheme.cardStyle.radius,
+              color:
+                  context.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
             ),
-          );
-        },
-      ),
+            child: ElIcon(
+              ElIcons.documentCopy,
+              color:
+                  context.isDark ? Colors.grey.shade300 : Colors.grey.shade700,
+              size: 18,
+            ),
+          ),
+        );
+      },
     );
   }
 }

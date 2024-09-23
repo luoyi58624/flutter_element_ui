@@ -20,7 +20,7 @@ class NavPage extends ResponsivePage {
               child: Container(
                 width: 100,
                 height: 100,
-                color: context.elTheme.colors.borderLighter,
+                color: context.elTheme.colors.border,
                 // color: Colors.grey,
               ),
             ),

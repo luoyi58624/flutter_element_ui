@@ -11,13 +11,13 @@ class SlideWidget extends StatelessWidget {
   Color buildStatusColor(BuildContext context, WorkStatus status) {
     switch (status) {
       case WorkStatus.pending:
-        return context.elTheme.info;
+        return Colors.grey;
       case WorkStatus.processing:
-        return context.elTheme.primary;
+        return Colors.blue;
       case WorkStatus.beta:
-        return context.elTheme.warning;
+        return Colors.orange;
       case WorkStatus.finished:
-        return context.elTheme.success;
+        return Colors.green;
     }
   }
 
