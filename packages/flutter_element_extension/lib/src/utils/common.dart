@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:archive/archive.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:crypto/crypto.dart' as crypto;
 
 class ElUtil {
   ElUtil._();
+
+  static final Codec<String, String> _base64Codec = utf8.fuse(base64);
 
   /// 判断一个变量是否为空，例如：null、''、[]、{}
   ///
@@ -146,5 +152,39 @@ class ElUtil {
       }
     }
     return Size(newWidth, newHeight);
+  }
+
+  /// 使用md5加密字符串
+  static String md5(String str) =>
+      crypto.md5.convert(utf8.encode(str)).toString();
+
+  /// 字符串转base64
+  static String toBase64(String str) => _base64Codec.encode(str);
+
+  /// base64转字符串
+  static String formBase64(String base64Str) => _base64Codec.decode(base64Str);
+
+  /// 将字符串编码压缩
+  static String encodeString(String str) {
+    List<int> stringBytes = utf8.encode(str);
+    List<int> gzipBytes = GZipEncoder().encode(stringBytes)!;
+    return base64UrlEncode(gzipBytes);
+  }
+
+  /// 将字符串编码压缩
+  static String decodeString(String str) {
+    List<int> stringBytes = base64Url.decode(str);
+    List<int> gzipBytes = GZipDecoder().decodeBytes(stringBytes);
+    return utf8.decode(gzipBytes);
+  }
+
+  /// 给定一个包含任意类型的变量数组，判断内部变量是否仅有一个元素不为null
+  /// * allowAllNull 允许所有变量均为null
+  static bool onlyOneNotNull(
+    List values, {
+    bool allowAllNull = false,
+  }) {
+    final l = values.where((e) => e != null).length;
+    return allowAllNull ? l == 0 || l == 1 : l == 1;
   }
 }
