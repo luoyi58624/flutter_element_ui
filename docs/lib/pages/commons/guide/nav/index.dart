@@ -10,22 +10,31 @@ class NavPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      Stack(
-        children: [
-          Container(
-            width: 300,
-            height: 300,
-            // color: Colors.white,
-            child: Center(
-              child: Container(
-                width: 100,
-                height: 100,
-                color: context.elTheme.colors.border,
-                // color: Colors.grey,
+      Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: Stack(
+            children: [
+              Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                ),
               ),
-            ),
+              Positioned(
+                // left: -50,
+                // top: 25,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.orange,
+                  // color: Colors.grey,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     ];
   }

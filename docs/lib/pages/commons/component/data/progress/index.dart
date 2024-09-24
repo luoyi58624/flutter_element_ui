@@ -15,7 +15,7 @@ class ProgressPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Example1(title: '直线进度条'),
-      const Example2(title: '直线进度条'),
+      // const Example2(title: '直线进度条'),
     ];
   }
 }
