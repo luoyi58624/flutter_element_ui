@@ -14,7 +14,7 @@ class DebugSettingPage extends StatelessWidget {
       body: ColumnWidget(
         scroll: true,
         children: [
-          if (isRelease == false)
+          if (kDebugMode)
             ObsBuilder(builder: (context) {
               return CellWidget(
                 title: '开启边界重绘',

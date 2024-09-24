@@ -2,6 +2,7 @@ import 'package:example/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'scroll_view.dart';
 
@@ -117,7 +118,7 @@ class _RenderScroll extends RenderBox
 
   @override
   void performLayout() {
-    i(constraints);
+    el.i(constraints);
     size = constraints.biggest;
     if (child != null) {
       child!.layout(const BoxConstraints());

@@ -49,6 +49,7 @@ export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/tabs.dart';
 
 export 'src/components/others/anchor.dart';
+export 'src/components/others/code_preview.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';

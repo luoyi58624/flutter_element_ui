@@ -74,7 +74,7 @@ extension _GlobalShortcut on Widget {
         actions: {
           LogIntent: CallbackAction(
             onInvoke: (intent) => () {
-              i('打印日志');
+              el.i('打印日志');
             }(),
           ),
           ShowSemanticsDebuggerIntent: CallbackAction(

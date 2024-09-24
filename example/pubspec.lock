@@ -199,7 +199,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_animate:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_animate
       sha256: "7c8a6594a9252dad30cc2ef16e33270b6248c4dedc3b3d06c86c4f3f4dc05ae5"
@@ -211,7 +211,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: ba4e1627c331ddee3f80d72095daca6ca991ad83
+      resolved-ref: "13a678c065f5ddd3ea8c923ded7b79eec7e23eef"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -231,7 +231,7 @@ packages:
     source: path
     version: "0.0.1"
   flutter_element_extension:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_element_extension"
       relative: true
@@ -813,5 +813,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.5.2 <4.0.0"
+  dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.24.0"

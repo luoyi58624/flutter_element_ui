@@ -21,7 +21,7 @@ class HookDemoPage extends HookWidget {
 
 Widget useButton(HookRecoard hook) {
   useEffect(() {
-    i(hook.count.value);
+    el.i(hook.count.value);
     return null;
   }, [hook.count.value]);
 

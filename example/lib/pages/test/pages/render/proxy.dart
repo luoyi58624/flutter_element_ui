@@ -21,7 +21,7 @@ class ProxyRenderTestPage extends StatelessWidget {
                 _Box(
                   child: GestureDetector(
                     onTap: () {
-                      i('xx');
+                      el.i('xx');
                     },
                     // child: Container(
                     //   width: 100,

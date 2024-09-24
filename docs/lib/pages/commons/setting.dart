@@ -46,7 +46,7 @@ class GlobalSetting extends StatelessWidget {
               }),
             ],
           ),
-          if (isRelease == false)
+          if (kDebugMode)
             ObsBuilder(builder: (context) {
               return CellWidget(
                 title: '开启边界重绘',

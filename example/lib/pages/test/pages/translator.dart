@@ -13,7 +13,7 @@ class TranslatorTestPage extends HookWidget {
       from: 'auto',
       to: 'zh-cn',
     );
-    i(res);
+    el.i(res);
     return res.text;
     // translator.translate(input2, from: 'auto', to: 'zh-cn').then(print);
   }
@@ -41,7 +41,7 @@ class TranslatorTestPage extends HookWidget {
             onPressed: () async {
               // ElUtil.getAncestorElement(context)
               context.visitChildElements((element) {
-                i(element);
+                el.i(element);
               });
               final str = await sendTranslator(input.value);
               if (str != null) {

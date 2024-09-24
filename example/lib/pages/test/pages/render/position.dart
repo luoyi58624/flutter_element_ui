@@ -93,7 +93,7 @@ class _RenderStack extends RenderBox
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     // return defaultHitTestChildren(result, position: position);
-    i('xx');
+    el.i('xx');
     var child = lastChild;
     while (child != null) {
       // The x, y parameters have the top left of the node's box as the origin.

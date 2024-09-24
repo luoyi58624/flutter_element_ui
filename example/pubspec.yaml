@@ -14,9 +14,12 @@ dependencies:
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
+  flutter_element_extension:
+    path: ../packages/flutter_element_extension
   decimal: ^3.0.0
   custom_pop_up_menu: ^1.2.4
   flutter_syntax_view: ^4.1.0
+  flutter_animate: ^4.5.0
   translator: ^1.0.0
   faker: ^2.2.0
 
@@ -29,6 +32,8 @@ dependency_overrides:
   luoyi_flutter_base:
     git:
       url: https://github.com/luoyi58624/luoyi_flutter_base.git
+  flutter_element_extension:
+    path: ../packages/flutter_element_extension
   web: ^1.0.0
 
 flutter:

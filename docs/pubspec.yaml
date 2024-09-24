@@ -9,6 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_element_ui:
+    path: ../
+  flutter_element_extension:
+    path: ../packages/flutter_element_extension
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
@@ -16,8 +20,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   syntax_highlight: ^0.4.0
   decimal: ^3.0.0
-  flutter_element_ui:
-    path: ../
   boxy: ^2.2.0
   web: ^1.0.0
   url_strategy: ^0.3.0

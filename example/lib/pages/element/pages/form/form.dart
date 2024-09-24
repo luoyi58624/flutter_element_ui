@@ -38,7 +38,7 @@ class _FormPageState extends State<FormPage> {
                     children: [
                       ElButton(
                         onPressed: () {
-                          i(formData);
+                          el.i(formData);
                         },
                         type: 'primary',
                         child: '提 交',

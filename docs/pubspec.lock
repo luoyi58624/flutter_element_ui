@@ -235,7 +235,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2875e5d2b320e56c0daf98bc65e5ffccde0d6637"
+      resolved-ref: "13a678c065f5ddd3ea8c923ded7b79eec7e23eef"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -255,7 +255,7 @@ packages:
     source: path
     version: "0.0.1"
   flutter_element_extension:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../packages/flutter_element_extension"
       relative: true

@@ -8,7 +8,7 @@ class CommonUtil {
   }) async {
     await Clipboard.setData(ClipboardData(text: text));
     String $copyMessage = '复制成功';
-    if (!DartUtil.isEmpty(copyMessage)) {
+    if (!ElUtil.isEmpty(copyMessage)) {
       $copyMessage += ': $copyMessage';
     }
     el.message.primary(

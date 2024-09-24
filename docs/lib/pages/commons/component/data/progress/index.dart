@@ -3,7 +3,6 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 import './examples/example1.dart';
-import './examples/example2.dart';
 
 class ProgressPage extends ResponsivePage {
   const ProgressPage({super.key});

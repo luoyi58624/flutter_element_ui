@@ -30,7 +30,7 @@ class _ContextMenuExample extends HookWidget {
   Widget build(BuildContext context) {
     return ElContextMenu(
       on: (offset){
-        i(offset);
+        el.i(offset);
       },
       child: Container(
         width: 100,

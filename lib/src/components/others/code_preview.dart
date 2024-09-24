@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_extension/src/extensions/color.dart';
+import 'package:flutter_element_extension/flutter_element_extension.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
-
-import '../utils/common.dart';
-import 'hover.dart';
 
 /// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
 bool _initialize = false;
@@ -14,9 +10,9 @@ bool _initialize = false;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
-class CodePreview extends StatefulWidget {
+class ElCodePreview extends StatefulWidget {
   /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
-  const CodePreview({
+  const ElCodePreview({
     super.key,
     required this.code,
     this.fontFamily,
@@ -49,10 +45,10 @@ class CodePreview extends StatefulWidget {
   final BorderRadius? borderRadius;
 
   @override
-  State<CodePreview> createState() => _CodePreviewState();
+  State<ElCodePreview> createState() => _ElCodePreviewState();
 }
 
-class _CodePreviewState extends State<CodePreview> {
+class _ElCodePreviewState extends State<ElCodePreview> {
   final code = Obs(const TextSpan());
 
   TextStyle get _textStyle => TextStyle(
@@ -82,7 +78,7 @@ class _CodePreviewState extends State<CodePreview> {
   }
 
   @override
-  void didUpdateWidget(covariant CodePreview oldWidget) {
+  void didUpdateWidget(covariant ElCodePreview oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.code != oldWidget.code) {
       initCodeStyle(context);
@@ -91,7 +87,7 @@ class _CodePreviewState extends State<CodePreview> {
 
   @override
   Widget build(BuildContext context) {
-    return buildCodePreview();
+    return buildElCodePreview();
   }
 
   /// 初始化预览代码样式，全局只加载一次
@@ -121,7 +117,7 @@ class _CodePreviewState extends State<CodePreview> {
   }
 
   /// 构建预览代码块
-  Widget buildCodePreview() {
+  Widget buildElCodePreview() {
     return Stack(
       children: [
         TextSelectionTheme(

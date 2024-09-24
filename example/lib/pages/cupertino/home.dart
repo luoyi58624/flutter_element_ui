@@ -1,5 +1,6 @@
 import 'package:example/global.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

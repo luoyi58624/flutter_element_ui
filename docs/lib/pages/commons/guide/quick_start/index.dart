@@ -44,7 +44,7 @@ class QuickStartPage extends ResponsivePage {
 
     useLoadData();
     onMounted(() async {
-      i('mounted, size: ${context.size}');
+      el.i('mounted, size: ${context.size}');
     });
     useWatch(flag, (newValue, oldValue) {
       if (newValue) {

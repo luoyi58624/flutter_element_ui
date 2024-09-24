@@ -11,7 +11,7 @@ class ImagePage extends HookWidget {
       'https://api.unsplash.com/photos/random/?client_id=H1Ta-9K4hz-7M0B5sCPN9PtxHNmaPl87QDfCzsf7E2c&count=10',
       getRequestExtra: GetRequestExtra(enableCache: true, useCache: true),
     );
-    if (!DartUtil.isEmpty(resData)) {
+    if (!ElUtil.isEmpty(resData)) {
       final urlList =
           (resData as List).cast<Map>().map((e) => e['urls']['small']).toList();
       List<String> list = [];
