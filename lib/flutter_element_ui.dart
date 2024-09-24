@@ -61,6 +61,7 @@ export 'src/extensions/widget.dart';
 
 export 'src/models/menu.dart';
 
+export 'src/services/logger.dart';
 export 'src/services/message.dart' show ElMessageModel, ElMessageBuilder;
 
 export 'src/styles/theme_data.dart';
