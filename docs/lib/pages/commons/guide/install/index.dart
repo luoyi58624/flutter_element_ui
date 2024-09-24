@@ -134,7 +134,7 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: ElButton(
           onPressed: () {
-            context.push('/child');
+            context.go('/child');
           },
           child: '进入子页面',
         ),
@@ -155,7 +155,7 @@ class ChildPage extends StatelessWidget {
       body: Center(
         child: ElButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: '返回首页',
         ),

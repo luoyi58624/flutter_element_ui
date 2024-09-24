@@ -51,13 +51,13 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     if (widget.max != oldWidget.max || widget.min != oldWidget.min) {
       _currentDragValue = _sliderValue;
       if (widget.max < modelValue) {
-        ElUtils.nextTick(() {
+        ElUtil.nextTick(() {
           modelValue = widget.max;
           _currentDragValue = _sliderValue;
         });
       }
       if (widget.min > modelValue) {
-        ElUtils.nextTick(() {
+        ElUtil.nextTick(() {
           modelValue = widget.min;
           _currentDragValue = _sliderValue;
         });
@@ -224,7 +224,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
             : () {
                 cancelDrag();
               },
-        child: ElHoverBuilder(
+        child: HoverBuilder(
             cursor: widget.sliderWidget.cursor ?? ElCursorUtil.grab,
             builder: (context) {
               return ObsBuilder(builder: (context) {
@@ -266,10 +266,10 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           : () {
               cancelDrag();
             },
-      child: ElHoverBuilder(
+      child: HoverBuilder(
           cursor: SystemMouseCursors.click,
           builder: (context) {
-            ElUtils.nextTick(() {
+            ElUtil.nextTick(() {
               isHover.value = context.isHover;
             });
             return child;

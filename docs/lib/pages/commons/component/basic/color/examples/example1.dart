@@ -171,7 +171,7 @@ class Example1 extends StatelessWidget {
                           onTap: () async {
                             CommonUtil.copy(e.toHex(), copyMessage: e.toHex());
                           },
-                          child: ElHoverBuilder(
+                          child: HoverBuilder(
                               cursor: SystemMouseCursors.click,
                               builder: (context) {
                                 return AnimatedContainer(
@@ -213,7 +213,7 @@ Row(
           await Clipboard.setData(ClipboardData(text: colorText));
           el.message.success('复制成功: \$colorText');
         },
-        child: ElHoverBuilder(
+        child: HoverBuilder(
           cursor: SystemMouseCursors.click,
           builder: (context) {
             return AnimatedContainer(

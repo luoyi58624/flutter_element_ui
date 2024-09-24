@@ -10,7 +10,7 @@ class _CustomScrollBehavior extends ScrollBehavior {
   @override
   Widget buildOverscrollIndicator(context, child, details) {
     // 如果是安卓平台，统一使用 M3 的过度滚动效果
-    if (ElPlatform.isAndroid) {
+    if (PlatformUtil.isAndroid) {
       return StretchingOverscrollIndicator(
         axisDirection: details.direction,
         child: child,
@@ -27,15 +27,15 @@ class ElScrollBehavior extends _CustomScrollBehavior {
 
   @override
   Widget buildScrollbar(context, child, details) {
-    if (ElPlatform.isWindows ||
-        ElPlatform.isMacOS ||
-        ElPlatform.isLinux) {
+    if (PlatformUtil.isWindows ||
+        PlatformUtil.isMacOS ||
+        PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
         child: child,
       );
     }
-    if (ElPlatform.isIOS) {
+    if (PlatformUtil.isIOS) {
       return CupertinoScrollbar(
         controller: details.controller,
         child: child,

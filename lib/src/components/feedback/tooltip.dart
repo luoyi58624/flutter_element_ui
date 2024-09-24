@@ -46,7 +46,7 @@ class _ElTooltipState extends State<ElTooltip> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        ElUtils.nextTick(() {
+        ElUtil.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });
@@ -86,7 +86,7 @@ class _ElTooltipState extends State<ElTooltip> {
   @override
   void initState() {
     super.initState();
-    ElUtils.nextTick(() async {
+    ElUtil.nextTick(() async {
       overlayEntry = OverlayEntry(builder: (_) {
         return _overlayWidget;
       });
@@ -151,10 +151,10 @@ class _ElTooltipState extends State<ElTooltip> {
 
   @override
   Widget build(BuildContext context) {
-    ElUtils.nextTick(() {
+    ElUtil.nextTick(() {
       buildCount.value++;
     });
-    return ElHoverBuilder(
+    return HoverBuilder(
       onlyCursor: true,
       onEnter: (e) {
         if (delayHideOverlay == null) {

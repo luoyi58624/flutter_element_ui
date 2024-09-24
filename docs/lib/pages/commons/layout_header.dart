@@ -92,7 +92,7 @@ class LayoutHeader extends StatelessWidget {
                         onTapDown: (e){
                           ElLink.to(context);
                         },
-                        child: ElHoverBuilder(
+                        child: HoverBuilder(
                           cursor: SystemMouseCursors.click,
                           builder: (context) {
                             final isActive =
@@ -110,7 +110,7 @@ class LayoutHeader extends StatelessWidget {
                                       duration: 0.ms,
                                       style: TextStyle(
                                           fontSize: 14,
-                                          color: ElHoverBuilder.of(context)
+                                          color: HoverBuilder.of(context)
                                               ? context.elTheme.primary
                                               : context.elTheme.colors.text),
                                     ),

@@ -19,7 +19,7 @@ GoRouterRedirect _routerRedirect = (BuildContext context, GoRouterState state) {
   if (state.fullPath != null) {
     // 设置当前路由地址响应式变量
     RouterState.currentPath.value = state.fullPath!;
-    ElUtils.nextTick(() {
+    ElUtil.nextTick(() {
       el.anchor.scrollTo(state.uri.toString());
     });
   }
@@ -37,7 +37,7 @@ class RouterUtil {
     return GoRoute(
       path: path,
       pageBuilder: (context, state) => RouterState.isMobile.value == true
-          ? ElPlatform.isIOS
+          ? PlatformUtil.isIOS
               ? CupertinoPage(child: builder(context, state))
               : MaterialPage(child: builder(context, state))
           : NoTransitionPage(

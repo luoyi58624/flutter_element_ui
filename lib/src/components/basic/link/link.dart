@@ -143,15 +143,15 @@ class ElLink extends StatelessWidget {
       toLink,
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
-          color: ElHoverBuilder.of(context) ? $activeColor : $color,
+          color: HoverBuilder.of(context) ? $activeColor : $color,
           decoration: $decoration == ElLinkDecoration.underline
               ? TextDecoration.underline
               : $decoration == ElLinkDecoration.hoverUnderline
-                  ? (ElHoverBuilder.of(context)
+                  ? (HoverBuilder.of(context)
                       ? TextDecoration.underline
                       : TextDecoration.none)
                   : TextDecoration.none,
-          decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
+          decorationColor: HoverBuilder.of(context) ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
       ),
@@ -165,7 +165,7 @@ class ElLink extends StatelessWidget {
       onTap: () {
         _toLink();
       },
-      child: ElHoverBuilder(
+      child: HoverBuilder(
         cursor: cursor,
         onEnter: previewLink == null
             ? null

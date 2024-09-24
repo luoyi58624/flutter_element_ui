@@ -39,7 +39,7 @@ class TranslatorTestPage extends HookWidget {
           // Text('翻译结果：${text.value}'),
           ElButton(
             onPressed: () async {
-              // ElUtils.getAncestorElement(context)
+              // ElUtil.getAncestorElement(context)
               context.visitChildElements((element) {
                 i(element);
               });

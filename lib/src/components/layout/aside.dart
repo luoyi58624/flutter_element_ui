@@ -35,7 +35,7 @@ class ElAside extends ElLayoutWidget {
       bottom: false,
       left: false,
       right: false,
-      child: ElAnimatedColoredBox(
+      child: AnimatedColoredBox(
         duration: context.elConfig.themeDuration,
         color: bgColor ?? context.elTheme.asideStyle.color,
         child: ObsBuilder(builder: (context) {

@@ -1,9 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
-
-import '../service.dart';
-import '../utils/common.dart';
-import '../utils/platform/platform.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 mixin CursorService {
   /// 全局光标实例对象
@@ -19,8 +15,8 @@ class CursorInstance {
   /// 添加全局光标，它会在页面上方创建一层完全透明的遮罩，防止页面中其他元素捕获悬停状态，
   /// 如果遮罩已存在，同时新的光标与旧值不相等，则仅更新全局光标。
   void add([MouseCursor? cursor]) {
-    if (ElPlatform.isDesktop && _cursor.value != cursor) {
-      ElUtils.nextTick(() {
+    if (PlatformUtil.isDesktop && _cursor.value != cursor) {
+      ElUtil.nextTick(() {
         _cursor.value = cursor ?? MouseCursor.defer;
         if (_overlayEntry == null) {
           _overlayEntry = OverlayEntry(
@@ -38,7 +34,7 @@ class CursorInstance {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
-      ElUtils.nextTick(() {
+      ElUtil.nextTick(() {
         _cursor.value = MouseCursor.defer;
       });
     }

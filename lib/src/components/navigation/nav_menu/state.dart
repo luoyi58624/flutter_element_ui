@@ -214,7 +214,7 @@ class _MenuItemState extends State<_MenuItem> {
             isManual = true;
             expanded = !expanded;
           });
-          ElUtils.nextTick(() async {
+          ElUtil.nextTick(() async {
             isManual = false;
           });
         } else {
@@ -224,11 +224,11 @@ class _MenuItemState extends State<_MenuItem> {
         }
       },
       child: Builder(builder: (context) {
-        return ElAnimatedColoredBox(
+        return AnimatedColoredBox(
           duration:
               context.elThemeDuration ?? const Duration(milliseconds: 100),
           curve: context.elThemeCurve ?? Curves.easeOut,
-          color: bgColor.on(ElHoverBuilder.of(context),
+          color: bgColor.on(HoverBuilder.of(context),
               scale: bgColor.isDark ? 16 : 10),
           child: SizedBox(
             height: 56,
@@ -290,7 +290,7 @@ class _MenuItemState extends State<_MenuItem> {
         child: result,
       );
     } else {
-      return ElHoverBuilder(
+      return HoverBuilder(
         cursor: SystemMouseCursors.click,
         builder: (context) => result,
       );

@@ -122,7 +122,7 @@ class _CardWidget extends StatelessWidget {
                     height: 50,
                     decoration: BoxDecoration(
                       color:
-                          ElTapBuilder.of(context) || ElHoverBuilder.of(context)
+                          TapBuilder.of(context) || HoverBuilder.of(context)
                               ? context.elTheme.primary
                               : context.elTheme.cardStyle.color,
                       borderRadius: BorderRadius.only(
@@ -134,8 +134,8 @@ class _CardWidget extends StatelessWidget {
                       child: ElText(
                         '查看详情',
                         style: TextStyle(
-                          color: ElTapBuilder.of(context) ||
-                                  ElHoverBuilder.of(context)
+                          color: TapBuilder.of(context) ||
+                                  HoverBuilder.of(context)
                               ? Colors.white
                               : context.elTheme.primary,
                         ),

@@ -1,9 +1,59 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/global.dart';
 
-class ElUtils {
-  ElUtils._();
+class ElUtil {
+  ElUtil._();
+
+  /// 判断一个变量是否为空，例如：null、''、[]、{}
+  ///
+  /// checkNum - 若为true，则判断数字是否为0
+  /// checkString - 若为true，则判断字符串是否为 'null'
+  static bool isEmpty(
+    dynamic value, {
+    bool? checkNum,
+    bool? checkString,
+  }) {
+    if (null == value) {
+      return true;
+    } else if (value is String) {
+      var str = value.trim();
+      if (checkString == true) {
+        return str.isEmpty || str == 'null';
+      } else {
+        return str.isEmpty;
+      }
+    } else if (checkNum == true && value is num) {
+      return value == 0;
+    } else if (value is List) {
+      return value.isEmpty;
+    } else if (value is Map) {
+      return value.isEmpty;
+    } else if (value is Object) {
+      return value == {};
+    } else {
+      return false;
+    }
+  }
+
+  /// 将动态类型转换成实际基础类型：String、int、double、num、bool，如果
+  /// * strict 如果为true，对于非基础类型将一律返回null
+  static dynamic dynamicToBaseType(dynamic value, [bool? strict]) {
+    String type = value.runtimeType.toString();
+    if (type == 'String') {
+      dynamic v = int.tryParse(value);
+      if (v != null) return v;
+      v = double.tryParse(value);
+      if (v != null) return v;
+      v = bool.tryParse(value);
+      if (v != null) return v;
+      return value;
+    }
+    if (type == 'int') return value;
+    if (type == 'double') return value;
+    if (type == 'bool') return value;
+    if (type == 'num') return value;
+    return strict == true ? null : value;
+  }
 
   /// 刷新整个应用
   static void refreshApp() {
@@ -51,7 +101,7 @@ class ElUtils {
   }
 
   /// 计算限制后的元素尺寸，返回类似于自适应大小的图片尺寸
-  static SizeModel calcConstraintsSize(
+  static Size calcConstraintsSize(
     double width,
     double height,
     double maxWidth,
@@ -78,6 +128,6 @@ class ElUtils {
         newHeight = height;
       }
     }
-    return SizeModel(newWidth, newHeight);
+    return Size(newWidth, newHeight);
   }
 }

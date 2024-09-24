@@ -88,7 +88,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
       child: SizedBox(
         width: double.infinity,
         height: widget.height,
-        child: ElAnimatedColoredBox(
+        child: AnimatedColoredBox(
           duration: context.elConfig.themeDuration,
           color: bgColor,
           child: Padding(

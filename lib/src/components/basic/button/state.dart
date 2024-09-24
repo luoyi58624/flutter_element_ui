@@ -78,7 +78,7 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
-    return ElTapBuilder(
+    return TapBuilder(
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
       },
@@ -88,7 +88,7 @@ class _ElButtonState extends State<ElButton> {
       disabled: disabled,
       delay: _duration,
       builder: (context) {
-        return ElHoverBuilder(
+        return HoverBuilder(
           disabled: disabled,
           cursor: widget.loading
               ? MouseCursor.defer
@@ -148,7 +148,7 @@ class _ElButtonState extends State<ElButton> {
       style: _defaultTextStyle.copyWith(
         color: $colorStyle.textColor,
       ),
-      child: ElAnimatedDecoratedBox(
+      child: AnimatedDecoratedBox(
         duration:
             context.elThemeDuration ?? const Duration(milliseconds: _duration),
         decoration: BoxDecoration(
@@ -361,7 +361,7 @@ class _ElButtonState extends State<ElButton> {
 
           // 镂空按钮
           if (widget.plain) {
-            $bgColor = ElPlatform.isDesktop
+            $bgColor = PlatformUtil.isDesktop
                 ? ($isTap
                     ? $themeColor.tap(context)
                     : $isHover
@@ -373,7 +373,7 @@ class _ElButtonState extends State<ElButton> {
                 ? $themeColor.elTextColor(context)
                 : $themeColor;
 
-            $borderColor = ElPlatform.isDesktop
+            $borderColor = PlatformUtil.isDesktop
                 ? ($isTap
                     ? $themeColor.tap(context)
                     : $isHover

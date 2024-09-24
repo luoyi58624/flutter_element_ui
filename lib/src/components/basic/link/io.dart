@@ -1,4 +1,4 @@
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+
 import 'package:url_launcher/link.dart';
 
 import 'common.dart';

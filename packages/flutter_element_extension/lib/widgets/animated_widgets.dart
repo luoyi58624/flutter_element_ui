@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 /// 动画装饰器盒子
-class ElAnimatedDecoratedBox extends ImplicitlyAnimatedWidget {
-  const ElAnimatedDecoratedBox({
+class AnimatedDecoratedBox extends ImplicitlyAnimatedWidget {
+  const AnimatedDecoratedBox({
     super.key,
     required super.duration,
     super.curve,
@@ -15,12 +15,12 @@ class ElAnimatedDecoratedBox extends ImplicitlyAnimatedWidget {
   final Widget? child;
 
   @override
-  AnimatedWidgetBaseState<ElAnimatedDecoratedBox> createState() =>
-      _ElAnimatedDecoratedBoxState();
+  AnimatedWidgetBaseState<AnimatedDecoratedBox> createState() =>
+      _AnimatedDecoratedBoxState();
 }
 
-class _ElAnimatedDecoratedBoxState
-    extends AnimatedWidgetBaseState<ElAnimatedDecoratedBox> {
+class _AnimatedDecoratedBoxState
+    extends AnimatedWidgetBaseState<AnimatedDecoratedBox> {
   DecorationTween? _decoration;
 
   @override
@@ -40,8 +40,8 @@ class _ElAnimatedDecoratedBoxState
 }
 
 /// 动画颜色盒子
-class ElAnimatedColoredBox extends ImplicitlyAnimatedWidget {
-  const ElAnimatedColoredBox({
+class AnimatedColoredBox extends ImplicitlyAnimatedWidget {
+  const AnimatedColoredBox({
     super.key,
     required super.duration,
     super.curve,
@@ -54,12 +54,12 @@ class ElAnimatedColoredBox extends ImplicitlyAnimatedWidget {
   final Widget? child;
 
   @override
-  AnimatedWidgetBaseState<ElAnimatedColoredBox> createState() =>
-      _ElAnimatedColoredBoxState();
+  AnimatedWidgetBaseState<AnimatedColoredBox> createState() =>
+      _AnimatedColoredBoxState();
 }
 
-class _ElAnimatedColoredBoxState
-    extends AnimatedWidgetBaseState<ElAnimatedColoredBox> {
+class _AnimatedColoredBoxState
+    extends AnimatedWidgetBaseState<AnimatedColoredBox> {
   ColorTween? _color;
 
   @override
@@ -78,8 +78,8 @@ class _ElAnimatedColoredBoxState
 }
 
 /// 动画刷新指示器
-class ElAnimatedRefreshProgressIndicator extends ImplicitlyAnimatedWidget {
-  const ElAnimatedRefreshProgressIndicator({
+class AnimatedRefreshProgressIndicator extends ImplicitlyAnimatedWidget {
+  const AnimatedRefreshProgressIndicator({
     super.key,
     required super.duration,
     super.curve,
@@ -112,12 +112,12 @@ class ElAnimatedRefreshProgressIndicator extends ImplicitlyAnimatedWidget {
   final EdgeInsetsGeometry indicatorPadding;
 
   @override
-  AnimatedWidgetBaseState<ElAnimatedRefreshProgressIndicator> createState() =>
-      _ElAnimatedRefreshProgressIndicatorState();
+  AnimatedWidgetBaseState<AnimatedRefreshProgressIndicator> createState() =>
+      _AnimatedRefreshProgressIndicatorState();
 }
 
-class _ElAnimatedRefreshProgressIndicatorState
-    extends AnimatedWidgetBaseState<ElAnimatedRefreshProgressIndicator> {
+class _AnimatedRefreshProgressIndicatorState
+    extends AnimatedWidgetBaseState<AnimatedRefreshProgressIndicator> {
   ColorTween? _color;
   ColorTween? _backgroundColor;
 

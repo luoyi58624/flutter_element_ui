@@ -30,7 +30,7 @@ mixin ElOverlayMixin<T extends StatefulWidget, D> on State<T> {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
-        ElUtils.nextTick(() {
+        ElUtil.nextTick(() {
           _setContentSize();
           // i(_contentSize, 'build');
         });

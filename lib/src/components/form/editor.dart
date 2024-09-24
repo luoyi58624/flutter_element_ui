@@ -50,11 +50,11 @@ class ElEditorState extends State<ElEditor>
     super.initState();
     _selectionGestureDetectorBuilder =
         _TextFieldSelectionGestureDetectorBuilder(state: this);
-    if (ElPlatform.isAndroid || ElPlatform.isFuchsia) {
+    if (PlatformUtil.isAndroid || PlatformUtil.isFuchsia) {
       textSelectionControls = materialTextSelectionHandleControls;
-    } else if (ElPlatform.isIOS) {
+    } else if (PlatformUtil.isIOS) {
       textSelectionControls = cupertinoTextSelectionHandleControls;
-    } else if (ElPlatform.isMacOS) {
+    } else if (PlatformUtil.isMacOS) {
       textSelectionControls = cupertinoDesktopTextSelectionHandleControls;
     } else {
       textSelectionControls = desktopTextSelectionHandleControls;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_element_ui/src/global.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
 
-import '../../utils/icons.dart';
-import '../basic/icon.dart';
+import '../utils/common.dart';
+import 'hover.dart';
 
 /// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
 bool _initialize = false;
@@ -12,9 +13,9 @@ bool _initialize = false;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
-class ElCodePreview extends StatefulWidget {
-  /// Element UI 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
-  const ElCodePreview({
+class CodePreview extends StatefulWidget {
+  /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
+  const CodePreview({
     super.key,
     required this.code,
     this.fontFamily,
@@ -47,10 +48,10 @@ class ElCodePreview extends StatefulWidget {
   final BorderRadius? borderRadius;
 
   @override
-  State<ElCodePreview> createState() => _ElCodePreviewState();
+  State<CodePreview> createState() => _CodePreviewState();
 }
 
-class _ElCodePreviewState extends State<ElCodePreview> {
+class _CodePreviewState extends State<CodePreview> {
   final code = Obs(const TextSpan());
 
   TextStyle get _textStyle => TextStyle(
@@ -80,7 +81,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   @override
-  void didUpdateWidget(covariant ElCodePreview oldWidget) {
+  void didUpdateWidget(covariant CodePreview oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.code != oldWidget.code) {
       initCodeStyle(context);
@@ -95,7 +96,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   /// 初始化预览代码样式，全局只加载一次
   void initCodeStyle(BuildContext context) {
     if (_initialize == false || _darkCode == null) {
-      ElUtils.nextTick(() async {
+      ElUtil.nextTick(() async {
         await Highlighter.initialize(['dart']);
         _initialize = true;
         // 暗色主题使用自定义的配置文件
@@ -216,7 +217,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   Widget buildCopyButton() {
-    return ElHoverBuilder(
+    return HoverBuilder(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         return GestureDetector(
@@ -228,7 +229,8 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             HapticFeedback.mediumImpact();
           },
           child: AnimatedContainer(
-            duration: context.elThemeDuration ?? 250.ms,
+            duration:
+                context.elThemeDuration ?? const Duration(milliseconds: 250),
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               borderRadius: context.elConfig.radius,

@@ -25,7 +25,7 @@ class CodeExample extends HookWidget {
   Widget build(BuildContext context) {
     final isExpanded = useState(expanded);
 
-    return ElHoverBuilder(builder: (context) {
+    return HoverBuilder(builder: (context) {
       return RepaintBoundary(
         child: Card(
           elevation: 0,
@@ -97,7 +97,7 @@ class _PreviewButton extends HookWidget {
       end: 0.0,
     ).animate(curve);
 
-    return ElHoverBuilder(
+    return HoverBuilder(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         if (context.isHover) {

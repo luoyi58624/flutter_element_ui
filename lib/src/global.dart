@@ -1,4 +1,5 @@
-export 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+export 'package:flutter_obs/flutter_obs.dart';
+export 'package:flutter_element_extension/flutter_element_extension.dart';
 export 'service.dart';
 export 'components/basic/text.dart';
 export 'extensions/color.dart';
@@ -10,10 +11,5 @@ export 'extensions/private.dart';
 export 'hooks/obs.dart';
 
 export 'utils/assert.dart';
-export 'utils/common.dart';
-export 'utils/platform/platform.dart';
 
-export 'widgets/animates/animated_widgets.dart';
-export 'widgets/hover.dart';
-export 'widgets/tap.dart';
 export 'widgets/simple_widgets.dart';

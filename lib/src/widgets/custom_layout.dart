@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+
+import '../global.dart';
 
 /// 更新自定义布局尺寸回调函数
 typedef UpdateCustomLayoutSize = void Function(Size size);
@@ -34,10 +35,12 @@ class CustomMultiChildLayoutWidget extends StatefulWidget {
   final List<Widget> children;
 
   @override
-  State<CustomMultiChildLayoutWidget> createState() => _CustomMultiChildLayoutWidgetState();
+  State<CustomMultiChildLayoutWidget> createState() =>
+      _CustomMultiChildLayoutWidgetState();
 }
 
-class _CustomMultiChildLayoutWidgetState extends State<CustomMultiChildLayoutWidget> {
+class _CustomMultiChildLayoutWidgetState
+    extends State<CustomMultiChildLayoutWidget> {
   late Size _size = Size(widget.width, widget.height);
 
   /// 是否是二次重建，第一次执行 [updateSize] 函数时会进行一次重建
@@ -47,7 +50,7 @@ class _CustomMultiChildLayoutWidgetState extends State<CustomMultiChildLayoutWid
   void updateSize(Size size) {
     if (isReBuild == false) {
       isReBuild = true;
-      ElUtils.nextTick(() {
+      ElUtil.nextTick(() {
         _size = size;
         setState(() {});
       });

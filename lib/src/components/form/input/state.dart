@@ -55,7 +55,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: ElHoverBuilder(
+        child: HoverBuilder(
           builder: (context) => buildTextField(context),
         ),
       ),
@@ -111,7 +111,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       // suffixIcon: currentValue != ''
       //     ? GestureDetector(
       //   onTap: () {
-      //     ElUtils.unFocus();
+      //     ElUtil.unFocus();
       //     controller.clear();
       //     setState(() {
       //       currentValue = '';

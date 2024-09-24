@@ -19,7 +19,7 @@ class Example1 extends HookWidget {
             ClipRRect(
               clipBehavior: Clip.hardEdge,
               borderRadius: BorderRadius.circular(8),
-              child: ElAnimatedColoredBox(
+              child: AnimatedColoredBox(
                 duration: 300.ms,
                 curve: Curves.ease,
                 color: flag.value ? Colors.lightBlue : Colors.lightGreen,

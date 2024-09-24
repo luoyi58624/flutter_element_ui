@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/global.dart';
 
-class ElHoverBuilder extends StatefulWidget {
+import '../utils/platform/platform.dart';
+
+class HoverBuilder extends StatefulWidget {
   /// hover构建器
-  const ElHoverBuilder({
+  const HoverBuilder({
     super.key,
     required this.builder,
     this.cursor,
@@ -49,16 +50,16 @@ class ElHoverBuilder extends StatefulWidget {
       _HoverInheritedWidget.maybeOf(context)?.mouseCursor;
 
   @override
-  State<ElHoverBuilder> createState() => _HoverBuilderState();
+  State<HoverBuilder> createState() => _HoverBuilderState();
 }
 
-class _HoverBuilderState extends State<ElHoverBuilder> {
+class _HoverBuilderState extends State<HoverBuilder> {
   bool isHover = false;
 
   @override
   Widget build(BuildContext context) {
     // 仅限桌面端，移动端不存在hover
-    if (ElPlatform.isDesktop) {
+    if (PlatformUtil.isDesktop) {
       final cursor = widget.cursor ?? MouseCursor.defer;
       if(widget.disabled) isHover = false;
       return _HoverInheritedWidget(

@@ -11,7 +11,6 @@ class ElNullWidget extends StatelessWidget {
   }
 }
 
-
 class ElChildIndexData extends InheritedWidget {
   /// 一个功能小部件，让迭代的列表子元素确认自身所在的位置
   const ElChildIndexData({

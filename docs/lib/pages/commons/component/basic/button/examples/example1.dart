@@ -14,18 +14,18 @@ class Example1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        ElLink(
-          href: '/component/button#分割按钮',
-          child: Builder(builder: (context) {
-            return ElButton(
-              onPressed: () {
-                ElLink.to(context);
-              },
-              child: '跳转',
-            );
-          }),
-        ),
-        const Gap(8),
+        // ElLink(
+        //   href: '/component/button#分割按钮',
+        //   child: Builder(builder: (context) {
+        //     return ElButton(
+        //       onPressed: () {
+        //         ElLink.to(context);
+        //       },
+        //       child: '跳转',
+        //     );
+        //   }),
+        // ),
+        // const Gap(8),
         CodeExample(
           code: code,
           expanded: true,

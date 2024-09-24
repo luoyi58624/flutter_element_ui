@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:luoyi_flutter_base/luoyi_flutter_base.dart';
+import 'package:flutter_element_extension/extensions/fun.dart';
 
-class ElTapBuilder extends StatefulWidget {
+import '../utils/vars.dart';
+
+class TapBuilder extends StatefulWidget {
   /// 点击事件构建器
-  const ElTapBuilder({
+  const TapBuilder({
     super.key,
     required this.builder,
     this.hitTestBehavior,
@@ -41,10 +43,10 @@ class ElTapBuilder extends StatefulWidget {
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
 
   @override
-  State<ElTapBuilder> createState() => _TapBuilderState();
+  State<TapBuilder> createState() => _TapBuilderState();
 }
 
-class _TapBuilderState extends State<ElTapBuilder> {
+class _TapBuilderState extends State<TapBuilder> {
   bool isTap = false;
   int? _time;
   Timer? _timer;

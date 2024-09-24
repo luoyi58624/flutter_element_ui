@@ -49,7 +49,6 @@ export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/tabs.dart';
 
 export 'src/components/others/anchor.dart';
-export 'src/components/others/code_preview.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
@@ -92,18 +91,13 @@ export 'src/styles/navigation/navigation_menu.dart';
 
 export 'src/styles/other/code_preview.dart';
 
-export 'src/utils/platform/platform.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/font.dart';
-export 'src/utils/common.dart';
 export 'src/utils/icons.dart';
 export 'src/utils/shortcut.dart';
 
-export 'src/widgets/animates/animated_widgets.dart';
-export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/scroll_behavior.dart';
 export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/size_builder.dart';
 export 'src/widgets/size_builder2.dart';
-export 'src/widgets/tap.dart';
