@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_extension/extensions/fun.dart';
+import 'package:flutter_element_extension/src/extensions/fun.dart';
 
 import '../utils/vars.dart';
 
