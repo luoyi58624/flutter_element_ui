@@ -108,7 +108,7 @@ class ElText extends StatefulWidget {
     // 目的是以最大限度解决文本垂直对齐问题，单纯地使用 WidgetSpan 渲染如果有些文字太大，
     // 那么依旧存在文本无法垂直对齐bug
     if (data is ElText) {
-      if (DartUtil.isBaseType(data.data)) {
+      if (ElUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
           style: data.buildDefaultTextStyle(context) != null

@@ -31,6 +31,8 @@ dependency_overrides:
   web: ^1.0.0
   flutter_element_ui:
     path: ../
+  flutter_element_extension:
+    path: ../packages/flutter_element_extension
   luoyi_dart_base:
     git:
       url: https://github.com/luoyi58624/luoyi_dart_base.git

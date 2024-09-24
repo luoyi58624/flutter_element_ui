@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_element_ui/src/global.dart';
 import 'package:logger/logger.dart';
 
-mixin LoggerService {
+extension ElLoggerService on ElService {
   /// 设置日志打印级别，默认情况下，在开发环境会展示所有基本日志，生产环境则屏蔽所有日志
   void setLogger({Level? level, Logger? logger}) {
     _loggerInstance = logger ??

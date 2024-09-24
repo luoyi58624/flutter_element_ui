@@ -10,7 +10,7 @@ mixin ElWidgetSize<T extends StatefulWidget> on State<T> {
     if (_flag) {
       _flag = false;
       ElUtil.nextTick(() {
-        i(context.size);
+        el.i(context.size);
         setState(() {
           widgetSize = context.size!;
         });

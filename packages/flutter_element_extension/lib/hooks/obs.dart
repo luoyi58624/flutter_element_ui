@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/global.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 
 /// 适配[flutter_hooks]库，相对于在[StatelessWidget]中直接使用[Obs]，它可以在小部件重建时保存当前状态
 Obs<T> useObs<T>(

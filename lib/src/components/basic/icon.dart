@@ -85,7 +85,7 @@ class _SvgWidget extends ElIcon {
             color!,
             BlendMode.srcIn,
           );
-    return DartUtil.isHttp(child as String)
+    return ElUtil.isHttp(child as String)
         ? SvgPicture.network(
             child!,
             width: size,

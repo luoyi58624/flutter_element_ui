@@ -35,6 +35,11 @@ class ElUtil {
     }
   }
 
+  /// 判断变量是否是基本数据类型
+  static bool isBaseType(dynamic value) {
+    return (value is num || value is String || value is bool);
+  }
+
   /// 将动态类型转换成实际基础类型：String、int、double、num、bool，如果
   /// * strict 如果为true，对于非基础类型将一律返回null
   static dynamic dynamicToBaseType(dynamic value, [bool? strict]) {
@@ -54,6 +59,18 @@ class ElUtil {
     if (type == 'num') return value;
     return strict == true ? null : value;
   }
+
+  /// 安全解析String，如果传递的value为空，则返回一个默认值
+  static String safeString(dynamic value, [String defaultValue = '']) {
+    if (isEmpty(value)) {
+      return defaultValue;
+    } else {
+      return value.toString();
+    }
+  }
+
+  /// 判断字符串是否是 http 链接
+  static bool isHttp(String url) => url.startsWith('http');
 
   /// 刷新整个应用
   static void refreshApp() {

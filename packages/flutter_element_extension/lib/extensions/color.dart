@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/event.dart';
-import 'package:flutter_element_ui/src/global.dart';
-
-import '../app.dart';
+import 'package:flutter_element_extension/extensions/context.dart';
+import 'package:flutter_element_extension/extensions/event.dart';
+import 'package:flutter_element_ui/flutter_element_ui.dart';
 
 extension ElColorStringExtension on String {
   /// 将16进制字符串颜色转成Color对象

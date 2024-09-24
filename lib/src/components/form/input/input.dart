@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/src/extensions/event.dart';
-import 'package:flutter_element_ui/src/extensions/font.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import 'package:flutter_element_ui/src/global.dart';
-
-import '../../../service.dart';
-import '../../../utils/font.dart';
 import '../../../widgets/model_value.dart';
 import '../../basic/icon.dart';
 import '../form.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:flutter_element_ui/src/extensions/color.dart';
+import 'package:flutter_element_ui/src/global.dart';
 
 part '../generates/styles/color_data.g.dart';
 

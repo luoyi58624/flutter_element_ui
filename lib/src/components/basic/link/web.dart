@@ -24,7 +24,7 @@ void _initBaseHref() {
 String? getPreviewLink(String href) {
   if (_baseHref == null) _initBaseHref();
   if (_baseHref == null) return null;
-  if (DartUtil.isHttp(href)) return href;
+  if (ElUtil.isHttp(href)) return href;
   if (_hash != '') {
     return '${window.location.origin}${_baseHref!}/$_hash$href';
   } else {
@@ -34,7 +34,7 @@ String? getPreviewLink(String href) {
 
 /// 跳转链接
 void toLink(String href, LinkTarget target) {
-  if (DartUtil.isHttp(href)) {
+  if (ElUtil.isHttp(href)) {
     if (target == LinkTarget.blank) {
       window.open(href, '_blank');
     } else {

@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_element_extension/flutter_element_extension.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:luoyi_dart_base/luoyi_dart_base.dart';
 
 class ElImage extends StatelessWidget {
   const ElImage({
@@ -58,7 +58,7 @@ class ElImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget result;
-    if (DartUtil.isHttp(src)) {
+    if (ElUtil.isHttp(src)) {
       result = buildNetworkImage();
     } else {
       if (kIsWeb) {

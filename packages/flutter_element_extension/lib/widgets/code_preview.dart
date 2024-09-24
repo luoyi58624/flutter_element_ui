@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_element_extension/extensions/color.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';

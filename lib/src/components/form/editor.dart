@@ -107,7 +107,6 @@ class ElEditorState extends State<ElEditor>
   Widget build(BuildContext context) {
     return Semantics(
       onTap: () {
-        i('xx');
         _editableText.requestKeyboard();
       },
       onFocus: () {

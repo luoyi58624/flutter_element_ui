@@ -27,7 +27,7 @@ class _ElProgressState extends State<ElProgress>
       final tween = Tween(begin: -maxSize, end: maxSize);
       positionAnimation = tween.animate(curvedAnimation);
       // i(curvedAnimation.curve.transform(0.5));
-      i(tween.evaluate(curvedAnimation));
+      el.i(tween.evaluate(curvedAnimation));
     }
   }
 

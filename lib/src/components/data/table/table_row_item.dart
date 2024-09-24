@@ -110,7 +110,7 @@ Widget _buildTableBodyItemContainer(Map dataItem, ElTableColumn column) {
     return column.render!(dataItem);
   } else if (column.prop != null) {
     return Text(
-      DartUtil.safeString(dataItem[column.prop] ?? ''),
+      ElUtil.safeString(dataItem[column.prop] ?? ''),
     );
   } else {
     return const SizedBox();
