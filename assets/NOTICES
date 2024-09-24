@@ -7630,6 +7630,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 flutter_base
 flutter_element_annotation
+flutter_element_extension
 flutter_element_ui
 
 TODO: Add your license here.
