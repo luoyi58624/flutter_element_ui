@@ -36,7 +36,7 @@ class _Left extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(
-        1000,
+        3000,
         (index) => Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
@@ -58,7 +58,7 @@ class _Right extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(
-        1000,
+        3000,
         (index) => Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
