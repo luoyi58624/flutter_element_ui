@@ -5,8 +5,8 @@ import 'package:flutter_element_ui/src/services/toast.dart';
 part '../../generates/styles/feedback/tooltip.g.dart';
 
 @ElModel.copy()
-class ElTooltipStyle {
-  const ElTooltipStyle({
+class ElTooltipThemeData {
+  const ElTooltipThemeData({
     required this.color,
     this.enableFeedback,
   });

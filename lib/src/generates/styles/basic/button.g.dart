@@ -6,20 +6,20 @@ part of '../../../styles/basic/button.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElButtonStyleExtension on ElButtonStyle {
-  ElButtonStyle copyWith({
+extension ElButtonStyleExtension on ElButtonThemeData {
+  ElButtonThemeData copyWith({
     double? height,
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? padding,
   }) {
-    return ElButtonStyle(
+    return ElButtonThemeData(
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
       padding: padding ?? this.padding,
     );
   }
 
-  ElButtonStyle merge([ElButtonStyle? other]) {
+  ElButtonThemeData merge([ElButtonThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       height: other.height,

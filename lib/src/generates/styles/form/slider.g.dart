@@ -6,14 +6,14 @@ part of '../../../styles/form/slider.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElSliderStyleExtension on ElSliderStyle {
-  ElSliderStyle copyWith({
+extension ElSliderStyleExtension on ElSliderThemeData {
+  ElSliderThemeData copyWith({
     double? sliderSize,
     double? thumbSize,
     Color? activeColor,
     Color? inactiveColor,
   }) {
-    return ElSliderStyle(
+    return ElSliderThemeData(
       sliderSize: sliderSize ?? this.sliderSize,
       thumbSize: thumbSize ?? this.thumbSize,
       activeColor: activeColor ?? this.activeColor,
@@ -21,7 +21,7 @@ extension ElSliderStyleExtension on ElSliderStyle {
     );
   }
 
-  ElSliderStyle merge([ElSliderStyle? other]) {
+  ElSliderThemeData merge([ElSliderThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       sliderSize: other.sliderSize,

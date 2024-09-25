@@ -6,8 +6,8 @@ part of '../../../styles/feedback/message.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElMessageStyleExtension on ElMessageStyle {
-  ElMessageStyle copyWith({
+extension ElMessageStyleExtension on ElMessageThemeData {
+  ElMessageThemeData copyWith({
     double? offset,
     int? closeDuration,
     int? animationDuration,
@@ -15,7 +15,7 @@ extension ElMessageStyleExtension on ElMessageStyle {
     bool? grouping,
     Widget Function(BuildContext, ElMessageModel)? builder,
   }) {
-    return ElMessageStyle(
+    return ElMessageThemeData(
       offset: offset ?? this.offset,
       closeDuration: closeDuration ?? this.closeDuration,
       animationDuration: animationDuration ?? this.animationDuration,
@@ -25,7 +25,7 @@ extension ElMessageStyleExtension on ElMessageStyle {
     );
   }
 
-  ElMessageStyle merge([ElMessageStyle? other]) {
+  ElMessageThemeData merge([ElMessageThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       offset: other.offset,

@@ -51,7 +51,7 @@ class ElButtonLoadingState {
 }
 
 class _ElButtonState extends State<ElButton> {
-  late ElButtonStyle defaultStyle;
+  late ElButtonThemeData defaultStyle;
   late double buttonHeight;
   late double iconSize;
   late bool disabled;

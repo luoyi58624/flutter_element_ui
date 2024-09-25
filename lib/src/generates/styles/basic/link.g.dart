@@ -6,14 +6,14 @@ part of '../../../styles/basic/link.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElLinkStyleExtension on ElLinkStyle {
-  ElLinkStyle copyWith({
+extension ElLinkStyleExtension on ElLinkThemeData {
+  ElLinkThemeData copyWith({
     Color? color,
     Color? activeColor,
     ElLinkDecoration? decoration,
     bool? allowDrag,
   }) {
-    return ElLinkStyle(
+    return ElLinkThemeData(
       color: color ?? this.color,
       activeColor: activeColor ?? this.activeColor,
       decoration: decoration ?? this.decoration,
@@ -21,7 +21,7 @@ extension ElLinkStyleExtension on ElLinkStyle {
     );
   }
 
-  ElLinkStyle merge([ElLinkStyle? other]) {
+  ElLinkThemeData merge([ElLinkThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       color: other.color,

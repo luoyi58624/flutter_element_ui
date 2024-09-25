@@ -7,8 +7,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/basic/button.g.dart';
 
 @ElModel.copy()
-class ElButtonStyle {
-  const ElButtonStyle({
+class ElButtonThemeData {
+  const ElButtonThemeData({
     this.height,
     this.borderRadius,
     this.padding,

@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/form/slider.g.dart';
 
 @ElModel.copy()
-class ElSliderStyle {
-  const ElSliderStyle({
+class ElSliderThemeData {
+  const ElSliderThemeData({
     this.sliderSize = 18,
     this.thumbSize = 4,
     this.activeColor,

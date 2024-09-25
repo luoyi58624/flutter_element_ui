@@ -6,20 +6,20 @@ part of '../../../styles/data/progress.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElProgressDataExtension on ElProgressData {
-  ElProgressData copyWith({
+extension ElProgressDataExtension on ElProgressThemeData {
+  ElProgressThemeData copyWith({
     Duration? duration,
     Curve? curve,
     Curve? secondCurve,
   }) {
-    return ElProgressData(
+    return ElProgressThemeData(
       duration: duration ?? this.duration,
       curve: curve ?? this.curve,
       secondCurve: secondCurve ?? this.secondCurve,
     );
   }
 
-  ElProgressData merge([ElProgressData? other]) {
+  ElProgressThemeData merge([ElProgressThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       duration: other.duration,
@@ -33,13 +33,13 @@ class ElProgressTheme extends InheritedWidget {
   /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElProgressTheme({super.key, required super.child, required this.data});
 
-  final ElProgressData data;
+  final ElProgressThemeData data;
 
-  static ElProgressData? maybeOf(BuildContext context) {
+  static ElProgressThemeData? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<ElProgressTheme>()?.data;
   }
 
-  static ElProgressData of(BuildContext context, ElProgressData? data) {
+  static ElProgressThemeData of(BuildContext context, ElProgressThemeData? data) {
     final result = maybeOf(context);
     assert(result != null, 'No ElProgressTheme found in context');
     return result!;
@@ -47,11 +47,11 @@ class ElProgressTheme extends InheritedWidget {
 
   static Widget merge({
     Key? key,
-    ElProgressData? data,
+    ElProgressThemeData? data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent = ElProgressTheme.maybeOf(context) ?? const ElProgressData();
+      final parent = ElProgressTheme.maybeOf(context) ?? const ElProgressThemeData();
       return ElProgressTheme(
         data: parent.merge(data),
         child: child,

@@ -7,8 +7,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/form/input.g.dart';
 
 @ElModel.copy()
-class ElInputStyle {
-  const ElInputStyle({
+class ElInputThemeData {
+  const ElInputThemeData({
     this.height,
     this.borderRadius,
     this.margin = EdgeInsets.zero,

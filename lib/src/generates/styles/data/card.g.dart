@@ -6,20 +6,20 @@ part of '../../../styles/data/card.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElCardStyleExtension on ElCardStyle {
-  ElCardStyle copyWith({
+extension ElCardStyleExtension on ElCardThemeData {
+  ElCardThemeData copyWith({
     Color? color,
     double? elevation,
     BorderRadius? radius,
   }) {
-    return ElCardStyle(
+    return ElCardThemeData(
       color: color ?? this.color,
       elevation: elevation ?? this.elevation,
       radius: radius ?? this.radius,
     );
   }
 
-  ElCardStyle merge([ElCardStyle? other]) {
+  ElCardThemeData merge([ElCardThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       color: other.color,

@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/data/collapse.g.dart';
 
 @ElModel.copy(themeWidget: true)
-class ElCollapseStyle {
-  const ElCollapseStyle({
+class ElCollapseThemeData {
+  const ElCollapseThemeData({
     this.keepState = true,
     this.duration = const Duration(milliseconds: 250),
     this.curve = Curves.easeInOut,

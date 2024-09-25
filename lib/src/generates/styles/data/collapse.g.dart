@@ -6,20 +6,20 @@ part of '../../../styles/data/collapse.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElCollapseStyleExtension on ElCollapseStyle {
-  ElCollapseStyle copyWith({
+extension ElCollapseStyleExtension on ElCollapseThemeData {
+  ElCollapseThemeData copyWith({
     bool? keepState,
     Duration? duration,
     Curve? curve,
   }) {
-    return ElCollapseStyle(
+    return ElCollapseThemeData(
       keepState: keepState ?? this.keepState,
       duration: duration ?? this.duration,
       curve: curve ?? this.curve,
     );
   }
 
-  ElCollapseStyle merge([ElCollapseStyle? other]) {
+  ElCollapseThemeData merge([ElCollapseThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       keepState: other.keepState,
@@ -33,13 +33,13 @@ class ElCollapseTheme extends InheritedWidget {
   /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElCollapseTheme({super.key, required super.child, required this.data});
 
-  final ElCollapseStyle data;
+  final ElCollapseThemeData data;
 
-  static ElCollapseStyle? maybeOf(BuildContext context) {
+  static ElCollapseThemeData? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<ElCollapseTheme>()?.data;
   }
 
-  static ElCollapseStyle of(BuildContext context, ElCollapseStyle? data) {
+  static ElCollapseThemeData of(BuildContext context, ElCollapseThemeData? data) {
     final result = maybeOf(context);
     assert(result != null, 'No ElCollapseTheme found in context');
     return result!;
@@ -47,12 +47,12 @@ class ElCollapseTheme extends InheritedWidget {
 
   static Widget merge({
     Key? key,
-    ElCollapseStyle? data,
+    ElCollapseThemeData? data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
       final parent =
-          ElCollapseTheme.maybeOf(context) ?? const ElCollapseStyle();
+          ElCollapseTheme.maybeOf(context) ?? const ElCollapseThemeData();
       return ElCollapseTheme(
         data: parent.merge(data),
         child: child,

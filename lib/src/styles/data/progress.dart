@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/data/progress.g.dart';
 
 @ElModel.copy(themeWidget: true)
-class ElProgressData {
-  const ElProgressData({
+class ElProgressThemeData {
+  const ElProgressThemeData({
     this.duration = const Duration(milliseconds: 900),
     this.curve = Curves.easeOutSine,
     this.secondCurve = Curves.easeOut,

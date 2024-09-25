@@ -34,34 +34,34 @@ class ElThemeData {
   final ElColorData colors;
 
   /// 按钮全局样式
-  final ElButtonStyle buttonStyle;
+  final ElButtonThemeData buttonStyle;
 
   /// 超链接全局样式
-  final ElLinkStyle linkStyle;
+  final ElLinkThemeData linkStyle;
 
   /// 输入框全局样式
-  final ElInputStyle inputStyle;
+  final ElInputThemeData inputStyle;
 
   /// 折叠菜单全局样式
-  final ElCollapseStyle collapseStyle;
+  final ElCollapseThemeData collapseStyle;
 
   /// 卡片全局样式
-  final ElCardStyle cardStyle;
+  final ElCardThemeData cardStyle;
 
   /// 消息提示全局样式
-  final ElModalStyle modalStyle;
+  final ElModalThemeData modalStyle;
 
   /// 消息提示全局样式
-  final ElMessageStyle messageStyle;
+  final ElMessageThemeData messageStyle;
 
   /// 轻提示全局样式
-  final ElToastStyle toastStyle;
+  final ElToastThemeData toastStyle;
 
   /// 提示框全局样式
-  final ElTooltipStyle tooltipStyle;
+  final ElTooltipThemeData tooltipStyle;
 
   /// 滑块全局样式
-  final ElSliderStyle sliderStyle;
+  final ElSliderThemeData sliderStyle;
 
   /// 导航头全局样式
   final ElHeaderStyle headerStyle;
@@ -70,7 +70,7 @@ class ElThemeData {
   final ElAsideStyle asideStyle;
 
   /// 导航菜单全局样式
-  final ElNavMenuStyle navigationMenuStyle;
+  final ElNavMenuThemeData navigationMenuStyle;
 
   /// 代码预览全局样式
   final ElCodePreviewStyle codePreviewStyle;
@@ -82,30 +82,30 @@ class ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.colors = const ElColorData(),
-    this.buttonStyle = const ElButtonStyle(),
-    this.linkStyle = const ElLinkStyle(
-      color: ElLinkStyle.hrefColor,
-      activeColor: ElLinkStyle.hrefColor,
+    this.buttonStyle = const ElButtonThemeData(),
+    this.linkStyle = const ElLinkThemeData(
+      color: ElLinkThemeData.hrefColor,
+      activeColor: ElLinkThemeData.hrefColor,
     ),
-    this.inputStyle = const ElInputStyle(),
-    this.collapseStyle = const ElCollapseStyle(),
-    this.cardStyle = const ElCardStyle(
+    this.inputStyle = const ElInputThemeData(),
+    this.collapseStyle = const ElCollapseThemeData(),
+    this.cardStyle = const ElCardThemeData(
       color: Color(0xffffffff),
       elevation: 2,
     ),
-    this.modalStyle = const ElModalStyle(
+    this.modalStyle = const ElModalThemeData(
       color: Color(0xffffffff),
       elevation: 2,
     ),
-    this.messageStyle = const ElMessageStyle(),
-    this.toastStyle = const ElToastStyle(),
-    this.tooltipStyle = const ElTooltipStyle(color: Color(0xFF616161)),
-    this.sliderStyle = const ElSliderStyle(
+    this.messageStyle = const ElMessageThemeData(),
+    this.toastStyle = const ElToastThemeData(),
+    this.tooltipStyle = const ElTooltipThemeData(color: Color(0xFF616161)),
+    this.sliderStyle = const ElSliderThemeData(
       inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
     ),
     this.headerStyle = const ElHeaderStyle(color: Color(0xffffffff)),
     this.asideStyle = const ElAsideStyle(color: Color(0xffffffff)),
-    this.navigationMenuStyle = const ElNavMenuStyle(
+    this.navigationMenuStyle = const ElNavMenuThemeData(
       activeTextColor: Color(0xff409eff),
     ),
     this.codePreviewStyle = const ElCodePreviewStyle(
@@ -121,30 +121,30 @@ class ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.colors = const ElColorData.dark(),
-    this.buttonStyle = const ElButtonStyle(),
-    this.linkStyle = const ElLinkStyle(
-      color: ElLinkStyle.darkHrefColor,
-      activeColor: ElLinkStyle.darkHrefColor,
+    this.buttonStyle = const ElButtonThemeData(),
+    this.linkStyle = const ElLinkThemeData(
+      color: ElLinkThemeData.darkHrefColor,
+      activeColor: ElLinkThemeData.darkHrefColor,
     ),
-    this.inputStyle = const ElInputStyle(),
-    this.collapseStyle = const ElCollapseStyle(),
-    this.cardStyle = const ElCardStyle(
+    this.inputStyle = const ElInputThemeData(),
+    this.collapseStyle = const ElCollapseThemeData(),
+    this.cardStyle = const ElCardThemeData(
       color: Color(0xff3f3f46),
       elevation: 4,
     ),
-    this.modalStyle = const ElModalStyle(
+    this.modalStyle = const ElModalThemeData(
       color: Color(0xff3f3f46),
       elevation: 4,
     ),
-    this.messageStyle = const ElMessageStyle(),
-    this.toastStyle = const ElToastStyle(),
-    this.tooltipStyle = const ElTooltipStyle(color: Color(0xFF757575)),
-    this.sliderStyle = const ElSliderStyle(
+    this.messageStyle = const ElMessageThemeData(),
+    this.toastStyle = const ElToastThemeData(),
+    this.tooltipStyle = const ElTooltipThemeData(color: Color(0xFF757575)),
+    this.sliderStyle = const ElSliderThemeData(
       inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
     ),
     this.headerStyle = const ElHeaderStyle(color: Color(0xff404040)),
     this.asideStyle = const ElAsideStyle(color: Color(0xff374151)),
-    this.navigationMenuStyle = const ElNavMenuStyle(
+    this.navigationMenuStyle = const ElNavMenuThemeData(
       activeTextColor: Color(0xff6ee7b7),
     ),
     this.codePreviewStyle = const ElCodePreviewStyle(

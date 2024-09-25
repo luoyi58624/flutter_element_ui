@@ -6,18 +6,18 @@ part of '../../../styles/feedback/tooltip.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElTooltipStyleExtension on ElTooltipStyle {
-  ElTooltipStyle copyWith({
+extension ElTooltipStyleExtension on ElTooltipThemeData {
+  ElTooltipThemeData copyWith({
     Color? color,
     bool? enableFeedback,
   }) {
-    return ElTooltipStyle(
+    return ElTooltipThemeData(
       color: color ?? this.color,
       enableFeedback: enableFeedback ?? this.enableFeedback,
     );
   }
 
-  ElTooltipStyle merge([ElTooltipStyle? other]) {
+  ElTooltipThemeData merge([ElTooltipThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       color: other.color,

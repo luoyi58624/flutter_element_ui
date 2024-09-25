@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/data/card.g.dart';
 
 @ElModel.copy()
-class ElCardStyle {
-  const ElCardStyle({
+class ElCardThemeData {
+  const ElCardThemeData({
     required this.color,
     required this.elevation,
     this.radius = const BorderRadius.all(Radius.circular(6)),

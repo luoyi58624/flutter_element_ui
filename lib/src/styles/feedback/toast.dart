@@ -5,8 +5,8 @@ import 'package:flutter_element_ui/src/services/toast.dart';
 part '../../generates/styles/feedback/toast.g.dart';
 
 @ElModel.copy()
-class ElToastStyle {
-  const ElToastStyle({
+class ElToastThemeData {
+  const ElToastThemeData({
     this.closeDuration = 3000,
     this.enableFeedback = true,
     this.builder,

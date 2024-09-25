@@ -5,8 +5,8 @@ import '../../services/message.dart';
 part '../../generates/styles/feedback/message.g.dart';
 
 @ElModel.copy()
-class ElMessageStyle {
-  const ElMessageStyle({
+class ElMessageThemeData {
+  const ElMessageThemeData({
     this.offset = 20,
     this.closeDuration = 3000,
     this.animationDuration = 300,

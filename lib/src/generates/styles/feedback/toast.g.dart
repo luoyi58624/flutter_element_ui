@@ -6,20 +6,20 @@ part of '../../../styles/feedback/toast.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElToastStyleExtension on ElToastStyle {
-  ElToastStyle copyWith({
+extension ElToastStyleExtension on ElToastThemeData {
+  ElToastThemeData copyWith({
     int? closeDuration,
     bool? enableFeedback,
     Widget Function(BuildContext, dynamic)? builder,
   }) {
-    return ElToastStyle(
+    return ElToastThemeData(
       closeDuration: closeDuration ?? this.closeDuration,
       enableFeedback: enableFeedback ?? this.enableFeedback,
       builder: builder ?? this.builder,
     );
   }
 
-  ElToastStyle merge([ElToastStyle? other]) {
+  ElToastThemeData merge([ElToastThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       closeDuration: other.closeDuration,
