@@ -2,11 +2,13 @@ part of '../index.dart';
 
 class _AnimateProgressInheritedWidget extends InheritedWidget {
   const _AnimateProgressInheritedWidget(
-    this.duration, {
+    this.duration,
+    this.curve, {
     required super.child,
   });
 
   final Duration duration;
+  final Curve curve;
 
   static _AnimateProgressInheritedWidget of(BuildContext context) {
     final _AnimateProgressInheritedWidget? result = context
@@ -34,7 +36,7 @@ class _AnimateProgress extends HookWidget {
     );
     CurvedAnimation curvedAnimation = CurvedAnimation(
       parent: controller,
-      curve: Curves.easeOutSine,
+      curve: $animateData.curve,
     );
 
     useEffect(() {
@@ -47,7 +49,7 @@ class _AnimateProgress extends HookWidget {
     final paintSize = Size(double.infinity, $data.size);
     final progressSize = $data.physicalSize * $data.ratio;
     return ClipRRect(
-      borderRadius: $data.borderRadius,
+      borderRadius: BorderRadius.circular($data.radius),
       child: AnimatedBuilder(
           animation: controller.view,
           builder: (context, child) {
@@ -58,6 +60,7 @@ class _AnimateProgress extends HookWidget {
                 color: $data.color,
                 width: progressSize,
                 left: positionAnimation.value,
+                radius: $data.radius,
               ),
             );
           }),
@@ -70,12 +73,14 @@ class _AnimateProgressPainter extends CustomPainter {
   final Color color;
   final double width;
   final double left;
+  final double radius;
 
   _AnimateProgressPainter({
     required this.bgColor,
     required this.color,
     required this.width,
     required this.left,
+    required this.radius,
   });
 
   @override
@@ -89,7 +94,7 @@ class _AnimateProgressPainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTRB(left, 0, left + width, size.height),
-        Radius.circular(size.height / 2),
+        Radius.circular(radius),
       ),
       paint..color = color,
     );

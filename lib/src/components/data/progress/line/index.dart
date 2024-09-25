@@ -2,27 +2,11 @@ part of '../index.dart';
 
 class _LineProgressInheritedWidget extends InheritedWidget {
   const _LineProgressInheritedWidget(
-    this.value,
-    this.min,
-    this.max,
-    this.size,
-    this.vertical,
-    this.round,
-    this.borderRadius,
-    this.color,
-    this.bgColor, {
+    this.vertical, {
     required super.child,
   });
 
-  final double value;
-  final double min;
-  final double max;
-  final double size;
   final bool vertical;
-  final bool round;
-  final BorderRadiusGeometry borderRadius;
-  final Color? color;
-  final Color? bgColor;
 
   static _LineProgressInheritedWidget of(BuildContext context) {
     final _LineProgressInheritedWidget? result = context

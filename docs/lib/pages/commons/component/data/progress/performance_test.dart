@@ -9,7 +9,7 @@ class PerformanceTestPage extends HookWidget {
     final flag = useState(false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('渲染 1000 个进度条'),
+        title: const Text('进度条性能测试'),
         actions: [
           ElText(flag.value ? 'Flutter' : 'Element'),
           const Gap(8),
@@ -37,9 +37,14 @@ class _Left extends HookWidget {
     return Column(
       children: List.generate(
         1000,
-        (index) => const Padding(
-          padding: EdgeInsets.only(top: 8.0),
-          child: LinearProgressIndicator(),
+        (index) => Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            children: [
+              ElText('${index + 1}. '),
+              const Expanded(child: LinearProgressIndicator()),
+            ],
+          ),
         ),
       ),
     );
@@ -54,9 +59,19 @@ class _Right extends HookWidget {
     return Column(
       children: List.generate(
         1000,
-        (index) => const Padding(
-          padding: EdgeInsets.only(top: 8.0),
-          child: ElProgress.animate(20, duration: Duration(milliseconds: 2000)),
+        (index) => Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Row(
+            children: [
+              ElText('${index + 1}. '),
+              const Expanded(
+                child: ElProgress.animate(
+                  50,
+                  duration: Duration(milliseconds: 2000),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -19,10 +19,7 @@ class Example1 extends HookWidget {
             ElSwitch(flag),
             const Gap(8),
             // const LinearProgressIndicator(),
-            flag.value
-                ? const ElProgress.animate(20,
-                    duration: Duration(milliseconds: 2000))
-                : const ElProgress(20),
+            flag.value ? const ElProgress.animate(50) : const ElProgress(50),
 
             // const Gap(8),
             // ElProgress(100, round: true, indeterminate: flag.value),

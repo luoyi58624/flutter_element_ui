@@ -24,17 +24,18 @@ class ElProgress extends StatelessWidget {
     this.size = 6.0,
     this.vertical = false,
     this.round = true,
-    this.borderRadius = BorderRadius.zero,
+    this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.line,
         duration = Duration.zero,
+        curve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
             'ElProgress value 取值范围必须在 min - max 之间');
 
-  /// Element UI 动画进度条
+  /// Element UI 直线动画进度条
   const ElProgress.animate(
     this.value, {
     super.key,
@@ -42,10 +43,11 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.round = true,
-    this.borderRadius = BorderRadius.zero,
+    this.radius = 0,
     this.color,
     this.bgColor,
     this.duration = const Duration(seconds: 2),
+    this.curve = Curves.easeOutCubic,
   })  : _type = _ProgressType.animate,
         vertical = false,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
@@ -61,12 +63,13 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.round = true,
-    this.borderRadius = BorderRadius.zero,
+    this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.circle,
         vertical = false,
         duration = Duration.zero,
+        curve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -80,12 +83,13 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.round = true,
-    this.borderRadius = BorderRadius.zero,
+    this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.dashboard,
         vertical = false,
         duration = Duration.zero,
+        curve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -112,8 +116,8 @@ class ElProgress extends StatelessWidget {
   /// 是否为圆角，默认 true
   final bool round;
 
-  /// 自定义圆角，当 [round] 为 false 时生效
-  final BorderRadiusGeometry borderRadius;
+  /// 自定义圆角值，当 [round] 为 false 时生效
+  final double radius;
 
   /// 进度条颜色，默认主题色
   final Color? color;
@@ -124,26 +128,27 @@ class ElProgress extends StatelessWidget {
   /// 动画进度条持续时间，默认 2 秒
   final Duration duration;
 
+  /// 动画进度条动画曲线，默认 easeOutCubic，先快后大幅度变慢
+  final Curve curve;
+
   @override
   Widget build(BuildContext context) {
     final $bgColor = bgColor ?? context.elTheme.colors.borderLight;
     final $color = color ?? context.elTheme.primary;
-    final $borderRadius =
-        round ? BorderRadius.circular(size / 2) : borderRadius;
+    final $radius = round ? size / 2 : radius;
     final $valueRatio = math.max((value - min), 0) / (max - min);
     late Widget result;
     if (_type == _ProgressType.line) {
-      result = _LineProgressInheritedWidget(
-          value, min, max, size, vertical, round, $borderRadius, color, bgColor,
-          child: const _LineProgress());
+      result =
+          _LineProgressInheritedWidget(vertical, child: const _LineProgress());
     } else if (_type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(duration,
+      result = _AnimateProgressInheritedWidget(duration, curve,
           child: const _AnimateProgress());
     }
 
     return LayoutBuilder(builder: (context, constraints) {
-      return _ProgressInheritedWidget(value, min, max, size, round,
-          $borderRadius, $color, $bgColor, $valueRatio, constraints.maxWidth,
+      return _ProgressInheritedWidget(value, min, max, size, round, $radius,
+          $color, $bgColor, $valueRatio, constraints.maxWidth,
           child: result);
     });
   }
@@ -156,7 +161,7 @@ class _ProgressInheritedWidget extends InheritedWidget {
     this.max,
     this.size,
     this.round,
-    this.borderRadius,
+    this.radius,
     this.color,
     this.bgColor,
     this.ratio,
@@ -169,7 +174,7 @@ class _ProgressInheritedWidget extends InheritedWidget {
   final double max;
   final double size;
   final bool round;
-  final BorderRadiusGeometry borderRadius;
+  final double radius;
   final Color color;
   final Color bgColor;
 
@@ -188,44 +193,4 @@ class _ProgressInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ProgressInheritedWidget oldWidget) => true;
-}
-
-/// 直线进度条外观样式
-class _LineWrapperWidget extends StatelessWidget {
-  const _LineWrapperWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    final $data = _ProgressInheritedWidget.of(context);
-    return Container(
-      height: $data.size,
-      decoration: BoxDecoration(
-        color: $data.bgColor,
-        borderRadius: $data.borderRadius,
-      ),
-    );
-  }
-}
-
-/// 直线进度条样式
-class _LineProgressWidget extends StatelessWidget {
-  const _LineProgressWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    final $data = _ProgressInheritedWidget.of(context);
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-        width: $data.physicalSize * $data.ratio,
-        height: $data.size,
-        decoration: BoxDecoration(
-          color: $data.color,
-          borderRadius: $data.borderRadius,
-        ),
-      ),
-    );
-  }
 }
