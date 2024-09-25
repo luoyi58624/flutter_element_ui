@@ -18,10 +18,9 @@ class Example2 extends HookWidget {
           children: [
             ElSwitch(flag),
             const Gap(8),
-            ElProgress(
+            const ElProgress(
               50,
               round: true,
-              indeterminate: flag.value,
             ),
           ],
         ),

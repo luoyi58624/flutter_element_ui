@@ -7,13 +7,13 @@ class CodeExample extends HookWidget {
   /// 代码示例小部件，适用于传统的上下布局结构，上方为组件演示预览，下方为折叠的代码示例
   const CodeExample({
     super.key,
-    required this.code,
+    this.code,
     required this.children,
     this.expanded = false,
   });
 
   /// 示例代码字符串
-  final String code;
+  final String? code;
 
   /// 是否默认展开
   final bool expanded;
@@ -51,18 +51,20 @@ class CodeExample extends HookWidget {
                     children: children,
                   ),
                 ),
-                const ElDivider(),
-                _PreviewButton(isExpanded),
-                ElCollapseTransition(
-                  isExpanded.value,
-                  child: ElCodePreview(
-                    code: code,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                      bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                if (code != null) const ElDivider(),
+                if (code != null) _PreviewButton(isExpanded),
+                if (code != null)
+                  ElCollapseTransition(
+                    isExpanded.value,
+                    child: ElCodePreview(
+                      code: code!,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                        bottomRight:
+                            context.elTheme.cardStyle.radius.bottomRight,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

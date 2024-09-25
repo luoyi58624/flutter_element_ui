@@ -5,13 +5,13 @@ class FlatCodeExample extends StatelessWidget {
   /// 左右平铺代码示例，注意代码量不要太多
   const FlatCodeExample({
     super.key,
-    required this.code,
+    this.code,
     required this.child,
     this.noBorderRadius = false,
   });
 
   /// 示例代码字符串
-  final String code;
+  final String? code;
 
   /// 效果预览小部件
   final Widget child;
@@ -39,18 +39,19 @@ class FlatCodeExample extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: ElCodePreview(
-              code: code,
-              height: double.infinity,
-              borderRadius: noBorderRadius
-                  ? BorderRadius.zero
-                  : BorderRadius.only(
-                      topLeft: context.elTheme.cardStyle.radius.topLeft,
-                      bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                    ),
+          if (code != null)
+            Expanded(
+              child: ElCodePreview(
+                code: code!,
+                height: double.infinity,
+                borderRadius: noBorderRadius
+                    ? BorderRadius.zero
+                    : BorderRadius.only(
+                        topLeft: context.elTheme.cardStyle.radius.topLeft,
+                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                      ),
+              ),
             ),
-          ),
           Expanded(child: child),
         ],
       ),
@@ -61,16 +62,17 @@ class FlatCodeExample extends StatelessWidget {
     return IntrinsicHeight(
       child: Row(
         children: [
-          Expanded(
-            child: ElCodePreview(
-              code: code,
-              height: double.infinity,
-              borderRadius: BorderRadius.only(
-                topLeft: context.elTheme.cardStyle.radius.topLeft,
-                bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+          if (code != null)
+            Expanded(
+              child: ElCodePreview(
+                code: code!,
+                height: double.infinity,
+                borderRadius: BorderRadius.only(
+                  topLeft: context.elTheme.cardStyle.radius.topLeft,
+                  bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                ),
               ),
             ),
-          ),
           Expanded(child: child),
         ],
       ),

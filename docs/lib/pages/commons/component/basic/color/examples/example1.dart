@@ -74,7 +74,7 @@ class Example1 extends StatelessWidget {
         const SectionText('Element UI 默认的主题色是明亮、友好的蓝色。'),
         textGap,
         CodeExample(
-          code: code,
+          // code: code,
           children: [
             buildPresetColors(context),
             const Gap(8),
@@ -202,7 +202,6 @@ class Example1 extends StatelessWidget {
 }
 
 String get code => '''
-// Element UI 对颜色提供了 9 种级别的扩展函数：elLight1 - elLight9
 Row(
   children: context.elTheme.primary.elLights(context).map((e) => Expanded(
     child: AspectRatio(
