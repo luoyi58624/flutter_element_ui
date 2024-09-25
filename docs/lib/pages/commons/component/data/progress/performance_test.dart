@@ -36,7 +36,7 @@ class _Left extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(
-        3000,
+        100,
         (index) => Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
@@ -58,17 +58,14 @@ class _Right extends HookWidget {
   Widget build(BuildContext context) {
     return Column(
       children: List.generate(
-        3000,
+        100,
         (index) => Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Row(
             children: [
               ElText('${index + 1}. '),
               const Expanded(
-                child: ElProgress.animate(
-                  50,
-                  duration: Duration(milliseconds: 2000),
-                ),
+                child: ElProgress.animate(50),
               ),
             ],
           ),

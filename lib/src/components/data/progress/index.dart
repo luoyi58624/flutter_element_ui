@@ -30,6 +30,7 @@ class ElProgress extends StatelessWidget {
   })  : _type = _ProgressType.line,
         duration = Duration.zero,
         curve = Curves.linear,
+        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -46,8 +47,9 @@ class ElProgress extends StatelessWidget {
     this.radius = 0,
     this.color,
     this.bgColor,
-    this.duration = const Duration(seconds: 2),
+    this.duration = const Duration(milliseconds: 900),
     this.curve = Curves.easeOutCubic,
+    this.secondCurve = Curves.easeIn,
   })  : _type = _ProgressType.animate,
         vertical = false,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
@@ -70,6 +72,7 @@ class ElProgress extends StatelessWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
+        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -90,6 +93,7 @@ class ElProgress extends StatelessWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
+        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -110,7 +114,7 @@ class ElProgress extends StatelessWidget {
   /// 进度条尺寸
   final double size;
 
-  /// 是否为垂直进度条，默认 false
+  /// 是否为垂直进度条，默认 false，仅限直线进度条
   final bool vertical;
 
   /// 是否为圆角，默认 true
@@ -125,11 +129,14 @@ class ElProgress extends StatelessWidget {
   /// 进度条背景颜色，默认为 border + bg 进行混合
   final Color? bgColor;
 
-  /// 动画进度条持续时间，默认 2 秒
+  /// 动画进度条持续时间
   final Duration duration;
 
-  /// 动画进度条动画曲线，默认 easeOutCubic，先快后大幅度变慢
+  /// 动画进度条第一条动画曲线
   final Curve curve;
+
+  /// 动画进度条第二条动画曲线
+  final Curve secondCurve;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +149,7 @@ class ElProgress extends StatelessWidget {
       result =
           _LineProgressInheritedWidget(vertical, child: const _LineProgress());
     } else if (_type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(duration, curve,
+      result = _AnimateProgressInheritedWidget(duration, curve, secondCurve,
           child: const _AnimateProgress());
     }
 
@@ -192,5 +199,12 @@ class _ProgressInheritedWidget extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) =>
+      value != oldWidget.value ||
+      min != oldWidget.min ||
+      max != oldWidget.max ||
+      round != oldWidget.round ||
+      radius != oldWidget.radius ||
+      color != oldWidget.color ||
+      bgColor != oldWidget.bgColor;
 }
