@@ -48,8 +48,8 @@ class ElProgress extends StatelessWidget {
     this.color,
     this.bgColor,
     this.duration = const Duration(milliseconds: 900),
-    this.curve = Curves.easeOutCubic,
-    this.secondCurve = Curves.easeIn,
+    this.curve = Curves.easeOutSine,
+    this.secondCurve = Curves.easeOut,
   })  : _type = _ProgressType.animate,
         vertical = false,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
@@ -132,10 +132,10 @@ class ElProgress extends StatelessWidget {
   /// 动画进度条持续时间
   final Duration duration;
 
-  /// 动画进度条第一条动画曲线
+  /// 动画进度条第一条动画曲线，其进度尺寸会跟随进度一起缩小
   final Curve curve;
 
-  /// 动画进度条第二条动画曲线
+  /// 动画进度条第二条动画曲线，其进度尺寸不变
   final Curve secondCurve;
 
   @override

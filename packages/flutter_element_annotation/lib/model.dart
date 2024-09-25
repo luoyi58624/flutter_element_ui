@@ -9,6 +9,7 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
+    this.themeWidget = false,
   });
 
   /// 默认开启所有功能
@@ -18,6 +19,7 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = true,
+    this.themeWidget = true,
   });
 
   /// 默认生成 json 序列化方法
@@ -27,6 +29,7 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
+    this.themeWidget = false,
   });
 
   /// 默认生成 copyWith、merge 方法
@@ -36,6 +39,17 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = false,
+    this.themeWidget = false,
+  });
+
+  /// 默认生成 copyWith、merge 方法，以及局部 theme 主题配置类
+  const ElModel.theme({
+    this.formJson = false,
+    this.toJson = false,
+    this.copyWith = true,
+    this.merge = true,
+    this.generateToString = false,
+    this.themeWidget = true,
   });
 
   /// 生成 formJson 方法（暂未实现）
@@ -53,6 +67,9 @@ class ElModel {
 
   /// 生成 toString 方法
   final bool generateToString;
+
+  /// 生成主题配置类
+  final bool themeWidget;
 }
 
 /// 模型字段元数据，控制每个字段的生成逻辑

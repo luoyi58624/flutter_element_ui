@@ -19,12 +19,7 @@ class PerformanceTestPage extends HookWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: flag.value ? const _Left() : const _Right(),
-        ),
-      ),
+      body: flag.value ? const _Left() : const _Right(),
     );
   }
 }
@@ -34,16 +29,26 @@ class _Left extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(
-        100,
-        (index) => Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Row(
-            children: [
-              ElText('${index + 1}. '),
-              const Expanded(child: LinearProgressIndicator()),
-            ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: List.generate(
+            100,
+            (index) => Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  ElText('${index + 1}. '),
+                  Expanded(
+                    child: LinearProgressIndicator(
+                      minHeight: 6,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -56,21 +61,54 @@ class _Right extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final duration = useState(1000.0);
     return Column(
-      children: List.generate(
-        100,
-        (index) => Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Row(
-            children: [
-              ElText('${index + 1}. '),
-              const Expanded(
-                child: ElProgress.animate(50),
-              ),
-            ],
+      children: [
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            valueIndicatorTextStyle:
+                ElDefaultTextStyle.of(context).style.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+          ),
+          child: Slider(
+            value: duration.value,
+            min: 100,
+            max: 3000,
+            label: '动画时间：${duration.value.round().toString()} 毫秒',
+            onChanged: (v) => duration.value = v,
           ),
         ),
-      ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: List.generate(
+                  100,
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Row(
+                      children: [
+                        ElText('${index + 1}. '),
+                        Expanded(
+                          child: ElProgress.animate(
+                            50,
+                            duration: Duration(
+                              milliseconds: duration.value.toInt(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

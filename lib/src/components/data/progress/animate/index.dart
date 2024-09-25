@@ -49,16 +49,16 @@ class _AnimateProgress extends HookWidget {
     );
     final positionAnimation1 = positionTween.animate(CurvedAnimation(
       parent: controller,
-      curve: Interval(0.0, 0.5, curve: $animateData.curve),
+      curve: const Interval(0.0, 0.5, curve: Curves.easeOutSine),
     ));
     final positionAnimation2 = positionTween.animate(CurvedAnimation(
       parent: controller,
-      curve: Interval(0.5, 1.0, curve: $animateData.secondCurve),
+      curve: const Interval(0.5, 1.0, curve: Curves.linear),
     ));
 
     final sizeAnimation1 = Tween(
       begin: progressSize,
-      end: 0.0,
+      end: progressSize / 5,
     ).animate(CurvedAnimation(
       parent: controller,
       curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
