@@ -1,9 +1,9 @@
-import 'package:flutter/animation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 part '../../generates/styles/data/collapse.g.dart';
 
-@ElModel.copy()
+@ElModel.copy(themeWidget: true)
 class ElCollapseStyle {
   const ElCollapseStyle({
     this.keepState = true,

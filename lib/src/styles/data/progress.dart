@@ -3,7 +3,7 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 part '../../generates/styles/data/progress.g.dart';
 
-@ElModel.copy()
+@ElModel.copy(themeWidget: true)
 class ElProgressData {
   const ElProgressData({
     this.duration = const Duration(milliseconds: 900),
@@ -19,24 +19,4 @@ class ElProgressData {
 
   /// 动画进度条第二条动画曲线，其进度尺寸不变
   final Curve secondCurve;
-}
-
-class ElProgressTheme extends InheritedWidget {
-  const ElProgressTheme({
-    super.key,
-    required super.child,
-    required this.data,
-  });
-
-  final ElProgressData data;
-
-  static ElProgressTheme of(BuildContext context) {
-    final ElProgressTheme? result =
-        context.dependOnInheritedWidgetOfExactType<ElProgressTheme>();
-    assert(result != null, 'No ElProgressTheme found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ElProgressTheme oldWidget) => true;
 }

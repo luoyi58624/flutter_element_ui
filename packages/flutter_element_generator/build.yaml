@@ -14,10 +14,3 @@ builders:
     auto_apply: dependents
     build_to: cache
     applies_builders: ["source_gen:combining_builder"]
-  component:
-    import: "package:flutter_element_generator/builder.dart"
-    builder_factories: [ "componentBuilder" ]
-    build_extensions: { ".dart": [ ".g.part" ] }
-    auto_apply: dependents
-    build_to: cache
-    applies_builders: [ "source_gen:combining_builder" ]

@@ -21,15 +21,37 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     bool createCopyWith = annotation.read('copyWith').boolValue;
     bool createMerge = annotation.read('merge').boolValue;
     bool createToString = annotation.read('generateToString').boolValue;
+    bool createThemeWidget = annotation.read('themeWidget').boolValue;
     if (createMerge) createCopyWith = true;
 
-    return """
+    String result = """
 extension ${className}Extension on $className {
   ${generateCopyWidth(createCopyWith, className, classFields)}
   ${generateMerge(createMerge, className, classFields)}
   ${generateToString(createToString, className, classFields)}
 }
   """;
+
+    late String rawClassName;
+    late String suffix;
+    if (className.endsWith('Style')) {
+      suffix = 'Style';
+      rawClassName = className.substring(0, className.lastIndexOf('Style'));
+    } else if (className.endsWith('Data')) {
+      suffix = 'Data';
+      rawClassName = className.substring(0, className.lastIndexOf('Data'));
+    } else {
+      suffix = '';
+      rawClassName = className;
+    }
+    if (createThemeWidget) {
+      result += generateThemeWidget(
+        createThemeWidget,
+        rawClassName,
+        suffix: suffix,
+      );
+    }
+    return result;
   }
 
   bool allowCopy(FieldElement fieldInfo) {
@@ -125,6 +147,50 @@ extension ${className}Extension on $className {
   String _toString() {
     return '$className{$toStringContent}';
   } 
+    """;
+  }
+
+  String generateThemeWidget(
+    bool enable,
+    String className, {
+    String suffix = 'Data',
+  }) {
+    if (!enable) return '';
+    return """
+    
+class ${className}Theme extends InheritedWidget {
+  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
+  const ${className}Theme({super.key, required super.child, required this.data});
+
+  final $className$suffix data;
+
+  static $className$suffix? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<${className}Theme>()?.data;
+  }
+
+  static $className$suffix of(BuildContext context, $className$suffix? data) {
+    final result = maybeOf(context);
+    assert(result != null, 'No ${className}Theme found in context');
+    return result!;
+  }
+
+  static Widget merge({
+    Key? key,
+    $className$suffix? data,
+    required Widget child,
+  }) {
+    return Builder(builder: (context) {
+      final parent = ${className}Theme.maybeOf(context) ?? const $className$suffix();
+      return ${className}Theme(
+        data: parent.merge(data),
+        child: child,
+      );
+    });
+  }
+
+  @override
+  bool updateShouldNotify(${className}Theme oldWidget) => true;
+}
     """;
   }
 

@@ -42,16 +42,6 @@ class ElModel {
     this.themeWidget = false,
   });
 
-  /// 默认生成 copyWith、merge 方法，以及局部 theme 主题配置类
-  const ElModel.theme({
-    this.formJson = false,
-    this.toJson = false,
-    this.copyWith = true,
-    this.merge = true,
-    this.generateToString = false,
-    this.themeWidget = true,
-  });
-
   /// 生成 formJson 方法（暂未实现）
   final bool formJson;
 
