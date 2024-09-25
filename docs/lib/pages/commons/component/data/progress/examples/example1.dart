@@ -17,22 +17,13 @@ class Example1 extends HookWidget {
           code: code1,
           children: [
             ElSwitch(flag),
-            // const LinearProgressIndicator(),
-            // const ElProgress(20),
             const Gap(8),
-            ...List.generate(
-              1,
-              (index) => flag.value
-                  ? const Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: LinearProgressIndicator(),
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: ElProgress.animate(20,
-                          duration: Duration(milliseconds: 1500)),
-                    ),
-            ),
+            // const LinearProgressIndicator(),
+            flag.value
+                ? const ElProgress.animate(20,
+                    duration: Duration(milliseconds: 2000))
+                : const ElProgress(20),
+
             // const Gap(8),
             // ElProgress(100, round: true, indeterminate: flag.value),
             // const Gap(8),

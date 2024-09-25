@@ -25,6 +25,7 @@ class TextPage extends ResponsivePage {
         type: 'primary',
         child: const ElText('文本动画性能测试'),
       ),
+      const Gap(8),
       ElButton(
         onPressed: () {
           context.push(const TextScrollTestPage());
