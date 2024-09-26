@@ -34,7 +34,7 @@ class _Left extends HookWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: List.generate(
-            1000,
+            100,
             (index) => Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
@@ -86,7 +86,7 @@ class _Right extends HookWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: List.generate(
-                  1000,
+                  100,
                   (index) => Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Row(

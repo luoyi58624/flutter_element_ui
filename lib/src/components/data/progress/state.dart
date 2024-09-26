@@ -77,6 +77,7 @@ class ElProgressState extends State<ElProgress> {
         size: widget.size,
         color: $color,
         vertical: widget.vertical,
+        disabledAnimate: widget.disabledAnimate,
       );
     } else if (widget._type == _ProgressType.animate) {
       result = _AnimateProgressInheritedWidget(widget.duration, widget.curve,

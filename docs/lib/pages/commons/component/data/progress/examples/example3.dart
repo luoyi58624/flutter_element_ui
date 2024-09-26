@@ -25,8 +25,6 @@ class Example3 extends HookWidget {
   }
 }
 
-GlobalKey<ElProgressState> _progressKey = GlobalKey();
-
 class _Example extends HookWidget {
   const _Example();
 
@@ -38,9 +36,11 @@ class _Example extends HookWidget {
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         onHorizontalDragDown: (e) {
-          isDrag.value = true;
-
           progress.value = e.localPosition.dx / constraints.maxWidth * 100;
+          // 在当前帧构建完毕后再设置 isDarg，后续更新进度时禁用动画
+          ElUtil.nextTick((){
+            isDrag.value = true;
+          });
         },
         onHorizontalDragUpdate: (e) {
           final value = e.localPosition.dx / constraints.maxWidth * 100;
@@ -57,11 +57,10 @@ class _Example extends HookWidget {
           builder: (context) {
             final isHover = context.isHover;
             return ElProgress(
-              key: _progressKey,
               progress.value,
+              disabledAnimate: isDrag.value,
               size: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,
-              boxSize: 16,
             );
           },
         ),
@@ -71,6 +70,7 @@ class _Example extends HookWidget {
 }
 
 String get code => '''
+/// 此示例实现一个简易的 Slider 滑块
 class _Example extends HookWidget {
   const _Example();
 
@@ -78,11 +78,15 @@ class _Example extends HookWidget {
   Widget build(BuildContext context) {
     final progress = useState(20.0);
     final isDrag = useState(false);
+
     return LayoutBuilder(builder: (context, constraints) {
       return GestureDetector(
         onHorizontalDragDown: (e) {
-          isDrag.value = true;
           progress.value = e.localPosition.dx / constraints.maxWidth * 100;
+          // 在当前帧构建完毕后再设置 isDarg，后续更新进度时禁用动画
+          ElUtil.nextTick((){
+            isDrag.value = true;
+          });
         },
         onHorizontalDragUpdate: (e) {
           final value = e.localPosition.dx / constraints.maxWidth * 100;
@@ -100,8 +104,9 @@ class _Example extends HookWidget {
             final isHover = context.isHover;
             return ElProgress(
               progress.value,
+              disabledAnimate: isDrag.value,
               size: isHover || isDrag.value ? 16 : 6,
-              boxSize: 16,
+              color: isHover || isDrag.value ? Colors.green : null,
             );
           },
         ),

@@ -59,8 +59,9 @@ class _AnimateProgress extends HookWidget {
       return null;
     }, [$animateData.duration]);
 
+    final $radius = $data.round ? $data.size / 2 : $data.radius;
     return ClipRRect(
-      borderRadius: BorderRadius.circular($data.radius),
+      borderRadius: BorderRadius.circular($radius),
       child: AnimatedBuilder(
           animation: controller.view,
           builder: (context, child) {
@@ -70,7 +71,7 @@ class _AnimateProgress extends HookWidget {
                 value: progressAnimation.value,
                 size: $data.size,
                 position: positionAnimation.value,
-                radius: $data.radius,
+                radius: $radius,
                 vertical: false,
                 bgColor: $data.bgColor,
                 color: $data.color,
