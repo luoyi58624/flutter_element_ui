@@ -116,7 +116,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
       horizontal: widget.sliderWidget.thumbSize / 2,
     );
     if (isDrag) {
-      el.cursor.add(widget.sliderWidget.cursor ?? ElCursorUtil.grabbing);
+      el.cursor.add(widget.sliderWidget.cursor ?? CursorUtil.grabbing);
     } else {
       el.cursor.remove();
     }
@@ -225,7 +225,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
                 cancelDrag();
               },
         child: HoverBuilder(
-            cursor: widget.sliderWidget.cursor ?? ElCursorUtil.grab,
+            cursor: widget.sliderWidget.cursor ?? CursorUtil.grab,
             builder: (context) {
               return ObsBuilder(builder: (context) {
                 return _SlideInheritedWidget(

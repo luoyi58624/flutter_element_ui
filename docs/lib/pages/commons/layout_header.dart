@@ -15,10 +15,14 @@ class LayoutHeader extends StatelessWidget {
         children: [
           ElLink(
             href: '/',
-            child: ElIcon(
+            child: SvgPicture.asset(
               'assets/images/element-plus-logo.svg',
-              color: context.elTheme.primary,
-              size: 28,
+              colorFilter: ColorFilter.mode(
+                context.elTheme.primary,
+                BlendMode.srcIn,
+              ),
+              width: 28,
+              height: 28,
               package: null,
             ),
           ),

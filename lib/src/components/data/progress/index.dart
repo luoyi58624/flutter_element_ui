@@ -3,11 +3,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
+part 'state.dart';
+
 part 'style.dart';
 
-part 'line/index.dart';
+part 'widgets/line.dart';
 
-part 'animate/index.dart';
+part 'widgets/animate.dart';
 
 part '../../../generates/components/data/progress/index.g.dart';
 
@@ -18,7 +20,7 @@ enum _ProgressType {
   dashboard,
 }
 
-class ElProgress extends StatelessWidget {
+class ElProgress extends StatefulWidget {
   /// Element UI 直线进度条
   const ElProgress(
     this.value, {
@@ -34,13 +36,12 @@ class ElProgress extends StatelessWidget {
   })  : _type = _ProgressType.line,
         duration = Duration.zero,
         curve = Curves.linear,
-        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
             'ElProgress value 取值范围必须在 min - max 之间');
 
-  /// Element UI 直线动画进度条
+  /// Element UI 动画进度条
   const ElProgress.animate(
     this.value, {
     super.key,
@@ -51,9 +52,8 @@ class ElProgress extends StatelessWidget {
     this.radius = 0,
     this.color,
     this.bgColor,
-    this.duration = const Duration(milliseconds: 900),
+    this.duration = const Duration(milliseconds: 2000),
     this.curve = Curves.easeOutSine,
-    this.secondCurve = Curves.easeOut,
   })  : _type = _ProgressType.animate,
         vertical = false,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
@@ -76,7 +76,6 @@ class ElProgress extends StatelessWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
-        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -97,7 +96,6 @@ class ElProgress extends StatelessWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
-        secondCurve = Curves.linear,
         assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
         assert(max > min, 'ElProgress 最大值必须大于最小值'),
         assert(value >= min && value <= max,
@@ -136,79 +134,9 @@ class ElProgress extends StatelessWidget {
   /// 动画进度条持续时间
   final Duration duration;
 
-  /// 动画进度条第一条动画曲线，其进度尺寸会跟随进度一起缩小
+  /// 动画进度条动画曲线
   final Curve curve;
 
-  /// 动画进度条第二条动画曲线，其进度尺寸不变
-  final Curve secondCurve;
-
   @override
-  Widget build(BuildContext context) {
-    final $bgColor = bgColor ?? context.elTheme.colors.borderLight;
-    final $color = color ?? context.elTheme.primary;
-    final $radius = round ? size / 2 : radius;
-    final $valueRatio = math.max((value - min), 0) / (max - min);
-    late Widget result;
-    if (_type == _ProgressType.line) {
-      result =
-          _LineProgressInheritedWidget(vertical, child: const _LineProgress());
-    } else if (_type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(duration, curve, secondCurve,
-          child: const _AnimateProgress());
-    }
-
-    return LayoutBuilder(builder: (context, constraints) {
-      return _ProgressInheritedWidget(value, min, max, size, round, $radius,
-          $color, $bgColor, $valueRatio, constraints.maxWidth,
-          child: result);
-    });
-  }
-}
-
-class _ProgressInheritedWidget extends InheritedWidget {
-  const _ProgressInheritedWidget(
-    this.value,
-    this.min,
-    this.max,
-    this.size,
-    this.round,
-    this.radius,
-    this.color,
-    this.bgColor,
-    this.ratio,
-    this.physicalSize, {
-    required super.child,
-  });
-
-  final double value;
-  final double min;
-  final double max;
-  final double size;
-  final bool round;
-  final double radius;
-  final Color color;
-  final Color bgColor;
-
-  /// [value] 在 [min] 和 [max] 之间的比例
-  final double ratio;
-
-  /// 进度条整体所占据的物理尺寸
-  final double physicalSize;
-
-  static _ProgressInheritedWidget of(BuildContext context) {
-    final _ProgressInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_ProgressInheritedWidget>();
-    assert(result != null, 'No _ProgressInheritedWidget found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) =>
-      value != oldWidget.value ||
-      min != oldWidget.min ||
-      max != oldWidget.max ||
-      round != oldWidget.round ||
-      radius != oldWidget.radius ||
-      color != oldWidget.color ||
-      bgColor != oldWidget.bgColor;
+  State<ElProgress> createState() => ElProgressState();
 }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../../../widgets/model_value.dart';
-
 part 'state.dart';
 
 class ElSwitch extends ElModelValue<bool> {

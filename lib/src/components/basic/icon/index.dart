@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/extensions/font.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 part 'state.dart';

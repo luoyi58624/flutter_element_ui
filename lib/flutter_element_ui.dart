@@ -2,8 +2,8 @@ library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
 
-export 'src/app.dart' show ElApp;
-export 'src/service.dart' show el;
+export 'src/components/basic/app/index.dart';
+export 'src/services/index.dart' show el;
 
 export 'src/components/basic/button/index.dart';
 export 'src/components/basic/icon/index.dart';
@@ -28,7 +28,10 @@ export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
 export 'src/components/feedback/drawer.dart';
 export 'src/components/feedback/loading/loading.dart';
-export 'src/components/feedback/tooltip.dart';
+export 'src/components/feedback/message/index.dart';
+export 'src/components/feedback/modal/index.dart';
+export 'src/components/feedback/toast/index.dart';
+export 'src/components/feedback/tooltip/index.dart';
 
 export 'src/components/form/autocomplete.dart';
 export 'src/components/form/cascader.dart';
@@ -49,40 +52,23 @@ export 'src/components/layout/page.dart';
 export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/tabs.dart';
 
-export 'src/components/others/anchor.dart';
+export 'src/components/others/anchor/index.dart' show ElAnchor;
 export 'src/components/others/code_preview/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
-export 'src/extensions/font.dart';
-export 'src/extensions/responsive.dart';
 export 'src/extensions/theme.dart';
-export 'src/extensions/widget.dart';
 
 export 'src/models/menu.dart';
 
 export 'src/services/logger.dart';
-export 'src/services/message.dart' show ElMessageModel, ElMessageBuilder;
-
-export 'src/styles/theme_data.dart';
-export 'src/styles/config_data.dart';
-
-export 'src/styles/feedback/modal.dart';
-export 'src/styles/feedback/message.dart';
-export 'src/styles/feedback/toast.dart';
-export 'src/styles/feedback/tooltip.dart';
 
 export 'src/styles/layout/aside.dart';
 export 'src/styles/layout/header.dart';
 
-export 'src/utils/assert.dart';
 export 'src/utils/font.dart';
-export 'src/utils/shortcut.dart';
 
-export 'src/widgets/model_value.dart';
-export 'src/widgets/scroll_behavior.dart';
-export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/size_builder.dart';
 export 'src/widgets/size_builder2.dart';

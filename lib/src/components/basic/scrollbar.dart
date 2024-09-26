@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,33 @@ const int _animationDuration = 200;
 
 /// 延迟激活滚动条高亮时间，防止鼠标快速划过导致滚动条出现轻微闪动
 const int _delayActiveDuration = 100;
+
+class ElScrollBehavior extends CustomScrollBehavior {
+  /// 设置全局默认的滚动条，在桌面端将使用[ElScrollbar]
+  const ElScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    if (PlatformUtil.isWindows ||
+        PlatformUtil.isMacOS ||
+        PlatformUtil.isLinux) {
+      return ElScrollbar(
+        controller: details.controller,
+        child: child,
+      );
+    }
+    if (PlatformUtil.isIOS) {
+      return CupertinoScrollbar(
+        controller: details.controller,
+        child: child,
+      );
+    }
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
+}
 
 class ElScrollbar extends RawScrollbar {
   /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开滚动区域则立即消失，

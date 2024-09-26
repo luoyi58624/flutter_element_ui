@@ -4,9 +4,6 @@ import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../../../service.dart';
-import '../../../utils/assert.dart';
-
 part 'split_panel.dart';
 
 part 'split_resizer.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../app.dart';
+import '../components/basic/app/index.dart';
 
 class ElFont {
   ElFont._();
