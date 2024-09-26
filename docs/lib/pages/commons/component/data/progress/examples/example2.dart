@@ -8,20 +8,18 @@ class Example2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
         CodeExample(
-          code: code,
+          code: code1,
           children: [
-            ElSwitch(flag),
-            const Gap(8),
-            const ElProgress(
-              50,
-              round: true,
-            ),
+            const ElProgress.animate(50),
+            ElProgress.animate(50, color: context.elTheme.success),
+            ElProgress.animate(50, color: context.elTheme.info),
+            ElProgress.animate(50, color: context.elTheme.warning),
+            ElProgress.animate(50, color: context.elTheme.error),
           ],
         ),
       ],
@@ -30,7 +28,11 @@ class Example2 extends HookWidget {
 }
 
 String get code1 => '''
-''';
+const ElProgress.animate(50),
+ElProgress.animate(50, color: context.elTheme.success),
+ElProgress.animate(50, color: context.elTheme.info),
+ElProgress.animate(50, color: context.elTheme.warning),
+ElProgress.animate(50, color: context.elTheme.error),''';
 
 String get code => '''
 // Copyright 2014 The Flutter Authors. All rights reserved.

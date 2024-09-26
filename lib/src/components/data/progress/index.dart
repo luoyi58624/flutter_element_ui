@@ -28,6 +28,7 @@ class ElProgress extends StatefulWidget {
     this.min = 0.0,
     this.max = 100.0,
     this.size = 6.0,
+    this.boxSize = 14.0,
     this.vertical = false,
     this.round = true,
     this.radius = 0,
@@ -36,8 +37,9 @@ class ElProgress extends StatefulWidget {
   })  : _type = _ProgressType.line,
         duration = Duration.zero,
         curve = Curves.linear,
-        assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
-        assert(max > min, 'ElProgress 最大值必须大于最小值'),
+        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
+        assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
             'ElProgress value 取值范围必须在 min - max 之间');
 
@@ -48,18 +50,20 @@ class ElProgress extends StatefulWidget {
     this.min = 0.0,
     this.max = 100.0,
     this.size = 6.0,
+    this.boxSize = 14.0,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
-    this.duration = const Duration(milliseconds: 2000),
+    this.duration = const Duration(milliseconds: 1800),
     this.curve = Curves.easeOutSine,
   })  : _type = _ProgressType.animate,
         vertical = false,
-        assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
-        assert(max > min, 'ElProgress 最大值必须大于最小值'),
+        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
+        assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
-            'ElProgress value 取值范围必须在 min - max 之间');
+        'ElProgress value 取值范围必须在 min - max 之间');
 
   /// Element UI 圆环进度条
   const ElProgress.circle(
@@ -68,6 +72,7 @@ class ElProgress extends StatefulWidget {
     this.min = 0.0,
     this.max = 100.0,
     this.size = 6.0,
+    this.boxSize = 14.0,
     this.round = true,
     this.radius = 0,
     this.color,
@@ -76,10 +81,11 @@ class ElProgress extends StatefulWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
-        assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
-        assert(max > min, 'ElProgress 最大值必须大于最小值'),
+        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
+        assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
-            'ElProgress value 取值范围必须在 min - max 之间');
+        'ElProgress value 取值范围必须在 min - max 之间');
 
   /// Element UI 仪表盘进度条
   const ElProgress.dashboard(
@@ -88,6 +94,7 @@ class ElProgress extends StatefulWidget {
     this.min = 0.0,
     this.max = 100.0,
     this.size = 6.0,
+    this.boxSize = 14.0,
     this.round = true,
     this.radius = 0,
     this.color,
@@ -96,10 +103,11 @@ class ElProgress extends StatefulWidget {
         vertical = false,
         duration = Duration.zero,
         curve = Curves.linear,
-        assert(min >= 0.0, 'ElProgress 最小值必须大于等于 0'),
-        assert(max > min, 'ElProgress 最大值必须大于最小值'),
+        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
+        assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
-            'ElProgress value 取值范围必须在 min - max 之间');
+        'ElProgress value 取值范围必须在 min - max 之间');
 
   /// 进度条类型
   final _ProgressType _type;
@@ -115,6 +123,9 @@ class ElProgress extends StatefulWidget {
 
   /// 进度条尺寸
   final double size;
+
+  /// 进度条外部容器尺寸，[size] 是进度条显示的大小，[boxSize] 是进度条实际大小
+  final double boxSize;
 
   /// 是否为垂直进度条，默认 false，仅限直线进度条
   final bool vertical;

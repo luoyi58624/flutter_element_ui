@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/global.dart';
-import 'package:flutter_element_extension/src/utils/cursor.dart';
 
 part 'state.dart';
 

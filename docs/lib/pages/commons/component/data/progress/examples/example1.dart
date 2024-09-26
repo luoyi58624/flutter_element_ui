@@ -8,72 +8,33 @@ class Example1 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
         CodeExample(
-          code: code1,
-          children: [
-            ElSwitch(flag),
-            const Gap(8),
-            // const LinearProgressIndicator(),
-            flag.value ? const ElProgress.animate(50) : const ElProgress(50),
-            const Gap(8),
-            flag.value
-                ? const ElProgress.animate(
-                    40,
-                    duration: Duration(milliseconds: 1800),
-                    curve: Curves.linear,
-                  )
-                : const ElProgress(50),
-            // const Gap(8),
-            // ElProgress(100, round: true, indeterminate: flag.value),
-            // const Gap(8),
-            // ElProgress(
-            //   100,
-            //   round: true,
-            //   color: context.elTheme.success,
-            //   indeterminate: flag.value,
-            //   duration: const Duration(milliseconds: 1500),
-            // ),
-            // const Gap(8),
-            // ElProgress(
-            //   100,
-            //   round: true,
-            //   color: context.elTheme.warning,
-            //   indeterminate: flag.value,
-            //   duration: const Duration(milliseconds: 2500),
-            // ),
-            // const Gap(8),
-            // ElProgress(
-            //   100,
-            //   round: true,
-            //   color: context.elTheme.error,
-            //   indeterminate: flag.value,
-            //   duration: const Duration(milliseconds: 2000),
-            // ),
-            // const Gap(8),
-            // ElProgress(
-            //   50,
-            //   color: context.elTheme.success,
-            //   round: true,
-            //   indeterminate: flag.value,
-            // ),
-            // const Gap(8),
-            // ElProgress(
-            //   100,
-            //   color: context.elTheme.warning,
-            //   round: true,
-            //   indeterminate: flag.value,
-            // ),
+          code: code,
+          children: const [
+            ElProgress(0),
+            ElProgress(20),
+            ElProgress(40, color: Colors.green),
+            ElProgress(60, color: Colors.orange),
+            ElProgress(80, color: Colors.red),
+            ElProgress(100, color: Colors.cyan),
           ],
         ),
       ],
     );
   }
 }
+
+String get code => '''
+ElProgress(0),
+ElProgress(20),
+ElProgress(40, color: Colors.green),
+ElProgress(60, color: Colors.orange),
+ElProgress(80, color: Colors.red),
+ElProgress(100, color: Colors.cyan),''';
 
 String get code1 => '''
 import 'dart:math';

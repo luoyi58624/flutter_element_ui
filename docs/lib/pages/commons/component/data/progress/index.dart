@@ -3,6 +3,8 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
 import './examples/example1.dart';
+import './examples/example2.dart';
+import './examples/example3.dart';
 import 'performance_test.dart';
 
 class ProgressPage extends ResponsivePage {
@@ -24,7 +26,8 @@ class ProgressPage extends ResponsivePage {
         child: const ElText('进度条性能测试'),
       ),
       const Example1(title: '直线进度条'),
-      // const Example2(title: '直线进度条'),
+      const Example2(title: '动画进度条'),
+      const Example3(title: '进度条交互动画'),
     ];
   }
 }

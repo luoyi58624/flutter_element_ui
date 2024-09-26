@@ -2,65 +2,13 @@ part of 'index.dart';
 
 const Duration _duration = Duration(milliseconds: 200);
 
-class ElProgressState extends State<ElProgress>
-    with SingleTickerProviderStateMixin {
-  /// 调整进度条当前位置动画控制器
-  late final AnimationController _controller = AnimationController(vsync: this);
-  late final CurvedAnimation _curvedAnimation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeOut,
-  );
-
-  /// 以动画形式更新进度条
-  void setAnimateProgress(double value) {
-
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final $bgColor = widget.bgColor ?? context.elTheme.colors.borderLight;
-    final $color = widget.color ?? context.elTheme.primary;
-    final $radius = widget.round ? widget.size / 2 : widget.radius;
-    final $valueRatio =
-        math.max((widget.value - widget.min), 0) / (widget.max - widget.min);
-    late Widget result;
-    if (widget._type == _ProgressType.line) {
-      result = _LineProgressInheritedWidget(widget.vertical,
-          child: const _LineProgress());
-    } else if (widget._type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(widget.duration, widget.curve,
-          child: const _AnimateProgress());
-    }
-
-    return LayoutBuilder(builder: (context, constraints) {
-      return _ProgressInheritedWidget(
-          widget.value,
-          widget.min,
-          widget.max,
-          widget.size,
-          widget.round,
-          $radius,
-          $color,
-          $bgColor,
-          $valueRatio,
-          constraints.maxWidth,
-          child: result);
-    });
-  }
-}
-
 class _ProgressInheritedWidget extends InheritedWidget {
   const _ProgressInheritedWidget(
     this.value,
     this.min,
     this.max,
     this.size,
+    this.boxSize,
     this.round,
     this.radius,
     this.color,
@@ -74,6 +22,7 @@ class _ProgressInheritedWidget extends InheritedWidget {
   final double min;
   final double max;
   final double size;
+  final double boxSize;
   final bool round;
   final double radius;
   final Color color;
@@ -83,7 +32,7 @@ class _ProgressInheritedWidget extends InheritedWidget {
   final double ratio;
 
   /// 进度条整体所占据的物理尺寸
-  final double physicalSize;
+  final Size physicalSize;
 
   static _ProgressInheritedWidget of(BuildContext context) {
     final _ProgressInheritedWidget? result =
@@ -93,12 +42,76 @@ class _ProgressInheritedWidget extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) =>
-      value != oldWidget.value ||
-      min != oldWidget.min ||
-      max != oldWidget.max ||
-      round != oldWidget.round ||
-      radius != oldWidget.radius ||
-      color != oldWidget.color ||
-      bgColor != oldWidget.bgColor;
+  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) => true;
+}
+
+class ElProgressState extends State<ElProgress> {
+  // /// 进度条动画控制器
+  // late final AnimationController _controller = AnimationController(vsync: this);
+  // late final CurvedAnimation _curvedAnimation = CurvedAnimation(
+  //   parent: _controller,
+  //   curve: Curves.easeOut,
+  // );
+  //
+  // @override
+  // void dispose() {
+  //   // _controller.dispose();
+  //   super.dispose();
+  // }
+
+  /// 以动画形式更新进度条
+  void setAnimateProgress(double value) {}
+
+  @override
+  Widget build(BuildContext context) {
+    final $bgColor = widget.bgColor ?? context.elTheme.colors.borderLight;
+    final $color = widget.color ?? context.elTheme.primary;
+
+    final $valueRatio =
+        math.max((widget.value - widget.min), 0) / (widget.max - widget.min);
+
+    late Widget result;
+    if (widget._type == _ProgressType.line) {
+      result = _LineProgress(
+        value: $valueRatio,
+        size: widget.size,
+        color: $color,
+        vertical: widget.vertical,
+      );
+    } else if (widget._type == _ProgressType.animate) {
+      result = _AnimateProgressInheritedWidget(widget.duration, widget.curve,
+          child: const _AnimateProgress());
+    }
+
+    return LayoutBuilder(builder: (context, constraints) {
+      late Size physicalSize;
+      if (widget.vertical) {
+        physicalSize = Size(widget.size, constraints.maxHeight);
+      } else {
+        physicalSize = Size(constraints.maxWidth, widget.size);
+      }
+      return UnconstrainedBox(
+        child: SizedBox(
+          width: widget.vertical ? widget.boxSize : physicalSize.width,
+          height: widget.vertical ? physicalSize.height : widget.boxSize,
+          child: Center(
+            child: _ProgressInheritedWidget(
+              widget.value,
+              widget.min,
+              widget.max,
+              widget.size,
+              widget.boxSize,
+              widget.round,
+              widget.radius,
+              $color,
+              $bgColor,
+              $valueRatio,
+              physicalSize,
+              child: result,
+            ),
+          ),
+        ),
+      );
+    });
+  }
 }

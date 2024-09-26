@@ -34,7 +34,7 @@ class _Left extends HookWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: List.generate(
-            100,
+            1000,
             (index) => Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
@@ -61,7 +61,7 @@ class _Right extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final duration = useState(1000.0);
+    final duration = useState(1800.0);
     return Column(
       children: [
         SliderTheme(
@@ -74,7 +74,7 @@ class _Right extends HookWidget {
           ),
           child: Slider(
             value: duration.value,
-            min: 100,
+            min: 1000,
             max: 3000,
             label: '动画时间：${duration.value.round().toString()} 毫秒',
             onChanged: (v) => duration.value = v,
@@ -86,7 +86,7 @@ class _Right extends HookWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: List.generate(
-                  100,
+                  1000,
                   (index) => Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Row(
