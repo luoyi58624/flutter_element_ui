@@ -19,7 +19,6 @@ dependencies:
     path: ./packages/flutter_element_annotation
   flutter_element_extension:
     path: ./packages/flutter_element_extension
-  flutter_svg: ^2.0.10+1
   logger: ^2.4.0
   web: ^1.0.0
   url_launcher: ^6.3.0

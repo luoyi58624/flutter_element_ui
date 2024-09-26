@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/extensions/font.dart';
 import 'package:flutter_element_ui/src/global.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 part 'state.dart';
 
@@ -41,9 +40,7 @@ class ElIcon extends StatelessWidget {
     final $icon = child ?? $theme?.icon;
     final $size = size ?? $theme?.size ?? 1.5.rem(context);
     final $color = color ?? $theme?.color ?? context.elTheme.colors.icon;
-    if ($icon is String) {
-      return _SvgWidget($icon, size: $size, color: $color, package: package);
-    } else if ($icon is IconData) {
+    if ($icon is IconData) {
       return Icon($icon, size: $size, color: $color);
     } else if ($icon is Widget) {
       return UnconstrainedBox(
@@ -53,33 +50,5 @@ class ElIcon extends StatelessWidget {
     } else {
       return Placeholder(fallbackWidth: $size, fallbackHeight: $size);
     }
-  }
-}
-
-class _SvgWidget extends ElIcon {
-  const _SvgWidget(super.child, {super.size, super.color, super.package});
-
-  @override
-  Widget build(BuildContext context) {
-    ColorFilter? colorFilter = color == null
-        ? null
-        : ColorFilter.mode(
-            color!,
-            BlendMode.srcIn,
-          );
-    return ElUtil.isHttp(child as String)
-        ? SvgPicture.network(
-            child!,
-            width: size,
-            height: size,
-            colorFilter: colorFilter,
-          )
-        : SvgPicture.asset(
-            child!,
-            width: size,
-            height: size,
-            colorFilter: colorFilter,
-            package: package,
-          );
   }
 }

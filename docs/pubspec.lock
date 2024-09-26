@@ -235,7 +235,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: db96c822b9f074418ff2641203f0e643d43fd6a7
+      resolved-ref: "59f1d74fd19a0ac672de2f7e9d729bb993f106d9"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -301,10 +301,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_shaders
-      sha256: "02750b545c01ff4d8e9bbe8f27a7731aa3778402506c67daa1de7f5fc3f4befe"
+      sha256: "34794acadd8275d971e02df03afee3dee0f98dbfb8c4837082ad0034f612a3e2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   flutter_spinkit:
     dependency: transitive
     description:
