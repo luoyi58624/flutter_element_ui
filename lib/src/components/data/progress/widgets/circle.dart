@@ -1,26 +1,23 @@
 part of '../index.dart';
 
+
 /// 直线进度条
-class _LineProgress extends StatefulWidget {
-  const _LineProgress({
+class _CricleProgress extends StatefulWidget {
+  const _CricleProgress({
     required this.value,
     required this.size,
     required this.color,
-    required this.vertical,
-    required this.disabledAnimate,
   });
 
   final double value;
   final double size;
   final Color color;
-  final bool vertical;
-  final bool disabledAnimate;
 
   @override
-  State<_LineProgress> createState() => _LineProgressState();
+  State<_CricleProgress> createState() => _CricleProgressState();
 }
 
-class _LineProgressState extends State<_LineProgress>
+class _CricleProgressState extends State<_CricleProgress>
     with TickerProviderStateMixin {
   late AnimationController controller = AnimationController(
     vsync: this,
@@ -33,17 +30,18 @@ class _LineProgressState extends State<_LineProgress>
   late Animation<double> sizeAnimate;
   late Animation<Color?> colorAnimate;
 
+
   late AnimationController valueController = AnimationController(
     vsync: this,
     duration: _valueDuration,
   )..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        valueAnimate = Tween(
-          begin: widget.value,
-          end: widget.value,
-        ).animate(valueCurve);
-      }
-    });
+    if (status == AnimationStatus.completed) {
+      valueAnimate = Tween(
+        begin: widget.value,
+        end: widget.value,
+      ).animate(valueCurve);
+    }
+  });
   late CurvedAnimation valueCurve = CurvedAnimation(
     parent: valueController,
     curve: const Cubic(0.4, 0, 0.2, 1),
@@ -71,15 +69,8 @@ class _LineProgressState extends State<_LineProgress>
   }
 
   @override
-  void didUpdateWidget(covariant _LineProgress oldWidget) {
+  void didUpdateWidget(covariant _CricleProgress oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.disabledAnimate != oldWidget.disabledAnimate) {
-      if (widget.disabledAnimate) {
-        valueController.duration = Duration.zero;
-      } else {
-        valueController.duration = _valueDuration;
-      }
-    }
     if (widget.size != oldWidget.size) {
       sizeAnimate = Tween(
         begin: sizeAnimate.value,
@@ -123,18 +114,15 @@ class _LineProgressState extends State<_LineProgress>
             child: AnimatedBuilder(
                 animation: valueController.view,
                 builder: (context, child) {
-                  return RepaintBoundary(
-                    child: CustomPaint(
-                      size: Size($data.physicalSize.width, sizeAnimate.value),
-                      painter: _LineProgressPainter(
-                        value: $data.physicalSize.width * valueAnimate.value,
-                        size: sizeAnimate.value,
-                        position: 0,
-                        radius: $radius,
-                        vertical: widget.vertical,
-                        bgColor: $data.bgColor,
-                        color: colorAnimate.value!,
-                      ),
+                  return CustomPaint(
+                    size: Size($data.physicalSize.width, sizeAnimate.value),
+                    painter: _CricleProgressPainter(
+                      value: $data.physicalSize.width * valueAnimate.value,
+                      size: sizeAnimate.value,
+                      position: 0,
+                      radius: $radius,
+                      bgColor: $data.bgColor,
+                      color: colorAnimate.value!,
                     ),
                   );
                 }),
@@ -143,7 +131,7 @@ class _LineProgressState extends State<_LineProgress>
   }
 }
 
-class _LineProgressPainter extends CustomPainter {
+class _CricleProgressPainter extends CustomPainter {
   /// 进度值
   final double value;
 
@@ -153,16 +141,14 @@ class _LineProgressPainter extends CustomPainter {
   /// 进度条偏移位置
   final double position;
   final double radius;
-  final bool vertical;
   final Color bgColor;
   final Color color;
 
-  _LineProgressPainter({
+  _CricleProgressPainter({
     required this.value,
     required this.size,
     required this.position,
     required this.radius,
-    required this.vertical,
     required this.bgColor,
     required this.color,
   });
@@ -185,7 +171,7 @@ class _LineProgressPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _LineProgressPainter oldDelegate) {
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
 }

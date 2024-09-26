@@ -93,10 +93,17 @@ class _Right extends HookWidget {
                       children: [
                         ElText('${index + 1}. '),
                         Expanded(
-                          child: ElProgress.animate(
-                            50,
-                            duration: Duration(
-                              milliseconds: duration.value.toInt(),
+                          child: UnconstrainedBox(
+                            child: SizedBox(
+                              width: 300,
+                              child: RepaintBoundary(
+                                child: ElProgress.animate(
+                                  50,
+                                  duration: Duration(
+                                    milliseconds: duration.value.toInt(),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

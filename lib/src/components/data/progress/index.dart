@@ -3,15 +3,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-part 'state.dart';
-
 part 'style.dart';
 
 part 'widgets/line.dart';
 
 part 'widgets/animate.dart';
 
+part 'widgets/circle.dart';
+
 part '../../../generates/components/data/progress/index.g.dart';
+
+const _valueDuration = Duration(milliseconds: 150);
 
 enum _ProgressType {
   line,
@@ -20,7 +22,7 @@ enum _ProgressType {
   dashboard,
 }
 
-class ElProgress extends StatefulWidget {
+class ElProgress extends StatelessWidget {
   /// Element UI 直线进度条
   const ElProgress(
     this.value, {
@@ -158,5 +160,87 @@ class ElProgress extends StatefulWidget {
   final Curve curve;
 
   @override
-  State<ElProgress> createState() => ElProgressState();
+  Widget build(BuildContext context) {
+    final $bgColor = bgColor ?? context.elTheme.colors.borderLight;
+    final $color = color ?? context.elTheme.primary;
+
+    final $valueRatio = math.max((value - min), 0) / (max - min);
+
+    late Widget result;
+    if (_type == _ProgressType.line) {
+      result = _LineProgress(
+        value: $valueRatio,
+        size: size,
+        color: $color,
+        vertical: vertical,
+        disabledAnimate: disabledAnimate,
+      );
+    } else if (_type == _ProgressType.animate) {
+      result = _AnimateProgressInheritedWidget(duration, curve,
+          child: const _AnimateProgress());
+    }
+
+    return LayoutBuilder(builder: (context, constraints) {
+      late Size physicalSize;
+      if (vertical) {
+        physicalSize = Size(size, constraints.maxHeight);
+      } else {
+        physicalSize = Size(constraints.maxWidth, size);
+      }
+      return UnconstrainedBox(
+        child: SizedBox(
+          width: vertical ? boxSize : physicalSize.width,
+          height: vertical ? physicalSize.height : boxSize,
+          child: Center(
+            child: _ProgressInheritedWidget(value, min, max, size, boxSize,
+                round, radius, $color, $bgColor, $valueRatio, physicalSize,
+                child: result),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class _ProgressInheritedWidget extends InheritedWidget {
+  const _ProgressInheritedWidget(
+    this.value,
+    this.min,
+    this.max,
+    this.size,
+    this.boxSize,
+    this.round,
+    this.radius,
+    this.color,
+    this.bgColor,
+    this.ratio,
+    this.physicalSize, {
+    required super.child,
+  });
+
+  final double value;
+  final double min;
+  final double max;
+  final double size;
+  final double boxSize;
+  final bool round;
+  final double radius;
+  final Color color;
+  final Color bgColor;
+
+  /// [value] 在 [min] 和 [max] 之间的比例
+  final double ratio;
+
+  /// 进度条整体所占据的物理尺寸
+  final Size physicalSize;
+
+  static _ProgressInheritedWidget of(BuildContext context) {
+    final _ProgressInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_ProgressInheritedWidget>();
+    assert(result != null, 'No _ProgressInheritedWidget found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(_ProgressInheritedWidget oldWidget) => true;
 }
