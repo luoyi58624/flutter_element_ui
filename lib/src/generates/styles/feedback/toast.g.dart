@@ -6,7 +6,7 @@ part of '../../../styles/feedback/toast.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElToastStyleExtension on ElToastThemeData {
+extension ElToastThemeDataExtension on ElToastThemeData {
   ElToastThemeData copyWith({
     int? closeDuration,
     bool? enableFeedback,

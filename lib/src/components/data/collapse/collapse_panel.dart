@@ -3,9 +3,6 @@ import 'package:flutter_element_ui/src/app.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../../../utils/icons.dart';
-import '../../basic/icon.dart';
-
 class _CollapseData extends InheritedWidget {
   const _CollapseData(
     this.modelValue,
@@ -81,7 +78,7 @@ class ElCollapsePanel extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: context.elTheme.colors.border),
-          borderRadius: context.elTheme.cardStyle.radius,
+          borderRadius: context.elTheme.cardTheme.radius,
         ),
         child: ListView.separated(
           shrinkWrap: true,
@@ -121,7 +118,7 @@ class ElCollapseItem extends StatelessWidget {
     final $data = _CollapseData.of(context);
     final $indexData = ElChildIndexData.of(context);
 
-    final $cardRadius = context.elTheme.cardStyle.radius;
+    final $cardRadius = context.elTheme.cardTheme.radius;
     return SizedBox(
       width: double.infinity,
       child: Column(

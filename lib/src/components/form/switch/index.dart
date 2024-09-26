@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../widgets/model_value.dart';
-import '../../basic/icon.dart';
 
 part 'state.dart';
 

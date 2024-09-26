@@ -151,7 +151,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
     Widget result = Container(
       height: widget.sliderWidget.trackSize,
       decoration: BoxDecoration(
-        color: context.elTheme.sliderStyle.inactiveColor,
+        color: context.elTheme.sliderTheme.inactiveColor,
         borderRadius: BorderRadius.circular(
           widget.sliderWidget.tractRadius,
         ),

@@ -3,11 +3,13 @@ import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../models/menu.dart';
 import '../../../utils/font.dart';
-import '../../../utils/icons.dart';
-import '../../basic/icon.dart';
-import '../../basic/link/link.dart';
+import '../../basic/link/index.dart';
 
 part 'state.dart';
+
+part 'style.dart';
+
+part '../../../generates/components/navigation/nav_menu/index.g.dart';
 
 class ElNavMenu extends StatefulWidget {
   /// 创建普通菜单导航
@@ -62,7 +64,7 @@ class ElNavMenu extends StatefulWidget {
   /// 嵌套子菜单距离上一层级的间距
   final double gap;
 
-  /// 菜单栏背景颜色，默认: theme.asideStyle.color
+  /// 菜单栏背景颜色，默认: theme.asideTheme.color
   final Color? bgColor;
 
   /// 菜单图标大小，默认20

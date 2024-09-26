@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/layout/header.g.dart';
 
 @ElModel.copy()
-class ElHeaderStyle {
-  const ElHeaderStyle({
+class ElHeaderThemeData {
+  const ElHeaderThemeData({
     required this.color,
     this.height = 56,
   });

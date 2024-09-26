@@ -86,7 +86,7 @@ class _ElNavMenuState extends State<ElNavMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = widget.bgColor ?? context.elTheme.asideStyle.color;
+    final $bgColor = widget.bgColor ?? context.elTheme.asideTheme.color;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedContainer(
       duration: context.elThemeDuration ?? Duration.zero,
@@ -205,7 +205,7 @@ class _MenuItemState extends State<_MenuItem> {
   Widget buildItem(_MenuNavigationInheritedWidget $data) {
     Color bgColor = $data.bgColor;
     Color menuItemColor = isActive
-        ? context.elTheme.navigationMenuStyle.activeTextColor
+        ? context.elTheme.navigationMenuTheme.activeTextColor
         : bgColor.elTextColor(context);
     Widget result = GestureDetector(
       onTap: () {

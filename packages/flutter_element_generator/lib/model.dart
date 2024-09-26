@@ -7,6 +7,12 @@ import 'package:source_gen/source_gen.dart';
 const _modelChecker = TypeChecker.fromRuntime(ElModel);
 const _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
+/// Element 组件命名前缀
+const String _prefix = 'El';
+
+/// Element 组件主题数据后缀
+const String _suffix = 'ThemeData';
+
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
   @override
@@ -15,6 +21,7 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
     final List<FieldElement> classFields = classInfo.fields;
+    final rawName = getRawName(className);
 
     // bool createFormJson = annotation.read('formJson').boolValue;
     // bool createToJson = annotation.read('toJson').boolValue;
@@ -32,24 +39,8 @@ extension ${className}Extension on $className {
 }
   """;
 
-    late String rawClassName;
-    late String suffix;
-    if (className.endsWith('Style')) {
-      suffix = 'Style';
-      rawClassName = className.substring(0, className.lastIndexOf('Style'));
-    } else if (className.endsWith('Data')) {
-      suffix = 'Data';
-      rawClassName = className.substring(0, className.lastIndexOf('Data'));
-    } else {
-      suffix = '';
-      rawClassName = className;
-    }
     if (createThemeWidget) {
-      result += generateThemeWidget(
-        createThemeWidget,
-        rawClassName,
-        suffix: suffix,
-      );
+      result += generateThemeWidget(createThemeWidget, rawName);
     }
     return result;
   }
@@ -150,38 +141,34 @@ extension ${className}Extension on $className {
     """;
   }
 
-  String generateThemeWidget(
-    bool enable,
-    String className, {
-    String suffix = 'Data',
-  }) {
+  String generateThemeWidget(bool enable, String rawName) {
     if (!enable) return '';
     return """
     
-class ${className}Theme extends InheritedWidget {
+class $_prefix${rawName}Theme extends InheritedWidget {
   /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
-  const ${className}Theme({super.key, required super.child, required this.data});
+  const $_prefix${rawName}Theme({super.key, required super.child, required this.data});
 
-  final $className$suffix data;
+  final $_prefix$rawName$_suffix data;
 
-  static $className$suffix? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<${className}Theme>()?.data;
+  static $_prefix$rawName$_suffix? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<$_prefix${rawName}Theme>()?.data;
   }
 
-  static $className$suffix of(BuildContext context, $className$suffix? data) {
+  static $_prefix$rawName$_suffix of(BuildContext context, $_prefix$rawName$_suffix? data) {
     final result = maybeOf(context);
-    assert(result != null, 'No ${className}Theme found in context');
+    assert(result != null, 'No $_prefix${rawName}Theme found in context');
     return result!;
   }
 
   static Widget merge({
     Key? key,
-    $className$suffix? data,
+    $_prefix$rawName$_suffix? data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent = ${className}Theme.maybeOf(context) ?? const $className$suffix();
-      return ${className}Theme(
+      final parent = $_prefix${rawName}Theme.maybeOf(context) ?? context.elTheme.${rawName.substring(0, 1).toLowerCase() + rawName.substring(1)}Theme;
+      return $_prefix${rawName}Theme(
         data: parent.merge(data),
         child: child,
       );
@@ -189,9 +176,23 @@ class ${className}Theme extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(${className}Theme oldWidget) => true;
+  bool updateShouldNotify($_prefix${rawName}Theme oldWidget) => true;
 }
     """;
+  }
+
+  /// 过滤前缀和后缀，获取单纯的组件名字，例如：
+  /// * ElButtonThemeData -> Button
+  /// * ElLinkThemeData -> Link
+  String getRawName(String className) {
+    String rawName = className;
+    if (rawName.startsWith(_prefix)) {
+      rawName = rawName.substring(_prefix.length);
+    }
+    if (rawName.endsWith(_suffix)) {
+      rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
+    }
+    return rawName;
   }
 
   /// 当前字段是否被忽略

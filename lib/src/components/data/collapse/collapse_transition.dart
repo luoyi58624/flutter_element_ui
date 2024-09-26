@@ -1,6 +1,4 @@
-import 'package:flutter/widgets.dart';
-
-import '../../../global.dart';
+part of 'index.dart';
 
 class ElCollapseTransition extends StatefulWidget {
   /// Element UI 折叠动画小部件
@@ -47,12 +45,12 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   late bool show = widget.value;
   late final controller = AnimationController(
     vsync: this,
-    duration: widget.duration ?? context.elTheme.collapseStyle.duration,
+    duration: widget.duration ?? context.elTheme.collapseTheme.duration,
     value: widget.value ? 1.0 : 0.0,
   );
   late Animation animate = CurvedAnimation(
     parent: controller,
-    curve: widget.curve ?? context.elTheme.collapseStyle.curve,
+    curve: widget.curve ?? context.elTheme.collapseTheme.curve,
   );
 
   void listenAnimationStatus(AnimationStatus status) {
@@ -67,7 +65,7 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   void initState() {
     super.initState();
     ElUtil.nextTick(() {
-      if (!(widget.keepState ?? context.elTheme.collapseStyle.keepState)) {
+      if (!(widget.keepState ?? context.elTheme.collapseTheme.keepState)) {
         controller.addStatusListener(listenAnimationStatus);
       }
     });
@@ -80,16 +78,16 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
       controller.duration = widget.duration;
     }
     if (widget.duration == null) {
-      controller.duration = context.elTheme.collapseStyle.duration;
+      controller.duration = context.elTheme.collapseTheme.duration;
     }
     if (widget.curve != oldWidget.curve) {
       animate = CurvedAnimation(
         parent: controller,
-        curve: widget.curve ?? context.elTheme.collapseStyle.curve,
+        curve: widget.curve ?? context.elTheme.collapseTheme.curve,
       );
     }
     if (widget.keepState != oldWidget.keepState) {
-      if (widget.keepState ?? context.elTheme.collapseStyle.keepState) {
+      if (widget.keepState ?? context.elTheme.collapseTheme.keepState) {
         controller.removeStatusListener(listenAnimationStatus);
       } else {
         controller.addStatusListener(listenAnimationStatus);

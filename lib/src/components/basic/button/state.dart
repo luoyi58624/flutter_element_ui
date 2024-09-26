@@ -60,7 +60,7 @@ class _ElButtonState extends State<ElButton> {
   @override
   Widget build(BuildContext context) {
     ElAssert.themeType(widget.type, 'ElButton');
-    defaultStyle = context.elTheme.buttonStyle;
+    defaultStyle = context.elTheme.buttonTheme;
     buttonHeight =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     iconSize = widget.iconSize ?? buttonHeight / 2 - 2;

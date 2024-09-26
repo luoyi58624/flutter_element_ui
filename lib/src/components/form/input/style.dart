@@ -1,25 +1,27 @@
-part of 'input.dart';
+part of 'index.dart';
 
-typedef _StyleProp = ({
-  double? width,
-  double height,
-  Color? bgColor,
-  Color? color,
-  String? type,
-  bool text,
-  bool link,
-  bool plain,
-  bool round,
-  bool block,
-  BorderRadiusGeometry borderRadius,
-  EdgeInsetsGeometry? margin,
-  EdgeInsetsGeometry? padding,
-  ElIcon? leftIcon,
-  ElIcon? rightIcon,
-  bool circle,
-  bool disabled,
-  bool loading,
-  bool enableFeedback,
-});
+@ElModel.copy()
+class ElInputThemeData {
+  const ElInputThemeData({
+    this.height,
+    this.borderRadius,
+    this.margin = EdgeInsets.zero,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.textStyle = const TextStyle(fontSize: 14),
+  });
 
-class _DefaultStyle {}
+  /// 输入框高度，默认全局 baseHeight
+  final double? height;
+
+  /// 输入框圆角：默认：radius
+  final BorderRadius? borderRadius;
+
+  /// 输入框外边距
+  final EdgeInsetsGeometry? margin;
+
+  /// 输入框内边距
+  final EdgeInsetsGeometry? padding;
+
+  /// 输入框文本样式
+  final TextStyle textStyle;
+}

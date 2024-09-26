@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
-import 'package:flutter_element_ui/src/styles/color_data.dart';
 
-import 'other/code_preview.dart';
+import 'color_data.dart';
 
 part '../generates/styles/theme_data.g.dart';
 
@@ -34,46 +33,49 @@ class ElThemeData {
   final ElColorData colors;
 
   /// 按钮全局样式
-  final ElButtonThemeData buttonStyle;
+  final ElButtonThemeData buttonTheme;
 
   /// 超链接全局样式
-  final ElLinkThemeData linkStyle;
+  final ElLinkThemeData linkTheme;
 
   /// 输入框全局样式
-  final ElInputThemeData inputStyle;
+  final ElInputThemeData inputTheme;
 
   /// 折叠菜单全局样式
-  final ElCollapseThemeData collapseStyle;
+  final ElCollapseThemeData collapseTheme;
+
+  /// 进度条全局样式
+  final ElProgressThemeData progressTheme;
 
   /// 卡片全局样式
-  final ElCardThemeData cardStyle;
+  final ElCardThemeData cardTheme;
 
   /// 消息提示全局样式
-  final ElModalThemeData modalStyle;
+  final ElModalThemeData modalTheme;
 
   /// 消息提示全局样式
-  final ElMessageThemeData messageStyle;
+  final ElMessageThemeData messageTheme;
 
   /// 轻提示全局样式
-  final ElToastThemeData toastStyle;
+  final ElToastThemeData toastTheme;
 
   /// 提示框全局样式
-  final ElTooltipThemeData tooltipStyle;
+  final ElTooltipThemeData tooltipTheme;
 
   /// 滑块全局样式
-  final ElSliderThemeData sliderStyle;
+  final ElSliderThemeData sliderTheme;
 
   /// 导航头全局样式
-  final ElHeaderStyle headerStyle;
+  final ElHeaderThemeData headerTheme;
 
   /// 侧边栏全局样式
-  final ElAsideStyle asideStyle;
+  final ElAsideThemeData asideTheme;
 
   /// 导航菜单全局样式
-  final ElNavMenuThemeData navigationMenuStyle;
+  final ElNavMenuThemeData navigationMenuTheme;
 
   /// 代码预览全局样式
-  final ElCodePreviewStyle codePreviewStyle;
+  final ElCodePreviewThemeData codePreviewTheme;
 
   const ElThemeData({
     this.primary = const Color(0xff409EFF),
@@ -82,33 +84,34 @@ class ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.colors = const ElColorData(),
-    this.buttonStyle = const ElButtonThemeData(),
-    this.linkStyle = const ElLinkThemeData(
+    this.buttonTheme = const ElButtonThemeData(),
+    this.linkTheme = const ElLinkThemeData(
       color: ElLinkThemeData.hrefColor,
       activeColor: ElLinkThemeData.hrefColor,
     ),
-    this.inputStyle = const ElInputThemeData(),
-    this.collapseStyle = const ElCollapseThemeData(),
-    this.cardStyle = const ElCardThemeData(
+    this.inputTheme = const ElInputThemeData(),
+    this.collapseTheme = const ElCollapseThemeData(),
+    this.progressTheme = const ElProgressThemeData(),
+    this.cardTheme = const ElCardThemeData(
       color: Color(0xffffffff),
       elevation: 2,
     ),
-    this.modalStyle = const ElModalThemeData(
+    this.modalTheme = const ElModalThemeData(
       color: Color(0xffffffff),
       elevation: 2,
     ),
-    this.messageStyle = const ElMessageThemeData(),
-    this.toastStyle = const ElToastThemeData(),
-    this.tooltipStyle = const ElTooltipThemeData(color: Color(0xFF616161)),
-    this.sliderStyle = const ElSliderThemeData(
+    this.messageTheme = const ElMessageThemeData(),
+    this.toastTheme = const ElToastThemeData(),
+    this.tooltipTheme = const ElTooltipThemeData(color: Color(0xFF616161)),
+    this.sliderTheme = const ElSliderThemeData(
       inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
     ),
-    this.headerStyle = const ElHeaderStyle(color: Color(0xffffffff)),
-    this.asideStyle = const ElAsideStyle(color: Color(0xffffffff)),
-    this.navigationMenuStyle = const ElNavMenuThemeData(
+    this.headerTheme = const ElHeaderThemeData(color: Color(0xffffffff)),
+    this.asideTheme = const ElAsideThemeData(color: Color(0xffffffff)),
+    this.navigationMenuTheme = const ElNavMenuThemeData(
       activeTextColor: Color(0xff409eff),
     ),
-    this.codePreviewStyle = const ElCodePreviewStyle(
+    this.codePreviewTheme = const ElCodePreviewThemeData(
       color: Color(0xFFD19A66),
       bgColor: Color.fromRGBO(49, 49, 49, 1.0),
     ),
@@ -121,33 +124,34 @@ class ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.colors = const ElColorData.dark(),
-    this.buttonStyle = const ElButtonThemeData(),
-    this.linkStyle = const ElLinkThemeData(
+    this.buttonTheme = const ElButtonThemeData(),
+    this.linkTheme = const ElLinkThemeData(
       color: ElLinkThemeData.darkHrefColor,
       activeColor: ElLinkThemeData.darkHrefColor,
     ),
-    this.inputStyle = const ElInputThemeData(),
-    this.collapseStyle = const ElCollapseThemeData(),
-    this.cardStyle = const ElCardThemeData(
+    this.inputTheme = const ElInputThemeData(),
+    this.collapseTheme = const ElCollapseThemeData(),
+    this.progressTheme = const ElProgressThemeData(),
+    this.cardTheme = const ElCardThemeData(
       color: Color(0xff3f3f46),
       elevation: 4,
     ),
-    this.modalStyle = const ElModalThemeData(
+    this.modalTheme = const ElModalThemeData(
       color: Color(0xff3f3f46),
       elevation: 4,
     ),
-    this.messageStyle = const ElMessageThemeData(),
-    this.toastStyle = const ElToastThemeData(),
-    this.tooltipStyle = const ElTooltipThemeData(color: Color(0xFF757575)),
-    this.sliderStyle = const ElSliderThemeData(
+    this.messageTheme = const ElMessageThemeData(),
+    this.toastTheme = const ElToastThemeData(),
+    this.tooltipTheme = const ElTooltipThemeData(color: Color(0xFF757575)),
+    this.sliderTheme = const ElSliderThemeData(
       inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
     ),
-    this.headerStyle = const ElHeaderStyle(color: Color(0xff404040)),
-    this.asideStyle = const ElAsideStyle(color: Color(0xff374151)),
-    this.navigationMenuStyle = const ElNavMenuThemeData(
+    this.headerTheme = const ElHeaderThemeData(color: Color(0xff404040)),
+    this.asideTheme = const ElAsideThemeData(color: Color(0xff374151)),
+    this.navigationMenuTheme = const ElNavMenuThemeData(
       activeTextColor: Color(0xff6ee7b7),
     ),
-    this.codePreviewStyle = const ElCodePreviewStyle(
+    this.codePreviewTheme = const ElCodePreviewThemeData(
       color: Color(0xFFD19A66),
       bgColor: Color.fromRGBO(49, 49, 49, 1.0),
     ),

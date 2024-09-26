@@ -4,8 +4,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../../generates/styles/layout/aside.g.dart';
 
 @ElModel.copy()
-class ElAsideStyle {
-  const ElAsideStyle({
+class ElAsideThemeData {
+  const ElAsideThemeData({
     required this.color,
     this.width = 240,
   });

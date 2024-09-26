@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../../../styles/basic/button.dart';
-import '../../../utils/icons.dart';
 import '../../feedback/loading/loading.dart';
-import '../icon.dart';
 
 part 'state.dart';
+
+part 'style.dart';
+
+part '../../../generates/components/basic/button/index.g.dart';
 
 class ElButton extends StatefulWidget {
   const ElButton({

@@ -6,7 +6,7 @@ part of '../../../styles/feedback/tooltip.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElTooltipStyleExtension on ElTooltipThemeData {
+extension ElTooltipThemeDataExtension on ElTooltipThemeData {
   ElTooltipThemeData copyWith({
     Color? color,
     bool? enableFeedback,

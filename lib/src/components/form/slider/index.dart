@@ -10,9 +10,13 @@ import '../../../widgets/model_value.dart';
 
 part 'state.dart';
 
+part 'style.dart';
+
 part 'thumbs/default_thumb.dart';
 
 part 'thumbs/progress_thumb.dart';
+
+part '../../../generates/components/form/slider/index.g.dart';
 
 class ElSlider extends ElModelValue<double> {
   const ElSlider(

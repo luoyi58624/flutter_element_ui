@@ -24,7 +24,7 @@ class FlatCodeExample extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: noBorderRadius
             ? BorderRadius.zero
-            : context.elTheme.cardStyle.radius,
+            : context.elTheme.cardTheme.radius,
         border: Border.all(
           color: context.elTheme.colors.border,
           width: 1,
@@ -47,8 +47,8 @@ class FlatCodeExample extends StatelessWidget {
                 borderRadius: noBorderRadius
                     ? BorderRadius.zero
                     : BorderRadius.only(
-                        topLeft: context.elTheme.cardStyle.radius.topLeft,
-                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                        topLeft: context.elTheme.cardTheme.radius.topLeft,
+                        bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
                       ),
               ),
             ),
@@ -68,8 +68,8 @@ class FlatCodeExample extends StatelessWidget {
                 code: code!,
                 height: double.infinity,
                 borderRadius: BorderRadius.only(
-                  topLeft: context.elTheme.cardStyle.radius.topLeft,
-                  bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                  topLeft: context.elTheme.cardTheme.radius.topLeft,
+                  bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
                 ),
               ),
             ),

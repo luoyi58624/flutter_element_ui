@@ -12,4 +12,5 @@ targets:
       flutter_element_generator|model:
         generate_for:
           - lib/src/styles/**.dart
+          - lib/src/components/**.dart
 

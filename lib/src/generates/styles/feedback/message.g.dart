@@ -6,7 +6,7 @@ part of '../../../styles/feedback/message.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElMessageStyleExtension on ElMessageThemeData {
+extension ElMessageThemeDataExtension on ElMessageThemeData {
   ElMessageThemeData copyWith({
     double? offset,
     int? closeDuration,

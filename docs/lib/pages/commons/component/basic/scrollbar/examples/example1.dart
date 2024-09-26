@@ -53,7 +53,7 @@ class _ScrollbarExampleState extends State<_ScrollbarExample> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: context.elTheme.primary.elLight9(context),
-              borderRadius: context.elTheme.cardStyle.radius,
+              borderRadius: context.elTheme.cardTheme.radius,
             ),
             child: Center(
               child: ElText(
@@ -94,7 +94,7 @@ class _ScrollbarExampleState extends State<_ScrollbarExample> {
             padding: const EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
               color: context.elTheme.primary.elLight9(context),
-              borderRadius: context.elTheme.cardStyle.radius,
+              borderRadius: context.elTheme.cardTheme.radius,
             ),
             child: Center(
               child: ElText(

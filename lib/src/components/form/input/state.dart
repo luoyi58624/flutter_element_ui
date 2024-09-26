@@ -1,4 +1,4 @@
-part of 'input.dart';
+part of 'index.dart';
 
 class ElInputState extends ElModelValueState<ElInput, String> {
   late final TextEditingController controller =
@@ -27,7 +27,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
     if (useFormDataModel) {
       controller.text = formData!.model[formItemData!.prop];
     }
-    final defaultStyle = context.elTheme.inputStyle;
+    final defaultStyle = context.elTheme.inputTheme;
     final $height =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
     _styleProp = (

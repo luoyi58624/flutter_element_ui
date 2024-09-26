@@ -3,9 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../../../utils/icons.dart';
-import '../../basic/icon.dart';
-
 part 'util.dart';
 
 class ElLoading extends StatelessWidget {

@@ -34,7 +34,7 @@ class CodeExample extends HookWidget {
           color: context.elTheme.colors.bg,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: context.elTheme.cardStyle.radius,
+              borderRadius: context.elTheme.cardTheme.radius,
               border: Border.all(
                 color: context.elTheme.colors.border,
                 width: 1,
@@ -59,9 +59,9 @@ class CodeExample extends HookWidget {
                     child: ElCodePreview(
                       code: code!,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
+                        bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
                         bottomRight:
-                            context.elTheme.cardStyle.radius.bottomRight,
+                            context.elTheme.cardTheme.radius.bottomRight,
                       ),
                     ),
                   ),
@@ -120,8 +120,8 @@ class _PreviewButton extends HookWidget {
           },
           child: AnimatedContainer(
             duration: context.elThemeDuration ??
-                context.elTheme.collapseStyle.duration,
-            curve: context.elThemeCurve ?? context.elTheme.collapseStyle.curve,
+                context.elTheme.collapseTheme.duration,
+            curve: context.elThemeCurve ?? context.elTheme.collapseTheme.curve,
             height: 40,
             decoration: BoxDecoration(
                 color: context.isHover
@@ -130,10 +130,10 @@ class _PreviewButton extends HookWidget {
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value
                       ? Radius.zero
-                      : context.elTheme.cardStyle.radius.bottomLeft,
+                      : context.elTheme.cardTheme.radius.bottomLeft,
                   bottomRight: isExpanded.value
                       ? Radius.zero
-                      : context.elTheme.cardStyle.radius.bottomRight,
+                      : context.elTheme.cardTheme.radius.bottomRight,
                 )),
             alignment: Alignment.center,
             child: AnimatedBuilder(

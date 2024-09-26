@@ -14,7 +14,7 @@ class _LayoutHeaderWidgetState extends State<LayoutHeaderWidget> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      color: context.elTheme.headerStyle.color,
+      color: context.elTheme.headerTheme.color,
       child: const Row(
         children: [
           // ElButton(

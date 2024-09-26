@@ -6,18 +6,18 @@ part of '../../../styles/layout/header.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElHeaderStyleExtension on ElHeaderStyle {
-  ElHeaderStyle copyWith({
+extension ElHeaderThemeDataExtension on ElHeaderThemeData {
+  ElHeaderThemeData copyWith({
     Color? color,
     double? height,
   }) {
-    return ElHeaderStyle(
+    return ElHeaderThemeData(
       color: color ?? this.color,
       height: height ?? this.height,
     );
   }
 
-  ElHeaderStyle merge([ElHeaderStyle? other]) {
+  ElHeaderThemeData merge([ElHeaderThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       color: other.color,

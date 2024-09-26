@@ -6,18 +6,18 @@ part of '../../../styles/layout/aside.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElAsideStyleExtension on ElAsideStyle {
-  ElAsideStyle copyWith({
+extension ElAsideThemeDataExtension on ElAsideThemeData {
+  ElAsideThemeData copyWith({
     Color? color,
     double? width,
   }) {
-    return ElAsideStyle(
+    return ElAsideThemeData(
       color: color ?? this.color,
       width: width ?? this.width,
     );
   }
 
-  ElAsideStyle merge([ElAsideStyle? other]) {
+  ElAsideThemeData merge([ElAsideThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       color: other.color,

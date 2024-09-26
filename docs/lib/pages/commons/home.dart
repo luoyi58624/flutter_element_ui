@@ -81,9 +81,9 @@ class _CardWidget extends StatelessWidget {
       child: AnimatedContainer(
         duration: context.elConfig.themeDuration,
         decoration: BoxDecoration(
-          color: context.elTheme.cardStyle.color,
+          color: context.elTheme.cardTheme.color,
           border: Border.all(color: context.elTheme.colors.border),
-          borderRadius: context.elTheme.cardStyle.radius,
+          borderRadius: context.elTheme.cardTheme.radius,
         ),
         child: Column(
           children: [
@@ -124,10 +124,10 @@ class _CardWidget extends StatelessWidget {
                       color:
                           TapBuilder.of(context) || HoverBuilder.of(context)
                               ? context.elTheme.primary
-                              : context.elTheme.cardStyle.color,
+                              : context.elTheme.cardTheme.color,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: context.elTheme.cardStyle.radius.bottomLeft,
-                        bottomRight: context.elTheme.cardStyle.radius.bottomRight,
+                        bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                        bottomRight: context.elTheme.cardTheme.radius.bottomRight,
                       ),
                     ),
                     child: Center(

@@ -6,7 +6,7 @@ part of '../../../styles/feedback/modal.dart';
 // ElModelGenerator
 // **************************************************************************
 
-extension ElModalStyleExtension on ElModalThemeData {
+extension ElModalThemeDataExtension on ElModalThemeData {
   ElModalThemeData copyWith({
     Color? color,
     double? elevation,

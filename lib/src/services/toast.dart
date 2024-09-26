@@ -40,8 +40,8 @@ class ToastInstance {
     _toastOverlayEntry = OverlayEntry(builder: (context) {
       return builder != null
           ? builder($context, content)
-          : $context.elTheme.toastStyle.builder != null
-              ? $context.elTheme.toastStyle.builder!($context, content)
+          : $context.elTheme.toastTheme.builder != null
+              ? $context.elTheme.toastTheme.builder!($context, content)
               : type == null
                   ? _Toast(content)
                   : _ThemeToast(content, type);
@@ -139,7 +139,7 @@ class ToastInstance {
   }
 
   Future<void> _beforeHook(BuildContext context, bool? enabledFeedback) async {
-    if (enabledFeedback ?? context.elTheme.toastStyle.enableFeedback) {
+    if (enabledFeedback ?? context.elTheme.toastTheme.enableFeedback) {
       HapticFeedback.mediumImpact();
     }
     remove();
@@ -153,7 +153,7 @@ class ToastInstance {
   void _afterHook(BuildContext context, int? duration) {
     Overlay.of(context).insert(_toastOverlayEntry!);
     _removeToastTimer = remove.delay(
-      duration ?? context.elTheme.toastStyle.closeDuration,
+      duration ?? context.elTheme.toastTheme.closeDuration,
     );
   }
 

@@ -5,10 +5,8 @@ import 'package:flutter_element_ui/src/extensions/font.dart';
 
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../components/basic/icon.dart';
-import '../components/data/badge.dart';
+import '../components/data/badge/index.dart';
 import '../utils/font.dart';
-import '../utils/icons.dart';
 
 /// 自定义消息构建
 typedef ElMessageBuilder = Widget Function(
@@ -104,7 +102,7 @@ class MessageInstance {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final style = (context ?? el.context).elTheme.messageStyle;
+    final style = (context ?? el.context).elTheme.messageTheme;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? style.grouping) {
@@ -437,7 +435,7 @@ class _DefaultMessage extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: themeColor.themeLightBg(context),
-          borderRadius: context.elTheme.cardStyle.radius,
+          borderRadius: context.elTheme.cardTheme.radius,
           border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
         child: ElIconTheme(

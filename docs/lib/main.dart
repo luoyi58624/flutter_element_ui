@@ -37,13 +37,13 @@ class MainApp extends StatelessWidget {
         brightness: GlobalState.brightness,
         theme: ElThemeData(
           primary: GlobalState.primaryColor.value,
-          codePreviewStyle: const ElCodePreviewStyle(
+          codePreviewTheme: const ElCodePreviewThemeData(
             fontFamily: MyFonts.consolas,
           ),
         ),
         darkTheme: ElThemeData.dark(
           primary: GlobalState.primaryColor.value,
-          codePreviewStyle: const ElCodePreviewStyle(
+          codePreviewTheme: const ElCodePreviewThemeData(
             fontFamily: MyFonts.consolas,
           ),
         ),

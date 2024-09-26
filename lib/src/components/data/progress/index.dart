@@ -3,9 +3,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
+part 'style.dart';
+
 part 'line/index.dart';
 
 part 'animate/index.dart';
+
+part '../../../generates/components/data/progress/index.g.dart';
 
 enum _ProgressType {
   line,

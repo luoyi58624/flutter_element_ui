@@ -59,7 +59,7 @@ class DesignPage extends ResponsivePage {
         // color: context.isDark
         //     ? const Color.fromRGBO(29, 29, 29, 1)
         //     : const Color.fromRGBO(250, 250, 250, 1),
-        // borderRadius: context.elTheme.cardStyle.radius,
+        // borderRadius: context.elTheme.cardTheme.radius,
         elevation: 1,
         child: Column(
           children: [
