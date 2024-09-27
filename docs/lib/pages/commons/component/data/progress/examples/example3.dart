@@ -25,6 +25,7 @@ class Example3 extends HookWidget {
   }
 }
 
+/// 实现一个基础 Slider 滑块
 class _Example extends HookWidget {
   const _Example();
 
@@ -37,7 +38,7 @@ class _Example extends HookWidget {
       return GestureDetector(
         onHorizontalDragDown: (e) {
           progress.value = e.localPosition.dx / constraints.maxWidth * 100;
-          // 在当前帧构建完毕后再设置 isDarg，后续更新进度时禁用动画
+          // 在当前帧构建完毕后再设置 isDrag，后续更新进度时禁用动画
           ElUtil.nextTick((){
             isDrag.value = true;
           });
@@ -70,7 +71,7 @@ class _Example extends HookWidget {
 }
 
 String get code => '''
-/// 此示例实现一个简易的 Slider 滑块
+/// 实现一个基础 Slider 滑块
 class _Example extends HookWidget {
   const _Example();
 
@@ -83,7 +84,7 @@ class _Example extends HookWidget {
       return GestureDetector(
         onHorizontalDragDown: (e) {
           progress.value = e.localPosition.dx / constraints.maxWidth * 100;
-          // 在当前帧构建完毕后再设置 isDarg，后续更新进度时禁用动画
+          // 下一帧更新 isDrag，这样第一次更新进度能够触发动画，后续拖拽时禁用动画
           ElUtil.nextTick((){
             isDrag.value = true;
           });
@@ -104,6 +105,7 @@ class _Example extends HookWidget {
             final isHover = context.isHover;
             return ElProgress(
               progress.value,
+              // 拖拽事件非常频繁，当开始拖拽时我们需要禁用默认动画
               disabledAnimate: isDrag.value,
               size: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,

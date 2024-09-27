@@ -27,10 +27,9 @@ class ProgressPage extends ResponsivePage {
         child: const ElText('进度条性能测试'),
       ),
       const Example1(title: '直线进度条'),
-      // RepaintBoundary(child: LinearProgressIndicator()),
       const Example2(title: '动画进度条'),
       const Example3(title: '进度条交互'),
-      // const Example4(title: '环形进度条'),
+      const Example4(title: '视频进度条'),
     ];
   }
 }

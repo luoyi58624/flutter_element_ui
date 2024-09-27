@@ -66,7 +66,7 @@ class _AnimateProgress extends HookWidget {
             return CustomPaint(
               size: $data.physicalSize,
               painter: _LineProgressPainter(
-                valueRatio: ratioAnimation.value,
+                ratio: ratioAnimation.value,
                 position: positionAnimation.value,
                 size: $data.size,
                 radius: $radius,
@@ -80,55 +80,3 @@ class _AnimateProgress extends HookWidget {
   }
 }
 
-class _LineProgressPainter extends CustomPainter {
-  /// 进度值比例动画值
-  final double valueRatio;
-
-  /// 进度条偏移位置动画值
-  final double position;
-
-  /// 进度条大小
-  final double size;
-
-  final double radius;
-  final bool vertical;
-  final Color bgColor;
-  final Color color;
-
-  _LineProgressPainter({
-    required this.valueRatio,
-    required this.position,
-    required this.size,
-    required this.radius,
-    required this.vertical,
-    required this.bgColor,
-    required this.color,
-  });
-
-  @override
-  void paint(Canvas canvas, Size $size) {
-    Paint paint = Paint()..style = PaintingStyle.fill;
-
-    canvas.drawRect(
-      Rect.fromLTRB(0, 0, $size.width, $size.height),
-      paint..color = bgColor,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTRB(
-          $size.width * position,
-          0,
-          $size.width * position + valueRatio * $size.width,
-          $size.height,
-        ),
-        Radius.circular(radius),
-      ),
-      paint..color = color,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _LineProgressPainter oldDelegate) {
-    return true;
-  }
-}

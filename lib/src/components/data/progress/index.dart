@@ -163,13 +163,19 @@ class ElProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final $bgColor = bgColor ?? context.elTheme.colors.borderLight;
     final $color = color ?? context.elTheme.primary;
-
     final $valueRatio = math.max((value - min), 0) / (max - min);
+
+    late Size physicalSize;
+    if (vertical) {
+      physicalSize = Size.fromWidth(size);
+    } else {
+      physicalSize = Size.fromHeight(size);
+    }
 
     late Widget result;
     if (_type == _ProgressType.line) {
       result = _LineProgress(
-        value: $valueRatio,
+        ratio: $valueRatio,
         size: size,
         color: $color,
         vertical: vertical,
@@ -179,12 +185,7 @@ class ElProgress extends StatelessWidget {
       result = _AnimateProgressInheritedWidget(duration, curve,
           child: const _AnimateProgress());
     }
-    late Size physicalSize;
-    if (vertical) {
-      physicalSize = Size.fromWidth(size);
-    } else {
-      physicalSize = Size.fromHeight(size);
-    }
+
     return SizedBox(
       width: vertical ? boxSize : double.infinity,
       height: vertical ? double.infinity : boxSize,
