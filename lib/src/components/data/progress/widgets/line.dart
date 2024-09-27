@@ -127,9 +127,9 @@ class _LineProgressState extends State<_LineProgress>
                     child: CustomPaint(
                       size: Size($data.physicalSize.width, sizeAnimate.value),
                       painter: _LineProgressPainter(
-                        value: $data.physicalSize.width * valueAnimate.value,
-                        size: sizeAnimate.value,
+                        valueRatio: valueAnimate.value,
                         position: 0,
+                        size: sizeAnimate.value,
                         radius: $radius,
                         vertical: widget.vertical,
                         bgColor: $data.bgColor,
@@ -143,49 +143,49 @@ class _LineProgressState extends State<_LineProgress>
   }
 }
 
-class _LineProgressPainter extends CustomPainter {
-  /// 进度值
-  final double value;
-
-  /// 进度条大小
-  final double size;
-
-  /// 进度条偏移位置
-  final double position;
-  final double radius;
-  final bool vertical;
-  final Color bgColor;
-  final Color color;
-
-  _LineProgressPainter({
-    required this.value,
-    required this.size,
-    required this.position,
-    required this.radius,
-    required this.vertical,
-    required this.bgColor,
-    required this.color,
-  });
-
-  @override
-  void paint(Canvas canvas, Size $size) {
-    Paint paint = Paint()..style = PaintingStyle.fill;
-
-    canvas.drawRect(
-      Rect.fromLTRB(0, 0, $size.width, $size.height),
-      paint..color = bgColor,
-    );
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTRB(position, 0, position + value, $size.height),
-        Radius.circular(radius),
-      ),
-      paint..color = color,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _LineProgressPainter oldDelegate) {
-    return true;
-  }
-}
+// class _LineProgressPainter extends CustomPainter {
+//   /// 进度值
+//   final double value;
+//
+//   /// 进度条大小
+//   final double size;
+//
+//   /// 进度条偏移位置
+//   final double position;
+//   final double radius;
+//   final bool vertical;
+//   final Color bgColor;
+//   final Color color;
+//
+//   _LineProgressPainter({
+//     required this.value,
+//     required this.size,
+//     required this.position,
+//     required this.radius,
+//     required this.vertical,
+//     required this.bgColor,
+//     required this.color,
+//   });
+//
+//   @override
+//   void paint(Canvas canvas, Size $size) {
+//     Paint paint = Paint()..style = PaintingStyle.fill;
+//
+//     canvas.drawRect(
+//       Rect.fromLTRB(0, 0, $size.width, $size.height),
+//       paint..color = bgColor,
+//     );
+//     canvas.drawRRect(
+//       RRect.fromRectAndRadius(
+//         Rect.fromLTRB(position, 0, position + value, $size.height),
+//         Radius.circular(radius),
+//       ),
+//       paint..color = color,
+//     );
+//   }
+//
+//   @override
+//   bool shouldRepaint(covariant _LineProgressPainter oldDelegate) {
+//     return true;
+//   }
+// }

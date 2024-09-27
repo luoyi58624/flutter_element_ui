@@ -1,6 +1,8 @@
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 
+import 'test.dart';
+
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -21,7 +23,8 @@ class NavPage extends ResponsivePage {
       ),
       CustomPaint(
         size: const Size(100, 100),
-        painter: _MyPainter2(color: context.isHover ? Colors.green : Colors.red),
+        painter:
+            _MyPainter2(color: context.isHover ? Colors.green : Colors.red),
       ),
       // const RepaintBoundary(
       //   child: SizedBox(
@@ -30,15 +33,32 @@ class NavPage extends ResponsivePage {
       //     child: ElProgress.animate(50),
       //   ),
       // ),
-      RepaintBoundary(
-        child: SizedBox(
-          width: 100,
-          height: 150,
-          child: CodeExample(children: [
-            ElProgress.animate(50),
-          ]),
+      // RepaintBoundary(
+      //   child: SizedBox(
+      //     width: 100,
+      //     height: 150,
+      //     child: CodeExample(children: [
+      //       ElProgress.animate(50),
+      //     ]),
+      //   ),
+      // ),
+      SizedBox(
+        height: 300,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ...List.generate(
+                1000,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: ElProgress.animate(50),
+                ),
+              )
+            ],
+          ),
         ),
       ),
+      // RepaintBoundary(child: const ElProgress.animate(50)),
     ];
   }
 }
@@ -63,7 +83,6 @@ class _MyPainter extends CustomPainter {
   }
 }
 
-
 class _MyPainter2 extends CustomPainter {
   final Color color;
 
@@ -71,7 +90,7 @@ class _MyPainter2 extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    el.i('paint2');
+    // el.i('paint2');
     Paint paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;

@@ -179,26 +179,21 @@ class ElProgress extends StatelessWidget {
       result = _AnimateProgressInheritedWidget(duration, curve,
           child: const _AnimateProgress());
     }
-
-    return LayoutBuilder(builder: (context, constraints) {
-      late Size physicalSize;
-      if (vertical) {
-        physicalSize = Size(size, constraints.maxHeight);
-      } else {
-        physicalSize = Size(constraints.maxWidth, size);
-      }
-      return UnconstrainedBox(
-        child: SizedBox(
-          width: vertical ? boxSize : physicalSize.width,
-          height: vertical ? physicalSize.height : boxSize,
-          child: Center(
-            child: _ProgressInheritedWidget(value, min, max, size, boxSize,
-                round, radius, $color, $bgColor, $valueRatio, physicalSize,
-                child: result),
-          ),
-        ),
-      );
-    });
+    late Size physicalSize;
+    if (vertical) {
+      physicalSize = Size.fromWidth(size);
+    } else {
+      physicalSize = Size.fromHeight(size);
+    }
+    return SizedBox(
+      width: vertical ? boxSize : double.infinity,
+      height: vertical ? double.infinity : boxSize,
+      child: Center(
+        child: _ProgressInheritedWidget(value, min, max, size, boxSize, round,
+            radius, $color, $bgColor, $valueRatio, physicalSize,
+            child: result),
+      ),
+    );
   }
 }
 

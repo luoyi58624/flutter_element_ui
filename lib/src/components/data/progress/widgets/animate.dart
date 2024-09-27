@@ -32,23 +32,21 @@ class _AnimateProgress extends HookWidget {
     final $data = _ProgressInheritedWidget.of(context);
     final $animateData = _AnimateProgressInheritedWidget.of(context);
 
-    final progressValue = $data.physicalSize.width * $data.ratio;
-
     final AnimationController controller = useAnimationController(
       duration: $animateData.duration,
     );
 
     final positionAnimation = Tween(
-      begin: -progressValue,
-      end: $data.physicalSize.width,
+      begin: -$data.ratio,
+      end: 1.0,
     ).animate(CurvedAnimation(
       parent: controller,
       curve: $animateData.curve,
     ));
 
-    final progressAnimation = Tween(
-      begin: progressValue,
-      end: progressValue / 5,
+    final ratioAnimation = Tween(
+      begin: $data.ratio,
+      end: $data.ratio / 5,
     ).animate(CurvedAnimation(
       parent: controller,
       curve: Curves.easeIn,
@@ -68,9 +66,9 @@ class _AnimateProgress extends HookWidget {
             return CustomPaint(
               size: $data.physicalSize,
               painter: _LineProgressPainter(
-                value: progressAnimation.value,
-                size: $data.size,
+                valueRatio: ratioAnimation.value,
                 position: positionAnimation.value,
+                size: $data.size,
                 radius: $radius,
                 vertical: false,
                 bgColor: $data.bgColor,
@@ -79,5 +77,58 @@ class _AnimateProgress extends HookWidget {
             );
           }),
     );
+  }
+}
+
+class _LineProgressPainter extends CustomPainter {
+  /// 进度值比例动画值
+  final double valueRatio;
+
+  /// 进度条偏移位置动画值
+  final double position;
+
+  /// 进度条大小
+  final double size;
+
+  final double radius;
+  final bool vertical;
+  final Color bgColor;
+  final Color color;
+
+  _LineProgressPainter({
+    required this.valueRatio,
+    required this.position,
+    required this.size,
+    required this.radius,
+    required this.vertical,
+    required this.bgColor,
+    required this.color,
+  });
+
+  @override
+  void paint(Canvas canvas, Size $size) {
+    Paint paint = Paint()..style = PaintingStyle.fill;
+
+    canvas.drawRect(
+      Rect.fromLTRB(0, 0, $size.width, $size.height),
+      paint..color = bgColor,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTRB(
+          $size.width * position,
+          0,
+          $size.width * position + valueRatio * $size.width,
+          $size.height,
+        ),
+        Radius.circular(radius),
+      ),
+      paint..color = color,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _LineProgressPainter oldDelegate) {
+    return true;
   }
 }
