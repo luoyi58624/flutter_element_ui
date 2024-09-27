@@ -29,7 +29,7 @@ class _MyPainter extends CustomPainter {
       ..color = Colors.green
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 6;
+      ..strokeWidth = 10;
 
     Rect rect2 =
         Rect.fromCircle(center: const Offset(100.0, 100.0), radius: 40.0);

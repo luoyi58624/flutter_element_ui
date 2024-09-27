@@ -95,7 +95,7 @@ class _Right extends HookWidget {
                         Expanded(
                           child: ElProgress.animate(
                             50,
-                            pollDuration: Duration(
+                            duration: Duration(
                               milliseconds: duration.value.toInt(),
                             ),
                           ),

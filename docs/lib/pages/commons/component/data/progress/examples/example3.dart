@@ -34,5 +34,5 @@ class Example3 extends HookWidget {
 String get code => '''
 SizedBox(
   height: 300,
-  child: ElProgress(50, vertical: true),
+  child: ElProgress(50, axis: AxisDirection.up),
 ),''';

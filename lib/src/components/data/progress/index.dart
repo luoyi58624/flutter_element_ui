@@ -5,14 +5,16 @@ import 'package:flutter_element_ui/src/global.dart';
 
 part 'style.dart';
 
-part 'widgets/line.dart';
+part 'animate_builder.dart';
 
-part 'widgets/animate.dart';
+part 'painter.dart';
+
+part 'animate_loader.dart';
 
 part '../../../generates/components/data/progress/index.g.dart';
 
-const _valueDuration = Duration(milliseconds: 150);
-const _valueCurve = Cubic(0.4, 0, 0.2, 1);
+const _defaultDuration = Duration(milliseconds: 200);
+const _defaultCurve = Cubic(0.4, 0, 0.2, 1);
 
 enum _ProgressType {
   line,
@@ -28,18 +30,17 @@ class ElProgress extends StatelessWidget {
     super.key,
     this.min = 0.0,
     this.max = 100.0,
-    this.size = 6.0,
     this.boxSize = 16.0,
+    this.strokeSize = 6.0,
     this.axis = AxisDirection.right,
-    this.valueDuration = _valueDuration,
-    this.valueCurve = _valueCurve,
+    this.duration = _defaultDuration,
+    this.curve = _defaultCurve,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.line,
-        pollDuration = Duration.zero,
-        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        assert(boxSize >= strokeSize, 'ElProgress boxSize 必须大于等于 strokeSize'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
@@ -51,18 +52,17 @@ class ElProgress extends StatelessWidget {
     super.key,
     this.min = 0.0,
     this.max = 100.0,
-    this.size = 6.0,
     this.boxSize = 16.0,
+    this.strokeSize = 6.0,
     this.axis = AxisDirection.right,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
-    this.pollDuration = const Duration(milliseconds: 1800),
+    this.duration = const Duration(milliseconds: 1800),
   })  : _type = _ProgressType.animate,
-        valueDuration = Duration.zero,
-        valueCurve = _valueCurve,
-        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        curve = Curves.easeOutSine,
+        assert(boxSize >= strokeSize, 'ElProgress boxSize 必须大于等于 strokeSize'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
@@ -74,18 +74,17 @@ class ElProgress extends StatelessWidget {
     super.key,
     this.min = 0.0,
     this.max = 100.0,
-    this.size = 6.0,
-    this.boxSize = 16.0,
-    this.valueDuration = _valueDuration,
-    this.valueCurve = _valueCurve,
-    this.round = true,
-    this.radius = 0,
+    this.boxSize = 100.0,
+    this.strokeSize = 6.0,
+    this.duration = _defaultDuration,
+    this.curve = _defaultCurve,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.circle,
         axis = AxisDirection.right,
-        pollDuration = Duration.zero,
-        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        round = true,
+        radius = 0,
+        assert(boxSize >= strokeSize, 'ElProgress boxSize 必须大于等于 strokeSize'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
@@ -97,18 +96,17 @@ class ElProgress extends StatelessWidget {
     super.key,
     this.min = 0.0,
     this.max = 100.0,
-    this.size = 6.0,
-    this.boxSize = 16.0,
-    this.valueDuration = _valueDuration,
-    this.valueCurve = _valueCurve,
-    this.round = true,
-    this.radius = 0,
+    this.boxSize = 100.0,
+    this.strokeSize = 6.0,
+    this.duration = _defaultDuration,
+    this.curve = _defaultCurve,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.dashboard,
         axis = AxisDirection.right,
-        pollDuration = Duration.zero,
-        assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
+        round = true,
+        radius = 0,
+        assert(boxSize >= strokeSize, 'ElProgress boxSize 必须大于等于 strokeSize'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
         assert(value >= min && value <= max,
@@ -126,11 +124,13 @@ class ElProgress extends StatelessWidget {
   /// 进度条最大值
   final double max;
 
-  /// 进度条尺寸，默认 6 像素
-  final double size;
-
-  /// 进度条外部容器尺寸，默认 16 像素
+  /// 进度条容器尺寸：
+  /// * 如果是直线进度条，方向若是水平则表示直线进度条的高度，垂直方向则表示宽度，默认尺寸为 16 像素；
+  /// * 如果是圆环、仪表盘进度条，则表示宽高一致的圆形，默认尺寸为 100 像素。
   final double boxSize;
+
+  /// 进度条实际绘制的尺寸，默认 6 像素，它不能大于 [boxSize]
+  final double strokeSize;
 
   /// 进度条方向，仅限直线进度条、动画进度条
   final AxisDirection axis;
@@ -147,14 +147,12 @@ class ElProgress extends StatelessWidget {
   /// 进度条背景颜色，默认为 border + bg 进行混合
   final Color? bgColor;
 
-  /// [value] 进度更新时动画持续时间，如果频繁更新进度，请将它设置为 0
-  final Duration valueDuration;
+  /// [value] 进度更新时动画持续时间，如果频繁更新进度，请将它设置为 [Duration.zero]，
+  /// 当使用动画进度条时，它代表的是每次循环的持续时间。
+  final Duration duration;
 
-  /// [value] 进度更新时动画曲线
-  final Curve valueCurve;
-
-  /// 轮询动画持续时间，仅限动画进度条
-  final Duration pollDuration;
+  /// [value] 进度更新时动画曲线，当使用动画进度条时，它代表的是循环动画曲线
+  final Curve curve;
 
   @override
   Widget build(BuildContext context) {
@@ -162,36 +160,99 @@ class ElProgress extends StatelessWidget {
     final $color = color ?? context.elTheme.primary;
     final $valueRatio = math.max((value - min), 0) / (max - min);
     final $vertical = axis == AxisDirection.up || axis == AxisDirection.down;
-    late Size $size;
+
     late Size $boxSize;
-    if ($vertical) {
-      $size = Size.fromWidth(size);
-      $boxSize = Size.fromWidth(boxSize);
-    } else {
-      $size = Size.fromHeight(size);
-      $boxSize = Size.fromHeight(boxSize);
+    late Size $strokeSize;
+    switch (_type) {
+      case _ProgressType.line:
+      case _ProgressType.animate:
+        if ($vertical) {
+          $boxSize = Size.fromWidth(boxSize);
+          $strokeSize = Size.fromWidth(strokeSize);
+        } else {
+          $boxSize = Size.fromHeight(boxSize);
+          $strokeSize = Size.fromHeight(strokeSize);
+        }
+        break;
+      case _ProgressType.circle:
+      case _ProgressType.dashboard:
+        $boxSize = Size(boxSize, boxSize);
+        $strokeSize = Size(strokeSize, strokeSize);
+        break;
     }
 
+    late _ProgressAnimateBuilder builder;
+
     late Widget result;
-    if (_type == _ProgressType.line) {
-      result = _LineProgress(
+
+    if (_type == _ProgressType.animate) {
+      result = _AnimateLoader(
+        duration: duration,
+        curve: curve,
+      );
+    } else {
+      if (_type == _ProgressType.line) {
+        builder = (ratio, strokeSize, color) {
+          double $radius = round
+              ? ($vertical ? strokeSize.width : strokeSize.height) / 2
+              : radius;
+          return ClipRRect(
+            borderRadius: BorderRadius.circular($radius),
+            child: CustomPaint(
+              size: strokeSize,
+              painter: _LineProgressPainter(
+                ratio: ratio,
+                positionRatio: 0,
+                color: color,
+                radius: $radius,
+                axis: axis,
+                bgColor: $bgColor,
+              ),
+            ),
+          );
+        };
+      } else if (_type == _ProgressType.circle) {
+        builder = (ratio, strokeSize, color) {
+          return CustomPaint(
+            size: $boxSize,
+            painter: _CricleProgressPainter(
+              ratio: ratio,
+              strokeSize: strokeSize,
+              color: color,
+              bgColor: $bgColor,
+            ),
+          );
+        };
+      } else {
+        builder = (ratio, strokeSize, color) {
+          return CustomPaint(
+            size: $boxSize,
+            painter: _DashboardProgressPainter(
+              ratio: ratio,
+              strokeSize: strokeSize,
+              color: color,
+              bgColor: $bgColor,
+            ),
+          );
+        };
+      }
+
+      result = _AnimateBuilder(
         ratio: $valueRatio,
-        size: $size,
+        strokeSize: $strokeSize,
         color: $color,
         axis: axis,
-        duration: valueDuration,
-        curve: valueCurve,
+        duration: duration,
+        curve: curve,
+        builder: builder,
       );
-    } else if (_type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(pollDuration,
-          child: const _AnimateProgress());
     }
 
     return SizedBox.fromSize(
       size: $boxSize,
       child: Center(
-        child: _ProgressInheritedWidget(value, min, max, $size, $boxSize, axis,
-            $vertical, round, radius, $color, $bgColor, $valueRatio,
+        child: _ProgressInheritedWidget(value, min, max, $boxSize, $strokeSize,
+            axis, $vertical, round, radius, $color, $bgColor, $valueRatio,
             child: result),
       ),
     );
@@ -203,8 +264,8 @@ class _ProgressInheritedWidget extends InheritedWidget {
     this.value,
     this.min,
     this.max,
-    this.size,
     this.boxSize,
+    this.strokeSize,
     this.axis,
     this.vertical,
     this.round,
@@ -218,8 +279,8 @@ class _ProgressInheritedWidget extends InheritedWidget {
   final double value;
   final double min;
   final double max;
-  final Size size;
   final Size boxSize;
+  final Size strokeSize;
   final AxisDirection axis;
   final bool vertical;
   final bool round;

@@ -83,9 +83,9 @@ class _Example extends HookWidget {
             return ElProgress(
               progress.value,
               // 拖拽事件非常频繁，当开始拖拽时我们需要将 value 动画时间设置为 0
-              valueDuration: Duration(milliseconds: isDrag.value ? 0 : 200),
+              duration: Duration(milliseconds: isDrag.value ? 0 : 200),
               axis: reverse ? AxisDirection.left : AxisDirection.right,
-              size: isHover || isDrag.value ? 16 : 6,
+              strokeSize: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,
             );
           },
@@ -134,9 +134,9 @@ class _Example2 extends HookWidget {
             return ElProgress(
               progress.value,
               // 拖拽事件非常频繁，当开始拖拽时我们需要将 value 动画时间设置为 0
-              valueDuration: Duration(milliseconds: isDrag.value ? 0 : 200),
+              duration: Duration(milliseconds: isDrag.value ? 0 : 200),
               axis: reverse ? AxisDirection.up : AxisDirection.down,
-              size: isHover || isDrag.value ? 16 : 6,
+              strokeSize: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,
             );
           },
@@ -182,8 +182,8 @@ class _Example extends HookWidget {
             return ElProgress(
               progress.value,
               // 拖拽事件非常频繁，当开始拖拽时我们需要将 value 动画时间设置为 0
-              valueDuration: Duration(milliseconds: isDrag.value ? 0 : 200),
-              size: isHover || isDrag.value ? 16 : 6,
+              duration: Duration(milliseconds: isDrag.value ? 0 : 200),
+              strokeSize: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,
             );
           },

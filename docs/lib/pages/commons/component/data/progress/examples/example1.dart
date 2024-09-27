@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
+
+import '../index.dart';
 
 class Example1 extends HookWidget {
   const Example1({super.key, required this.title});
@@ -15,12 +19,7 @@ class Example1 extends HookWidget {
         CodeExample(
           code: code,
           children: const [
-            ElProgress(0),
-            ElProgress(20),
-            ElProgress(40, color: Colors.green),
-            ElProgress(60, color: Colors.orange),
-            ElProgress(80, color: Colors.red),
-            ElProgress(100, color: Colors.cyan),
+            _Example(),
           ],
         ),
       ],
@@ -28,13 +27,106 @@ class Example1 extends HookWidget {
   }
 }
 
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = useState(0.0);
+    final color = ProgressPage.colors[(progress.value / 10).toInt()];
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            ElButton(
+              onPressed: () {
+                progress.value = max(0, progress.value - 10);
+              },
+              child: '-10',
+            ),
+            const Gap(8),
+            ElButton(
+              onPressed: () {
+                progress.value = min(100, progress.value + 10);
+              },
+              child: '+10',
+            ),
+          ],
+        ),
+        ElProgress(
+          progress.value,
+          color: color,
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.ease,
+        ),
+        const ElProgress(20),
+        const ElProgress(40, color: Colors.green),
+        const ElProgress(60, color: Colors.orange),
+        const ElProgress(80, color: Colors.red),
+        const ElProgress(100, color: Colors.cyan),
+      ],
+    );
+  }
+}
+
 String get code => '''
-ElProgress(0),
-ElProgress(20),
-ElProgress(40, color: Colors.green),
-ElProgress(60, color: Colors.orange),
-ElProgress(80, color: Colors.red),
-ElProgress(100, color: Colors.cyan),''';
+List<Color?> colors = [
+  null,
+  Colors.red,
+  Colors.orange,
+  Colors.yellow,
+  Colors.green,
+  Colors.cyan,
+  Colors.blue,
+  Colors.purple,
+  Colors.grey,
+  Colors.indigo,
+  Colors.purpleAccent,
+];
+
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = useState(0.0);
+    final color = colors[(progress.value / 10).toInt()];
+    
+    return Column(
+      children: [
+        Row(
+          children: [
+            ElButton(
+              onPressed: () {
+                progress.value = max(0, progress.value - 10);
+              },
+              child: '-10',
+            ),
+            const Gap(8),
+            ElButton(
+              onPressed: () {
+                progress.value = min(100, progress.value + 10);
+              },
+              child: '+10',
+            ),
+          ],
+        ),
+        ElProgress(
+          progress.value,
+          color: color,
+          duration: const Duration(milliseconds: 600),
+          valueCurve: Curves.ease,
+        ),
+        const ElProgress(20),
+        const ElProgress(40, color: Colors.green),
+        const ElProgress(60, color: Colors.orange),
+        const ElProgress(80, color: Colors.red),
+        const ElProgress(100, color: Colors.cyan),
+      ],
+    );
+  }
+}''';
 
 String get code1 => '''
 import 'dart:math';

@@ -4,8 +4,8 @@ import 'package:docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Example9 extends HookWidget {
-  const Example9({super.key, required this.title});
+class Example5 extends HookWidget {
+  const Example5({super.key, required this.title});
 
   final String title;
 
@@ -67,8 +67,8 @@ class _Example extends HookWidget {
               children: [
                 ElProgress(
                   progress.value,
-                  valueDuration: Duration.zero,
-                  size: isHover || isDrag.value ? 6 : 2,
+                  duration: Duration.zero,
+                  strokeSize: isHover || isDrag.value ? 6 : 2,
                   round: false,
                   radius: 2,
                 ),
@@ -144,8 +144,8 @@ class _Example extends HookWidget {
               children: [
                 ElProgress(
                   progress.value,
-                  valueDuration: Duration.zero,
-                  size: isHover || isDrag.value ? 6 : 2,
+                  duration: Duration.zero,
+                  strokeSize: isHover || isDrag.value ? 6 : 2,
                   round: false,
                   radius: 2,
                 ),

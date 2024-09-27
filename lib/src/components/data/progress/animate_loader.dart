@@ -1,37 +1,21 @@
-part of '../index.dart';
+part of 'index.dart';
 
-class _AnimateProgressInheritedWidget extends InheritedWidget {
-  const _AnimateProgressInheritedWidget(
-    this.duration, {
-    required super.child,
+/// 动画加载器进度条
+class _AnimateLoader extends HookWidget {
+  const _AnimateLoader({
+    required this.duration,
+    required this.curve,
   });
 
   final Duration duration;
-
-  static _AnimateProgressInheritedWidget of(BuildContext context) {
-    final _AnimateProgressInheritedWidget? result = context
-        .dependOnInheritedWidgetOfExactType<_AnimateProgressInheritedWidget>();
-    assert(
-        result != null, 'No _AnimateProgressInheritedWidget found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_AnimateProgressInheritedWidget oldWidget) =>
-      duration != oldWidget.duration;
-}
-
-/// 动画进度条
-class _AnimateProgress extends HookWidget {
-  const _AnimateProgress();
+  final Curve curve;
 
   @override
   Widget build(BuildContext context) {
     final $data = _ProgressInheritedWidget.of(context);
-    final $animateData = _AnimateProgressInheritedWidget.of(context);
 
     final AnimationController controller = useAnimationController(
-      duration: $animateData.duration,
+      duration: duration,
     );
 
     final positionRatioAnimation = Tween(
@@ -39,7 +23,7 @@ class _AnimateProgress extends HookWidget {
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: controller,
-      curve: Curves.easeOutSine,
+      curve: curve,
     ));
 
     final ratioAnimation = Tween(
@@ -53,10 +37,11 @@ class _AnimateProgress extends HookWidget {
     useEffect(() {
       controller.repeat();
       return null;
-    }, [$animateData.duration]);
+    }, [duration]);
 
     double $radius = $data.round
-        ? ($data.vertical ? $data.size.width : $data.size.height) / 2
+        ? ($data.vertical ? $data.strokeSize.width : $data.strokeSize.height) /
+            2
         : $data.radius;
 
     return ClipRRect(
@@ -65,7 +50,7 @@ class _AnimateProgress extends HookWidget {
           animation: controller.view,
           builder: (context, child) {
             return CustomPaint(
-              size: $data.size,
+              size: $data.strokeSize,
               painter: _LineProgressPainter(
                 ratio: ratioAnimation.value,
                 positionRatio: positionRatioAnimation.value,
