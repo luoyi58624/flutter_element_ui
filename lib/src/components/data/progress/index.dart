@@ -9,11 +9,10 @@ part 'widgets/line.dart';
 
 part 'widgets/animate.dart';
 
-part 'widgets/circle.dart';
-
 part '../../../generates/components/data/progress/index.g.dart';
 
 const _valueDuration = Duration(milliseconds: 150);
+const _valueCurve = Cubic(0.4, 0, 0.2, 1);
 
 enum _ProgressType {
   line,
@@ -31,15 +30,15 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.boxSize = 16.0,
-    this.vertical = false,
-    this.disabledAnimate = false,
+    this.axis = AxisDirection.right,
+    this.valueDuration = _valueDuration,
+    this.valueCurve = _valueCurve,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.line,
-        duration = Duration.zero,
-        curve = Curves.linear,
+        pollDuration = Duration.zero,
         assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
@@ -54,15 +53,15 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.boxSize = 16.0,
+    this.axis = AxisDirection.right,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
-    this.duration = const Duration(milliseconds: 1800),
-    this.curve = Curves.easeOutSine,
+    this.pollDuration = const Duration(milliseconds: 1800),
   })  : _type = _ProgressType.animate,
-        vertical = false,
-        disabledAnimate = false,
+        valueDuration = Duration.zero,
+        valueCurve = _valueCurve,
         assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
@@ -77,15 +76,15 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.boxSize = 16.0,
-    this.disabledAnimate = false,
+    this.valueDuration = _valueDuration,
+    this.valueCurve = _valueCurve,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.circle,
-        vertical = false,
-        duration = Duration.zero,
-        curve = Curves.linear,
+        axis = AxisDirection.right,
+        pollDuration = Duration.zero,
         assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
@@ -100,15 +99,15 @@ class ElProgress extends StatelessWidget {
     this.max = 100.0,
     this.size = 6.0,
     this.boxSize = 16.0,
-    this.disabledAnimate = false,
+    this.valueDuration = _valueDuration,
+    this.valueCurve = _valueCurve,
     this.round = true,
     this.radius = 0,
     this.color,
     this.bgColor,
   })  : _type = _ProgressType.dashboard,
-        vertical = false,
-        duration = Duration.zero,
-        curve = Curves.linear,
+        axis = AxisDirection.right,
+        pollDuration = Duration.zero,
         assert(boxSize >= size, 'ElProgress boxSize 必须大于等于 size'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
         assert(max > min, 'ElProgress max 必须大于 min'),
@@ -133,13 +132,8 @@ class ElProgress extends StatelessWidget {
   /// 进度条外部容器尺寸，默认 16 像素
   final double boxSize;
 
-  /// 是否为垂直进度条，默认 false，仅限直线进度条
-  final bool vertical;
-
-  /// 默认情况下，每次更新 [value] 进度时会进行动画处理，在频繁更新进度时会造成延迟问题，
-  /// 例如：拖拽进度条，你可以在开始拖拽时将 [disabledAnimate] 设置为 true，
-  /// 这样便可以快速响应拖拽事件。
-  final bool disabledAnimate;
+  /// 进度条方向，仅限直线进度条、动画进度条
+  final AxisDirection axis;
 
   /// 是否为圆角，默认 true
   final bool round;
@@ -153,45 +147,51 @@ class ElProgress extends StatelessWidget {
   /// 进度条背景颜色，默认为 border + bg 进行混合
   final Color? bgColor;
 
-  /// 动画进度条持续时间
-  final Duration duration;
+  /// [value] 进度更新时动画持续时间，如果频繁更新进度，请将它设置为 0
+  final Duration valueDuration;
 
-  /// 动画进度条动画曲线
-  final Curve curve;
+  /// [value] 进度更新时动画曲线
+  final Curve valueCurve;
+
+  /// 轮询动画持续时间，仅限动画进度条
+  final Duration pollDuration;
 
   @override
   Widget build(BuildContext context) {
     final $bgColor = bgColor ?? context.elTheme.colors.borderLight;
     final $color = color ?? context.elTheme.primary;
     final $valueRatio = math.max((value - min), 0) / (max - min);
-
-    late Size physicalSize;
-    if (vertical) {
-      physicalSize = Size.fromWidth(size);
+    final $vertical = axis == AxisDirection.up || axis == AxisDirection.down;
+    late Size $size;
+    late Size $boxSize;
+    if ($vertical) {
+      $size = Size.fromWidth(size);
+      $boxSize = Size.fromWidth(boxSize);
     } else {
-      physicalSize = Size.fromHeight(size);
+      $size = Size.fromHeight(size);
+      $boxSize = Size.fromHeight(boxSize);
     }
 
     late Widget result;
     if (_type == _ProgressType.line) {
       result = _LineProgress(
         ratio: $valueRatio,
-        size: size,
+        size: $size,
         color: $color,
-        vertical: vertical,
-        disabledAnimate: disabledAnimate,
+        axis: axis,
+        duration: valueDuration,
+        curve: valueCurve,
       );
     } else if (_type == _ProgressType.animate) {
-      result = _AnimateProgressInheritedWidget(duration, curve,
+      result = _AnimateProgressInheritedWidget(pollDuration,
           child: const _AnimateProgress());
     }
 
-    return SizedBox(
-      width: vertical ? boxSize : double.infinity,
-      height: vertical ? double.infinity : boxSize,
+    return SizedBox.fromSize(
+      size: $boxSize,
       child: Center(
-        child: _ProgressInheritedWidget(value, min, max, size, boxSize, round,
-            radius, $color, $bgColor, $valueRatio, physicalSize,
+        child: _ProgressInheritedWidget(value, min, max, $size, $boxSize, axis,
+            $vertical, round, radius, $color, $bgColor, $valueRatio,
             child: result),
       ),
     );
@@ -205,20 +205,23 @@ class _ProgressInheritedWidget extends InheritedWidget {
     this.max,
     this.size,
     this.boxSize,
+    this.axis,
+    this.vertical,
     this.round,
     this.radius,
     this.color,
     this.bgColor,
-    this.ratio,
-    this.physicalSize, {
+    this.ratio, {
     required super.child,
   });
 
   final double value;
   final double min;
   final double max;
-  final double size;
-  final double boxSize;
+  final Size size;
+  final Size boxSize;
+  final AxisDirection axis;
+  final bool vertical;
   final bool round;
   final double radius;
   final Color color;
@@ -226,9 +229,6 @@ class _ProgressInheritedWidget extends InheritedWidget {
 
   /// [value] 在 [min] 和 [max] 之间的比例
   final double ratio;
-
-  /// 进度条整体所占据的物理尺寸
-  final Size physicalSize;
 
   static _ProgressInheritedWidget of(BuildContext context) {
     final _ProgressInheritedWidget? result =

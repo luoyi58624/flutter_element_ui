@@ -3,10 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 /// 注意：[ElText] 只会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式，
-/// 所以，它并不能完全代替 [Text] 小部件。
-///
-/// 当你使用 Material、Cupertino 某些组件时，例如：[AppBar]，请使用 [Text] 小部件，
-/// 在大多数情况下二者并没有什么不同，无非就是在祖先样式上存在一些差异。
+/// 所以，它并不能完全代替 [Text] 小部件，如果你使用 Material 的一些小部件，请注意这个问题。
 class ElText extends StatefulWidget {
   /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
   const ElText(

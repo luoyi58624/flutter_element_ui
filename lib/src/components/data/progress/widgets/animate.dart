@@ -2,13 +2,11 @@ part of '../index.dart';
 
 class _AnimateProgressInheritedWidget extends InheritedWidget {
   const _AnimateProgressInheritedWidget(
-    this.duration,
-    this.curve, {
+    this.duration, {
     required super.child,
   });
 
   final Duration duration;
-  final Curve curve;
 
   static _AnimateProgressInheritedWidget of(BuildContext context) {
     final _AnimateProgressInheritedWidget? result = context
@@ -20,7 +18,7 @@ class _AnimateProgressInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_AnimateProgressInheritedWidget oldWidget) =>
-      duration != oldWidget.duration || curve != oldWidget.curve;
+      duration != oldWidget.duration;
 }
 
 /// 动画进度条
@@ -36,17 +34,17 @@ class _AnimateProgress extends HookWidget {
       duration: $animateData.duration,
     );
 
-    final positionAnimation = Tween(
+    final positionRatioAnimation = Tween(
       begin: -$data.ratio,
       end: 1.0,
     ).animate(CurvedAnimation(
       parent: controller,
-      curve: $animateData.curve,
+      curve: Curves.easeOutSine,
     ));
 
     final ratioAnimation = Tween(
       begin: $data.ratio,
-      end: $data.ratio / 5,
+      end: 0.0,
     ).animate(CurvedAnimation(
       parent: controller,
       curve: Curves.easeIn,
@@ -57,20 +55,22 @@ class _AnimateProgress extends HookWidget {
       return null;
     }, [$animateData.duration]);
 
-    final $radius = $data.round ? $data.size / 2 : $data.radius;
+    double $radius = $data.round
+        ? ($data.vertical ? $data.size.width : $data.size.height) / 2
+        : $data.radius;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular($radius),
       child: AnimatedBuilder(
           animation: controller.view,
           builder: (context, child) {
             return CustomPaint(
-              size: $data.physicalSize,
+              size: $data.size,
               painter: _LineProgressPainter(
                 ratio: ratioAnimation.value,
-                position: positionAnimation.value,
-                size: $data.size,
+                positionRatio: positionRatioAnimation.value,
                 radius: $radius,
-                vertical: false,
+                axis: $data.axis,
                 bgColor: $data.bgColor,
                 color: $data.color,
               ),
@@ -79,4 +79,3 @@ class _AnimateProgress extends HookWidget {
     );
   }
 }
-

@@ -6,6 +6,8 @@ import './examples/example1.dart';
 import './examples/example2.dart';
 import './examples/example3.dart';
 import './examples/example4.dart';
+import './examples/example9.dart';
+
 import 'performance_test.dart';
 
 class ProgressPage extends ResponsivePage {
@@ -28,8 +30,9 @@ class ProgressPage extends ResponsivePage {
       ),
       const Example1(title: '直线进度条'),
       const Example2(title: '动画进度条'),
-      const Example3(title: '进度条交互'),
-      const Example4(title: '视频进度条'),
+      const Example3(title: '不同方向进度条'),
+      const Example4(title: '进度条交互'),
+      const Example9(title: '视频进度条'),
     ];
   }
 }

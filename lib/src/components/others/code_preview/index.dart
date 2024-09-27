@@ -142,6 +142,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             clipBehavior: Clip.hardEdge,
             child: IntrinsicHeight(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildLineNum(),
                   Expanded(child: buildCode()),

@@ -37,7 +37,7 @@ class FlatCodeExample extends StatelessWidget {
   Widget desktopLayout(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (code != null)
             Expanded(
