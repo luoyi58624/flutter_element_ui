@@ -69,6 +69,3 @@ export 'src/styles/layout/aside.dart';
 export 'src/styles/layout/header.dart';
 
 export 'src/utils/font.dart';
-
-export 'src/widgets/size_builder.dart';
-export 'src/widgets/size_builder2.dart';
