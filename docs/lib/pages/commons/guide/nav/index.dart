@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:docs/global.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class NavPage extends ResponsivePage {
@@ -12,32 +13,35 @@ class NavPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      CustomPaint(
-        size: Size(300, 300),
-        painter: _CricleProgressPainter(),
+      // LinearProgressIndicator(),
+      // ...List.generate(
+      //   1,
+      //   (index) => const ElProgress.animate(50),
+      // )
+
+      Click(
+        onClick: () {
+          el.i('parent');
+        },
+        child: Container(
+          width: 300,
+          height: 300,
+          color: Colors.green,
+          child: Center(
+            child: GestureDetector(
+              onTap: () {
+                el.w('child');
+              },
+              onTapDown: (e) {},
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ),
       ),
     ];
-  }
-}
-
-class _CricleProgressPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size $size) {
-    Paint paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 6;
-
-    final value = $size.height / 2;
-    Rect rect2 = Rect.fromCircle(center: Offset(value, value), radius: value);
-
-    canvas.drawCircle(
-        Offset(value, value), value, paint..color = Colors.grey.shade300);
-    canvas.drawArc(rect2, -pi / 2, pi, false, paint..color = Colors.green);
-  }
-
-  @override
-  bool shouldRepaint(covariant _CricleProgressPainter oldDelegate) {
-    return true;
   }
 }

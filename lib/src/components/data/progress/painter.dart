@@ -23,7 +23,7 @@ class _LineProgressPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size $size) {
-    Paint paint = Paint()..style = PaintingStyle.fill;
+    Paint paint = Paint();
 
     canvas.drawRect(
       Rect.fromLTRB(0, 0, $size.width, $size.height),

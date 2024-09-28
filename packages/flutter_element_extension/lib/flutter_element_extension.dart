@@ -30,6 +30,7 @@ export 'src/utils/shortcut.dart';
 export 'src/global.dart';
 
 export 'src/widgets/animated_widgets.dart';
+export 'src/widgets/click.dart';
 export 'src/widgets/custom_layout.dart';
 export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';

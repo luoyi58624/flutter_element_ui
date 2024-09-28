@@ -165,8 +165,8 @@ class ElLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final previewLink = getPreviewLink(href);
-    return GestureDetector(
-      onTap: () {
+    return Click(
+      onClick: () {
         _toLink();
       },
       child: HoverBuilder(

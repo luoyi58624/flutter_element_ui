@@ -79,9 +79,7 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
     return TapBuilder(
-      onTap: () {
-        if (widget.onPressed != null) widget.onPressed!();
-      },
+      onTap: widget.onPressed,
       onTapDown: widget.onTapDown,
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
