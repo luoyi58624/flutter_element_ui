@@ -88,10 +88,4 @@ extension ElFunExtension on Function {
       }
     };
   }
-
-  /// 延迟指定时间执行函数，单位：毫秒
-  ///
-  /// @return [Timer] 手动执行cancel方法可以取消延迟任务
-  Timer delay([int? wait]) =>
-      Timer(Duration(milliseconds: max(wait ?? 0, 0)), () => this());
 }

@@ -170,7 +170,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     el.cursor.remove();
     // 短暂延迟一段时间执行结束逻辑，因为受到 cursor 的影响会导致悬停状态丢失,
     // isScrollbarHover 状态需要在 onEnter 中判断鼠标是否在滚动条上
-    () {
+    setTimeout(() {
       isDragScroll = false;
       if (isScrollbarHover == false) {
         if (isHover) {
@@ -179,7 +179,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
           changeColor(activeColor, hideThumbColor);
         }
       }
-    }.delay(16);
+    }, 16);
   }
 
   /// 延迟激活悬停滚动条，用户必须在滚动条上悬停一段时间，才激活滚动条高亮状态
@@ -200,10 +200,10 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     if (isPointerOverThumb(event.position, event.kind)) {
       if (isScrollbarHover == false) {
         _cancelDelayActiveHover();
-        _delayActiveHover = () {
+        _delayActiveHover = setTimeout(() {
           isScrollbarHover = true;
           changeColor(hoverColor, activeColor);
-        }.delay(_delayActiveDuration);
+        }, _delayActiveDuration);
       }
     }
     // 如果是从滚动条上挪开，则将滚动条颜色从active变回hover

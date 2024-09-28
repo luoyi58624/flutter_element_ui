@@ -57,9 +57,9 @@ class _Loading1 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       child: '提交',
@@ -76,9 +76,9 @@ class _Loading2 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       type: 'primary',
@@ -97,9 +97,9 @@ class _Loading3 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       type: 'success',
@@ -118,9 +118,9 @@ class _Loading4 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       type: 'warning',
@@ -139,9 +139,9 @@ class _Loading5 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       type: 'error',
@@ -159,9 +159,9 @@ class _CustomLoading1 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       loadingBuilder: (color) => const ElText('加载中...'),
@@ -180,9 +180,9 @@ class _CustomLoading2 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       loadingBuilder: (state) => SizedBox(
@@ -208,9 +208,9 @@ class _CustomLoading3 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       loadingBuilder: loadingBuilder,
@@ -230,9 +230,9 @@ class _CustomLoading4 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       loadingBuilder: loadingBuilder,
@@ -252,9 +252,9 @@ class _CustomLoading5 extends HookWidget {
     return ElButton(
       onPressed: () {
         loading.value = true;
-        () {
+        setTimeout(() {
           loading.value = false;
-        }.delay(_loadingDuration);
+        }, _loadingDuration);
       },
       loading: loading.value,
       loadingBuilder: loadingBuilder,

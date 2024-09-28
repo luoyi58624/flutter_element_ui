@@ -157,7 +157,8 @@ class ElToastServiceInstance {
 
   void _afterHook(BuildContext context, int? duration) {
     Overlay.of(context).insert(_toastOverlayEntry!);
-    _removeToastTimer = remove.delay(
+    _removeToastTimer = setTimeout(
+      remove,
       duration ?? context.elTheme.toastTheme.closeDuration,
     );
   }

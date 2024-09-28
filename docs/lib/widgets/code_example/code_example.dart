@@ -59,8 +59,7 @@ class CodeExample extends HookWidget {
                     code: code!,
                     borderRadius: BorderRadius.only(
                       bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
-                      bottomRight:
-                          context.elTheme.cardTheme.radius.bottomRight,
+                      bottomRight: context.elTheme.cardTheme.radius.bottomRight,
                     ),
                   ),
                 ),
@@ -101,10 +100,10 @@ class _PreviewButton extends HookWidget {
       cursor: SystemMouseCursors.click,
       builder: (context) {
         if (context.isHover) {
-          _delayShow = () {
+          _delayShow = setTimeout(() {
             _delayShow = null;
             controller.forward();
-          }.delay(100);
+          }, 100);
         } else {
           if (_delayShow != null) {
             _delayShow!.cancel();

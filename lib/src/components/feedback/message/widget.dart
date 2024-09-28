@@ -69,7 +69,7 @@ class _MessageState extends State<_Message>
 
   /// 设置移除消息计时器
   void setRemoveTimer() {
-    _removeTimer ??= removeMessage.delay(widget.messageDuration);
+    _removeTimer ??= setTimeout(removeMessage, widget.messageDuration);
   }
 
   /// 移除消息

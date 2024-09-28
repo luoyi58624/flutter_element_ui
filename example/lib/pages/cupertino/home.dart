@@ -23,7 +23,9 @@ class HomePage extends StatelessWidget {
               ),
             );
             Overlay.of(context).insert(overlayEntry);
-            overlayEntry.remove.delay(5000);
+            setTimeout(() {
+              overlayEntry.remove();
+            }, 5000);
           },
           child: const Text('插入overlay'),
         ),

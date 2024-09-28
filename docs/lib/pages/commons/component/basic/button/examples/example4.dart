@@ -69,9 +69,9 @@ class Example4 extends HookWidget {
                 ElButton(
                   onPressed: () {
                     loading.value = true;
-                    () {
+                    setTimeout(() {
                       loading.value = false;
-                    }.delay(1000);
+                    }, 1000);
                   },
                   height: 32,
                   iconSize: 18,

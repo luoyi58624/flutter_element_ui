@@ -125,11 +125,11 @@ class ElLink extends StatelessWidget {
     if (_linkOverlay != null) {
       _delayHideOverlay = null;
       _controller!.reverse();
-      _delayRemoveOverlay = () {
+      _delayRemoveOverlay = setTimeout(() {
         _delayRemoveOverlay = null;
         _linkOverlay!.remove();
         _linkOverlay = null;
-      }.delay(_animationTime);
+      }, _animationTime);
     }
   }
 
@@ -185,8 +185,9 @@ class ElLink extends StatelessWidget {
                   }
                 }
                 if (_linkOverlay == null) {
-                  _delayShowOverlay =
-                      (() => _show(previewLink)).delay(_delayTime);
+                  _delayShowOverlay = setTimeout(() {
+                    _show(previewLink);
+                  }, _delayTime);
                 } else {
                   _show(previewLink);
                 }
@@ -199,7 +200,7 @@ class ElLink extends StatelessWidget {
                   _delayShowOverlay = null;
                 }
                 if (_linkOverlay != null) {
-                  _delayHideOverlay = _hide.delay(_delayTime);
+                  _delayHideOverlay = setTimeout(_hide, _delayTime);
                 }
               },
         builder: (context) => buildTextTheme(context, _toLink),

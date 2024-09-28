@@ -21,7 +21,7 @@ class ElAppState extends State<ElApp> {
     }
     _globalThemeDuration = widget.config.themeDuration;
     _globalThemeCurve = widget.config.themeCurve;
-    _timer = () {
+    _timer = setTimeout(() {
       if (mounted) {
         setState(() {
           _globalThemeDuration = null;
@@ -29,7 +29,7 @@ class ElAppState extends State<ElApp> {
           _timer = null;
         });
       }
-    }.delay(max(500, widget.config.themeDuration.inMilliseconds));
+    }, max(500, widget.config.themeDuration.inMilliseconds));
   }
 
   bool get isDark => widget.brightness == Brightness.dark;
@@ -42,10 +42,10 @@ class ElAppState extends State<ElApp> {
     // 构建默认的文本样式
     var $textStyle = ElFont.defaultTextStyle
         .copyWith(
-        fontWeight: ElFont.normal,
-        color: $brightness == Brightness.dark
-            ? widget.darkTheme.colors.text
-            : widget.theme.colors.text)
+            fontWeight: ElFont.normal,
+            color: $brightness == Brightness.dark
+                ? widget.darkTheme.colors.text
+                : widget.theme.colors.text)
         .merge(widget.textStyle);
 
     // 如果未设置字体大小，则根据平台应用设置不同尺寸的字体，移动端使用 15px，桌面端使用 16px

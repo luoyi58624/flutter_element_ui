@@ -31,7 +31,7 @@ class _ElTooltipState extends State<ElTooltip> {
               link: layerLink,
               targetAnchor: isUp ? Alignment.topCenter : Alignment.bottomCenter,
               followerAnchor:
-              isUp ? Alignment.bottomCenter : Alignment.topCenter,
+                  isUp ? Alignment.bottomCenter : Alignment.topCenter,
               child: Column(
                 children: [
                   if (!isUp)
@@ -44,7 +44,7 @@ class _ElTooltipState extends State<ElTooltip> {
                       }
                     },
                     onExit: (e) {
-                      delayHideOverlay = _hideOverlay.delay(100);
+                      delayHideOverlay = setTimeout(_hideOverlay, 100);
                     },
                     child: _buildContentWidget(bgColor),
                   ),
@@ -81,7 +81,7 @@ class _ElTooltipState extends State<ElTooltip> {
 
   void _setContentSize() {
     final RenderBox contentBox =
-    contentKey.currentContext!.findRenderObject()! as RenderBox;
+        contentKey.currentContext!.findRenderObject()! as RenderBox;
     contentSize = contentBox.size;
   }
 
@@ -139,7 +139,7 @@ class _ElTooltipState extends State<ElTooltip> {
         }
       },
       onExit: (e) {
-        delayHideOverlay = _hideOverlay.delay(100);
+        delayHideOverlay = setTimeout(_hideOverlay, 100);
       },
       builder: (context) => CompositedTransformTarget(
         link: layerLink,

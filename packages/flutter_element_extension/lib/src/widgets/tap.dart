@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_extension/src/extensions/fun.dart';
 
-import '../utils/global.dart';
+import '../global.dart';
 
 class TapBuilder extends StatefulWidget {
   /// 点击事件构建器
