@@ -76,6 +76,7 @@ class ElLink extends StatelessWidget {
     this.decoration,
     this.cursor = SystemMouseCursors.click,
     this.target = LinkTarget.blank,
+    this.disabledEvent = false,
   });
 
   /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
@@ -98,6 +99,9 @@ class ElLink extends StatelessWidget {
 
   /// 打开链接的目标位置，默认 blank 新窗口打开
   final LinkTarget target;
+
+  /// 是否禁用点击事件，默认 false
+  final bool disabledEvent;
 
   /// 从当前上下文获取最近的超链接实例并触发跳转
   static void to(BuildContext context) {
@@ -165,47 +169,51 @@ class ElLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final previewLink = getPreviewLink(href);
-    return Click(
-      onClick: () {
-        _toLink();
-      },
-      child: HoverBuilder(
-        cursor: cursor,
-        onEnter: previewLink == null
-            ? null
-            : (e) {
-                if (_delayHideOverlay != null) {
-                  _delayHideOverlay!.cancel();
-                  _delayHideOverlay = null;
-                } else {
-                  if (_delayRemoveOverlay != null) {
-                    _controller!.forward();
-                    _delayRemoveOverlay!.cancel();
-                    _delayRemoveOverlay = null;
-                  }
+    Widget result = HoverBuilder(
+      cursor: cursor,
+      onEnter: previewLink == null
+          ? null
+          : (e) {
+              if (_delayHideOverlay != null) {
+                _delayHideOverlay!.cancel();
+                _delayHideOverlay = null;
+              } else {
+                if (_delayRemoveOverlay != null) {
+                  _controller!.forward();
+                  _delayRemoveOverlay!.cancel();
+                  _delayRemoveOverlay = null;
                 }
-                if (_linkOverlay == null) {
-                  _delayShowOverlay = setTimeout(() {
-                    _show(previewLink);
-                  }, _delayTime);
-                } else {
+              }
+              if (_linkOverlay == null) {
+                _delayShowOverlay = setTimeout(() {
                   _show(previewLink);
-                }
-              },
-        onExit: previewLink == null
-            ? null
-            : (e) {
-                if (_delayShowOverlay != null) {
-                  _delayShowOverlay!.cancel();
-                  _delayShowOverlay = null;
-                }
-                if (_linkOverlay != null) {
-                  _delayHideOverlay = setTimeout(_hide, _delayTime);
-                }
-              },
-        builder: (context) => buildTextTheme(context, _toLink),
-      ),
+                }, _delayTime);
+              } else {
+                _show(previewLink);
+              }
+            },
+      onExit: previewLink == null
+          ? null
+          : (e) {
+              if (_delayShowOverlay != null) {
+                _delayShowOverlay!.cancel();
+                _delayShowOverlay = null;
+              }
+              if (_linkOverlay != null) {
+                _delayHideOverlay = setTimeout(_hide, _delayTime);
+              }
+            },
+      builder: (context) => buildTextTheme(context, _toLink),
     );
+    if (!disabledEvent) {
+      result = Click(
+        onClick: () {
+          _toLink();
+        },
+        child: result,
+      );
+    }
+    return result;
   }
 }
 

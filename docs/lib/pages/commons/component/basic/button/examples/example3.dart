@@ -63,17 +63,7 @@ class Example3 extends StatelessWidget {
 String get code => '''
 ElButton(child: 'Hello', link: true),
 
-ElLink(
+const ElLink(
   href: 'https://github.com/luoyi58624/flutter_element_ui',
-  child: Builder(
-    builder: (context) {
-      return ElButton(
-        onPressed: (){
-          ElLink.to(context); // 因为 button 的点击事件会覆盖超链接的点击事件，所以你需要手动触发跳转。
-        },
-        link: true,
-        child: 'Hello',
-      );
-    },
-  ),
+  child: ElButton(link: true, child: 'Hello'),
 ),''';

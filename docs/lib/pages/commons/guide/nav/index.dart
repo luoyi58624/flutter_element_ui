@@ -21,22 +21,54 @@ class NavPage extends ResponsivePage {
 
       Click(
         onClick: () {
-          el.i('parent');
+          el.e('first');
         },
         child: Container(
           width: 300,
           height: 300,
-          color: Colors.green,
-          child: Center(
-            child: GestureDetector(
-              onTap: () {
-                el.w('child');
-              },
-              onTapDown: (e) {},
+          color: Colors.grey,
+          child: Click(
+            onClick: () {
+              el.i('parent');
+            },
+            child: Center(
               child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
+                width: 200,
+                height: 200,
+                color: Colors.green,
+                child: Center(
+                  child: Builder(
+                    builder: (context) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Click.stopPropagation(context);
+                              el.w('child');
+                            },
+                            onTapDown: (e) {},
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.red,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              el.w('child');
+                            },
+                            onTapDown: (e) {},
+                            child: Container(
+                              width: 100,
+                              height: 100,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  ),
+                ),
               ),
             ),
           ),
