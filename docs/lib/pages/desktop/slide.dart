@@ -45,10 +45,10 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => ElLink(
                                 href: e.$2,
+                                disabledEvent: true,
                                 child: Builder(builder: (context) {
                                   return GestureDetector(
                                     onTapDown: (e) {
-                                      Click.stopPropagation(context);
                                       ElLink.to(context);
                                     },
                                     child: ObsBuilder(builder: (context) {

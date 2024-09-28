@@ -63,16 +63,9 @@ class LayoutHeader extends StatelessWidget {
                 child: ElLink(
                   href: 'https://github.com/luoyi58624/flutter_element_ui',
                   target: LinkTarget.blank,
-                  disabledEvent: true,
-                  child: Builder(
-                    builder: (context) {
-                      return IconButton(
-                        onPressed: () {
-                          ElLink.to(context);
-                        },
-                        icon: const _GithubLogo(),
-                      );
-                    }
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const _GithubLogo(),
                   ),
                 ),
               ),
