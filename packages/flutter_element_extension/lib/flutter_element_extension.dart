@@ -26,7 +26,7 @@ export 'src/utils/assert.dart';
 export 'src/utils/common.dart';
 export 'src/utils/cursor.dart';
 export 'src/utils/shortcut.dart';
-export 'src/utils/vars.dart';
+export 'src/utils/global.dart';
 
 export 'src/widgets/animated_widgets.dart';
 export 'src/widgets/custom_layout.dart';

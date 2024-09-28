@@ -51,72 +51,76 @@ class _ElSliderPage extends HookWidget {
           Expanded(
             child: flag.value
                 ? ListView.builder(
-                    itemCount: 1000,
-                    itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 18.0),
-                          child: Row(
-                            children: [
-                              ElText('${index + 1}'),
-                              const Gap(8),
-                              const Expanded(child: _ElSlider()),
-                            ],
-                          ),
-                        ))
+                itemCount: 1000,
+                itemBuilder: (context, index) =>
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0),
+                      child: Row(
+                        children: [
+                          ElText('${index + 1}'),
+                          const Gap(8),
+                          const Expanded(child: _ElSlider()),
+                        ],
+                      ),
+                    ))
                 : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 28,
-                        vertical: 14,
-                      ),
-                      child: Column(
-                        children: List.generate(
-                            100,
-                            (index) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 18.0),
-                                  child: Row(
-                                    children: [
-                                      ElText('${index + 1}'),
-                                      const Gap(8),
-                                      const Expanded(child: _ElSlider()),
-                                    ],
-                                  ),
-                                )),
-                      ),
-                    ),
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 28,
+                  vertical: 14,
+                ),
+                child: Column(
+                  children: List.generate(
+                      100,
+                          (index) =>
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 18.0),
+                            child: Row(
+                              children: [
+                                ElText('${index + 1}'),
+                                const Gap(8),
+                                const Expanded(child: _ElSlider()),
+                              ],
+                            ),
+                          )),
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: flag.value
                 ? ListView.builder(
-                    itemCount: 1000,
-                    itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 18.0),
-                          child: Row(
-                            children: [
-                              ElText('${index + 1}'),
-                              const Gap(8),
-                              const Expanded(
-                                child: _Slider(),
-                              ),
-                            ],
+                itemCount: 1000,
+                itemBuilder: (context, index) =>
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0),
+                      child: Row(
+                        children: [
+                          ElText('${index + 1}'),
+                          const Gap(8),
+                          const Expanded(
+                            child: _Slider(),
                           ),
-                        ))
-                : SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(
-                        100,
-                        (index) => Row(
-                          children: [
-                            ElText('${index + 1}'),
-                            const Gap(8),
-                            const Expanded(
-                              child: _Slider(),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                    ),
-                  ),
+                    ))
+                : SingleChildScrollView(
+              child: Column(
+                children: List.generate(
+                  100,
+                      (index) =>
+                      Row(
+                        children: [
+                          ElText('${index + 1}'),
+                          const Gap(8),
+                          const Expanded(
+                            child: _Slider(),
+                          ),
+                        ],
+                      ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

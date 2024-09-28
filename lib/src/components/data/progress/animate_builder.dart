@@ -1,5 +1,6 @@
 part of 'index.dart';
 
+/// 当用户更新这些属性时，会以动画形式进行线性插值
 typedef _ProgressAnimateBuilder = Widget Function(
   double ratio,
   Size strokeSize,
@@ -44,7 +45,7 @@ class _AnimateBuilderState extends State<_AnimateBuilder>
   late Animation<Size?> strokeSizeAnimate;
   late Animation<Color?> colorAnimate;
 
-  /// 进度条更新比例动画控制器
+  /// 进度条进度比例动画控制器
   late AnimationController ratioController = AnimationController(
     vsync: this,
     duration: widget.duration,
@@ -135,7 +136,7 @@ class _AnimateBuilderState extends State<_AnimateBuilder>
 
   @override
   void dispose() {
-    controller.dispose;
+    controller.dispose();
     ratioController.dispose();
     super.dispose();
   }

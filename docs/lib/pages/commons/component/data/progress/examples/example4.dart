@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:docs/global.dart';
@@ -44,6 +45,8 @@ class Example4 extends HookWidget {
   }
 }
 
+Timer? _timer;
+
 class _Example extends HookWidget {
   const _Example(this.reverse);
 
@@ -60,10 +63,15 @@ class _Example extends HookWidget {
           double value = e.localPosition.dx / constraints.maxWidth * 100;
           if (reverse) value = 100.0 - value;
           progress.value = value;
-          // 在当前帧构建完毕后再设置 isDrag，后续更新进度时禁用动画
-          ElUtil.nextTick(() {
+          if (_timer != null) {
+            _timer!.cancel();
+            _timer = null;
+          }
+          _timer = setTimeout(() {
+            _timer = null;
             isDrag.value = true;
-          });
+          }, 150);
+          // 在当前帧构建完毕后再设置 isDrag，后续更新进度时禁用动画
         },
         onHorizontalDragUpdate: (e) {
           double value = e.localPosition.dx / constraints.maxWidth * 100;
@@ -71,9 +79,17 @@ class _Example extends HookWidget {
           progress.value = min(100, max(value, 0));
         },
         onHorizontalDragEnd: (e) {
+          if (_timer != null) {
+            _timer!.cancel();
+            _timer = null;
+          }
           isDrag.value = false;
         },
         onHorizontalDragCancel: () {
+          if (_timer != null) {
+            _timer!.cancel();
+            _timer = null;
+          }
           isDrag.value = false;
         },
         child: HoverBuilder(
@@ -83,7 +99,7 @@ class _Example extends HookWidget {
             return ElProgress(
               progress.value,
               // 拖拽事件非常频繁，当开始拖拽时我们需要将 value 动画时间设置为 0
-              duration: Duration(milliseconds: isDrag.value ? 0 : 200),
+              duration: Duration(milliseconds: isDrag.value ? 0 : 150),
               axis: reverse ? AxisDirection.left : AxisDirection.right,
               strokeSize: isHover || isDrag.value ? 16 : 6,
               color: isHover || isDrag.value ? Colors.green : null,

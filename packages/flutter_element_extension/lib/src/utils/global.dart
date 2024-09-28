@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:uuid/uuid.dart';
 
 /// 获取当前时间的毫秒
@@ -22,3 +26,10 @@ const Uuid uuid = Uuid();
 
 /// 生成不带 '-' 符号的uuid字符串
 String get uuidStr => uuid.v4().replaceAll('-', '');
+
+/// 延迟指定时间执行函数，单位：毫秒
+///
+/// @return [Timer] 手动执行cancel方法可以取消延迟任务
+Timer setTimeout(VoidCallback fun, int wait) {
+  return Timer(Duration(milliseconds: max(wait, 0)), fun);
+}

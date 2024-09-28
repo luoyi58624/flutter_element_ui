@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_element_extension/src/extensions/fun.dart';
 
-import '../utils/vars.dart';
+import '../utils/global.dart';
 
 class TapBuilder extends StatefulWidget {
   /// 点击事件构建器
@@ -67,7 +67,7 @@ class _TapBuilderState extends State<TapBuilder> {
                   _timer!.cancel();
                   _timer = null;
                   update(false);
-                  (() => update(true)).delay(16);
+                  setTimeout(() => update(true), 16);
                 } else {
                   update(true);
                 }
@@ -76,19 +76,19 @@ class _TapBuilderState extends State<TapBuilder> {
             ? null
             : (e) {
                 if (widget.onTapUp != null) widget.onTapUp!(e);
-                _timer = () {
+                _timer = setTimeout(() {
                   update(false);
                   _timer = null;
-                }.delay(max(widget.delay - (currentMilliseconds - _time!), 0));
+                }, max(widget.delay - (currentMilliseconds - _time!), 0));
               },
         onTapCancel: widget.disabled
             ? null
             : () {
                 if (widget.onTapCancel != null) widget.onTapCancel!();
-                _timer = () {
+                _timer = setTimeout(() {
                   update(false);
                   _timer = null;
-                }.delay(widget.delay);
+                }, widget.delay);
               },
         child: Builder(builder: (context) {
           return widget.builder(context);

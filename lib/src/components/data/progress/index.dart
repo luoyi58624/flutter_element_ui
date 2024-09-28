@@ -13,7 +13,7 @@ part 'animate_loader.dart';
 
 part '../../../generates/components/data/progress/index.g.dart';
 
-const _defaultDuration = Duration(milliseconds: 200);
+const _defaultDuration = Duration(milliseconds: 150);
 const _defaultCurve = Cubic(0.4, 0, 0.2, 1);
 
 enum _ProgressType {
@@ -28,6 +28,7 @@ class ElProgress extends StatelessWidget {
   const ElProgress(
     this.value, {
     super.key,
+    this.secondaryValue = 0.0,
     this.min = 0.0,
     this.max = 100.0,
     this.boxSize = 16.0,
@@ -61,6 +62,7 @@ class ElProgress extends StatelessWidget {
     this.bgColor,
     this.duration = const Duration(milliseconds: 1800),
   })  : _type = _ProgressType.animate,
+        secondaryValue = 0.0,
         curve = Curves.easeOutSine,
         assert(boxSize >= strokeSize, 'ElProgress boxSize 必须大于等于 strokeSize'),
         assert(min >= 0.0, 'ElProgress min 必须大于等于 0'),
@@ -72,6 +74,7 @@ class ElProgress extends StatelessWidget {
   const ElProgress.circle(
     this.value, {
     super.key,
+    this.secondaryValue = 0.0,
     this.min = 0.0,
     this.max = 100.0,
     this.boxSize = 100.0,
@@ -94,6 +97,7 @@ class ElProgress extends StatelessWidget {
   const ElProgress.dashboard(
     this.value, {
     super.key,
+    this.secondaryValue = 0.0,
     this.min = 0.0,
     this.max = 100.0,
     this.boxSize = 100.0,
@@ -117,6 +121,9 @@ class ElProgress extends StatelessWidget {
 
   /// 进度值
   final double value;
+
+  /// 次要进度条的进度值
+  final double secondaryValue;
 
   /// 进度条最小值
   final double min;
