@@ -71,7 +71,6 @@ class _Example extends HookWidget {
             _timer = null;
             isDrag.value = true;
           }, 150);
-          // 在当前帧构建完毕后再设置 isDrag，后续更新进度时禁用动画
         },
         onHorizontalDragUpdate: (e) {
           double value = e.localPosition.dx / constraints.maxWidth * 100;
@@ -128,7 +127,7 @@ class _Example2 extends HookWidget {
           if (reverse) value = 100.0 - value;
           progress.value = value;
           // 在当前帧构建完毕后再设置 isDrag，后续更新进度时禁用动画
-          ElUtil.nextTick(() {
+          nextTick(() {
             isDrag.value = true;
           });
         },
@@ -163,7 +162,7 @@ class _Example2 extends HookWidget {
 }
 
 String get code => '''
-/// 提示：此示例只实现一个方向的交互
+/// 由于篇幅有限，所以此示例只展示一个方向的交互
 class _Example extends HookWidget {
   const _Example();
 
@@ -177,7 +176,7 @@ class _Example extends HookWidget {
         onHorizontalDragDown: (e) {
           progress.value = e.localPosition.dx / constraints.maxWidth * 100;
           // 下一帧更新 isDrag，这样第一次更新进度能够触发动画，后续拖拽时禁用动画
-          ElUtil.nextTick((){
+          nextTick((){
             isDrag.value = true;
           });
         },

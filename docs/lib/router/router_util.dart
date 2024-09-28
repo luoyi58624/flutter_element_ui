@@ -19,7 +19,7 @@ GoRouterRedirect _routerRedirect = (BuildContext context, GoRouterState state) {
   if (state.fullPath != null) {
     // 设置当前路由地址响应式变量
     RouterState.currentPath.value = state.fullPath!;
-    ElUtil.nextTick(() {
+    nextTick(() {
       el.anchor.scrollTo(state.uri.toString());
     });
   }

@@ -78,7 +78,7 @@ class _ElDrawerState extends State<ElDrawer>
 
     widget.modelValue.addListener(_listen);
 
-    ElUtil.nextTick(() async {
+    nextTick(() async {
       overlayEntry = OverlayEntry(builder: (_) {
         return overlayWidget;
       });

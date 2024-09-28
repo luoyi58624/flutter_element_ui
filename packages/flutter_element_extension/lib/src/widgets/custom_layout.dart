@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../utils/common.dart';
+import '../global.dart';
 
 /// 更新自定义布局尺寸回调函数
 typedef UpdateCustomLayoutSize = void Function(Size size);
@@ -50,7 +50,7 @@ class _CustomMultiChildLayoutWidgetState
   void updateSize(Size size) {
     if (isReBuild == false) {
       isReBuild = true;
-      ElUtil.nextTick(() {
+      nextTick(() {
         _size = size;
         setState(() {});
       });

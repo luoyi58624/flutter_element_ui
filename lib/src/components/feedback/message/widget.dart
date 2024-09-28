@@ -93,7 +93,7 @@ class _MessageState extends State<_Message>
     MediaQuery.maybeSizeOf(context);
 
     // 设置当前消息的元素尺寸
-    ElUtil.nextTick(() {
+    nextTick(() {
       message._messageSize.value = messageKey.currentContext!.size!;
     });
 

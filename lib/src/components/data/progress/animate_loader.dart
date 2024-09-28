@@ -26,14 +26,6 @@ class _AnimateLoader extends HookWidget {
       curve: curve,
     ));
 
-    final ratioAnimation = Tween(
-      begin: $data.ratio,
-      end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeIn,
-    ));
-
     useEffect(() {
       controller.repeat();
       return null;
@@ -52,7 +44,7 @@ class _AnimateLoader extends HookWidget {
             return CustomPaint(
               size: $data.strokeSize,
               painter: _LineProgressPainter(
-                ratio: ratioAnimation.value,
+                ratio: $data.ratio,
                 positionRatio: positionRatioAnimation.value,
                 radius: $radius,
                 axis: $data.axis,

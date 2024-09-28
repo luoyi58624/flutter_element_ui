@@ -17,6 +17,7 @@ export 'src/extensions/responsive.dart';
 export 'src/extensions/string.dart';
 export 'src/extensions/widget.dart';
 
+export 'src/hooks/id.dart';
 export 'src/hooks/lifecycle.dart';
 export 'src/hooks/obs.dart';
 export 'src/hooks/watch.dart';

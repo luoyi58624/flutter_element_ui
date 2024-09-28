@@ -83,13 +83,6 @@ class ElUtil {
     WidgetsBinding.instance.reassembleApplication();
   }
 
-  /// 添加下一帧执行的回调函数，它会在 build 完成后执行
-  static void nextTick(VoidCallback fun) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      fun();
-    });
-  }
-
   /// 隐藏手机软键盘但保留焦点
   static Future<void> hideKeyboard() async {
     await SystemChannels.textInput.invokeMethod('TextInput.hide');

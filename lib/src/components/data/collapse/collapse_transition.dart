@@ -64,7 +64,7 @@ class _ElCollapseTransitionState extends State<ElCollapseTransition>
   @override
   void initState() {
     super.initState();
-    ElUtil.nextTick(() {
+    nextTick(() {
       if (!(widget.keepState ?? context.elTheme.collapseTheme.keepState)) {
         controller.addStatusListener(listenAnimationStatus);
       }

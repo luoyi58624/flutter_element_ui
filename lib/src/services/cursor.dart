@@ -16,7 +16,7 @@ class CursorInstance {
   /// 如果遮罩已存在，同时新的光标与旧值不相等，则仅更新全局光标。
   void add([MouseCursor? cursor]) {
     if (PlatformUtil.isDesktop && _cursor.value != cursor) {
-      ElUtil.nextTick(() {
+      nextTick(() {
         _cursor.value = cursor ?? MouseCursor.defer;
         if (_overlayEntry == null) {
           _overlayEntry = OverlayEntry(
@@ -34,7 +34,7 @@ class CursorInstance {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
-      ElUtil.nextTick(() {
+      nextTick(() {
         _cursor.value = MouseCursor.defer;
       });
     }

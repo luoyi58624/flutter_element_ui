@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../utils/common.dart';
+import '../global.dart';
 
 /// initState 之前执行
 void useBeforeInit(VoidCallback fun) {
@@ -66,7 +66,7 @@ class _LifecycleHookState extends HookState<void, _LifecycleHook> {
     if (hook.lifecycle == _Lifecycle.init) {
       hook.fun();
     } else if (hook.lifecycle == _Lifecycle.mounted) {
-      ElUtil.nextTick(hook.fun);
+      nextTick(hook.fun);
     }
   }
 

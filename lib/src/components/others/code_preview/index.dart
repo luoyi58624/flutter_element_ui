@@ -98,7 +98,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   /// 初始化预览代码样式，全局只加载一次
   void initCodeStyle(BuildContext context) {
     if (_initialize == false || _darkCode == null) {
-      ElUtil.nextTick(() async {
+      nextTick(() async {
         await Highlighter.initialize(['dart']);
         _initialize = true;
         // 暗色主题使用自定义的配置文件

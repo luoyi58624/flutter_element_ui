@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
+import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 
 /// 获取当前时间的毫秒
@@ -32,4 +32,11 @@ String get uuidStr => uuid.v4().replaceAll('-', '');
 /// @return [Timer] 手动执行cancel方法可以取消延迟任务
 Timer setTimeout(VoidCallback fun, int wait) {
   return Timer(Duration(milliseconds: max(wait, 0)), fun);
+}
+
+/// 添加下一帧执行的回调函数，它会在 build 完成后执行
+void nextTick(VoidCallback fun) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    fun();
+  });
 }

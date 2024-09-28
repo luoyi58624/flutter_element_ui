@@ -15,11 +15,11 @@ class Example2 extends HookWidget {
         CodeExample(
           code: code1,
           children: [
-            const ElProgress.animate(10),
-            ElProgress.animate(30, color: context.elTheme.success),
-            ElProgress.animate(60, color: context.elTheme.info),
-            ElProgress.animate(80, color: context.elTheme.warning),
-            ElProgress.animate(100, color: context.elTheme.error),
+            const ElProgress.animate(50),
+            const ElProgress.animate(100, curve: Curves.easeOutCubic),
+            ElProgress.animate(100, color: context.elTheme.success, duration: 5.ss),
+            ElProgress.animate(100, color: context.elTheme.warning, duration: 1000.ms),
+            ElProgress.animate(50, color: context.elTheme.error),
           ],
         ),
       ],
@@ -28,11 +28,11 @@ class Example2 extends HookWidget {
 }
 
 String get code1 => '''
-const ElProgress.animate(10),
-ElProgress.animate(30, color: context.elTheme.success),
-ElProgress.animate(60, color: context.elTheme.info),
-ElProgress.animate(80, color: context.elTheme.warning),
-ElProgress.animate(100, color: context.elTheme.error),''';
+const ElProgress.animate(50),
+const ElProgress.animate(100, curve: Curves.easeOutCubic),
+ElProgress.animate(100, color: context.elTheme.success, duration: 5.ss),
+ElProgress.animate(100, color: context.elTheme.warning, duration: 1000.ms),
+ElProgress.animate(50, color: context.elTheme.error),''';
 
 String get code => '''
 // Copyright 2014 The Flutter Authors. All rights reserved.

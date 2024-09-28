@@ -214,7 +214,7 @@ class _MenuItemState extends State<_MenuItem> {
             isManual = true;
             expanded = !expanded;
           });
-          ElUtil.nextTick(() async {
+          nextTick(() async {
             isManual = false;
           });
         } else {
