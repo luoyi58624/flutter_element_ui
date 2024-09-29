@@ -6,9 +6,9 @@ part of '../../themes/size.dart';
 // ElModelGenerator
 // **************************************************************************
 
-SizeModel _fromJsonSizeModel(Map<String, dynamic> json) => SizeModel(
+SizeModel _fromJson(Map<String, dynamic> json) => SizeModel(
       width: json['width'] as double,
-      maxWidth: json['maxWidth'] as double,
+      maxWidth: (json['maxWidth'] ?? json['max_width']) as double,
       height: json['height'] as double?,
     );
 
@@ -80,5 +80,57 @@ extension LabelModelExtension on LabelModel {
 
   String _toString() {
     return 'LabelModel{label: $label,value: $value}';
+  }
+}
+
+ChatConversation _fromJsonChatConversation(Map<String, dynamic> json) =>
+    ChatConversation(
+      receiver_type: json['receiver_type'] as num?,
+      receiver_id: json['receiver_id'] as num?,
+      name: json['name'] as String?,
+      avatar: json['avatar'] as String?,
+      last_message: json['last_message'] as Map<String, dynamic>?,
+    );
+
+extension ChatConversationExtension on ChatConversation {
+  Map<String, dynamic> _toJson() {
+    return {
+      'receiver_type': receiver_type,
+      'receiver_id': receiver_id,
+      'name': name,
+      'avatar': avatar,
+      'last_message': last_message,
+    };
+  }
+
+  ChatConversation copyWith({
+    num? receiver_type,
+    num? receiver_id,
+    String? name,
+    String? avatar,
+    Map<String, dynamic>? last_message,
+  }) {
+    return ChatConversation(
+      receiver_type: receiver_type ?? this.receiver_type,
+      receiver_id: receiver_id ?? this.receiver_id,
+      name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+      last_message: last_message ?? this.last_message,
+    );
+  }
+
+  ChatConversation merge([ChatConversation? other]) {
+    if (other == null) return this;
+    return copyWith(
+      receiver_type: other.receiver_type,
+      receiver_id: other.receiver_id,
+      name: other.name,
+      avatar: other.avatar,
+      last_message: other.last_message,
+    );
+  }
+
+  String _toString() {
+    return 'ChatConversation{receiver_type: $receiver_type,receiver_id: $receiver_id,name: $name,avatar: $avatar,last_message: $last_message}';
   }
 }

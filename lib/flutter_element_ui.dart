@@ -62,6 +62,7 @@ export 'src/components/others/split/split.dart';
 export 'src/models/menu.dart';
 export 'src/models/serialize.dart';
 
+export 'src/themes/size.dart';
 export 'src/themes/theme.dart';
 export 'src/themes/color.dart';
 export 'src/themes/config.dart';

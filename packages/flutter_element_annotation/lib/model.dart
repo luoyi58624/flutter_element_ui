@@ -9,6 +9,9 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
+    this.fromJsonDiff = false,
+    this.fromJsonUnderline = true,
+    this.toJsonUnderline = false,
   });
 
   /// 默认开启所有功能
@@ -18,6 +21,9 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = true,
+    this.fromJsonDiff = false,
+    this.fromJsonUnderline = true,
+    this.toJsonUnderline = false,
   });
 
   /// 默认生成 json 序列化方法
@@ -27,6 +33,9 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
+    this.fromJsonDiff = false,
+    this.fromJsonUnderline = true,
+    this.toJsonUnderline = false,
   });
 
   /// 默认生成 copyWith、merge 方法
@@ -36,6 +45,9 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = false,
+    this.fromJsonDiff = false,
+    this.fromJsonUnderline = true,
+    this.toJsonUnderline = false,
   });
 
   /// 生成 formJson 方法
@@ -53,6 +65,23 @@ class ElModel {
 
   /// 生成 toString 方法
   final bool generateToString;
+
+  /// 是否对生成的 fromJson 进行命名区分，
+  /// 如果为 false，则直接生成 _fromJson 函数，
+  /// 如果为 true，则会在后尾添加类名做区分。
+  ///
+  /// 如果你的一个文件有多个模型对象，那么请将此属性设置为 true，防止命名冲突
+  final bool fromJsonDiff;
+
+  /// 将 json 转成对象时，是否额外进行驼峰转下划线解析，例如：
+  /// * userName -> (json['userName'] ?? json['user_name'])
+  ///
+  /// 此属性默认为 true，如果设置为 false，那么后面的可选操作将不会生成。
+  final bool fromJsonUnderline;
+
+  /// 将对象转成 json 时，是否将驼峰命名的字段转成下划线，此属性默认为 false，
+  /// 如果开启了 [fromJsonUnderline]，那么你的模型数据可以随时安全地进行转换。
+  final bool toJsonUnderline;
 }
 
 /// 模型字段元数据，控制每个字段的生成逻辑
