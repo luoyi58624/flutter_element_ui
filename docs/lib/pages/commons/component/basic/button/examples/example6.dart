@@ -265,12 +265,12 @@ class _CustomLoading5 extends HookWidget {
   }
 }
 
-var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
-      width: state.size,
-      height: state.size,
+var loadingBuilder = (ElButtonLoadingData data) => SizedBox(
+      width: data.size,
+      height: data.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: state.color,
+        color: data.color,
       ),
     );
 
@@ -300,12 +300,12 @@ ElButton(
 ),
 
 // 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用
-var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
-      width: state.size,
-      height: state.size,
+var loadingBuilder = (ElButtonLoadingData data) => SizedBox(
+      width: data.size,
+      height: data.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: state.color,
+        color: data.color,
       ),
     );
 ''';

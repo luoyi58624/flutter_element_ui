@@ -41,42 +41,19 @@ class _AnimateLoader extends HookWidget {
       child: AnimatedBuilder(
           animation: controller.view,
           builder: (context, child) {
-            return RepaintBoundary(
-              child: CustomPaint(
-                size: $data.strokeSize,
-                foregroundPainter: _AnimateProgressPainter(
-                  ratio: $data.ratio,
-                  positionRatio: positionRatioAnimation.value,
-                  radius: $radius,
-                  axis: $data.axis,
-                  bgColor: $data.bgColor,
-                  color: $data.color,
-                ),
-                painter: _AnimateWrapperProgressPainter($data.bgColor),
+            return CustomPaint(
+              size: $data.strokeSize,
+              painter: _AnimateProgressPainter(
+                ratio: $data.ratio,
+                positionRatio: positionRatioAnimation.value,
+                radius: $radius,
+                axis: $data.axis,
+                bgColor: $data.bgColor,
+                color: $data.color,
               ),
             );
           }),
     );
-  }
-}
-
-class _AnimateWrapperProgressPainter extends CustomPainter {
-  const _AnimateWrapperProgressPainter(this.bgColor);
-
-  final Color bgColor;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // el.i('paint');
-    canvas.drawRect(
-      Rect.fromLTRB(0, 0, size.width, size.height),
-      Paint()..color = bgColor,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _AnimateWrapperProgressPainter oldDelegate) {
-    return false;
   }
 }
 
@@ -105,6 +82,11 @@ class _AnimateProgressPainter extends CustomPainter {
   void paint(Canvas canvas, Size $size) {
     Paint paint = Paint();
 
+    canvas.drawRect(
+      Rect.fromLTRB(0, 0, $size.width, $size.height),
+      Paint()..color = bgColor,
+    );
+
     late double $position;
 
     late double l;
@@ -114,6 +96,9 @@ class _AnimateProgressPainter extends CustomPainter {
     switch (axis) {
       case AxisDirection.right:
         $position = $size.width * positionRatio;
+        final $width = ratio * $size.width;
+        // el.i($width);
+        // el.i($position);
         l = $position;
         t = 0;
         r = $position + ratio * $size.width;

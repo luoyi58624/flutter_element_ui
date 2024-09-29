@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:docs/global.dart';
@@ -15,65 +16,156 @@ class NavPage extends ResponsivePage {
     return [
       // LinearProgressIndicator(),
       // ...List.generate(
-      //   1,
-      //   (index) => const ElProgress.animate(50),
-      // )
+      //   2000,
+      //   (index) => const ElProgress.animate(
+      //     10,
+      //     curve: Curves.easeOutSine,
+      //   ),
+      //   // (index) => const LinearProgressIndicator(),
+      //   // (index) => const _Demo(),
+      // ),
+      // const _Demo(),
+      // const Gap(8),
+      // const _Demo2(),
+      // const Gap(8),
+      // const Demo3(),
+    ];
+  }
+}
 
-      Click(
-        onClick: () {
-          el.e('first');
-        },
+class Demo3 extends HookWidget {
+  const Demo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final alignment = useState(Alignment.centerLeft);
+
+    useMounted(() {
+      alignment.value = Alignment.centerRight;
+    });
+    return Container(
+      height: 10,
+      color: Colors.grey.shade200,
+      child: AnimatedAlign(
+        alignment: alignment.value,
+        curve: Curves.ease,
+        duration: const Duration(milliseconds: 13000),
         child: Container(
-          width: 300,
-          height: 300,
-          color: Colors.grey,
-          child: Click(
-            onClick: () {
-              el.i('parent');
-            },
-            child: Center(
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.green,
-                child: Center(
-                  child: Builder(
-                    builder: (context) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Click.stopPropagation(context);
-                              el.w('child');
-                            },
-                            onTapDown: (e) {},
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.red,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              el.w('child');
-                            },
-                            onTapDown: (e) {},
-                            child: Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  ),
-                ),
-              ),
-            ),
-          ),
+          width: 100,
+          height: 10,
+          color: Colors.green,
         ),
       ),
-    ];
+    );
+  }
+}
+
+class _Demo2 extends HookWidget {
+  const _Demo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final AnimationController controller = useAnimationController(
+      duration: const Duration(milliseconds: 13000),
+    );
+
+    useEffect(() {
+      controller.repeat();
+      return null;
+    }, []);
+
+    return LayoutBuilder(builder: (context, cons) {
+      final positionRatioAnimation = Tween(
+        begin: -100.0,
+        end: cons.maxWidth,
+      ).animate(CurvedAnimation(
+        parent: controller,
+        curve: Curves.ease,
+      ));
+      return AnimatedBuilder(
+          animation: controller.view,
+          builder: (context, child) {
+            return Stack(
+              children: [
+                Container(
+                  height: 10,
+                  color: Colors.grey.shade200,
+                ),
+                Positioned(
+                  left: positionRatioAnimation.value,
+                  child: Container(
+                    width: 100,
+                    height: 10,
+                    color: Colors.green,
+                  ),
+                ),
+              ],
+            );
+          });
+    });
+  }
+}
+
+class _Demo extends HookWidget {
+  const _Demo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final AnimationController controller = useAnimationController(
+      duration: const Duration(milliseconds: 13000),
+    );
+
+    useEffect(() {
+      controller.repeat();
+      return null;
+    }, []);
+
+    return LayoutBuilder(builder: (context, cons) {
+      final positionRatioAnimation = Tween(
+        begin: -100.0,
+        end: cons.maxWidth,
+      ).animate(CurvedAnimation(
+        parent: controller,
+        curve: Curves.ease,
+      ));
+      return AnimatedBuilder(
+          animation: controller.view,
+          builder: (context, child) {
+            return CustomPaint(
+              size: const Size(double.infinity, 10),
+              painter: _AnimateProgressPainter(
+                position: positionRatioAnimation.value,
+              ),
+            );
+          });
+    });
+  }
+}
+
+class _AnimateProgressPainter extends CustomPainter {
+  final double position;
+
+  _AnimateProgressPainter({
+    required this.position,
+  });
+
+  @override
+  void paint(Canvas canvas, Size $size) {
+    Paint paint = Paint();
+
+    canvas.drawRect(
+      Rect.fromLTRB(0, 0, $size.width, $size.height),
+      Paint()..color = Colors.grey.shade200,
+    );
+
+    canvas.drawRect(
+      Rect.fromLTRB(position, 0, position + 100, 10),
+      paint..color = Colors.green,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _AnimateProgressPainter oldDelegate) {
+    return true;
   }
 }

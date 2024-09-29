@@ -113,7 +113,7 @@ class ElButton extends StatefulWidget {
 
   /// loading 构建器，它会隐藏按钮原有内容，例如封装 Material 加载器：
   /// ```dart
-  /// var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
+  /// var loadingBuilder = (ElButtonLoadingData state) => SizedBox(
   ///   width: state.size,
   ///   height: state.size,
   ///   child: CircularProgressIndicator(
@@ -122,7 +122,7 @@ class ElButton extends StatefulWidget {
   ///   ),
   /// );
   /// ```
-  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
+  final Widget Function(ElButtonLoadingData state)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;

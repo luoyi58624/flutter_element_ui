@@ -40,14 +40,14 @@ typedef _ColorStyle = ({
   Color? loadingTextColor
 });
 
-class ElButtonLoadingState {
+class ElButtonLoadingData {
   /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
   final Color color;
 
   /// 按钮 loading 尺寸，它的大小和按钮图标一致
   final double size;
 
-  ElButtonLoadingState({required this.color, required this.size});
+  ElButtonLoadingData({required this.color, required this.size});
 }
 
 class _ElButtonState extends State<ElButton> {
@@ -177,7 +177,7 @@ class _ElButtonState extends State<ElButton> {
                 child: buildIconTheme(
                   color: $colorStyle.loadingTextColor,
                   child: widget.loadingBuilder!(
-                    ElButtonLoadingState(
+                    ElButtonLoadingData(
                       color: $colorStyle.loadingTextColor!,
                       size: iconSize,
                     ),

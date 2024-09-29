@@ -17,7 +17,7 @@ class Example2 extends HookWidget {
           children: [
             const ElProgress.animate(50),
             const ElProgress.animate(100, curve: Curves.easeOutCubic),
-            ElProgress.animate(100, color: context.elTheme.success, duration: 5.ss),
+            ElProgress.animate(10, color: context.elTheme.success, duration: 10.ss),
             ElProgress.animate(100, color: context.elTheme.warning, duration: 1000.ms),
             ElProgress.animate(50, color: context.elTheme.error),
           ],

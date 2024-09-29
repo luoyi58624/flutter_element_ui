@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_extension/src/extensions/fun.dart';
 
 import '../global.dart';
 
@@ -25,9 +24,7 @@ class TapBuilder extends StatefulWidget {
   /// 命中测试
   final HitTestBehavior? hitTestBehavior;
 
-  /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
-  /// 否则你应当直接使用[GestureDetector]，同时，如果你需要根据状态变更应用过渡动画，
-  /// 那么你应当设置与过渡动画同等的延迟时间，否则过渡动画还未加载完就将被迫重置状态
+  /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显
   final int delay;
 
   /// 是否禁用，默认false
