@@ -60,6 +60,7 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/models/menu.dart';
+export 'src/models/serialize.dart';
 
 export 'src/themes/theme.dart';
 export 'src/themes/color.dart';

@@ -1,6 +1,7 @@
 part of 'index.dart';
 
-@ElModel.copy(themeWidget: true)
+@ElModel.copy()
+@ElThemeDataModel()
 class ElProgressThemeData {
   const ElProgressThemeData({
     this.duration = const Duration(milliseconds: 900),

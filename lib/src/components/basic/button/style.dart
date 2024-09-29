@@ -1,6 +1,7 @@
 part of 'index.dart';
 
-@ElModel.copy(themeWidget: true)
+@ElModel.copy()
+@ElThemeDataModel()
 class ElButtonThemeData {
   const ElButtonThemeData({
     this.height,

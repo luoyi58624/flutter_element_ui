@@ -29,8 +29,11 @@ extension ElCardThemeDataExtension on ElCardThemeData {
   }
 }
 
+// **************************************************************************
+// ElThemeDataGenerator
+// **************************************************************************
+
 class ElCardTheme extends InheritedWidget {
-  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElCardTheme({super.key, required super.child, required this.data});
 
   final ElCardThemeData data;

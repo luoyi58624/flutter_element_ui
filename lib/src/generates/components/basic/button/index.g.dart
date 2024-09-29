@@ -29,8 +29,11 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
   }
 }
 
+// **************************************************************************
+// ElThemeDataGenerator
+// **************************************************************************
+
 class ElButtonTheme extends InheritedWidget {
-  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElButtonTheme({super.key, required super.child, required this.data});
 
   final ElButtonThemeData data;

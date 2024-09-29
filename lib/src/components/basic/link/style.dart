@@ -1,6 +1,7 @@
 part of 'index.dart';
 
-@ElModel.copy(themeWidget: true)
+@ElModel.copy()
+@ElThemeDataModel()
 class ElLinkThemeData {
   static const Color hrefColor = Color.fromRGBO(9, 105, 218, 1.0);
   static const Color darkHrefColor = Color.fromRGBO(64, 158, 255, 1.0);

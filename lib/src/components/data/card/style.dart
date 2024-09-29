@@ -1,6 +1,7 @@
 part of 'index.dart';
 
-@ElModel.copy(themeWidget: true)
+@ElModel.copy()
+@ElThemeDataModel()
 class ElCardThemeData {
   const ElCardThemeData({
     required this.color,

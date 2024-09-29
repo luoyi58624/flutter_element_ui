@@ -1,7 +1,10 @@
 import 'package:build/build.dart';
-
 import 'package:source_gen/source_gen.dart';
 
-import 'model.dart';
+import 'src/builders/model.dart';
+import 'src/builders/theme_data.dart';
 
-Builder modelBuilder(BuilderOptions options) => SharedPartBuilder([ElModelGenerator()], 'model');
+Builder elBuilder(BuilderOptions options) => SharedPartBuilder([
+      ElModelGenerator(),
+      ElThemeDataGenerator(),
+    ], 'model');

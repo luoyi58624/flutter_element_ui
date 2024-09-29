@@ -11,6 +11,8 @@ export 'extension.dart';
 export 'components/basic/text.dart';
 export 'components/basic/icon/index.dart';
 
+export 'models/serialize.dart';
+
 export 'services/message.dart';
 export 'services/toast.dart';
 

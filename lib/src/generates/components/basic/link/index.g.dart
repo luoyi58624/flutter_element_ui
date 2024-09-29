@@ -32,8 +32,11 @@ extension ElLinkThemeDataExtension on ElLinkThemeData {
   }
 }
 
+// **************************************************************************
+// ElThemeDataGenerator
+// **************************************************************************
+
 class ElLinkTheme extends InheritedWidget {
-  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
   const ElLinkTheme({super.key, required super.child, required this.data});
 
   final ElLinkThemeData data;

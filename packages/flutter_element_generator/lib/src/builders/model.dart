@@ -8,11 +8,7 @@ import 'package:source_gen/source_gen.dart';
 const _modelChecker = TypeChecker.fromRuntime(ElModel);
 const _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
-/// Element 组件命名前缀
-const String _prefix = 'El';
 
-/// Element 组件主题数据后缀
-const String _suffix = 'ThemeData';
 
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
@@ -22,14 +18,12 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
     final List<FieldElement> classFields = classInfo.fields;
-    final rawName = getRawName(className);
 
     bool createFormJson = annotation.read('formJson').boolValue;
     bool createToJson = annotation.read('toJson').boolValue;
     bool createCopyWith = annotation.read('copyWith').boolValue;
     bool createMerge = annotation.read('merge').boolValue;
     bool createToString = annotation.read('generateToString').boolValue;
-    bool createThemeWidget = annotation.read('themeWidget').boolValue;
     if (createMerge) createCopyWith = true;
 
     String result = """
@@ -39,10 +33,6 @@ extension ${className}Extension on $className {
   ${generateToString(createToString, className, classFields)}
 }
   """;
-
-    if (createThemeWidget) {
-      result += generateThemeWidget(createThemeWidget, rawName);
-    }
     return result;
   }
 
@@ -144,60 +134,6 @@ extension ${className}Extension on $className {
     return '$className{$toStringContent}';
   } 
     """;
-  }
-
-  String generateThemeWidget(bool enable, String rawName) {
-    if (!enable) return '';
-    return """
-    
-class $_prefix${rawName}Theme extends InheritedWidget {
-  /// 局部默认样式小部件，你可以用来定义某个小部件的默认样式
-  const $_prefix${rawName}Theme({super.key, required super.child, required this.data});
-
-  final $_prefix$rawName$_suffix data;
-
-  static $_prefix$rawName$_suffix? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<$_prefix${rawName}Theme>()?.data;
-  }
-
-  static $_prefix$rawName$_suffix of(BuildContext context, $_prefix$rawName$_suffix? data) {
-    final result = maybeOf(context);
-    assert(result != null, 'No $_prefix${rawName}Theme found in context');
-    return result!;
-  }
-
-  static Widget merge({
-    Key? key,
-    $_prefix$rawName$_suffix? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = $_prefix${rawName}Theme.maybeOf(context) ?? context.elTheme.${rawName.substring(0, 1).toLowerCase() + rawName.substring(1)}Theme;
-      return $_prefix${rawName}Theme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
-  }
-
-  @override
-  bool updateShouldNotify($_prefix${rawName}Theme oldWidget) => true;
-}
-    """;
-  }
-
-  /// 过滤前缀和后缀，获取单纯的组件名字，例如：
-  /// * ElButtonThemeData -> Button
-  /// * ElLinkThemeData -> Link
-  String getRawName(String className) {
-    String rawName = className;
-    if (rawName.startsWith(_prefix)) {
-      rawName = rawName.substring(_prefix.length);
-    }
-    if (rawName.endsWith(_suffix)) {
-      rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
-    }
-    return rawName;
   }
 
   /// 当前字段是否被忽略

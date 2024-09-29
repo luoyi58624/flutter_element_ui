@@ -9,7 +9,6 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
-    this.themeWidget = false,
   });
 
   /// 默认开启所有功能
@@ -19,7 +18,6 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = true,
-    this.themeWidget = true,
   });
 
   /// 默认生成 json 序列化方法
@@ -29,7 +27,6 @@ class ElModel {
     this.copyWith = false,
     this.merge = false,
     this.generateToString = false,
-    this.themeWidget = false,
   });
 
   /// 默认生成 copyWith、merge 方法
@@ -39,7 +36,6 @@ class ElModel {
     this.copyWith = true,
     this.merge = true,
     this.generateToString = false,
-    this.themeWidget = false,
   });
 
   /// 生成 formJson 方法
@@ -57,19 +53,15 @@ class ElModel {
 
   /// 生成 toString 方法
   final bool generateToString;
-
-  /// 生成主题配置类
-  final bool themeWidget;
 }
 
 /// 模型字段元数据，控制每个字段的生成逻辑
 @Target({TargetKind.field})
 class ElModelField {
   const ElModelField({
-    this.ignore = const ElModel(),
+    this.ignore = const ElModel.all(),
   });
 
-  /// 生成的代码是否忽略此字段，接收[ElModel]作为对象，你可以精细控制每个生成函数是否要忽略此字段。
-  /// 例如：如果你需要在所有生成的函数中都忽略此字段，请传递[ElModel.all]
+  /// 生成的代码是否忽略此字段，接收[ElModel]作为对象，你可以精细控制每个生成函数是否要忽略此字段
   final ElModel ignore;
 }
