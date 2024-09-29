@@ -50,7 +50,7 @@ class SingleRenderTestPage extends HookWidget {
                       children: [
                         ...List.generate(
                           1000,
-                              (index) => SizedBox(
+                          (index) => SizedBox(
                             width: maxSize,
                             height: maxSize,
                             child: AnimatedBuilder(
@@ -92,7 +92,6 @@ class SingleRenderTestPage extends HookWidget {
 
 class _Box extends SingleChildRenderObjectWidget {
   const _Box({
-    super.child,
     this.width,
     this.height,
   });

@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 class ElTag extends StatelessWidget {

@@ -12,33 +12,5 @@ class CupertinoLargeTitlePage extends StatelessWidget {
       ),
       child: SizedBox(),
     );
-    return CupertinoPageScaffold(
-      child: CustomScrollView(
-        slivers: [
-          CupertinoSliverNavigationBar(
-            // heroTag: 'user_hero',
-            largeTitle: const Text(
-              '个人中心',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            trailing: CupertinoButton(
-              onPressed: () {},
-              padding: EdgeInsets.zero,
-              child: const Text(
-                '设置',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            border: null,
-            backgroundColor:
-                CupertinoColors.systemGroupedBackground.resolveFrom(context),
-          ),
-        ],
-      ),
-    );
   }
 }

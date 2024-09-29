@@ -1,5 +1,4 @@
 import 'package:docs/global.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Example3 extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:docs/global.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'examples/01.dart';
+import 'examples/example1.dart';
 
 class CupertinoOverviewPage extends StatelessWidget {
   const CupertinoOverviewPage({super.key});
@@ -33,22 +33,6 @@ class CupertinoOverviewPage extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-    return const CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text('Cupertino 组件总览'),
-        previousPageTitle: '组件',
-      ),
-      child: SafeArea(
-        child: ColumnWidget(
-          scroll: true,
-          repaintBoundary: true,
-          padding: EdgeInsets.all(8),
-          children: [
-            Example1(),
-          ],
-        ),
       ),
     );
   }

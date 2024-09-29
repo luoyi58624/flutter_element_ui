@@ -1,4 +1,5 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:meta/meta.dart';
@@ -95,12 +96,16 @@ extension ${className}Extension on $className {
     String mergeContent = '';
 
     for (int i = 0; i < classFields.length; i++) {
-      final fieldInfo = classFields[i].declaration;
+      FieldElement fieldInfo = classFields[i].declaration;
       if (allowCopy(fieldInfo)) {
         if (isIgnoreField('merge', fieldInfo)) continue;
         final field = fieldInfo.name;
         if (isDeepCloneField(fieldInfo)) {
-          mergeContent += '$field: $field?.merge(other.$field),';
+          String fieldModifier = '';
+          if (fieldInfo.type.nullabilitySuffix == NullabilitySuffix.question) {
+            fieldModifier = '?';
+          }
+          mergeContent += '$field: $field$fieldModifier.merge(other.$field),';
         } else {
           mergeContent += '$field: other.$field,\n';
         }

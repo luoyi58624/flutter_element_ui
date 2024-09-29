@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 class ElTriangle extends StatelessWidget {

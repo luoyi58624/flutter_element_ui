@@ -45,7 +45,7 @@ class _RipperState extends State<Ripper> {
 }
 
 class _RipperAnimate extends StatefulWidget {
-  const _RipperAnimate({super.key});
+  const _RipperAnimate();
 
   @override
   State<_RipperAnimate> createState() => _RipperAnimateState();
@@ -73,7 +73,7 @@ class _RipperAnimateState extends State<_RipperAnimate>
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
+    return const ColoredBox(
       color: Colors.black45,
     );
   }

@@ -1,4 +1,3 @@
-import 'package:example/global.dart';
 import 'package:flutter/material.dart';
 
 class FontTestPage extends StatefulWidget {

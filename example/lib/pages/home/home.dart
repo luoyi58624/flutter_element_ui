@@ -13,32 +13,16 @@ class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final count = useState(0);
-    final show = useState(true);
     final activeIndex = useObs(2);
     final tabs = useObs(
       [
         const ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
-        const ElGoogleTab(title: 'axasxa'),
-        const ElGoogleTab(title: 'xasx'),
-        const ElGoogleTab(title: 'xasxasxasxasxas'),
         ...List.generate(
           5,
           (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),
         ),
       ],
     );
-    final listData = useState<List<Widget>>([
-      Container(
-        width: 200,
-        height: 100,
-        color: Colors.green,
-      ),
-      // Container(
-      //   width: 100,
-      //   height: 100,
-      //   color: Colors.red,
-      // ),
-    ]);
     return Scaffold(
       appBar: AppBar(
         title: const Text('首页'),
@@ -88,7 +72,7 @@ class HomePage extends HookWidget {
                   ),
                 ),
               ),
-              _CupertinoSegment(),
+              const _CupertinoSegment(),
               ElGoogleTabs(
                 activeIndex,
                 // duration: 1000.ms,
@@ -180,7 +164,7 @@ Map<Sky, Color> skyColors = <Sky, Color>{
 };
 
 class _CupertinoSegment extends StatefulWidget {
-  const _CupertinoSegment({super.key});
+  const _CupertinoSegment();
 
   @override
   State<_CupertinoSegment> createState() => _CupertinoSegmentState();

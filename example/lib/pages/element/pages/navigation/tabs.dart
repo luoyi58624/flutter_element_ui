@@ -9,10 +9,10 @@ class TabsPage extends HookWidget {
     final activeIndex = useObs(2);
     final tabs = useObs(
       [
-        ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
-        ElGoogleTab(title: 'axasxa'),
-        ElGoogleTab(title: 'xasx'),
-        ElGoogleTab(title: 'xasxasxasxasxas'),
+        const ElGoogleTab(title: '标签页西那卡塞苏你显卡'),
+        const ElGoogleTab(title: 'axasxa'),
+        const ElGoogleTab(title: 'xasx'),
+        const ElGoogleTab(title: 'xasxasxasxasxas'),
         ...List.generate(
           5,
           (index) => ElGoogleTab(title: '标签页 - ${index + 1}'),

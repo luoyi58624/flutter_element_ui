@@ -5,10 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_element_ui/src/components/layout/nav_tab.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import 'package:flutter_element_ui/src/global.dart';
-
-import '../../services/index.dart';
-
 part 'aside.dart';
 
 part 'header.dart';

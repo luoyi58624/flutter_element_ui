@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:defer_pointer/defer_pointer.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 part 'split_panel.dart';

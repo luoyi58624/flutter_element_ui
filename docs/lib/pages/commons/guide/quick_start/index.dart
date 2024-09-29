@@ -1,5 +1,4 @@
 import 'package:docs/global.dart';
-import 'package:docs/pages/commons/responsive_page.dart';
 import 'package:docs/utils/animate.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +21,6 @@ class QuickStartPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    final numList = useState<List<double>>([]);
-    final slider = useState(0.0);
     final flag = useState(true);
     final vsync = useSingleTickerProvider();
     parent = vsync;

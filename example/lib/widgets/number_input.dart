@@ -9,7 +9,7 @@ class NumberInputWidget extends StatelessWidget {
     return UnconstrainedBox(
       child: Container(
         height: 36,
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           maxWidth: 120,
         ),
         decoration: BoxDecoration(

@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 
 import 'base.dart';
 

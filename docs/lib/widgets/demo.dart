@@ -86,7 +86,7 @@ class CustomSmoothScrollPosition extends ScrollPositionWithSingleContext {
       updateUserScrollDirection(
         -delta > 0.0 ? ScrollDirection.forward : ScrollDirection.reverse,
       );
-      final double oldPixels = pixels;
+      // final double oldPixels = pixels;
       // Set the notifier before calling force pixels.
       // This is set to false again after going ballistic below.
       isScrollingNotifier.value = true;

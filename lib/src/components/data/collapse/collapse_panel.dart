@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/global.dart';
 

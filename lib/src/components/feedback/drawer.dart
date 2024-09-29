@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 const int _duration = 225;

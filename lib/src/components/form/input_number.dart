@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
-import '../others/triangle/triangle.dart';
-
 class ElInputNumber extends HookWidget {
   const ElInputNumber({super.key});
 
@@ -17,21 +15,21 @@ class ElInputNumber extends HookWidget {
     );
   }
 }
-
-class _ControlButton extends StatelessWidget {
-  const _ControlButton({required this.direction});
-
-  final AxisDirection direction;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ElTriangle(
-        direction: direction,
-      ),
-    );
-  }
-}
+//
+// class _ControlButton extends StatelessWidget {
+//   const _ControlButton({required this.direction});
+//
+//   final AxisDirection direction;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: ElTriangle(
+//         direction: direction,
+//       ),
+//     );
+//   }
+// }
 
 enum _Slot {
   content,
@@ -260,12 +258,12 @@ class _InputNumberRender extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    BoxParentData contentParentData = content!.parentData as BoxParentData;
+    // BoxParentData contentParentData = content!.parentData as BoxParentData;
     // i(contentParentData, 'xxx');
 
     context.paintChild(content!, offset);
-    context.paintChild(upButton!, offset + Offset(120, 0));
-    context.paintChild(downButton!, offset + Offset(120, 20));
+    context.paintChild(upButton!, offset + const Offset(120, 0));
+    context.paintChild(downButton!, offset + const Offset(120, 20));
   }
 }
 
@@ -292,8 +290,8 @@ class _BoxRender extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final w = size.width;
-    final h = size.height;
+    // final w = size.width;
+    // final h = size.height;
     final paint = Paint()
       ..style = PaintingStyle.fill
       ..color = color;

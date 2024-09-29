@@ -1,7 +1,6 @@
 import 'package:example/global.dart';
 import 'package:example/pages/material/pages/slider_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base/flutter_base.dart';
 
 import '../widgets/button.dart';
 import '../widgets/form.dart';

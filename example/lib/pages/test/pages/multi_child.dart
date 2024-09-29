@@ -11,7 +11,7 @@ class MultiChildTestPage extends StatelessWidget {
       ),
       body: UnconstrainedBox(
         child: Container(
-          margin: EdgeInsets.all(50),
+          margin: const EdgeInsets.all(50),
           constraints: const BoxConstraints(
             maxWidth: 400,
             minHeight: 50,
@@ -47,58 +47,58 @@ class MultiChildTestPage extends StatelessWidget {
   }
 }
 
-class _Layout extends StatelessWidget {
-  const _Layout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomMultiChildLayout(
-      delegate: _Delegate(),
-      children: [
-        LayoutId(
-          id: 1,
-          child: UnconstrainedBox(
-            child: Container(
-              width: 50,
-              height: 50,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        LayoutId(
-          id: 2,
-          child: Container(
-            width: 100,
-            height: 50,
-            color: Colors.green,
-            child: Text('xxx' * 5),
-          ),
-        ),
-        LayoutId(
-          id: 3,
-          child: Container(
-            width: 50,
-            height: 50,
-            color: Colors.red,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Delegate extends MultiChildLayoutDelegate {
-  @override
-  void performLayout(Size size) {
-    final firstSize = layoutChild(1, BoxConstraints.loose(size));
-    final twoSize = layoutChild(2, BoxConstraints.loose(size));
-    layoutChild(3, BoxConstraints.loose(size));
-    positionChild(2, Offset(firstSize.width, 0));
-    positionChild(3, Offset(firstSize.width + twoSize.width, 0));
-  }
-
-  @override
-  bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
-    return false;
-  }
-}
+// class _Layout extends StatelessWidget {
+//   const _Layout({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return CustomMultiChildLayout(
+//       delegate: _Delegate(),
+//       children: [
+//         LayoutId(
+//           id: 1,
+//           child: UnconstrainedBox(
+//             child: Container(
+//               width: 50,
+//               height: 50,
+//               color: Colors.grey,
+//             ),
+//           ),
+//         ),
+//         LayoutId(
+//           id: 2,
+//           child: Container(
+//             width: 100,
+//             height: 50,
+//             color: Colors.green,
+//             child: Text('xxx' * 5),
+//           ),
+//         ),
+//         LayoutId(
+//           id: 3,
+//           child: Container(
+//             width: 50,
+//             height: 50,
+//             color: Colors.red,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+//
+// class _Delegate extends MultiChildLayoutDelegate {
+//   @override
+//   void performLayout(Size size) {
+//     final firstSize = layoutChild(1, BoxConstraints.loose(size));
+//     final twoSize = layoutChild(2, BoxConstraints.loose(size));
+//     layoutChild(3, BoxConstraints.loose(size));
+//     positionChild(2, Offset(firstSize.width, 0));
+//     positionChild(3, Offset(firstSize.width + twoSize.width, 0));
+//   }
+//
+//   @override
+//   bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) {
+//     return false;
+//   }
+// }

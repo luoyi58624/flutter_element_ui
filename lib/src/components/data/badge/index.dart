@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' show Badge;
-import 'package:flutter/widgets.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
 import '../../../utils/font.dart';

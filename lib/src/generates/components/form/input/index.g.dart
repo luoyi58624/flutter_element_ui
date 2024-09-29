@@ -30,7 +30,7 @@ extension ElInputThemeDataExtension on ElInputThemeData {
       borderRadius: other.borderRadius,
       margin: other.margin,
       padding: other.padding,
-      textStyle: textStyle?.merge(other.textStyle),
+      textStyle: textStyle.merge(other.textStyle),
     );
   }
 }

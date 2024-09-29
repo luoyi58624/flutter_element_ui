@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'scroll_view.dart';
-
 class ScrollRenderTestPage extends HookWidget {
   const ScrollRenderTestPage({super.key});
 
@@ -16,7 +14,7 @@ class ScrollRenderTestPage extends HookWidget {
         title: const Text('自定义滚动渲染'),
       ),
       body: _ScrollWidget(
-        child: Container(
+        child: SizedBox(
           width: 200,
           height: 120000,
           // color: Colors.green,
