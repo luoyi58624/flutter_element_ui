@@ -1,16 +1,8 @@
-targets:
-  $default:
-    builders:
-      source_gen:combining_builder:
-        options:
-          build_extensions:
-            '^lib/{{}}.dart': 'lib/generates/{{}}.g.dart'
-
 builders:
   model:
     import: "package:flutter_element_generator/builder.dart"
     builder_factories: [ "modelBuilder" ]
-    build_extensions: {".dart": [".g.part"]}
+    build_extensions: { ".dart": [ ".g.part" ] }
     auto_apply: dependents
     build_to: cache
-    applies_builders: ["source_gen:combining_builder"]
+    applies_builders: [ "source_gen:combining_builder" ]

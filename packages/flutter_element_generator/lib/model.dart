@@ -24,8 +24,8 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     final List<FieldElement> classFields = classInfo.fields;
     final rawName = getRawName(className);
 
-    // bool createFormJson = annotation.read('formJson').boolValue;
-    // bool createToJson = annotation.read('toJson').boolValue;
+    bool createFormJson = annotation.read('formJson').boolValue;
+    bool createToJson = annotation.read('toJson').boolValue;
     bool createCopyWith = annotation.read('copyWith').boolValue;
     bool createMerge = annotation.read('merge').boolValue;
     bool createToString = annotation.read('generateToString').boolValue;

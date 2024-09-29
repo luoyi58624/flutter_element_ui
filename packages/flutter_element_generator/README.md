@@ -1,9 +1,9 @@
-Element UI 代码生成库，用来生成一些通用的代码，注意：这个库只用于 Element UI
+Element UI 代码生成库，用来生成一些通用的代码
 
-- Build
+- 一次性生成
 
 > dart run build_runner build --delete-conflicting-outputs
 
-- Dev
+- 开启监听
 
 > dart run build_runner watch --delete-conflicting-outputs
