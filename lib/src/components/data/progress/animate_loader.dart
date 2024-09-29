@@ -43,7 +43,7 @@ class _AnimateLoader extends HookWidget {
           builder: (context, child) {
             return CustomPaint(
               size: $data.strokeSize,
-              painter: _AnimateProgressPainter(
+              painter: _LineProgressPainter(
                 ratio: $data.ratio,
                 positionRatio: positionRatioAnimation.value,
                 radius: $radius,
@@ -54,90 +54,5 @@ class _AnimateLoader extends HookWidget {
             );
           }),
     );
-  }
-}
-
-class _AnimateProgressPainter extends CustomPainter {
-  /// 进度条比值
-  final double ratio;
-
-  /// 进度条偏移位置比例
-  final double positionRatio;
-
-  final double radius;
-  final AxisDirection axis;
-  final Color bgColor;
-  final Color color;
-
-  _AnimateProgressPainter({
-    required this.ratio,
-    required this.positionRatio,
-    required this.radius,
-    required this.axis,
-    required this.bgColor,
-    required this.color,
-  });
-
-  @override
-  void paint(Canvas canvas, Size $size) {
-    Paint paint = Paint();
-
-    canvas.drawRect(
-      Rect.fromLTRB(0, 0, $size.width, $size.height),
-      Paint()..color = bgColor,
-    );
-
-    late double $position;
-
-    late double l;
-    late double t;
-    late double r;
-    late double b;
-    switch (axis) {
-      case AxisDirection.right:
-        $position = $size.width * positionRatio;
-        final $width = ratio * $size.width;
-        // el.i($width);
-        // el.i($position);
-        l = $position;
-        t = 0;
-        r = $position + ratio * $size.width;
-        b = $size.height;
-        break;
-      case AxisDirection.up:
-        $position = $size.height * positionRatio;
-        l = 0;
-        t = $size.height - ($position + ratio * $size.height);
-        r = $size.width;
-        b = $size.height - $position;
-        break;
-      case AxisDirection.down:
-        $position = $size.height * positionRatio;
-        l = 0;
-        t = $position;
-        r = $size.width;
-        b = $position + ratio * $size.height;
-        break;
-      case AxisDirection.left:
-        $position = $size.width * positionRatio;
-        l = $size.width - ($position + ratio * $size.width);
-        t = 0;
-        r = $size.width - $position;
-        b = $size.height;
-        break;
-    }
-
-    canvas.drawRRect(
-      RRect.fromRectAndRadius(
-        Rect.fromLTRB(l, t, r, b),
-        Radius.circular(radius),
-      ),
-      paint..color = color,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _AnimateProgressPainter oldDelegate) {
-    return true;
   }
 }

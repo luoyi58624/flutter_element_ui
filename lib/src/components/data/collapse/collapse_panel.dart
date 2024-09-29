@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/src/components/basic/app/index.dart';
 import 'package:flutter_element_ui/src/components/others/divider.dart';
 import 'package:flutter_element_ui/src/global.dart';
 
@@ -174,7 +173,7 @@ class ElCollapseItem extends StatelessWidget {
                                         ? context.elTheme.colors.text
                                         : isActive
                                             ? context.darkTheme.colors.text
-                                            : ElApp.of(context).theme.colors.text,
+                                            : context.lightTheme.colors.text,
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -184,7 +183,7 @@ class ElCollapseItem extends StatelessWidget {
                                 ? context.elTheme.colors.text
                                 : isActive
                                     ? context.darkTheme.colors.text
-                                    : ElApp.of(context).theme.colors.text,
+                                    : context.lightTheme.colors.text,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

@@ -28,37 +28,11 @@ class NavPage extends ResponsivePage {
       // const Gap(8),
       // const _Demo2(),
       // const Gap(8),
-      // const Demo3(),
     ];
   }
 }
 
-class Demo3 extends HookWidget {
-  const Demo3({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    final alignment = useState(Alignment.centerLeft);
-
-    useMounted(() {
-      alignment.value = Alignment.centerRight;
-    });
-    return Container(
-      height: 10,
-      color: Colors.grey.shade200,
-      child: AnimatedAlign(
-        alignment: alignment.value,
-        curve: Curves.ease,
-        duration: const Duration(milliseconds: 13000),
-        child: Container(
-          width: 100,
-          height: 10,
-          color: Colors.green,
-        ),
-      ),
-    );
-  }
-}
 
 class _Demo2 extends HookWidget {
   const _Demo2({super.key});

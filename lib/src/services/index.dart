@@ -1,20 +1,15 @@
-import '../components/feedback/message/index.dart';
-import '../components/feedback/toast/index.dart';
-import '../components/others/anchor/index.dart';
+import 'anchor.dart';
 import 'cursor.dart';
 import 'logger.dart';
-import 'other.dart';
+import 'message.dart';
 import 'router.dart';
+import 'toast.dart';
 
-/// Element UI 全局服务对象
-final el = ElService();
-
-class ElService
+class Service
     with
-        ElAnchorService,
-        OtherService,
+        AnchorService,
         RouterService,
         LoggerService,
         CursorService,
-        ElMessageService,
-        ElToastService {}
+        MessageService,
+        ToastService {}

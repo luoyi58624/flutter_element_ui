@@ -12,15 +12,57 @@ class Example2 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: [
+            'Flutter 动画在平移过程中元素存在抖动问题，一开始我以为是逻辑问题，'
+                '但经过测试，内置组件 AnimatedAlign 也存在此问题。'
+          ],
+        ),
+        textGap,
         CodeExample(
           code: code1,
           children: [
             const ElProgress.animate(50),
             const ElProgress.animate(100, curve: Curves.easeOutCubic),
-            ElProgress.animate(10, color: context.elTheme.success, duration: 10.ss),
-            ElProgress.animate(100, color: context.elTheme.warning, duration: 1000.ms),
+            ElProgress.animate(10,
+                color: context.elTheme.success, duration: 10.ss),
+            ElProgress.animate(100,
+                color: context.elTheme.warning, duration: 1000.ms),
             ElProgress.animate(50, color: context.elTheme.error),
+            const _Test(),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+class _Test extends HookWidget {
+  const _Test();
+
+  @override
+  Widget build(BuildContext context) {
+    final flag = useState(false);
+
+    return Column(
+      children: [
+        ElSwitch(flag),
+        const Gap(8),
+        Container(
+          height: 10,
+          color: Colors.grey.shade200,
+          child: AnimatedAlign(
+            alignment:
+                flag.value ? Alignment.centerRight : Alignment.centerLeft,
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 10000),
+            child: Container(
+              width: 100,
+              height: 10,
+              color: Colors.green,
+            ),
+          ),
         ),
       ],
     );
@@ -30,9 +72,41 @@ class Example2 extends HookWidget {
 String get code1 => '''
 const ElProgress.animate(50),
 const ElProgress.animate(100, curve: Curves.easeOutCubic),
-ElProgress.animate(100, color: context.elTheme.success, duration: 5.ss),
+ElProgress.animate(10, color: context.elTheme.success, duration: 10.ss),
 ElProgress.animate(100, color: context.elTheme.warning, duration: 1000.ms),
 ElProgress.animate(50, color: context.elTheme.error),''';
+
+String get code2 => '''
+class _Test extends HookWidget {
+  const _Test();
+
+  @override
+  Widget build(BuildContext context) {
+    final flag = useState(false);
+
+    return Column(
+      children: [
+        ElSwitch(flag),
+        const Gap(8),
+        Container(
+          height: 10,
+          color: Colors.grey.shade200,
+          child: AnimatedAlign(
+            alignment:
+                flag.value ? Alignment.centerRight : Alignment.centerLeft,
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 10000),
+            child: Container(
+              width: 100,
+              height: 10,
+              color: Colors.green,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}''';
 
 String get code => '''
 // Copyright 2014 The Flutter Authors. All rights reserved.

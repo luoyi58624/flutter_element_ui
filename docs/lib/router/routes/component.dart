@@ -9,6 +9,7 @@ import '../../pages/commons/component/basic/text/index.dart';
 import '../../pages/commons/component/data/collapse/index.dart';
 import '../../pages/commons/component/data/progress/index.dart';
 import '../../pages/commons/component/feedback/message/index.dart';
+import '../../pages/commons/component/feedback/toast/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
 import '../../pages/commons/component/form/slider/index.dart';
 import '../../pages/commons/component/form/switch/index.dart';
@@ -150,6 +151,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}message',
       builder: (context, state) => const MessagePage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}toast',
+      builder: (context, state) => const ToastPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}nav_menu',

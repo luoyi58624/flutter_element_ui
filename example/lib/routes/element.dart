@@ -9,8 +9,6 @@ import '../pages/element/pages/data/collapse.dart';
 import '../pages/element/pages/data/image.dart';
 import '../pages/element/pages/feedback/dialog.dart';
 import '../pages/element/pages/feedback/drawer.dart';
-import '../pages/element/pages/feedback/message.dart';
-import '../pages/element/pages/feedback/toast.dart';
 import '../pages/element/pages/feedback/tooltip.dart';
 import '../pages/element/pages/form/input.dart';
 import '../pages/element/pages/form/input_number.dart';
@@ -143,22 +141,6 @@ final elementRoute = StatefulShellBranch(routes: [
           GoRoute(
             path: '${ElementRoutes.feedBack}/drawer',
             builder: (context, state) => const DrawerPage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.feedBack}/message',
-            builder: (context, state) => const MessagePage(),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            path: '${ElementRoutes.feedBack}/toast',
-            builder: (context, state) => const ToastPage(),
           ),
         ],
       ),

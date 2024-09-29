@@ -9,8 +9,9 @@ extension ElContextExtension on BuildContext {
   /// 当前环境是否是暗黑模式
   bool get isDark => brightness == Brightness.dark;
 
-  ElThemeData get theme => ElApp.of(this).theme;
+  /// Element 亮色主题
+  ElThemeData get lightTheme => ElApp.of(this).theme;
 
+  /// Element 暗色主题
   ElThemeData get darkTheme => ElApp.of(this).darkTheme;
 }
-

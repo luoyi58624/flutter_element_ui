@@ -11,6 +11,5 @@ targets:
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
       flutter_element_generator|model:
         generate_for:
-          - lib/src/styles/**.dart
           - lib/src/components/**.dart
-
+          - lib/src/themes/**.dart
