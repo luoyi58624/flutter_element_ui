@@ -11,7 +11,7 @@ targets:
           build_extensions:
             # 源文件与生成的代码进行关联映射，统一将所有目标代码生成到 generates 文件目录下
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
-      # 配置 Element UI 代码生成器，指定需要生成的目录
+      # 配置 Element UI 代码生成器，指定检索的目录
       flutter_element_generator|model:
         generate_for:
           - lib/src/components/**.dart

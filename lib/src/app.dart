@@ -53,7 +53,7 @@ class ElApp extends StatefulWidget {
   final ScrollBehavior scrollBehavior;
 
   /// 通过上下文 context 访问注入的全局主题配置
-  static AppData of(BuildContext context) =>
+  static ElAppData of(BuildContext context) =>
       _AppInheritedWidget.of(context).appData;
 
   /// 构建 Element UI 默认文本主题、默认的 [Overlay] 浮层、滚动配置...
@@ -92,10 +92,10 @@ class ElApp extends StatefulWidget {
       };
 
   @override
-  State<ElApp> createState() => ElAppState();
+  State<ElApp> createState() => _ElAppState();
 }
 
-class ElAppState extends State<ElApp> {
+class _ElAppState extends State<ElApp> {
   Duration? _globalThemeDuration;
   Curve? _globalThemeCurve;
   Timer? _timer;
@@ -149,7 +149,7 @@ class ElAppState extends State<ElApp> {
     }
 
     return _AppInheritedWidget(
-      AppData(
+      ElAppData(
         brightness: $brightness,
         theme: widget.theme,
         darkTheme: widget.darkTheme,
@@ -171,7 +171,7 @@ class _AppInheritedWidget extends InheritedWidget {
     required super.child,
   });
 
-  final AppData appData;
+  final ElAppData appData;
   final ScrollBehavior scrollBehavior;
 
   static _AppInheritedWidget of(BuildContext context) {
@@ -191,7 +191,7 @@ class _AppInheritedWidget extends InheritedWidget {
 }
 
 /// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
-class AppData {
+class ElAppData {
   /// 当前主题模式
   final Brightness brightness;
 
@@ -213,7 +213,7 @@ class AppData {
   /// 全局动画曲线，同上
   final Curve? globalThemeCurve;
 
-  AppData({
+  ElAppData({
     required this.brightness,
     required this.theme,
     required this.darkTheme,

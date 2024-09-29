@@ -5,10 +5,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
-const _modelChecker = TypeChecker.fromRuntime(ElModel);
-const _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
-
-
+const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
+const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
@@ -27,7 +25,10 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     if (createMerge) createCopyWith = true;
 
     String result = """
+${generateFromJson(createFormJson, className, classFields)}  
+    
 extension ${className}Extension on $className {
+  ${generateToJson(createToJson, className, classFields)}
   ${generateCopyWidth(createCopyWith, className, classFields)}
   ${generateMerge(createMerge, className, classFields)}
   ${generateToString(createToString, className, classFields)}
@@ -36,6 +37,59 @@ extension ${className}Extension on $className {
     return result;
   }
 
+  /// 生成 fromJson 方法
+  String generateFromJson(
+      bool enable, String className, List<FieldElement> classFields) {
+    if (!enable) return '';
+
+    String content = '';
+
+    for (int i = 0; i < classFields.length; i++) {
+      final fieldInfo = classFields[i].declaration;
+      if (allowCopy(fieldInfo)) {
+        if (isIgnoreField('fromJson', fieldInfo)) {
+          continue;
+        }
+        String field = fieldInfo.name;
+        content += '$field: json[\'$field\'] as ${fieldInfo.type.toString()},\n';
+      }
+    }
+
+    return """
+$className _fromJson(Map<String, dynamic> json) => $className(
+      $content
+    );
+    """;
+  }
+
+  /// 生成 toJson 方法
+  String generateToJson(
+      bool enable, String className, List<FieldElement> classFields) {
+    if (!enable) return '';
+
+    String content = '';
+
+    for (int i = 0; i < classFields.length; i++) {
+      final fieldInfo = classFields[i].declaration;
+      if (allowCopy(fieldInfo)) {
+        if (isIgnoreField('toJson', fieldInfo)) {
+          continue;
+        }
+        String field = fieldInfo.name;
+        content += '\'$field\': $field,\n';
+      }
+    }
+
+    return """
+  Map<String, dynamic> _toJson() {
+    return {
+      $content
+    };
+  }
+    """;
+  }
+
+  /// 判断字段是否允许 copy
   bool allowCopy(FieldElement fieldInfo) {
     return !(fieldInfo.isSynthetic ||
         fieldInfo.isStatic ||
@@ -43,6 +97,7 @@ extension ${className}Extension on $className {
         fieldInfo.isConst);
   }
 
+  /// 生成 copyWith 拷贝方法
   String generateCopyWidth(
       bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
@@ -53,7 +108,9 @@ extension ${className}Extension on $className {
     for (int i = 0; i < classFields.length; i++) {
       final fieldInfo = classFields[i].declaration;
       if (allowCopy(fieldInfo)) {
-        if (isIgnoreField('copyWith', fieldInfo)) continue;
+        if (isIgnoreField('copyWith', fieldInfo)) {
+          continue;
+        }
         String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
         String field = fieldInfo.name;
         copyWithArgument += '$fieldType $field,\n';
@@ -79,6 +136,7 @@ extension ${className}Extension on $className {
     """;
   }
 
+  /// 生成 merge 合并对象方法
   String generateMerge(
       bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
@@ -112,6 +170,7 @@ extension ${className}Extension on $className {
     """;
   }
 
+  /// 生成 toString 方法
   String generateToString(
       bool enable, String className, List<FieldElement> classFields) {
     if (!enable) return '';
@@ -136,7 +195,7 @@ extension ${className}Extension on $className {
     """;
   }
 
-  /// 当前字段是否被忽略
+  /// 判断当前字段是否被忽略
   /// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
   /// 如果为true，则表示此函数生成的代码应当忽略该字段
   bool isIgnoreField(String typeString, FieldElement fieldInfo) {

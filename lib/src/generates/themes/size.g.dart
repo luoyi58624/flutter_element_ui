@@ -6,7 +6,19 @@ part of '../../themes/size.dart';
 // ElModelGenerator
 // **************************************************************************
 
+SizeModel _fromJson(Map<String, dynamic> json) => SizeModel(
+      width: json['width'] as double,
+      height: json['height'] as double?,
+    );
+
 extension SizeModelExtension on SizeModel {
+  Map<String, dynamic> _toJson() {
+    return {
+      'width': width,
+      'height': height,
+    };
+  }
+
   SizeModel copyWith({
     double? width,
     double? height,
@@ -23,5 +35,9 @@ extension SizeModelExtension on SizeModel {
       width: other.width,
       height: other.height,
     );
+  }
+
+  String _toString() {
+    return 'SizeModel{width: $width,height: $height}';
   }
 }
