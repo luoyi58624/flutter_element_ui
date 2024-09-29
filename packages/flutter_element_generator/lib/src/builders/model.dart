@@ -56,7 +56,7 @@ extension ${className}Extension on $className {
     }
 
     return """
-$className _fromJson(Map<String, dynamic> json) => $className(
+$className _fromJson$className(Map<String, dynamic> json) => $className(
       $content
     );
     """;
