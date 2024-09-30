@@ -1,18 +1,21 @@
 targets:
   $default:
     auto_apply_builders: true
-    # 指定 build_runner 检索的代码目录
+    # 指定 build_runner 检索的代码目录，请明确指定它们，否则代码生成器会检索当前整个项目，会包括 android、ios、macos、windows 等目录，
+    # 下面两个配置是固定的，如果漏掉会提示警告，通常情况下只需要指定这两个配置即可。
     sources:
       - lib/**
       - $package$
     builders:
+      # 首先配置 Element 依赖的源码生成器
       source_gen:combining_builder:
         options:
           build_extensions:
-            # 源文件与生成的代码进行关联映射，统一将所有目标代码生成到 generates 文件目录下
+            # 将源文件与生成的代码进行关联映射，统一将生成的代码放到 generates 文件目录下
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
-      # 配置 Element UI 代码生成器，指定检索的目录
+      # 配置 Element UI 代码生成器
       flutter_element_generator|model:
+        # 指定检索的目录，请尽量缩小检索范围，这样可以提高构建速度
         generate_for:
           - lib/src/components/**.dart
           - lib/src/themes/**.dart

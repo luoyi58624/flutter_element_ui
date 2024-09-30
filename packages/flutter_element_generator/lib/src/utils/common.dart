@@ -14,4 +14,25 @@ class CommonUtil {
         )
         .toLowerCase();
   }
+
+  static String getListGeneric(String type) {
+    if (type.contains('String')) {
+      return 'String';
+    } else if (type.contains('num')) {
+      return 'num';
+    } else if (type.contains('int')) {
+      return 'int';
+    } else if (type.contains('double')) {
+      return 'double';
+    } else if (type.contains('bool')) {
+      return 'bool';
+    }
+    return 'dynamic';
+  }
+
+  static String getMapGeneric(String type) {
+    var index = type.indexOf(',');
+    var str = type.substring(index + 1, type.length).trim();
+    return str.substring(0, str.length - 1);
+  }
 }

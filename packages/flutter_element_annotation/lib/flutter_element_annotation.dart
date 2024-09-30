@@ -1,4 +1,6 @@
 library flutter_element_annotation;
 
-export 'model.dart';
-export 'theme_data.dart';
+export 'serialize.dart';
+
+export 'annotations/model.dart';
+export 'annotations/theme_data.dart';

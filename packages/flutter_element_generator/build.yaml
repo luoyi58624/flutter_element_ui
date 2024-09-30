@@ -1,3 +1,19 @@
+targets:
+  $default:
+    auto_apply_builders: true
+    sources:
+      - lib/**
+      - test/**
+      - $package$
+    builders:
+      source_gen:combining_builder:
+        options:
+          build_extensions:
+            '^test/modals/{{}}.dart': 'test/generates/modals/{{}}.g.dart'
+      flutter_element_generator|model:
+        generate_for:
+          - test/modals/**.dart
+
 builders:
   model:
     import: "package:flutter_element_generator/builder.dart"

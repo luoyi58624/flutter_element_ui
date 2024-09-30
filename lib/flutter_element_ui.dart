@@ -2,6 +2,7 @@ library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
 export 'package:logger/logger.dart' show Level;
+export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/app.dart';
 export 'src/var.dart';
@@ -61,9 +62,7 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/models/menu.dart';
-export 'src/models/serialize.dart';
 
-export 'src/themes/size.dart';
 export 'src/themes/theme.dart';
 export 'src/themes/color.dart';
 export 'src/themes/config.dart';

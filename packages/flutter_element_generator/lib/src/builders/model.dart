@@ -47,28 +47,98 @@ extension ${className}Extension on $className {
     for (int i = 0; i < classFields.length; i++) {
       final fieldInfo = classFields[i].declaration;
       if (_allowCopy(fieldInfo)) {
-        if (_isIgnoreField('fromJson', fieldInfo)) {
-          continue;
-        }
+        if (_isIgnoreField(fieldInfo, 'fromJson')) continue;
         String field = fieldInfo.name;
-        String? jsonKey = _getJsonKeyField(fieldInfo);
+        String? jsonKey = _getJsonKey(fieldInfo);
+        dynamic defaultValue = _getDefaultValue(fieldInfo);
         String fieldType = fieldInfo.type.toString();
-        // 如果用户指定了 json key，那么直接使用它，否则
+        String valueContent = '';
+
         if (jsonKey != null) {
-          content += '$field: json[\'$jsonKey\'] as $fieldType,\n';
+          valueContent = "json['$jsonKey']";
         } else if (field == field.toLowerCase()) {
-          content += '$field: json[\'$field\'] as $fieldType,\n';
+          valueContent = "json['$field']";
         } else {
-          content +=
-              '$field: (json[\'$field\'] ?? json[\'${CommonUtil.toUnderline(field)}\']) as $fieldType,\n';
+          valueContent =
+              "(json['$field'] ?? json['${CommonUtil.toUnderline(field)}'])";
         }
+        // 处理类型转换
+        if (fieldType == 'String') {
+          valueContent =
+              """($valueContent ?? ${defaultValue ?? "''"}).toString()""";
+        } else if (fieldType == 'String?') {
+          valueContent = "$valueContent?.toString()";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue.toString()';
+          }
+        } else if (fieldType == 'num') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "num.tryParse($valueContent.toString()) ?? 0.0";
+        } else if (fieldType == 'num?') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "num.tryParse($valueContent.toString())";
+        } else if (fieldType == 'int') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "int.tryParse($valueContent.toString()) ?? 0";
+        } else if (fieldType == 'int?') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "int.tryParse($valueContent.toString())";
+        } else if (fieldType == 'double') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "double.tryParse($valueContent.toString()) ?? 0.0";
+        } else if (fieldType == 'double?') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "double.tryParse($valueContent.toString())";
+        } else if (fieldType == 'bool') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "bool.tryParse($valueContent.toString()) ?? false";
+        } else if (fieldType == 'bool?') {
+          if (defaultValue != null) {
+            valueContent = '($valueContent ?? $defaultValue)';
+          }
+          valueContent = "bool.tryParse($valueContent.toString())";
+        } else if (fieldInfo.type.isDartCoreList) {
+          final listGeneric = CommonUtil.getListGeneric(fieldType);
+          if (fieldType.endsWith('?')) {
+            valueContent =
+                "ElSerializeUtil.safeList<$listGeneric>($valueContent, '$className', '$field')";
+          } else {
+            valueContent =
+                "ElSerializeUtil.safeList<$listGeneric>($valueContent, '$className', '$field') ?? []";
+          }
+        } else if (fieldInfo.type.isDartCoreMap) {
+          final mapGeneric = CommonUtil.getMapGeneric(fieldType);
+          if (fieldType.endsWith('?')) {
+            valueContent =
+                "ElSerializeUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field')";
+          } else {
+            valueContent =
+                "ElSerializeUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field') ?? {}";
+          }
+        }
+        content += '$field: $valueContent,\n';
       }
     }
 
     return """
 $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) => $className(
-      $content
-    );
+  $content
+);
+
     """;
   }
 
@@ -78,18 +148,18 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) 
 
     final classInfo = element as ClassElement;
     final List<FieldElement> classFields = classInfo.fields;
+    final toJsonUnderline = annotation.read('toJsonUnderline').boolValue;
 
     String content = '';
 
     for (int i = 0; i < classFields.length; i++) {
       final fieldInfo = classFields[i].declaration;
       if (_allowCopy(fieldInfo)) {
-        if (_isIgnoreField('toJson', fieldInfo)) {
-          continue;
-        }
+        if (_isIgnoreField(fieldInfo, 'toJson')) continue;
         String field = fieldInfo.name;
-        String? jsonKey = _getJsonKeyField(fieldInfo);
-        content += '\'${jsonKey ?? field}\': $field,\n';
+        String? jsonKey = _getJsonKey(fieldInfo);
+        content +=
+            '\'${jsonKey ?? (toJsonUnderline ? CommonUtil.toUnderline(field) : field)}\': $field,\n';
       }
     }
 
@@ -116,9 +186,7 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) 
     for (int i = 0; i < classFields.length; i++) {
       final fieldInfo = classFields[i].declaration;
       if (_allowCopy(fieldInfo)) {
-        if (_isIgnoreField('copyWith', fieldInfo)) {
-          continue;
-        }
+        if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
         String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
         String field = fieldInfo.name;
         copyWithArgument += '$fieldType $field,\n';
@@ -157,7 +225,7 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) 
     for (int i = 0; i < classFields.length; i++) {
       FieldElement fieldInfo = classFields[i].declaration;
       if (_allowCopy(fieldInfo)) {
-        if (_isIgnoreField('merge', fieldInfo)) continue;
+        if (_isIgnoreField(fieldInfo, 'merge')) continue;
         final field = fieldInfo.name;
         if (_isDeepCloneField(fieldInfo)) {
           String fieldModifier = '';
@@ -194,7 +262,7 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) 
     for (int i = 0; i < classFields.length; i++) {
       if (classFields[i].declaration.isStatic == false) {
         final fieldInfo = classFields[i].declaration;
-        if (_isIgnoreField('generateToString', fieldInfo)) continue;
+        if (_isIgnoreField(fieldInfo, 'generateToString')) continue;
         final field = fieldInfo.name;
         String toStringDot = '';
         if (i < classFields.length - 1) toStringDot = ',';
@@ -221,7 +289,7 @@ bool _allowCopy(FieldElement fieldInfo) {
 /// 判断当前字段是否被忽略
 /// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
 /// 如果为true，则表示此函数生成的代码应当忽略该字段
-bool _isIgnoreField(String typeString, FieldElement fieldInfo) {
+bool _isIgnoreField(FieldElement fieldInfo, String typeString) {
   bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
     var target = _modelFieldChecker
@@ -233,7 +301,7 @@ bool _isIgnoreField(String typeString, FieldElement fieldInfo) {
 }
 
 /// 获取当前字段配置的 jsonKey，如果为空则表示用户没有指定 jsonKey
-String? _getJsonKeyField(FieldElement fieldInfo) {
+String? _getJsonKey(FieldElement fieldInfo) {
   bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
     var value = _modelFieldChecker
@@ -241,6 +309,35 @@ String? _getJsonKeyField(FieldElement fieldInfo) {
         .getField('jsonKey')
         ?.toStringValue();
     return value;
+  }
+  return null;
+}
+
+/// 获取当前字段配置的 defaultValue，如果为空则表示用户没有指定 defaultValue
+dynamic _getDefaultValue(FieldElement fieldInfo) {
+  bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
+  if (isElModelField) {
+    var field = _modelFieldChecker
+        .firstAnnotationOfExact(fieldInfo)!
+        .getField('defaultValue');
+
+    if (field != null && !field.isNull) {
+      dynamic value;
+      value = field.toStringValue();
+      if (value != null) return value;
+      value = field.toDoubleValue();
+      if (value != null) return value;
+      value = field.toIntValue();
+      if (value != null) return value;
+      value = field.toBoolValue();
+      if (value != null) return value;
+      value = field.toListValue();
+      if (value != null) return value;
+      value = field.toSetValue();
+      if (value != null) return value;
+      value = field.toMapValue();
+      if (value != null) return value;
+    }
   }
   return null;
 }
@@ -253,9 +350,9 @@ bool _isDeepCloneField(FieldElement fieldInfo) {
     bool isElModelField = _modelChecker.hasAnnotationOfExact(fieldElement);
     if (isElModelField) {
       return _modelChecker
-          .firstAnnotationOfExact(fieldElement)!
-          .getField('merge')!
-          .toBoolValue() ??
+              .firstAnnotationOfExact(fieldElement)!
+              .getField('merge')!
+              .toBoolValue() ??
           false;
     }
     // 判断当前字段类型是否包含了 merge 方法
