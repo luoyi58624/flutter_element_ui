@@ -6,10 +6,13 @@ part of '../../modals/user.dart';
 // ElModelGenerator
 // **************************************************************************
 
-UserModel _fromJson(Map<String, dynamic> json) => UserModel(
-      username: json['username']?.toString(),
-      age: int.tryParse(json['age'].toString()),
-    );
+UserModel _fromJson(Map<String, dynamic>? json) {
+  if (json == null) return UserModel();
+  return UserModel(
+    username: json['username']?.toString(),
+    age: int.tryParse(json['age'].toString()),
+  );
+}
 
 extension UserModelExtension on UserModel {
   Map<String, dynamic> _toJson() {

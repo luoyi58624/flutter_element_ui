@@ -129,16 +129,20 @@ extension ${className}Extension on $className {
             valueContent =
                 "ElSerializeUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field') ?? {}";
           }
+        } else if (_isSerialize(fieldInfo)) {
+          valueContent = "$fieldType.fromJson($valueContent)";
         }
         content += '$field: $valueContent,\n';
       }
     }
 
     return """
-$className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) => $className(
-  $content
-);
-
+$className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json) {
+  if(json == null) return $className();
+  return $className(
+    $content
+  );
+}
     """;
   }
 
@@ -158,8 +162,16 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic> json) 
         if (_isIgnoreField(fieldInfo, 'toJson')) continue;
         String field = fieldInfo.name;
         String? jsonKey = _getJsonKey(fieldInfo);
-        content +=
-            '\'${jsonKey ?? (toJsonUnderline ? CommonUtil.toUnderline(field) : field)}\': $field,\n';
+
+        String key =
+            "'${jsonKey ?? (toJsonUnderline ? CommonUtil.toUnderline(field) : field)}'";
+        late String value;
+        if (_isSerialize(fieldInfo)) {
+          value = "$field.toJson()";
+        } else {
+          value = field;
+        }
+        content += '$key: $value,\n';
       }
     }
 
@@ -284,6 +296,15 @@ bool _allowCopy(FieldElement fieldInfo) {
       fieldInfo.isStatic ||
       fieldInfo.isLate ||
       fieldInfo.isConst);
+}
+
+/// 判断字段是否允许 copy
+bool _isSerialize(FieldElement fieldInfo) {
+  if (fieldInfo.type.element is InterfaceElement) {
+    final ele = fieldInfo.type.element as InterfaceElement;
+    return ele.allSupertypes.any((e) => e.toString() == 'ElSerialize');
+  }
+  return false;
 }
 
 /// 判断当前字段是否被忽略

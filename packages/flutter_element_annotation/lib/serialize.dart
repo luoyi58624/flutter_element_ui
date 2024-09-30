@@ -1,7 +1,7 @@
-/// 序列化模型接口
-abstract interface class ElSerialize {
+/// 通用的序列化模型接口
+abstract interface class ElSerialize<T> {
   /// 将 json 转成模型对象
-  ElSerialize fromJson(Map<String, dynamic> json);
+  T fromJson(Map<String, dynamic>? json);
 
   /// 将模型对象转成 json
   Map<String, dynamic> toJson();

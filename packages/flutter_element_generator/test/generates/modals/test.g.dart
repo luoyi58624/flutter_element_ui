@@ -6,32 +6,34 @@ part of '../../modals/test.dart';
 // ElModelGenerator
 // **************************************************************************
 
-TestModel _fromJson(Map<String, dynamic> json) => TestModel(
-      id: (json['id'] ?? '').toString(),
-      username: json['username']?.toString(),
-      books: num.tryParse(json['books'].toString()) ?? 0.0,
-      users: num.tryParse(json['users'].toString()),
-      age: int.tryParse((json['user_age'] ?? 20).toString()) ?? 0,
-      money: int.tryParse(json['money'].toString()),
-      isSon:
-          bool.tryParse((json['isSon'] ?? json['is_son']).toString()) ?? false,
-      isDog: bool.tryParse((json['isDog'] ?? json['is_dog']).toString()),
-      width: double.tryParse(json['width'].toString()) ?? 0.0,
-      maxHeight:
-          double.tryParse((json['maxHeight'] ?? json['max_height']).toString()),
-      peoples: ElSerializeUtil.safeList<String>(
-              json['peoples'], 'TestModel', 'peoples') ??
-          [],
-      myList: ElSerializeUtil.safeList<dynamic>(
-          (json['myList'] ?? json['my_list']), 'TestModel', 'myList'),
-      numList: ElSerializeUtil.safeList<num>(
-              (json['numList'] ?? json['num_list']), 'TestModel', 'numList') ??
-          [],
-      myMap: ElSerializeUtil.safeMap<dynamic>(
-              (json['myMap'] ?? json['my_map']), 'TestModel', 'myMap') ??
-          {},
-      userModel: (json['userModel'] ?? json['user_model']),
-    );
+TestModel _fromJson(Map<String, dynamic>? json) {
+  if (json == null) return TestModel();
+  return TestModel(
+    id: (json['id'] ?? '').toString(),
+    username: json['username']?.toString(),
+    books: num.tryParse(json['books'].toString()) ?? 0.0,
+    users: num.tryParse(json['users'].toString()),
+    age: int.tryParse((json['user_age'] ?? 20).toString()) ?? 0,
+    money: int.tryParse(json['money'].toString()),
+    isSon: bool.tryParse((json['isSon'] ?? json['is_son']).toString()) ?? false,
+    isDog: bool.tryParse((json['isDog'] ?? json['is_dog']).toString()),
+    width: double.tryParse(json['width'].toString()) ?? 0.0,
+    maxHeight:
+        double.tryParse((json['maxHeight'] ?? json['max_height']).toString()),
+    peoples: ElSerializeUtil.safeList<String>(
+            json['peoples'], 'TestModel', 'peoples') ??
+        [],
+    myList: ElSerializeUtil.safeList<dynamic>(
+        (json['myList'] ?? json['my_list']), 'TestModel', 'myList'),
+    numList: ElSerializeUtil.safeList<num>(
+            (json['numList'] ?? json['num_list']), 'TestModel', 'numList') ??
+        [],
+    myMap: ElSerializeUtil.safeMap<dynamic>(
+            (json['myMap'] ?? json['my_map']), 'TestModel', 'myMap') ??
+        {},
+    userModel: (json['userModel'] ?? json['user_model']),
+  );
+}
 
 extension TestModelExtension on TestModel {
   Map<String, dynamic> _toJson() {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:test/test.dart';
 
 import 'modals/test.dart';
+import 'modals/user.dart';
 
 void main() {
   group('modal builder 测试', () {
@@ -17,6 +18,12 @@ void main() {
       print(model2.toJson()['peoples']);
       print(model2.toJson()['my_list']);
       print(model2.myMap);
+
+      model2.copyWith(userModel: UserModel(username: 'luoyi', age: 26));
+      final newJson = model2.toJson();
+      print(newJson);
+      final model3 = model2.fromJson(newJson);
+      print(model3);
     });
   });
 }

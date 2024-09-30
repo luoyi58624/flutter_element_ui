@@ -5,7 +5,7 @@ import 'user.dart';
 part '../generates/modals/test.g.dart';
 
 @ElModel.all(toJsonUnderline: true)
-class TestModel implements ElSerialize {
+class TestModel implements ElSerialize<TestModel> {
   final String id;
   final String? username;
   final num books;
@@ -41,10 +41,12 @@ class TestModel implements ElSerialize {
     required this.userModel,
   });
 
-  factory TestModel.fromJson(Map<String, dynamic> json) => _fromJson(json);
+  factory TestModel.fromJson(Map<String, dynamic>? json) {
+    return _fromJson(json);
+  }
 
   @override
-  ElSerialize fromJson(Map<String, dynamic> json) => _fromJson(json);
+  TestModel fromJson(Map<String, dynamic>? json) => _fromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _toJson();
@@ -52,5 +54,3 @@ class TestModel implements ElSerialize {
   @override
   String toString() => _toString();
 }
-
-
