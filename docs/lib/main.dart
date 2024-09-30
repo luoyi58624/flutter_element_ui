@@ -11,6 +11,7 @@ void main() async {
   // if (PlatformUtil.isWindows) {
   //   ElFont.bold = FontWeight.w700;
   // }
+  el.setLogger(level: Level.all);
   runApp(const MainApp());
 }
 

@@ -9,7 +9,7 @@ part of '../../themes/size.dart';
 SizeModel _fromJson(Map<String, dynamic> json) => SizeModel(
       width: json['width'] as double,
       maxWidth: (json['maxWidth'] ?? json['max_width']) as double,
-      height: json['height'] as double?,
+      height: json['custom_height'] as double?,
     );
 
 extension SizeModelExtension on SizeModel {
@@ -17,7 +17,7 @@ extension SizeModelExtension on SizeModel {
     return {
       'width': width,
       'maxWidth': maxWidth,
-      'height': height,
+      'custom_height': height,
     };
   }
 

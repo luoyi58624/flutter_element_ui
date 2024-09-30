@@ -10,7 +10,6 @@ class ElModel {
     this.merge = false,
     this.generateToString = false,
     this.fromJsonDiff = false,
-    this.fromJsonUnderline = true,
     this.toJsonUnderline = false,
   });
 
@@ -22,7 +21,6 @@ class ElModel {
     this.merge = true,
     this.generateToString = true,
     this.fromJsonDiff = false,
-    this.fromJsonUnderline = true,
     this.toJsonUnderline = false,
   });
 
@@ -34,7 +32,6 @@ class ElModel {
     this.merge = false,
     this.generateToString = false,
     this.fromJsonDiff = false,
-    this.fromJsonUnderline = true,
     this.toJsonUnderline = false,
   });
 
@@ -46,7 +43,6 @@ class ElModel {
     this.merge = true,
     this.generateToString = false,
     this.fromJsonDiff = false,
-    this.fromJsonUnderline = true,
     this.toJsonUnderline = false,
   });
 
@@ -73,24 +69,27 @@ class ElModel {
   /// 如果你的一个文件有多个模型对象，那么请将此属性设置为 true，防止命名冲突
   final bool fromJsonDiff;
 
-  /// 将 json 转成对象时，是否额外进行驼峰转下划线解析，例如：
-  /// * userName -> (json['userName'] ?? json['user_name'])
-  ///
-  /// 此属性默认为 true，如果设置为 false，那么后面的可选操作将不会生成。
-  final bool fromJsonUnderline;
-
-  /// 将对象转成 json 时，是否将驼峰命名的字段转成下划线，此属性默认为 false，
-  /// 如果开启了 [fromJsonUnderline]，那么你的模型数据可以随时安全地进行转换。
+  /// 将对象转成 json 时，是否将驼峰命名的字段转成下划线，此属性默认为 false
   final bool toJsonUnderline;
 }
 
-/// 模型字段元数据，控制每个字段的生成逻辑
 @Target({TargetKind.field})
 class ElModelField {
+  /// 模型字段元数据，控制每个字段的生成逻辑
   const ElModelField({
-    this.ignore = const ElModel.all(),
+    this.ignore = const ElModel(),
+    this.jsonKey,
+    this.defaultValue,
   });
 
-  /// 生成的代码是否忽略此字段，接收[ElModel]作为对象，你可以精细控制每个生成函数是否要忽略此字段
+  /// 生成的代码是否忽略此字段，接收 [ElModel] 作为对象，你可以控制
+  /// formJson、toJson、copyWith、merge、generateToString 等参数，其他参数无效，
+  /// 被设置为 true 的参数在生成目标代码时将忽略该字段。
   final ElModel ignore;
+
+  /// 序列化、反序列化时指定映射的 json key
+  final String? jsonKey;
+
+  /// 当反序列化时如果 json 没有目标参数，指定对象的默认值
+  final dynamic defaultValue;
 }

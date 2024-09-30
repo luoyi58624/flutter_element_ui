@@ -6,6 +6,8 @@ part '../generates/themes/size.g.dart';
 class SizeModel implements ElSerializeModel {
   final double width;
   final double maxWidth;
+
+  @ElModelField(jsonKey: 'custom_height')
   final double? height;
 
   SizeModel({
