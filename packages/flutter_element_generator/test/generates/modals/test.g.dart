@@ -30,10 +30,10 @@ TestModel _fromJson(Map<String, dynamic> json) => TestModel(
       myMap: ElSerializeUtil.safeMap<dynamic>(
               (json['myMap'] ?? json['my_map']), 'TestModel', 'myMap') ??
           {},
+      userModel: (json['userModel'] ?? json['user_model']),
     );
 
 extension TestModelExtension on TestModel {
-  /// 将实体对象转成 json
   Map<String, dynamic> _toJson() {
     return {
       'id': id,
@@ -50,6 +50,7 @@ extension TestModelExtension on TestModel {
       'my_list': myList,
       'num_list': numList,
       'my_map': myMap,
+      'user_model': userModel,
     };
   }
 
@@ -68,6 +69,7 @@ extension TestModelExtension on TestModel {
     List<dynamic>? myList,
     List<num>? numList,
     Map<String, dynamic>? myMap,
+    UserModel? userModel,
   }) {
     return TestModel(
       id: id ?? this.id,
@@ -84,6 +86,7 @@ extension TestModelExtension on TestModel {
       myList: myList ?? this.myList,
       numList: numList ?? this.numList,
       myMap: myMap ?? this.myMap,
+      userModel: this.userModel.merge(userModel),
     );
   }
 
@@ -104,10 +107,11 @@ extension TestModelExtension on TestModel {
       myList: other.myList,
       numList: other.numList,
       myMap: other.myMap,
+      userModel: userModel.merge(other.userModel),
     );
   }
 
   String _toString() {
-    return 'TestModel{id: $id,username: $username,books: $books,users: $users,age: $age,money: $money,isSon: $isSon,isDog: $isDog,width: $width,maxHeight: $maxHeight,peoples: $peoples,myList: $myList,numList: $numList,myMap: $myMap}';
+    return 'TestModel{id: $id,username: $username,books: $books,users: $users,age: $age,money: $money,isSon: $isSon,isDog: $isDog,width: $width,maxHeight: $maxHeight,peoples: $peoples,myList: $myList,numList: $numList,myMap: $myMap,userModel: $userModel}';
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
+import 'user.dart';
+
 part '../generates/modals/test.g.dart';
 
 @ElModel.all(toJsonUnderline: true)
@@ -19,6 +21,7 @@ class TestModel implements ElSerialize {
   final List? myList;
   final List<num> numList;
   final Map<String, dynamic> myMap;
+  final UserModel userModel;
 
   TestModel({
     required this.id,
@@ -35,6 +38,7 @@ class TestModel implements ElSerialize {
     this.myList,
     required this.numList,
     required this.myMap,
+    required this.userModel,
   });
 
   factory TestModel.fromJson(Map<String, dynamic> json) => _fromJson(json);
@@ -48,3 +52,5 @@ class TestModel implements ElSerialize {
   @override
   String toString() => _toString();
 }
+
+

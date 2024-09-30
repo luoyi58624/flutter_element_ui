@@ -5,7 +5,11 @@ import 'package:flutter_element_generator/src/utils/common.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
-import '../utils/theme_data.dart';
+/// Element 组件命名前缀
+const String _prefix = 'El';
+
+/// Element 组件主题数据后缀
+const String _suffix = 'ThemeData';
 
 @immutable
 class ElThemeDataGenerator extends GeneratorForAnnotation<ElThemeDataModel> {
@@ -14,7 +18,7 @@ class ElThemeDataGenerator extends GeneratorForAnnotation<ElThemeDataModel> {
       Element element, ConstantReader annotation, BuildStep buildStep) {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
-    final rawName = ThemeDataUtil.getRawName(className);
+    final rawName = _getRawName(className);
 
     bool generateInheritedWidget =
         annotation.read('generateInheritedWidget').boolValue;
@@ -29,8 +33,8 @@ class ElThemeDataGenerator extends GeneratorForAnnotation<ElThemeDataModel> {
 
   String generateThemeWidget(bool enable, String rawName) {
     if (!enable) return '';
-    String className = '${ThemeDataUtil.prefix}${rawName}Theme';
-    String fieldName = '${ThemeDataUtil.prefix}$rawName${ThemeDataUtil.suffix}';
+    String className = '$_prefix${rawName}Theme';
+    String fieldName = '$_prefix$rawName$_suffix';
     return """
     
 class $className extends InheritedWidget {
@@ -67,4 +71,18 @@ class $className extends InheritedWidget {
 }
     """;
   }
+}
+
+/// 过滤前缀和后缀，获取单纯的组件名字，例如：
+/// * ElButtonThemeData -> Button
+/// * ElLinkThemeData -> Link
+String _getRawName(String className) {
+  String rawName = className;
+  if (rawName.startsWith(_prefix)) {
+    rawName = rawName.substring(_prefix.length);
+  }
+  if (rawName.endsWith(_suffix)) {
+    rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
+  }
+  return rawName;
 }
