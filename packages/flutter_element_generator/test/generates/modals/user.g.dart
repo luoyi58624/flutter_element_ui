@@ -7,7 +7,9 @@ part of '../../modals/user.dart';
 // **************************************************************************
 
 UserModel _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return UserModel();
+  if (json == null) {
+    return UserModel();
+  }
   return UserModel(
     username: json['username']?.toString(),
     age: int.tryParse(json['age'].toString()),

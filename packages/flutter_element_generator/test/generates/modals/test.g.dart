@@ -7,7 +7,18 @@ part of '../../modals/test.dart';
 // **************************************************************************
 
 TestModel _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return TestModel();
+  if (json == null) {
+    return TestModel(
+      id: '',
+      books: 0.0,
+      age: 20,
+      isSon: false,
+      width: 0.0,
+      peoples: [],
+      numList: [],
+      myMap: {},
+    );
+  }
   return TestModel(
     id: (json['id'] ?? '').toString(),
     username: json['username']?.toString(),
@@ -20,15 +31,15 @@ TestModel _fromJson(Map<String, dynamic>? json) {
     width: double.tryParse(json['width'].toString()) ?? 0.0,
     maxHeight:
         double.tryParse((json['maxHeight'] ?? json['max_height']).toString()),
-    peoples: ElSerializeUtil.safeList<String>(
+    peoples: $ElGeneratesUtil.safeList<String>(
             json['peoples'], 'TestModel', 'peoples') ??
         [],
-    myList: ElSerializeUtil.safeList<dynamic>(
+    myList: $ElGeneratesUtil.safeList<dynamic>(
         (json['myList'] ?? json['my_list']), 'TestModel', 'myList'),
-    numList: ElSerializeUtil.safeList<num>(
+    numList: $ElGeneratesUtil.safeList<num>(
             (json['numList'] ?? json['num_list']), 'TestModel', 'numList') ??
         [],
-    myMap: ElSerializeUtil.safeMap<dynamic>(
+    myMap: $ElGeneratesUtil.safeMap<dynamic>(
             (json['myMap'] ?? json['my_map']), 'TestModel', 'myMap') ??
         {},
     userModel: (json['userModel'] ?? json['user_model']),
@@ -88,7 +99,7 @@ extension TestModelExtension on TestModel {
       myList: myList ?? this.myList,
       numList: numList ?? this.numList,
       myMap: myMap ?? this.myMap,
-      userModel: this.userModel.merge(userModel),
+      userModel: this.userModel?.merge(userModel),
     );
   }
 
@@ -109,7 +120,7 @@ extension TestModelExtension on TestModel {
       myList: other.myList,
       numList: other.numList,
       myMap: other.myMap,
-      userModel: userModel.merge(other.userModel),
+      userModel: userModel?.merge(other.userModel),
     );
   }
 

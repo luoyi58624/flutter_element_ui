@@ -3,7 +3,7 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 part '../generates/modals/user.g.dart';
 
 @ElModel.all()
-class UserModel implements ElSerialize<UserModel> {
+class UserModel implements ElSerializeModel<UserModel> {
   final String? username;
   final int? age;
 

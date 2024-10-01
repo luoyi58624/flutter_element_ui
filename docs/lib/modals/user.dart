@@ -3,7 +3,7 @@ import 'package:docs/global.dart';
 part '../generates/modals/user.g.dart';
 
 @ElModel.json()
-class UserModal implements ElSerialize {
+class UserModal implements ElSerializeModel {
   final String? username;
   final int? age;
 
@@ -13,7 +13,7 @@ class UserModal implements ElSerialize {
   });
 
   @override
-  ElSerialize fromJson(Map<String, dynamic> json) => _fromJson(json);
+  ElSerializeModel fromJson(Map<String, dynamic>? json) => _fromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _toJson();

@@ -44,6 +44,9 @@ extension ${className}Extension on $className {
 
     String content = '';
 
+    /// 当 json 为空时，拼接默认的实体对象
+    String defaultModelContent = '';
+
     for (int i = 0; i < classFields.length; i++) {
       final fieldInfo = classFields[i].declaration;
       if (_allowCopy(fieldInfo)) {
@@ -53,6 +56,7 @@ extension ${className}Extension on $className {
         dynamic defaultValue = _getDefaultValue(fieldInfo);
         String fieldType = fieldInfo.type.toString();
         String valueContent = '';
+        String defaultModelValueContent = '';
 
         if (jsonKey != null) {
           valueContent = "json['$jsonKey']";
@@ -62,10 +66,11 @@ extension ${className}Extension on $className {
           valueContent =
               "(json['$field'] ?? json['${CommonUtil.toUnderline(field)}'])";
         }
-        // 处理类型转换
+        // 尽可能地安全处理类型转换，单纯地通过 as 指定类型很容易造成运行时异常
         if (fieldType == 'String') {
           valueContent =
               """($valueContent ?? ${defaultValue ?? "''"}).toString()""";
+          defaultModelValueContent = "$field: ${defaultValue ?? "''"},";
         } else if (fieldType == 'String?') {
           valueContent = "$valueContent?.toString()";
           if (defaultValue != null) {
@@ -76,6 +81,7 @@ extension ${className}Extension on $className {
             valueContent = '($valueContent ?? $defaultValue)';
           }
           valueContent = "num.tryParse($valueContent.toString()) ?? 0.0";
+          defaultModelValueContent = "$field: ${defaultValue ?? 0.0},";
         } else if (fieldType == 'num?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
@@ -86,6 +92,7 @@ extension ${className}Extension on $className {
             valueContent = '($valueContent ?? $defaultValue)';
           }
           valueContent = "int.tryParse($valueContent.toString()) ?? 0";
+          defaultModelValueContent = "$field: ${defaultValue ?? 0},";
         } else if (fieldType == 'int?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
@@ -96,6 +103,7 @@ extension ${className}Extension on $className {
             valueContent = '($valueContent ?? $defaultValue)';
           }
           valueContent = "double.tryParse($valueContent.toString()) ?? 0.0";
+          defaultModelValueContent = "$field: ${defaultValue ?? 0.0},";
         } else if (fieldType == 'double?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
@@ -106,6 +114,7 @@ extension ${className}Extension on $className {
             valueContent = '($valueContent ?? $defaultValue)';
           }
           valueContent = "bool.tryParse($valueContent.toString()) ?? false";
+          defaultModelValueContent = "$field: ${defaultValue ?? false},";
         } else if (fieldType == 'bool?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
@@ -115,30 +124,37 @@ extension ${className}Extension on $className {
           final listGeneric = CommonUtil.getListGeneric(fieldType);
           if (fieldType.endsWith('?')) {
             valueContent =
-                "ElSerializeUtil.safeList<$listGeneric>($valueContent, '$className', '$field')";
+                "\$ElGeneratesUtil.safeList<$listGeneric>($valueContent, '$className', '$field')";
           } else {
             valueContent =
-                "ElSerializeUtil.safeList<$listGeneric>($valueContent, '$className', '$field') ?? []";
+                "\$ElGeneratesUtil.safeList<$listGeneric>($valueContent, '$className', '$field') ?? []";
+            defaultModelValueContent = "$field: ${defaultValue ?? []},";
           }
         } else if (fieldInfo.type.isDartCoreMap) {
           final mapGeneric = CommonUtil.getMapGeneric(fieldType);
           if (fieldType.endsWith('?')) {
             valueContent =
-                "ElSerializeUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field')";
+                "\$ElGeneratesUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field')";
           } else {
             valueContent =
-                "ElSerializeUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field') ?? {}";
+                "\$ElGeneratesUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field') ?? {}";
+            defaultModelValueContent = "$field: ${defaultValue ?? {}},";
           }
         } else if (_isSerialize(fieldInfo)) {
           valueContent = "$fieldType.fromJson($valueContent)";
         }
         content += '$field: $valueContent,\n';
+        defaultModelContent += '$defaultModelValueContent\n';
       }
     }
 
     return """
 $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json) {
-  if(json == null) return $className();
+  if(json == null) {
+    return $className(
+      $defaultModelContent
+    );
+  }
   return $className(
     $content
   );
@@ -302,7 +318,7 @@ bool _allowCopy(FieldElement fieldInfo) {
 bool _isSerialize(FieldElement fieldInfo) {
   if (fieldInfo.type.element is InterfaceElement) {
     final ele = fieldInfo.type.element as InterfaceElement;
-    return ele.allSupertypes.any((e) => e.toString() == 'ElSerialize');
+    return ele.allSupertypes.any((e) => e.toString() == 'ElSerializeModel');
   }
   return false;
 }
