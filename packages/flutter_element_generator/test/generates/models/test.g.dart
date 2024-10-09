@@ -35,11 +35,13 @@ TestModel $testModel = TestModel(
   listIntField3: [1, 2, 3, 4, 5],
   listDoubleField: [],
   listDoubleField3: [1, 2, 3, 4, 5],
+  setField: {'hihi'},
   mapField: {},
   mapField2: {
     'name': 'hihi',
     'child': {'age': 20}
   },
+  userModel: $userModel,
 );
 
 TestModel _fromJson(Map<String, dynamic>? json) {
@@ -89,12 +91,15 @@ TestModel _fromJson(Map<String, dynamic>? json) {
     listDoubleField3:
         ElJsonUtil.$list<double>(json, 'listDoubleField3') ?? [1, 2, 3, 4, 5],
     listDoubleField4: ElJsonUtil.$list<double>(json, 'listDoubleField4'),
+    setField: ElJsonUtil.$set<dynamic>(json, 'setField') ?? {'hihi'},
+    setField2: ElJsonUtil.$set<dynamic>(json, 'setField2'),
     mapField: ElJsonUtil.$map<dynamic>(json, 'mapField') ?? {},
     mapField2: ElJsonUtil.$map<dynamic>(json, 'mapField2') ??
         {
           'name': 'hihi',
           'child': {'age': 20}
         },
+    userModel: UserModel?.fromJson((json['userModel'] ?? json['user_model'])),
   );
 }
 
@@ -135,8 +140,11 @@ extension TestModelExtension on TestModel {
       'list_double_field2': listDoubleField2,
       'list_double_field3': listDoubleField3,
       'list_double_field4': listDoubleField4,
+      'set_field': setField,
+      'set_field2': setField2,
       'map_field': mapField,
       'map_field2': mapField2,
+      'user_model': userModel?.toJson(),
     };
   }
 
@@ -175,8 +183,11 @@ extension TestModelExtension on TestModel {
     List<double>? listDoubleField2,
     List<double>? listDoubleField3,
     List<double>? listDoubleField4,
+    Set<dynamic>? setField,
+    Set<dynamic>? setField2,
     Map<String, dynamic>? mapField,
     Map<String, dynamic>? mapField2,
+    UserModel? userModel,
   }) {
     return TestModel(
       stringField: stringField ?? this.stringField,
@@ -213,8 +224,11 @@ extension TestModelExtension on TestModel {
       listDoubleField2: listDoubleField2 ?? this.listDoubleField2,
       listDoubleField3: listDoubleField3 ?? this.listDoubleField3,
       listDoubleField4: listDoubleField4 ?? this.listDoubleField4,
+      setField: setField ?? this.setField,
+      setField2: setField2 ?? this.setField2,
       mapField: mapField ?? this.mapField,
       mapField2: mapField2 ?? this.mapField2,
+      userModel: this.userModel?.merge(userModel),
     );
   }
 
@@ -255,12 +269,15 @@ extension TestModelExtension on TestModel {
       listDoubleField2: other.listDoubleField2,
       listDoubleField3: other.listDoubleField3,
       listDoubleField4: other.listDoubleField4,
+      setField: other.setField,
+      setField2: other.setField2,
       mapField: other.mapField,
       mapField2: other.mapField2,
+      userModel: userModel?.merge(other.userModel),
     );
   }
 
   String _toString() {
-    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  mapField: $mapField,\n  mapField2: $mapField2\n}';
+    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel\n}';
   }
 }

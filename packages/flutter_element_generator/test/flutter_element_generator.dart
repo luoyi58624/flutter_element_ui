@@ -16,7 +16,8 @@ void main() {
           '"double_field": "10", "doubleField2": 10, "doubleField4": true,'
           '"bool_field": "true", "boolField3": 10, "custom_bool": false,'
           '"list_field": ["luoyi", 100.0, "20", 50, ["xx"]],'
-          '"map_field": {"name":"luoyi"}'
+          '"map_field": {"name":"luoyi"},'
+          '"user_model": {"username":"hihi", "age":"50"}'
           '}';
 
       final model = TestModel.fromJson(jsonDecode(json));

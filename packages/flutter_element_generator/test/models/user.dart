@@ -12,11 +12,14 @@ class UserModel implements ElSerializeModel<UserModel> {
     this.age,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _fromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic>? json) => _fromJson(json);
 
   @override
   UserModel fromJson(Map<String, dynamic>? json) => _fromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _toJson();
+
+  @override
+  String toString() => _toString();
 }

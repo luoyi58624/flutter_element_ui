@@ -1,7 +1,7 @@
 targets:
   $default:
     auto_apply_builders: true
-    # 指定 build_runner 全局工作目录
+    # 指定 build_runner 工作目录
     sources:
       - lib/**
       - $package$

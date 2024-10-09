@@ -75,7 +75,7 @@ class ElModel {
 
 @Target({TargetKind.field})
 class ElModelField {
-  /// 模型字段元数据，控制每个字段的生成逻辑
+  /// 模型字段注解
   const ElModelField({
     this.ignore = const ElModel(),
     this.jsonKey,
@@ -90,6 +90,6 @@ class ElModelField {
   /// 序列化、反序列化时指定映射的 json key
   final String? jsonKey;
 
-  /// 指定默认值，当反序列化时如果 json 没有目标参数、或者目标类型转换失败
+  /// 指定默认值，当反序列化时如果 json 没有目标参数、或者目标类型转换失败时将使用此默认值
   final dynamic defaultValue;
 }

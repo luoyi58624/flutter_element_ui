@@ -69,10 +69,13 @@ class TestModel implements ElSerializeModel<TestModel> {
 
   final List<double> listDoubleField;
   final List<double>? listDoubleField2;
-
   @ElModelField(defaultValue: [1, 2, 3, 4, 5])
   final List<double> listDoubleField3;
   final List<double>? listDoubleField4;
+
+  @ElModelField(defaultValue: {'hihi'})
+  final Set setField;
+  final Set? setField2;
 
   final Map<String, dynamic> mapField;
   @ElModelField(defaultValue: {
@@ -81,7 +84,7 @@ class TestModel implements ElSerializeModel<TestModel> {
   })
   final Map<String, dynamic>? mapField2;
 
-  // final UserModel? userModel;
+  final UserModel? userModel;
 
   TestModel({
     required this.stringField,
@@ -118,9 +121,11 @@ class TestModel implements ElSerializeModel<TestModel> {
     this.listDoubleField2,
     required this.listDoubleField3,
     this.listDoubleField4,
+    required this.setField,
+    this.setField2,
     required this.mapField,
     this.mapField2,
-    // this.userModel,
+    this.userModel,
   });
 
   factory TestModel.fromJson(Map<String, dynamic>? json) {

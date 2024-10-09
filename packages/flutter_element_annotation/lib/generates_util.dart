@@ -65,6 +65,25 @@ class ElJsonUtil {
     return null;
   }
 
+  static Set<T>? $set<T>(dynamic json, String key) {
+    final value = json[key] ?? json[key.toUnderline];
+    if (value is Iterable) {
+      try {
+        return Set<T>.from(value);
+      } catch (e) {
+        if (!isRelease) {
+          throw '$_formJsonErrorStart: $key -> List<${T.toString()}> 类型转换失败, '
+              'json data: \n'
+              '================================================================\n'
+              '$value\n'
+              '================================================================\n'
+              '$_formJsonErrorEnd';
+        }
+      }
+    }
+    return null;
+  }
+
   static Map<String, T>? $map<T>(dynamic json, String key) {
     final value = json[key] ?? json[key.toUnderline];
     if (value is Map) {

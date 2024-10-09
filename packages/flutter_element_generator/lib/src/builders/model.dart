@@ -63,9 +63,9 @@ extension ${className}Extension on $className {
       if (_allowCopy(fieldInfo)) {
         if (_isIgnoreField(fieldInfo, 'fromJson')) continue;
         String field = fieldInfo.name;
+        String fieldType = fieldInfo.type.toString();
         String jsonKey = _getJsonKey(fieldInfo) ?? field;
         dynamic defaultValue = _getDefaultValue(fieldInfo);
-        String fieldType = fieldInfo.type.toString();
 
         // 拼接 fromJson
         String valueContent = '';
@@ -141,6 +141,18 @@ extension ${className}Extension on $className {
               defaultModelValueContent = '[]';
             }
           }
+        } else if (fieldInfo.type.isDartCoreSet) {
+          valueContent =
+              "ElJsonUtil.\$set<${fieldType.toGenericType}>(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType.endsWith('?') == false) {
+              valueContent = '$valueContent ?? {}';
+              defaultModelValueContent = '{}';
+            }
+          }
         } else if (fieldInfo.type.isDartCoreMap) {
           valueContent =
               "ElJsonUtil.\$map<${fieldType.toMapGenericType?.value}>(json, '$jsonKey')";
@@ -153,8 +165,18 @@ extension ${className}Extension on $className {
               defaultModelValueContent = '{}';
             }
           }
-        } else if (_isSerializeField(fieldInfo)) {
-          valueContent = "$fieldType.fromJson($valueContent)";
+        } else {
+          if (_isSerializeField(fieldInfo)) {
+            if (jsonKey == jsonKey.toLowerCase()) {
+              valueContent = "json['$jsonKey']";
+            } else {
+              valueContent =
+                  "(json['$jsonKey'] ?? json['${jsonKey.toUnderline}'])";
+            }
+
+            valueContent = "$fieldType.fromJson($valueContent)";
+            defaultModelValueContent = '\$$field';
+          }
         }
 
         content += '$field: $valueContent,\n';
@@ -195,12 +217,14 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json)
       if (_allowCopy(fieldInfo)) {
         if (_isIgnoreField(fieldInfo, 'toJson')) continue;
         String field = fieldInfo.name;
+        String fieldType = fieldInfo.type.toString();
         String? jsonKey = _getJsonKey(fieldInfo);
 
         String key =
             "'${jsonKey ?? (toJsonUnderline ? field.toUnderline : field)}'";
         late String value;
         if (_isSerializeField(fieldInfo)) {
+          if (fieldType.endsWith('?')) field += '?';
           value = "$field.toJson()";
         } else {
           value = field;
@@ -336,7 +360,8 @@ bool _allowCopy(FieldElement fieldInfo) {
 bool _isSerializeField(FieldElement fieldInfo) {
   if (fieldInfo.type.element is InterfaceElement) {
     final ele = fieldInfo.type.element as InterfaceElement;
-    return ele.allSupertypes.any((e) => e.toString() == 'ElSerializeModel');
+    return ele.allSupertypes
+        .any((e) => e.toString().contains('ElSerializeModel'));
   }
   return false;
 }
@@ -400,7 +425,7 @@ dynamic _deepGetDefaultValue(DartObject? field) {
   }
   if (reader.isSet) {
     value =
-        (field.toSetValue() ?? {}).map((e) => _deepGetDefaultValue(e)).toList();
+        (field.toSetValue() ?? {}).map((e) => _deepGetDefaultValue(e)).toSet();
     return value;
   }
   if (reader.isMap) {
