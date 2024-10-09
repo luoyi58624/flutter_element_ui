@@ -1,6 +1,6 @@
 import 'dart:async';
 
-extension ElDurationExtension on Duration {
+extension DartDurationExtension on Duration {
   Future delay([FutureOr Function()? callback]) async =>
       Future.delayed(this, callback);
 }

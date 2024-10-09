@@ -1,8 +1,8 @@
 import 'dart:collection';
 
-import '../utils/common.dart';
+import '../util.dart';
 
-extension ElMapExtension<K, V> on Map<K, V> {
+extension DartMapExtension<K, V> on Map<K, V> {
   /// 根据条件返回一个新的Map
   Map<K, V> filter(bool Function(K key, V value) test) {
     Map<K, V> newMap = {};
@@ -65,7 +65,7 @@ Map _autoCastMap<K, V>(Map<K, V> map) {
   };
 
   map.forEach((k, v) {
-    dynamic key = ElUtil.dynamicToBaseType(k, true);
+    dynamic key = DartUtil.dynamicToBaseType(k, true);
     assert(key != null, 'Map key不是基础数据类型，autoCast失败');
     if (key is int) {
       keyTypeMap['int'] = true;
@@ -77,7 +77,7 @@ Map _autoCastMap<K, V>(Map<K, V> map) {
       keyTypeMap['string'] = true;
     }
 
-    dynamic value = ElUtil.dynamicToBaseType(v);
+    dynamic value = DartUtil.dynamicToBaseType(v);
     if (value == null) {
       valueTypeMap['null'] = true;
     } else if (value is int) {

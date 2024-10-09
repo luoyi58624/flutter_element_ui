@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_element_extension/flutter_element_extension.dart';
-import 'package:flutter_element_ui/src/extension.dart';
 
 import 'components/basic/scrollbar.dart';
-import 'components/basic/text.dart';
+import 'global.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 import 'utils/font.dart';

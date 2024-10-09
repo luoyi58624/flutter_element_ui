@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../global.dart';
+import '../common.dart';
 
 /// initState 之前执行
 void useBeforeInit(VoidCallback fun) {

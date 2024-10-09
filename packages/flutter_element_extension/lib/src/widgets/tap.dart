@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 
-import '../global.dart';
+import '../common.dart';
 
 class TapBuilder extends StatefulWidget {
   /// 点击事件构建器

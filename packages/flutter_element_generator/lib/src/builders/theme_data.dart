@@ -1,7 +1,7 @@
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:flutter_element_generator/src/utils/common.dart';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -58,7 +58,7 @@ class $className extends InheritedWidget {
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent = $className.maybeOf(context) ?? context.elTheme.${CommonUtil.firstLowerCase(rawName)}Theme;
+      final parent = $className.maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;
       return $className(
         data: parent.merge(data),
         child: child,

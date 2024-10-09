@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   flutter_element_ui:
     path: ../../
+  flutter_element_dart:
+    path: ../flutter_element_dart
   archive: ^3.4.10
   crypto: ^3.0.3
   flutter_obs: ^1.6.3

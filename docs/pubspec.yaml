@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_element_ui:
     path: ../
+  flutter_element_dart:
+    path: ../packages/flutter_element_dart
   flutter_element_extension:
     path: ../packages/flutter_element_extension
   flutter_base:
@@ -38,12 +40,6 @@ dependency_overrides:
     path: ../
   flutter_element_extension:
     path: ../packages/flutter_element_extension
-  luoyi_dart_base:
-    git:
-      url: https://github.com/luoyi58624/luoyi_dart_base.git
-  luoyi_flutter_base:
-    git:
-      url: https://github.com/luoyi58624/luoyi_flutter_base.git
 
 flutter:
   uses-material-design: true

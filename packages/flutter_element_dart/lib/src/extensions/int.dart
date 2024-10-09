@@ -1,4 +1,4 @@
-extension ElIntExtension on int {
+extension DartIntExtension on int {
   /// 返回时间对象: 毫秒
   Duration get ms => Duration(milliseconds: this);
 

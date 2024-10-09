@@ -6,13 +6,17 @@ part of '../../modals/user.dart';
 // ElModelGenerator
 // **************************************************************************
 
-UserModal _fromJson(Map<String, dynamic> json) => UserModal(
-      username: json['username']?.toString(),
-      age: int.tryParse(json['age'].toString()),
-    );
+UserModal $userModal = UserModal();
+
+UserModal _fromJson(Map<String, dynamic>? json) {
+  if (json == null) return $userModal;
+  return UserModal(
+    username: json['username']?.toString(),
+    age: int.tryParse(json['age'].toString()),
+  );
+}
 
 extension UserModalExtension on UserModal {
-  /// 将实体对象转成 json
   Map<String, dynamic> _toJson() {
     return {
       'username': username,

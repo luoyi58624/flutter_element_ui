@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_extension/flutter_element_extension.dart';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 
 class Click extends StatefulWidget {
   /// 点击事件小部件，它与 [GestureDetector] 不同在于，父组件的事件会被子组件的事件默认阻止，

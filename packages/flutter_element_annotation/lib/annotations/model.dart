@@ -90,9 +90,6 @@ class ElModelField {
   /// 序列化、反序列化时指定映射的 json key
   final String? jsonKey;
 
-  /// 当反序列化时如果 json 没有目标参数，指定对象的默认值。
-  ///
-  /// 注意：设置的默认值请确保和类型相匹配，int 就是 int，double 就是 double，
-  /// 任何一个微小的差异都将引起类型转换异常。
+  /// 指定默认值，当反序列化时如果 json 没有目标参数、或者目标类型转换失败
   final dynamic defaultValue;
 }

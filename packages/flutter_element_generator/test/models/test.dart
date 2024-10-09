@@ -6,51 +6,82 @@ part '../generates/models/test.g.dart';
 
 @ElModel.all(toJsonUnderline: true)
 class TestModel implements ElSerializeModel<TestModel> {
+  @ElModelField(jsonKey: 'custom_string')
   final String stringField;
   final String? stringField2;
-  @ElModelField(defaultValue: 'stringField3')
+  @ElModelField(defaultValue: 'hello')
   final String stringField3;
-  @ElModelField(defaultValue: 'stringField4')
+  @ElModelField(defaultValue: 'hello')
   final String? stringField4;
 
   final num numField;
   final num? numField2;
-  @ElModelField(defaultValue: 100.0)
+  @ElModelField(defaultValue: 10.0)
   final num numField3;
-  @ElModelField(defaultValue: 88)
+  @ElModelField(defaultValue: 10)
   final num? numField4;
 
   final int intField;
   final int? intField2;
-  @ElModelField(defaultValue: 20)
+  @ElModelField(defaultValue: 10)
   final int intField3;
-  @ElModelField(defaultValue: 300)
+  @ElModelField(defaultValue: 20)
   final int? intField4;
 
   final double doubleField;
   final double? doubleField2;
-  @ElModelField(defaultValue: 60.0)
+  @ElModelField(defaultValue: 10.0)
   final double doubleField3;
-  @ElModelField(defaultValue: 800.0)
+  @ElModelField(defaultValue: 10.0)
   final double? doubleField4;
 
   final bool boolField;
   final bool? boolField2;
   @ElModelField(defaultValue: true)
   final bool boolField3;
-  @ElModelField(defaultValue: true)
+  @ElModelField(defaultValue: true, jsonKey: 'custom_bool')
   final bool? boolField4;
+
+  @ElModelField(defaultValue: [
+    1,
+    'hello',
+    false,
+    ['hihi']
+  ])
+  final List listField;
+
+  @ElModelField(defaultValue: [1, 'hello', false])
+  final List? listField2;
 
   final List<String> listStringField;
   final List<String>? listStringField2;
-  // @ElModelField(defaultValue: ['hello', 'world'])
+
+  @ElModelField(defaultValue: ['hello', 'world'])
   final List<String> listStringField3;
   final List<String>? listStringField4;
 
-  final List? myList;
-  final List<num> numList;
-  final Map<String, dynamic> myMap;
-  final UserModel? userModel;
+  final List<int> listIntField;
+  final List<int>? listIntField2;
+
+  @ElModelField(defaultValue: [1, 2, 3, 4, 5])
+  final List<int> listIntField3;
+  final List<int>? listIntField4;
+
+  final List<double> listDoubleField;
+  final List<double>? listDoubleField2;
+
+  @ElModelField(defaultValue: [1, 2, 3, 4, 5])
+  final List<double> listDoubleField3;
+  final List<double>? listDoubleField4;
+
+  final Map<String, dynamic> mapField;
+  @ElModelField(defaultValue: {
+    'name': 'hihi',
+    'child': {'age': 20}
+  })
+  final Map<String, dynamic>? mapField2;
+
+  // final UserModel? userModel;
 
   TestModel({
     required this.stringField,
@@ -73,14 +104,23 @@ class TestModel implements ElSerializeModel<TestModel> {
     this.boolField2,
     required this.boolField3,
     this.boolField4,
+    required this.listField,
+    this.listField2,
     required this.listStringField,
     this.listStringField2,
     required this.listStringField3,
     this.listStringField4,
-    this.myList,
-    required this.numList,
-    required this.myMap,
-    this.userModel,
+    required this.listIntField,
+    this.listIntField2,
+    required this.listIntField3,
+    this.listIntField4,
+    required this.listDoubleField,
+    this.listDoubleField2,
+    required this.listDoubleField3,
+    this.listDoubleField4,
+    required this.mapField,
+    this.mapField2,
+    // this.userModel,
   });
 
   factory TestModel.fromJson(Map<String, dynamic>? json) {

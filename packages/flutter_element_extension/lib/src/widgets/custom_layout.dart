@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../global.dart';
+import '../common.dart';
 
 /// 更新自定义布局尺寸回调函数
 typedef UpdateCustomLayoutSize = void Function(Size size);

@@ -11,8 +11,8 @@ UserModel $userModel = UserModel();
 UserModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $userModel;
   return UserModel(
-    username: json['username']?.toString(),
-    age: int.tryParse(json['age'].toString()),
+    username: ElJsonUtil.$string(json, 'username'),
+    age: ElJsonUtil.$int(json, 'age'),
   );
 }
 
@@ -43,6 +43,6 @@ extension UserModelExtension on UserModel {
   }
 
   String _toString() {
-    return 'UserModel{username: $username,age: $age}';
+    return 'UserModel{\n  username: $username,\n  age: $age\n}';
   }
 }

@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:math';
+
+import '../logger.dart';
 
 final List<String> _throttleKeyList = [];
 final Map<String, Timer> _debounceKeyMap = {};
 
-extension ElFunExtension on Function {
+extension DartFunExtension on Function {
   /// 节流函数扩展，在一定时间内忽略多次点击事件
   /// * wait 节流时间(毫秒)
   /// * key 如果目标函数已经定义，那么你可以忽略此参数，但如果是匿名函数，你必须手动添加一个标识符
@@ -79,6 +82,7 @@ extension ElFunExtension on Function {
         });
         return;
       } else {
+        i(key);
         if (leading) this();
         _debounceKeyMap[key!] = Timer(Duration(milliseconds: wait), () {
           _debounceKeyMap.remove(key);

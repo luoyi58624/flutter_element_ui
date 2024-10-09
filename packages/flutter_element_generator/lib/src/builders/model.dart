@@ -2,13 +2,22 @@ import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
-import 'package:flutter_element_generator/src/utils/common.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
 const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
 const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
+
+DartObject? _modelFieldAnnotation(FieldElement element) =>
+    _modelFieldChecker.firstAnnotationOf(element) ??
+    (element.getter == null
+        ? null
+        : _modelFieldChecker.firstAnnotationOf(element.getter!));
+
+ConstantReader modelFieldAnnotation(FieldElement element) =>
+    ConstantReader(_modelFieldAnnotation(element));
 
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
@@ -46,7 +55,7 @@ extension ${className}Extension on $className {
     // 生成 fromJson 内容
     String content = '';
 
-    // 生成默认模型对象内容，当 json 为空时，将直接返回默认的对象
+    // 生成默认模型对象内容
     String defaultModelContent = '';
 
     for (int i = 0; i < classFields.length; i++) {
@@ -54,7 +63,7 @@ extension ${className}Extension on $className {
       if (_allowCopy(fieldInfo)) {
         if (_isIgnoreField(fieldInfo, 'fromJson')) continue;
         String field = fieldInfo.name;
-        String? jsonKey = _getJsonKey(fieldInfo);
+        String jsonKey = _getJsonKey(fieldInfo) ?? field;
         dynamic defaultValue = _getDefaultValue(fieldInfo);
         String fieldType = fieldInfo.type.toString();
 
@@ -62,114 +71,100 @@ extension ${className}Extension on $className {
         String valueContent = '';
 
         // 拼接默认的实体对象
-        String defaultModelValueContent = '';
+        String? defaultModelValueContent;
 
-        if (jsonKey != null) {
-          valueContent = "json['$jsonKey']";
-        } else if (field == field.toLowerCase()) {
-          valueContent = "json['$field']";
-        } else {
-          valueContent =
-              "(json['$field'] ?? json['${CommonUtil.toUnderline(field)}'])";
-        }
-        // 尽可能地安全处理类型转换，单纯地通过 as 指定类型很容易造成运行时异常，
-        // 例如：json 包含了 int 类型数据，但你使用 as 转换成 double 将直接报错，
-        // 你要么将类型设置为 num，要么 json 数据必须为 0.0 而不是 0，为了避免这些低级错误，
-        // 目前我只能对各种类型数据进行不同处理。
-        if (fieldType == 'String') {
+        // 尽可能地安全处理 json 数据类型转换
+        if (fieldType == 'String' || fieldType == 'String?') {
+          valueContent = "ElJsonUtil.\$string(json, '$jsonKey')";
           if (defaultValue != null) {
-            defaultValue = "'$defaultValue'";
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
           } else {
-            defaultValue = "''";
-          }
-          valueContent = """($valueContent ?? $defaultValue).toString()""";
-          defaultModelValueContent = "$field: ${defaultValue ?? "''"},";
-        } else if (fieldType == 'String?') {
-          valueContent = "$valueContent?.toString()";
-          if (defaultValue != null) {
-            valueContent = "$valueContent ?? '$defaultValue'";
-            defaultModelValueContent = "$field: '$defaultValue',";
-          }
-        } else if (fieldType == 'num') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-          }
-          valueContent = "num.tryParse($valueContent.toString()) ?? 0.0";
-          defaultModelValueContent = "$field: ${defaultValue ?? 0.0},";
-        } else if (fieldType == 'num?') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-            defaultModelValueContent = "$field: $defaultValue,";
-          }
-          valueContent = "num.tryParse($valueContent.toString())";
-        } else if (fieldType == 'int') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-          }
-          valueContent = "int.tryParse($valueContent.toString()) ?? 0";
-          defaultModelValueContent = "$field: ${defaultValue ?? 0},";
-        } else if (fieldType == 'int?') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-            defaultModelValueContent = "$field: $defaultValue,";
-          }
-          valueContent = "int.tryParse($valueContent.toString())";
-        } else if (fieldType == 'double') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-          }
-          valueContent = "double.tryParse($valueContent.toString()) ?? 0.0";
-          defaultModelValueContent = "$field: ${defaultValue ?? 0.0},";
-        } else if (fieldType == 'double?') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-            defaultModelValueContent = "$field: $defaultValue,";
-          }
-          valueContent = "double.tryParse($valueContent.toString())";
-        } else if (fieldType == 'bool') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-          }
-          valueContent = "bool.tryParse($valueContent.toString()) ?? false";
-          defaultModelValueContent = "$field: ${defaultValue ?? false},";
-        } else if (fieldType == 'bool?') {
-          if (defaultValue != null) {
-            valueContent = '($valueContent ?? $defaultValue)';
-            defaultModelValueContent = "$field: $defaultValue,";
-          }
-          valueContent = "bool.tryParse($valueContent.toString())";
-        } else if (fieldInfo.type.isDartCoreList) {
-          final listGeneric = CommonUtil.getListGeneric(fieldType);
-          if (fieldType.endsWith('?')) {
-            valueContent =
-                "\$ElGeneratesUtil.safeList<$listGeneric>($valueContent, '$className', '$field')";
-          } else {
-            valueContent =
-                "\$ElGeneratesUtil.safeList<$listGeneric>($valueContent, '$className', '$field') ?? []";
-            if (defaultValue != null) {
-              print(defaultValue);
+            if (fieldType == 'String') {
+              valueContent = '$valueContent ?? \'\'';
+              defaultModelValueContent = '\'\'';
             }
-            defaultModelValueContent = "$field: ${defaultValue ?? []},";
+          }
+        } else if (fieldType == 'num' || fieldType == 'num?') {
+          valueContent = "ElJsonUtil.\$num(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType == 'num') {
+              valueContent = '$valueContent ?? 0.0';
+              defaultModelValueContent = '0.0';
+            }
+          }
+        } else if (fieldType == 'int' || fieldType == 'int?') {
+          valueContent = "ElJsonUtil.\$int(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType == 'int') {
+              valueContent = '$valueContent ?? 0';
+              defaultModelValueContent = '0';
+            }
+          }
+        } else if (fieldType == 'double' || fieldType == 'double?') {
+          valueContent = "ElJsonUtil.\$double(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType == 'double') {
+              valueContent = '$valueContent ?? 0.0';
+              defaultModelValueContent = '0.0';
+            }
+          }
+        } else if (fieldType == 'bool' || fieldType == 'bool?') {
+          valueContent = "ElJsonUtil.\$bool(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType == 'bool') {
+              valueContent = '$valueContent ?? false';
+              defaultModelValueContent = 'false';
+            }
+          }
+        } else if (fieldInfo.type.isDartCoreList) {
+          valueContent =
+              "ElJsonUtil.\$list<${fieldType.toGenericType}>(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType.endsWith('?') == false) {
+              valueContent = '$valueContent ?? []';
+              defaultModelValueContent = '[]';
+            }
           }
         } else if (fieldInfo.type.isDartCoreMap) {
-          final mapGeneric = CommonUtil.getMapGeneric(fieldType);
-          if (fieldType.endsWith('?')) {
-            valueContent =
-                "\$ElGeneratesUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field')";
+          valueContent =
+              "ElJsonUtil.\$map<${fieldType.toMapGenericType?.value}>(json, '$jsonKey')";
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
           } else {
-            valueContent =
-                "\$ElGeneratesUtil.safeMap<$mapGeneric>($valueContent, '$className', '$field') ?? {}";
-            defaultModelValueContent = "$field: ${defaultValue ?? {}},";
+            if (fieldType.endsWith('?') == false) {
+              valueContent = '$valueContent ?? {}';
+              defaultModelValueContent = '{}';
+            }
           }
-        } else if (_isSerialize(fieldInfo)) {
+        } else if (_isSerializeField(fieldInfo)) {
           valueContent = "$fieldType.fromJson($valueContent)";
         }
+
         content += '$field: $valueContent,\n';
-        defaultModelContent += '$defaultModelValueContent\n';
+        if (defaultModelValueContent != null) {
+          defaultModelContent += '$field: $defaultModelValueContent,\n';
+        }
       }
     }
 
-    String modelName = '\$${CommonUtil.firstLowerCase(className)}';
+    String modelName = '\$${className.firstLowerCase}';
 
     return """
 $className $modelName = $className(
@@ -203,9 +198,9 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json)
         String? jsonKey = _getJsonKey(fieldInfo);
 
         String key =
-            "'${jsonKey ?? (toJsonUnderline ? CommonUtil.toUnderline(field) : field)}'";
+            "'${jsonKey ?? (toJsonUnderline ? field.toUnderline : field)}'";
         late String value;
-        if (_isSerialize(fieldInfo)) {
+        if (_isSerializeField(fieldInfo)) {
           value = "$field.toJson()";
         } else {
           value = field;
@@ -317,14 +312,14 @@ $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json)
         final field = fieldInfo.name;
         String toStringDot = '';
         if (i < classFields.length - 1) toStringDot = ',';
-        toStringContent += '$field: \$$field$toStringDot';
+        toStringContent += '  $field: \$$field$toStringDot\\n';
       }
     }
 
     return """
-  String _toString() {
-    return '$className{$toStringContent}';
-  } 
+String _toString() {
+  return '$className{\\n$toStringContent}';
+} 
     """;
   }
 }
@@ -337,8 +332,8 @@ bool _allowCopy(FieldElement fieldInfo) {
       fieldInfo.isConst);
 }
 
-/// 判断字段是否允许 copy
-bool _isSerialize(FieldElement fieldInfo) {
+/// 判断字段是否为继承了序列化模型对象字段
+bool _isSerializeField(FieldElement fieldInfo) {
   if (fieldInfo.type.element is InterfaceElement) {
     final ele = fieldInfo.type.element as InterfaceElement;
     return ele.allSupertypes.any((e) => e.toString() == 'ElSerializeModel');
@@ -389,22 +384,33 @@ dynamic _getDefaultValue(FieldElement fieldInfo) {
 /// 使用递归深度遍历默认值
 dynamic _deepGetDefaultValue(DartObject? field) {
   if (field == null || field.isNull) return null;
+  final reader = ConstantReader(field);
   dynamic value;
-  value = field.toStringValue();
-  if (value != null) return '$value';
-  value = field.toDoubleValue();
-  if (value != null) return value;
-  value = field.toIntValue();
-  if (value != null) return value;
-  value = field.toBoolValue();
-  if (value != null) return value;
-  value =
-      (field.toListValue() ?? []).map((e) => _deepGetDefaultValue(e)).toList();
-  if (value != null) return value;
-  value = field.toSetValue();
-  if (value != null) return value;
-  value = field.toMapValue();
-  if (value != null) return value;
+  if (reader.isString) {
+    return "'${reader.literalValue}'";
+  }
+  if (reader.isDouble || reader.isInt || reader.isBool) {
+    return reader.literalValue;
+  }
+  if (reader.isList) {
+    value = (field.toListValue() ?? [])
+        .map((e) => _deepGetDefaultValue(e))
+        .toList();
+    return value;
+  }
+  if (reader.isSet) {
+    value =
+        (field.toSetValue() ?? {}).map((e) => _deepGetDefaultValue(e)).toList();
+    return value;
+  }
+  if (reader.isMap) {
+    value = (field.toMapValue() ?? {}).map((k, v) => MapEntry(
+          _deepGetDefaultValue(k),
+          _deepGetDefaultValue(v),
+        ));
+    return value;
+  }
+  return null;
 }
 
 /// 判断反射的字段是否包含克隆方法，如果包含，则生成的代码需要调用目标的克隆方法

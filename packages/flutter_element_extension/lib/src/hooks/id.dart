@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
-import '../global.dart';
 
 /// 生成唯一 id 钩子
 String useId() {
