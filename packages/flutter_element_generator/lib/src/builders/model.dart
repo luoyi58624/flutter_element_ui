@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:build/build.dart';
@@ -42,9 +43,10 @@ extension ${className}Extension on $className {
     final List<FieldElement> classFields = classInfo.fields;
     final fromJsonDiff = annotation.read('fromJsonDiff').boolValue;
 
+    // 生成 fromJson 内容
     String content = '';
 
-    /// 当 json 为空时，拼接默认的实体对象
+    // 生成默认模型对象内容，当 json 为空时，将直接返回默认的对象
     String defaultModelContent = '';
 
     for (int i = 0; i < classFields.length; i++) {
@@ -55,7 +57,11 @@ extension ${className}Extension on $className {
         String? jsonKey = _getJsonKey(fieldInfo);
         dynamic defaultValue = _getDefaultValue(fieldInfo);
         String fieldType = fieldInfo.type.toString();
+
+        // 拼接 fromJson
         String valueContent = '';
+
+        // 拼接默认的实体对象
         String defaultModelValueContent = '';
 
         if (jsonKey != null) {
@@ -66,15 +72,23 @@ extension ${className}Extension on $className {
           valueContent =
               "(json['$field'] ?? json['${CommonUtil.toUnderline(field)}'])";
         }
-        // 尽可能地安全处理类型转换，单纯地通过 as 指定类型很容易造成运行时异常
+        // 尽可能地安全处理类型转换，单纯地通过 as 指定类型很容易造成运行时异常，
+        // 例如：json 包含了 int 类型数据，但你使用 as 转换成 double 将直接报错，
+        // 你要么将类型设置为 num，要么 json 数据必须为 0.0 而不是 0，为了避免这些低级错误，
+        // 目前我只能对各种类型数据进行不同处理。
         if (fieldType == 'String') {
-          valueContent =
-              """($valueContent ?? ${defaultValue ?? "''"}).toString()""";
+          if (defaultValue != null) {
+            defaultValue = "'$defaultValue'";
+          } else {
+            defaultValue = "''";
+          }
+          valueContent = """($valueContent ?? $defaultValue).toString()""";
           defaultModelValueContent = "$field: ${defaultValue ?? "''"},";
         } else if (fieldType == 'String?') {
           valueContent = "$valueContent?.toString()";
           if (defaultValue != null) {
-            valueContent = '$valueContent ?? $defaultValue.toString()';
+            valueContent = "$valueContent ?? '$defaultValue'";
+            defaultModelValueContent = "$field: '$defaultValue',";
           }
         } else if (fieldType == 'num') {
           if (defaultValue != null) {
@@ -85,6 +99,7 @@ extension ${className}Extension on $className {
         } else if (fieldType == 'num?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
+            defaultModelValueContent = "$field: $defaultValue,";
           }
           valueContent = "num.tryParse($valueContent.toString())";
         } else if (fieldType == 'int') {
@@ -96,6 +111,7 @@ extension ${className}Extension on $className {
         } else if (fieldType == 'int?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
+            defaultModelValueContent = "$field: $defaultValue,";
           }
           valueContent = "int.tryParse($valueContent.toString())";
         } else if (fieldType == 'double') {
@@ -107,6 +123,7 @@ extension ${className}Extension on $className {
         } else if (fieldType == 'double?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
+            defaultModelValueContent = "$field: $defaultValue,";
           }
           valueContent = "double.tryParse($valueContent.toString())";
         } else if (fieldType == 'bool') {
@@ -118,6 +135,7 @@ extension ${className}Extension on $className {
         } else if (fieldType == 'bool?') {
           if (defaultValue != null) {
             valueContent = '($valueContent ?? $defaultValue)';
+            defaultModelValueContent = "$field: $defaultValue,";
           }
           valueContent = "bool.tryParse($valueContent.toString())";
         } else if (fieldInfo.type.isDartCoreList) {
@@ -128,6 +146,9 @@ extension ${className}Extension on $className {
           } else {
             valueContent =
                 "\$ElGeneratesUtil.safeList<$listGeneric>($valueContent, '$className', '$field') ?? []";
+            if (defaultValue != null) {
+              print(defaultValue);
+            }
             defaultModelValueContent = "$field: ${defaultValue ?? []},";
           }
         } else if (fieldInfo.type.isDartCoreMap) {
@@ -148,13 +169,15 @@ extension ${className}Extension on $className {
       }
     }
 
+    String modelName = '\$${CommonUtil.firstLowerCase(className)}';
+
     return """
+$className $modelName = $className(
+  $defaultModelContent
+);
+
 $className _fromJson${fromJsonDiff ? className : ''}(Map<String, dynamic>? json) {
-  if(json == null) {
-    return $className(
-      $defaultModelContent
-    );
-  }
+  if(json == null) return $modelName;
   return $className(
     $content
   );
@@ -358,25 +381,30 @@ dynamic _getDefaultValue(FieldElement fieldInfo) {
         .firstAnnotationOfExact(fieldInfo)!
         .getField('defaultValue');
 
-    if (field != null && !field.isNull) {
-      dynamic value;
-      value = field.toStringValue();
-      if (value != null) return value;
-      value = field.toDoubleValue();
-      if (value != null) return value;
-      value = field.toIntValue();
-      if (value != null) return value;
-      value = field.toBoolValue();
-      if (value != null) return value;
-      value = field.toListValue();
-      if (value != null) return value;
-      value = field.toSetValue();
-      if (value != null) return value;
-      value = field.toMapValue();
-      if (value != null) return value;
-    }
+    return _deepGetDefaultValue(field);
   }
   return null;
+}
+
+/// 使用递归深度遍历默认值
+dynamic _deepGetDefaultValue(DartObject? field) {
+  if (field == null || field.isNull) return null;
+  dynamic value;
+  value = field.toStringValue();
+  if (value != null) return '$value';
+  value = field.toDoubleValue();
+  if (value != null) return value;
+  value = field.toIntValue();
+  if (value != null) return value;
+  value = field.toBoolValue();
+  if (value != null) return value;
+  value =
+      (field.toListValue() ?? []).map((e) => _deepGetDefaultValue(e)).toList();
+  if (value != null) return value;
+  value = field.toSetValue();
+  if (value != null) return value;
+  value = field.toMapValue();
+  if (value != null) return value;
 }
 
 /// 判断反射的字段是否包含克隆方法，如果包含，则生成的代码需要调用目标的克隆方法

@@ -1,15 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../modals/user.dart';
+part of '../../models/user.dart';
 
 // **************************************************************************
 // ElModelGenerator
 // **************************************************************************
 
+UserModel $userModel = UserModel();
+
 UserModel _fromJson(Map<String, dynamic>? json) {
-  if (json == null) {
-    return UserModel();
-  }
+  if (json == null) return $userModel;
   return UserModel(
     username: json['username']?.toString(),
     age: int.tryParse(json['age'].toString()),

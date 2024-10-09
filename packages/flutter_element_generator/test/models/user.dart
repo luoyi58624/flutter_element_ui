@@ -1,6 +1,6 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
-part '../generates/modals/user.g.dart';
+part '../generates/models/user.g.dart';
 
 @ElModel.all()
 class UserModel implements ElSerializeModel<UserModel> {

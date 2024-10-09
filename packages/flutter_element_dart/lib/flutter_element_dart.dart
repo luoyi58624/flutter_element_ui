@@ -1,4 +1,4 @@
-library element_dart_utils;
+library flutter_element_dart;
 
 /// A Calculator.
 class Calculator {

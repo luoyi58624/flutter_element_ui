@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:test/test.dart';
 
-import 'modals/test.dart';
-import 'modals/user.dart';
+import 'models/test.dart';
+import 'models/user.dart';
 
 void main() {
   group('modal builder 测试', () {
