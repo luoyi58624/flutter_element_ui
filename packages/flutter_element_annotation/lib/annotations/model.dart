@@ -8,6 +8,8 @@ class ElModel {
     this.toJson = false,
     this.copyWith = false,
     this.merge = false,
+    this.generateEquals = false,
+    this.generateHashCode = false,
     this.generateToString = false,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,
@@ -19,6 +21,8 @@ class ElModel {
     this.toJson = true,
     this.copyWith = true,
     this.merge = true,
+    this.generateEquals = true,
+    this.generateHashCode = true,
     this.generateToString = true,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,
@@ -30,6 +34,8 @@ class ElModel {
     this.toJson = true,
     this.copyWith = false,
     this.merge = false,
+    this.generateEquals = false,
+    this.generateHashCode = false,
     this.generateToString = false,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,
@@ -41,6 +47,8 @@ class ElModel {
     this.toJson = false,
     this.copyWith = true,
     this.merge = true,
+    this.generateEquals = false,
+    this.generateHashCode = false,
     this.generateToString = false,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,
@@ -59,7 +67,25 @@ class ElModel {
   /// 该属性依赖于[copyWith]，如果该属性为true，则[copyWith]强制为true
   final bool merge;
 
-  /// 生成 toString 方法
+  /// 生成 equals 方法，使用示例：
+  /// ```dart
+  /// @override
+  /// bool operator ==(Object other) => _equals(other);
+  /// ```
+  final bool generateEquals;
+
+  /// 生成 hashCode 方法，使用示例：
+  /// ```dart
+  /// @override
+  /// int get hashCode => _hashCode;
+  /// ```
+  final bool generateHashCode;
+
+  /// 生成 toString 方法，使用示例：
+  /// ```dart
+  /// @override
+  /// String toString() => _toString();
+  /// ```
   final bool generateToString;
 
   /// 是否对生成的 fromJson 进行命名区分，

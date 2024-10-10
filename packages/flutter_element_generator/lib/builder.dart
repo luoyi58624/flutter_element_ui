@@ -1,5 +1,4 @@
 import 'package:build/build.dart';
-import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:flutter_element_generator/src/config.dart';
 import 'package:source_gen/source_gen.dart';
 

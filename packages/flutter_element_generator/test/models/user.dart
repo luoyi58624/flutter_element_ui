@@ -19,5 +19,11 @@ class UserModel implements ElSerializeModel<UserModel> {
   Map<String, dynamic> toJson() => _toJson();
 
   @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
+
+  @override
   String toString() => _toString();
 }

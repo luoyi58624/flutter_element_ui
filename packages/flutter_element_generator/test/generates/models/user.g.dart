@@ -42,6 +42,15 @@ extension UserModelExtension on UserModel {
     );
   }
 
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is UserModel &&
+          runtimeType == other.runtimeType &&
+          username == other.username &&
+          age == other.age;
+
+  int get _hashCode => username.hashCode ^ age.hashCode;
+
   String _toString() {
     return 'UserModel{\n  username: $username,\n  age: $age\n}';
   }

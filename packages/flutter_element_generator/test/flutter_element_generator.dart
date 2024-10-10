@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:test/test.dart';
 
 import 'models/test.dart';
@@ -53,7 +54,10 @@ void main() {
         'child': {'age': 20}
       });
       expect(model.userModel, UserModel(username: 'hihi', age: 50));
-      print(model.toString());
+      // print(model.toString());
+      i(model.toString());
+      i(model.toJson());
+      print(model.toJson());
     });
   });
 }

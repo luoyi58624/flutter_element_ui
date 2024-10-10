@@ -1,8 +1,7 @@
 import 'package:flutter_element_dart/flutter_element_dart.dart';
 
 const String _formJsonErrorStart = '(error) ElModel fromJson: ';
-const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示，如果你的 json 数据来源来自网络，'
-    '请尽量使用 dynamic 类型。';
+const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示。';
 
 /// 安全地访问 json 数据，此工具类通常应用于 [flutter_element_generator] 生成的代码
 class ElJsonUtil {
