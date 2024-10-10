@@ -20,6 +20,7 @@ void main() {
           '"user_model": {"username":"hihi", "age":"50"}'
           '}';
 
+
       final model = TestModel.fromJson(jsonDecode(json));
       expect(model.stringField, "10.0");
       expect(model.stringField2, "10.0");

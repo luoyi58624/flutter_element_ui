@@ -6,7 +6,7 @@ part of '../../models/user.dart';
 // ElModelGenerator
 // **************************************************************************
 
-UserModel $userModel = UserModel();
+final UserModel $userModel = UserModel();
 
 UserModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $userModel;

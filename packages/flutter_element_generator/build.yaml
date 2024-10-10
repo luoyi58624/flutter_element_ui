@@ -13,6 +13,9 @@ targets:
       flutter_element_generator|model:
         generate_for:
           - test/models/**.dart
+        options:
+          # 模型对象名字模型，这是默认的配置
+          model_name_template: '${{}}'
 
 builders:
   model:

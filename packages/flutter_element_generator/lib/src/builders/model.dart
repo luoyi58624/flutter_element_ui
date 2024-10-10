@@ -7,6 +7,8 @@ import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
+import '../config.dart';
+
 const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
 const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
@@ -21,6 +23,10 @@ ConstantReader modelFieldAnnotation(FieldElement element) =>
 
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
+  final BuilderConfig config;
+
+  ElModelGenerator(this.config);
+
   @override
   generateForAnnotatedElement(
     Element element,
@@ -174,8 +180,11 @@ extension ${className}Extension on $className {
                   "(json['$jsonKey'] ?? json['${jsonKey.toUnderline}'])";
             }
 
-            valueContent = "$fieldType.fromJson($valueContent)";
-            defaultModelValueContent = '\$$field';
+            final String modelName =
+                config.modelNameTemplate.replaceFirst('{{}}', field);
+
+            valueContent = "$modelName.fromJson($valueContent)";
+            defaultModelValueContent = modelName;
           }
         }
 
@@ -186,10 +195,11 @@ extension ${className}Extension on $className {
       }
     }
 
-    String modelName = '\$${className.firstLowerCase}';
+    String modelName =
+        config.modelNameTemplate.replaceFirst('{{}}', className.firstLowerCase);
 
     return """
-$className $modelName = $className(
+final $className $modelName = $className(
   $defaultModelContent
 );
 

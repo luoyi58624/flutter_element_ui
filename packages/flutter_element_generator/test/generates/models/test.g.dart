@@ -6,7 +6,7 @@ part of '../../models/test.dart';
 // ElModelGenerator
 // **************************************************************************
 
-TestModel $testModel = TestModel(
+final TestModel $testModel = TestModel(
   stringField: '',
   stringField3: 'hello',
   stringField4: 'hello',
@@ -99,7 +99,7 @@ TestModel _fromJson(Map<String, dynamic>? json) {
           'name': 'hihi',
           'child': {'age': 20}
         },
-    userModel: UserModel?.fromJson((json['userModel'] ?? json['user_model'])),
+    userModel: $userModel.fromJson((json['userModel'] ?? json['user_model'])),
   );
 }
 
