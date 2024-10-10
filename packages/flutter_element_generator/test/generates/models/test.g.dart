@@ -41,59 +41,6 @@ final TestModel $testModel = TestModel(
     'name': 'hihi',
     'child': {'age': 20}
   },
-  userModel: $userModel,
-  userModel2: UserModel(
-    username: 'hihi',
-    age: 30,
-    child: UserModel(
-      username: 'xx',
-      age: 14,
-      child: null,
-      children: null,
-      animalMap: null,
-    ),
-    children: [
-      UserModel(
-        username: 'one',
-        age: 18,
-        child: null,
-        children: null,
-        animalMap: null,
-      ),
-      UserModel(
-        username: 'two',
-        age: 4,
-        child: null,
-        children: null,
-        animalMap: null,
-      )
-    ],
-    animalMap: {
-      'one': AnimalModel(
-        name: '旺财',
-        type: '小狗',
-      ),
-      'two': AnimalModel(
-        name: '小白',
-        type: '猫咪',
-      )
-    },
-  ),
-  myAnimal: $animalModel,
-  myDog: AnimalModel(
-    name: '旺财',
-    type: '小狗',
-  ),
-  animalList: [
-    AnimalModel(
-      name: '旺财',
-      type: '小狗',
-    ),
-    AnimalModel(
-      name: '小白',
-      type: '猫咪',
-    )
-  ],
 );
 
 TestModel _fromJson(Map<String, dynamic>? json) {
@@ -151,62 +98,6 @@ TestModel _fromJson(Map<String, dynamic>? json) {
           'name': 'hihi',
           'child': {'age': 20}
         },
-    userModel: $userModel.fromJson((json['userModel'] ?? json['user_model'])),
-    userModel2: (json['userModel2'] ?? json['user_model2']) ??
-        UserModel(
-          username: 'hihi',
-          age: 30,
-          child: UserModel(
-            username: 'xx',
-            age: 14,
-            child: null,
-            children: null,
-            animalMap: null,
-          ),
-          children: [
-            UserModel(
-              username: 'one',
-              age: 18,
-              child: null,
-              children: null,
-              animalMap: null,
-            ),
-            UserModel(
-              username: 'two',
-              age: 4,
-              child: null,
-              children: null,
-              animalMap: null,
-            )
-          ],
-          animalMap: {
-            'one': AnimalModel(
-              name: '旺财',
-              type: '小狗',
-            ),
-            'two': AnimalModel(
-              name: '小白',
-              type: '猫咪',
-            )
-          },
-        ),
-    myAnimal: $animalModel.fromJson(json['my_animal_model']),
-    myDog: (json['myDog'] ?? json['my_dog']) ??
-        AnimalModel(
-          name: '旺财',
-          type: '小狗',
-        ),
-    animalList: ElJsonUtil.$list<AnimalModel>(json, 'animalList') ??
-        [
-          AnimalModel(
-            name: '旺财',
-            type: '小狗',
-          ),
-          AnimalModel(
-            name: '小白',
-            type: '猫咪',
-          )
-        ],
   );
 }
 
@@ -251,11 +142,6 @@ extension TestModelExtension on TestModel {
       'set_field2': setField2,
       'map_field': mapField,
       'map_field2': mapField2,
-      'user_model': userModel.toJson(),
-      'user_model2': userModel2?.toJson(),
-      'my_animal_model': myAnimal.toJson(),
-      'my_dog': myDog?.toJson(),
-      'animal_list': animalList,
     };
   }
 
@@ -298,11 +184,6 @@ extension TestModelExtension on TestModel {
     Set<dynamic>? setField2,
     Map<String, dynamic>? mapField,
     Map<String, dynamic>? mapField2,
-    UserModel? userModel,
-    UserModel? userModel2,
-    AnimalModel? myAnimal,
-    AnimalModel? myDog,
-    List<AnimalModel>? animalList,
   }) {
     return TestModel(
       stringField: stringField ?? this.stringField,
@@ -343,11 +224,6 @@ extension TestModelExtension on TestModel {
       setField2: setField2 ?? this.setField2,
       mapField: mapField ?? this.mapField,
       mapField2: mapField2 ?? this.mapField2,
-      userModel: this.userModel.merge(userModel),
-      userModel2: this.userModel2?.merge(userModel2),
-      myAnimal: this.myAnimal.merge(myAnimal),
-      myDog: this.myDog?.merge(myDog),
-      animalList: animalList ?? this.animalList,
     );
   }
 
@@ -392,11 +268,6 @@ extension TestModelExtension on TestModel {
       setField2: other.setField2,
       mapField: other.mapField,
       mapField2: other.mapField2,
-      userModel: userModel.merge(other.userModel),
-      userModel2: userModel2?.merge(other.userModel2),
-      myAnimal: myAnimal.merge(other.myAnimal),
-      myDog: myDog?.merge(other.myDog),
-      animalList: other.animalList,
     );
   }
 
@@ -441,12 +312,7 @@ extension TestModelExtension on TestModel {
           setField == other.setField &&
           setField2 == other.setField2 &&
           mapField == other.mapField &&
-          mapField2 == other.mapField2 &&
-          userModel == other.userModel &&
-          userModel2 == other.userModel2 &&
-          myAnimal == other.myAnimal &&
-          myDog == other.myDog &&
-          animalList == other.animalList;
+          mapField2 == other.mapField2;
 
   int get _hashCode =>
       stringField.hashCode ^
@@ -486,14 +352,9 @@ extension TestModelExtension on TestModel {
       setField.hashCode ^
       setField2.hashCode ^
       mapField.hashCode ^
-      mapField2.hashCode ^
-      userModel.hashCode ^
-      userModel2.hashCode ^
-      myAnimal.hashCode ^
-      myDog.hashCode ^
-      animalList.hashCode;
+      mapField2.hashCode;
 
   String _toString() {
-    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList\n}';
+    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2\n}';
   }
 }

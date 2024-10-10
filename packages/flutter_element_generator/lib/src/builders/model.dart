@@ -167,24 +167,26 @@ extension ${_className}Extension on $_className {
         }
       } else {
         if (MirrorUtils.isSerialize(fieldInfo.type.element)) {
-          if (jsonKey == jsonKey.toLowerCase()) {
-            valueContent = "json['$jsonKey']";
-          } else {
-            valueContent =
-                "(json['$jsonKey'] ?? json['${jsonKey.toUnderline}'])";
-          }
+          // if (jsonKey == jsonKey.toLowerCase()) {
+          //   valueContent = "json['$jsonKey']";
+          // } else {
+          //   valueContent =
+          //       "(json['$jsonKey'] ?? json['${jsonKey.toUnderline}'])";
+          // }
+
+          final String modelName = builderConfig.modelNameTemplate.replaceFirst(
+            '{{}}',
+            fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
+          );
+          valueContent =
+              "ElJsonUtil.\$model<$fieldType>(json, '$jsonKey', $modelName)";
 
           if (defaultValue != null) {
             valueContent = '$valueContent ?? $defaultValue';
             defaultModelValueContent = '$defaultValue';
           } else {
             if (fieldType.endsWith('?') == false) {
-              final String modelName =
-                  builderConfig.modelNameTemplate.replaceFirst(
-                '{{}}',
-                fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
-              );
-              valueContent = "$modelName.fromJson($valueContent)";
+              valueContent = "$valueContent ?? $modelName";
               defaultModelValueContent = modelName;
             }
           }
@@ -413,7 +415,8 @@ dynamic _getDefaultValue(FieldElement fieldInfo) {
         .firstAnnotationOfExact(fieldInfo)!
         .getField('defaultValue');
 
-    return MirrorUtils.deepGetFieldValue(ConstantReader(field), fieldInfo.type.element);
+    return MirrorUtils.deepGetFieldValue(
+        ConstantReader(field), fieldInfo.type.element);
   }
   return null;
 }

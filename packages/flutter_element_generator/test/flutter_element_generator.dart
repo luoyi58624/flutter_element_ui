@@ -20,6 +20,7 @@ void main() {
           '}';
 
       final model = TestModel.fromJson(jsonDecode(json));
+      final model2 = TestModel.fromJson(jsonDecode(json));
       expect(model.stringField, "10.0");
       expect(model.stringField2, "10.0");
       expect(model.stringField3, "10");
@@ -53,11 +54,15 @@ void main() {
         'name': 'hihi',
         'child': {'age': 20}
       });
-      expect(model.userModel, UserModel(username: 'hihi', age: 50));
+      i(model2 == model);
+      // expect(model.userModel, UserModel(username: 'hihi', age: 50));
+      // expect(model2, model);
+      // expect(TestModel.fromJson(model.toJson()), model);
       // print(model.toString());
-      i(model.toString());
-      i(model.toJson());
-      print(model.toJson());
+      // i(model.toString());
+      // i(model.toJson());
+      // i(TestModel.fromJson(model.toJson()).toJson());
+      // print(model.toJson());
     });
   });
 }

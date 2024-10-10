@@ -13,7 +13,7 @@ UserModel _fromJson(Map<String, dynamic>? json) {
   return UserModel(
     username: ElJsonUtil.$string(json, 'username'),
     age: ElJsonUtil.$int(json, 'age'),
-    child: json['child'],
+    child: ElJsonUtil.$model<UserModel?>(json, 'child', $userModel),
     children: ElJsonUtil.$list<UserModel>(json, 'children'),
     animalMap: ElJsonUtil.$map<AnimalModel>(json, 'animalMap'),
   );

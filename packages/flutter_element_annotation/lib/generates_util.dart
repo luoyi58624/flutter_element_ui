@@ -1,3 +1,4 @@
+import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:flutter_element_dart/flutter_element_dart.dart';
 
 const String _formJsonErrorStart = '(error) ElModel fromJson: ';
@@ -98,6 +99,15 @@ class ElJsonUtil {
               '$_formJsonErrorEnd';
         }
       }
+    }
+    return null;
+  }
+
+  static T? $model<T>(dynamic json, String key, T model) {
+    final value = json[key] ?? json[key.toUnderline];
+    if (value == null) return null;
+    if (model is ElSerializeModel) {
+      return model.fromJson(value);
     }
     return null;
   }
