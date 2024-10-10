@@ -12,15 +12,6 @@ import '../config.dart';
 const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
 const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
-DartObject? _modelFieldAnnotation(FieldElement element) =>
-    _modelFieldChecker.firstAnnotationOf(element) ??
-    (element.getter == null
-        ? null
-        : _modelFieldChecker.firstAnnotationOf(element.getter!));
-
-ConstantReader modelFieldAnnotation(FieldElement element) =>
-    ConstantReader(_modelFieldAnnotation(element));
-
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
   final BuilderConfig config;

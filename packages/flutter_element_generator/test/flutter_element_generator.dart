@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:test/test.dart';
 
-import 'models/json_serializable.dart';
 import 'models/test.dart';
 import 'models/user.dart';
 
@@ -19,7 +17,6 @@ void main() {
           '"map_field": {"name":"luoyi"},'
           '"user_model": {"username":"hihi", "age":"50"}'
           '}';
-
 
       final model = TestModel.fromJson(jsonDecode(json));
       expect(model.stringField, "10.0");
@@ -55,30 +52,8 @@ void main() {
         'name': 'hihi',
         'child': {'age': 20}
       });
-      // model.copyWith(userModel: UserModel(username: 'luoyi', age: 26));
-      final newJson = model.toJson();
+      expect(model.userModel, UserModel(username: 'hihi', age: 50));
       print(model.toString());
-      print(newJson);
-      // final model3 = model.fromJson(newJson);
-      // print(model3);
-    });
-
-    test('json_serializable 序列化测试', () {
-      String json = '{"firstName": "luo", "lastName": "yi","doubleField": 0.0,'
-          '"listField": ["luoyi", "xx"],'
-          '"son": {"name": "hihi"}'
-          '}';
-
-      final model = Person.fromJson(jsonDecode(json));
-
-      print(model.son?.name);
-
-      String json2 =
-          '{"firstName": "luo", "lastName": "yi", "doubleField": 0.0}';
-
-      final model2 = Person.fromJson(jsonDecode(json2));
-
-      print(model2.listField);
     });
   });
 }
