@@ -42,6 +42,58 @@ final TestModel $testModel = TestModel(
     'child': {'age': 20}
   },
   userModel: $userModel,
+  userModel2: UserModel(
+    username: 'hihi',
+    age: 30,
+    child: UserModel(
+      username: 'xx',
+      age: 14,
+      child: null,
+      children: null,
+      animalMap: null,
+    ),
+    children: [
+      UserModel(
+        username: 'one',
+        age: 18,
+        child: null,
+        children: null,
+        animalMap: null,
+      ),
+      UserModel(
+        username: 'two',
+        age: 4,
+        child: null,
+        children: null,
+        animalMap: null,
+      )
+    ],
+    animalMap: {
+      'one': AnimalModel(
+        name: '旺财',
+        type: '小狗',
+      ),
+      'two': AnimalModel(
+        name: '小白',
+        type: '猫咪',
+      )
+    },
+  ),
+  myAnimal: $animalModel,
+  myDog: AnimalModel(
+    name: '旺财',
+    type: '小狗',
+  ),
+  animalList: [
+    AnimalModel(
+      name: '旺财',
+      type: '小狗',
+    ),
+    AnimalModel(
+      name: '小白',
+      type: '猫咪',
+    )
+  ],
 );
 
 TestModel _fromJson(Map<String, dynamic>? json) {
@@ -100,6 +152,61 @@ TestModel _fromJson(Map<String, dynamic>? json) {
           'child': {'age': 20}
         },
     userModel: $userModel.fromJson((json['userModel'] ?? json['user_model'])),
+    userModel2: (json['userModel2'] ?? json['user_model2']) ??
+        UserModel(
+          username: 'hihi',
+          age: 30,
+          child: UserModel(
+            username: 'xx',
+            age: 14,
+            child: null,
+            children: null,
+            animalMap: null,
+          ),
+          children: [
+            UserModel(
+              username: 'one',
+              age: 18,
+              child: null,
+              children: null,
+              animalMap: null,
+            ),
+            UserModel(
+              username: 'two',
+              age: 4,
+              child: null,
+              children: null,
+              animalMap: null,
+            )
+          ],
+          animalMap: {
+            'one': AnimalModel(
+              name: '旺财',
+              type: '小狗',
+            ),
+            'two': AnimalModel(
+              name: '小白',
+              type: '猫咪',
+            )
+          },
+        ),
+    myAnimal: $animalModel.fromJson(json['my_animal_model']),
+    myDog: (json['myDog'] ?? json['my_dog']) ??
+        AnimalModel(
+          name: '旺财',
+          type: '小狗',
+        ),
+    animalList: ElJsonUtil.$list<AnimalModel>(json, 'animalList') ??
+        [
+          AnimalModel(
+            name: '旺财',
+            type: '小狗',
+          ),
+          AnimalModel(
+            name: '小白',
+            type: '猫咪',
+          )
+        ],
   );
 }
 
@@ -144,11 +251,249 @@ extension TestModelExtension on TestModel {
       'set_field2': setField2,
       'map_field': mapField,
       'map_field2': mapField2,
-      'user_model': userModel?.toJson(),
+      'user_model': userModel.toJson(),
+      'user_model2': userModel2?.toJson(),
+      'my_animal_model': myAnimal.toJson(),
+      'my_dog': myDog?.toJson(),
+      'animal_list': animalList,
     };
   }
 
+  TestModel copyWith({
+    String? stringField,
+    String? stringField2,
+    String? stringField3,
+    String? stringField4,
+    num? numField,
+    num? numField2,
+    num? numField3,
+    num? numField4,
+    int? intField,
+    int? intField2,
+    int? intField3,
+    int? intField4,
+    double? doubleField,
+    double? doubleField2,
+    double? doubleField3,
+    double? doubleField4,
+    bool? boolField,
+    bool? boolField2,
+    bool? boolField3,
+    bool? boolField4,
+    List<dynamic>? listField,
+    List<dynamic>? listField2,
+    List<String>? listStringField,
+    List<String>? listStringField2,
+    List<String>? listStringField3,
+    List<String>? listStringField4,
+    List<int>? listIntField,
+    List<int>? listIntField2,
+    List<int>? listIntField3,
+    List<int>? listIntField4,
+    List<double>? listDoubleField,
+    List<double>? listDoubleField2,
+    List<double>? listDoubleField3,
+    List<double>? listDoubleField4,
+    Set<dynamic>? setField,
+    Set<dynamic>? setField2,
+    Map<String, dynamic>? mapField,
+    Map<String, dynamic>? mapField2,
+    UserModel? userModel,
+    UserModel? userModel2,
+    AnimalModel? myAnimal,
+    AnimalModel? myDog,
+    List<AnimalModel>? animalList,
+  }) {
+    return TestModel(
+      stringField: stringField ?? this.stringField,
+      stringField2: stringField2 ?? this.stringField2,
+      stringField3: stringField3 ?? this.stringField3,
+      stringField4: stringField4 ?? this.stringField4,
+      numField: numField ?? this.numField,
+      numField2: numField2 ?? this.numField2,
+      numField3: numField3 ?? this.numField3,
+      numField4: numField4 ?? this.numField4,
+      intField: intField ?? this.intField,
+      intField2: intField2 ?? this.intField2,
+      intField3: intField3 ?? this.intField3,
+      intField4: intField4 ?? this.intField4,
+      doubleField: doubleField ?? this.doubleField,
+      doubleField2: doubleField2 ?? this.doubleField2,
+      doubleField3: doubleField3 ?? this.doubleField3,
+      doubleField4: doubleField4 ?? this.doubleField4,
+      boolField: boolField ?? this.boolField,
+      boolField2: boolField2 ?? this.boolField2,
+      boolField3: boolField3 ?? this.boolField3,
+      boolField4: boolField4 ?? this.boolField4,
+      listField: listField ?? this.listField,
+      listField2: listField2 ?? this.listField2,
+      listStringField: listStringField ?? this.listStringField,
+      listStringField2: listStringField2 ?? this.listStringField2,
+      listStringField3: listStringField3 ?? this.listStringField3,
+      listStringField4: listStringField4 ?? this.listStringField4,
+      listIntField: listIntField ?? this.listIntField,
+      listIntField2: listIntField2 ?? this.listIntField2,
+      listIntField3: listIntField3 ?? this.listIntField3,
+      listIntField4: listIntField4 ?? this.listIntField4,
+      listDoubleField: listDoubleField ?? this.listDoubleField,
+      listDoubleField2: listDoubleField2 ?? this.listDoubleField2,
+      listDoubleField3: listDoubleField3 ?? this.listDoubleField3,
+      listDoubleField4: listDoubleField4 ?? this.listDoubleField4,
+      setField: setField ?? this.setField,
+      setField2: setField2 ?? this.setField2,
+      mapField: mapField ?? this.mapField,
+      mapField2: mapField2 ?? this.mapField2,
+      userModel: this.userModel.merge(userModel),
+      userModel2: this.userModel2?.merge(userModel2),
+      myAnimal: this.myAnimal.merge(myAnimal),
+      myDog: this.myDog?.merge(myDog),
+      animalList: animalList ?? this.animalList,
+    );
+  }
+
+  TestModel merge([TestModel? other]) {
+    if (other == null) return this;
+    return copyWith(
+      stringField: other.stringField,
+      stringField2: other.stringField2,
+      stringField3: other.stringField3,
+      stringField4: other.stringField4,
+      numField: other.numField,
+      numField2: other.numField2,
+      numField3: other.numField3,
+      numField4: other.numField4,
+      intField: other.intField,
+      intField2: other.intField2,
+      intField3: other.intField3,
+      intField4: other.intField4,
+      doubleField: other.doubleField,
+      doubleField2: other.doubleField2,
+      doubleField3: other.doubleField3,
+      doubleField4: other.doubleField4,
+      boolField: other.boolField,
+      boolField2: other.boolField2,
+      boolField3: other.boolField3,
+      boolField4: other.boolField4,
+      listField: other.listField,
+      listField2: other.listField2,
+      listStringField: other.listStringField,
+      listStringField2: other.listStringField2,
+      listStringField3: other.listStringField3,
+      listStringField4: other.listStringField4,
+      listIntField: other.listIntField,
+      listIntField2: other.listIntField2,
+      listIntField3: other.listIntField3,
+      listIntField4: other.listIntField4,
+      listDoubleField: other.listDoubleField,
+      listDoubleField2: other.listDoubleField2,
+      listDoubleField3: other.listDoubleField3,
+      listDoubleField4: other.listDoubleField4,
+      setField: other.setField,
+      setField2: other.setField2,
+      mapField: other.mapField,
+      mapField2: other.mapField2,
+      userModel: userModel.merge(other.userModel),
+      userModel2: userModel2?.merge(other.userModel2),
+      myAnimal: myAnimal.merge(other.myAnimal),
+      myDog: myDog?.merge(other.myDog),
+      animalList: other.animalList,
+    );
+  }
+
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is TestModel &&
+          runtimeType == other.runtimeType &&
+          stringField == other.stringField &&
+          stringField2 == other.stringField2 &&
+          stringField3 == other.stringField3 &&
+          stringField4 == other.stringField4 &&
+          numField == other.numField &&
+          numField2 == other.numField2 &&
+          numField3 == other.numField3 &&
+          numField4 == other.numField4 &&
+          intField == other.intField &&
+          intField2 == other.intField2 &&
+          intField3 == other.intField3 &&
+          intField4 == other.intField4 &&
+          doubleField == other.doubleField &&
+          doubleField2 == other.doubleField2 &&
+          doubleField3 == other.doubleField3 &&
+          doubleField4 == other.doubleField4 &&
+          boolField == other.boolField &&
+          boolField2 == other.boolField2 &&
+          boolField3 == other.boolField3 &&
+          boolField4 == other.boolField4 &&
+          listField == other.listField &&
+          listField2 == other.listField2 &&
+          listStringField == other.listStringField &&
+          listStringField2 == other.listStringField2 &&
+          listStringField3 == other.listStringField3 &&
+          listStringField4 == other.listStringField4 &&
+          listIntField == other.listIntField &&
+          listIntField2 == other.listIntField2 &&
+          listIntField3 == other.listIntField3 &&
+          listIntField4 == other.listIntField4 &&
+          listDoubleField == other.listDoubleField &&
+          listDoubleField2 == other.listDoubleField2 &&
+          listDoubleField3 == other.listDoubleField3 &&
+          listDoubleField4 == other.listDoubleField4 &&
+          setField == other.setField &&
+          setField2 == other.setField2 &&
+          mapField == other.mapField &&
+          mapField2 == other.mapField2 &&
+          userModel == other.userModel &&
+          userModel2 == other.userModel2 &&
+          myAnimal == other.myAnimal &&
+          myDog == other.myDog &&
+          animalList == other.animalList;
+
+  int get _hashCode =>
+      stringField.hashCode ^
+      stringField2.hashCode ^
+      stringField3.hashCode ^
+      stringField4.hashCode ^
+      numField.hashCode ^
+      numField2.hashCode ^
+      numField3.hashCode ^
+      numField4.hashCode ^
+      intField.hashCode ^
+      intField2.hashCode ^
+      intField3.hashCode ^
+      intField4.hashCode ^
+      doubleField.hashCode ^
+      doubleField2.hashCode ^
+      doubleField3.hashCode ^
+      doubleField4.hashCode ^
+      boolField.hashCode ^
+      boolField2.hashCode ^
+      boolField3.hashCode ^
+      boolField4.hashCode ^
+      listField.hashCode ^
+      listField2.hashCode ^
+      listStringField.hashCode ^
+      listStringField2.hashCode ^
+      listStringField3.hashCode ^
+      listStringField4.hashCode ^
+      listIntField.hashCode ^
+      listIntField2.hashCode ^
+      listIntField3.hashCode ^
+      listIntField4.hashCode ^
+      listDoubleField.hashCode ^
+      listDoubleField2.hashCode ^
+      listDoubleField3.hashCode ^
+      listDoubleField4.hashCode ^
+      setField.hashCode ^
+      setField2.hashCode ^
+      mapField.hashCode ^
+      mapField2.hashCode ^
+      userModel.hashCode ^
+      userModel2.hashCode ^
+      myAnimal.hashCode ^
+      myDog.hashCode ^
+      animalList.hashCode;
+
   String _toString() {
-    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel\n}';
+    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList\n}';
   }
 }

@@ -6,8 +6,9 @@ import 'src/builders/model.dart';
 import 'src/builders/theme_data.dart';
 
 Builder elBuilder(BuilderOptions options) {
+  builderConfig = BuilderConfig.fromConfig(options.config);
   return SharedPartBuilder([
-    ElModelGenerator(BuilderConfig.fromConfig(options.config)),
+    ElModelGenerator(),
     ElThemeDataGenerator(),
   ], 'model');
 }

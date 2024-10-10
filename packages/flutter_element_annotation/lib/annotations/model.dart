@@ -55,33 +55,40 @@ class ElModel {
   });
 
   /// 生成 formJson 方法
+  /// ```dart
+  /// @override
+  /// TestModel fromJson(Map<String, dynamic>? json) => _fromJson(json);
+  /// ```
   final bool formJson;
 
   /// 生成 toJson 方法
+  /// ```dart
+  /// @override
+  /// Map<String, dynamic> toJson() => _toJson();
+  /// ```
   final bool toJson;
 
   /// 生成 copyWith 方法
   final bool copyWith;
 
-  /// 生成 merge 方法，此方法的作用是接收一个对象，与当前对象的属性进行合并，
-  /// 该属性依赖于[copyWith]，如果该属性为true，则[copyWith]强制为true
+  /// 生成 merge 方法，如果该属性为true，则[copyWith]强制为true
   final bool merge;
 
-  /// 生成 equals 方法，使用示例：
+  /// 生成 equals 方法
   /// ```dart
   /// @override
   /// bool operator ==(Object other) => _equals(other);
   /// ```
   final bool generateEquals;
 
-  /// 生成 hashCode 方法，使用示例：
+  /// 生成 hashCode 方法
   /// ```dart
   /// @override
   /// int get hashCode => _hashCode;
   /// ```
   final bool generateHashCode;
 
-  /// 生成 toString 方法，使用示例：
+  /// 生成 toString 方法
   /// ```dart
   /// @override
   /// String toString() => _toString();

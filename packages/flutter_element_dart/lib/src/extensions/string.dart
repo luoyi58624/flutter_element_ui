@@ -1,3 +1,5 @@
+import 'package:flutter_element_dart/src/utils/reg.dart';
+
 extension DartStringExtension on String {
   /// 首字母大写
   String get firstUpperCase {
@@ -15,6 +17,13 @@ extension DartStringExtension on String {
       RegExp('(?<=[a-z])[A-Z]'),
       (m) => '_${m.group(0)}',
     ).toLowerCase();
+  }
+
+  /// 清除字符串首尾空格
+  String get clearFrontBackBlank {
+    return replaceAll(RegUtil.removeFirstBlank, '')
+        .replaceAll(RegUtil.removeEndBlank, '')
+        .trim();
   }
 
   /// 提取类型字符串的泛型类型

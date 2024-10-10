@@ -1,15 +1,23 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
+import 'animal.dart';
+
 part '../generates/models/user.g.dart';
 
 @ElModel.all()
 class UserModel implements ElSerializeModel<UserModel> {
   final String? username;
   final int? age;
+  final UserModel? child;
+  final List<UserModel>? children;
+  final Map<String, AnimalModel>? animalMap;
 
-  UserModel({
+  const UserModel({
     this.username,
     this.age,
+    this.child,
+    this.children,
+    this.animalMap,
   });
 
   @override

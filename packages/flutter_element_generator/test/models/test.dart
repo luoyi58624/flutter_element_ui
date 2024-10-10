@@ -1,15 +1,11 @@
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
+import 'animal.dart';
 import 'user.dart';
 
 part '../generates/models/test.g.dart';
 
-@ElModel(
-  toJsonUnderline: true,
-  formJson: true,
-  toJson: true,
-  generateToString: true,
-)
+@ElModel.all(toJsonUnderline: true)
 class TestModel implements ElSerializeModel<TestModel> {
   @ElModelField(jsonKey: 'custom_string')
   final String stringField;
@@ -89,7 +85,31 @@ class TestModel implements ElSerializeModel<TestModel> {
   })
   final Map<String, dynamic>? mapField2;
 
-  final UserModel? userModel;
+  final UserModel userModel;
+  @ElModelField(
+    defaultValue: UserModel(
+        username: 'hihi',
+        age: 30,
+        child: UserModel(username: 'xx', age: 14),
+        children: [
+          UserModel(username: 'one', age: 18),
+          UserModel(username: 'two', age: 4),
+        ],
+        animalMap: {
+          'one': AnimalModel(name: '旺财', type: '小狗'),
+          'two': AnimalModel(name: '小白', type: '猫咪'),
+        }),
+  )
+  final UserModel? userModel2;
+  @ElModelField(jsonKey: 'my_animal_model')
+  final AnimalModel myAnimal;
+  @ElModelField(defaultValue: AnimalModel(name: '旺财', type: '小狗'))
+  final AnimalModel? myDog;
+  @ElModelField(defaultValue: [
+    AnimalModel(name: '旺财', type: '小狗'),
+    AnimalModel(name: '小白', type: '猫咪'),
+  ])
+  final List<AnimalModel> animalList;
 
   TestModel({
     required this.stringField,
@@ -130,7 +150,11 @@ class TestModel implements ElSerializeModel<TestModel> {
     this.setField2,
     required this.mapField,
     this.mapField2,
-    this.userModel,
+    required this.userModel,
+    this.userModel2,
+    required this.myAnimal,
+    this.myDog,
+    required this.animalList,
   });
 
   factory TestModel.fromJson(Map<String, dynamic>? json) {
@@ -142,6 +166,12 @@ class TestModel implements ElSerializeModel<TestModel> {
 
   @override
   Map<String, dynamic> toJson() => _toJson();
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 
   @override
   String toString() => _toString();

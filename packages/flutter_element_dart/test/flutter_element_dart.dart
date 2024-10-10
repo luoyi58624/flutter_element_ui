@@ -1,6 +1,7 @@
-
 import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:test/test.dart';
+
+import 'reg/html.dart';
 
 void main() {
   group('DartUtil', () {
@@ -47,6 +48,18 @@ void main() {
       }
 
       hello.throttle(2000)();
+    });
+  });
+
+  group('正则测试', () {
+    test('demo', () {
+      String str = 'UserModel<T>?';
+      final result = str.replaceAll(RegExp(r'(<.*>)|\?'), '');
+      i(result);
+    });
+
+    test('提取 html 标签中的字符', () {
+      htmlRegTest();
     });
   });
 }

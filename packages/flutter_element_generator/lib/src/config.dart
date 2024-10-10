@@ -1,3 +1,6 @@
+/// 当启动代码生成器时将初始化全局构建配置
+late BuilderConfig builderConfig;
+
 /// 构建器配置
 class BuilderConfig {
   /// 生成的默认模型对象命名模版，默认以 $ 作为前缀，对应的格式为 ${{}}

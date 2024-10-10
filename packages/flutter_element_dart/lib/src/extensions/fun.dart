@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import '../logger.dart';
+import '../utils/logger.dart';
 
 final List<String> _throttleKeyList = [];
 final Map<String, Timer> _debounceKeyMap = {};

@@ -3,6 +3,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:flutter_element_annotation/flutter_element_annotation.dart';
+import 'package:flutter_element_generator/src/utils.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -11,6 +12,7 @@ import '../config.dart';
 const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
 const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
 
+/// 当前实体类的信息
 late ClassElement _classInfo;
 
 /// 当前实体类的类名
@@ -19,18 +21,22 @@ late String _className;
 /// 当前实体类的字段列表
 late List<FieldElement> _classFields;
 
+/// 当前实体类的默认构造函数是否使用 const 修饰
+late bool _isConstConstructor;
+
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
-  final BuilderConfig config;
-
-  ElModelGenerator(this.config);
-
   @override
   generateForAnnotatedElement(element, annotation, buildStep) {
     _classInfo = element as ClassElement;
     _className = _classInfo.name;
-    _classFields = _classInfo.fields.where((e) => _fieldCheck(e)).toList();
+    _classFields = MirrorUtils.filterFields(_classInfo);
 
+    for (var constructor in _classInfo.constructors) {
+      if (constructor.name.isEmpty) {
+        _isConstConstructor = constructor.isConst;
+      }
+    }
     String result = """
 ${generateFromJson(annotation)}  
     
@@ -53,6 +59,7 @@ extension ${_className}Extension on $_className {
 
     String content = '';
     String defaultModelContent = '';
+
     final fromJsonDiff = annotation.read('fromJsonDiff').boolValue;
 
     for (int i = 0; i < _classFields.length; i++) {
@@ -159,7 +166,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else {
-        if (_isSerializeField(fieldInfo)) {
+        if (MirrorUtils.isSerialize(fieldInfo.type.element)) {
           if (jsonKey == jsonKey.toLowerCase()) {
             valueContent = "json['$jsonKey']";
           } else {
@@ -167,11 +174,20 @@ extension ${_className}Extension on $_className {
                 "(json['$jsonKey'] ?? json['${jsonKey.toUnderline}'])";
           }
 
-          final String modelName =
-              config.modelNameTemplate.replaceFirst('{{}}', field);
-
-          valueContent = "$modelName.fromJson($valueContent)";
-          defaultModelValueContent = modelName;
+          if (defaultValue != null) {
+            valueContent = '$valueContent ?? $defaultValue';
+            defaultModelValueContent = '$defaultValue';
+          } else {
+            if (fieldType.endsWith('?') == false) {
+              final String modelName =
+                  builderConfig.modelNameTemplate.replaceFirst(
+                '{{}}',
+                fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
+              );
+              valueContent = "$modelName.fromJson($valueContent)";
+              defaultModelValueContent = modelName;
+            }
+          }
         }
       }
 
@@ -181,11 +197,11 @@ extension ${_className}Extension on $_className {
       }
     }
 
-    String modelName = config.modelNameTemplate
+    String modelName = builderConfig.modelNameTemplate
         .replaceFirst('{{}}', _className.firstLowerCase);
 
     return """
-final $_className $modelName = $_className(
+${_isConstConstructor ? 'const' : 'final'} $_className $modelName = $_className(
   $defaultModelContent
 );
 
@@ -215,7 +231,7 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
       String key =
           "'${jsonKey ?? (toJsonUnderline ? field.toUnderline : field)}'";
       late String value;
-      if (_isSerializeField(fieldInfo)) {
+      if (MirrorUtils.isSerialize(fieldInfo.type.element)) {
         if (fieldType.endsWith('?')) field += '?';
         value = "$field.toJson()";
       } else {
@@ -362,24 +378,6 @@ String _toString() {
   }
 }
 
-/// 判断字段是否允许 copy
-bool _fieldCheck(FieldElement fieldInfo) {
-  return !(fieldInfo.isSynthetic ||
-      fieldInfo.isStatic ||
-      fieldInfo.isLate ||
-      fieldInfo.isConst);
-}
-
-/// 判断字段是否为继承了序列化模型对象字段
-bool _isSerializeField(FieldElement fieldInfo) {
-  if (fieldInfo.type.element is InterfaceElement) {
-    final ele = fieldInfo.type.element as InterfaceElement;
-    return ele.allSupertypes
-        .any((e) => e.toString().contains('ElSerializeModel'));
-  }
-  return false;
-}
-
 /// 判断当前字段是否被忽略
 /// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
 /// 如果为true，则表示此函数生成的代码应当忽略该字段
@@ -415,39 +413,7 @@ dynamic _getDefaultValue(FieldElement fieldInfo) {
         .firstAnnotationOfExact(fieldInfo)!
         .getField('defaultValue');
 
-    return _deepGetDefaultValue(field);
-  }
-  return null;
-}
-
-/// 使用递归深度遍历默认值
-dynamic _deepGetDefaultValue(DartObject? field) {
-  if (field == null || field.isNull) return null;
-  final reader = ConstantReader(field);
-  dynamic value;
-  if (reader.isString) {
-    return "'${reader.literalValue}'";
-  }
-  if (reader.isDouble || reader.isInt || reader.isBool) {
-    return reader.literalValue;
-  }
-  if (reader.isList) {
-    value = (field.toListValue() ?? [])
-        .map((e) => _deepGetDefaultValue(e))
-        .toList();
-    return value;
-  }
-  if (reader.isSet) {
-    value =
-        (field.toSetValue() ?? {}).map((e) => _deepGetDefaultValue(e)).toSet();
-    return value;
-  }
-  if (reader.isMap) {
-    value = (field.toMapValue() ?? {}).map((k, v) => MapEntry(
-          _deepGetDefaultValue(k),
-          _deepGetDefaultValue(v),
-        ));
-    return value;
+    return MirrorUtils.deepGetFieldValue(ConstantReader(field), fieldInfo.type.element);
   }
   return null;
 }
@@ -456,7 +422,6 @@ dynamic _deepGetDefaultValue(DartObject? field) {
 bool _isDeepCloneField(FieldElement fieldInfo) {
   final fieldElement = fieldInfo.type.element;
   if (fieldElement is ClassElement) {
-    // 判断当前字段类型是否声明了 ElModel 注解，如果声明了 merge 方法，则属于深克隆字段
     bool isElModelField = _modelChecker.hasAnnotationOfExact(fieldElement);
     if (isElModelField) {
       return _modelChecker
