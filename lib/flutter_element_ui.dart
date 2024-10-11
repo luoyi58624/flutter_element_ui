@@ -71,4 +71,5 @@ export 'src/themes/layout/header.dart';
 export 'src/themes/services/message.dart';
 export 'src/themes/services/toast.dart';
 
+export 'src/utils/annotation.dart';
 export 'src/utils/font.dart';

@@ -9,7 +9,7 @@ import 'package:source_gen/source_gen.dart';
 import '../config.dart';
 
 const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
-const TypeChecker _modelFieldChecker = TypeChecker.fromRuntime(ElModelField);
+const TypeChecker _fieldChecker = TypeChecker.fromRuntime(ElField);
 
 /// 当前实体类的信息
 late ClassElement _classInfo;
@@ -164,23 +164,33 @@ extension ${_className}Extension on $_className {
             defaultModelValueContent = '{}';
           }
         }
-      } else {
-        if (MirrorUtils.isSerialize(fieldInfo.type.element)) {
-          final String modelName = builderConfig.modelNameTemplate.replaceFirst(
-            '{{}}',
-            fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
-          );
-          valueContent =
-              "\$ElJsonUtil.\$model<$fieldType>(json, '$jsonKey', $modelName)";
+      } else if (MirrorUtils.isSerializeModel(fieldInfo.type.element)) {
+        final String modelName = builderConfig.modelNameTemplate.replaceFirst(
+          '{{}}',
+          fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
+        );
+        valueContent =
+            "\$ElJsonUtil.\$model<$fieldType>(json, '$jsonKey', $modelName)";
 
-          if (defaultValue != null) {
-            valueContent = '$valueContent ?? $defaultValue';
-            defaultModelValueContent = '$defaultValue';
-          } else {
-            if (fieldType.endsWith('?') == false) {
-              valueContent = "$valueContent ?? $modelName";
-              defaultModelValueContent = modelName;
-            }
+        if (defaultValue != null) {
+          valueContent = '$valueContent ?? $defaultValue';
+          defaultModelValueContent = '$defaultValue';
+        } else {
+          if (fieldType.endsWith('?') == false) {
+            valueContent = "$valueContent ?? $modelName";
+            defaultModelValueContent = modelName;
+          }
+        }
+      } else {
+        final serializeName = _getCustomSerialize(fieldInfo);
+        if (serializeName == null) {
+          throw 'fromJson Error: $field 序列化失败，请配置序列化注解';
+        } else {
+          valueContent =
+              "\$ElJsonUtil.\$custom<$fieldType>(json, '$jsonKey', const $serializeName())";
+          if (fieldType.endsWith('?') == false) {
+            throw 'fromJson Error: $fieldType $field 为自定义序列化类型，生成器无法设置默认值、'
+                '同时也无法访问配置的默认值，你必须添加可为空符号 ?';
           }
         }
       }
@@ -225,11 +235,16 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
       String key =
           "'${jsonKey ?? (toJsonUnderline ? field.toUnderline : field)}'";
       late String value;
-      if (MirrorUtils.isSerialize(fieldInfo.type.element)) {
+      if (MirrorUtils.isSerializeModel(fieldInfo.type.element)) {
         if (fieldType.endsWith('?')) field += '?';
         value = "$field.toJson()";
       } else {
-        value = field;
+        final serializeName = _getCustomSerialize(fieldInfo);
+        if (serializeName == null) {
+          value = field;
+        } else {
+          value = "const $serializeName().serialize($field)";
+        }
       }
       content += '$key: $value,\n';
     }
@@ -384,11 +399,10 @@ String _toString() {
 /// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
 /// 如果为true，则表示此函数生成的代码应当忽略该字段
 bool _isIgnoreField(FieldElement fieldInfo, String typeString) {
-  bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
+  bool isElModelField = _fieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
-    var target = _modelFieldChecker
-        .firstAnnotationOfExact(fieldInfo)!
-        .getField('ignore')!;
+    var target =
+        _fieldChecker.firstAnnotationOfExact(fieldInfo)!.getField('ignore')!;
     return target.getField(typeString)?.toBoolValue() ?? false;
   }
   return false;
@@ -396,9 +410,9 @@ bool _isIgnoreField(FieldElement fieldInfo, String typeString) {
 
 /// 获取当前字段配置的 jsonKey，如果为空则表示用户没有指定 jsonKey
 String? _getJsonKey(FieldElement fieldInfo) {
-  bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
+  bool isElModelField = _fieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
-    var value = _modelFieldChecker
+    var value = _fieldChecker
         .firstAnnotationOfExact(fieldInfo)!
         .getField('jsonKey')
         ?.toStringValue();
@@ -409,14 +423,14 @@ String? _getJsonKey(FieldElement fieldInfo) {
 
 /// 获取当前字段配置的 defaultValue，如果为空则表示用户没有指定 defaultValue
 dynamic _getDefaultValue(FieldElement fieldInfo) {
-  bool isElModelField = _modelFieldChecker.hasAnnotationOfExact(fieldInfo);
+  bool isElModelField = _fieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
-    var field = _modelFieldChecker
+    var field = _fieldChecker
         .firstAnnotationOfExact(fieldInfo)!
         .getField('defaultValue');
 
     return MirrorUtils.deepGetFieldValue(
-        ConstantReader(field), fieldInfo.type.element);
+        ConstantReader(field), fieldInfo.type.element, true);
   }
   return null;
 }
@@ -439,4 +453,24 @@ bool _isDeepCloneField(FieldElement fieldInfo) {
     }
   }
   return false;
+}
+
+/// 获取自定义序列化的注解名字
+String? _getCustomSerialize(FieldElement fieldInfo) {
+  if (fieldInfo.metadata.isEmpty) return null;
+  ElementAnnotation? serializeMeta;
+  for (final meta in fieldInfo.metadata) {
+    if (meta.element is ConstructorElement) {
+      var flag = (meta.element as ConstructorElement)
+          .enclosingElement
+          .allSupertypes
+          .any((e) => e.toString().contains('ElSerialize'));
+
+      if (flag) {
+        serializeMeta = meta;
+      }
+    }
+  }
+  if (serializeMeta == null) return null;
+  return serializeMeta.element!.displayName;
 }

@@ -1,22 +1,3 @@
-targets:
-  $default:
-    auto_apply_builders: true
-    sources:
-      - lib/**
-      - test/**
-      - $package$
-    builders:
-      source_gen:combining_builder:
-        options:
-          build_extensions:
-            '^test/models/{{}}.dart': 'test/generates/models/{{}}.g.dart'
-      flutter_element_generator|model:
-        generate_for:
-          - test/models/**.dart
-        options:
-          # 模型对象名字模型，这是默认的配置
-          model_name_template: '${{}}'
-
 builders:
   model:
     import: "package:flutter_element_generator/builder.dart"

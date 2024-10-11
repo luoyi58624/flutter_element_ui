@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show MaterialColor, Color, HSLColor, BuildContext;
 import 'package:flutter_element_extension/src/extensions/context.dart';
 import 'package:flutter_element_extension/src/extensions/event.dart';
 import 'package:flutter_element_ui/flutter_element_ui.dart';
@@ -220,5 +221,5 @@ extension ElColorThemeExtension on Color {
 extension _ColorExtension on Color {
   Color _darken(int level) => mix(const Color(0xff222222), level * 9);
 
-  Color _brighten(int level) => mix(Colors.white, level * 10);
+  Color _brighten(int level) => mix(const Color(0xffffffff), level * 10);
 }

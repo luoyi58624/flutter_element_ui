@@ -18,8 +18,8 @@ class MirrorUtils {
     return classInfo.fields.where((e) => MirrorUtils._fieldFilter(e)).toList();
   }
 
-  /// 判断元素是否继承了序列化模型
-  static bool isSerialize(Element? element) {
+  /// 判断元素是否实现了 [ElSerializeModel] 序列化模型
+  static bool isSerializeModel(Element? element) {
     if (element is InterfaceElement) {
       return element.allSupertypes
           .any((e) => e.toString().contains('ElSerializeModel'));
@@ -28,10 +28,11 @@ class MirrorUtils {
   }
 
   /// 使用递归深度遍历元素字段默认值
-  static dynamic deepGetFieldValue(ConstantReader reader, [Element? element]) {
+  static dynamic deepGetFieldValue(ConstantReader reader,
+      [Element? element, bool? requireConst]) {
     if (reader.isNull) return null;
 
-    if (element != null && isSerialize(element)) {
+    if (element != null && isSerializeModel(element)) {
       final classInfo = element as ClassElement;
       final fields = MirrorUtils.filterFields(classInfo);
       String content = '';
@@ -39,9 +40,14 @@ class MirrorUtils {
         content += "${field.name}: ${deepGetFieldValue(
           reader.read(field.name),
           field.type.element,
+          false,
         )},";
       }
-      return "${classInfo.name}($content)";
+      content = "${classInfo.name}($content)";
+      if (requireConst == true) {
+        content = "const $content";
+      }
+      return content;
     }
     if (reader.isString) {
       return "'${reader.literalValue}'";
@@ -51,21 +57,23 @@ class MirrorUtils {
     }
     if (reader.isList) {
       return (reader.listValue)
-          .map((e) => deepGetFieldValue(ConstantReader(e), e.type?.element))
+          .map((e) => deepGetFieldValue(
+              ConstantReader(e), e.type?.element, requireConst ?? true))
           .toList();
     }
     if (reader.isSet) {
       return (reader.setValue)
-          .map((e) => deepGetFieldValue(ConstantReader(e), e.type?.element))
+          .map((e) => deepGetFieldValue(
+              ConstantReader(e), e.type?.element, requireConst ?? true))
           .toSet();
     }
     if (reader.isMap) {
       return (reader.mapValue).map((k, v) => MapEntry(
             deepGetFieldValue(ConstantReader(k), k?.type?.element),
-            deepGetFieldValue(ConstantReader(v), v?.type?.element),
+            deepGetFieldValue(
+                ConstantReader(v), v?.type?.element, requireConst ?? true),
           ));
     }
-
     return null;
   }
 }

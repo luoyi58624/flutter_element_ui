@@ -109,9 +109,9 @@ class ElModel {
 }
 
 @Target({TargetKind.field})
-class ElModelField {
+class ElField {
   /// 模型字段注解
-  const ElModelField({
+  const ElField({
     this.ignore = const ElModel(),
     this.jsonKey,
     this.defaultValue,
@@ -128,3 +128,4 @@ class ElModelField {
   /// 指定默认值，当反序列化时如果 json 没有目标参数、或者目标类型转换失败时将使用此默认值
   final dynamic defaultValue;
 }
+

@@ -5,11 +5,8 @@ publish_to: none
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
-  flutter: ">=3.22.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
   flutter_element_dart:
     path: ../flutter_element_dart
   flutter_element_annotation:
@@ -23,6 +20,5 @@ dependencies:
   collection: ^1.18.0
 
 dev_dependencies:
-  test: ^1.24.0
   lints: ^4.0.0
   build_runner: ^2.4.10

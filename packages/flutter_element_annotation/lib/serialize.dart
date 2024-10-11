@@ -1,4 +1,13 @@
-/// Model 数据类序列化模型接口，对于实现此接口的 class，代码生成器会自动识别它们并应用它们的序列化函数
+/// 对象序列化接口，此接口用于实现自定义序列化注解
+abstract interface class ElSerialize<T> {
+  /// 序列化: object -> string
+  String? serialize(T? obj);
+
+  /// 反序列化: string -> object
+  T? deserialize(String? str);
+}
+
+/// 数据模型序列化接口，此接口用于 Model 数据类
 abstract interface class ElSerializeModel<T> {
   /// 将 json 转成模型对象
   T fromJson(Map<String, dynamic>? json);

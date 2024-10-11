@@ -4,15 +4,22 @@ targets:
     # 指定 build_runner 工作目录
     sources:
       - lib/**
+      - test/**
       - $package$
     builders:
-      # 配置源码生成，将源文件与生成的代码进行关联映射，统一将生成的代码放到 generates 文件目录下
+      # 配置源码生成位置，统一将生成的代码放到 generates 文件目录下
       source_gen:combining_builder:
         options:
           build_extensions:
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
-      # 添加 element 生成器，指定检索目录，尽量将检索范围控制在需要生成的代码目录，这样可以极大提高构建速度
+            '^test/models/{{}}.dart': 'test/generates/models/{{}}.g.dart'
+      # 添加 element 生成器
       flutter_element_generator|model:
+        # 指定检索目录，尽量将检索范围控制在需要生成的代码目录，这样可以提高构建速度
         generate_for:
           - lib/src/components/**.dart
           - lib/src/themes/**.dart
+          - test/models/**.dart
+        options:
+          # 配置生成的默认模型对象名字，默认：${{}}
+          model_name_template: '${{}}'

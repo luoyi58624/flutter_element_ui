@@ -42,7 +42,7 @@ final TestModel $testModel = TestModel(
     'child': {'age': 20}
   },
   userModel: $userModel,
-  userModel2: UserModel(
+  userModel2: const UserModel(
     username: 'hihi',
     age: 30,
     child: UserModel(
@@ -84,16 +84,16 @@ final TestModel $testModel = TestModel(
     mapField: null,
   ),
   myAnimal: $animalModel,
-  myDog: AnimalModel(
+  myDog: const AnimalModel(
     name: '旺财',
     type: '小狗',
   ),
   animalList: [
-    AnimalModel(
+    const AnimalModel(
       name: '旺财',
       type: '小狗',
     ),
-    AnimalModel(
+    const AnimalModel(
       name: '小白',
       type: '猫咪',
     )
@@ -159,7 +159,7 @@ TestModel _fromJson(Map<String, dynamic>? json) {
         $userModel,
     userModel2:
         $ElJsonUtil.$model<UserModel?>(json, 'userModel2', $userModel) ??
-            UserModel(
+            const UserModel(
               username: 'hihi',
               age: 30,
               child: UserModel(
@@ -204,21 +204,26 @@ TestModel _fromJson(Map<String, dynamic>? json) {
             json, 'my_animal_model', $animalModel) ??
         $animalModel,
     myDog: $ElJsonUtil.$model<AnimalModel?>(json, 'myDog', $animalModel) ??
-        AnimalModel(
+        const AnimalModel(
           name: '旺财',
           type: '小狗',
         ),
     animalList: $ElJsonUtil.$list<AnimalModel>(json, 'animalList') ??
         [
-          AnimalModel(
+          const AnimalModel(
             name: '旺财',
             type: '小狗',
           ),
-          AnimalModel(
+          const AnimalModel(
             name: '小白',
             type: '猫咪',
           )
         ],
+    startDate: $ElJsonUtil.$custom<DateTime?>(
+        json, 'startDate', const ElDateTimeSerialize()),
+    color: $ElJsonUtil.$custom<Color?>(json, 'color', const ElColorSerialize()),
+    materialColor: $ElJsonUtil.$custom<MaterialColor?>(
+        json, 'materialColor', const ElMaterialColorSerialize()),
   );
 }
 
@@ -268,6 +273,10 @@ extension TestModelExtension on TestModel {
       'my_animal_model': myAnimal.toJson(),
       'my_dog': myDog?.toJson(),
       'animal_list': animalList,
+      'start_date': const ElDateTimeSerialize().serialize(startDate),
+      'color': const ElColorSerialize().serialize(color),
+      'material_color':
+          const ElMaterialColorSerialize().serialize(materialColor),
     };
   }
 
@@ -315,6 +324,9 @@ extension TestModelExtension on TestModel {
     AnimalModel? myAnimal,
     AnimalModel? myDog,
     List<AnimalModel>? animalList,
+    DateTime? startDate,
+    Color? color,
+    MaterialColor? materialColor,
   }) {
     return TestModel(
       stringField: stringField ?? this.stringField,
@@ -360,6 +372,9 @@ extension TestModelExtension on TestModel {
       myAnimal: this.myAnimal.merge(myAnimal),
       myDog: this.myDog?.merge(myDog),
       animalList: animalList ?? this.animalList,
+      startDate: startDate ?? this.startDate,
+      color: color ?? this.color,
+      materialColor: materialColor ?? this.materialColor,
     );
   }
 
@@ -409,6 +424,9 @@ extension TestModelExtension on TestModel {
       myAnimal: myAnimal.merge(other.myAnimal),
       myDog: myDog?.merge(other.myDog),
       animalList: other.animalList,
+      startDate: other.startDate,
+      color: other.color,
+      materialColor: other.materialColor,
     );
   }
 
@@ -455,7 +473,10 @@ extension TestModelExtension on TestModel {
           userModel2 == other.userModel2 &&
           myAnimal == other.myAnimal &&
           myDog == other.myDog &&
-          $ElJsonUtil.eqList(animalList, other.animalList);
+          $ElJsonUtil.eqList(animalList, other.animalList) &&
+          startDate == other.startDate &&
+          color == other.color &&
+          materialColor == other.materialColor;
 
   int get _hashCode =>
       stringField.hashCode ^
@@ -500,9 +521,12 @@ extension TestModelExtension on TestModel {
       userModel2.hashCode ^
       myAnimal.hashCode ^
       myDog.hashCode ^
-      animalList.hashCode;
+      animalList.hashCode ^
+      startDate.hashCode ^
+      color.hashCode ^
+      materialColor.hashCode;
 
   String _toString() {
-    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList\n}';
+    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList,\n  startDate: $startDate,\n  color: $color,\n  materialColor: $materialColor\n}';
   }
 }

@@ -8,20 +8,24 @@ const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示�
 class $ElJsonUtil {
   $ElJsonUtil._();
 
+  static dynamic _getJsonValue(dynamic json, String key) {
+    return json[key] ?? json[key.toUnderline];
+  }
+
   static String? $string(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     return value.toString();
   }
 
   static num? $num(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     return num.tryParse(value.toString());
   }
 
   static int? $int(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     if (value is int) return value;
     if (value is String) {
@@ -33,7 +37,7 @@ class $ElJsonUtil {
   }
 
   static double? $double(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     if (value is double) return value;
     if (value is int || value is num) return value.toDouble();
@@ -41,13 +45,13 @@ class $ElJsonUtil {
   }
 
   static bool? $bool(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     return bool.tryParse(value.toString());
   }
 
   static List<T>? $list<T>(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value is List) {
       try {
         return List<T>.from(value);
@@ -66,7 +70,7 @@ class $ElJsonUtil {
   }
 
   static Set<T>? $set<T>(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value is Iterable) {
       try {
         return Set<T>.from(value);
@@ -85,7 +89,7 @@ class $ElJsonUtil {
   }
 
   static Map<String, T>? $map<T>(dynamic json, String key) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value is Map) {
       try {
         return Map<String, T>.from(value);
@@ -104,12 +108,21 @@ class $ElJsonUtil {
   }
 
   static T? $model<T>(dynamic json, String key, T model) {
-    final value = json[key] ?? json[key.toUnderline];
+    final value = _getJsonValue(json, key);
     if (value == null) return null;
     if (model is ElSerializeModel) {
       return model.fromJson(value);
     }
     return null;
+  }
+
+  /// 当内置的数据转换不满足目标类型时，将统一进入自定义序列化方法，
+  /// 如果用户没有提供自定义序列化，那么程序将抛出异常
+  static T? $custom<T>(
+      dynamic json, String key, ElSerialize<T> model) {
+    final value = _getJsonValue(json, key);
+    if (value == null) return null;
+    return model.deserialize(value);
   }
 
   static bool eqList(List? value1, List? value2) {

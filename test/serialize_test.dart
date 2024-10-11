@@ -1,11 +1,14 @@
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_element_ui/src/global.dart';
 import 'package:test/test.dart';
 
 import 'models/test.dart';
 
-void main() {
-  group('modal builder 测试', () {
-    test('element json 序列化测试', () {
+void serializeTest() {
+  group('序列化测试', () {
+    test('TestModel 基础测试', () {
       String json =
           '{"custom_string": "10.0", "stringField2": 10.0, "stringField3": 10, "stringField4": false, '
           '"num_field": "10", "num_field2": 10, "numField3": 10.0, "numField4": true,'
@@ -14,7 +17,8 @@ void main() {
           '"bool_field": "true", "boolField3": 10, "custom_bool": false,'
           '"list_field": ["luoyi", 100.0, "20", 50, ["xx"]],'
           '"map_field": {"name":"luoyi"},'
-          '"user_model": {"username":"hihi", "age":"50"}'
+          '"user_model": {"username":"hihi", "age":"50"},'
+          '"color": "#F8F8FF"'
           '}';
 
       final model = TestModel.fromJson(jsonDecode(json));
@@ -52,7 +56,15 @@ void main() {
         'child': {'age': 20}
       });
       // 测试 equals 是否工作正常，重新序列化、反序列化对象判断是否相等
+      // 注意：对于像 Color 这样需要自己配置序列化类型的数据，equals 无法对它们进行比较
       expect(TestModel.fromJson(model.toJson()), model);
+
+      // 测试颜色序列化注解是否工作正常
+      final model2 = model.copyWith(materialColor: Colors.red);
+      expect(
+        $testModel.fromJson(model2.toJson()).materialColor?.toHex(),
+        Colors.red.toHex(),
+      );
     });
   });
 }
