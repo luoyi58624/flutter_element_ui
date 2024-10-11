@@ -12,11 +12,11 @@ class IconPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    return const [
+    return [
       titleGap,
-      SectionText('Element UI 提供了一套常用的图标集合。'),
-      Example1(title: '使用方法'),
-      Example2(title: '图标集合'),
+      const SectionText('Element UI 提供了一套常用的图标集合。'),
+      const Example1(title: '使用方法'),
+      const Example2(title: '图标集合'),
     ];
   }
 }

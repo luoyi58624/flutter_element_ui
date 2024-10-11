@@ -35,50 +35,48 @@ class Example2 extends StatelessWidget {
           ],
         ),
         textGap,
-        ElIconTheme(
-          size: 2.rem(context),
-          child: GridWidget(
-            size: 125,
-            borderColor: context.elTheme.colors.border,
-            borderRadius: context.elTheme.cardTheme.radius,
-            itemCount: ElIcons.values.length,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
-              },
-              child: HoverBuilder(
-                cursor: SystemMouseCursors.click,
-                builder: (context) {
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElIcon(
-                          ElIcons.values[keys[index]],
-                          color:
-                              context.isHover ? context.elTheme.primary : null,
-                        ),
-                        const Gap(16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ElText(
-                            keys[index],
-                            softWrap: false,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: context.isHover
-                                  ? context.elTheme.primary
-                                  : null,
-                            ),
+        ElGridWidget(
+          size: 125,
+          itemCount: ElIcons.values.length,
+          borderColor: context.elTheme.colors.border,
+          borderRadius: context.elTheme.cardTheme.radius,
+          shrinkWrap: true,
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () {
+              CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
+            },
+            child: HoverBuilder(
+              cursor: SystemMouseCursors.click,
+              builder: (context) {
+                return Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ElIcon(
+                        ElIcons.values[keys[index]],
+                        color:
+                            context.isHover ? context.elTheme.primary : null,
+                      ),
+                      const Gap(16),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElText(
+                          keys[index],
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: context.isHover
+                                ? context.elTheme.primary
+                                : null,
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -86,3 +84,5 @@ class Example2 extends StatelessWidget {
     );
   }
 }
+
+
