@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="tests in flutter_element_ui.dart" type="FlutterTestConfigType" factoryName="Flutter Test" nameIsGenerated="true">
+    <option name="testFile" value="$PROJECT_DIR$/test/flutter_element_ui.dart" />
+    <option name="useRegexp" value="false" />
+    <option name="additionalArgs" value="" />
+    <method v="2" />
+  </configuration>
+</component>

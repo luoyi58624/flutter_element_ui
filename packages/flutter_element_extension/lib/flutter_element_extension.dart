@@ -1,5 +1,7 @@
 library flutter_element_extension;
 
+export 'package:flutter_element_dart/flutter_element_dart.dart';
+
 export 'src/common.dart';
 
 export 'package:gap/gap.dart';
