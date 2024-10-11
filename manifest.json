@@ -1,6 +1,6 @@
 {
-    "name": "docs",
-    "short_name": "docs",
+    "name": "element_docs",
+    "short_name": "element_docs",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
