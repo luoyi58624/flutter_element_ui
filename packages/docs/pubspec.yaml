@@ -10,11 +10,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_element_ui:
-    path: ../
-  flutter_element_dart:
-    path: ../packages/flutter_element_dart
-  flutter_element_extension:
-    path: ../packages/flutter_element_extension
+    path: ../flutter_element_ui
+  element_dart:
+    path: ../element_dart
+  element_extension:
+    path: ../element_extension
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
@@ -34,9 +34,9 @@ dev_dependencies:
 dependency_overrides:
   web: ^1.0.0
   flutter_element_ui:
-    path: ../
-  flutter_element_extension:
-    path: ../packages/flutter_element_extension
+    path: ../flutter_element_ui
+  element_extension:
+    path: ../element_extension
 
 flutter:
   uses-material-design: true

@@ -2,13 +2,13 @@ import 'package:docs/global.dart';
 
 import 'package:flutter/material.dart';
 
-import './examples/example1.dart';
-import './examples/example2.dart';
-import './examples/example3.dart';
-import './examples/example4.dart';
-import './examples/example5.dart';
-import './examples/example6.dart';
-import './examples/example7.dart';
+import 'examples/example1.dart';
+import 'examples/example2.dart';
+import 'examples/example3.dart';
+import 'examples/example4.dart';
+import 'examples/example5.dart';
+import 'examples/example6.dart';
+import 'examples/example7.dart';
 
 import 'performance_test.dart';
 
