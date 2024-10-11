@@ -1,6 +1,7 @@
 library flutter_element_extension;
 
 export 'package:flutter_element_dart/flutter_element_dart.dart';
+export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/common.dart';
 
@@ -22,6 +23,7 @@ export 'src/hooks/lifecycle.dart';
 export 'src/hooks/obs.dart';
 export 'src/hooks/watch.dart';
 
+export 'src/utils/annotation.dart';
 export 'src/utils/platform/platform.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/common.dart';

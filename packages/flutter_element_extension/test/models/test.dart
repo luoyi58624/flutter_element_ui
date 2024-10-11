@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:flutter_element_extension/flutter_element_extension.dart';
 import 'animal.dart';
 import 'user.dart';
 

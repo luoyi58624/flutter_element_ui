@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_element_annotation/flutter_element_annotation.dart';
 import 'package:meta/meta_meta.dart';
-
-import '../global.dart';
+import '../extensions/color.dart';
 
 @Target({TargetKind.field})
 class ElDateTimeSerialize implements ElSerialize<DateTime> {

@@ -2,7 +2,6 @@ library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
 export 'package:logger/logger.dart' show Level;
-export 'package:flutter_element_annotation/flutter_element_annotation.dart';
 
 export 'src/app.dart';
 export 'src/var.dart';
@@ -71,5 +70,4 @@ export 'src/themes/layout/header.dart';
 export 'src/themes/services/message.dart';
 export 'src/themes/services/toast.dart';
 
-export 'src/utils/annotation.dart';
 export 'src/utils/font.dart';
