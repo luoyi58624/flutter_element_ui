@@ -50,24 +50,23 @@ class TestModel implements ElSerializeModel<TestModel> {
     ['hihi']
   ])
   final List listField;
-
   @ElModelField(defaultValue: [1, 'hello', false])
   final List? listField2;
-
   final List<String> listStringField;
   final List<String>? listStringField2;
 
   @ElModelField(defaultValue: ['hello', 'world'])
   final List<String> listStringField3;
+  @ElModelField(ignore: ElModel(generateEquals: true))
   final List<String>? listStringField4;
-
+  @ElModelField(ignore: ElModel(generateEquals: true))
   final List<int> listIntField;
+  @ElModelField(ignore: ElModel(generateEquals: true))
   final List<int>? listIntField2;
 
   @ElModelField(defaultValue: [1, 2, 3, 4, 5])
   final List<int> listIntField3;
   final List<int>? listIntField4;
-
   final List<double> listDoubleField;
   final List<double>? listDoubleField2;
   @ElModelField(defaultValue: [1, 2, 3, 4, 5])
@@ -77,39 +76,42 @@ class TestModel implements ElSerializeModel<TestModel> {
   @ElModelField(defaultValue: {'hihi'})
   final Set setField;
   final Set? setField2;
-
   final Map<String, dynamic> mapField;
-  @ElModelField(defaultValue: {
-    'name': 'hihi',
-    'child': {'age': 20}
-  })
+  @ElModelField(
+    defaultValue: {
+      'name': 'hihi',
+      'child': {'age': 20}
+    },
+  )
   final Map<String, dynamic>? mapField2;
 
-  // final UserModel userModel;
-  // @ElModelField(
-  //   defaultValue: UserModel(
-  //       username: 'hihi',
-  //       age: 30,
-  //       child: UserModel(username: 'xx', age: 14),
-  //       children: [
-  //         UserModel(username: 'one', age: 18),
-  //         UserModel(username: 'two', age: 4),
-  //       ],
-  //       animalMap: {
-  //         'one': AnimalModel(name: '旺财', type: '小狗'),
-  //         'two': AnimalModel(name: '小白', type: '猫咪'),
-  //       }),
-  // )
-  // final UserModel? userModel2;
-  // @ElModelField(jsonKey: 'my_animal_model')
-  // final AnimalModel myAnimal;
-  // @ElModelField(defaultValue: AnimalModel(name: '旺财', type: '小狗'))
-  // final AnimalModel? myDog;
-  // @ElModelField(defaultValue: [
-  //   AnimalModel(name: '旺财', type: '小狗'),
-  //   AnimalModel(name: '小白', type: '猫咪'),
-  // ])
-  // final List<AnimalModel> animalList;
+  final UserModel userModel;
+  @ElModelField(
+    defaultValue: UserModel(
+        username: 'hihi',
+        age: 30,
+        child: UserModel(username: 'xx', age: 14),
+        children: [
+          UserModel(username: 'one', age: 18),
+          UserModel(username: 'two', age: 4),
+        ],
+        animalMap: {
+          'one': AnimalModel(name: '旺财', type: '小狗'),
+          'two': AnimalModel(name: '小白', type: '猫咪'),
+        }),
+  )
+  final UserModel? userModel2;
+  @ElModelField(jsonKey: 'my_animal_model')
+  final AnimalModel myAnimal;
+  @ElModelField(defaultValue: AnimalModel(name: '旺财', type: '小狗'))
+  final AnimalModel? myDog;
+  @ElModelField(
+    defaultValue: [
+      AnimalModel(name: '旺财', type: '小狗'),
+      AnimalModel(name: '小白', type: '猫咪'),
+    ],
+  )
+  final List<AnimalModel> animalList;
 
   TestModel({
     required this.stringField,
@@ -150,11 +152,11 @@ class TestModel implements ElSerializeModel<TestModel> {
     this.setField2,
     required this.mapField,
     this.mapField2,
-    // required this.userModel,
-    // this.userModel2,
-    // required this.myAnimal,
-    // this.myDog,
-    // required this.animalList,
+    required this.userModel,
+    this.userModel2,
+    required this.myAnimal,
+    this.myDog,
+    required this.animalList,
   });
 
   factory TestModel.fromJson(Map<String, dynamic>? json) {

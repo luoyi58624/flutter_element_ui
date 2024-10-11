@@ -41,32 +41,89 @@ final TestModel $testModel = TestModel(
     'name': 'hihi',
     'child': {'age': 20}
   },
+  userModel: $userModel,
+  userModel2: UserModel(
+    username: 'hihi',
+    age: 30,
+    child: UserModel(
+      username: 'xx',
+      age: 14,
+      child: null,
+      children: null,
+      animalMap: null,
+      mapField: null,
+    ),
+    children: [
+      UserModel(
+        username: 'one',
+        age: 18,
+        child: null,
+        children: null,
+        animalMap: null,
+        mapField: null,
+      ),
+      UserModel(
+        username: 'two',
+        age: 4,
+        child: null,
+        children: null,
+        animalMap: null,
+        mapField: null,
+      )
+    ],
+    animalMap: {
+      'one': AnimalModel(
+        name: '旺财',
+        type: '小狗',
+      ),
+      'two': AnimalModel(
+        name: '小白',
+        type: '猫咪',
+      )
+    },
+    mapField: null,
+  ),
+  myAnimal: $animalModel,
+  myDog: AnimalModel(
+    name: '旺财',
+    type: '小狗',
+  ),
+  animalList: [
+    AnimalModel(
+      name: '旺财',
+      type: '小狗',
+    ),
+    AnimalModel(
+      name: '小白',
+      type: '猫咪',
+    )
+  ],
 );
 
 TestModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $testModel;
   return TestModel(
-    stringField: ElJsonUtil.$string(json, 'custom_string') ?? '',
-    stringField2: ElJsonUtil.$string(json, 'stringField2'),
-    stringField3: ElJsonUtil.$string(json, 'stringField3') ?? 'hello',
-    stringField4: ElJsonUtil.$string(json, 'stringField4') ?? 'hello',
-    numField: ElJsonUtil.$num(json, 'numField') ?? 0.0,
-    numField2: ElJsonUtil.$num(json, 'numField2'),
-    numField3: ElJsonUtil.$num(json, 'numField3') ?? 10.0,
-    numField4: ElJsonUtil.$num(json, 'numField4') ?? 10,
-    intField: ElJsonUtil.$int(json, 'intField') ?? 0,
-    intField2: ElJsonUtil.$int(json, 'intField2'),
-    intField3: ElJsonUtil.$int(json, 'intField3') ?? 10,
-    intField4: ElJsonUtil.$int(json, 'intField4') ?? 20,
-    doubleField: ElJsonUtil.$double(json, 'doubleField') ?? 0.0,
-    doubleField2: ElJsonUtil.$double(json, 'doubleField2'),
-    doubleField3: ElJsonUtil.$double(json, 'doubleField3') ?? 10.0,
-    doubleField4: ElJsonUtil.$double(json, 'doubleField4') ?? 10.0,
-    boolField: ElJsonUtil.$bool(json, 'boolField') ?? false,
-    boolField2: ElJsonUtil.$bool(json, 'boolField2'),
-    boolField3: ElJsonUtil.$bool(json, 'boolField3') ?? true,
-    boolField4: ElJsonUtil.$bool(json, 'custom_bool') ?? true,
-    listField: ElJsonUtil.$list<dynamic>(json, 'listField') ??
+    stringField: $ElJsonUtil.$string(json, 'custom_string') ?? '',
+    stringField2: $ElJsonUtil.$string(json, 'stringField2'),
+    stringField3: $ElJsonUtil.$string(json, 'stringField3') ?? 'hello',
+    stringField4: $ElJsonUtil.$string(json, 'stringField4') ?? 'hello',
+    numField: $ElJsonUtil.$num(json, 'numField') ?? 0.0,
+    numField2: $ElJsonUtil.$num(json, 'numField2'),
+    numField3: $ElJsonUtil.$num(json, 'numField3') ?? 10.0,
+    numField4: $ElJsonUtil.$num(json, 'numField4') ?? 10,
+    intField: $ElJsonUtil.$int(json, 'intField') ?? 0,
+    intField2: $ElJsonUtil.$int(json, 'intField2'),
+    intField3: $ElJsonUtil.$int(json, 'intField3') ?? 10,
+    intField4: $ElJsonUtil.$int(json, 'intField4') ?? 20,
+    doubleField: $ElJsonUtil.$double(json, 'doubleField') ?? 0.0,
+    doubleField2: $ElJsonUtil.$double(json, 'doubleField2'),
+    doubleField3: $ElJsonUtil.$double(json, 'doubleField3') ?? 10.0,
+    doubleField4: $ElJsonUtil.$double(json, 'doubleField4') ?? 10.0,
+    boolField: $ElJsonUtil.$bool(json, 'boolField') ?? false,
+    boolField2: $ElJsonUtil.$bool(json, 'boolField2'),
+    boolField3: $ElJsonUtil.$bool(json, 'boolField3') ?? true,
+    boolField4: $ElJsonUtil.$bool(json, 'custom_bool') ?? true,
+    listField: $ElJsonUtil.$list<dynamic>(json, 'listField') ??
         [
           1,
           'hello',
@@ -74,30 +131,94 @@ TestModel _fromJson(Map<String, dynamic>? json) {
           ['hihi']
         ],
     listField2:
-        ElJsonUtil.$list<dynamic>(json, 'listField2') ?? [1, 'hello', false],
-    listStringField: ElJsonUtil.$list<String>(json, 'listStringField') ?? [],
-    listStringField2: ElJsonUtil.$list<String>(json, 'listStringField2'),
-    listStringField3: ElJsonUtil.$list<String>(json, 'listStringField3') ??
+        $ElJsonUtil.$list<dynamic>(json, 'listField2') ?? [1, 'hello', false],
+    listStringField: $ElJsonUtil.$list<String>(json, 'listStringField') ?? [],
+    listStringField2: $ElJsonUtil.$list<String>(json, 'listStringField2'),
+    listStringField3: $ElJsonUtil.$list<String>(json, 'listStringField3') ??
         ['hello', 'world'],
-    listStringField4: ElJsonUtil.$list<String>(json, 'listStringField4'),
-    listIntField: ElJsonUtil.$list<int>(json, 'listIntField') ?? [],
-    listIntField2: ElJsonUtil.$list<int>(json, 'listIntField2'),
+    listStringField4: $ElJsonUtil.$list<String>(json, 'listStringField4'),
+    listIntField: $ElJsonUtil.$list<int>(json, 'listIntField') ?? [],
+    listIntField2: $ElJsonUtil.$list<int>(json, 'listIntField2'),
     listIntField3:
-        ElJsonUtil.$list<int>(json, 'listIntField3') ?? [1, 2, 3, 4, 5],
-    listIntField4: ElJsonUtil.$list<int>(json, 'listIntField4'),
-    listDoubleField: ElJsonUtil.$list<double>(json, 'listDoubleField') ?? [],
-    listDoubleField2: ElJsonUtil.$list<double>(json, 'listDoubleField2'),
+        $ElJsonUtil.$list<int>(json, 'listIntField3') ?? [1, 2, 3, 4, 5],
+    listIntField4: $ElJsonUtil.$list<int>(json, 'listIntField4'),
+    listDoubleField: $ElJsonUtil.$list<double>(json, 'listDoubleField') ?? [],
+    listDoubleField2: $ElJsonUtil.$list<double>(json, 'listDoubleField2'),
     listDoubleField3:
-        ElJsonUtil.$list<double>(json, 'listDoubleField3') ?? [1, 2, 3, 4, 5],
-    listDoubleField4: ElJsonUtil.$list<double>(json, 'listDoubleField4'),
-    setField: ElJsonUtil.$set<dynamic>(json, 'setField') ?? {'hihi'},
-    setField2: ElJsonUtil.$set<dynamic>(json, 'setField2'),
-    mapField: ElJsonUtil.$map<dynamic>(json, 'mapField') ?? {},
-    mapField2: ElJsonUtil.$map<dynamic>(json, 'mapField2') ??
+        $ElJsonUtil.$list<double>(json, 'listDoubleField3') ?? [1, 2, 3, 4, 5],
+    listDoubleField4: $ElJsonUtil.$list<double>(json, 'listDoubleField4'),
+    setField: $ElJsonUtil.$set<dynamic>(json, 'setField') ?? {'hihi'},
+    setField2: $ElJsonUtil.$set<dynamic>(json, 'setField2'),
+    mapField: $ElJsonUtil.$map<dynamic>(json, 'mapField') ?? {},
+    mapField2: $ElJsonUtil.$map<dynamic>(json, 'mapField2') ??
         {
           'name': 'hihi',
           'child': {'age': 20}
         },
+    userModel: $ElJsonUtil.$model<UserModel>(json, 'userModel', $userModel) ??
+        $userModel,
+    userModel2:
+        $ElJsonUtil.$model<UserModel?>(json, 'userModel2', $userModel) ??
+            UserModel(
+              username: 'hihi',
+              age: 30,
+              child: UserModel(
+                username: 'xx',
+                age: 14,
+                child: null,
+                children: null,
+                animalMap: null,
+                mapField: null,
+              ),
+              children: [
+                UserModel(
+                  username: 'one',
+                  age: 18,
+                  child: null,
+                  children: null,
+                  animalMap: null,
+                  mapField: null,
+                ),
+                UserModel(
+                  username: 'two',
+                  age: 4,
+                  child: null,
+                  children: null,
+                  animalMap: null,
+                  mapField: null,
+                )
+              ],
+              animalMap: {
+                'one': AnimalModel(
+                  name: '旺财',
+                  type: '小狗',
+                ),
+                'two': AnimalModel(
+                  name: '小白',
+                  type: '猫咪',
+                )
+              },
+              mapField: null,
+            ),
+    myAnimal: $ElJsonUtil.$model<AnimalModel>(
+            json, 'my_animal_model', $animalModel) ??
+        $animalModel,
+    myDog: $ElJsonUtil.$model<AnimalModel?>(json, 'myDog', $animalModel) ??
+        AnimalModel(
+          name: '旺财',
+          type: '小狗',
+        ),
+    animalList: $ElJsonUtil.$list<AnimalModel>(json, 'animalList') ??
+        [
+          AnimalModel(
+            name: '旺财',
+            type: '小狗',
+          ),
+          AnimalModel(
+            name: '小白',
+            type: '猫咪',
+          )
+        ],
   );
 }
 
@@ -142,6 +263,11 @@ extension TestModelExtension on TestModel {
       'set_field2': setField2,
       'map_field': mapField,
       'map_field2': mapField2,
+      'user_model': userModel.toJson(),
+      'user_model2': userModel2?.toJson(),
+      'my_animal_model': myAnimal.toJson(),
+      'my_dog': myDog?.toJson(),
+      'animal_list': animalList,
     };
   }
 
@@ -184,6 +310,11 @@ extension TestModelExtension on TestModel {
     Set<dynamic>? setField2,
     Map<String, dynamic>? mapField,
     Map<String, dynamic>? mapField2,
+    UserModel? userModel,
+    UserModel? userModel2,
+    AnimalModel? myAnimal,
+    AnimalModel? myDog,
+    List<AnimalModel>? animalList,
   }) {
     return TestModel(
       stringField: stringField ?? this.stringField,
@@ -224,6 +355,11 @@ extension TestModelExtension on TestModel {
       setField2: setField2 ?? this.setField2,
       mapField: mapField ?? this.mapField,
       mapField2: mapField2 ?? this.mapField2,
+      userModel: this.userModel.merge(userModel),
+      userModel2: this.userModel2?.merge(userModel2),
+      myAnimal: this.myAnimal.merge(myAnimal),
+      myDog: this.myDog?.merge(myDog),
+      animalList: animalList ?? this.animalList,
     );
   }
 
@@ -268,6 +404,11 @@ extension TestModelExtension on TestModel {
       setField2: other.setField2,
       mapField: other.mapField,
       mapField2: other.mapField2,
+      userModel: userModel.merge(other.userModel),
+      userModel2: userModel2?.merge(other.userModel2),
+      myAnimal: myAnimal.merge(other.myAnimal),
+      myDog: myDog?.merge(other.myDog),
+      animalList: other.animalList,
     );
   }
 
@@ -295,24 +436,26 @@ extension TestModelExtension on TestModel {
           boolField2 == other.boolField2 &&
           boolField3 == other.boolField3 &&
           boolField4 == other.boolField4 &&
-          listField == other.listField &&
-          listField2 == other.listField2 &&
-          listStringField == other.listStringField &&
-          listStringField2 == other.listStringField2 &&
-          listStringField3 == other.listStringField3 &&
-          listStringField4 == other.listStringField4 &&
-          listIntField == other.listIntField &&
-          listIntField2 == other.listIntField2 &&
-          listIntField3 == other.listIntField3 &&
-          listIntField4 == other.listIntField4 &&
-          listDoubleField == other.listDoubleField &&
-          listDoubleField2 == other.listDoubleField2 &&
-          listDoubleField3 == other.listDoubleField3 &&
-          listDoubleField4 == other.listDoubleField4 &&
-          setField == other.setField &&
-          setField2 == other.setField2 &&
-          mapField == other.mapField &&
-          mapField2 == other.mapField2;
+          $ElJsonUtil.eqList(listField, other.listField) &&
+          $ElJsonUtil.eqList(listField2, other.listField2) &&
+          $ElJsonUtil.eqList(listStringField, other.listStringField) &&
+          $ElJsonUtil.eqList(listStringField2, other.listStringField2) &&
+          $ElJsonUtil.eqList(listStringField3, other.listStringField3) &&
+          $ElJsonUtil.eqList(listIntField3, other.listIntField3) &&
+          $ElJsonUtil.eqList(listIntField4, other.listIntField4) &&
+          $ElJsonUtil.eqList(listDoubleField, other.listDoubleField) &&
+          $ElJsonUtil.eqList(listDoubleField2, other.listDoubleField2) &&
+          $ElJsonUtil.eqList(listDoubleField3, other.listDoubleField3) &&
+          $ElJsonUtil.eqList(listDoubleField4, other.listDoubleField4) &&
+          $ElJsonUtil.eqSet(setField, other.setField) &&
+          $ElJsonUtil.eqSet(setField2, other.setField2) &&
+          $ElJsonUtil.eqMap(mapField, other.mapField) &&
+          $ElJsonUtil.eqMap(mapField2, other.mapField2) &&
+          userModel == other.userModel &&
+          userModel2 == other.userModel2 &&
+          myAnimal == other.myAnimal &&
+          myDog == other.myDog &&
+          $ElJsonUtil.eqList(animalList, other.animalList);
 
   int get _hashCode =>
       stringField.hashCode ^
@@ -352,9 +495,14 @@ extension TestModelExtension on TestModel {
       setField.hashCode ^
       setField2.hashCode ^
       mapField.hashCode ^
-      mapField2.hashCode;
+      mapField2.hashCode ^
+      userModel.hashCode ^
+      userModel2.hashCode ^
+      myAnimal.hashCode ^
+      myDog.hashCode ^
+      animalList.hashCode;
 
   String _toString() {
-    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2\n}';
+    return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList\n}';
   }
 }

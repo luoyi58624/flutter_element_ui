@@ -5,8 +5,8 @@ const String _formJsonErrorStart = '(error) ElModel fromJson: ';
 const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示。';
 
 /// 安全地访问 json 数据，此工具类通常应用于 [flutter_element_generator] 生成的代码
-class ElJsonUtil {
-  ElJsonUtil._();
+class $ElJsonUtil {
+  $ElJsonUtil._();
 
   static String? $string(dynamic json, String key) {
     final value = json[key] ?? json[key.toUnderline];
@@ -110,5 +110,20 @@ class ElJsonUtil {
       return model.fromJson(value);
     }
     return null;
+  }
+
+  static bool eqList(List? value1, List? value2) {
+    if (value1 == null && value2 == null) return true;
+    return value1!.eq(value2!);
+  }
+
+  static bool eqSet(Set? value1, Set? value2) {
+    if (value1 == null && value2 == null) return true;
+    return value1!.eq(value2!);
+  }
+
+  static bool eqMap(Map? value1, Map? value2) {
+    if (value1 == null && value2 == null) return true;
+    return value1!.eq(value2!);
   }
 }

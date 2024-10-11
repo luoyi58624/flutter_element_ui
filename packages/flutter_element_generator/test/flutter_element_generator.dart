@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'package:flutter_element_dart/flutter_element_dart.dart';
 import 'package:test/test.dart';
 
 import 'models/test.dart';
-import 'models/user.dart';
 
 void main() {
   group('modal builder 测试', () {
@@ -20,7 +18,6 @@ void main() {
           '}';
 
       final model = TestModel.fromJson(jsonDecode(json));
-      final model2 = TestModel.fromJson(jsonDecode(json));
       expect(model.stringField, "10.0");
       expect(model.stringField2, "10.0");
       expect(model.stringField3, "10");
@@ -54,15 +51,8 @@ void main() {
         'name': 'hihi',
         'child': {'age': 20}
       });
-      i(model2 == model);
-      // expect(model.userModel, UserModel(username: 'hihi', age: 50));
-      // expect(model2, model);
-      // expect(TestModel.fromJson(model.toJson()), model);
-      // print(model.toString());
-      // i(model.toString());
-      // i(model.toJson());
-      // i(TestModel.fromJson(model.toJson()).toJson());
-      // print(model.toJson());
+      // 测试 equals 是否工作正常，重新序列化、反序列化对象判断是否相等
+      expect(TestModel.fromJson(model.toJson()), model);
     });
   });
 }

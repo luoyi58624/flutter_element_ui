@@ -79,6 +79,8 @@ class ElModel {
   /// @override
   /// bool operator ==(Object other) => _equals(other);
   /// ```
+  ///
+  /// 注意：不会将 List、Map 等类型的字段进行比较
   final bool generateEquals;
 
   /// 生成 hashCode 方法

@@ -11,8 +11,8 @@ const AnimalModel $animalModel = AnimalModel();
 AnimalModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $animalModel;
   return AnimalModel(
-    name: ElJsonUtil.$string(json, 'name'),
-    type: ElJsonUtil.$string(json, 'type'),
+    name: $ElJsonUtil.$string(json, 'name'),
+    type: $ElJsonUtil.$string(json, 'type'),
   );
 }
 

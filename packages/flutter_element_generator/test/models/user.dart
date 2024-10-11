@@ -11,6 +11,7 @@ class UserModel implements ElSerializeModel<UserModel> {
   final UserModel? child;
   final List<UserModel>? children;
   final Map<String, AnimalModel>? animalMap;
+  final Map? mapField;
 
   const UserModel({
     this.username,
@@ -18,6 +19,7 @@ class UserModel implements ElSerializeModel<UserModel> {
     this.child,
     this.children,
     this.animalMap,
+    this.mapField,
   });
 
   @override
