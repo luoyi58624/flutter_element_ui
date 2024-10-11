@@ -1,0 +1,41 @@
+name: flutter_element_ui
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  element_dart:
+    path: ../element_dart
+  element_extension:
+    path: ../element_extension
+  collection: ^1.18.0
+  cached_network_image: ^3.3.1
+  defer_pointer: ^0.0.2
+  flutter_animate: ^4.5.0
+  flutter_spinkit: ^5.2.0
+  logger: ^2.4.0
+  web: ^1.0.0
+  url_launcher: ^6.3.0
+  syntax_highlight: ^0.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.10
+  element_generator:
+    path: ../element_generator
+
+flutter:
+  fonts:
+    - family: element
+      fonts:
+        - asset: assets/element.ttf
+  assets:
+    - assets/code_themes/

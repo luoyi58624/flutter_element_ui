@@ -1,0 +1,38 @@
+name: element_extension
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.0.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_element_ui:
+    path: ../flutter_element_ui
+  element_dart:
+    path: ../element_dart
+  element_annotation:
+    path: ../element_annotation
+  archive: ^3.4.10
+  crypto: ^3.0.3
+  flutter_obs: ^1.6.3
+  logger: ^2.4.0
+  uuid: ^4.4.2
+  collection: ^1.18.0
+  gap: ^3.0.1
+  flutter_hooks: ^0.20.5
+  super_sliver_list: ^0.4.1
+  web: ^1.0.0
+  meta: ^1.12.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.10
+  element_generator:
+    path: ../element_generator
