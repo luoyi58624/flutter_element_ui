@@ -26,5 +26,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: web_page
-          folder: docs/build/web
+          folder: packages/element_docs/build/web
           clean: true
