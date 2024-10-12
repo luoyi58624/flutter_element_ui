@@ -1,0 +1,8 @@
+name: flutter_element_ui
+
+packages:
+  - packages/**
+
+scripts:
+  analyze:
+    exec: dart analyze .

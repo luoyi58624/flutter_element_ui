@@ -1,6 +1,7 @@
 name: element_annotation
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
+publish_to: 'none'
 
 environment:
   sdk: ^3.0.0
@@ -9,3 +10,4 @@ dependencies:
   element_dart:
     path: ../element_dart
   meta: ^1.12.0
+  lints: ^4.0.0
