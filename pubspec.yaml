@@ -1,4 +1,4 @@
-name: monorepo_workspace
+name: flutter_element
 publish_to: 'none'
 
 environment:
