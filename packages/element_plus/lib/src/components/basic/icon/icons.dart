@@ -4,7 +4,7 @@ class _ElIconData extends IconData {
   const _ElIconData(super.codePoint)
       : super(
           fontFamily: 'element',
-          fontPackage: 'flutter_element_ui',
+          fontPackage: 'element_plus',
         );
 }
 
