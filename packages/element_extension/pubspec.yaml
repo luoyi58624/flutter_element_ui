@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_element_ui:
-    path: ../flutter_element_ui
+  element_plus:
+    path: ../element_plus
   element_dart:
     path: ../element_dart
   element_annotation:

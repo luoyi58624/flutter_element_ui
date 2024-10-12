@@ -2,7 +2,7 @@ import 'package:flutter/material.dart'
     show MaterialColor, Color, HSLColor, BuildContext;
 import 'package:element_extension/src/extensions/context.dart';
 import 'package:element_extension/src/extensions/event.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 extension ElColorStringExtension on String {
   /// 将16进制字符串颜色转成Color对象

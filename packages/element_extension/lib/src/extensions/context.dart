@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 extension ElContextExtension on BuildContext {
   /// 获取当平台亮度模式

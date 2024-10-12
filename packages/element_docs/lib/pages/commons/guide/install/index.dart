@@ -38,7 +38,7 @@ String get code1 => '''flutter pub add flutter_element_ui''';
 
 String get code2 => '''
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 void main() {
   runApp(const MainApp());
@@ -85,7 +85,7 @@ String get code3 => '''flutter pub add go_router''';
 String get code4 => '''
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 void main() {
   runApp(const MainApp());

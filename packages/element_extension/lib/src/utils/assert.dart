@@ -1,4 +1,4 @@
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 abstract class ElAssert {
   /// Element UI 内部错误，这不是用来描述用户引发的错误，而是用来对某些代码期望值添加的一层防护措施。

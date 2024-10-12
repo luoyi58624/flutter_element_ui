@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 extension ElFontNumExtension on num {
   /// 以全局字体尺寸为基点，按比例返回新的字体大小，它的实际效果完全等同于 css 中的 rem，

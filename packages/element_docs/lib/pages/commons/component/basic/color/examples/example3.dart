@@ -68,7 +68,7 @@ class MainApp extends StatelessWidget {
 
 String get code => '''
 import 'package:flutter/material.dart';
-import 'package:flutter_element_ui/flutter_element_ui.dart';
+import 'package:element_plus/element_plus.dart';
 
 void main() {
   runApp(const MainApp());

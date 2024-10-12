@@ -182,6 +182,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  element_plus:
+    dependency: "direct main"
+    description:
+      path: "../element_plus"
+      relative: true
+    source: path
+    version: "0.0.1"
   equatable:
     dependency: transitive
     description:
@@ -261,11 +268,13 @@ packages:
     source: hosted
     version: "3.4.1"
   flutter_element_ui:
-    dependency: "direct main"
+    dependency: transitive
     description:
-      path: "../flutter_element_ui"
-      relative: true
-    source: path
+      path: "packages/flutter_element_ui"
+      ref: HEAD
+      resolved-ref: e5eb9bea95524cf41fbbf0459cd3bb92c19391b8
+      url: "https://gitee.com/luoyi666/flutter_element_ui.git"
+    source: git
     version: "0.0.1"
   flutter_hooks:
     dependency: transitive
