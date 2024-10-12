@@ -34,7 +34,7 @@ class InstallPage extends ResponsivePage {
   }
 }
 
-String get code1 => '''flutter pub add flutter_element_ui''';
+String get code1 => '''flutter pub add element_plus''';
 
 String get code2 => '''
 import 'package:flutter/material.dart';
