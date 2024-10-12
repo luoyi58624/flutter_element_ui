@@ -42,8 +42,7 @@ class ElCollapseTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<ElCollapseTheme>()?.data;
   }
 
-  static ElCollapseThemeData of(
-      BuildContext context, ElCollapseThemeData? data) {
+  static ElCollapseThemeData of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No ElCollapseTheme found in context');
     return result!;

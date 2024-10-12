@@ -274,7 +274,7 @@ class SlideRouterConfig {
           WorkStatus.pending
         ),
         ('Steps 步骤条', '/${RootRoute.component.$2}/Steps', WorkStatus.pending),
-        ('Tabs 标签页', '/${RootRoute.component.$2}/Tabs', WorkStatus.pending),
+        ('Tabs 标签页', '/${RootRoute.component.$2}/tabs', WorkStatus.pending),
       ],
     ),
     (

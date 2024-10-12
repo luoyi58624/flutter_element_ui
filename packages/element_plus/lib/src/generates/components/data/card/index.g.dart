@@ -42,7 +42,7 @@ class ElCardTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<ElCardTheme>()?.data;
   }
 
-  static ElCardThemeData of(BuildContext context, ElCardThemeData? data) {
+  static ElCardThemeData of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No ElCardTheme found in context');
     return result!;

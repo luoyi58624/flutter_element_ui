@@ -52,6 +52,8 @@ export 'src/components/layout/page.dart';
 
 export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/tabs.dart';
+export 'src/components/navigation/tabs/index.dart';
+export 'src/components/navigation/tab/index.dart';
 
 export 'src/components/others/anchor/index.dart' show ElAnchor;
 export 'src/components/others/code_preview/index.dart';
@@ -61,6 +63,7 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/models/menu.dart';
+export 'src/models/tab.dart';
 
 export 'src/themes/theme.dart';
 export 'src/themes/color.dart';

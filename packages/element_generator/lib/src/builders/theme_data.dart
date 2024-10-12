@@ -46,7 +46,7 @@ class $className extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<$className>()?.data;
   }
 
-  static $fieldName of(BuildContext context, $fieldName? data) {
+  static $fieldName of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No $className found in context');
     return result!;

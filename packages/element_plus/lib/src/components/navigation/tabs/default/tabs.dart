@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../base.dart';
 
-class ElTabs extends ElBaseTabs {
-  const ElTabs(
+class ElTabs2 extends ElBaseTabs {
+  const ElTabs2(
     super.modelValue, {
     super.key,
     required super.children,
@@ -18,10 +18,10 @@ class ElTabs extends ElBaseTabs {
   });
 
   @override
-  State<ElTabs> createState() => _ElTabsState();
+  State<ElTabs2> createState() => _ElTabsState();
 }
 
-class _ElTabsState extends ElBaseTabsState<ElTabs> {
+class _ElTabsState extends ElBaseTabsState<ElTabs2> {
   final List<int> _items = List<int>.generate(50, (int index) => index);
 
   @override

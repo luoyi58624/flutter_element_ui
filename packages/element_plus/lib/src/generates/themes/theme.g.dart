@@ -28,6 +28,8 @@ extension ElThemeDataExtension on ElThemeData {
     ElHeaderThemeData? headerTheme,
     ElAsideThemeData? asideTheme,
     ElNavMenuThemeData? navigationMenuTheme,
+    ElTabsThemeData? tabsTheme,
+    ElTabThemeData? tabTheme,
     ElCodePreviewThemeData? codePreviewTheme,
   }) {
     return ElThemeData(
@@ -51,6 +53,8 @@ extension ElThemeDataExtension on ElThemeData {
       headerTheme: this.headerTheme.merge(headerTheme),
       asideTheme: this.asideTheme.merge(asideTheme),
       navigationMenuTheme: this.navigationMenuTheme.merge(navigationMenuTheme),
+      tabsTheme: this.tabsTheme.merge(tabsTheme),
+      tabTheme: this.tabTheme.merge(tabTheme),
       codePreviewTheme: this.codePreviewTheme.merge(codePreviewTheme),
     );
   }
@@ -78,6 +82,8 @@ extension ElThemeDataExtension on ElThemeData {
       headerTheme: headerTheme.merge(other.headerTheme),
       asideTheme: asideTheme.merge(other.asideTheme),
       navigationMenuTheme: navigationMenuTheme.merge(other.navigationMenuTheme),
+      tabsTheme: tabsTheme.merge(other.tabsTheme),
+      tabTheme: tabTheme.merge(other.tabTheme),
       codePreviewTheme: codePreviewTheme.merge(other.codePreviewTheme),
     );
   }

@@ -1,9 +1,9 @@
 class ElMenuModel {
-  /// 菜单名字
-  final String title;
-
   /// 菜单唯一标识，如果是路由菜单，key将为跳转地址
   final String key;
+
+  /// 菜单名字
+  final String title;
 
   /// 菜单图标
   final dynamic icon;
@@ -12,8 +12,8 @@ class ElMenuModel {
   final List<ElMenuModel> children;
 
   const ElMenuModel({
-    required this.title,
     required this.key,
+    required this.title,
     this.icon,
     this.children = const [],
   });

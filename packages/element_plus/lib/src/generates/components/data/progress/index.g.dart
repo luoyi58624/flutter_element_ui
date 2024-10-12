@@ -42,8 +42,7 @@ class ElProgressTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<ElProgressTheme>()?.data;
   }
 
-  static ElProgressThemeData of(
-      BuildContext context, ElProgressThemeData? data) {
+  static ElProgressThemeData of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No ElProgressTheme found in context');
     return result!;

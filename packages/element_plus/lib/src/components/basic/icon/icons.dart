@@ -8,7 +8,7 @@ class _ElIconData extends IconData {
         );
 }
 
-/// Element UI 字体图标集合，总计 280 个图标，图标库的尺寸为 55 kb，打包时会剔除未使用的图标
+/// Element UI 字体图标集合，总计 280 个图标，图标库的尺寸约为 55 kb，打包时会剔除未使用的图标
 class ElIcons {
   ElIcons._();
 

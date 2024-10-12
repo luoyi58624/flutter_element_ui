@@ -15,7 +15,8 @@ abstract class ElBaseTabs extends StatefulWidget {
   const ElBaseTabs(
     this.modelValue, {
     super.key,
-    required this.children, this.type,
+    required this.children,
+    this.type,
     required this.height,
     required this.fontSize,
     required this.childMaxWidth,

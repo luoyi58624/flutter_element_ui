@@ -72,6 +72,12 @@ class ElThemeData {
   /// 导航菜单全局样式
   final ElNavMenuThemeData navigationMenuTheme;
 
+  /// 标签容器全局样式
+  final ElTabsThemeData tabsTheme;
+
+  /// 标签容器全局样式
+  final ElTabThemeData tabTheme;
+
   /// 代码预览全局样式
   final ElCodePreviewThemeData codePreviewTheme;
 
@@ -109,6 +115,8 @@ class ElThemeData {
     this.navigationMenuTheme = const ElNavMenuThemeData(
       activeTextColor: Color(0xff409eff),
     ),
+    this.tabsTheme = const ElTabsThemeData(),
+    this.tabTheme = const ElTabThemeData(),
     this.codePreviewTheme = const ElCodePreviewThemeData(
       color: Color(0xFFD19A66),
       bgColor: Color.fromRGBO(49, 49, 49, 1.0),
@@ -149,6 +157,8 @@ class ElThemeData {
     this.navigationMenuTheme = const ElNavMenuThemeData(
       activeTextColor: Color(0xff6ee7b7),
     ),
+    this.tabsTheme = const ElTabsThemeData(),
+    this.tabTheme = const ElTabThemeData(),
     this.codePreviewTheme = const ElCodePreviewThemeData(
       color: Color(0xFFD19A66),
       bgColor: Color.fromRGBO(49, 49, 49, 1.0),

@@ -42,7 +42,7 @@ class ElButtonTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.data;
   }
 
-  static ElButtonThemeData of(BuildContext context, ElButtonThemeData? data) {
+  static ElButtonThemeData of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No ElButtonTheme found in context');
     return result!;

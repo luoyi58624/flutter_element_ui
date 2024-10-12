@@ -45,7 +45,7 @@ class ElLinkTheme extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<ElLinkTheme>()?.data;
   }
 
-  static ElLinkThemeData of(BuildContext context, ElLinkThemeData? data) {
+  static ElLinkThemeData of(BuildContext context) {
     final result = maybeOf(context);
     assert(result != null, 'No ElLinkTheme found in context');
     return result!;

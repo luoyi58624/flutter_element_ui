@@ -13,6 +13,7 @@ import '../../pages/commons/component/form/input/index.dart';
 import '../../pages/commons/component/form/slider/index.dart';
 import '../../pages/commons/component/form/switch/index.dart';
 import '../../pages/commons/component/navigation/nav_menu/index.dart';
+import '../../pages/commons/component/navigation/tabs/index.dart';
 import '../../pages/commons/component/other/animated_size/index.dart';
 import '../../pages/commons/component/other/context_menu/index.dart';
 import '../../pages/commons/not_found.dart';
@@ -159,6 +160,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}nav_menu',
       builder: (context, state) => const NavMenuPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}tabs',
+      builder: (context, state) => const TabsPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}animated_size',
