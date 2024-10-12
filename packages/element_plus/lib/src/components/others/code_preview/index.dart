@@ -104,8 +104,8 @@ class _ElCodePreviewState extends State<ElCodePreview> {
         // 暗色主题使用自定义的配置文件
         var darkCodeTheme = await HighlighterTheme.loadFromAssets(
           [
-            'packages/flutter_element_ui/assets/code_themes/dark_vs.json',
-            'packages/flutter_element_ui/assets/code_themes/dark_plus.json',
+            'packages/element_plus/assets/code_themes/dark_vs.json',
+            'packages/element_plus/assets/code_themes/dark_plus.json',
             // 'assets/code_themes/dark_vs.json',
             // 'assets/code_themes/dark_plus.json',
           ],
