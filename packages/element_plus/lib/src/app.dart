@@ -29,7 +29,7 @@ class ElApp extends StatefulWidget {
     this.scrollBehavior = const ElScrollBehavior(),
   });
 
-  /// 任意子组件
+  /// 子组件
   final Widget child;
 
   /// 应用的主题模式，为 null 则表示跟随系统
