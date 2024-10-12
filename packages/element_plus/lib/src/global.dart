@@ -1,6 +1,4 @@
 // 此文件只用于内部，它的作用是统一导出使用频率较高的 api，简化 import 数量
-export 'package:flutter/widgets.dart';
-
 export 'package:element_dart/element_dart.dart';
 export 'package:element_extension/element_extension.dart';
 

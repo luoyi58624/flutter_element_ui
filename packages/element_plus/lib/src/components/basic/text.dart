@@ -1,5 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
 
 /// 注意：[ElText] 只会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式，
 /// 所以，它并不能完全代替 [Text] 小部件，如果你使用 Material 的一些小部件，请注意这个问题。

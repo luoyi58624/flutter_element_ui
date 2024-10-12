@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../global.dart';
 
 part '../generates/themes/color.g.dart';

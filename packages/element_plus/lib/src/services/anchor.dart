@@ -1,4 +1,4 @@
-import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
 
 mixin AnchorService {
   /// 锚点服务对象，通常可以搭配 [ElAnchor] 小部件一起使用，

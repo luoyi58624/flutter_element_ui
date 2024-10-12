@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
 
 /// Element UI 弹窗组件基类
 abstract class ElOverlay extends StatefulWidget {

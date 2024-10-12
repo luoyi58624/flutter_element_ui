@@ -1,4 +1,5 @@
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
 
 mixin CursorService {
   /// 全局光标实例对象
