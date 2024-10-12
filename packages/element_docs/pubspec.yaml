@@ -32,6 +32,10 @@ dev_dependencies:
 
 dependency_overrides:
   web: ^1.0.0
+  element_plus:
+    path: ../element_plus
+  element_extension:
+    path: ../element_extension
 
 flutter:
   uses-material-design: true

@@ -1,5 +1,5 @@
 export 'package:flutter_base/flutter_base.dart';
-export 'package:flutter_element_ui/flutter_element_ui.dart';
+export 'package:element_plus/element_plus.dart';
 export 'package:element_extension/element_extension.dart';
 
 export 'extension.dart';

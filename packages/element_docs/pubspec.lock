@@ -255,7 +255,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "57d8844b2947c784ae0e2710102683ac21dd7eff"
+      resolved-ref: "7d0c6f16cdf3b52ad3fc56f7ac09dfecc68570b0"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -267,15 +267,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
-  flutter_element_ui:
-    dependency: transitive
-    description:
-      path: "packages/flutter_element_ui"
-      ref: HEAD
-      resolved-ref: e5eb9bea95524cf41fbbf0459cd3bb92c19391b8
-      url: "https://gitee.com/luoyi666/flutter_element_ui.git"
-    source: git
-    version: "0.0.1"
   flutter_hooks:
     dependency: transitive
     description:
