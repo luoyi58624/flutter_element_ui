@@ -7,6 +7,7 @@ part of '../../../../components/data/collapse/index.dart';
 // **************************************************************************
 
 extension ElCollapseThemeDataExtension on ElCollapseThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElCollapseThemeData copyWith({
     bool? keepState,
     Duration? duration,
@@ -19,6 +20,7 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElCollapseThemeData merge([ElCollapseThemeData? other]) {
     if (other == null) return this;
     return copyWith(
@@ -36,26 +38,25 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
 class ElCollapseTheme extends InheritedWidget {
   const ElCollapseTheme({super.key, required super.child, required this.data});
 
+  /// 主题数据
   final ElCollapseThemeData data;
 
-  static ElCollapseThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ElCollapseTheme>()?.data;
-  }
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElCollapseThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElCollapseTheme>()?.data;
 
-  static ElCollapseThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    assert(result != null, 'No ElCollapseTheme found in context');
-    return result!;
-  }
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElCollapseThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.collapseTheme;
 
+  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
     ElCollapseThemeData? data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent =
-          ElCollapseTheme.maybeOf(context) ?? context.elTheme.collapseTheme;
+      final parent = ElCollapseTheme.of(context);
       return ElCollapseTheme(
         data: parent.merge(data),
         child: child,

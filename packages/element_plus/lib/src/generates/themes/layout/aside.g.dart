@@ -7,6 +7,7 @@ part of '../../../themes/layout/aside.dart';
 // **************************************************************************
 
 extension ElAsideThemeDataExtension on ElAsideThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElAsideThemeData copyWith({
     Color? color,
     double? width,
@@ -17,6 +18,7 @@ extension ElAsideThemeDataExtension on ElAsideThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElAsideThemeData merge([ElAsideThemeData? other]) {
     if (other == null) return this;
     return copyWith(

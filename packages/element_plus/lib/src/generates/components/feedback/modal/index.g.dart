@@ -7,6 +7,7 @@ part of '../../../../components/feedback/modal/index.dart';
 // **************************************************************************
 
 extension ElModalThemeDataExtension on ElModalThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElModalThemeData copyWith({
     Color? color,
     double? elevation,
@@ -17,6 +18,7 @@ extension ElModalThemeDataExtension on ElModalThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElModalThemeData merge([ElModalThemeData? other]) {
     if (other == null) return this;
     return copyWith(

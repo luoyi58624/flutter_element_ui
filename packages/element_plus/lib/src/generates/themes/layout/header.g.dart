@@ -7,6 +7,7 @@ part of '../../../themes/layout/header.dart';
 // **************************************************************************
 
 extension ElHeaderThemeDataExtension on ElHeaderThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElHeaderThemeData copyWith({
     Color? color,
     double? height,
@@ -17,6 +18,7 @@ extension ElHeaderThemeDataExtension on ElHeaderThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElHeaderThemeData merge([ElHeaderThemeData? other]) {
     if (other == null) return this;
     return copyWith(

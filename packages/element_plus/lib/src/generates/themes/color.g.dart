@@ -7,6 +7,7 @@ part of '../../themes/color.dart';
 // **************************************************************************
 
 extension ElColorDataExtension on ElColorData {
+  /// 接收一组可选参数，返回新的对象
   ElColorData copyWith({
     Color? bg,
     Color? icon,
@@ -27,6 +28,7 @@ extension ElColorDataExtension on ElColorData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElColorData merge([ElColorData? other]) {
     if (other == null) return this;
     return copyWith(

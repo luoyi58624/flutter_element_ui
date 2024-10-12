@@ -7,6 +7,7 @@ part of '../../themes/theme.dart';
 // **************************************************************************
 
 extension ElThemeDataExtension on ElThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElThemeData copyWith({
     Color? primary,
     Color? success,
@@ -59,6 +60,7 @@ extension ElThemeDataExtension on ElThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElThemeData merge([ElThemeData? other]) {
     if (other == null) return this;
     return copyWith(
@@ -67,24 +69,24 @@ extension ElThemeDataExtension on ElThemeData {
       info: other.info,
       warning: other.warning,
       error: other.error,
-      colors: colors.merge(other.colors),
-      buttonTheme: buttonTheme.merge(other.buttonTheme),
-      linkTheme: linkTheme.merge(other.linkTheme),
-      inputTheme: inputTheme.merge(other.inputTheme),
-      collapseTheme: collapseTheme.merge(other.collapseTheme),
-      progressTheme: progressTheme.merge(other.progressTheme),
-      cardTheme: cardTheme.merge(other.cardTheme),
-      modalTheme: modalTheme.merge(other.modalTheme),
-      messageTheme: messageTheme.merge(other.messageTheme),
-      toastTheme: toastTheme.merge(other.toastTheme),
-      tooltipTheme: tooltipTheme.merge(other.tooltipTheme),
-      sliderTheme: sliderTheme.merge(other.sliderTheme),
-      headerTheme: headerTheme.merge(other.headerTheme),
-      asideTheme: asideTheme.merge(other.asideTheme),
-      navigationMenuTheme: navigationMenuTheme.merge(other.navigationMenuTheme),
-      tabsTheme: tabsTheme.merge(other.tabsTheme),
-      tabTheme: tabTheme.merge(other.tabTheme),
-      codePreviewTheme: codePreviewTheme.merge(other.codePreviewTheme),
+      colors: other.colors,
+      buttonTheme: other.buttonTheme,
+      linkTheme: other.linkTheme,
+      inputTheme: other.inputTheme,
+      collapseTheme: other.collapseTheme,
+      progressTheme: other.progressTheme,
+      cardTheme: other.cardTheme,
+      modalTheme: other.modalTheme,
+      messageTheme: other.messageTheme,
+      toastTheme: other.toastTheme,
+      tooltipTheme: other.tooltipTheme,
+      sliderTheme: other.sliderTheme,
+      headerTheme: other.headerTheme,
+      asideTheme: other.asideTheme,
+      navigationMenuTheme: other.navigationMenuTheme,
+      tabsTheme: other.tabsTheme,
+      tabTheme: other.tabTheme,
+      codePreviewTheme: other.codePreviewTheme,
     );
   }
 }

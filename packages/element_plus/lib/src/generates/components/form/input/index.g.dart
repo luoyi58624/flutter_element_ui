@@ -7,6 +7,7 @@ part of '../../../../components/form/input/index.dart';
 // **************************************************************************
 
 extension ElInputThemeDataExtension on ElInputThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElInputThemeData copyWith({
     double? height,
     BorderRadius? borderRadius,
@@ -23,6 +24,7 @@ extension ElInputThemeDataExtension on ElInputThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElInputThemeData merge([ElInputThemeData? other]) {
     if (other == null) return this;
     return copyWith(
@@ -30,7 +32,7 @@ extension ElInputThemeDataExtension on ElInputThemeData {
       borderRadius: other.borderRadius,
       margin: other.margin,
       padding: other.padding,
-      textStyle: textStyle.merge(other.textStyle),
+      textStyle: other.textStyle,
     );
   }
 }

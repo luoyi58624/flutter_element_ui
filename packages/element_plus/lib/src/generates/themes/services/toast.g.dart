@@ -7,6 +7,7 @@ part of '../../../themes/services/toast.dart';
 // **************************************************************************
 
 extension ElToastThemeDataExtension on ElToastThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElToastThemeData copyWith({
     int? closeDuration,
     bool? enableFeedback,
@@ -19,6 +20,7 @@ extension ElToastThemeDataExtension on ElToastThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElToastThemeData merge([ElToastThemeData? other]) {
     if (other == null) return this;
     return copyWith(

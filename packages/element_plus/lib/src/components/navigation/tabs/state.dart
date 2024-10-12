@@ -4,7 +4,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
     with SingleTickerProviderStateMixin {
   @override
   Widget builder(BuildContext context) {
-    var theme = ElTabsTheme.maybeOf(context) ?? context.elTheme.tabsTheme;
+    var theme = ElTabsTheme.of(context);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(

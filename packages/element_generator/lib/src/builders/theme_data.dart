@@ -40,25 +40,25 @@ class ElThemeDataGenerator extends GeneratorForAnnotation<ElThemeDataModel> {
 class $className extends InheritedWidget {
   const $className({super.key, required super.child, required this.data});
 
+  /// 主题数据
   final $fieldName data;
 
-  static $fieldName? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<$className>()?.data;
-  }
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static $fieldName? maybeOf(BuildContext context) =>
+     context.dependOnInheritedWidgetOfExactType<$className>()?.data;
+  
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static $fieldName of(BuildContext context) =>
+     maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;
 
-  static $fieldName of(BuildContext context) {
-    final result = maybeOf(context);
-    assert(result != null, 'No $className found in context');
-    return result!;
-  }
-
+  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
     $fieldName? data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent = $className.maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;
+      final parent = $className.of(context);
       return $className(
         data: parent.merge(data),
         child: child,

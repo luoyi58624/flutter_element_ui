@@ -7,6 +7,7 @@ part of '../../../themes/services/message.dart';
 // **************************************************************************
 
 extension ElMessageThemeDataExtension on ElMessageThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElMessageThemeData copyWith({
     double? offset,
     int? closeDuration,
@@ -25,6 +26,7 @@ extension ElMessageThemeDataExtension on ElMessageThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElMessageThemeData merge([ElMessageThemeData? other]) {
     if (other == null) return this;
     return copyWith(

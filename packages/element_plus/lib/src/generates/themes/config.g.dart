@@ -7,6 +7,7 @@ part of '../../themes/config.dart';
 // **************************************************************************
 
 extension ElConfigDataExtension on ElConfigData {
+  /// 接收一组可选参数，返回新的对象
   ElConfigData copyWith({
     double? baseHeight,
     BorderRadius? radius,
@@ -21,6 +22,7 @@ extension ElConfigDataExtension on ElConfigData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElConfigData merge([ElConfigData? other]) {
     if (other == null) return this;
     return copyWith(

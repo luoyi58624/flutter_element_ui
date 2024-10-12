@@ -7,6 +7,7 @@ part of '../../../../components/form/slider/index.dart';
 // **************************************************************************
 
 extension ElSliderThemeDataExtension on ElSliderThemeData {
+  /// 接收一组可选参数，返回新的对象
   ElSliderThemeData copyWith({
     double? sliderSize,
     double? thumbSize,
@@ -21,6 +22,7 @@ extension ElSliderThemeDataExtension on ElSliderThemeData {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   ElSliderThemeData merge([ElSliderThemeData? other]) {
     if (other == null) return this;
     return copyWith(

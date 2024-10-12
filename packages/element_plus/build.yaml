@@ -12,7 +12,7 @@ targets:
           build_extensions:
             '^lib/src/{{}}.dart': 'lib/src/generates/{{}}.g.dart'
       # 添加 element 生成器
-      flutter_element_generator|model:
+      element_generator|model:
         # 指定检索目录，尽量将检索范围控制在需要生成的代码目录，这样可以提高构建速度
         generate_for:
           - lib/src/components/**.dart
