@@ -284,13 +284,12 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_obs:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: flutter_obs
-      sha256: "19767df906d8d37d6097317c45b35b61289a831d5e90f3c746ceb0f659e81307"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.6.3"
+      path: "../flutter_obs"
+      relative: true
+    source: path
+    version: "1.5.4"
   flutter_shaders:
     dependency: transitive
     description:
