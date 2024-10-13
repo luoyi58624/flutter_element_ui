@@ -58,22 +58,9 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-### Dev Flutter Element UI
-
-- global install monorepo project cli
+### Local Development flutter_element_ui
 
 ```
 dart pub global activate melos
-```
-
-- install dev dependent
-
-```
-flutter pub get
-```
-
-- initialize project
-
-```
 melos bs
 ```
