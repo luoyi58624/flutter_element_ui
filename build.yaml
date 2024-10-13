@@ -1,0 +1,17 @@
+targets:
+  $default:
+    auto_apply_builders: true
+    sources:
+      - lib/**
+      - test/**
+      - $package$
+    builders:
+      source_gen:combining_builder:
+        options:
+          build_extensions:
+            '^test/models/{{}}.dart': 'test/generates/models/{{}}.g.dart'
+      flutter_element_generator|model:
+        generate_for:
+          - test/models/**.dart
+        options:
+          model_name_template: '${{}}'
