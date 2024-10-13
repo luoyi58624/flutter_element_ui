@@ -6,6 +6,7 @@ part of '../../models/test.dart';
 // ElModelGenerator
 // **************************************************************************
 
+/// 生成的全局默认实体类对象
 final TestModel $testModel = TestModel(
   stringField: '',
   stringField3: 'hello',
@@ -100,6 +101,7 @@ final TestModel $testModel = TestModel(
   ],
 );
 
+/// 生成的 fromJson 方法，将 Map 对象转成实体类
 TestModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $testModel;
   return TestModel(
@@ -228,6 +230,7 @@ TestModel _fromJson(Map<String, dynamic>? json) {
 }
 
 extension TestModelExtension on TestModel {
+  /// 生成的 toJson 方法，将实体类转成 Map 对象
   Map<String, dynamic> _toJson() {
     return {
       'custom_string': stringField,
@@ -280,6 +283,7 @@ extension TestModelExtension on TestModel {
     };
   }
 
+  /// 接收一组可选参数，返回新的对象
   TestModel copyWith({
     String? stringField,
     String? stringField2,
@@ -378,6 +382,7 @@ extension TestModelExtension on TestModel {
     );
   }
 
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   TestModel merge([TestModel? other]) {
     if (other == null) return this;
     return copyWith(
@@ -419,10 +424,10 @@ extension TestModelExtension on TestModel {
       setField2: other.setField2,
       mapField: other.mapField,
       mapField2: other.mapField2,
-      userModel: userModel.merge(other.userModel),
-      userModel2: userModel2?.merge(other.userModel2),
-      myAnimal: myAnimal.merge(other.myAnimal),
-      myDog: myDog?.merge(other.myDog),
+      userModel: other.userModel,
+      userModel2: other.userModel2,
+      myAnimal: other.myAnimal,
+      myDog: other.myDog,
       animalList: other.animalList,
       startDate: other.startDate,
       color: other.color,
@@ -430,6 +435,8 @@ extension TestModelExtension on TestModel {
     );
   }
 
+  /// 生成的对象比较方法，它只支持 String、num、int、double、bool、List、Set、Map、Model 等类型，
+  /// 如果你的实体类还包含其他数据类型，那么比较方法将失去作用
   bool _equals(Object other) =>
       identical(this, other) ||
       other is TestModel &&
@@ -478,6 +485,7 @@ extension TestModelExtension on TestModel {
           color == other.color &&
           materialColor == other.materialColor;
 
+  /// 生成的 hashCode 方法
   int get _hashCode =>
       stringField.hashCode ^
       stringField2.hashCode ^
@@ -526,6 +534,7 @@ extension TestModelExtension on TestModel {
       color.hashCode ^
       materialColor.hashCode;
 
+  /// 生成的 toString 方法
   String _toString() {
     return 'TestModel{\n  stringField: $stringField,\n  stringField2: $stringField2,\n  stringField3: $stringField3,\n  stringField4: $stringField4,\n  numField: $numField,\n  numField2: $numField2,\n  numField3: $numField3,\n  numField4: $numField4,\n  intField: $intField,\n  intField2: $intField2,\n  intField3: $intField3,\n  intField4: $intField4,\n  doubleField: $doubleField,\n  doubleField2: $doubleField2,\n  doubleField3: $doubleField3,\n  doubleField4: $doubleField4,\n  boolField: $boolField,\n  boolField2: $boolField2,\n  boolField3: $boolField3,\n  boolField4: $boolField4,\n  listField: $listField,\n  listField2: $listField2,\n  listStringField: $listStringField,\n  listStringField2: $listStringField2,\n  listStringField3: $listStringField3,\n  listStringField4: $listStringField4,\n  listIntField: $listIntField,\n  listIntField2: $listIntField2,\n  listIntField3: $listIntField3,\n  listIntField4: $listIntField4,\n  listDoubleField: $listDoubleField,\n  listDoubleField2: $listDoubleField2,\n  listDoubleField3: $listDoubleField3,\n  listDoubleField4: $listDoubleField4,\n  setField: $setField,\n  setField2: $setField2,\n  mapField: $mapField,\n  mapField2: $mapField2,\n  userModel: $userModel,\n  userModel2: $userModel2,\n  myAnimal: $myAnimal,\n  myDog: $myDog,\n  animalList: $animalList,\n  startDate: $startDate,\n  color: $color,\n  materialColor: $materialColor\n}';
   }

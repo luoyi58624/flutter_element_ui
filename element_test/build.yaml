@@ -9,9 +9,7 @@ targets:
       source_gen:combining_builder:
         options:
           build_extensions:
-            '^test/models/{{}}.dart': 'test/generates/models/{{}}.g.dart'
-      flutter_element_generator|model:
+            '^test/element_generates/models/{{}}.dart': 'test/element_generates/generates/models/{{}}.g.dart'
+      element_generator|model:
         generate_for:
-          - test/models/**.dart
-        options:
-          model_name_template: '${{}}'
+          - test/element_generates/models/**.dart

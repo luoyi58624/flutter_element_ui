@@ -11,9 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   element_plus:
-    path: ../element_plus
+    path: ../packages/element_plus
   element_extension:
-    path: ../element_extension
+    path: ../packages/element_extension
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
@@ -33,9 +33,9 @@ dev_dependencies:
 dependency_overrides:
   web: ^1.0.0
   element_plus:
-    path: ../element_plus
+    path: ../packages/element_plus
   element_extension:
-    path: ../element_extension
+    path: ../packages/element_extension
 
 flutter:
   uses-material-design: true

@@ -162,30 +162,30 @@ packages:
     source: hosted
     version: "2.0.0"
   element_annotation:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../element_annotation"
+      path: "../packages/element_annotation"
       relative: true
     source: path
     version: "1.0.0"
   element_dart:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../element_dart"
+      path: "../packages/element_dart"
       relative: true
     source: path
     version: "1.0.0"
   element_extension:
     dependency: "direct main"
     description:
-      path: "../element_extension"
+      path: "../packages/element_extension"
       relative: true
     source: path
     version: "0.0.1"
   element_plus:
     dependency: "direct main"
     description:
-      path: "../element_plus"
+      path: "../packages/element_plus"
       relative: true
     source: path
     version: "0.0.1"
@@ -284,12 +284,13 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_obs:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
-      path: "../flutter_obs"
-      relative: true
-    source: path
-    version: "1.5.4"
+      name: flutter_obs
+      sha256: "19767df906d8d37d6097317c45b35b61289a831d5e90f3c746ceb0f659e81307"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.6.3"
   flutter_shaders:
     dependency: transitive
     description:
@@ -869,10 +870,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "4d45dc9069dba4619dc0ebd93c7cec5e66d8482cb625a370ac806dcc8165f2ec"
+      sha256: e5c39a90447e7c81cfec14b041cdbd0d0916bd9ebbc7fe02ab69568be703b9bd
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.5.5"
+    version: "5.6.0"
   win32_registry:
     dependency: transitive
     description:

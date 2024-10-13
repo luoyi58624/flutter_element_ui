@@ -1,9 +1,9 @@
 import 'package:element_dart/element_dart.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-import 'reg/html.dart';
+import 'element_dart/reg/html.dart';
 
-void main() {
+void elementDartTest() {
   group('DartUtil', () {
     test('onlyOneNotNull', () {
       expect(DartUtil.onlyOneNotNull(['x', null]), isTrue);

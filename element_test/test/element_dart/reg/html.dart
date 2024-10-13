@@ -1,5 +1,5 @@
 import 'package:element_dart/element_dart.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 String _html = """
 <ul id="nav_right" class="navbar-list navbar-right">
