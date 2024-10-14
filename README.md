@@ -77,9 +77,14 @@ class HomePage extends StatelessWidget {
 
 ## Fork flutter_element_ui
 
-You need global install [melos](https://github.com/invertase/melos), It is monorepo cli tools.
+You need global install [melos](https://github.com/invertase/melos), it is monorepo cli tools.
 
 ```
 dart pub global activate melos
+```
+
+Then cd project, exec initialize command, it will install all dependencies of the packages.
+
+```
 melos bs
 ```

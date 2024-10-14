@@ -2,7 +2,7 @@
 export 'package:element_dart/element_dart.dart';
 export 'package:element_extension/element_extension.dart';
 
-export 'var.dart';
+export 'service.dart';
 export 'types.dart';
 export 'extension.dart';
 
@@ -11,5 +11,3 @@ export 'components/basic/icon/index.dart';
 
 export 'services/message.dart';
 export 'services/toast.dart';
-
-export 'services/index.dart';

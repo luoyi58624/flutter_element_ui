@@ -7,8 +7,10 @@ import 'package:element_plus/src/global.dart';
 
 mixin ToastService {
   /// Element UI 轻提示实例对象，在屏幕上显示一段简单的文本提示，每次只能显示一条消息
-  final ToastServiceInstance toast = ToastServiceInstance();
+  ToastServiceInstance get toast => _toast;
 }
+
+final ToastServiceInstance _toast = ToastServiceInstance();
 
 class ToastServiceInstance {
   OverlayEntry? _toastOverlayEntry;

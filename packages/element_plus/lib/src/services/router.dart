@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+
 mixin RouterService {
   /// 全局路由导航key，请一定要在顶级 App 中挂载此 key。
   ///
@@ -16,7 +18,7 @@ mixin RouterService {
   ///   navigatorKey: el.navigatorKey,
   /// );
   /// ```
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   /// Element UI 全局路由导航 context 对象
   BuildContext get context {

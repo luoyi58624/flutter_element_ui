@@ -17,21 +17,21 @@ class Example1 extends StatelessWidget {
           },
           child: 'Toast',
         ),
-        ...elThemeTypes.map(
-              (type) => ElButton(
+        ...El.themeTypes.map(
+          (type) => ElButton(
             onPressed: () {
               el.toast.show('$type toast', type: type);
             },
             type: type,
             child:
-            '${type.substring(0, 1).toUpperCase() + type.substring(1)} Toast',
+                '${type.substring(0, 1).toUpperCase() + type.substring(1)} Toast',
           ),
         ),
         ElButton(
           onPressed: () {
             el.toast.builder(
               'Custom Toast',
-                  (content) => _CustomToast(content),
+              (content) => _CustomToast(content),
             );
           },
           child: 'Custom Toast',

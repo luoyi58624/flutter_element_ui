@@ -14,8 +14,10 @@ const double _messageGap = 8;
 
 mixin MessageService {
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
-  final MessageServiceInstance message = MessageServiceInstance();
+  MessageServiceInstance get message => _message;
 }
+
+final MessageServiceInstance _message = MessageServiceInstance();
 
 class MessageServiceInstance {
   /// 消息id

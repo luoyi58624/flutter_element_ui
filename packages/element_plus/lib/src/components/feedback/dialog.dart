@@ -36,7 +36,7 @@ class ElDialog extends StatelessWidget {
     String confirmText = '确定',
     String confirmLoadingText = '加载中...',
     String? cancelButtonType,
-    String confirmButtonType = 'primary',
+    String confirmButtonType = El.primary,
     Function? onCancel,
     Function? onConfirm,
   }) async {

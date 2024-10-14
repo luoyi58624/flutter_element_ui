@@ -23,7 +23,7 @@ class Example2 extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  ...elThemeTypes.whereIndexed((i, v) => i != 0).map(
+                  ...El.themeTypes.whereIndexed((i, v) => i != 0).map(
                         (e) => buildThemeColor(
                             context, e, context.elThemeColors[e]!),
                       )

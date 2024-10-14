@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/temp_test.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,8 +15,13 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: [
               const Gap(32),
-              H1('Element UI',
-                  style: context.sm ? null : const TextStyle(fontSize: 48)),
+              GestureDetector(
+                onDoubleTap: (){
+                  el.context.push(const TempTestPage());
+                },
+                child: H1('Element UI',
+                    style: context.sm ? null : const TextStyle(fontSize: 48)),
+              ),
               const Gap(16),
               const ElText('基于 Flutter，面向设计师和开发者的组件库'),
               const Gap(32),

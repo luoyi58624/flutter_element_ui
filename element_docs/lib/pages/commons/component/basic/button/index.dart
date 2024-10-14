@@ -16,7 +16,7 @@ import 'examples/example10.dart';
 class ButtonPage extends ResponsivePage {
   const ButtonPage({super.key});
 
-  static final buttonTypes = [null, ...elThemeTypes];
+  static final buttonTypes = [null, ...El.themeTypes];
 
   @override
   String get title => 'Button 按钮';

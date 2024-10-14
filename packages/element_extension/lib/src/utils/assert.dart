@@ -9,7 +9,7 @@ abstract class ElAssert {
   /// 主题类型断言，要么传递空，要么必须是五种主题类型的其中一个
   static void themeType(String? type, String componentName) {
     assert(
-        type == null || elThemeTypes.contains(type),
+        type == null || El.themeTypes.contains(type),
         '$componentName: 主题类型断言失败，你要么传递 null，'
         '要么传递 primary、success、info、warning、error 其中一个，'
         '但是得到的类型是: $type');
@@ -18,7 +18,7 @@ abstract class ElAssert {
   /// 主题类型断言，必须是五种主题类型的其中一个
   static void themeTypeRequired(String type, String componentName) {
     assert(
-        elThemeTypes.contains(type),
+        El.themeTypes.contains(type),
         '$componentName: 主题类型断言失败，你必须传递 primary、success、info、warning、error 其中一个，'
         '但是得到的类型是: $type');
   }

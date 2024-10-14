@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 
 mixin AnchorService {
-  /// 锚点服务对象，通常可以搭配 [ElAnchor] 小部件一起使用，
-  final AnchorServiceInstance anchor = AnchorServiceInstance();
+  /// 锚点服务对象，通常可以搭配 [ElAnchor] 小部件一起使用
+  AnchorServiceInstance get anchor => _anchor;
 }
+
+final AnchorServiceInstance _anchor = AnchorServiceInstance();
 
 class AnchorServiceInstance {
   /// 瞄点集合

@@ -3,8 +3,10 @@ import 'package:flutter/widgets.dart';
 
 mixin CursorService {
   /// 全局光标实例对象
-  final CursorInstance cursor = CursorInstance();
+  CursorInstance get cursor => _cursor;
 }
+
+final CursorInstance _cursor = CursorInstance();
 
 class CursorInstance {
   OverlayEntry? _overlayEntry;
