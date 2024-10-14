@@ -10,9 +10,19 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTabsThemeData copyWith({
     double? size,
+    EdgeInsets? padding,
+    double? itemGap,
+    bool? enabledDrag,
+    Duration? dragDelay,
+    AxisDirection? direction,
   }) {
     return ElTabsThemeData(
       size: size ?? this.size,
+      padding: padding ?? this.padding,
+      itemGap: itemGap ?? this.itemGap,
+      enabledDrag: enabledDrag ?? this.enabledDrag,
+      dragDelay: dragDelay ?? this.dragDelay,
+      direction: direction ?? this.direction,
     );
   }
 
@@ -21,6 +31,11 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
     if (other == null) return this;
     return copyWith(
       size: other.size,
+      padding: other.padding,
+      itemGap: other.itemGap,
+      enabledDrag: other.enabledDrag,
+      dragDelay: other.dragDelay,
+      direction: other.direction,
     );
   }
 }

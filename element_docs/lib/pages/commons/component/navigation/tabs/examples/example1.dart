@@ -26,11 +26,23 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final activeIndex = useState(0);
-    return ElTabs(
-      activeIndex,
-      children: List.generate(
+    final tabs = useState(
+      List.generate(
         20,
-        (index) => ElTabModel(title: '标签${index + 1}'),
+        (index) => ElTab(title: '标签${index + 1}'),
+      ),
+    );
+    return ElTabsTheme.merge(
+      data: const ElTabsThemeData(
+        enabledDrag: true,
+        itemGap: 16,
+      ),
+      child: ElTabs(
+        activeIndex,
+        tabs: tabs.value,
+        onDragChanged: (v) {
+          tabs.value = v;
+        },
       ),
     );
   }

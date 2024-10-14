@@ -23,15 +23,16 @@ class TabsInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(TabsInheritedWidget oldWidget) => true;
 }
 
+/// [ElTabs] 提供的数据
 class TabsProp {
   /// [ElTabs] 当前主题数据
   final ElTabsThemeData themeData;
 
-  /// [ElTabs] 子标签集合
-  final List<ElTabModel> children;
+  /// 激活的标签索引
+  final int activeIndex;
 
   TabsProp({
     required this.themeData,
-    required this.children,
+    required this.activeIndex,
   });
 }

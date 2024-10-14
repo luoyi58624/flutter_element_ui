@@ -16,36 +16,46 @@ abstract class ResponsivePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scrollController = useScrollController();
     return ResponsivePageData(
       path,
+      scrollController,
       child: context.sm
           ? Scaffold(
               appBar: AppBar(
                 title: Text(title),
               ),
               body: SingleChildScrollView(
+                controller: scrollController,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: buildPage(context),
-                  ),
+                  child: Builder(builder: (context) {
+                    return Column(
+                      children: buildPage(context),
+                    );
+                  }),
                 ),
               ),
             )
-          : ColumnWidget(
-              scroll: true,
+          : SingleChildScrollView(
+              controller: scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-              children: [
-                H1(
-                  title,
-                  style: TextStyle(
-                    color: context.isDark
-                        ? Colors.grey.shade300
-                        : Colors.grey.shade800,
-                  ),
-                ),
-                ...buildPage(context),
-              ],
+              child: Builder(builder: (context) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    H1(
+                      title,
+                      style: TextStyle(
+                        color: context.isDark
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade800,
+                      ),
+                    ),
+                    ...buildPage(context),
+                  ],
+                );
+              }),
             ),
     );
   }
@@ -53,12 +63,14 @@ abstract class ResponsivePage extends HookWidget {
 
 class ResponsivePageData extends InheritedWidget {
   const ResponsivePageData(
-    this.path, {
+    this.path,
+    this.scrollController, {
     super.key,
     required super.child,
   });
 
   final String path;
+  final ScrollController scrollController;
 
   static ResponsivePageData of(BuildContext context) {
     final ResponsivePageData? result =

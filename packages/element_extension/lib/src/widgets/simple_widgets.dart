@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 class ElNullWidget extends StatelessWidget {
@@ -36,7 +37,7 @@ class ElChildIndexData extends InheritedWidget {
 
   static ElChildIndexData of(BuildContext context) {
     final ElChildIndexData? result =
-    context.dependOnInheritedWidgetOfExactType<ElChildIndexData>();
+        context.dependOnInheritedWidgetOfExactType<ElChildIndexData>();
     assert(result != null, 'No ElChildIndexData found in context');
     return result!;
   }
@@ -99,8 +100,8 @@ class ElGridWidget extends StatelessWidget {
           borderRadius: borderRadius,
           border: borderColor != null
               ? Border.all(
-            color: borderColor!,
-          )
+                  color: borderColor!,
+                )
               : const Border(),
         ),
         child: GridView.count(
@@ -110,7 +111,7 @@ class ElGridWidget extends StatelessWidget {
           physics: const ScrollPhysics(),
           children: List.generate(
             itemCount,
-                (index) {
+            (index) {
               BorderSide rightBorder = BorderSide.none;
               BorderSide bottomBorder = BorderSide.none;
               if (index % rowCount != rowCount - 1) {
@@ -133,5 +134,22 @@ class ElGridWidget extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class DragStartListener extends ReorderableDragStartListener {
+  const DragStartListener({
+    super.key,
+    required super.child,
+    required super.index,
+    super.enabled,
+    this.delay = kLongPressTimeout,
+  });
+
+  final Duration delay;
+
+  @override
+  MultiDragGestureRecognizer createRecognizer() {
+    return DelayedMultiDragGestureRecognizer(debugOwner: this, delay: delay);
   }
 }

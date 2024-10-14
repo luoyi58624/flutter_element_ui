@@ -8,7 +8,14 @@ part 'style.dart';
 part '../../../generates/components/navigation/tab/index.g.dart';
 
 class ElTab extends StatefulWidget {
-  const ElTab({super.key});
+  const ElTab({
+    super.key,
+    required this.title,
+    this.icon,
+  });
+
+  final String title;
+  final Widget? icon;
 
   @override
   State<ElTab> createState() => _ElTabState();
