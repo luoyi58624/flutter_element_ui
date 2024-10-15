@@ -45,57 +45,40 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
     Widget result = SizedBox(
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
-      child: NotificationListener(
-        onNotification: (e){
-          i('xxx');
-          return true;
-        },
-        child: Listener(
-          onPointerSignal: (e) {
-            if (e is PointerScrollEvent) {
-              scrollController.position.pointerScroll(e.scrollDelta.dy);
+      child: ScrollWidget.customScroll(
+        controller: scrollController,
+        mouseHorizontalScroll: true,
+        child: ReorderableListView(
+          scrollController: scrollController,
+          scrollDirection: axis,
+          buildDefaultDragHandles: false,
+          autoScrollerVelocityScalar: 500,
+          proxyDecorator: proxyDecorator,
+          onReorder: _onReorder,
+          children: widget.tabs.mapIndexed((i, e) {
+            Widget result = e;
+            if (enabledDrag) {
+              if (itemGap > 0.0) {
+                result = Padding(
+                  padding: EdgeInsets.only(
+                    left: i == 0.0 ? 0.0 : itemGap,
+                  ),
+                  child: result,
+                );
+              }
+              result = DragStartListener(
+                index: i,
+                delay: delay,
+                child: result,
+              );
             }
-          },
-          child: NotificationListener(
-            onNotification: (e){
-              return true;
-            },
-            child: CupertinoScrollbar(
-              controller: scrollController,
-              child: ReorderableListView(
-                scrollController: scrollController,
-                scrollDirection: axis,
-                buildDefaultDragHandles: false,
-                autoScrollerVelocityScalar: 500,
-                proxyDecorator: proxyDecorator,
-                onReorder: _onReorder,
-                children: widget.tabs.mapIndexed((i, e) {
-                  Widget result = e;
-                  if (enabledDrag) {
-                    if (itemGap > 0.0) {
-                      result = Padding(
-                        padding: EdgeInsets.only(
-                          left: i == 0.0 ? 0.0 : itemGap,
-                        ),
-                        child: result,
-                      );
-                    }
-                    result = DragStartListener(
-                      index: i,
-                      delay: delay,
-                      child: result,
-                    );
-                  }
-                  return Builder(
-                    key: ValueKey(i),
-                    builder: (context) => result,
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
+            return Builder(
+              key: ValueKey(i),
+              builder: (context) => result,
+            );
+          }).toList(),
         ),
-      ),
+      ).cupertinoScrollBehavior,
     );
 
     return TabsInheritedWidget(
@@ -104,6 +87,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
         activeIndex: modelValue,
       ),
       child: result,
-    ).noScrollBehavior;
+    );
   }
 }

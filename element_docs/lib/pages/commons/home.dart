@@ -1,5 +1,5 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/temp_test.dart';
+import 'package:element_docs/pages/test/temp_test_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {

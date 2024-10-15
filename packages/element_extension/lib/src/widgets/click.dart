@@ -2,10 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:element_dart/element_dart.dart';
 
-class Click extends StatefulWidget {
+class ClickWidget extends StatefulWidget {
   /// 点击事件小部件，它与 [GestureDetector] 不同在于，父组件的事件会被子组件的事件默认阻止，
-  /// 而 [Click] 则不同，当子组件的点击事件触发时，父组件也会触发点击事件。
-  const Click({
+  /// 而 [ClickWidget] 则不同，当子组件的点击事件触发时，父组件也会触发点击事件，使用场景：
+  ///
+  /// * [ElLink] 当子组件添加了点击事件时，超链接也可以直接响应跳转链接，而不需要用户在点击事件中手动跳转；
+  ///
+  /// 同时，如果你想阻止这个行为，只需在点击事件中添加 [ClickWidget.stopPropagation] 函数即可。
+  const ClickWidget({
     super.key,
     required this.onClick,
     required this.child,
@@ -20,10 +24,10 @@ class Click extends StatefulWidget {
   }
 
   @override
-  State<Click> createState() => _ClickState();
+  State<ClickWidget> createState() => _ClickWidgetState();
 }
 
-class _ClickState extends State<Click> {
+class _ClickWidgetState extends State<ClickWidget> {
   bool _flag = true;
 
   void _onTap() {

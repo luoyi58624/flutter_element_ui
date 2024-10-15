@@ -206,7 +206,7 @@ class ElLink extends StatelessWidget {
       builder: (context) => buildTextTheme(context, _toLink),
     );
     if (!disabledEvent) {
-      result = Click(
+      result = ClickWidget(
         onClick: () {
           _toLink();
         },

@@ -10,65 +10,38 @@ class TempTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final flag = useState(false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('临时测试页面'),
+        actions: [
+          ElSwitch(flag),
+          const Gap(8),
+        ],
       ),
-      body: const Demo3(),
+      body: Demo3(),
+      // body: Demo(
+      //   flag: flag.value,
+      // ),
     );
   }
 }
 
-class Demo extends StatefulWidget {
-  const Demo({super.key});
+class Demo extends StatelessWidget {
+  const Demo({super.key, required this.flag});
 
-  @override
-  State<Demo> createState() => _DemoState();
-}
-
-class _DemoState extends State<Demo> {
-  late List<int> list = List.generate(20, (index) => index);
-
-  Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        final double animValue = Curves.easeInOut.transform(animation.value);
-        final double elevation = lerpDouble(0, 8, animValue)!;
-        return Material(
-          elevation: elevation,
-          borderRadius: BorderRadius.circular(10),
-          child: child,
-        );
-      },
-      child: child,
-    );
-  }
+  final bool flag;
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableList(
-      onReorder: (int oldIndex, int newIndex) {
-        if (oldIndex < newIndex) {
-          newIndex -= 1;
-        }
-        var child = list.removeAt(oldIndex);
-        list.insert(newIndex, child);
-        setState(() {});
-      },
-      itemCount: list.length,
-      proxyDecorator: _proxyDecorator,
-      padding: const EdgeInsets.all(8),
-      shrinkWrap: true,
-      itemBuilder: (context, index) => _DragStartListener(
-        key: ValueKey(list[index]),
-        index: list[index],
-        child: Container(
-          height: 100,
-          decoration: BoxDecoration(
-            color: Colors.primaries[index % Colors.primaries.length],
-            borderRadius: BorderRadius.circular(10),
-          ),
+    return ListView(
+      physics: flag
+          ? const NeverScrollableScrollPhysics()
+          : const BouncingScrollPhysics(),
+      children: List.generate(
+        100,
+        (index) => ListTile(
+          title: Text('Item - ${index + 1}'),
         ),
       ),
     );
@@ -86,49 +59,6 @@ class _DragStartListener extends ReorderableDragStartListener {
   @override
   MultiDragGestureRecognizer createRecognizer() {
     return DelayedMultiDragGestureRecognizer(debugOwner: this, delay: 100.ms);
-  }
-}
-
-class _Demo2 extends HookWidget {
-  const _Demo2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final activeIndex = useState(0);
-    return Row(
-      children: [
-        ...List.generate(
-          10,
-          (index) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTapDown: (e) {
-                activeIndex.value = index;
-              },
-              child: LongPressDraggable(
-                onDragUpdate: (e) {
-                  i(e.delta.dx);
-                },
-                delay: 50.ms,
-                feedback: Container(
-                  width: 100,
-                  height: 44,
-                  color: Colors.green,
-                ),
-                child: Container(
-                  width: 100,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: activeIndex.value == index ? Colors.red : null,
-                    border: Border.all(color: context.elTheme.colors.border),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 }
 
@@ -182,10 +112,11 @@ class _Demo3State extends State<Demo3> {
 
     return SizedBox(
       height: 50,
-      child: CupertinoScrollbar(
-        controller: controller,
+      child: ScrollWidget.customScroll(
+        // controller: controller,
+        mouseHorizontalScroll: true,
         child: ReorderableListView(
-          scrollController: controller,
+          // scrollController: controller,
           buildDefaultDragHandles: false,
           scrollDirection: Axis.horizontal,
           // padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -210,7 +141,7 @@ class _Demo3State extends State<Demo3> {
                 ),
               )
               .toList(),
-        ).noScrollBehavior,
+        ).cupertinoScrollBehavior,
       ),
     );
   }

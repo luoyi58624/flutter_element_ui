@@ -1,3 +1,4 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,10 @@ class CustomScrollBehavior extends ScrollBehavior {
       return child;
     }
   }
+
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return super.getScrollPhysics(context);
+  }
 }
 
 class NoScrollBehavior extends CustomScrollBehavior {
@@ -26,4 +31,57 @@ class NoScrollBehavior extends CustomScrollBehavior {
 
   @override
   Widget buildScrollbar(context, child, details) => child;
+}
+
+class ElScrollBehavior extends CustomScrollBehavior {
+  /// Element UI 默认的滚动行为，在桌面端默认使用 [ElScrollbar]
+  const ElScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    if (PlatformUtil.isWindows ||
+        PlatformUtil.isMacOS ||
+        PlatformUtil.isLinux) {
+      return ElScrollbar(
+        controller: details.controller,
+        child: child,
+      );
+    }
+    if (PlatformUtil.isIOS) {
+      return CupertinoScrollbar(
+        controller: details.controller,
+        child: child,
+      );
+    }
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
+}
+
+class MaterialScrollBehavior extends CustomScrollBehavior {
+  /// 将 Material 滚动条作为默认的滚动行为
+  const MaterialScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    return Scrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
+}
+
+class CupertinoScrollBehavior extends CustomScrollBehavior {
+  const CupertinoScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    /// 将 Cupertino 滚动条作为默认的滚动行为
+    return CupertinoScrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
 }

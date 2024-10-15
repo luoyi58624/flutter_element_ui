@@ -37,25 +37,29 @@ abstract class ResponsivePage extends HookWidget {
                 ),
               ),
             )
-          : SingleChildScrollView(
+          : ScrollWidget.customScroll(
               controller: scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-              child: Builder(builder: (context) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    H1(
-                      title,
-                      style: TextStyle(
-                        color: context.isDark
-                            ? Colors.grey.shade300
-                            : Colors.grey.shade800,
+              child: SingleChildScrollView(
+                controller: scrollController,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                child: Builder(builder: (context) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      H1(
+                        title,
+                        style: TextStyle(
+                          color: context.isDark
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade800,
+                        ),
                       ),
-                    ),
-                    ...buildPage(context),
-                  ],
-                );
-              }),
+                      ...buildPage(context),
+                    ],
+                  );
+                }),
+              ),
             ),
     );
   }

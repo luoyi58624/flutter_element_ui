@@ -1,6 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
+
+import '../global.dart';
 
 class ExampleSmoothScroll extends StatefulWidget {
   const ExampleSmoothScroll({
@@ -20,9 +25,10 @@ class _ExampleSmoothScrollState extends State<ExampleSmoothScroll> {
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
         controller: _scrollController,
-        itemCount: 100,
+        itemCount: 1000,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: () {},
             title: Text('Item $index'),
           );
         },
@@ -44,7 +50,6 @@ class MyCustomSmoothScrollController extends ScrollController {
     ScrollContext context,
     ScrollPosition? oldPosition,
   ) {
-    //use the customscroll position with smooth scrolling
     return CustomSmoothScrollPosition(
       physics: physics,
       context: context,
@@ -56,9 +61,14 @@ class MyCustomSmoothScrollController extends ScrollController {
   }
 }
 
+const double _minDelta = 180.0;
+
 class CustomSmoothScrollPosition extends ScrollPositionWithSingleContext {
-  int previousScrollTime = DateTime.now()
-      .millisecondsSinceEpoch; //used to track time between scrolls same as clragons code
+  late AnimationController animationController;
+  late Animation<double> animation;
+  late double targetPixels;
+  late double currentPixels;
+  Timer? _timer;
 
   CustomSmoothScrollPosition({
     required super.physics,
@@ -67,55 +77,76 @@ class CustomSmoothScrollPosition extends ScrollPositionWithSingleContext {
     super.keepScrollOffset,
     super.oldPosition,
     super.debugLabel,
-  });
+  }) {
+    targetPixels = pixels;
+    currentPixels = pixels;
+    animationController = AnimationController(
+      vsync: context.vsync,
+      duration: const Duration(milliseconds: 150),
+    )
+      ..addListener(_updateScroll)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          didStartScroll();
+          didUpdateScrollPositionBy(pixels - currentPixels);
+          didEndScroll();
+          goBallistic(0.0);
+        }
+      });
+  }
 
   @override
   void pointerScroll(double delta) {
-    // If an update is made to pointer scrolling here, consider if the same
-    // (or similar) change should be made in
-    // _NestedScrollCoordinator.pointerScroll.
+    if (PlatformUtil.isWindows) {
+      _pointerScroll(delta);
+    } else {
+      super.pointerScroll(delta);
+    }
+  }
+
+  void _pointerScroll(double delta) {
     if (delta == 0.0) {
       goBallistic(0.0);
       return;
     }
+    if (_timer != null) return;
+    _timer = setTimeout(() {
+      _timer = null;
+    }, 32);
 
-    final double targetPixels =
-        math.min(math.max(pixels + delta, minScrollExtent), maxScrollExtent);
+    double $delta = max(_minDelta, delta.abs());
+    $delta = delta > 0 ? $delta : -$delta;
+
+    i(delta);
+    targetPixels = math.min(
+        math.max(targetPixels + $delta, minScrollExtent), maxScrollExtent);
     if (targetPixels != pixels) {
       goIdle();
       updateUserScrollDirection(
         -delta > 0.0 ? ScrollDirection.forward : ScrollDirection.reverse,
       );
-      // final double oldPixels = pixels;
-      // Set the notifier before calling force pixels.
-      // This is set to false again after going ballistic below.
       isScrollingNotifier.value = true;
 
-      //--------------------  NEW CODE STARTS HERE  --------------------
-      int deltaScrollTime =
-          DateTime.now().millisecondsSinceEpoch - previousScrollTime;
-      int animationDuration = deltaScrollTime < 200 ? deltaScrollTime : 200;
-
-      if (animationDuration < 32) {
-        //60fps is 16ms per frame so less than 32ms is pointless as its less than 2 frames
-        //also avoids calling animateTo too many times in quick succession which seems to be buggy and throws exceptions for elapsed<0  that might be related to github.com/flutter/flutter/issues/106277
-        super.pointerScroll(delta);
-        return;
-      }
-      animateTo(
-        targetPixels,
-        duration: Duration(milliseconds: animationDuration),
+      animation = Tween(
+        begin: currentPixels,
+        end: targetPixels,
+      ).animate(CurvedAnimation(
+        parent: animationController,
         curve: Curves.easeInOut,
-      );
-      previousScrollTime = DateTime.now().millisecondsSinceEpoch;
-      //--------------------  NEW CODE ENDS HERE  --------------------
+      ));
 
-      //-------------------- THIS IS THE ORIGINAL FORCE PIXELS IMPLEMENTATION OF super.pointerScroll(delta) --------------------
-      // forcePixels(targetPixels);
-      // didStartScroll();
-      // didUpdateScrollPositionBy(pixels - oldPixels);
-      // didEndScroll();
-      // goBallistic(0.0);
+      animationController.forward(from: 0);
     }
+  }
+
+  void _updateScroll() {
+    currentPixels = animation.value;
+    forcePixels(animation.value);
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 }
