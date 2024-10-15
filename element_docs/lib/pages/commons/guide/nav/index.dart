@@ -22,11 +22,12 @@ class _ScrollTest extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useScrollController();
     return SizedBox(
       height: 800,
-      child: ScrollWidget(
+      child: ScrollPhysicsBuilder(
+        builder: (controller, physics) => SingleChildScrollView(
           controller: controller,
+          physics: physics,
           child: Column(
             children: [
               ...List.generate(
@@ -56,7 +57,9 @@ class _ScrollTest extends HookWidget {
               ),
               const _Child2(),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -103,16 +106,17 @@ class _Child2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useScrollController();
     return Container(
       height: 50,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.purpleAccent),
       ),
-      child: ScrollWidget(
-          scrollDirection: Axis.horizontal,
-          mouseHorizontalScroll: true,
+      child: ScrollPhysicsBuilder(
+        mouseHorizontalScroll: true,
+        builder: (controller, physics) => SingleChildScrollView(
           controller: controller,
+          physics: physics,
+          scrollDirection: Axis.horizontal,
           child: Row(
             children: [
               ...List.generate(
@@ -125,7 +129,9 @@ class _Child2 extends HookWidget {
                 ),
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -45,11 +45,12 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
     Widget result = SizedBox(
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
-      child: ScrollWidget.customScroll(
+      child: ScrollPhysicsBuilder(
         controller: scrollController,
         mouseHorizontalScroll: true,
-        child: ReorderableListView(
-          scrollController: scrollController,
+        builder: (controller, physics) => ReorderableListView(
+          scrollController: controller,
+          physics: physics,
           scrollDirection: axis,
           buildDefaultDragHandles: false,
           autoScrollerVelocityScalar: 500,

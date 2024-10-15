@@ -112,14 +112,14 @@ class _Demo3State extends State<Demo3> {
 
     return SizedBox(
       height: 50,
-      child: ScrollWidget.customScroll(
-        // controller: controller,
+      child: ScrollPhysicsBuilder(
+        controller: controller,
         mouseHorizontalScroll: true,
-        child: ReorderableListView(
-          // scrollController: controller,
+        builder: (controller, physics) => ReorderableListView(
+          scrollController: controller,
+          physics: physics,
           buildDefaultDragHandles: false,
           scrollDirection: Axis.horizontal,
-          // padding: const EdgeInsets.symmetric(horizontal: 8),
           proxyDecorator: proxyDecorator,
           shrinkWrap: true,
           autoScrollerVelocityScalar: 500,

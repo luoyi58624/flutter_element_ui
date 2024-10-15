@@ -37,10 +37,11 @@ abstract class ResponsivePage extends HookWidget {
                 ),
               ),
             )
-          : ScrollWidget.customScroll(
+          : ScrollPhysicsBuilder(
               controller: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
+              builder: (controller, physics) => SingleChildScrollView(
+                controller: controller,
+                physics: physics,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
                 child: Builder(builder: (context) {

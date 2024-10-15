@@ -1,118 +1,90 @@
-import 'dart:async';
-
-import 'package:element_dart/element_dart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-class ScrollWidget extends StatefulWidget {
-  /// 滚动容器小部件，基于 [SingleChildScrollView] 小部件
-  const ScrollWidget({
+class ScrollPhysicsBuilder extends StatefulWidget {
+  /// 滚动行为构造器，解决桌面端嵌套滚动容器滑动冲突问题
+  const ScrollPhysicsBuilder({
     super.key,
-    required this.child,
-    this.controller,
-    this.scrollDirection = Axis.vertical,
-    this.reverse = false,
-    this.padding,
-    this.mouseHorizontalScroll = false,
-  }) : _isCustomScroll = false;
-
-  /// 自定义滚动容器
-  const ScrollWidget.customScroll({
-    super.key,
-    required this.child,
+    required this.builder,
     this.controller,
     this.mouseHorizontalScroll = false,
-  })  : _isCustomScroll = true,
-        scrollDirection = Axis.vertical,
-        reverse = false,
-        padding = null;
+  });
 
-  final bool _isCustomScroll;
-  final Widget child;
+  final Widget Function(
+    ScrollController controller,
+    ScrollPhysics? physics,
+  ) builder;
+
   final ScrollController? controller;
-  final Axis scrollDirection;
-  final bool reverse;
-  final EdgeInsetsGeometry? padding;
 
-  /// 鼠标横向滚动监听，默认 false；
-  ///
-  /// 注意：必须手动创建 controller 并绑定，否则运行会报错。
+  /// 鼠标横向滚动监听，默认 false
   final bool mouseHorizontalScroll;
 
   @override
-  State<ScrollWidget> createState() => _ScrollWidgetState();
+  State<ScrollPhysicsBuilder> createState() => _ScrollPhysicsBuilderState();
 }
 
-class _ScrollWidgetState extends State<ScrollWidget> {
+class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
+  late ScrollController controller;
+
+  ScrollPhysics? physics;
+
   /// 阻止祖先滚动容器滚动
   bool preventParent = false;
 
   /// 阻止后代滚动容器滚动
   bool preventChild = false;
 
-  Timer? _timer;
+  @override
+  void initState() {
+    super.initState();
+    controller = widget.controller ?? ScrollController();
+  }
 
   void _deepPreventParent(bool value) {
-    setState(() {
-      preventParent = value;
-    });
     _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(value);
+    setState(() {
+      if (value) {
+        physics = const NeverScrollableScrollPhysics();
+      } else {
+        physics = null;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    ScrollController? controller;
-    if (widget.controller != null) {
-      controller = widget.controller;
-    } else {
-      PrimaryScrollController.shouldInherit(context, widget.scrollDirection);
-      controller = PrimaryScrollController.maybeOf(context);
-    }
-
     Widget result = const SizedBox();
-    result = widget.child;
-    if (widget._isCustomScroll == false) {
-      result = SingleChildScrollView(
-        controller: controller,
-        scrollDirection: widget.scrollDirection,
-        reverse: widget.reverse,
-        padding: widget.padding,
-        child: result,
-      );
-    }
-
-    result = ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(
-        physics: preventParent || preventChild
-            ? NeverScrollableScrollPhysics()
-            : null,
-      ),
-      child: result,
-    );
-    if (widget.mouseHorizontalScroll && controller != null) {
+    result = widget.builder(controller, physics);
+    if (widget.mouseHorizontalScroll) {
       result = Listener(
         onPointerSignal: (e) {
           if (e is PointerScrollEvent) {
-            controller!.position.pointerScroll(e.scrollDelta.dy);
-            if (_timer != null) {
-              _timer!.cancel();
-              _timer = null;
-            }
-            _ScrollPhysicsInheritedWidget.maybeOf(context)
-                ?.deepPreventParent(true);
-            _timer = setTimeout(
-              () {
-                _timer = null;
-                _ScrollPhysicsInheritedWidget.maybeOf(context)
-                    ?.deepPreventParent(false);
-              },
-              16,
-            );
+            controller.position.pointerScroll(e.scrollDelta.dy);
           }
         },
         child: result,
       );
     }
+    result = MouseRegion(
+      onEnter: (e) {
+        // if (_timer != null) {
+        //   _timer!.cancel();
+        //   _timer = null;
+        // }
+        _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(true);
+      },
+      onExit: (e) {
+        _ScrollPhysicsInheritedWidget.maybeOf(context)
+            ?.deepPreventParent(false);
+        // _timer = setTimeout(() {
+        //   _timer = null;
+        //   _ScrollPhysicsInheritedWidget.maybeOf(context)
+        //       ?.deepPreventParent(false);
+        // }, 16);
+      },
+      child: result,
+    );
     return _ScrollPhysicsInheritedWidget(
       preventParent,
       preventChild,
@@ -142,5 +114,5 @@ class _ScrollPhysicsInheritedWidget extends InheritedWidget {
       .dependOnInheritedWidgetOfExactType<_ScrollPhysicsInheritedWidget>();
 
   @override
-  bool updateShouldNotify(_ScrollPhysicsInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_ScrollPhysicsInheritedWidget oldWidget) => false;
 }
