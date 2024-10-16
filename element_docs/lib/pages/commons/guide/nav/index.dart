@@ -77,25 +77,28 @@ class _Child extends StatelessWidget {
       ),
       child: Material(
         color: context.elTheme.colors.bg,
-        child: SingleChildScrollView(
-          primary: true,
-          child: Column(
-            children: [
-              ...List.generate(
-                20,
-                (index) => ListTile(
-                  onTap: () {},
-                  title: Text(
-                    'Child Item - ${index + 1}',
-                    style: const TextStyle(
-                      color: Colors.green,
+        child: ScrollPhysicsBuilder(builder: (controller, physics) {
+          return SingleChildScrollView(
+            controller: controller,
+            physics: physics,
+            child: Column(
+              children: [
+                ...List.generate(
+                  20,
+                  (index) => ListTile(
+                    onTap: () {},
+                    title: Text(
+                      'Child Item - ${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.green,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
