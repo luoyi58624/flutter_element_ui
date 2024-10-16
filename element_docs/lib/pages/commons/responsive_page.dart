@@ -16,6 +16,7 @@ abstract class ResponsivePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     return ResponsivePageData(
       path,
       child: context.sm
@@ -35,9 +36,9 @@ abstract class ResponsivePage extends HookWidget {
               ),
             )
           : ScrollPhysicsBuilder(
-              builder: (controller, physics) => SingleChildScrollView(
+              controller: controller,
+              child: SingleChildScrollView(
                 controller: controller,
-                physics: physics,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 50,
                   vertical: 50,

@@ -58,6 +58,7 @@ class ElCodePreview extends StatefulWidget {
 }
 
 class _ElCodePreviewState extends State<ElCodePreview> {
+  ScrollController scrollController = ScrollController();
   final code = Obs(const TextSpan());
 
   TextStyle get _textStyle => TextStyle(
@@ -92,6 +93,12 @@ class _ElCodePreviewState extends State<ElCodePreview> {
     if (widget.code != oldWidget.code) {
       initCodeStyle(context);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
   }
 
   @override
@@ -151,10 +158,10 @@ class _ElCodePreviewState extends State<ElCodePreview> {
               borderRadius: borderRadius,
             ),
             clipBehavior: Clip.hardEdge,
-            child: ScrollPhysicsBuilder(builder: (controller, physics) {
-              return SingleChildScrollView(
-                controller: controller,
-                physics: physics,
+            child: ScrollPhysicsBuilder(
+              controller: scrollController,
+              child: SingleChildScrollView(
+                controller: scrollController,
                 child: IntrinsicHeight(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,8 +171,8 @@ class _ElCodePreviewState extends State<ElCodePreview> {
                     ],
                   ),
                 ),
-              );
-            }),
+              ),
+            ),
           ),
         ),
         Positioned(

@@ -16,16 +16,17 @@ class NavPage extends ResponsivePage {
 }
 
 class _ScrollTest extends HookWidget {
-  const _ScrollTest({super.key});
+  const _ScrollTest();
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     return SizedBox(
       height: 800,
       child: ScrollPhysicsBuilder(
-        builder: (controller, physics) => SingleChildScrollView(
+        controller: controller,
+        child: SingleChildScrollView(
           controller: controller,
-          physics: physics,
           child: Column(
             children: [
               ...List.generate(
@@ -40,7 +41,7 @@ class _ScrollTest extends HookWidget {
                   ),
                 ),
               ),
-              const _Child2(),
+              // const _Child2(),
               const _Child(),
               ...List.generate(
                 10,
@@ -63,11 +64,12 @@ class _ScrollTest extends HookWidget {
   }
 }
 
-class _Child extends StatelessWidget {
+class _Child extends HookWidget {
   const _Child();
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     return Container(
       width: 400,
       height: 300,
@@ -76,14 +78,14 @@ class _Child extends StatelessWidget {
       ),
       child: Material(
         color: context.elTheme.colors.bg,
-        child: ScrollPhysicsBuilder(builder: (controller, physics) {
-          return SingleChildScrollView(
+        child: ScrollPhysicsBuilder(
+          controller: controller,
+          child: SingleChildScrollView(
             controller: controller,
-            physics: physics,
             child: Column(
               children: [
                 ...List.generate(
-                  20,
+                  200,
                   (index) => ListTile(
                     onTap: () {},
                     title: Text(
@@ -96,8 +98,8 @@ class _Child extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        }),
+          ),
+        ),
       ),
     );
   }
@@ -122,7 +124,7 @@ class _Child2 extends HookWidget {
           child: Row(
             children: [
               ...List.generate(
-                20,
+                200,
                 (index) => Text(
                   'Child Item - ${index + 1}',
                   style: const TextStyle(

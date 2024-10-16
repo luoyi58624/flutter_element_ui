@@ -1,3 +1,4 @@
+import 'package:element_extension/element_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
@@ -138,25 +139,32 @@ class ElGridWidget extends StatelessWidget {
 }
 
 class DragStartListener extends ReorderableDragStartListener {
-  /// 识别长按拖拽小部件，通常用于拖拽列表，与 Flutter 默认提供的小部件相比，你可以设置长按延迟时间，默认 500 毫秒
+  /// 识别长按拖拽小部件，通常用于拖拽列表
   const DragStartListener({
     super.key,
     required super.child,
     required super.index,
     super.enabled,
-    this.delay = kLongPressTimeout,
+    this.delay,
   });
 
-  final Duration delay;
+  /// 自定义长按触发延迟，默认情况下：桌面端 200 毫秒，移动端 500 毫秒
+  final Duration? delay;
 
   @override
   MultiDragGestureRecognizer createRecognizer() {
-    return DelayedMultiDragGestureRecognizer(debugOwner: this, delay: delay);
+    return DelayedMultiDragGestureRecognizer(
+      debugOwner: this,
+      delay: delay ??
+          (PlatformUtil.isDesktop
+              ? const Duration(milliseconds: 200)
+              : const Duration(milliseconds: 500)),
+    );
   }
 }
 
 class HorizontalScrollWidget extends StatelessWidget {
-  /// 支持鼠标水平滚动小部件
+  /// 支持鼠标水平滚动小部件，只有在桌面端才会构建
   const HorizontalScrollWidget({
     super.key,
     required this.controller,
@@ -168,15 +176,18 @@ class HorizontalScrollWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
-      onPointerSignal: (e) {
-        if (e is PointerScrollEvent) {
-          GestureBinding.instance.pointerSignalResolver.register(e, (event) {
-            controller.position.pointerScroll(e.scrollDelta.dy);
-          });
-        }
-      },
-      child: child,
-    );
+    return PlatformUtil.isDesktop
+        ? Listener(
+            onPointerSignal: (e) {
+              if (e is PointerScrollEvent) {
+                GestureBinding.instance.pointerSignalResolver.register(e,
+                    (event) {
+                  controller.position.pointerScroll(e.scrollDelta.dy);
+                });
+              }
+            },
+            child: child,
+          )
+        : child;
   }
 }

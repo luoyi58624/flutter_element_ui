@@ -101,7 +101,5 @@ class _ClickInheritedWidget extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(_ClickInheritedWidget oldWidget) {
-    return false;
-  }
+  bool updateShouldNotify(_ClickInheritedWidget oldWidget) => false;
 }
