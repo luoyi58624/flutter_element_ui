@@ -7,7 +7,7 @@ class ElNullWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     throw FlutterError(
-      'ElNullWidget 通常用于混入 build 方法，子类如果没有执行 super.build 函数将抛出此异常',
+      'ElNullWidget 通常用于 mixin 混入，子类如果没有执行 super.build 函数将抛出此异常',
     );
   }
 }
@@ -138,6 +138,7 @@ class ElGridWidget extends StatelessWidget {
 }
 
 class DragStartListener extends ReorderableDragStartListener {
+  /// 识别长按拖拽小部件，通常用于拖拽列表，与 Flutter 默认提供的小部件相比，你可以设置长按延迟时间，默认 500 毫秒
   const DragStartListener({
     super.key,
     required super.child,
@@ -151,5 +152,31 @@ class DragStartListener extends ReorderableDragStartListener {
   @override
   MultiDragGestureRecognizer createRecognizer() {
     return DelayedMultiDragGestureRecognizer(debugOwner: this, delay: delay);
+  }
+}
+
+class HorizontalScrollWidget extends StatelessWidget {
+  /// 支持鼠标水平滚动小部件
+  const HorizontalScrollWidget({
+    super.key,
+    required this.controller,
+    required this.child,
+  });
+
+  final ScrollController controller;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerSignal: (e) {
+        if (e is PointerScrollEvent) {
+          GestureBinding.instance.pointerSignalResolver.register(e, (event) {
+            controller.position.pointerScroll(e.scrollDelta.dy);
+          });
+        }
+      },
+      child: child,
+    );
   }
 }

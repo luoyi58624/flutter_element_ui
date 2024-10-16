@@ -44,6 +44,7 @@ class FlatCodeExample extends StatelessWidget {
               child: ElCodePreview(
                 code: code!,
                 height: double.infinity,
+                maxHeight: 500,
                 borderRadius: noBorderRadius
                     ? BorderRadius.zero
                     : BorderRadius.only(
@@ -67,6 +68,7 @@ class FlatCodeExample extends StatelessWidget {
               child: ElCodePreview(
                 code: code!,
                 height: double.infinity,
+                maxHeight: 500,
                 borderRadius: BorderRadius.only(
                   topLeft: context.elTheme.cardTheme.radius.topLeft,
                   bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,

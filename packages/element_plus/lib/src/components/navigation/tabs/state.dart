@@ -45,12 +45,10 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
     Widget result = SizedBox(
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
-      child: ScrollPhysicsBuilder(
+      child: HorizontalScrollWidget(
         controller: scrollController,
-        mouseHorizontalScroll: true,
-        builder: (controller, physics) => ReorderableListView(
-          scrollController: controller,
-          physics: physics,
+        child: ReorderableListView(
+          scrollController: scrollController,
           scrollDirection: axis,
           buildDefaultDragHandles: false,
           autoScrollerVelocityScalar: 500,
@@ -78,8 +76,8 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
               builder: (context) => result,
             );
           }).toList(),
-        ),
-      ).cupertinoScrollBehavior,
+        ).cupertinoScrollBehavior,
+      ),
     );
 
     return TabsInheritedWidget(

@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 import '../../element_extension.dart';
 
 /// 延迟解除滚动中的限制时间，单位：毫秒
-const int _unLockScrollingDelay = 200;
+const int _unLockScrollingDelay = 150;
 
 class ScrollPhysicsBuilder extends StatefulWidget {
-  /// 滚动行为构造器，使用它构造的 [ScrollPhysics] 可以解决桌面端嵌套滚动容器滑动冲突问题
+  /// 滚动行为构造器，使用它构造的 [ScrollPhysics] 可以临时解决桌面端嵌套滚动容器滑动冲突问题
   const ScrollPhysicsBuilder({
     super.key,
     required this.builder,
@@ -23,10 +23,10 @@ class ScrollPhysicsBuilder extends StatefulWidget {
     ScrollPhysics? physics,
   ) builder;
 
-  /// 自定义滚动控制器，如果为空则内部自动创建一个控制器
+  /// 滚动控制器，如果为空则内部自动创建一个控制器
   final ScrollController? controller;
 
-  /// 鼠标横向滚动监听，默认 false
+  /// 启用鼠标横向滚动监听，默认 false
   final bool mouseHorizontalScroll;
 
   @override
@@ -35,8 +35,6 @@ class ScrollPhysicsBuilder extends StatefulWidget {
 
 class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
   late ScrollController _controller;
-
-  ScrollPhysics? _physics;
 
   /// 是否允许监听器的执行，当内部滚动容器开始滚动时，会阻止所有祖先的监听器
   bool _preventListener = false;
@@ -51,7 +49,8 @@ class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
   bool _isScrolling = false;
 
   /// 延迟解除滚动中的限制
-  Timer? _timer;
+  Timer? _unLockParentTimer;
+  Timer? _unLockChildTimer;
 
   @override
   void initState() {
@@ -59,62 +58,87 @@ class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
     _controller = widget.controller ?? ScrollController();
   }
 
-  void _cancelTimer() {
-    if (_timer != null) {
-      _timer!.cancel();
-      _timer = null;
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+  }
+
+  void _cancelUnLockParentTimer() {
+    if (_unLockParentTimer != null) {
+      _unLockParentTimer!.cancel();
+      _unLockParentTimer = null;
+    }
+  }
+
+  void _cancelUnLockChildTimer() {
+    if (_unLockChildTimer != null) {
+      _unLockChildTimer!.cancel();
+      _unLockChildTimer = null;
     }
   }
 
   void _deepPreventListener(bool value) {
-    _cancelTimer();
+    _cancelUnLockParentTimer();
     _preventListener = value;
-    _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(value);
+    _PhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(value);
   }
 
   void _deepPreventParent(bool value) {
-    _cancelTimer();
-    if (value) {
-      _physics = const NeverScrollableScrollPhysics();
-    } else {
-      _physics = null;
-    }
-    _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(value);
+    _cancelUnLockParentTimer();
+    _preventParent = value;
+    _PhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(value);
     setState(() {});
   }
 
   /// 如果当前滚动容器处于滚动中，需要同时禁止祖先、子孙滚动容器的滚动，当滚动停止后，等待一定延迟后解除限制
   void handlerScrolling() {
-    _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(true);
+    _PhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(true);
     if (_controller.position.pixels != _controller.position.minScrollExtent &&
         _controller.position.pixels != _controller.position.maxScrollExtent) {
       if (_isScrolling == false) {
         _isScrolling = true;
-        _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(true);
+        _PhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(true);
+        setState(() {
+          _preventChild = true;
+        });
       }
     }
-    _cancelTimer();
-    _timer = setTimeout(() {
-      _timer = null;
+    _cancelUnLockParentTimer();
+    _cancelUnLockChildTimer();
+    _unLockParentTimer = setTimeout(() {
+      _unLockParentTimer = null;
       _isScrolling = false;
-      _ScrollPhysicsInheritedWidget.maybeOf(context)
-          ?.deepPreventListener(false);
-      _ScrollPhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(false);
+      _PhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(false);
+      _PhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(false);
+    }, _unLockScrollingDelay);
+    _unLockChildTimer = setTimeout(() {
+      _unLockChildTimer = null;
+      _isScrolling = false;
+      setState(() {
+        _preventChild = false;
+      });
     }, _unLockScrollingDelay);
   }
 
   @override
   Widget build(BuildContext context) {
-    bool preventChild = _preventChild;
-    if (preventChild == false) {
-      preventChild =
-          _ScrollPhysicsInheritedWidget.maybeOf(context)?.preventChild ?? false;
-    }
-    Widget result = widget.builder(_controller, _physics);
+    // 如果祖先不允许子孙滚动容器进行滚动，那么此变量将为 true
+    bool preventChild =
+        _PhysicsInheritedWidget.maybeOf(context)?.preventChild ?? false;
+
+    Widget result = widget.builder(
+      _controller,
+      _preventParent || preventChild
+          ? const NeverScrollableScrollPhysics()
+          : null,
+    );
 
     result = Listener(
       onPointerSignal: (e) {
-        if (_preventListener == false && e is PointerScrollEvent) {
+        if (e is PointerScrollEvent && _preventListener == false) {
           if (widget.mouseHorizontalScroll) {
             _controller.position.pointerScroll(e.scrollDelta.dy);
           } else {
@@ -128,25 +152,21 @@ class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
     if (widget.mouseHorizontalScroll) {
       result = MouseRegion(
         onEnter: (e) {
-          _ScrollPhysicsInheritedWidget.maybeOf(context)
-              ?.deepPreventListener(true);
-          _ScrollPhysicsInheritedWidget.maybeOf(context)
-              ?.deepPreventParent(true);
+          _PhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(true);
+          _PhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(true);
         },
         onExit: (e) {
-          _ScrollPhysicsInheritedWidget.maybeOf(context)
-              ?.deepPreventListener(false);
-          _ScrollPhysicsInheritedWidget.maybeOf(context)
-              ?.deepPreventParent(false);
+          _PhysicsInheritedWidget.maybeOf(context)?.deepPreventListener(false);
+          _PhysicsInheritedWidget.maybeOf(context)?.deepPreventParent(false);
         },
         child: result,
       );
     }
 
-    return _ScrollPhysicsInheritedWidget(
+    return _PhysicsInheritedWidget(
       _preventListener,
       _preventParent,
-      _preventChild,
+      _preventChild || preventChild,
       _deepPreventListener,
       _deepPreventParent,
       child: result,
@@ -154,8 +174,8 @@ class _ScrollPhysicsBuilderState extends State<ScrollPhysicsBuilder> {
   }
 }
 
-class _ScrollPhysicsInheritedWidget extends InheritedWidget {
-  const _ScrollPhysicsInheritedWidget(
+class _PhysicsInheritedWidget extends InheritedWidget {
+  const _PhysicsInheritedWidget(
     this.preventListener,
     this.preventParent,
     this.preventChild,
@@ -176,9 +196,9 @@ class _ScrollPhysicsInheritedWidget extends InheritedWidget {
   final void Function(bool value) deepPreventListener;
   final void Function(bool value) deepPreventParent;
 
-  static _ScrollPhysicsInheritedWidget? maybeOf(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<_ScrollPhysicsInheritedWidget>();
+  static _PhysicsInheritedWidget? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_PhysicsInheritedWidget>();
 
   @override
-  bool updateShouldNotify(_ScrollPhysicsInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_PhysicsInheritedWidget oldWidget) => true;
 }

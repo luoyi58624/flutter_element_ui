@@ -1,8 +1,6 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../../../test/temp_test_page.dart';
-
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -42,6 +40,7 @@ class _ScrollTest extends HookWidget {
                   ),
                 ),
               ),
+              const _Child2(),
               const _Child(),
               ...List.generate(
                 10,
@@ -109,16 +108,16 @@ class _Child2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
     return Container(
       height: 50,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.purpleAccent),
       ),
-      child: ScrollPhysicsBuilder(
-        mouseHorizontalScroll: true,
-        builder: (controller, physics) => SingleChildScrollView(
+      child: HorizontalScrollWidget(
+        controller: controller,
+        child: SingleChildScrollView(
           controller: controller,
-          physics: physics,
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
@@ -133,7 +132,7 @@ class _Child2 extends HookWidget {
               ),
             ],
           ),
-        ),
+        ).rawScrollBehavior,
       ),
     );
   }

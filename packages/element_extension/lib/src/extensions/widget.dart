@@ -9,6 +9,12 @@ extension ElWidgetExtension on Widget {
         child: this,
       );
 
+  /// 将 [RawScrollbar] 作为默认滚动条
+  Widget get rawScrollBehavior => ScrollConfiguration(
+    behavior: const RawScrollBehavior(),
+    child: this,
+  );
+
   /// 将 [Scrollbar] 作为默认滚动条
   Widget get materialScrollBehavior => ScrollConfiguration(
         behavior: const MaterialScrollBehavior(),

@@ -25,6 +25,7 @@ class ElCodePreview extends StatefulWidget {
     this.bgColor,
     this.enableSection,
     this.height,
+    this.maxHeight,
     this.borderRadius,
   });
 
@@ -45,6 +46,9 @@ class ElCodePreview extends StatefulWidget {
 
   /// 固定高度
   final double? height;
+
+  /// 代码块最大高度
+  final double? maxHeight;
 
   /// 代码示例背景圆角
   final BorderRadius? borderRadius;
@@ -135,20 +139,33 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             duration: context.elConfig.themeDuration,
             width: double.infinity,
             height: widget.height,
+            constraints: widget.maxHeight != null
+                ? BoxConstraints(
+                    minWidth: double.infinity,
+                    maxWidth: double.infinity,
+                    maxHeight: widget.maxHeight!,
+                  )
+                : null,
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: borderRadius,
             ),
             clipBehavior: Clip.hardEdge,
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildLineNum(),
-                  Expanded(child: buildCode()),
-                ],
-              ),
-            ),
+            child: ScrollPhysicsBuilder(builder: (controller, physics) {
+              return SingleChildScrollView(
+                controller: controller,
+                physics: physics,
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildLineNum(),
+                      Expanded(child: buildCode()),
+                    ],
+                  ),
+                ),
+              );
+            }),
           ),
         ),
         Positioned(

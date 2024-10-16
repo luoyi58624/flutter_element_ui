@@ -16,17 +16,14 @@ abstract class ResponsivePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = useScrollController();
     return ResponsivePageData(
       path,
-      scrollController,
       child: context.sm
           ? Scaffold(
               appBar: AppBar(
                 title: Text(title),
               ),
               body: SingleChildScrollView(
-                controller: scrollController,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Builder(builder: (context) {
@@ -38,12 +35,13 @@ abstract class ResponsivePage extends HookWidget {
               ),
             )
           : ScrollPhysicsBuilder(
-              controller: scrollController,
               builder: (controller, physics) => SingleChildScrollView(
                 controller: controller,
                 physics: physics,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50,
+                  vertical: 50,
+                ),
                 child: Builder(builder: (context) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,14 +66,12 @@ abstract class ResponsivePage extends HookWidget {
 
 class ResponsivePageData extends InheritedWidget {
   const ResponsivePageData(
-    this.path,
-    this.scrollController, {
+    this.path, {
     super.key,
     required super.child,
   });
 
   final String path;
-  final ScrollController scrollController;
 
   static ResponsivePageData of(BuildContext context) {
     final ResponsivePageData? result =

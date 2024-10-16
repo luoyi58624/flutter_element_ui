@@ -60,6 +60,19 @@ class ElScrollBehavior extends CustomScrollBehavior {
   }
 }
 
+class RawScrollBehavior extends CustomScrollBehavior {
+  /// 将原生滚动条作为默认的滚动行为
+  const RawScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    return RawScrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
+}
+
 class MaterialScrollBehavior extends CustomScrollBehavior {
   /// 将 Material 滚动条作为默认的滚动行为
   const MaterialScrollBehavior();

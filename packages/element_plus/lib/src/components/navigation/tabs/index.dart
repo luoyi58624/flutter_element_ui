@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:element_plus/src/components/navigation/tabs/common.dart';
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

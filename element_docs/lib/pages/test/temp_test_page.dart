@@ -48,20 +48,6 @@ class Demo extends StatelessWidget {
   }
 }
 
-class _DragStartListener extends ReorderableDragStartListener {
-  const _DragStartListener({
-    super.key,
-    required super.child,
-    required super.index,
-    super.enabled,
-  });
-
-  @override
-  MultiDragGestureRecognizer createRecognizer() {
-    return DelayedMultiDragGestureRecognizer(debugOwner: this, delay: 100.ms);
-  }
-}
-
 class Demo3 extends StatefulWidget {
   const Demo3({super.key, this.scrollController});
 
@@ -112,12 +98,10 @@ class _Demo3State extends State<Demo3> {
 
     return SizedBox(
       height: 50,
-      child: ScrollPhysicsBuilder(
+      child: HorizontalScrollWidget(
         controller: controller,
-        mouseHorizontalScroll: true,
-        builder: (controller, physics) => ReorderableListView(
+        child: ReorderableListView(
           scrollController: controller,
-          physics: physics,
           buildDefaultDragHandles: false,
           scrollDirection: Axis.horizontal,
           proxyDecorator: proxyDecorator,
@@ -134,7 +118,7 @@ class _Demo3State extends State<Demo3> {
           },
           children: cards
               .mapIndexed(
-                (i, e) => _DragStartListener(
+                (i, e) => DragStartListener(
                   key: ValueKey(cards[i]),
                   index: i,
                   child: e,
