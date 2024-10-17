@@ -158,7 +158,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
               borderRadius: borderRadius,
             ),
             clipBehavior: Clip.hardEdge,
-            child: ScrollPhysicsBuilder(
+            child: NestScrollWrapper(
               controller: scrollController,
               child: SingleChildScrollView(
                 controller: scrollController,

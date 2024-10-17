@@ -35,7 +35,7 @@ abstract class ResponsivePage extends HookWidget {
                 ),
               ),
             )
-          : ScrollPhysicsBuilder(
+          : NestScrollWrapper(
               controller: controller,
               child: SingleChildScrollView(
                 controller: controller,

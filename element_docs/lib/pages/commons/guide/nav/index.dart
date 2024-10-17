@@ -23,7 +23,7 @@ class _ScrollTest extends HookWidget {
     final controller = useScrollController();
     return SizedBox(
       height: 800,
-      child: ScrollPhysicsBuilder(
+      child: NestScrollWrapper(
         controller: controller,
         child: SingleChildScrollView(
           controller: controller,
@@ -78,7 +78,7 @@ class _Child extends HookWidget {
       ),
       child: Material(
         color: context.elTheme.colors.bg,
-        child: ScrollPhysicsBuilder(
+        child: NestScrollWrapper(
           controller: controller,
           child: SingleChildScrollView(
             controller: controller,
