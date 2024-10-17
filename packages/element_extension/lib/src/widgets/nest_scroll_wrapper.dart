@@ -12,7 +12,10 @@ const int _activeDelay = 150;
 List<int> _hoverNestScrollList = [];
 
 /// 数组最后一个值是鼠标悬停的目标
-int get _activeNestScroll => _hoverNestScrollList.last;
+int? get _activeNestScroll {
+ if(_hoverNestScrollList.isEmpty) return null;
+ return _hoverNestScrollList.last;
+}
 
 class NestScrollWrapper extends StatefulWidget {
   /// 优化桌面端嵌套滚动，移动端不会渲染，当鼠标指针滚动内部容器时，

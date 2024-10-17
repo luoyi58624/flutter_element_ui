@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class ElButtonGroup extends StatelessWidget {
+class ElButtonGroup extends StatefulWidget {
   /// Element UI 按钮组
   const ElButtonGroup(
     this.modelValue, {
@@ -8,6 +8,7 @@ class ElButtonGroup extends StatelessWidget {
     required this.children,
     this.type,
     this.axis = Axis.horizontal,
+    this.mandatory = false,
     this.onChanged,
   });
 
@@ -26,23 +27,41 @@ class ElButtonGroup extends StatelessWidget {
   /// 按钮组方向
   final Axis axis;
 
+  /// 是否必须强制选择一个值，默认 false
+  final bool mandatory;
+
   /// 更新事件，建议使用双向绑定的方式更新数据
   final ValueChanged? onChanged;
 
   @override
+  State<ElButtonGroup> createState() => _ElButtonGroupState();
+}
+
+class _ElButtonGroupState extends State<ElButtonGroup> {
+  int hoverIndex = 0;
+
+  void setHoverIndex(int index) {
+    if (hoverIndex != index) {
+      setState(() {
+        hoverIndex = index;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ElAssert.themeType(type, 'ElButtonGroup');
-    final $children = children
+    ElAssert.themeType(widget.type, 'ElButtonGroup');
+    final $children = widget.children
         .mapIndexed(
           (i, e) => ChildIndexData(
-            length: children.length,
+            length: widget.children.length,
             index: i,
             child: e,
           ),
         )
         .toList();
     late Widget result;
-    if (axis == Axis.horizontal) {
+    if (widget.axis == Axis.horizontal) {
       result = Row(
         children: $children,
       );
@@ -52,27 +71,33 @@ class ElButtonGroup extends StatelessWidget {
       );
     }
     return _ElButtonGroupInheritedWidget(
-      modelValue,
-      type,
-      axis,
-      onChanged,
+      modelValue: widget.modelValue,
+      type: widget.type,
+      axis: widget.axis,
+      hoverIndex: hoverIndex,
+      setHoverIndex: setHoverIndex,
+      onChanged: widget.onChanged,
       child: result,
     );
   }
 }
 
 class _ElButtonGroupInheritedWidget extends InheritedWidget {
-  const _ElButtonGroupInheritedWidget(
-    this.modelValue,
-    this.type,
-    this.axis,
-    this.onChanged, {
+  const _ElButtonGroupInheritedWidget({
+    required this.modelValue,
+    required this.type,
+    required this.axis,
+    required this.hoverIndex,
+    required this.setHoverIndex,
+    required this.onChanged,
     required super.child,
   });
 
   final dynamic modelValue;
   final String? type;
   final Axis axis;
+  final int hoverIndex;
+  final void Function(int index) setHoverIndex;
   final ValueChanged? onChanged;
 
   static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context

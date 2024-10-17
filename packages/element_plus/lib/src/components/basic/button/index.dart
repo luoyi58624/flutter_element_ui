@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:element_plus/src/components/navigation/tabs/default/tabs.dart';
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../feedback/loading/loading.dart';
@@ -43,6 +44,7 @@ class ElButton extends StatefulWidget {
     this.onTapDown,
     this.onTapUp,
     this.onTapCancel,
+    this.onHover,
   });
 
   /// 支持任意类型子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
@@ -87,7 +89,7 @@ class ElButton extends StatefulWidget {
   final bool block;
 
   /// 自定义圆角
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadius? borderRadius;
 
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
@@ -138,6 +140,9 @@ class ElButton extends StatefulWidget {
 
   /// 取消点击事件
   final GestureTapCancelCallback? onTapCancel;
+
+  /// 悬停事件
+  final PointerHoverEventListener? onHover;
 
   @override
   State<ElButton> createState() => _ElButtonState();

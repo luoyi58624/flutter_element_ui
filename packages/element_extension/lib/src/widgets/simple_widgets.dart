@@ -36,9 +36,11 @@ class ChildIndexData extends InheritedWidget {
   /// 迭代元素总长度，非必需，使用前请确认是否注入
   final int? length;
 
+  static ChildIndexData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ChildIndexData>();
+
   static ChildIndexData of(BuildContext context) {
-    final ChildIndexData? result =
-        context.dependOnInheritedWidgetOfExactType<ChildIndexData>();
+    final ChildIndexData? result = maybeOf(context);
     assert(result != null, 'No ChildIndexData found in context');
     return result!;
   }

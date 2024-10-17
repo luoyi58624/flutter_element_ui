@@ -74,7 +74,7 @@ class Example1 extends StatelessWidget {
         const SectionText('Element UI 默认的主题色是明亮、友好的蓝色。'),
         textGap,
         CodeExample(
-          // code: code,
+          code: code,
           children: [
             buildPresetColors(context),
             const Gap(8),
@@ -202,6 +202,7 @@ class Example1 extends StatelessWidget {
 }
 
 String get code => '''
+// elLights 是 Element UI 封装的 9 种级别颜色扩展
 Row(
   children: context.elTheme.primary.elLights(context).map((e) => Expanded(
     child: AspectRatio(
@@ -221,7 +222,7 @@ Row(
               decoration: BoxDecoration(
                 color: e,
                 border: Border.all(
-                  // 直接写 0 将出现 1px 的边框，我也不清楚原因
+                  // 直接写 0 将出现 1px 的边框，这是 flutter 的一个 bug
                   width: context.isHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
                 ),

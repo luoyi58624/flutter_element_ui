@@ -52,6 +52,7 @@ class ElButtonLoadingData {
 
 class _ElButtonState extends State<ElButton> {
   _ElButtonGroupInheritedWidget? _groupData;
+  ChildIndexData? _indexData;
   late ElButtonThemeData defaultStyle;
   late double buttonHeight;
   late double iconSize;
@@ -61,7 +62,11 @@ class _ElButtonState extends State<ElButton> {
   @override
   Widget build(BuildContext context) {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
-    if (_groupData == null) ElAssert.themeType(widget.type, 'ElButton');
+    if (_groupData == null) {
+      ElAssert.themeType(widget.type, 'ElButton');
+    } else {
+      _indexData = ChildIndexData.of(context);
+    }
     defaultStyle = context.elTheme.buttonTheme;
     buttonHeight =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
@@ -80,6 +85,17 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget buildEvent({required WidgetBuilder builder}) {
+    PointerHoverEventListener? hoverEvent;
+    if (_groupData != null || widget.onHover != null) {
+      hoverEvent = (e) {
+        if (_groupData != null) {
+          _groupData!.setHoverIndex(_indexData!.index);
+        }
+        if (widget.onHover != null) {
+          widget.onHover!(e);
+        }
+      };
+    }
     return TapBuilder(
       onTap: widget.onPressed,
       onTapDown: widget.onTapDown,
@@ -96,6 +112,7 @@ class _ElButtonState extends State<ElButton> {
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
+          onHover: hoverEvent,
           builder: (context) => builder(context),
         );
       },
@@ -105,10 +122,6 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context) {
     final $colorStyle = calcColorStyle(context);
-
-    final $border = $colorStyle.borderColor == null
-        ? const Border()
-        : Border.all(color: $colorStyle.borderColor!, width: 1);
 
     final $horizontalPadding = buttonHeight / 2;
 
@@ -153,12 +166,8 @@ class _ElButtonState extends State<ElButton> {
             context.elThemeDuration ?? const Duration(milliseconds: _duration),
         decoration: BoxDecoration(
           color: $colorStyle.bgColor,
-          border: $border,
-          borderRadius: widget.round || widget.circle
-              ? BorderRadius.circular(buttonHeight / 2)
-              : widget.borderRadius ??
-                  defaultStyle.borderRadius ??
-                  context.elConfig.radius,
+          border: calcBorder(context, $colorStyle.borderColor),
+          borderRadius: calcBorderRadius(context),
         ),
         child: result,
       ),
@@ -417,7 +426,62 @@ class _ElButtonState extends State<ElButton> {
     );
   }
 
-  Border? calcBorder(){
+  Border calcBorder(BuildContext context, Color? borderColor) {
+    if (borderColor == null) return const Border();
+    final defaultBoder = Border.all(color: borderColor, width: 1);
+    if (_groupData == null) return defaultBoder;
+    if (_indexData!.length == 0) return const Border();
+    if (_indexData!.length == 1) return defaultBoder;
+    final borderSide = BorderSide(color: borderColor, width: 1);
+    final isHover = _groupData!.hoverIndex == _indexData!.index;
+    if (_indexData!.index == 0) {
+      return Border(
+        top: borderSide,
+        bottom: borderSide,
+        left: borderSide,
+        right: isHover ? borderSide : BorderSide.none,
+      );
+    }
+    if (_indexData!.index == _indexData!.length! - 1) {
+      return Border(
+        top: borderSide,
+        bottom: borderSide,
+        left: isHover ? borderSide : BorderSide.none,
+        right: borderSide,
+      );
+    }
+    return Border(
+      top: borderSide,
+      bottom: borderSide,
+      left: _groupData!.hoverIndex != 0
+          ? borderSide
+          : BorderSide.none,
+      right: _groupData!.hoverIndex != _indexData!.length! - 1
+          ? borderSide
+          : BorderSide.none,
+    );
+  }
 
+  BorderRadiusGeometry? calcBorderRadius(BuildContext context) {
+    final defaultBorderRadius = widget.round || widget.circle
+        ? BorderRadius.circular(buttonHeight / 2)
+        : widget.borderRadius ??
+            defaultStyle.borderRadius ??
+            context.elConfig.radius;
+    if (_groupData == null) return defaultBorderRadius;
+    if (_indexData!.length == 1) return defaultBorderRadius;
+    // if (_indexData!.index == 0) {
+    //   return BorderRadius.only(
+    //     topLeft: defaultBorderRadius.topLeft,
+    //     bottomLeft: defaultBorderRadius.bottomLeft,
+    //   );
+    // }
+    // if (_indexData!.index == _indexData!.length! - 1) {
+    //   return BorderRadius.only(
+    //     topRight: defaultBorderRadius.topRight,
+    //     bottomRight: defaultBorderRadius.bottomRight,
+    //   );
+    // }
+    return null;
   }
 }

@@ -85,7 +85,7 @@ class _Child extends HookWidget {
             child: Column(
               children: [
                 ...List.generate(
-                  200,
+                  20,
                   (index) => ListTile(
                     onTap: () {},
                     title: Text(
