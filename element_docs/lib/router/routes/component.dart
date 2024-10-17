@@ -1,6 +1,7 @@
 import 'package:element_docs/global.dart';
 
 import '../../pages/commons/component/basic/button/index.dart';
+import '../../pages/commons/component/basic/button_group/index.dart';
 import '../../pages/commons/component/basic/color/index.dart';
 import '../../pages/commons/component/basic/icon/index.dart';
 import '../../pages/commons/component/basic/scrollbar/index.dart';
@@ -40,6 +41,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}button',
       builder: (context, state) => const ButtonPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}button_group',
+      builder: (context, state) => const ButtonGroupPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}color',

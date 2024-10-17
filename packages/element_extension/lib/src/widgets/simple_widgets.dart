@@ -2,8 +2,8 @@ import 'package:element_extension/element_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-class ElNullWidget extends StatelessWidget {
-  const ElNullWidget({super.key});
+class NullWidget extends StatelessWidget {
+  const NullWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class ElNullWidget extends StatelessWidget {
   }
 }
 
-class ElChildIndexData extends InheritedWidget {
+class ChildIndexData extends InheritedWidget {
   /// 一个功能小部件，让迭代的列表子元素确认自身所在的位置
-  const ElChildIndexData({
+  const ChildIndexData({
     super.key,
     required super.child,
     required this.index,
@@ -36,20 +36,20 @@ class ElChildIndexData extends InheritedWidget {
   /// 迭代元素总长度，非必需，使用前请确认是否注入
   final int? length;
 
-  static ElChildIndexData of(BuildContext context) {
-    final ElChildIndexData? result =
-        context.dependOnInheritedWidgetOfExactType<ElChildIndexData>();
-    assert(result != null, 'No ElChildIndexData found in context');
+  static ChildIndexData of(BuildContext context) {
+    final ChildIndexData? result =
+        context.dependOnInheritedWidgetOfExactType<ChildIndexData>();
+    assert(result != null, 'No ChildIndexData found in context');
     return result!;
   }
 
   @override
-  bool updateShouldNotify(ElChildIndexData oldWidget) => true;
+  bool updateShouldNotify(ChildIndexData oldWidget) => true;
 }
 
-class ElGridWidget extends StatelessWidget {
+class GridWidget extends StatelessWidget {
   /// 网格小部件
-  const ElGridWidget({
+  const GridWidget({
     super.key,
     required this.size,
     required this.itemCount,

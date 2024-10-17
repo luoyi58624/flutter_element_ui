@@ -35,7 +35,7 @@ class Example2 extends StatelessWidget {
           ],
         ),
         textGap,
-        ElGridWidget(
+        GridWidget(
           size: 125,
           itemCount: ElIcons.values.length,
           borderColor: context.elTheme.colors.border,

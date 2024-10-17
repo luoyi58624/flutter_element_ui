@@ -24,7 +24,7 @@ class ElTabsThemeData {
   /// 开启拖拽排序，默认 false
   final bool? enabledDrag;
 
-  /// 触发拖拽延迟时间，默认 100 毫秒
+  /// 触发拖拽延迟时间，默认 200 毫秒
   final Duration? dragDelay;
 
   /// 标签方向

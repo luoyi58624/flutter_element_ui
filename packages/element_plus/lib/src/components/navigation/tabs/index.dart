@@ -14,7 +14,7 @@ part 'style.dart';
 
 part '../../../generates/components/navigation/tabs/index.g.dart';
 
-class ElTabs extends ElModelValue<int> {
+class ElTabs extends ModelValue<int> {
   /// Element UI 标签导航，此组件只适用于桌面端，在移动端你可以使用官方提供的 [TabBar] 小部件
   const ElTabs(
     super.modelValue, {
@@ -27,7 +27,7 @@ class ElTabs extends ElModelValue<int> {
   /// 子标签小部件集合
   final List<ElTab> tabs;
 
-  /// 拖拽触发的 change 事件，要让结果生效你需要手动更新 UI
+  /// 拖拽触发的 change 事件，要让结果生效你需要设置新的 tabs 集合
   final void Function(List<ElTab> tabs)? onDragChanged;
 
   /// 通过上下文 context 访问注入的 Tabs 数据

@@ -2,8 +2,8 @@ part of 'index.dart';
 
 @ElModel.copy()
 @ElThemeDataModel()
-class ElTabThemeData {
-  const ElTabThemeData({
+class ElTagThemeData {
+  const ElTagThemeData({
     this.size = 50,
   });
 

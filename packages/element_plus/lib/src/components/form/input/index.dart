@@ -17,7 +17,7 @@ typedef _InputStyleProp = ({
   EdgeInsetsGeometry? padding,
 });
 
-class ElInput extends ElModelValue<String> {
+class ElInput extends ModelValue<String> {
   /// Element UI 输入框组件
   const ElInput(
     super.modelValue, {

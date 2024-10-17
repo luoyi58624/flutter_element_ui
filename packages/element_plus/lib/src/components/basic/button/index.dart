@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+import 'package:element_plus/src/components/navigation/tabs/default/tabs.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,9 +9,12 @@ part 'state.dart';
 
 part 'style.dart';
 
+part 'button_group.dart';
+
 part '../../../generates/components/basic/button/index.g.dart';
 
 class ElButton extends StatefulWidget {
+  /// Element UI 按钮小部件
   const ElButton({
     super.key,
     required this.child,
@@ -106,12 +111,10 @@ class ElButton extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
-  /// loading 图标，开启 loading 时将在左侧显示。
-  /// * 如果 [leftIcon] 不为空，则 [leftIcon] 将被替换成 loading
-  /// * 如果 [child] 是 [ElIcon] 或 [Icon]，同时 [leftIcon] 为空，那么 [child] 将被替换成 loading
+  /// loading 图标小部件
   final Widget loadingWidget;
 
-  /// loading 构建器，它会隐藏按钮原有内容，例如封装 Material 加载器：
+  /// loading 构建器，这是另一种风格的加载器，它会隐藏按钮所有内容，例如封装 Material 加载器：
   /// ```dart
   /// var loadingBuilder = (ElButtonLoadingData state) => SizedBox(
   ///   width: state.size,
@@ -124,10 +127,16 @@ class ElButton extends StatefulWidget {
   /// ```
   final Widget Function(ElButtonLoadingData state)? loadingBuilder;
 
-  /// 点击事件
+  /// 点击事件，相对于 onTap
   final VoidCallback? onPressed;
+
+  /// 按下事件
   final GestureTapDownCallback? onTapDown;
+
+  /// 松开按下事件
   final GestureTapUpCallback? onTapUp;
+
+  /// 取消点击事件
   final GestureTapCancelCallback? onTapCancel;
 
   @override

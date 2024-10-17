@@ -9,9 +9,9 @@ class TapBuilder extends StatefulWidget {
   const TapBuilder({
     super.key,
     required this.builder,
-    this.hitTestBehavior,
     this.delay = 100,
     this.disabled = false,
+    this.hitTestBehavior,
     this.onTap,
     this.onTapDown,
     this.onTapUp,
@@ -20,15 +20,11 @@ class TapBuilder extends StatefulWidget {
 
   final WidgetBuilder builder;
 
-  /// 命中测试
-  final HitTestBehavior? hitTestBehavior;
-
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显
   final int delay;
 
-  /// 是否禁用，默认false
   final bool disabled;
-
+  final HitTestBehavior? hitTestBehavior;
   final GestureTapCallback? onTap;
   final GestureTapDownCallback? onTapDown;
   final GestureTapUpCallback? onTapUp;

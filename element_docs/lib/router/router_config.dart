@@ -89,6 +89,7 @@ class SlideRouterConfig {
       'Basic 基础组件',
       [
         ('Button 按钮', '/${RootRoute.component.$2}/button', WorkStatus.finished),
+        ('ButtonGroup 按钮组', '/${RootRoute.component.$2}/button_group', WorkStatus.finished),
         ('Color 色彩', '/${RootRoute.component.$2}/color', WorkStatus.finished),
         ('Icon 图标', '/${RootRoute.component.$2}/icon', WorkStatus.finished),
         ('Layout 布局', '/${RootRoute.component.$2}/layout', WorkStatus.pending),

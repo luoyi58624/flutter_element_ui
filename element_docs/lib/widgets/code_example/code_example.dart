@@ -57,7 +57,6 @@ class CodeExample extends HookWidget {
                   isExpanded.value,
                   child: ElCodePreview(
                     code: code!,
-                    maxHeight: 500,
                     borderRadius: BorderRadius.only(
                       bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
                       bottomRight: context.elTheme.cardTheme.radius.bottomRight,

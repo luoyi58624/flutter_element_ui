@@ -20,7 +20,7 @@ class IconTestPage extends HookWidget {
         padding: const EdgeInsets.all(8.0),
         child: CupertinoScrollbar(
           controller: controller,
-          child: ElGridWidget(
+          child: GridWidget(
             controller: controller,
             size: 125,
             itemCount: keys.length,

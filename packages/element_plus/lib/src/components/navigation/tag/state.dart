@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class _ElTabState extends State<ElTab> {
+class _ElTagState extends State<ElTag> {
   @override
   Widget build(BuildContext context) {
     return HoverBuilder(

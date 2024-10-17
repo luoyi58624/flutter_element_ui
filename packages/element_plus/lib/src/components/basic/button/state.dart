@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-/// 按钮宽度最小为 64
+/// 按钮最小宽度
 const double _minWidth = 64;
 
 /// 按钮 background、border 禁用透明度
@@ -44,24 +44,24 @@ class ElButtonLoadingData {
   /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
   final Color color;
 
-  /// 按钮 loading 尺寸，它的大小和按钮图标一致
+  /// 按钮 loading 尺寸，它的大小和图标一致
   final double size;
 
   ElButtonLoadingData({required this.color, required this.size});
 }
 
 class _ElButtonState extends State<ElButton> {
+  _ElButtonGroupInheritedWidget? _groupData;
   late ElButtonThemeData defaultStyle;
   late double buttonHeight;
   late double iconSize;
   late bool disabled;
-
-  /// 按钮的 child 是否是图标
   late bool isIconChild;
 
   @override
   Widget build(BuildContext context) {
-    ElAssert.themeType(widget.type, 'ElButton');
+    _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
+    if (_groupData == null) ElAssert.themeType(widget.type, 'ElButton');
     defaultStyle = context.elTheme.buttonTheme;
     buttonHeight =
         widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
@@ -415,5 +415,9 @@ class _ElButtonState extends State<ElButton> {
       borderColor: $borderColor,
       loadingTextColor: $loadingTextColor,
     );
+  }
+
+  Border? calcBorder(){
+
   }
 }

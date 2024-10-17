@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class _ElTabsState extends ElModelValueState<ElTabs, int>
+class _ElTabsState extends ModelValueState<ElTabs, int>
     with SingleTickerProviderStateMixin {
   final ScrollController scrollController = ScrollController();
 
