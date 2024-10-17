@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 
 import '../../element_extension.dart';
 
-const int _triggerParentDelay = 300;
-const int _triggerChildDelay = 150;
+/// 嵌套滚动激活延迟
+const int _activeDelay = 150;
 
 /// 鼠标悬停的嵌套滚动条集合
 List<int> _hoverNestScrollList = [];
@@ -67,11 +67,15 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
           _disabledUpScroll = _isScrollTop;
         }
       } else {
-        if (_isScrollTop && _disabledUpScrollTimer == null) {
+        if (_isScrollTop) {
+          if (_disabledUpScrollTimer != null) {
+            _disabledUpScrollTimer!.cancel();
+            _disabledUpScrollTimer = null;
+          }
           _disabledUpScrollTimer = setTimeout(() {
             _disabledUpScrollTimer = null;
             _disabledUpScroll = true;
-          }, _triggerParentDelay);
+          }, _activeDelay);
         }
       }
       if (_disabledDownScroll) {
@@ -81,11 +85,15 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
           _disabledDownScroll = _isScrollBottom;
         }
       } else {
-        if (_isScrollBottom && _disabledDownScrollTimer == null) {
+        if (_isScrollBottom) {
+          if (_disabledDownScrollTimer != null) {
+            _disabledDownScrollTimer!.cancel();
+            _disabledDownScrollTimer = null;
+          }
           _disabledDownScrollTimer = setTimeout(() {
             _disabledDownScrollTimer = null;
             _disabledDownScroll = true;
-          }, _triggerParentDelay);
+          }, _activeDelay);
         }
       }
       if (allowRegisterEvent) {
@@ -112,7 +120,7 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
         setState(() {
           _preventChildScroll = false;
         });
-      }, _triggerChildDelay);
+      }, _activeDelay);
     }
   }
 
