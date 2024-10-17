@@ -55,6 +55,8 @@ class _ElButtonState extends State<ElButton> {
   late double buttonHeight;
   late double iconSize;
   late bool disabled;
+
+  /// 按钮的 child 是否是图标
   late bool isIconChild;
 
   @override
@@ -210,23 +212,24 @@ class _ElButtonState extends State<ElButton> {
       $child = ElText('${widget.child}');
     }
 
-    Widget? leftIcon;
-    if (widget.leftIcon != null) {
-      if (widget.loadingBuilder == null && widget.loading) {
+    Widget? leftIcon = widget.leftIcon;
+    Widget? rightIcon = widget.rightIcon;
+    if (widget.loadingBuilder == null && widget.loading) {
+      if (leftIcon != null) {
         leftIcon = widget.loadingWidget;
+      } else if (rightIcon != null) {
+        rightIcon = widget.loadingWidget;
       } else {
-        leftIcon = widget.leftIcon;
-      }
-    } else {
-      if (widget.loadingBuilder == null && widget.loading && !isIconChild) {
-        leftIcon = widget.loadingWidget;
+        if (!isIconChild) {
+          leftIcon = widget.loadingWidget;
+        }
       }
     }
 
     Widget childContent = Padding(
       padding: EdgeInsets.only(
         left: leftIcon != null ? 6.0 : 0.0,
-        right: widget.rightIcon != null ? 6.0 : 0.0,
+        right: rightIcon != null ? 6.0 : 0.0,
       ),
       child: widget.loadingBuilder == null &&
               widget.leftIcon == null &&
@@ -243,7 +246,7 @@ class _ElButtonState extends State<ElButton> {
       children: [
         if (leftIcon != null) leftIcon,
         childContent,
-        if (widget.rightIcon != null) widget.rightIcon!,
+        if (rightIcon != null) rightIcon,
       ],
     );
 
