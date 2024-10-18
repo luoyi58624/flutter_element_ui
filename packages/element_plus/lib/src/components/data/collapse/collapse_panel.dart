@@ -77,7 +77,7 @@ class ElCollapsePanel extends StatelessWidget {
       onChanged,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: context.elTheme.colors.border),
+          border: Border.all(color: context.elTheme.borderColor),
           borderRadius: context.elTheme.cardTheme.radius,
         ),
         child: ListView.separated(
@@ -151,7 +151,7 @@ class ElCollapseItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isActive
                             ? context.elTheme.primary
-                            : context.elTheme.colors.bg,
+                            : context.elTheme.bgColor,
                         borderRadius: $indexData.index == $indexData.start
                             ? BorderRadius.only(
                                 topLeft: $cardRadius.topLeft,
@@ -171,20 +171,20 @@ class ElCollapseItem extends StatelessWidget {
                               : ElDefaultTextStyle.merge(
                                   style: TextStyle(
                                     color: context.isDark
-                                        ? context.elTheme.colors.text
+                                        ? context.elTheme.textColor
                                         : isActive
-                                            ? context.darkTheme.colors.text
-                                            : context.lightTheme.colors.text,
+                                            ? context.darkTheme.textColor
+                                            : context.lightTheme.textColor,
                                   ),
                                   child: Text('$title'),
                                 ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
                             color: context.isDark
-                                ? context.elTheme.colors.text
+                                ? context.elTheme.textColor
                                 : isActive
-                                    ? context.darkTheme.colors.text
-                                    : context.lightTheme.colors.text,
+                                    ? context.darkTheme.textColor
+                                    : context.lightTheme.textColor,
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)

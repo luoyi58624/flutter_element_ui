@@ -77,7 +77,7 @@ class _Child extends HookWidget {
         border: Border.all(color: Colors.purpleAccent),
       ),
       child: Material(
-        color: context.elTheme.colors.bg,
+        color: context.elTheme.bgColor,
         child: NestScrollWrapper(
           controller: controller,
           child: SingleChildScrollView(

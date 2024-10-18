@@ -189,11 +189,13 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
   @override
   void didUpdateWidget(covariant ElText oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (context.elThemeDuration != null) {
-      controller.duration = context.elConfig.themeDuration;
-    } else {
-      controller.duration = widget.duration ?? context.elConfig.themeDuration;
-    }
+    // if (context.elThemeDuration != null) {
+    //   controller.duration = context.elConfig.themeDuration;
+    // } else {
+    //   controller.duration = widget.duration ?? context.elConfig.themeDuration;
+    // }
+    controller.duration =
+        context.elDuration(widget.duration ?? context.elConfig.themeDuration);
     if (widget.style != oldWidget.style) {
       isDidUpdate = true;
       defaultStyle = ElDefaultTextStyle.of(context);

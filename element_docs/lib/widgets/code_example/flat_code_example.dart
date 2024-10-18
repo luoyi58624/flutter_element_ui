@@ -26,7 +26,7 @@ class FlatCodeExample extends StatelessWidget {
             ? BorderRadius.zero
             : context.elTheme.cardTheme.radius,
         border: Border.all(
-          color: context.elTheme.colors.border,
+          color: context.elTheme.borderColor,
           width: 1,
         ),
       ),

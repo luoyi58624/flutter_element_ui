@@ -29,7 +29,7 @@ class ElInputState extends ModelValueState<ElInput, String> {
     }
     final defaultStyle = context.elTheme.inputTheme;
     final $height =
-        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
+        widget.height ?? defaultStyle.height ?? context.elConfig.size;
     _styleProp = (
       height: $height,
       borderRadius: isRound
@@ -70,11 +70,11 @@ class ElInputState extends ModelValueState<ElInput, String> {
       maxLines: widget.maxLines,
       style: TextStyle(
         fontSize: 14,
-        color: context.elTheme.colors.text,
+        color: context.elTheme.textColor,
       ).merge(widget.textStyle),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
-      cursorColor: context.elTheme.colors.text,
+      cursorColor: context.elTheme.textColor,
       cursorWidth: 1,
       onChanged: (v) {
         modelValue = v;
@@ -92,8 +92,8 @@ class ElInputState extends ModelValueState<ElInput, String> {
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
           color: context.isHover
-              ? context.elTheme.colors.border.deepen(16)
-              : context.elTheme.colors.border,
+              ? context.elTheme.borderColor.deepen(16)
+              : context.elTheme.borderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -106,7 +106,7 @@ class ElInputState extends ModelValueState<ElInput, String> {
       hintText: widget.placeholder,
       hintStyle: ElDefaultTextStyle.of(context).style.copyWith(
             fontSize: 14,
-            color: context.elTheme.colors.placeholderText,
+            color: context.elTheme.placeholderTextColor,
           ),
       // suffixIcon: currentValue != ''
       //     ? GestureDetector(

@@ -32,7 +32,7 @@ extension ElCardThemeDataExtension on ElCardThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElCardTheme extends InheritedWidget {

@@ -42,13 +42,13 @@ class ElDivider extends StatelessWidget {
             width: size ?? thickness,
             thickness: thickness,
             indent: indent,
-            color: color ?? context.elTheme.colors.border,
+            color: color ?? context.elTheme.borderColor,
           )
         : Divider(
             height: size ?? thickness,
             thickness: thickness,
             indent: indent,
-            color: color ?? context.elTheme.colors.border,
+            color: color ?? context.elTheme.borderColor,
           );
   }
 }

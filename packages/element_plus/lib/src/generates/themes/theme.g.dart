@@ -3,18 +3,119 @@
 part of '../../themes/theme.dart';
 
 // **************************************************************************
+// ElGlobalThemeModelGenerator
+// **************************************************************************
+
+class ElThemeData2 extends ElBaseThemeData {
+  /// 亮色默认主题
+  static const ElThemeData2 theme = ElThemeData2();
+
+  /// 暗色默认主题
+  static const ElThemeData2 darkTheme = ElThemeData2.dark();
+
+  /// 输入框全局样式
+  final ElInputThemeData inputTheme;
+
+  /// 滑块全局样式
+  final ElSliderThemeData sliderTheme;
+
+  /// 超链接全局样式
+  final ElLinkThemeData linkTheme;
+
+  /// 标签容器全局样式
+  final ElTabsThemeData tabsTheme;
+
+  /// 标签容器子标签全局样式
+  final ElTabThemeData tabTheme;
+
+  /// 代码预览全局样式
+  final ElCodePreviewThemeData codePreviewTheme;
+
+  /// 卡片全局样式
+  final ElCardThemeData cardTheme;
+
+  /// 进度条全局样式
+  final ElProgressThemeData progressTheme;
+
+  /// 折叠菜单全局样式
+  final ElCollapseThemeData collapseTheme;
+
+  /// 标签全局样式
+  final ElTagThemeData tagTheme;
+
+  /// 侧边栏全局样式
+  final ElAsideThemeData asideTheme;
+
+  /// 导航头全局样式
+  final ElHeaderThemeData headerTheme;
+
+  /// 按钮全局样式
+  final ElButtonThemeData buttonTheme;
+
+  const ElThemeData2({
+    super.primary,
+    super.success,
+    super.info,
+    super.warning,
+    super.error,
+    super.bgColor,
+    super.iconColor,
+    super.textColor,
+    super.regularTextColor,
+    super.secondaryTextColor,
+    super.placeholderTextColor,
+    super.borderColor,
+    this.inputTheme = ElInputThemeData.theme,
+    this.sliderTheme = ElSliderThemeData.theme,
+    this.linkTheme = ElLinkThemeData.theme,
+    this.tabsTheme = ElTabsThemeData.theme,
+    this.tabTheme = ElTabThemeData.theme,
+    this.codePreviewTheme = ElCodePreviewThemeData.theme,
+    this.cardTheme = ElCardThemeData.theme,
+    this.progressTheme = ElProgressThemeData.theme,
+    this.collapseTheme = ElCollapseThemeData.theme,
+    this.tagTheme = ElTagThemeData.theme,
+    this.asideTheme = ElAsideThemeData.theme,
+    this.headerTheme = ElHeaderThemeData.theme,
+    this.buttonTheme = ElButtonThemeData.theme,
+  });
+
+  const ElThemeData2.dark({
+    super.primary,
+    super.success,
+    super.info,
+    super.warning,
+    super.error,
+    super.bgColor,
+    super.iconColor,
+    super.textColor,
+    super.regularTextColor,
+    super.secondaryTextColor,
+    super.placeholderTextColor,
+    super.borderColor,
+    this.inputTheme = ElInputThemeData.darkTheme,
+    this.sliderTheme = ElSliderThemeData.darkTheme,
+    this.linkTheme = ElLinkThemeData.darkTheme,
+    this.tabsTheme = ElTabsThemeData.darkTheme,
+    this.tabTheme = ElTabThemeData.darkTheme,
+    this.codePreviewTheme = ElCodePreviewThemeData.darkTheme,
+    this.cardTheme = ElCardThemeData.darkTheme,
+    this.progressTheme = ElProgressThemeData.darkTheme,
+    this.collapseTheme = ElCollapseThemeData.darkTheme,
+    this.tagTheme = ElTagThemeData.darkTheme,
+    this.asideTheme = ElAsideThemeData.darkTheme,
+    this.headerTheme = ElHeaderThemeData.darkTheme,
+    this.buttonTheme = ElButtonThemeData.darkTheme,
+  }) : super.dark();
+}
+
+// **************************************************************************
 // ElModelGenerator
 // **************************************************************************
 
 extension ElThemeDataExtension on ElThemeData {
   /// 接收一组可选参数，返回新的对象
   ElThemeData copyWith({
-    Color? primary,
-    Color? success,
-    Color? info,
-    Color? warning,
-    Color? error,
-    ElColorData? colors,
     ElButtonThemeData? buttonTheme,
     ElLinkThemeData? linkTheme,
     ElInputThemeData? inputTheme,
@@ -31,15 +132,10 @@ extension ElThemeDataExtension on ElThemeData {
     ElNavMenuThemeData? navigationMenuTheme,
     ElTabsThemeData? tabsTheme,
     ElTabThemeData? tabTheme,
+    ElTagThemeData? tagTheme,
     ElCodePreviewThemeData? codePreviewTheme,
   }) {
     return ElThemeData(
-      primary: primary ?? this.primary,
-      success: success ?? this.success,
-      info: info ?? this.info,
-      warning: warning ?? this.warning,
-      error: error ?? this.error,
-      colors: this.colors.merge(colors),
       buttonTheme: this.buttonTheme.merge(buttonTheme),
       linkTheme: this.linkTheme.merge(linkTheme),
       inputTheme: this.inputTheme.merge(inputTheme),
@@ -56,6 +152,7 @@ extension ElThemeDataExtension on ElThemeData {
       navigationMenuTheme: this.navigationMenuTheme.merge(navigationMenuTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
       tabTheme: this.tabTheme.merge(tabTheme),
+      tagTheme: this.tagTheme.merge(tagTheme),
       codePreviewTheme: this.codePreviewTheme.merge(codePreviewTheme),
     );
   }
@@ -64,12 +161,6 @@ extension ElThemeDataExtension on ElThemeData {
   ElThemeData merge([ElThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      primary: other.primary,
-      success: other.success,
-      info: other.info,
-      warning: other.warning,
-      error: other.error,
-      colors: other.colors,
       buttonTheme: other.buttonTheme,
       linkTheme: other.linkTheme,
       inputTheme: other.inputTheme,
@@ -86,6 +177,7 @@ extension ElThemeDataExtension on ElThemeData {
       navigationMenuTheme: other.navigationMenuTheme,
       tabsTheme: other.tabsTheme,
       tabTheme: other.tabTheme,
+      tagTheme: other.tagTheme,
       codePreviewTheme: other.codePreviewTheme,
     );
   }

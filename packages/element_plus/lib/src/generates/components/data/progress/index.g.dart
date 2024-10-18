@@ -32,7 +32,7 @@ extension ElProgressThemeDataExtension on ElProgressThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElProgressTheme extends InheritedWidget {

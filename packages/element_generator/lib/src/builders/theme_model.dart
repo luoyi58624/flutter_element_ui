@@ -11,17 +11,55 @@ const String _prefix = 'El';
 /// Element 组件主题数据后缀
 const String _suffix = 'ThemeData';
 
+class ThemeModelRecord {
+  final String name;
+  final String desc;
+
+  ThemeModelRecord({required this.name, required this.desc});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ThemeModelRecord &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          desc == other.desc;
+
+  @override
+  int get hashCode => name.hashCode ^ desc.hashCode;
+}
+
 @immutable
-class ElThemeDataGenerator extends GeneratorForAnnotation<ElThemeDataModel> {
+class ElThemeModelGenerator extends GeneratorForAnnotation<$ElThemeModel> {
+  /// 记录所有添加 $ElThemeModel 注解的类名
+  static final Set<ThemeModelRecord> themeModelList = {};
+
+  /// 过滤前缀和后缀，获取单纯的组件名字，例如：
+  /// * ElButtonThemeData -> Button
+  /// * ElLinkThemeData -> Link
+  static String getRawName(String className) {
+    String rawName = className;
+    if (rawName.startsWith(_prefix)) {
+      rawName = rawName.substring(_prefix.length);
+    }
+    if (rawName.endsWith(_suffix)) {
+      rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
+    }
+    return rawName;
+  }
+
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
-    final rawName = _getRawName(className);
+    final rawName = getRawName(className);
 
     bool generateInheritedWidget =
         annotation.read('generateInheritedWidget').boolValue;
+    String desc = annotation.read('desc').stringValue;
+
+    themeModelList.add(ThemeModelRecord(name: className, desc: desc));
 
     String result = """""";
 
@@ -71,18 +109,4 @@ class $className extends InheritedWidget {
 }
     """;
   }
-}
-
-/// 过滤前缀和后缀，获取单纯的组件名字，例如：
-/// * ElButtonThemeData -> Button
-/// * ElLinkThemeData -> Link
-String _getRawName(String className) {
-  String rawName = className;
-  if (rawName.startsWith(_prefix)) {
-    rawName = rawName.substring(_prefix.length);
-  }
-  if (rawName.endsWith(_suffix)) {
-    rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
-  }
-  return rawName;
 }

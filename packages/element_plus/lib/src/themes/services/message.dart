@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 part '../../generates/themes/services/message.g.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
 class ElMessageThemeData {
   const ElMessageThemeData({
     this.offset = 20,

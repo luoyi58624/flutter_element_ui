@@ -1,8 +1,11 @@
 part of 'index.dart';
 
-@ElModel.copy()
-@ElThemeDataModel()
+@$ElModel.copy()
+@$ElThemeModel(desc: '标签容器全局样式')
 class ElTabsThemeData {
+  static const theme = ElTabsThemeData();
+  static const darkTheme = ElTabsThemeData();
+
   const ElTabsThemeData({
     this.size,
     this.padding,

@@ -1,7 +1,11 @@
 part of 'index.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
+@$ElThemeModel(desc: '代码预览全局样式')
 class ElCodePreviewThemeData {
+  static const theme = ElCodePreviewThemeData();
+  static const darkTheme = ElCodePreviewThemeData();
+
   const ElCodePreviewThemeData({
     this.fontFamily,
     this.color = const Color(0xFFD19A66),

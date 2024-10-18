@@ -3,14 +3,53 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'components/basic/scrollbar.dart';
 import 'global.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 import 'utils/font.dart';
 
+/// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
+class ElAppData {
+  /// 当前主题模式
+  final Brightness brightness;
+
+  /// 亮色主题配置
+  final ElThemeData theme;
+
+  /// 暗色主题配置
+  final ElThemeData darkTheme;
+
+  /// 全局配置
+  final ElConfigData config;
+
+  /// 全局文本样式
+  final TextStyle textStyle;
+
+  /// 默认的滚动行为
+  final ScrollBehavior scrollBehavior;
+
+  /// 当 [brightness] 发生变化时，[ElApp] 会构建两次 build 方法：
+  /// * 第一次构建设置全局动画时间: [config.themeDuration]，保证整体页面过渡一致性
+  /// * 第二次构建是将此变量还原为 null，局部小部件将使用自定义的过渡动画
+  final Duration? themeDuration;
+
+  /// 全局主题动画曲线
+  final Curve? themeCurve;
+
+  ElAppData({
+    required this.brightness,
+    required this.theme,
+    required this.darkTheme,
+    required this.config,
+    required this.textStyle,
+    required this.scrollBehavior,
+    this.themeDuration,
+    this.themeCurve,
+  });
+}
+
 class ElApp extends StatefulWidget {
-  /// Element UI 全局配置小部件
+  /// Element UI 全局配置小部件，使用方式：
   /// ```dart
   /// ElApp(
   ///   child: MaterialApp(
@@ -51,16 +90,15 @@ class ElApp extends StatefulWidget {
   final ScrollBehavior scrollBehavior;
 
   /// 通过上下文 context 访问注入的全局主题配置
-  static ElAppData of(BuildContext context) =>
-      _AppInheritedWidget.of(context).appData;
+  static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
 
-  /// 构建 Element UI 默认文本主题、默认的 [Overlay] 浮层、滚动配置...
+  /// 构建 Element UI 默认文本主题、[Overlay] 浮层、滚动配置...
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
         assert(child != null, 'ElApp builder child 参数不能为空');
-
         final $data = _AppInheritedWidget.of(context);
+
         // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
         Widget result = Overlay(initialEntries: [
           OverlayEntry(
@@ -72,9 +110,9 @@ class ElApp extends StatefulWidget {
         if (builder != null) result = builder(context, result);
 
         result = ElAnimatedDefaultTextStyle(
-          duration: $data.appData.config.themeDuration,
-          curve: $data.appData.config.themeCurve,
-          style: $data.appData.textStyle,
+          duration: $data.config.themeDuration,
+          curve: $data.config.themeCurve,
+          style: $data.textStyle,
           child: ScrollConfiguration(
             behavior: $data.scrollBehavior,
             child: result,
@@ -82,9 +120,9 @@ class ElApp extends StatefulWidget {
         );
 
         return Material(
-          animationDuration: $data.appData.config.themeDuration,
-          color: context.elTheme.colors.bg,
-          textStyle: $data.appData.textStyle,
+          animationDuration: $data.config.themeDuration,
+          color: context.elTheme.bgColor,
+          textStyle: $data.textStyle,
           child: result,
         );
       };
@@ -94,8 +132,8 @@ class ElApp extends StatefulWidget {
 }
 
 class _ElAppState extends State<ElApp> {
-  Duration? _globalThemeDuration;
-  Curve? _globalThemeCurve;
+  Duration? _themeDuration;
+  Curve? _themeCurve;
   Timer? _timer;
 
   @override
@@ -106,19 +144,19 @@ class _ElAppState extends State<ElApp> {
     }
   }
 
-  /// 当亮度发生变化时，会设置全局主题变更持续时间和动画曲线，这样可以同步整体页面动画过渡效果
+  /// 当主题发生变化时，会设置全局主题变更持续时间和动画曲线，这样可以同步整体页面动画过渡效果
   void _changeTheme() {
     if (_timer != null) {
       _timer!.cancel();
       _timer = null;
     }
-    _globalThemeDuration = widget.config.themeDuration;
-    _globalThemeCurve = widget.config.themeCurve;
+    _themeDuration = widget.config.themeDuration;
+    _themeCurve = widget.config.themeCurve;
     _timer = setTimeout(() {
       if (mounted) {
         setState(() {
-          _globalThemeDuration = null;
-          _globalThemeCurve = null;
+          _themeDuration = null;
+          _themeCurve = null;
           _timer = null;
         });
       }
@@ -137,8 +175,8 @@ class _ElAppState extends State<ElApp> {
         .copyWith(
             fontWeight: ElFont.normal,
             color: $brightness == Brightness.dark
-                ? widget.darkTheme.colors.text
-                : widget.theme.colors.text)
+                ? widget.darkTheme.textColor
+                : widget.theme.textColor)
         .merge(widget.textStyle);
 
     // 如果未设置字体大小，则根据平台应用设置不同尺寸的字体，移动端使用 15px，桌面端使用 16px
@@ -153,10 +191,10 @@ class _ElAppState extends State<ElApp> {
         darkTheme: widget.darkTheme,
         config: widget.config,
         textStyle: $textStyle,
-        globalThemeDuration: _globalThemeDuration,
-        globalThemeCurve: _globalThemeCurve,
+        scrollBehavior: widget.scrollBehavior,
+        themeDuration: _themeDuration,
+        themeCurve: _themeCurve,
       ),
-      widget.scrollBehavior,
       child: widget.child,
     );
   }
@@ -164,60 +202,24 @@ class _ElAppState extends State<ElApp> {
 
 class _AppInheritedWidget extends InheritedWidget {
   const _AppInheritedWidget(
-    this.appData,
-    this.scrollBehavior, {
+    this.data, {
     required super.child,
   });
 
-  final ElAppData appData;
-  final ScrollBehavior scrollBehavior;
+  final ElAppData data;
 
-  static _AppInheritedWidget of(BuildContext context) {
+  static ElAppData of(BuildContext context) {
     final result =
         context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>();
     assert(
         result != null,
         '当前上下文 context 没有找到 Element UI 全局主题配置，'
         '如果你已配置了 ElApp，请尝试使用 Builder 小部件转发 context。');
-    return result!;
+    return result!.data;
   }
 
   @override
   bool updateShouldNotify(_AppInheritedWidget oldWidget) {
     return true;
   }
-}
-
-/// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
-class ElAppData {
-  /// 当前主题模式
-  final Brightness brightness;
-
-  /// 亮色主题配置
-  final ElThemeData theme;
-
-  /// 暗色主题配置
-  final ElThemeData darkTheme;
-
-  /// 全局通用配置
-  final ElConfigData config;
-
-  /// 最终的全局文本样式，Element UI 预先提供一个默认的文本样式，然后合并颜色主题，最后合并用户自定义的文本样式
-  final TextStyle textStyle;
-
-  /// 当切换主题模式时，会临时设置全局默认的动画时间: [config.themeDuration]，这样可以保持动画过渡的一致性
-  final Duration? globalThemeDuration;
-
-  /// 全局动画曲线，同上
-  final Curve? globalThemeCurve;
-
-  ElAppData({
-    required this.brightness,
-    required this.theme,
-    required this.darkTheme,
-    required this.config,
-    required this.textStyle,
-    this.globalThemeDuration,
-    this.globalThemeCurve,
-  });
 }

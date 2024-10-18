@@ -1,4 +1,4 @@
-part of 'index.dart';
+part of '../../data/tag/index.dart';
 
 class _ElTagState extends State<ElTag> {
   @override

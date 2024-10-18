@@ -235,7 +235,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             '${index + 1}',
             textAlign: TextAlign.right,
             style: _textStyle.copyWith(
-              color: context.elTheme.colors.secondaryText,
+              color: context.elTheme.secondaryTextColor,
             ),
           ),
         ),
@@ -256,8 +256,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             HapticFeedback.mediumImpact();
           },
           child: AnimatedContainer(
-            duration:
-                context.elThemeDuration ?? const Duration(milliseconds: 250),
+            duration: context.elDuration(const Duration(milliseconds: 250)),
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               borderRadius: context.elConfig.radius,

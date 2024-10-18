@@ -1,7 +1,11 @@
 part of 'index.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
+@$ElThemeModel(desc: '输入框全局样式')
 class ElInputThemeData {
+  static const theme = ElInputThemeData();
+  static const darkTheme = ElInputThemeData();
+
   const ElInputThemeData({
     this.height,
     this.borderRadius,

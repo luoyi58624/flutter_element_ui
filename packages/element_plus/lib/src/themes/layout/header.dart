@@ -4,8 +4,12 @@ import '../../global.dart';
 
 part '../../generates/themes/layout/header.g.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
+@$ElThemeModel(desc: '导航头全局样式')
 class ElHeaderThemeData {
+  static const theme = ElHeaderThemeData(color: Color(0xffffffff));
+  static const darkTheme = ElHeaderThemeData(color: Color(0xff404040));
+
   const ElHeaderThemeData({
     required this.color,
     this.height = 56,

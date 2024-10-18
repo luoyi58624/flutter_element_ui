@@ -56,8 +56,7 @@ class SlideWidget extends StatelessWidget {
                                           RouterState.currentPath.value == e.$2;
                                       return HoverBuilder(builder: (context) {
                                         return AnimatedContainer(
-                                          duration: context.elThemeDuration ??
-                                              Duration.zero,
+                                          duration: context.elDuration(),
                                           width: double.infinity,
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: 16,

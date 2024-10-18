@@ -1,18 +1,13 @@
-import 'package:collection/collection.dart';
-import 'package:element_plus/src/components/navigation/tabs/default/tabs.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../themes/components/basic/button.dart';
 import '../../feedback/loading/loading.dart';
 
 part 'state.dart';
 
-part 'style.dart';
-
 part 'button_group.dart';
-
-part '../../../generates/components/basic/button/index.g.dart';
 
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件

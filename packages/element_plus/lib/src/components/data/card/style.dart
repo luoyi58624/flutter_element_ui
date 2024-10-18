@@ -1,8 +1,17 @@
 part of 'index.dart';
 
-@ElModel.copy()
-@ElThemeDataModel()
+@$ElModel.copy()
+@$ElThemeModel(desc: '卡片全局样式')
 class ElCardThemeData {
+  static const theme = ElCardThemeData(
+    color: Color(0xffffffff),
+    elevation: 2,
+  );
+  static const darkTheme = ElCardThemeData(
+    color: Color(0xff3f3f46),
+    elevation: 4,
+  );
+
   const ElCardThemeData({
     required this.color,
     required this.elevation,

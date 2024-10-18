@@ -41,7 +41,7 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElTabsTheme extends InheritedWidget {

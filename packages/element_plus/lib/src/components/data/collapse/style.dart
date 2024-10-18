@@ -1,8 +1,11 @@
 part of 'index.dart';
 
-@ElModel.copy()
-@ElThemeDataModel()
+@$ElModel.copy()
+@$ElThemeModel(desc: '折叠菜单全局样式')
 class ElCollapseThemeData {
+  static const theme = ElCollapseThemeData();
+  static const darkTheme = ElCollapseThemeData();
+
   const ElCollapseThemeData({
     this.keepState = true,
     this.duration = const Duration(milliseconds: 250),

@@ -35,7 +35,7 @@ extension ElLinkThemeDataExtension on ElLinkThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElLinkTheme extends InheritedWidget {

@@ -36,3 +36,40 @@ extension ElInputThemeDataExtension on ElInputThemeData {
     );
   }
 }
+
+// **************************************************************************
+// ElThemeModelGenerator
+// **************************************************************************
+
+class ElInputTheme extends InheritedWidget {
+  const ElInputTheme({super.key, required super.child, required this.data});
+
+  /// 主题数据
+  final ElInputThemeData data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElInputThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElInputTheme>()?.data;
+
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElInputThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.inputTheme;
+
+  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
+  static Widget merge({
+    Key? key,
+    ElInputThemeData? data,
+    required Widget child,
+  }) {
+    return Builder(builder: (context) {
+      final parent = ElInputTheme.of(context);
+      return ElInputTheme(
+        data: parent.merge(data),
+        child: child,
+      );
+    });
+  }
+
+  @override
+  bool updateShouldNotify(ElInputTheme oldWidget) => true;
+}

@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
 class ElModalThemeData {
   const ElModalThemeData({
     required this.color,

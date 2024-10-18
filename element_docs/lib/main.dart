@@ -48,9 +48,6 @@ class MainApp extends StatelessWidget {
             fontFamily: MyFonts.consolas,
           ),
         ),
-        config: const ElConfigData(
-          baseHeight: 36,
-        ),
         textStyle: TextStyle(
           fontSize: GlobalState.globalFontSize,
         ),

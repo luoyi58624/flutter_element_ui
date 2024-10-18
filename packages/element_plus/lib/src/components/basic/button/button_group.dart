@@ -96,7 +96,7 @@ class _GroupBorder extends StatelessWidget {
     final $data = _ElButtonGroupInheritedWidget.maybeOf(context)!;
 
     return ObsBuilder(builder: (context) {
-      Color borderColor = context.elTheme.colors.border;
+      Color borderColor = context.elTheme.borderColor;
       Color hoverBorderColor = isActive.value
           ? context.elTheme.primary
           : context.elTheme.primary.elLight6(context);
@@ -121,7 +121,7 @@ class _GroupBorder extends StatelessWidget {
         color: $borderColor,
         child: SizedBox(
           width: 1,
-          height: $data.themeData.height ?? context.elConfig.baseHeight,
+          height: $data.themeData.height ?? context.elConfig.size,
         ),
       );
     });

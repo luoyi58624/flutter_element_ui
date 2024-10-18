@@ -27,3 +27,40 @@ extension ElAsideThemeDataExtension on ElAsideThemeData {
     );
   }
 }
+
+// **************************************************************************
+// ElThemeModelGenerator
+// **************************************************************************
+
+class ElAsideTheme extends InheritedWidget {
+  const ElAsideTheme({super.key, required super.child, required this.data});
+
+  /// 主题数据
+  final ElAsideThemeData data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElAsideThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElAsideTheme>()?.data;
+
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElAsideThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.asideTheme;
+
+  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
+  static Widget merge({
+    Key? key,
+    ElAsideThemeData? data,
+    required Widget child,
+  }) {
+    return Builder(builder: (context) {
+      final parent = ElAsideTheme.of(context);
+      return ElAsideTheme(
+        data: parent.merge(data),
+        child: child,
+      );
+    });
+  }
+
+  @override
+  bool updateShouldNotify(ElAsideTheme oldWidget) => true;
+}

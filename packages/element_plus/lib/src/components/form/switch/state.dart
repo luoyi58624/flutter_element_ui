@@ -22,7 +22,7 @@ class _ElSwitchState extends ModelValueState<ElSwitch, bool>
   Color get activeBgColor => (widget.activeBgColor ?? context.elTheme.primary)
       .withOpacity(disabledOpacity);
 
-  Color get inactiveBgColor => (widget.bgColor ?? context.elTheme.colors.border)
+  Color get inactiveBgColor => (widget.bgColor ?? context.elTheme.borderColor)
       .withOpacity(disabledOpacity);
 
   @override
@@ -78,8 +78,8 @@ class _ElSwitchState extends ModelValueState<ElSwitch, bool>
             : SystemMouseCursors.click,
         builder: (context) {
           return AnimatedContainer(
-            duration: context.elThemeDuration ?? _duration,
-            curve: context.elThemeCurve ?? _curve,
+            duration: context.elDuration(_duration),
+            curve: context.elCurve(_curve),
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(
@@ -92,8 +92,8 @@ class _ElSwitchState extends ModelValueState<ElSwitch, bool>
                 offset: Offset(animation.value, 0),
                 child: UnconstrainedBox(
                   child: AnimatedContainer(
-                    duration: context.elThemeDuration ?? _duration,
-                    curve: context.elThemeCurve ?? _curve,
+                    duration: context.elDuration(_duration),
+                    curve: context.elCurve(_curve),
                     width: widget.size,
                     height: widget.size,
                     decoration: BoxDecoration(

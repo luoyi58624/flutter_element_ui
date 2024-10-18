@@ -51,7 +51,7 @@ class _Text extends HookWidget {
         Expanded(
           child: SingleChildScrollView(
             child: AnimatedDefaultTextStyle(
-              duration: context.elThemeDuration ?? 300.ms,
+              duration: context.elDuration(300.ms),
               style: flag.value
                   ? const TextStyle(
                       fontSize: 18,
@@ -93,7 +93,7 @@ class _ElText extends HookWidget {
           child: SingleChildScrollView(
             child: flag2.value
                 ? ElAnimatedDefaultTextStyle(
-                    duration: context.elThemeDuration ?? 300.ms,
+                    duration: context.elDuration(300.ms),
                     style: flag.value
                         ? const TextStyle(
                             fontSize: 18,

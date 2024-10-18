@@ -7,7 +7,7 @@ import 'package:source_gen/source_gen.dart';
 import '../config.dart';
 import '../utils.dart';
 
-const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
+const TypeChecker _modelChecker = TypeChecker.fromRuntime($ElModel);
 const TypeChecker _fieldChecker = TypeChecker.fromRuntime(ElField);
 
 /// 当前实体类的信息
@@ -23,7 +23,7 @@ late List<FieldElement> _classFields;
 late bool _isConstConstructor;
 
 @immutable
-class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
+class ElModelGenerator extends GeneratorForAnnotation<$ElModel> {
   @override
   generateForAnnotatedElement(element, annotation, buildStep) {
     _classInfo = element as ClassElement;
@@ -164,7 +164,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (MirrorUtils.isSerializeModel(fieldInfo.type.element)) {
-        final String modelName = builderConfig.modelNameTemplate.replaceFirst(
+        final String modelName = modelBuilderConfig.modelNameTemplate.replaceFirst(
           '{{}}',
           fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
         );
@@ -200,7 +200,7 @@ extension ${_className}Extension on $_className {
       }
     }
 
-    String modelName = builderConfig.modelNameTemplate
+    String modelName = modelBuilderConfig.modelNameTemplate
         .replaceFirst('{{}}', _className.firstLowerCase);
 
     return """

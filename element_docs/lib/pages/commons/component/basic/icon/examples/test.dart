@@ -24,7 +24,7 @@ class IconTestPage extends HookWidget {
             controller: controller,
             size: 125,
             itemCount: keys.length,
-            borderColor: context.elTheme.colors.border,
+            borderColor: context.elTheme.borderColor,
             borderRadius: context.elTheme.cardTheme.radius,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {

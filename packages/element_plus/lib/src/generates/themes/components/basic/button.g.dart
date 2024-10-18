@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../components/basic/button/index.dart';
+part of '../../../../themes/components/basic/button.dart';
 
 // **************************************************************************
 // ElModelGenerator
@@ -10,11 +10,13 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
   /// 接收一组可选参数，返回新的对象
   ElButtonThemeData copyWith({
     double? height,
+    String? type,
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? padding,
   }) {
     return ElButtonThemeData(
       height: height ?? this.height,
+      type: type ?? this.type,
       borderRadius: borderRadius ?? this.borderRadius,
       padding: padding ?? this.padding,
     );
@@ -25,6 +27,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
     if (other == null) return this;
     return copyWith(
       height: other.height,
+      type: other.type,
       borderRadius: other.borderRadius,
       padding: other.padding,
     );
@@ -32,7 +35,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElButtonTheme extends InheritedWidget {

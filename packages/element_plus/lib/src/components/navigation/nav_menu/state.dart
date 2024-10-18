@@ -89,7 +89,7 @@ class _ElNavMenuState extends State<ElNavMenu> {
     final $bgColor = widget.bgColor ?? context.elTheme.asideTheme.color;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedContainer(
-      duration: context.elThemeDuration ?? Duration.zero,
+      duration: context.elDuration(Duration.zero),
       color: $bgColor,
       child: SizedBox(
         width: widget.width,
@@ -225,9 +225,8 @@ class _MenuItemState extends State<_MenuItem> {
       },
       child: Builder(builder: (context) {
         return AnimatedColoredBox(
-          duration:
-              context.elThemeDuration ?? const Duration(milliseconds: 100),
-          curve: context.elThemeCurve ?? Curves.easeOut,
+          duration: context.elDuration(const Duration(milliseconds: 100)),
+          curve: context.elCurve(Curves.easeOut),
           color: bgColor.on(HoverBuilder.of(context),
               scale: bgColor.isDark ? 16 : 10),
           child: SizedBox(

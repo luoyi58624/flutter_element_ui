@@ -69,7 +69,7 @@ class _ElButtonState extends State<ElButton> {
     }
     defaultStyle = context.elTheme.buttonTheme;
     buttonHeight =
-        widget.height ?? defaultStyle.height ?? context.elConfig.baseHeight;
+        widget.height ?? defaultStyle.height ?? context.elConfig.size;
     iconSize = widget.iconSize ?? buttonHeight / 2 - 2;
     disabled = widget.loading || widget.disabled;
     isIconChild = widget.child is ElIcon || widget.child is Icon;
@@ -197,8 +197,7 @@ class _ElButtonState extends State<ElButton> {
         color: $colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
-        duration:
-            context.elThemeDuration ?? const Duration(milliseconds: _duration),
+        duration: context.elDuration(const Duration(milliseconds: _duration)),
         decoration: BoxDecoration(
           color: $colorStyle.bgColor,
           border: calcBorder(context, $colorStyle.borderColor),
@@ -312,7 +311,7 @@ class _ElButtonState extends State<ElButton> {
   /// 计算按钮颜色样式
   _ColorStyle calcColorStyle(BuildContext context) {
     final $elTheme = context.elTheme;
-    final $defaultBorderColor = $elTheme.colors.border;
+    final $defaultBorderColor = $elTheme.borderColor;
     final $isDark = context.isDark;
     final $isHover = context.isHover;
     final $isTap = context.isTap;
@@ -326,7 +325,7 @@ class _ElButtonState extends State<ElButton> {
     if (widget.loadingBuilder != null && widget.loading) {
       if (widget.link || widget.text) {
         $loadingTextColor = widget.type == null && widget.bgColor == null
-            ? $elTheme.colors.regularText
+            ? $elTheme.regularTextColor
             : context.elThemeColors[widget.type]!;
       } else {
         $bgColor = $isDark
@@ -345,7 +344,7 @@ class _ElButtonState extends State<ElButton> {
       // 链接按钮
       if (widget.link) {
         $textColor = (widget.type == null
-                ? $elTheme.colors.regularText
+                ? $elTheme.regularTextColor
                 : context.elThemeColors[widget.type]!)
             .buildEventColor(
           context,
@@ -358,7 +357,7 @@ class _ElButtonState extends State<ElButton> {
       }
       // 文字按钮
       else if (widget.text) {
-        final pageBgColor = $elTheme.colors.bg;
+        final pageBgColor = $elTheme.bgColor;
         if (widget.bg) {
           $bgColor = pageBgColor
               .deepen(4)
@@ -372,7 +371,7 @@ class _ElButtonState extends State<ElButton> {
           }
         }
         $textColor = widget.type == null && widget.bgColor == null
-            ? $elTheme.colors.regularText
+            ? $elTheme.regularTextColor
             : context.elThemeColors[widget.type]!;
         if (disabled) {
           $textColor = $textColor.withOpacity(_textDisabledOpacity);
@@ -382,11 +381,10 @@ class _ElButtonState extends State<ElButton> {
         if (widget.type == null && widget.bgColor == null) {
           $bgColor = $isTap || $isHover
               ? $elTheme.primary.themeLightBg(context)
-              : $elTheme.colors.bg;
+              : $elTheme.bgColor;
 
-          $textColor = $isTap || $isHover
-              ? $elTheme.primary
-              : $elTheme.colors.regularText;
+          $textColor =
+              $isTap || $isHover ? $elTheme.primary : $elTheme.regularTextColor;
           if (disabled) {
             $textColor = $textColor.withOpacity(_textDisabledOpacity);
           }

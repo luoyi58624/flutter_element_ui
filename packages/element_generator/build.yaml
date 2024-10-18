@@ -1,7 +1,21 @@
 builders:
   model:
     import: "package:element_generator/builder.dart"
-    builder_factories: [ "elBuilder" ]
+    builder_factories: [ "elModelBuilder" ]
+    build_extensions: { ".dart": [ ".g.part" ] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: [ "source_gen:combining_builder" ]
+  themeModel:
+    import: "package:element_generator/builder.dart"
+    builder_factories: [ "elThemeModelBuilder" ]
+    build_extensions: { ".dart": [ ".g.part" ] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: [ "source_gen:combining_builder" ]
+  globalThemeModel:
+    import: "package:element_generator/builder.dart"
+    builder_factories: [ "elGlobalThemeModelBuilder" ]
     build_extensions: { ".dart": [ ".g.part" ] }
     auto_apply: dependents
     build_to: cache

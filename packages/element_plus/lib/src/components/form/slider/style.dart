@@ -1,7 +1,15 @@
 part of 'index.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
+@$ElThemeModel(desc: '滑块全局样式')
 class ElSliderThemeData {
+  static const theme = ElSliderThemeData(
+    inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
+  );
+  static const darkTheme = ElSliderThemeData(
+    inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
+  );
+
   const ElSliderThemeData({
     this.sliderSize = 18,
     this.thumbSize = 4,

@@ -66,8 +66,8 @@ export 'src/models/menu.dart';
 export 'src/models/tab.dart';
 
 export 'src/themes/theme.dart';
-export 'src/themes/color.dart';
 export 'src/themes/config.dart';
+export 'src/themes/components/basic/button.dart';
 export 'src/themes/layout/aside.dart';
 export 'src/themes/layout/header.dart';
 export 'src/themes/services/message.dart';

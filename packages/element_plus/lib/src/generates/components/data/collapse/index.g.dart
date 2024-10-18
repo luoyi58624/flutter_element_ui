@@ -32,7 +32,7 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
 }
 
 // **************************************************************************
-// ElThemeDataGenerator
+// ElThemeModelGenerator
 // **************************************************************************
 
 class ElCollapseTheme extends InheritedWidget {

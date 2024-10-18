@@ -9,7 +9,7 @@ class ElBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.elTheme.colors.bg,
+      color: context.elTheme.bgColor,
       child: SizedBox(
         child: child,
       ),

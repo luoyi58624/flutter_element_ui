@@ -1,8 +1,11 @@
 part of 'index.dart';
 
-@ElModel.copy()
-@ElThemeDataModel()
+@$ElModel.copy()
+@$ElThemeModel(desc: '进度条全局样式')
 class ElProgressThemeData {
+  static const theme = ElProgressThemeData();
+  static const darkTheme = ElProgressThemeData();
+
   const ElProgressThemeData({
     this.duration = const Duration(milliseconds: 900),
     this.curve = Curves.easeOutSine,

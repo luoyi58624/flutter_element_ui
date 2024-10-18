@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 part '../../generates/themes/services/toast.g.dart';
 
-@ElModel.copy()
+@$ElModel.copy()
 class ElToastThemeData {
   const ElToastThemeData({
     this.closeDuration = 3000,
