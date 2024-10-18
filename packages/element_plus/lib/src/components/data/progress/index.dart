@@ -3,15 +3,11 @@ import 'dart:math' as math;
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-part 'style.dart';
-
 part 'animate_builder.dart';
 
 part 'painter.dart';
 
 part 'animate_loader.dart';
-
-part '../../../generates/components/data/progress/index.g.dart';
 
 const _defaultDuration = Duration(milliseconds: 150);
 const _defaultCurve = Cubic(0.4, 0, 0.2, 1);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
 import '../components/data/badge/index.dart';
+import '../themes/components/basic/icon.dart';
 import '../utils/font.dart';
 
 /// 消息默认高度
@@ -433,7 +434,7 @@ class _DefaultMessage extends StatelessWidget {
           border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
         child: ElIconTheme(
-          color: themeColor,
+          data: ElIconThemeData(color: themeColor),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -22,11 +22,10 @@ class ThemeModelRecord {
       identical(this, other) ||
       other is ThemeModelRecord &&
           runtimeType == other.runtimeType &&
-          name == other.name &&
-          desc == other.desc;
+          name == other.name;
 
   @override
-  int get hashCode => name.hashCode ^ desc.hashCode;
+  int get hashCode => name.hashCode;
 }
 
 @immutable

@@ -32,7 +32,7 @@ class ThemeModelBuilderConfig {
 
   factory ThemeModelBuilderConfig.fromConfig(Map<String, dynamic> config) {
     return ThemeModelBuilderConfig(
-      globalThemeClassName: config['global_theme_class_name'] ?? 'ElThemeData2',
+      globalThemeClassName: config['global_theme_class_name'] ?? 'ElThemeData',
     );
   }
 }

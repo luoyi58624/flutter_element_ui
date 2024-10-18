@@ -6,10 +6,6 @@ import 'package:url_launcher/link.dart';
 
 import './web.dart' if (dart.library.io) './io.dart';
 
-part 'style.dart';
-
-part '../../../generates/components/basic/link/index.g.dart';
-
 /// 超链接地址显示、隐藏动画控制器
 AnimationController? _controller;
 

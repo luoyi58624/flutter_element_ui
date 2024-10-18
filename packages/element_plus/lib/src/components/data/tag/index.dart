@@ -3,10 +3,6 @@ import 'package:flutter/widgets.dart';
 
 part 'state.dart';
 
-part 'style.dart';
-
-part '../../../generates/components/data/tag/index.g.dart';
-
 class ElTag extends StatefulWidget {
   const ElTag({
     super.key,

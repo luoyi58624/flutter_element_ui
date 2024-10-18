@@ -6,13 +6,10 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../../themes/components/navigation/tabs.dart';
 import '../tab/index.dart';
 
 part 'state.dart';
-
-part 'style.dart';
-
-part '../../../generates/components/navigation/tabs/index.g.dart';
 
 class ElTabs extends ModelValue<int> {
   /// Element UI 标签导航，此组件只适用于桌面端，在移动端你可以使用官方提供的 [TabBar] 小部件

@@ -67,10 +67,32 @@ export 'src/models/tab.dart';
 
 export 'src/themes/theme.dart';
 export 'src/themes/config.dart';
+
 export 'src/themes/components/basic/button.dart';
+export 'src/themes/components/basic/icon.dart';
+export 'src/themes/components/basic/link.dart';
+
+export 'src/themes/components/data/card.dart';
+export 'src/themes/components/data/collapse.dart';
+export 'src/themes/components/data/progress.dart';
+export 'src/themes/components/data/tag.dart';
+
+export 'src/themes/components/feedback/tooltip.dart';
+
+export 'src/themes/components/form/input.dart';
+export 'src/themes/components/form/slider.dart';
+
+export 'src/themes/components/navigation/nav_menu.dart';
+export 'src/themes/components/navigation/tab.dart';
+export 'src/themes/components/navigation/tabs.dart';
+
+export 'src/themes/components/others/code_preview.dart';
+
 export 'src/themes/layout/aside.dart';
 export 'src/themes/layout/header.dart';
+
 export 'src/themes/services/message.dart';
+export 'src/themes/services/modal.dart';
 export 'src/themes/services/toast.dart';
 
 export 'src/utils/font.dart';

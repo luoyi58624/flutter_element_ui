@@ -7,13 +7,9 @@ import 'package:element_plus/src/global.dart';
 
 part 'state.dart';
 
-part 'style.dart';
-
 part 'thumbs/default_thumb.dart';
 
 part 'thumbs/progress_thumb.dart';
-
-part '../../../generates/components/form/slider/index.g.dart';
 
 class ElSlider extends ModelValue<double> {
   const ElSlider(

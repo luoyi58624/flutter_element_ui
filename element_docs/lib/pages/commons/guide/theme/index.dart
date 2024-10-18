@@ -43,7 +43,7 @@ class _ChildPage extends StatelessWidget {
               icon: Icon(
                 GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
               ),
-              color: context.elTheme.iconColor,
+              color: context.elTheme.iconTheme.color,
             );
           }),
         ],

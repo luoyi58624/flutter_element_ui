@@ -4,7 +4,11 @@ import 'package:flutter/widgets.dart';
 part '../../generates/themes/services/message.g.dart';
 
 @$ElModel.copy()
+@$ElThemeModel(generateInheritedWidget: false, desc: '消息提示全局样式')
 class ElMessageThemeData {
+  static const theme = ElMessageThemeData();
+  static const darkTheme = ElMessageThemeData();
+
   const ElMessageThemeData({
     this.offset = 20,
     this.closeDuration = 3000,

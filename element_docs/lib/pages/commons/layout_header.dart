@@ -48,7 +48,7 @@ class LayoutHeader extends StatelessWidget {
                   icon: Icon(
                     GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
                   ),
-                  color: context.elTheme.iconColor,
+                  color: context.elTheme.iconTheme.color,
                 );
               }),
               IconButton(
@@ -153,7 +153,7 @@ class _GithubLogo extends StatelessWidget {
       width: 24,
       height: 24,
       colorFilter: ColorFilter.mode(
-        context.elTheme.iconColor,
+        context.elTheme.iconTheme.color!,
         BlendMode.srcIn,
       ),
     );

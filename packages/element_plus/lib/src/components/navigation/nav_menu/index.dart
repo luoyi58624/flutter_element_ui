@@ -7,10 +7,6 @@ import '../../basic/link/index.dart';
 
 part 'state.dart';
 
-part 'style.dart';
-
-part '../../../generates/components/navigation/nav_menu/index.g.dart';
-
 class ElNavMenu extends StatefulWidget {
   /// 创建普通菜单导航
   const ElNavMenu(

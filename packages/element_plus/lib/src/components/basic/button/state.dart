@@ -240,8 +240,10 @@ class _ElButtonState extends State<ElButton> {
   /// 构建默认的图标主题
   Widget buildIconTheme({required Widget child, Color? color}) {
     return ElIconTheme(
-      color: color,
-      size: iconSize,
+      data: ElIconThemeData(
+        size: iconSize,
+        color: color,
+      ),
       child: child,
     );
   }

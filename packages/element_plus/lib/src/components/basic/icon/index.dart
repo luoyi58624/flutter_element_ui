@@ -1,9 +1,9 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-part 'state.dart';
+import '../../../themes/components/basic/icon.dart';
 
-part 'style.dart';
+part 'state.dart';
 
 part 'icons.dart';
 
@@ -18,8 +18,6 @@ class ElIcon extends StatelessWidget {
   });
 
   /// 渲染图标，支持以下参数：
-  /// * http svg 图标
-  /// * asset svg 图标，如果字符串不是http，那么将直接加载 asset 下的图标
   /// * [IconData] 字体图标
   /// * [Widget] 自定义图标
   final dynamic child;
@@ -35,19 +33,25 @@ class ElIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $theme = ElIconTheme.maybeOf(context);
-    final $icon = child ?? $theme?.icon;
-    final $size = size ?? $theme?.size ?? 1.5.rem(context);
-    final $color = color ?? $theme?.color ?? context.elTheme.iconColor;
+    final $theme = ElIconTheme.of(context);
+    final $icon = child ?? $theme.icon;
+    final $size = size ?? $theme.size ?? 1.5.rem(context);
+    final $color = color ?? $theme.color;
     if ($icon is IconData) {
       return Icon($icon, size: $size, color: $color);
     } else if ($icon is Widget) {
       return UnconstrainedBox(
-        child:
-            SizedBox(width: $size, height: $size, child: Center(child: $icon)),
+        child: SizedBox(
+          width: $size,
+          height: $size,
+          child: Center(child: $icon),
+        ),
       );
     } else {
-      return Placeholder(fallbackWidth: $size, fallbackHeight: $size);
+      return Placeholder(
+        fallbackWidth: $size,
+        fallbackHeight: $size,
+      );
     }
   }
 }

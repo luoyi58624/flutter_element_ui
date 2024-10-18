@@ -4,7 +4,11 @@ import 'package:flutter/widgets.dart';
 part '../../generates/themes/services/toast.g.dart';
 
 @$ElModel.copy()
+@$ElThemeModel(generateInheritedWidget: false, desc: '轻提示全局样式')
 class ElToastThemeData {
+  static const theme = ElToastThemeData();
+  static const darkTheme = ElToastThemeData();
+
   const ElToastThemeData({
     this.closeDuration = 3000,
     this.enableFeedback = true,

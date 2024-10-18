@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../models/tab.dart';
+import '../../../themes/components/navigation/tabs.dart';
 import 'index.dart';
 
 class TabsInheritedWidget extends InheritedWidget {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../themes/components/basic/button.dart';
+import '../../../themes/components/basic/icon.dart';
 import '../../feedback/loading/loading.dart';
 
 part 'state.dart';

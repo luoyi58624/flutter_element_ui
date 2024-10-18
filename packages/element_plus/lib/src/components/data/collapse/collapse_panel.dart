@@ -1,6 +1,7 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../themes/components/basic/icon.dart';
 import '../../others/divider.dart';
 
 class _CollapseData extends InheritedWidget {
@@ -180,11 +181,13 @@ class ElCollapseItem extends StatelessWidget {
                                 ),
                           const Expanded(child: SizedBox()),
                           ElIconTheme(
-                            color: context.isDark
-                                ? context.elTheme.textColor
-                                : isActive
-                                    ? context.darkTheme.textColor
-                                    : context.lightTheme.textColor,
+                            data: ElIconThemeData(
+                              color: context.isDark
+                                  ? context.elTheme.textColor
+                                  : isActive
+                                      ? context.darkTheme.textColor
+                                      : context.lightTheme.textColor,
+                            ),
                             child: isActive
                                 ? $data.expandedIcon ??
                                     const ElIcon(ElIcons.arrowUp)
