@@ -44,6 +44,16 @@ class _Example extends StatelessWidget {
             ElButton(child: '选项三'),
           ],
         ),
+        Gap(8),
+        ElButtonGroup(
+          null,
+          children: [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+            ElButton(child: '选项四'),
+          ],
+        ),
       ],
     );
   }

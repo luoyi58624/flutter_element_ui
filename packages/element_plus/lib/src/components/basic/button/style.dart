@@ -5,6 +5,7 @@ part of 'index.dart';
 class ElButtonThemeData {
   const ElButtonThemeData({
     this.height,
+    this.type,
     this.borderRadius,
     this.padding,
   });
@@ -12,7 +13,10 @@ class ElButtonThemeData {
   /// 按钮高度，默认全局 baseHeight
   final double? height;
 
-  /// 按钮圆角，默认：radius
+  /// 主题类型
+  final String? type;
+
+  /// 按钮圆角，默认全局 radius
   final BorderRadius? borderRadius;
 
   /// 按钮内边距，默认为高度的一半

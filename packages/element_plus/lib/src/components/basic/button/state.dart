@@ -89,7 +89,7 @@ class _ElButtonState extends State<ElButton> {
     if (_groupData != null || widget.onHover != null) {
       hoverEvent = (e) {
         if (_groupData != null) {
-          _groupData!.setHoverIndex(_indexData!.index);
+          _groupData!.hoverIndex.value = _indexData!.index;
         }
         if (widget.onHover != null) {
           widget.onHover!(e);
@@ -97,10 +97,35 @@ class _ElButtonState extends State<ElButton> {
       };
     }
     return TapBuilder(
-      onTap: widget.onPressed,
-      onTapDown: widget.onTapDown,
-      onTapUp: widget.onTapUp,
-      onTapCancel: widget.onTapCancel,
+      onTap: () {
+        if (widget.onPressed != null) {
+          widget.onPressed!();
+        }
+      },
+      onTapDown: (e) {
+        if (_groupData != null) {
+          _groupData!.isActive.value = true;
+        }
+        if (widget.onTapDown != null) {
+          widget.onTapDown!(e);
+        }
+      },
+      onTapUp: (e) {
+        if (_groupData != null) {
+          _groupData!.isActive.value = false;
+        }
+        if (widget.onTapUp != null) {
+          widget.onTapUp!(e);
+        }
+      },
+      onTapCancel: () {
+        if (_groupData != null) {
+          _groupData!.isActive.value = false;
+        }
+        if (widget.onTapCancel != null) {
+          widget.onTapCancel!();
+        }
+      },
       disabled: disabled,
       delay: _duration,
       builder: (context) {
@@ -113,6 +138,16 @@ class _ElButtonState extends State<ElButton> {
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
           onHover: hoverEvent,
+          onEnter: _groupData == null
+              ? null
+              : (e) {
+                  _groupData!.hoverIndex.value = _indexData!.index;
+                },
+          onExit: _groupData == null
+              ? null
+              : (e) {
+                  _groupData!.hoverIndex.value = -1;
+                },
           builder: (context) => builder(context),
         );
       },
@@ -428,37 +463,28 @@ class _ElButtonState extends State<ElButton> {
 
   Border calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
-    final defaultBoder = Border.all(color: borderColor, width: 1);
-    if (_groupData == null) return defaultBoder;
+    final defaultBorder = Border.all(color: borderColor, width: 1);
+    if (_groupData == null) return defaultBorder;
     if (_indexData!.length == 0) return const Border();
-    if (_indexData!.length == 1) return defaultBoder;
+    if (_indexData!.length == 1) return defaultBorder;
     final borderSide = BorderSide(color: borderColor, width: 1);
-    final isHover = _groupData!.hoverIndex == _indexData!.index;
     if (_indexData!.index == 0) {
       return Border(
         top: borderSide,
         bottom: borderSide,
         left: borderSide,
-        right: isHover ? borderSide : BorderSide.none,
       );
     }
     if (_indexData!.index == _indexData!.length! - 1) {
       return Border(
         top: borderSide,
         bottom: borderSide,
-        left: isHover ? borderSide : BorderSide.none,
         right: borderSide,
       );
     }
     return Border(
       top: borderSide,
       bottom: borderSide,
-      left: _groupData!.hoverIndex != 0
-          ? borderSide
-          : BorderSide.none,
-      right: _groupData!.hoverIndex != _indexData!.length! - 1
-          ? borderSide
-          : BorderSide.none,
     );
   }
 
@@ -470,18 +496,18 @@ class _ElButtonState extends State<ElButton> {
             context.elConfig.radius;
     if (_groupData == null) return defaultBorderRadius;
     if (_indexData!.length == 1) return defaultBorderRadius;
-    // if (_indexData!.index == 0) {
-    //   return BorderRadius.only(
-    //     topLeft: defaultBorderRadius.topLeft,
-    //     bottomLeft: defaultBorderRadius.bottomLeft,
-    //   );
-    // }
-    // if (_indexData!.index == _indexData!.length! - 1) {
-    //   return BorderRadius.only(
-    //     topRight: defaultBorderRadius.topRight,
-    //     bottomRight: defaultBorderRadius.bottomRight,
-    //   );
-    // }
+    if (_indexData!.index == 0) {
+      return BorderRadius.only(
+        topLeft: defaultBorderRadius.topLeft,
+        bottomLeft: defaultBorderRadius.bottomLeft,
+      );
+    }
+    if (_indexData!.index == _indexData!.length! - 1) {
+      return BorderRadius.only(
+        topRight: defaultBorderRadius.topRight,
+        bottomRight: defaultBorderRadius.bottomRight,
+      );
+    }
     return null;
   }
 }

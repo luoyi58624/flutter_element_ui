@@ -53,32 +53,35 @@ class _TapBuilderState extends State<TapBuilder> {
         onTapDown: widget.disabled
             ? null
             : (e) {
-                if (widget.onTapDown != null) widget.onTapDown!(e);
                 _time = currentMilliseconds;
                 if (_timer != null) {
                   _timer!.cancel();
                   _timer = null;
                   update(false);
-                  setTimeout(() => update(true), 16);
+                  setTimeout(() {
+                    update(true);
+                    if (widget.onTapDown != null) widget.onTapDown!(e);
+                  }, 16);
                 } else {
                   update(true);
+                  if (widget.onTapDown != null) widget.onTapDown!(e);
                 }
               },
         onTapUp: widget.disabled
             ? null
             : (e) {
-                if (widget.onTapUp != null) widget.onTapUp!(e);
                 _timer = setTimeout(() {
                   update(false);
+                  if (widget.onTapUp != null) widget.onTapUp!(e);
                   _timer = null;
                 }, max(widget.delay - (currentMilliseconds - _time!), 0));
               },
         onTapCancel: widget.disabled
             ? null
             : () {
-                if (widget.onTapCancel != null) widget.onTapCancel!();
                 _timer = setTimeout(() {
                   update(false);
+                  if (widget.onTapCancel != null) widget.onTapCancel!();
                   _timer = null;
                 }, widget.delay);
               },

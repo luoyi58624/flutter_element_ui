@@ -1,12 +1,12 @@
 part of 'index.dart';
 
-class ElButtonGroup extends StatefulWidget {
-  /// Element UI 按钮组
+class ElButtonGroup extends HookWidget {
+  /// Element UI 按钮组，它支持 [ElButtonThemeData] 所有配置，
+  /// 按钮组配置的属性会强制覆盖 [ElButton] 的默认配置。
   const ElButtonGroup(
     this.modelValue, {
     super.key,
     required this.children,
-    this.type,
     this.axis = Axis.horizontal,
     this.mandatory = false,
     this.onChanged,
@@ -21,9 +21,6 @@ class ElButtonGroup extends StatefulWidget {
   /// 按钮集合
   final List<ElButton> children;
 
-  /// 主题类型，它会覆写 [ElButton] 的主题类型
-  final String? type;
-
   /// 按钮组方向
   final Axis axis;
 
@@ -34,34 +31,33 @@ class ElButtonGroup extends StatefulWidget {
   final ValueChanged? onChanged;
 
   @override
-  State<ElButtonGroup> createState() => _ElButtonGroupState();
-}
-
-class _ElButtonGroupState extends State<ElButtonGroup> {
-  int hoverIndex = 0;
-
-  void setHoverIndex(int index) {
-    if (hoverIndex != index) {
-      setState(() {
-        hoverIndex = index;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    ElAssert.themeType(widget.type, 'ElButtonGroup');
-    final $children = widget.children
-        .mapIndexed(
-          (i, e) => ChildIndexData(
-            length: widget.children.length,
-            index: i,
-            child: e,
-          ),
-        )
-        .toList();
+    final hoverIndex = useObs(-1);
+    final isActive = useObs(false);
+    final $data = ElButtonTheme.of(context);
+    ElAssert.themeType($data.type, 'ElButtonGroup');
+    final List<Widget> $children = [];
+    int $length = children.length;
+    for (int i = 0; i < $length; i++) {
+      $children.add(
+        ChildIndexData(
+          length: $length,
+          index: i,
+          child: children[i],
+        ),
+      );
+      if (i < $length - 1) {
+        $children.add(_GroupBorder(
+          length: $length,
+          index: i,
+          hoverIndex: hoverIndex,
+          isActive: isActive,
+        ));
+      }
+    }
+
     late Widget result;
-    if (widget.axis == Axis.horizontal) {
+    if (axis == Axis.horizontal) {
       result = Row(
         children: $children,
       );
@@ -71,33 +67,83 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
       );
     }
     return _ElButtonGroupInheritedWidget(
-      modelValue: widget.modelValue,
-      type: widget.type,
-      axis: widget.axis,
+      modelValue: modelValue,
+      themeData: $data,
+      axis: axis,
       hoverIndex: hoverIndex,
-      setHoverIndex: setHoverIndex,
-      onChanged: widget.onChanged,
+      isActive: isActive,
+      onChanged: onChanged,
       child: result,
     );
+  }
+}
+
+class _GroupBorder extends StatelessWidget {
+  const _GroupBorder({
+    required this.length,
+    required this.index,
+    required this.hoverIndex,
+    required this.isActive,
+  });
+
+  final int length;
+  final int index;
+  final Obs<int> hoverIndex;
+  final Obs<bool> isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    final $data = _ElButtonGroupInheritedWidget.maybeOf(context)!;
+
+    return ObsBuilder(builder: (context) {
+      Color borderColor = context.elTheme.colors.border;
+      Color hoverBorderColor = isActive.value
+          ? context.elTheme.primary
+          : context.elTheme.primary.elLight6(context);
+
+      Color $borderColor = borderColor;
+      if (length == 2) {
+        $borderColor = hoverIndex.value != -1 ? hoverBorderColor : borderColor;
+      } else if (length > 2) {
+        if (hoverIndex.value == 0) {
+          if (index == hoverIndex.value) $borderColor = hoverBorderColor;
+        } else if (hoverIndex.value == length - 1) {
+          if (index == hoverIndex.value - 1) $borderColor = hoverBorderColor;
+        } else if (hoverIndex.value != -1) {
+          if (index == hoverIndex.value - 1 || index == hoverIndex.value) {
+            $borderColor = hoverBorderColor;
+          }
+        }
+      }
+
+      return AnimatedColoredBox(
+        duration: 100.ms,
+        color: $borderColor,
+        child: SizedBox(
+          width: 1,
+          height: $data.themeData.height ?? context.elConfig.baseHeight,
+        ),
+      );
+    });
   }
 }
 
 class _ElButtonGroupInheritedWidget extends InheritedWidget {
   const _ElButtonGroupInheritedWidget({
     required this.modelValue,
-    required this.type,
+    required this.themeData,
     required this.axis,
     required this.hoverIndex,
-    required this.setHoverIndex,
+    required this.isActive,
     required this.onChanged,
     required super.child,
   });
 
   final dynamic modelValue;
-  final String? type;
+  final ElButtonThemeData themeData;
   final Axis axis;
-  final int hoverIndex;
-  final void Function(int index) setHoverIndex;
+  final Obs<int> hoverIndex;
+  final Obs<bool> isActive;
   final ValueChanged? onChanged;
 
   static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
