@@ -33,6 +33,32 @@ extension _ButtonColorExtension on Color {
 }
 
 /// 计算按钮颜色样式
+typedef _Prop = ({
+  dynamic child,
+  double? width,
+  double height,
+  Color? bgColor,
+  Color? color,
+  String? type,
+  bool text,
+  bool bg,
+  bool link,
+  bool plain,
+  bool round,
+  bool block,
+  BorderRadius borderRadius,
+  EdgeInsetsGeometry? padding,
+  double iconSize,
+  Widget? leftIcon,
+  Widget? rightIcon,
+  bool circle,
+  bool disabled,
+  bool loading,
+  Widget loadingWidget,
+  Widget Function(ElButtonLoadingState state)? loadingBuilder,
+});
+
+/// 计算按钮颜色样式
 typedef _ColorStyle = ({
   Color? bgColor,
   Color? textColor,
@@ -40,24 +66,18 @@ typedef _ColorStyle = ({
   Color? loadingTextColor
 });
 
-class ElButtonLoadingData {
-  /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
-  final Color color;
-
-  /// 按钮 loading 尺寸，它的大小和图标一致
-  final double size;
-
-  ElButtonLoadingData({required this.color, required this.size});
-}
-
 class _ElButtonState extends State<ElButton> {
+  /// 如果是按钮组，则会初始化此变量
   _ElButtonGroupInheritedWidget? _groupData;
+
+  /// 如果是按钮组，此变量将保存当前按钮所在的位置
   ChildIndexData? _indexData;
-  late ElButtonThemeData defaultStyle;
-  late double buttonHeight;
-  late double iconSize;
-  late bool disabled;
-  late bool isIconChild;
+
+  /// 计算按钮最终的 prop 属性
+  late _Prop _prop;
+
+  /// 按钮 child 是否是图标
+  late bool _isIconChild;
 
   @override
   Widget build(BuildContext context) {
@@ -67,24 +87,70 @@ class _ElButtonState extends State<ElButton> {
     } else {
       _indexData = ChildIndexData.of(context);
     }
-    defaultStyle = context.elTheme.buttonTheme;
-    buttonHeight =
-        widget.height ?? defaultStyle.height ?? context.elConfig.size;
-    iconSize = widget.iconSize ?? buttonHeight / 2 - 2;
-    disabled = widget.loading || widget.disabled;
-    isIconChild = widget.child is ElIcon || widget.child is Icon;
 
-    Widget result = buildEvent(
+    _calcProp();
+
+    Widget result = _buildEvent(
       builder: (context) => buildButtonWrapper(context),
     );
 
-    return widget.block && !widget.circle
+    return _prop.block && !_prop.circle
         ? result
         : UnconstrainedBox(child: result);
   }
 
+  void _calcProp() {
+    final $data = ElButtonTheme.of(context);
+    final $height = widget.height ?? $data.height ?? context.elConfig.size;
+    final $circle = widget.circle ?? $data.circle ?? false;
+    final $link = widget.link ?? $data.link ?? false;
+    final $round = widget.round ?? $data.round ?? false;
+    final $loading = widget.loading ?? $data.loading ?? false;
+    final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
+    final $horizontalPadding = $height / 2;
+    final $padding = $circle || $link
+        ? null
+        : (widget.padding ??
+            $data.padding ??
+            ($round
+                ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
+                : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
+    final $borderRadius = $round || $circle
+        ? BorderRadius.circular($height / 2)
+        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
+
+    _prop = (
+      child: widget.child ?? $data.child,
+      width: widget.width ?? $data.width,
+      height: $height,
+      bgColor: widget.bgColor ?? $data.bgColor,
+      color: widget.color ?? $data.color,
+      type: widget.type ?? $data.type,
+      text: widget.text ?? $data.text ?? false,
+      bg: widget.bg ?? $data.bg ?? false,
+      link: $link,
+      plain: widget.plain ?? $data.plain ?? false,
+      round: $round,
+      block: widget.block ?? $data.block ?? false,
+      borderRadius: $borderRadius,
+      padding: $padding,
+      iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
+      leftIcon: widget.leftIcon ?? $data.leftIcon,
+      rightIcon: widget.rightIcon ?? $data.rightIcon,
+      circle: $circle,
+      disabled: $disabled,
+      loading: $loading,
+      loadingWidget: widget.loadingWidget ??
+          $data.loadingWidget ??
+          const ElLoading(ElIcons.loading),
+      loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
+    );
+
+    _isIconChild = _prop.child is ElIcon || _prop.child is Icon;
+  }
+
   /// 构建按钮事件
-  Widget buildEvent({required WidgetBuilder builder}) {
+  Widget _buildEvent({required WidgetBuilder builder}) {
     PointerHoverEventListener? hoverEvent;
     if (_groupData != null || widget.onHover != null) {
       hoverEvent = (e) {
@@ -126,14 +192,14 @@ class _ElButtonState extends State<ElButton> {
           widget.onTapCancel!();
         }
       },
-      disabled: disabled,
+      disabled: _prop.disabled,
       delay: _duration,
       builder: (context) {
         return HoverBuilder(
-          disabled: disabled,
-          cursor: widget.loading
+          disabled: _prop.disabled,
+          cursor: _prop.loading
               ? MouseCursor.defer
-              : disabled
+              : _prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
@@ -158,24 +224,14 @@ class _ElButtonState extends State<ElButton> {
   Widget buildButtonWrapper(BuildContext context) {
     final $colorStyle = calcColorStyle(context);
 
-    final $horizontalPadding = buttonHeight / 2;
-
-    final $padding = widget.circle || widget.link
-        ? null
-        : (widget.padding ??
-            defaultStyle.padding ??
-            (widget.round
-                ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
-                : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
-
-    final $constraints = widget.link
+    final $constraints = _prop.link
         ? null
         : BoxConstraints(
-            minHeight: buttonHeight,
-            minWidth: (widget.circle
-                ? buttonHeight
-                : widget.width ??
-                    (isIconChild ? buttonHeight * 1.25 : _minWidth)),
+            minHeight: _prop.height,
+            minWidth: (_prop.circle
+                ? _prop.height
+                : _prop.width ??
+                    (_isIconChild ? _prop.height * 1.25 : _minWidth)),
           );
 
     Widget result = Center(
@@ -184,8 +240,8 @@ class _ElButtonState extends State<ElButton> {
       }),
     );
 
-    if ($padding != null) {
-      result = Padding(padding: $padding, child: result);
+    if (_prop.padding != null) {
+      result = Padding(padding: _prop.padding!, child: result);
     }
 
     if ($constraints != null) {
@@ -207,7 +263,7 @@ class _ElButtonState extends State<ElButton> {
       ),
     );
 
-    if (widget.loadingBuilder != null && widget.loading) {
+    if (_prop.loadingBuilder != null && _prop.loading) {
       assert($colorStyle.loadingTextColor != null,
           ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
       result = Stack(
@@ -221,10 +277,10 @@ class _ElButtonState extends State<ElButton> {
               child: Center(
                 child: buildIconTheme(
                   color: $colorStyle.loadingTextColor,
-                  child: widget.loadingBuilder!(
-                    ElButtonLoadingData(
+                  child: _prop.loadingBuilder!(
+                    ElButtonLoadingState(
                       color: $colorStyle.loadingTextColor!,
-                      size: iconSize,
+                      size: _prop.iconSize,
                     ),
                   ),
                 ),
@@ -241,7 +297,7 @@ class _ElButtonState extends State<ElButton> {
   Widget buildIconTheme({required Widget child, Color? color}) {
     return ElIconTheme(
       data: ElIconThemeData(
-        size: iconSize,
+        size: _prop.iconSize,
         color: color,
       ),
       child: child,
@@ -251,36 +307,36 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮内容
   Widget buildButtonContent(BuildContext context) {
     late Widget $child;
-    if (widget.child is Widget) {
-      $child = widget.child;
+    if (_prop.child is Widget) {
+      $child = _prop.child;
     } else {
-      $child = ElText('${widget.child}');
+      $child = ElText('${_prop.child}');
     }
 
-    Widget? leftIcon = widget.leftIcon;
-    Widget? rightIcon = widget.rightIcon;
-    if (widget.loadingBuilder == null && widget.loading) {
-      if (leftIcon != null) {
-        leftIcon = widget.loadingWidget;
-      } else if (rightIcon != null) {
-        rightIcon = widget.loadingWidget;
+    Widget? $leftIcon = _prop.leftIcon;
+    Widget? $rightIcon = _prop.rightIcon;
+    if (_prop.loadingBuilder == null && _prop.loading) {
+      if ($leftIcon != null) {
+        $leftIcon = _prop.loadingWidget;
+      } else if ($rightIcon != null) {
+        $rightIcon = _prop.loadingWidget;
       } else {
-        if (!isIconChild) {
-          leftIcon = widget.loadingWidget;
+        if (!_isIconChild) {
+          $leftIcon = _prop.loadingWidget;
         }
       }
     }
 
     Widget childContent = Padding(
       padding: EdgeInsets.only(
-        left: leftIcon != null ? 6.0 : 0.0,
-        right: rightIcon != null ? 6.0 : 0.0,
+        left: $leftIcon != null ? 6.0 : 0.0,
+        right: $rightIcon != null ? 6.0 : 0.0,
       ),
-      child: widget.loadingBuilder == null &&
-              widget.leftIcon == null &&
-              widget.loading &&
-              isIconChild
-          ? widget.loadingWidget
+      child: _prop.loadingBuilder == null &&
+              _prop.leftIcon == null &&
+              _prop.loading &&
+              _isIconChild
+          ? _prop.loadingWidget
           : $child,
     );
 
@@ -289,15 +345,15 @@ class _ElButtonState extends State<ElButton> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (leftIcon != null) leftIcon,
+        if ($leftIcon != null) $leftIcon,
         childContent,
-        if (rightIcon != null) rightIcon,
+        if ($rightIcon != null) $rightIcon,
       ],
     );
 
-    if (widget.loadingBuilder != null) {
+    if (_prop.loadingBuilder != null) {
       childContent = Opacity(
-        opacity: widget.loading == true ? 0.0 : 1.0,
+        opacity: _prop.loading == true ? 0.0 : 1.0,
         child: childContent,
       );
     }
@@ -324,11 +380,11 @@ class _ElButtonState extends State<ElButton> {
     Color? $loadingTextColor;
 
     // 处理自定义加载器按钮外观，如果传递了 loadingBuilder，那么按钮原本内容将被隐藏
-    if (widget.loadingBuilder != null && widget.loading) {
-      if (widget.link || widget.text) {
-        $loadingTextColor = widget.type == null && widget.bgColor == null
+    if (_prop.loadingBuilder != null && _prop.loading) {
+      if (_prop.link || _prop.text) {
+        $loadingTextColor = _prop.type == null && _prop.bgColor == null
             ? $elTheme.regularTextColor
-            : context.elThemeColors[widget.type]!;
+            : context.elThemeColors[_prop.type]!;
       } else {
         $bgColor = $isDark
             ? const Color.fromRGBO(57, 57, 57, 1.0)
@@ -336,7 +392,7 @@ class _ElButtonState extends State<ElButton> {
         $loadingTextColor = $isDark
             ? const Color.fromRGBO(118, 118, 118, 1.0)
             : const Color.fromRGBO(166, 166, 166, 1.0);
-        if ((widget.type == null && widget.bgColor == null) || widget.plain) {
+        if ((_prop.type == null && _prop.bgColor == null) || _prop.plain) {
           $borderColor = $isDark
               ? const Color.fromRGBO(57, 57, 57, 1.0)
               : const Color.fromRGBO(224, 224, 224, 1.0);
@@ -344,23 +400,23 @@ class _ElButtonState extends State<ElButton> {
       }
     } else {
       // 链接按钮
-      if (widget.link) {
-        $textColor = (widget.type == null
+      if (_prop.link) {
+        $textColor = (_prop.type == null
                 ? $elTheme.regularTextColor
-                : context.elThemeColors[widget.type]!)
+                : context.elThemeColors[_prop.type]!)
             .buildEventColor(
           context,
           tapBuilder: (color) => color.tap(context),
           hoverBuilder: (color) => color.withOpacity(_disabledOpacity),
         );
-        if (disabled) {
+        if (_prop.disabled) {
           $textColor = $textColor.withOpacity(_textDisabledOpacity);
         }
       }
       // 文字按钮
-      else if (widget.text) {
+      else if (_prop.text) {
         final pageBgColor = $elTheme.bgColor;
-        if (widget.bg) {
+        if (_prop.bg) {
           $bgColor = pageBgColor
               .deepen(4)
               .on($isHover, color: pageBgColor.deepen(2))
@@ -372,22 +428,22 @@ class _ElButtonState extends State<ElButton> {
             $bgColor = pageBgColor.deepen(4);
           }
         }
-        $textColor = widget.type == null && widget.bgColor == null
+        $textColor = _prop.type == null && _prop.bgColor == null
             ? $elTheme.regularTextColor
-            : context.elThemeColors[widget.type]!;
-        if (disabled) {
+            : context.elThemeColors[_prop.type]!;
+        if (_prop.disabled) {
           $textColor = $textColor.withOpacity(_textDisabledOpacity);
         }
       } else {
         // 默认按钮
-        if (widget.type == null && widget.bgColor == null) {
+        if (_prop.type == null && _prop.bgColor == null) {
           $bgColor = $isTap || $isHover
               ? $elTheme.primary.themeLightBg(context)
               : $elTheme.bgColor;
 
           $textColor =
               $isTap || $isHover ? $elTheme.primary : $elTheme.regularTextColor;
-          if (disabled) {
+          if (_prop.disabled) {
             $textColor = $textColor.withOpacity(_textDisabledOpacity);
           }
 
@@ -397,15 +453,15 @@ class _ElButtonState extends State<ElButton> {
                   ? $elTheme.primary.themeLightBorder(context)
                   : $defaultBorderColor;
 
-          if (disabled) {
+          if (_prop.disabled) {
             $borderColor = $borderColor.withOpacity(_disabledOpacity);
           }
         } else {
           final $themeColor =
-              widget.bgColor ?? context.elThemeColors[widget.type]!;
+              _prop.bgColor ?? context.elThemeColors[_prop.type]!;
 
           // 镂空按钮
-          if (widget.plain) {
+          if (_prop.plain) {
             $bgColor = PlatformUtil.isDesktop
                 ? ($isTap
                     ? $themeColor.tap(context)
@@ -428,7 +484,7 @@ class _ElButtonState extends State<ElButton> {
                     ? $themeColor
                     : $themeColor.themeLightBorder(context));
 
-            if (disabled) {
+            if (_prop.disabled) {
               $bgColor = $bgColor.withOpacity(_disabledOpacity);
               $textColor = $textColor.withOpacity(_textDisabledOpacity);
               $borderColor = $borderColor.withOpacity(_disabledOpacity);
@@ -443,7 +499,7 @@ class _ElButtonState extends State<ElButton> {
                     : $themeColor;
 
             $textColor = $themeColor.elTextColor(context);
-            if (disabled) {
+            if (_prop.disabled) {
               $bgColor = $bgColor.withOpacity(_disabledOpacity);
               $textColor =
                   $textColor.withOpacity(_themeButtonTextDisabledOpacity);
@@ -489,23 +545,18 @@ class _ElButtonState extends State<ElButton> {
   }
 
   BorderRadiusGeometry? calcBorderRadius(BuildContext context) {
-    final defaultBorderRadius = widget.round || widget.circle
-        ? BorderRadius.circular(buttonHeight / 2)
-        : widget.borderRadius ??
-            defaultStyle.borderRadius ??
-            context.elConfig.radius;
-    if (_groupData == null) return defaultBorderRadius;
-    if (_indexData!.length == 1) return defaultBorderRadius;
+    if (_groupData == null) return _prop.borderRadius;
+    if (_indexData!.length == 1) return _prop.borderRadius;
     if (_indexData!.index == 0) {
       return BorderRadius.only(
-        topLeft: defaultBorderRadius.topLeft,
-        bottomLeft: defaultBorderRadius.bottomLeft,
+        topLeft: _prop.borderRadius.topLeft,
+        bottomLeft: _prop.borderRadius.bottomLeft,
       );
     }
     if (_indexData!.index == _indexData!.length! - 1) {
       return BorderRadius.only(
-        topRight: defaultBorderRadius.topRight,
-        bottomRight: defaultBorderRadius.bottomRight,
+        topRight: _prop.borderRadius.topRight,
+        bottomRight: _prop.borderRadius.bottomRight,
       );
     }
     return null;

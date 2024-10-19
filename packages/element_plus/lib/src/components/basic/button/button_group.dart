@@ -1,8 +1,7 @@
 part of 'index.dart';
 
 class ElButtonGroup extends HookWidget {
-  /// Element UI 按钮组，它支持 [ElButtonThemeData] 所有配置，
-  /// 按钮组配置的属性会强制覆盖 [ElButton] 的默认配置。
+  /// Element UI 按钮组，可以在 [ElButtonThemeData] 中进行更多配置
   const ElButtonGroup(
     this.modelValue, {
     super.key,
