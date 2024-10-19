@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/navigation/tabs.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '标签容器全局样式')
+@$ElThemeModel(desc: '标签容器默认样式')
 class ElTabsThemeData {
   static const theme = ElTabsThemeData();
   static const darkTheme = ElTabsThemeData();

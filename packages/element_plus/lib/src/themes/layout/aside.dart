@@ -5,7 +5,7 @@ import '../../global.dart';
 part '../../generates/themes/layout/aside.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '侧边栏全局样式')
+@$ElThemeModel(desc: '侧边栏默认样式')
 class ElAsideThemeData {
   static const theme = ElAsideThemeData(color: Color(0xffffffff));
   static const darkTheme = ElAsideThemeData(color: Color(0xff374151));

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/basic/button.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '按钮全局样式')
+@$ElThemeModel(desc: '按钮默认样式')
 class ElButtonThemeData {
   static const theme = ElButtonThemeData();
   static const darkTheme = ElButtonThemeData();

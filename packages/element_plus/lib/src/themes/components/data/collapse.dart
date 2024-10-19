@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/data/collapse.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '折叠菜单全局样式')
+@$ElThemeModel(desc: '折叠菜单默认样式')
 class ElCollapseThemeData {
   static const theme = ElCollapseThemeData();
   static const darkTheme = ElCollapseThemeData();

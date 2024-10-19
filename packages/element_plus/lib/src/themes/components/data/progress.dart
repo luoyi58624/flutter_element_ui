@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/data/progress.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '进度条全局样式')
+@$ElThemeModel(desc: '进度条默认样式')
 class ElProgressThemeData {
   static const theme = ElProgressThemeData();
   static const darkTheme = ElProgressThemeData();

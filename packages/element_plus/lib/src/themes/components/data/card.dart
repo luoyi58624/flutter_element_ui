@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/data/card.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '卡片全局样式')
+@$ElThemeModel(desc: '卡片默认样式')
 class ElCardThemeData {
   static const theme = ElCardThemeData(
     color: Color(0xffffffff),

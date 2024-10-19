@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/data/tag.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '标签全局样式')
+@$ElThemeModel(desc: '标签默认样式')
 class ElTagThemeData {
   static const theme = ElTagThemeData();
   static const darkTheme = ElTagThemeData();

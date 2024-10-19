@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/basic/icon.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '图标全局样式')
+@$ElThemeModel(desc: '图标默认样式')
 class ElIconThemeData {
   static const theme = ElIconThemeData(
     color: Color.fromRGBO(96, 98, 102, 1.0),

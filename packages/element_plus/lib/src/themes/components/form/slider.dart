@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/form/slider.g.dart';
 
 @$ElModel.copy()
-@$ElThemeModel(desc: '滑块全局样式')
+@$ElThemeModel(desc: '滑块默认样式')
 class ElSliderThemeData {
   static const theme = ElSliderThemeData(
     inactiveColor: Color.fromRGBO(225, 226, 232, 1.0),
