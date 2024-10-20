@@ -31,8 +31,9 @@ class ElButtonGroup extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hoverIndex = useObs(-1);
-    final isActive = useObs(false);
+    final $hoverIndex = useObs(-1);
+    final $isActive = useObs(false);
+    final $borderColor = Obs<Color?>(null);
     final $data = ElButtonTheme.of(context);
     ElAssert.themeType($data.type, 'ElButtonGroup');
     final List<Widget> $children = [];
@@ -49,8 +50,9 @@ class ElButtonGroup extends HookWidget {
         $children.add(_GroupBorder(
           length: $length,
           index: i,
-          hoverIndex: hoverIndex,
-          isActive: isActive,
+          hoverIndex: $hoverIndex,
+          isActive: $isActive,
+          borderColor: $borderColor,
         ));
       }
     }
@@ -69,8 +71,9 @@ class ElButtonGroup extends HookWidget {
       modelValue: modelValue,
       themeData: $data,
       axis: axis,
-      hoverIndex: hoverIndex,
-      isActive: isActive,
+      hoverIndex: $hoverIndex,
+      isActive: $isActive,
+      borderColor: $borderColor,
       onChanged: onChanged,
       child: result,
     );
@@ -83,41 +86,43 @@ class _GroupBorder extends StatelessWidget {
     required this.index,
     required this.hoverIndex,
     required this.isActive,
+    required this.borderColor,
   });
 
   final int length;
   final int index;
   final Obs<int> hoverIndex;
   final Obs<bool> isActive;
+  final Obs<Color?> borderColor;
 
   @override
   Widget build(BuildContext context) {
     final $data = _ElButtonGroupInheritedWidget.maybeOf(context)!;
+    Color $borderColor = context.elTheme.borderColor;
 
     return ObsBuilder(builder: (context) {
-      Color borderColor = context.elTheme.borderColor;
-      Color hoverBorderColor = isActive.value
-          ? context.elTheme.primary
-          : context.elTheme.primary.elLight6(context);
-
-      Color $borderColor = borderColor;
+      // Color hoverBorderColor = isActive.value
+      //     ? context.elTheme.primary
+      //     : context.elTheme.primary.elLight6(context);
+      Color color = $borderColor;
+      Color hoverBorderColor = borderColor.value ?? $borderColor;
       if (length == 2) {
-        $borderColor = hoverIndex.value != -1 ? hoverBorderColor : borderColor;
+        color = hoverIndex.value != -1 ? hoverBorderColor : $borderColor;
       } else if (length > 2) {
         if (hoverIndex.value == 0) {
-          if (index == hoverIndex.value) $borderColor = hoverBorderColor;
+          if (index == hoverIndex.value) color = hoverBorderColor;
         } else if (hoverIndex.value == length - 1) {
-          if (index == hoverIndex.value - 1) $borderColor = hoverBorderColor;
+          if (index == hoverIndex.value - 1) color = hoverBorderColor;
         } else if (hoverIndex.value != -1) {
           if (index == hoverIndex.value - 1 || index == hoverIndex.value) {
-            $borderColor = hoverBorderColor;
+            color = hoverBorderColor;
           }
         }
       }
 
       return AnimatedColoredBox(
         duration: 100.ms,
-        color: $borderColor,
+        color: color,
         child: SizedBox(
           width: 1,
           height: $data.themeData.height ?? context.elConfig.size,
@@ -134,6 +139,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required this.axis,
     required this.hoverIndex,
     required this.isActive,
+    required this.borderColor,
     required this.onChanged,
     required super.child,
   });
@@ -143,6 +149,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final Axis axis;
   final Obs<int> hoverIndex;
   final Obs<bool> isActive;
+  final Obs<Color?> borderColor;
   final ValueChanged? onChanged;
 
   static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context

@@ -13,7 +13,7 @@ const double _textDisabledOpacity = 0.36;
 const double _themeButtonTextDisabledOpacity = 0.85;
 
 /// 按钮动画持续时间，默认 100 毫秒
-const int _duration = 100;
+const int _duration = 0;
 
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
@@ -76,8 +76,13 @@ class _ElButtonState extends State<ElButton> {
   /// 计算按钮最终的 prop 属性
   late _Prop _prop;
 
+  /// 颜色样式
+  late _ColorStyle _colorStyle;
+
   /// 按钮 child 是否是图标
   late bool _isIconChild;
+
+  final _isHover = Obs(false);
 
   @override
   Widget build(BuildContext context) {
@@ -151,17 +156,6 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget _buildEvent({required WidgetBuilder builder}) {
-    PointerHoverEventListener? hoverEvent;
-    if (_groupData != null || widget.onHover != null) {
-      hoverEvent = (e) {
-        if (_groupData != null) {
-          _groupData!.hoverIndex.value = _indexData!.index;
-        }
-        if (widget.onHover != null) {
-          widget.onHover!(e);
-        }
-      };
-    }
     return TapBuilder(
       onTap: () {
         if (widget.onPressed != null) {
@@ -195,26 +189,33 @@ class _ElButtonState extends State<ElButton> {
       disabled: _prop.disabled,
       delay: _duration,
       builder: (context) {
-        return HoverBuilder(
-          disabled: _prop.disabled,
+        return MouseRegion(
           cursor: _prop.loading
               ? MouseCursor.defer
               : _prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
-          onHover: hoverEvent,
-          onEnter: _groupData == null
+          onHover: widget.onHover,
+          onEnter: _prop.disabled
               ? null
               : (e) {
-                  _groupData!.hoverIndex.value = _indexData!.index;
+                  if (_groupData != null) {
+                    _groupData!.hoverIndex.value = _indexData!.index;
+                  }
+                  _isHover.value = true;
                 },
-          onExit: _groupData == null
+          onExit: _prop.disabled
               ? null
               : (e) {
-                  _groupData!.hoverIndex.value = -1;
+                  if (_groupData != null) {
+                    _groupData!.hoverIndex.value = -1;
+                  }
+                  _isHover.value = false;
                 },
-          builder: (context) => builder(context),
+          child: ObsBuilder(builder: (context) {
+            return builder(context);
+          }),
         );
       },
     );
@@ -222,7 +223,7 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context) {
-    final $colorStyle = calcColorStyle(context);
+    _colorStyle = calcColorStyle(context);
 
     final $constraints = _prop.link
         ? null
@@ -250,13 +251,13 @@ class _ElButtonState extends State<ElButton> {
 
     result = ElDefaultTextStyle.merge(
       style: _defaultTextStyle.copyWith(
-        color: $colorStyle.textColor,
+        color: _colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
         duration: context.elDuration(const Duration(milliseconds: _duration)),
         decoration: BoxDecoration(
-          color: $colorStyle.bgColor,
-          border: calcBorder(context, $colorStyle.borderColor),
+          color: _colorStyle.bgColor,
+          border: calcBorder(context, _colorStyle.borderColor),
           borderRadius: calcBorderRadius(context),
         ),
         child: result,
@@ -264,7 +265,7 @@ class _ElButtonState extends State<ElButton> {
     );
 
     if (_prop.loadingBuilder != null && _prop.loading) {
-      assert($colorStyle.loadingTextColor != null,
+      assert(_colorStyle.loadingTextColor != null,
           ElAssert.elementError('ElButton loadingBuilder color 参数不能为空'));
       result = Stack(
         children: [
@@ -272,14 +273,14 @@ class _ElButtonState extends State<ElButton> {
           Positioned.fill(
             child: ElDefaultTextStyle.merge(
               style: _defaultTextStyle.copyWith(
-                color: $colorStyle.loadingTextColor,
+                color: _colorStyle.loadingTextColor,
               ),
               child: Center(
                 child: buildIconTheme(
-                  color: $colorStyle.loadingTextColor,
+                  color: _colorStyle.loadingTextColor,
                   child: _prop.loadingBuilder!(
                     ElButtonLoadingState(
-                      color: $colorStyle.loadingTextColor!,
+                      color: _colorStyle.loadingTextColor!,
                       size: _prop.iconSize,
                     ),
                   ),
@@ -371,7 +372,7 @@ class _ElButtonState extends State<ElButton> {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.borderColor;
     final $isDark = context.isDark;
-    final $isHover = context.isHover;
+    final $isHover = _isHover.value;
     final $isTap = context.isTap;
 
     Color? $bgColor;
@@ -521,6 +522,9 @@ class _ElButtonState extends State<ElButton> {
     if (borderColor == null) return const Border();
     final defaultBorder = Border.all(color: borderColor, width: 1);
     if (_groupData == null) return defaultBorder;
+    nextTick(() {
+      _groupData!.borderColor.value = _colorStyle.borderColor;
+    });
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
     final borderSide = BorderSide(color: borderColor, width: 1);

@@ -67,7 +67,7 @@ class ElButtonThemeData {
   /// 圆角按钮
   final bool? round;
 
-  /// 块级按钮，宽度会充满容器
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
   final bool? block;
 
   /// 按钮圆角，默认全局 radius
@@ -80,10 +80,10 @@ class ElButtonThemeData {
   /// 这时你可以自己手动微调图标大小。
   final double? iconSize;
 
-  /// 按钮左图标，默认null
+  /// 按钮左图标
   final Widget? leftIcon;
 
-  /// 按钮右图标，默认null
+  /// 按钮右图标
   final Widget? rightIcon;
 
   /// 圆形按钮
