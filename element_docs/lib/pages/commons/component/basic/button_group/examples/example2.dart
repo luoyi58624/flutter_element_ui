@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/commons/component/basic/button/examples/example6.dart';
 import 'package:flutter/widgets.dart';
 
 class Example2 extends StatelessWidget {
@@ -25,11 +24,12 @@ class Example2 extends StatelessWidget {
 }
 
 class _Example extends HookWidget {
-  const _Example({super.key});
+  const _Example();
 
   @override
   Widget build(BuildContext context) {
     final selected = useState(-1);
+    final selectedList = useState([]);
     final loading = useState(false);
 
     openLoading() {
@@ -41,9 +41,21 @@ class _Example extends HookWidget {
 
     return Column(
       children: [
+        ElText(selected.value),
         ElButtonGroup(
           selected,
-          children: [
+          children: const [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+            ElButton(child: '选项四'),
+          ],
+        ),
+        const Gap(8),
+        ElText(selectedList.value),
+        ElButtonGroup(
+          selectedList,
+          children: const [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
             ElButton(child: '选项三'),

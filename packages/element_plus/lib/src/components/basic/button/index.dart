@@ -13,7 +13,7 @@ part 'state.dart';
 
 part 'button_group.dart';
 
-part 'utils.dart';
+part 'commons.dart';
 
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件
@@ -86,9 +86,7 @@ class ElButton extends StatefulWidget {
   /// 圆角按钮
   final bool? round;
 
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件。
-  ///
-  /// 提示：如果处于按钮组，按钮尺寸将会充满整个空间。
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
   final bool? block;
 
   /// 自定义圆角

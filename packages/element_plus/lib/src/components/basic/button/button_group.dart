@@ -23,17 +23,62 @@ class ElButtonGroup extends HookWidget {
   /// 按钮组方向
   final Axis axis;
 
-  /// 是否必须强制选择一个值，默认 false
+  /// 是否必须选择一个值，默认 false
   final bool mandatory;
 
   /// 更新事件
   final ValueChanged? onChanged;
+
+  /// 计算按钮组选中逻辑
+  void _onChange(dynamic value) {
+    dynamic $modelValue = modelValue;
+    dynamic $value;
+
+    if (modelValue is ValueNotifier) {
+      $modelValue = (modelValue as ValueNotifier).value;
+    }
+
+    if ($modelValue is int) {
+      if ($modelValue == value) {
+        if (mandatory == false) {
+          $value = -1;
+        }
+      } else {
+        $value = value;
+      }
+    } else if ($modelValue is List) {
+      final list = List<int>.from($modelValue);
+      if (list.contains(value)) {
+        if (list.length == 1) {
+          if (mandatory == false) {
+            list.clear();
+          }
+        } else {
+          list.remove(value);
+        }
+      } else {
+        list.add(value);
+      }
+      $value = list;
+    } else {
+      return;
+    }
+
+    if (modelValue is ValueNotifier) {
+      (modelValue as ValueNotifier).value = $value;
+    }
+
+    if (onChanged != null) onChanged!($value);
+  }
 
   @override
   Widget build(BuildContext context) {
     final $hoverIndex = useObs(-1);
     final $borderColor = Obs<Color?>(null);
     final $data = ElButtonTheme.of(context);
+    final $modelValue = modelValue is ValueNotifier
+        ? (modelValue as ValueNotifier).value
+        : modelValue;
     ElAssert.themeType($data.type, 'ElButtonGroup');
     final List<Widget> $children = [];
     int $length = children.length;
@@ -59,6 +104,7 @@ class ElButtonGroup extends HookWidget {
       $children.add(itemWidget);
       if ($data.text != true && i < $length - 1) {
         $children.add(_GroupDivide(
+          modelValue: $modelValue,
           length: $length,
           index: i,
           hoverIndex: $hoverIndex,
@@ -78,11 +124,11 @@ class ElButtonGroup extends HookWidget {
       );
     }
     return _ElButtonGroupInheritedWidget(
-      modelValue: modelValue,
+      modelValue: $modelValue,
       axis: axis,
       hoverIndex: $hoverIndex,
       borderColor: $borderColor,
-      onChanged: onChanged,
+      onChanged: _onChange,
       child: result,
     );
   }
@@ -91,26 +137,54 @@ class ElButtonGroup extends HookWidget {
 /// 按钮组分割线
 class _GroupDivide extends StatelessWidget {
   const _GroupDivide({
+    required this.modelValue,
     required this.length,
     required this.index,
     required this.hoverIndex,
     required this.borderColor,
   });
 
+  final dynamic modelValue;
   final int length;
   final int index;
   final Obs<int> hoverIndex;
   final Obs<Color?> borderColor;
 
+  bool _isActive(int targetIndex) {
+    int $hoverIndex = hoverIndex.value;
+    int? activeIndex;
+    if (_ButtonGroupUtil.isSelected(modelValue, index)) {
+      activeIndex = index;
+    }
+
+    if ($hoverIndex == targetIndex) {
+      return true;
+    }
+    if (activeIndex != null && activeIndex == targetIndex) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final $data = ElButtonTheme.of(context);
+    final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
     late final Color $borderColor;
     late final double $width;
     final $height = $data.height ?? context.elConfig.size;
 
     if ($data.type == null && $data.bgColor == null) {
       $width = 1.0;
+      // if (_ButtonGroupUtil.isSelected($groupData.modelValue, index)) {
+      //   $borderColor = _ButtonStyleUtil.defaultStyle(
+      //     context,
+      //     disabled: false,
+      //     isHover: true,
+      //   ).borderColor!;
+      // } else {
+      //   $borderColor = context.elTheme.borderColor;
+      // }
       $borderColor = context.elTheme.borderColor;
     } else {
       if ($data.plain == true) {
@@ -120,7 +194,8 @@ class _GroupDivide extends StatelessWidget {
           type: $data.type,
           bgColor: $data.bgColor,
           disabled: false,
-          triggerEvent: false,
+          isHover: false,
+          isTap: false,
         ).borderColor!;
       } else {
         $width = 0.5;
@@ -130,32 +205,36 @@ class _GroupDivide extends StatelessWidget {
       }
     }
 
-    return ObsBuilder(builder: (context) {
-      Color color = $borderColor;
-      Color hoverBorderColor = borderColor.value ?? $borderColor;
-      if (length == 2) {
-        color = hoverIndex.value != -1 ? hoverBorderColor : $borderColor;
-      } else if (length > 2) {
-        if (hoverIndex.value == 0) {
-          if (index == hoverIndex.value) color = hoverBorderColor;
-        } else if (hoverIndex.value == length - 1) {
-          if (index == hoverIndex.value - 1) color = hoverBorderColor;
-        } else if (hoverIndex.value != -1) {
-          if (index == hoverIndex.value - 1 || index == hoverIndex.value) {
-            color = hoverBorderColor;
-          }
-        }
-      }
+    return ObsBuilder(
+        watch: [hoverIndex],
+        builder: (context) {
+          Color color = $borderColor;
+          int $hoverIndex = hoverIndex.value;
 
-      return AnimatedColoredBox(
-        duration: context.elDuration(_duration),
-        color: color,
-        child: SizedBox(
-          width: $width,
-          height: $height,
-        ),
-      );
-    });
+          Color hoverBorderColor = borderColor.value ?? $borderColor;
+          if (length == 2) {
+            color = $hoverIndex != -1 ? hoverBorderColor : $borderColor;
+          } else if (length > 2) {
+            if ($hoverIndex == 0) {
+              if (index == $hoverIndex) color = hoverBorderColor;
+            } else if ($hoverIndex == length - 1) {
+              if (index == $hoverIndex - 1) color = hoverBorderColor;
+            } else if ($hoverIndex != -1) {
+              if (index == $hoverIndex - 1 || index == $hoverIndex) {
+                color = hoverBorderColor;
+              }
+            }
+          }
+
+          return AnimatedColoredBox(
+            duration: context.elDuration(_duration),
+            color: color,
+            child: SizedBox(
+              width: $width,
+              height: $height,
+            ),
+          );
+        });
   }
 }
 
@@ -173,7 +252,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final Axis axis;
   final Obs<int> hoverIndex;
   final Obs<Color?> borderColor;
-  final ValueChanged? onChanged;
+  final ValueChanged onChanged;
 
   static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
       .dependOnInheritedWidgetOfExactType<_ElButtonGroupInheritedWidget>();

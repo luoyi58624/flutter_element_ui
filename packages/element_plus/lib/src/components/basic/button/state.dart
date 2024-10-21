@@ -1,74 +1,5 @@
 part of 'index.dart';
 
-/// 按钮最小宽度
-const double _minWidth = 64;
-
-/// 按钮 background、border 禁用透明度
-const double _disabledOpacity = 0.6;
-
-/// 按钮 text 禁用透明度
-const double _textDisabledOpacity = 0.36;
-
-/// 主题按钮 text 禁用透明度
-const double _themeButtonTextDisabledOpacity = 0.85;
-
-/// 按钮动画持续时间，默认 100 毫秒
-const _duration = Duration(milliseconds: 100);
-
-/// 按钮默认文本样式
-const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
-
-/// 按钮组悬停退出延迟器
-Timer? _buttonGroupHoverExitTimer;
-
-extension _ButtonColorExtension on Color {
-  /// hover 悬停颜色，颜色会变得更浅
-  Color hover(BuildContext context) => elLight3(context);
-
-  /// tap 按下颜色，颜色会变得更深
-  Color tap(BuildContext context) => elLight3(context, reverse: true);
-
-  /// 应用主题透明背景颜色
-  Color themeLightBg(BuildContext context) => elLight9(context);
-
-  /// 应用主题透明边框颜色
-  Color themeLightBorder(BuildContext context) => elLight6(context);
-}
-
-/// 计算按钮颜色样式
-typedef _Prop = ({
-  dynamic child,
-  double? width,
-  double height,
-  Color? bgColor,
-  Color? color,
-  String? type,
-  bool text,
-  bool bg,
-  bool link,
-  bool plain,
-  bool round,
-  bool block,
-  BorderRadius borderRadius,
-  EdgeInsetsGeometry? padding,
-  double iconSize,
-  Widget? leftIcon,
-  Widget? rightIcon,
-  bool circle,
-  bool disabled,
-  bool loading,
-  Widget loadingWidget,
-  Widget Function(ElButtonLoadingState state)? loadingBuilder,
-});
-
-/// 计算按钮颜色样式
-typedef _ColorStyle = ({
-  Color? bgColor,
-  Color? textColor,
-  Color? borderColor,
-  Color? loadingTextColor
-});
-
 class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，则会初始化此变量
   _ElButtonGroupInheritedWidget? _groupData;
@@ -76,28 +7,58 @@ class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，此变量将保存当前按钮所在的位置
   ChildIndexData? _indexData;
 
-  /// 计算按钮最终的 prop 属性
-  late _Prop _prop;
+  /// 按钮 prop 配置
+  late _ButtonProp _prop;
 
-  /// 颜色样式
+  /// 按钮颜色样式
   late _ColorStyle _colorStyle;
 
-  /// 按钮 child 是否是图标
-  late bool _isIconChild;
+  /// child 是否是图标
+  bool get _isIconChild => _prop.child is ElIcon || _prop.child is Icon;
+
+  /// 当前处于按钮组环境下
+  bool get _hasGroup => _groupData != null;
 
   @override
   Widget build(BuildContext context) {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
-    if (_groupData == null) {
-      ElAssert.themeType(widget.type, 'ElButton');
-    } else {
+    if (_hasGroup) {
       _indexData = ChildIndexData.of(context);
+    } else {
+      ElAssert.themeType(widget.type, 'ElButton');
     }
 
-    _calcProp();
+    _prop = _ButtonProp.create(context, widget, _hasGroup);
 
     Widget result = _buildEvent(
-      builder: (context) => _buildButtonWrapper(context),
+      builder: (context) {
+        bool $isHover = context.isHover;
+        bool $isTap = context.isTap;
+
+        if (_hasGroup) {
+          final $isSelected = _ButtonGroupUtil.isSelected(
+            _groupData!.modelValue,
+            _indexData!.index,
+          );
+          if ($isSelected) {
+            $isHover = true;
+          }
+        }
+
+        _colorStyle = _ButtonStyleUtil._calcColorStyle(
+          context,
+          prop: _prop,
+          isHover: $isHover,
+          isTap: $isTap,
+        );
+
+        if (_hasGroup) {
+          nextTick(() {
+            _groupData!.borderColor.value = _colorStyle.borderColor;
+          });
+        }
+        return _buildButtonWrapper(context);
+      },
     );
 
     return _prop.block && !_prop.circle
@@ -105,91 +66,13 @@ class _ElButtonState extends State<ElButton> {
         : UnconstrainedBox(child: result);
   }
 
-  /// 计算 prop 配置
-  void _calcProp() {
-    final $data = ElButtonTheme.of(context);
-    late final double $height;
-    late final Color? $bgColor;
-    late final String? $type;
-    late final bool $text;
-    late final bool $bg;
-    late final bool $circle;
-    late final bool $link;
-    late final bool $plain;
-    late final bool $round;
-    final bool $block = widget.block ?? $data.block ?? false;
-    final $loading = widget.loading ?? $data.loading ?? false;
-    final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
-
-    if (_groupData == null) {
-      $height = widget.height ?? $data.height ?? context.elConfig.size;
-      $bgColor = widget.bgColor ?? $data.bgColor;
-      $type = widget.type ?? $data.type;
-      $circle = widget.circle ?? $data.circle ?? false;
-      $text = widget.text ?? $data.text ?? false;
-      $bg = widget.bg ?? $data.bg ?? false;
-      $link = widget.link ?? $data.link ?? false;
-      $plain = widget.plain ?? $data.plain ?? false;
-      $round = widget.round ?? $data.round ?? false;
-    } else {
-      $height = $data.height ?? context.elConfig.size;
-      $bgColor = $data.bgColor;
-      $type = $data.type;
-      $text = $data.text ?? false;
-      $bg = $data.bg ?? false;
-      $circle = false;
-      $link = false;
-      $plain = $data.plain ?? false;
-      $round = $data.round ?? false;
-    }
-
-    final $horizontalPadding = $height / 2;
-    final $padding = $circle || $link
-        ? null
-        : (widget.padding ??
-            $data.padding ??
-            EdgeInsets.symmetric(horizontal: $horizontalPadding));
-    final $borderRadius = $round || $circle
-        ? BorderRadius.circular($height / 2)
-        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
-
-    _prop = (
-      child: widget.child ?? $data.child,
-      width: widget.width ?? $data.width,
-      height: $height,
-      bgColor: $bgColor,
-      color: widget.color ?? $data.color,
-      type: $type,
-      text: $text,
-      bg: $bg,
-      link: $link,
-      plain: $plain,
-      round: $round,
-      block: $block,
-      borderRadius: $borderRadius,
-      padding: $padding,
-      iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
-      leftIcon: widget.leftIcon ?? $data.leftIcon,
-      rightIcon: widget.rightIcon ?? $data.rightIcon,
-      circle: $circle,
-      disabled: $disabled,
-      loading: $loading,
-      loadingWidget: widget.loadingWidget ??
-          $data.loadingWidget ??
-          const ElLoading(ElIcons.loading),
-      loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
-    );
-
-    _isIconChild = _prop.child is ElIcon || _prop.child is Icon;
-  }
-
   /// 构建按钮事件
   Widget _buildEvent({required WidgetBuilder builder}) {
     return TapBuilder(
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
-        if (_groupData != null) {
-
+        if (_hasGroup) {
+          _groupData!.onChanged(_indexData!.index);
         }
       },
       onTapDown: widget.onTapDown,
@@ -208,7 +91,7 @@ class _ElButtonState extends State<ElButton> {
           disabled: _prop.disabled,
           onHover: widget.onHover,
           onEnter: (e) {
-            if (_groupData != null) {
+            if (_hasGroup) {
               if (_buttonGroupHoverExitTimer != null) {
                 _buttonGroupHoverExitTimer!.cancel();
                 _buttonGroupHoverExitTimer = null;
@@ -217,7 +100,7 @@ class _ElButtonState extends State<ElButton> {
             }
           },
           onExit: (e) {
-            if (_groupData != null) {
+            if (_hasGroup) {
               _buttonGroupHoverExitTimer = setTimeout(() {
                 _groupData!.hoverIndex.value = -1;
               }, _duration.inMilliseconds);
@@ -231,14 +114,6 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮外观
   Widget _buildButtonWrapper(BuildContext context) {
-    _colorStyle = _calcColorStyle(context);
-
-    // 如果是按钮组，将计算后的边框颜色同步到按钮组分割线
-    if (_groupData != null) {
-      nextTick(() {
-        _groupData!.borderColor.value = _colorStyle.borderColor;
-      });
-    }
     final $constraints = _prop.link
         ? null
         : BoxConstraints(
@@ -379,60 +254,6 @@ class _ElButtonState extends State<ElButton> {
     );
 
     return $child;
-  }
-
-  /// 计算按钮颜色样式
-  _ColorStyle _calcColorStyle(BuildContext context) {
-    // 处理自定义加载器按钮外观，如果传递了 loadingBuilder，那么按钮原本内容将被隐藏
-    if (_prop.loadingBuilder != null && _prop.loading) {
-      return _ButtonStyleUtil.loadingStyle(
-        context,
-        type: _prop.type,
-        bgColor: _prop.bgColor,
-        link: _prop.link,
-        text: _prop.text,
-        plain: _prop.plain,
-      );
-    } else {
-      if (_prop.link) {
-        return _ButtonStyleUtil.linkStyle(
-          context,
-          type: _prop.type,
-          disabled: _prop.disabled,
-        );
-      } else if (_prop.text) {
-        return _ButtonStyleUtil.textStyle(
-          context,
-          type: _prop.type,
-          bgColor: _prop.bgColor,
-          bg: _prop.bg,
-          disabled: _prop.disabled,
-        );
-      } else {
-        if (_prop.type == null && _prop.bgColor == null) {
-          return _ButtonStyleUtil.defaultStyle(
-            context,
-            disabled: _prop.disabled,
-          );
-        } else {
-          if (_prop.plain) {
-            return _ButtonStyleUtil.plainStyle(
-              context,
-              type: _prop.type,
-              bgColor: _prop.bgColor,
-              disabled: _prop.disabled,
-            );
-          } else {
-            return _ButtonStyleUtil.themeStyle(
-              context,
-              type: _prop.type,
-              bgColor: _prop.bgColor,
-              disabled: _prop.disabled,
-            );
-          }
-        }
-      }
-    }
   }
 
   Border _calcBorder(BuildContext context, Color? borderColor) {
