@@ -126,25 +126,6 @@ extension ElColorExtension on Color {
   Color on(bool flag, {int scale = 10, Color? color}) =>
       flag ? (color ?? deepen(scale)) : this;
 
-  /// 根据事件构建新的颜色
-  Color buildEventColor(
-    BuildContext context, {
-    ColorEventBuilder? tapBuilder,
-    ColorEventBuilder? hoverBuilder,
-  }) {
-    if (tapBuilder != null) {
-      if (context.isTap) {
-        return tapBuilder(this);
-      }
-    }
-    if (hoverBuilder != null) {
-      if (context.isHover) {
-        return hoverBuilder(this);
-      }
-    }
-    return this;
-  }
-
   /// 将当前颜色和另一种颜色进行线性插值
   Color lerp(Color otherColor, double t) {
     assert(Color.lerp(this, otherColor, t) != null);

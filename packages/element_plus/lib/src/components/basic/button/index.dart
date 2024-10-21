@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -83,7 +86,9 @@ class ElButton extends StatefulWidget {
   /// 圆角按钮
   final bool? round;
 
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件。
+  ///
+  /// 提示：如果处于按钮组，按钮尺寸将会充满整个空间。
   final bool? block;
 
   /// 自定义圆角
@@ -92,8 +97,8 @@ class ElButton extends StatefulWidget {
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
 
-  /// 图标尺寸，默认根据按钮高度自动计算，当自定义各种尺寸按钮时自动计算出来的效果往往不是很好，
-  /// 这时你可以自己手动微调图标大小。
+  /// 图标尺寸，默认根据按钮高度自动计算: [height] / 2 - 2，如果图标尺寸不符合预期，
+  /// 你可以自己手动指定图标大小
   final double? iconSize;
 
   /// 按钮左图标

@@ -265,12 +265,12 @@ class _CustomLoading5 extends HookWidget {
   }
 }
 
-var loadingBuilder = (ElButtonLoadingState data) => SizedBox(
-      width: data.size,
-      height: data.size,
+var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
+      width: state.size,
+      height: state.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: data.color,
+        color: state.color,
       ),
     );
 
@@ -280,6 +280,8 @@ ElButton(loading: true, child: '提交'),
 
 // 如果存在 leftIcon，则会将左图标替换成 loading
 ElButton(loading: true, leftIcon: const ElIcon(ElIcons.edit), child: '编辑'),
+
+// 如果存在 rightIcon，则会将右图标替换成 loading
 ElButton(loading: true, rightIcon: const ElIcon(ElIcons.upload2), child: '上传'),
 
 // 自定义加载图标
@@ -292,20 +294,20 @@ ElButton(
   child: '自定义加载内容',
 ),
 
-// 渲染官方提供的进度指示器
+// 渲染 Flutter 官方提供的进度指示器小部件
 ElButton(
   loading: true,
   loadingBuilder: loadingBuilder,
   child: '自定义Loading',
 ),
 
-// 你可以将 loadingBuilder 封装成一个函数，这样便可以全局共用
-var loadingBuilder = (ElButtonLoadingState data) => SizedBox(
-      width: data.size,
-      height: data.size,
+// 你可以将 loadingBuilder 封装成一个函数，或者在 ElButtonTheme 小部件中注入默认的加载器
+var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
+      width: state.size,
+      height: state.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: data.color,
+        color: state.color,
       ),
     );
 ''';

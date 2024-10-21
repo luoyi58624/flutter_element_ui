@@ -33,18 +33,19 @@ class Example1 extends StatelessWidget {
                   leftIcon: ElIcon(ElIcons.search),
                   child: '搜索',
                 ),
-                const ElButton(
+                ElButton(
+                  onPressed: () {},
                   type: 'primary',
-                  rightIcon: ElIcon(ElIcons.upload2),
+                  rightIcon: const ElIcon(ElIcons.upload2),
                   child: '上传',
                 ),
-                ElButton(
-                  onPressed: () {
-                    context.push(const IconTestPage());
-                  },
-                  type: 'primary',
-                  child: '图标列表',
-                ),
+                // ElButton(
+                //   onPressed: () {
+                //     context.push(const IconTestPage());
+                //   },
+                //   type: 'primary',
+                //   child: '图标列表',
+                // ),
               ],
             ),
           ],

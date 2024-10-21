@@ -12,6 +12,21 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: [
+            '在按钮组模式下，height、type、plain、round、bgColor、text、bg 等属性只能通过 ElButtonTheme 指定',
+          ],
+        ),
+        textGap,
+        const SectionCard(
+          type: 'warning',
+          title: 'Warning',
+          content: [
+            '按钮组不支持 cricle、link 等属性，在构建过程中，这些属性会强制设置为 false',
+          ],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: const [_Example()],
@@ -30,10 +45,33 @@ class _Example extends StatelessWidget {
       children: [
         ElButtonGroup(
           null,
+          children: [],
+        ),
+        Gap(8),
+        ElButtonGroup(
+          null,
           children: [
             ElButton(child: '选项一'),
-            ElButton(child: '选项二'),
           ],
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            iconSize: 20,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(
+                child: '上一页',
+                leftIcon: ElIcon(ElIcons.arrowLeft),
+              ),
+              ElButton(
+                child: '下一页',
+                rightIcon: ElIcon(ElIcons.arrowRight),
+              ),
+            ],
+          ),
         ),
         Gap(8),
         ElButtonGroup(
@@ -53,6 +91,210 @@ class _Example extends StatelessWidget {
             ElButton(child: '选项三'),
             ElButton(child: '选项四'),
           ],
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.success,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+            plain: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.success,
+            plain: true,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            bgColor: Colors.purple,
+            plain: true,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一', disabled: true),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四', disabled: true),
+              ElButton(child: '选项五'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            bgColor: Colors.cyan,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四', disabled: true),
+              ElButton(child: '选项五', loading: true),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonGroup(
+          null,
+          children: [
+            ElButton(child: ElIcon(ElIcons.house)),
+            ElButton(child: ElIcon(ElIcons.edit)),
+            ElButton(child: ElIcon(ElIcons.delete)),
+            ElButton(child: ElIcon(ElIcons.upload2)),
+          ],
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: ElIcon(ElIcons.house)),
+              ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.delete)),
+              ElButton(child: ElIcon(ElIcons.upload2)),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+            block: true,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二', block: false),
+              ElButton(child: '选项三', block: false),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            text: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            text: true,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            text: true,
+            round: true,
+            bg: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            text: true,
+            bg: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: ElIcon(ElIcons.house)),
+              ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.delete)),
+              ElButton(child: ElIcon(ElIcons.upload2)),
+            ],
+          ),
         ),
       ],
     );
@@ -75,13 +317,36 @@ class _Example extends StatelessWidget {
           ],
         ),
         Gap(8),
-        ElButtonGroup(
-          null,
-          children: [
-            ElButton(child: '选项一'),
-            ElButton(child: '选项二'),
-            ElButton(child: '选项三'),
-          ],
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
+          ),
+        ),
+        Gap(8),
+        // 设置 block 属性可以让按钮填充剩余空间
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            type: El.primary,
+            block: true,
+            round: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二', block: false),
+              ElButton(child: '选项三', block: false),
+              ElButton(child: '选项四'),
+            ],
+          ),
         ),
       ],
     );

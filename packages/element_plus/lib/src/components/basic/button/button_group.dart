@@ -11,13 +11,13 @@ class ElButtonGroup extends HookWidget {
     this.onChanged,
   });
 
-  /// 由于 Dart 不支持联合类型，所以在这里说明一下 [modelValue] 支持的类型：
+  /// 支持的类型：
   /// * null 按钮组无需选中状态
   /// * int || ValueNotifier<int> 选中的按钮索引，支持双向绑定
-  /// * List<int> || ValueNotifier<List<int>> 选中多个按钮
+  /// * List<int> || ValueNotifier<List<int>> 选中多个按钮，支持双向绑定
   final dynamic modelValue;
 
-  /// 按钮集合
+  /// 按钮集合，注意：在按钮组模式下，[ElButton] 的很多属性不能直接使用
   final List<ElButton> children;
 
   /// 按钮组方向
@@ -26,7 +26,7 @@ class ElButtonGroup extends HookWidget {
   /// 是否必须强制选择一个值，默认 false
   final bool mandatory;
 
-  /// 更新事件，建议使用双向绑定的方式更新数据
+  /// 更新事件
   final ValueChanged? onChanged;
 
   @override
@@ -38,15 +38,27 @@ class ElButtonGroup extends HookWidget {
     final List<Widget> $children = [];
     int $length = children.length;
     for (int i = 0; i < $length; i++) {
-      $children.add(
-        ChildIndexData(
-          length: $length,
-          index: i,
-          child: children[i],
-        ),
+      Widget itemWidget = ChildIndexData(
+        length: $length,
+        index: i,
+        child: children[i],
       );
+      if ($data.block == true) {
+        if (children[i].block == null) {
+          itemWidget = Expanded(child: itemWidget);
+        } else {
+          if (children[i].block != false) {
+            itemWidget = Expanded(child: itemWidget);
+          }
+        }
+      } else {
+        if (children[i].block == true) {
+          itemWidget = Expanded(child: itemWidget);
+        }
+      }
+      $children.add(itemWidget);
       if (i < $length - 1) {
-        $children.add(_GroupBorder(
+        $children.add(_GroupDivide(
           length: $length,
           index: i,
           hoverIndex: $hoverIndex,
@@ -67,7 +79,6 @@ class ElButtonGroup extends HookWidget {
     }
     return _ElButtonGroupInheritedWidget(
       modelValue: modelValue,
-      themeData: $data,
       axis: axis,
       hoverIndex: $hoverIndex,
       borderColor: $borderColor,
@@ -77,8 +88,9 @@ class ElButtonGroup extends HookWidget {
   }
 }
 
-class _GroupBorder extends StatelessWidget {
-  const _GroupBorder({
+/// 按钮组分割线
+class _GroupDivide extends StatelessWidget {
+  const _GroupDivide({
     required this.length,
     required this.index,
     required this.hoverIndex,
@@ -92,13 +104,35 @@ class _GroupBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $data = _ElButtonGroupInheritedWidget.maybeOf(context)!;
-    Color $borderColor = context.elTheme.borderColor;
+    final $data = ElButtonTheme.of(context);
+    late final Color $borderColor;
+    late final double $width;
+    final $height = $data.height ?? context.elConfig.size;
+
+    if ($data.text == true) return const SizedBox();
+
+    if ($data.type == null && $data.bgColor == null) {
+      $width = 1.0;
+      $borderColor = context.elTheme.borderColor;
+    } else {
+      if ($data.plain == true) {
+        $width = 1.0;
+        $borderColor = _ButtonStyleUtil.plainStyle(
+          context,
+          type: $data.type,
+          bgColor: $data.bgColor,
+          disabled: false,
+          triggerEvent: false,
+        ).borderColor!;
+      } else {
+        $width = 0.5;
+        $borderColor = context.isDark
+            ? context.lightTheme.bgColor
+            : context.elTheme.borderColor;
+      }
+    }
 
     return ObsBuilder(builder: (context) {
-      // Color hoverBorderColor = isActive.value
-      //     ? context.elTheme.primary
-      //     : context.elTheme.primary.elLight6(context);
       Color color = $borderColor;
       Color hoverBorderColor = borderColor.value ?? $borderColor;
       if (length == 2) {
@@ -116,11 +150,11 @@ class _GroupBorder extends StatelessWidget {
       }
 
       return AnimatedColoredBox(
-        duration: 100.ms,
+        duration: context.elDuration(_duration),
         color: color,
         child: SizedBox(
-          width: 1,
-          height: $data.themeData.height ?? context.elConfig.size,
+          width: $width,
+          height: $height,
         ),
       );
     });
@@ -130,7 +164,6 @@ class _GroupBorder extends StatelessWidget {
 class _ElButtonGroupInheritedWidget extends InheritedWidget {
   const _ElButtonGroupInheritedWidget({
     required this.modelValue,
-    required this.themeData,
     required this.axis,
     required this.hoverIndex,
     required this.borderColor,
@@ -139,7 +172,6 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   });
 
   final dynamic modelValue;
-  final ElButtonThemeData themeData;
   final Axis axis;
   final Obs<int> hoverIndex;
   final Obs<Color?> borderColor;

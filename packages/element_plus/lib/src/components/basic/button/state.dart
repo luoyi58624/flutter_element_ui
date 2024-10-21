@@ -13,10 +13,13 @@ const double _textDisabledOpacity = 0.36;
 const double _themeButtonTextDisabledOpacity = 0.85;
 
 /// 按钮动画持续时间，默认 100 毫秒
-const int _duration = 100;
+const _duration = Duration(milliseconds: 100);
 
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
+
+/// 按钮组悬停退出延迟器
+Timer? _buttonGroupHoverExitTimer;
 
 extension _ButtonColorExtension on Color {
   /// hover 悬停颜色，颜色会变得更浅
@@ -102,22 +105,50 @@ class _ElButtonState extends State<ElButton> {
         : UnconstrainedBox(child: result);
   }
 
+  /// 计算 prop 配置
   void _calcProp() {
     final $data = ElButtonTheme.of(context);
-    final $height = widget.height ?? $data.height ?? context.elConfig.size;
-    final $circle = widget.circle ?? $data.circle ?? false;
-    final $link = widget.link ?? $data.link ?? false;
-    final $round = widget.round ?? $data.round ?? false;
+    late final double $height;
+    late final Color? $bgColor;
+    late final String? $type;
+    late final bool $text;
+    late final bool $bg;
+    late final bool $circle;
+    late final bool $link;
+    late final bool $plain;
+    late final bool $round;
+    final bool $block = widget.block ?? $data.block ?? false;
     final $loading = widget.loading ?? $data.loading ?? false;
     final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
+
+    if (_groupData == null) {
+      $height = widget.height ?? $data.height ?? context.elConfig.size;
+      $bgColor = widget.bgColor ?? $data.bgColor;
+      $type = widget.type ?? $data.type;
+      $circle = widget.circle ?? $data.circle ?? false;
+      $text = widget.text ?? $data.text ?? false;
+      $bg = widget.bg ?? $data.bg ?? false;
+      $link = widget.link ?? $data.link ?? false;
+      $plain = widget.plain ?? $data.plain ?? false;
+      $round = widget.round ?? $data.round ?? false;
+    } else {
+      $height = $data.height ?? context.elConfig.size;
+      $bgColor = $data.bgColor;
+      $type = $data.type;
+      $text = $data.text ?? false;
+      $bg = $data.bg ?? false;
+      $circle = false;
+      $link = false;
+      $plain = $data.plain ?? false;
+      $round = $data.round ?? false;
+    }
+
     final $horizontalPadding = $height / 2;
     final $padding = $circle || $link
         ? null
         : (widget.padding ??
             $data.padding ??
-            ($round
-                ? EdgeInsets.symmetric(horizontal: $horizontalPadding * 1.25)
-                : EdgeInsets.symmetric(horizontal: $horizontalPadding)));
+            EdgeInsets.symmetric(horizontal: $horizontalPadding));
     final $borderRadius = $round || $circle
         ? BorderRadius.circular($height / 2)
         : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
@@ -126,15 +157,15 @@ class _ElButtonState extends State<ElButton> {
       child: widget.child ?? $data.child,
       width: widget.width ?? $data.width,
       height: $height,
-      bgColor: widget.bgColor ?? $data.bgColor,
+      bgColor: $bgColor,
       color: widget.color ?? $data.color,
-      type: widget.type ?? $data.type,
-      text: widget.text ?? $data.text ?? false,
-      bg: widget.bg ?? $data.bg ?? false,
+      type: $type,
+      text: $text,
+      bg: $bg,
       link: $link,
-      plain: widget.plain ?? $data.plain ?? false,
+      plain: $plain,
       round: $round,
-      block: widget.block ?? $data.block ?? false,
+      block: $block,
       borderRadius: $borderRadius,
       padding: $padding,
       iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
@@ -160,7 +191,7 @@ class _ElButtonState extends State<ElButton> {
       onTapUp: widget.onTapUp,
       onTapCancel: widget.onTapCancel,
       disabled: _prop.disabled,
-      delay: _duration,
+      delay: _duration.inMilliseconds,
       builder: (context) {
         return HoverBuilder(
           cursor: _prop.loading
@@ -173,7 +204,18 @@ class _ElButtonState extends State<ElButton> {
           onHover: widget.onHover,
           onEnter: (e) {
             if (_groupData != null) {
+              if (_buttonGroupHoverExitTimer != null) {
+                _buttonGroupHoverExitTimer!.cancel();
+                _buttonGroupHoverExitTimer = null;
+              }
               _groupData!.hoverIndex.value = _indexData!.index;
+            }
+          },
+          onExit: (e) {
+            if (_groupData != null) {
+              _buttonGroupHoverExitTimer = setTimeout(() {
+                _groupData!.hoverIndex.value = -1;
+              }, _duration.inMilliseconds);
             }
           },
           builder: (context) => builder(context),
@@ -185,6 +227,8 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮外观
   Widget _buildButtonWrapper(BuildContext context) {
     _colorStyle = _calcColorStyle(context);
+
+    // 如果是按钮组，将计算后的边框颜色同步到按钮组分割线
     if (_groupData != null) {
       nextTick(() {
         _groupData!.borderColor.value = _colorStyle.borderColor;
@@ -219,11 +263,11 @@ class _ElButtonState extends State<ElButton> {
         color: _colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
-        duration: context.elDuration(const Duration(milliseconds: _duration)),
+        duration: context.elDuration(_duration),
         decoration: BoxDecoration(
           color: _colorStyle.bgColor,
-          border: calcBorder(context, _colorStyle.borderColor),
-          borderRadius: calcBorderRadius(context),
+          border: _calcBorder(context, _colorStyle.borderColor),
+          borderRadius: _calcBorderRadius(context),
         ),
         child: result,
       ),
@@ -334,156 +378,59 @@ class _ElButtonState extends State<ElButton> {
 
   /// 计算按钮颜色样式
   _ColorStyle _calcColorStyle(BuildContext context) {
-    final $elTheme = context.elTheme;
-    final $defaultBorderColor = $elTheme.borderColor;
-    final $isDark = context.isDark;
-    final $isHover = context.isHover;
-    final $isTap = context.isTap;
-
-    Color? $bgColor;
-    Color? $textColor;
-    Color? $borderColor;
-    Color? $loadingTextColor;
-
     // 处理自定义加载器按钮外观，如果传递了 loadingBuilder，那么按钮原本内容将被隐藏
     if (_prop.loadingBuilder != null && _prop.loading) {
-      if (_prop.link || _prop.text) {
-        $loadingTextColor = _prop.type == null && _prop.bgColor == null
-            ? $elTheme.regularTextColor
-            : context.elThemeColors[_prop.type]!;
-      } else {
-        $bgColor = $isDark
-            ? const Color.fromRGBO(57, 57, 57, 1.0)
-            : const Color.fromRGBO(224, 224, 224, 1.0);
-        $loadingTextColor = $isDark
-            ? const Color.fromRGBO(118, 118, 118, 1.0)
-            : const Color.fromRGBO(166, 166, 166, 1.0);
-        if ((_prop.type == null && _prop.bgColor == null) || _prop.plain) {
-          $borderColor = $isDark
-              ? const Color.fromRGBO(57, 57, 57, 1.0)
-              : const Color.fromRGBO(224, 224, 224, 1.0);
-        }
-      }
+      return _ButtonStyleUtil.loadingStyle(
+        context,
+        type: _prop.type,
+        bgColor: _prop.bgColor,
+        link: _prop.link,
+        text: _prop.text,
+        plain: _prop.plain,
+      );
     } else {
-      // 链接按钮
       if (_prop.link) {
-        $textColor = (_prop.type == null
-                ? $elTheme.regularTextColor
-                : context.elThemeColors[_prop.type]!)
-            .buildEventColor(
+        return _ButtonStyleUtil.linkStyle(
           context,
-          tapBuilder: (color) => color.tap(context),
-          hoverBuilder: (color) => color.withOpacity(_disabledOpacity),
+          type: _prop.type,
+          disabled: _prop.disabled,
         );
-        if (_prop.disabled) {
-          $textColor = $textColor.withOpacity(_textDisabledOpacity);
-        }
-      }
-      // 文字按钮
-      else if (_prop.text) {
-        final pageBgColor = $elTheme.bgColor;
-        if (_prop.bg) {
-          $bgColor = pageBgColor
-              .deepen(4)
-              .on($isHover, color: pageBgColor.deepen(2))
-              .on($isTap, color: pageBgColor.deepen(8));
-        } else {
-          if ($isTap) {
-            $bgColor = pageBgColor.deepen(8);
-          } else if ($isHover) {
-            $bgColor = pageBgColor.deepen(4);
-          }
-        }
-        $textColor = _prop.type == null && _prop.bgColor == null
-            ? $elTheme.regularTextColor
-            : context.elThemeColors[_prop.type]!;
-        if (_prop.disabled) {
-          $textColor = $textColor.withOpacity(_textDisabledOpacity);
-        }
+      } else if (_prop.text) {
+        return _ButtonStyleUtil.textStyle(
+          context,
+          type: _prop.type,
+          bgColor: _prop.bgColor,
+          bg: _prop.bg,
+          disabled: _prop.disabled,
+        );
       } else {
-        // 默认按钮
         if (_prop.type == null && _prop.bgColor == null) {
-          $bgColor = $isTap || $isHover
-              ? $elTheme.primary.themeLightBg(context)
-              : $elTheme.bgColor;
-
-          $textColor =
-              $isTap || $isHover ? $elTheme.primary : $elTheme.regularTextColor;
-          if (_prop.disabled) {
-            $textColor = $textColor.withOpacity(_textDisabledOpacity);
-          }
-
-          $borderColor = $isTap
-              ? $elTheme.primary
-              : $isHover
-                  ? $elTheme.primary.themeLightBorder(context)
-                  : $defaultBorderColor;
-
-          if (_prop.disabled) {
-            $borderColor = $borderColor.withOpacity(_disabledOpacity);
-          }
+          return _ButtonStyleUtil.defaultStyle(
+            context,
+            disabled: _prop.disabled,
+          );
         } else {
-          final $themeColor =
-              _prop.bgColor ?? context.elThemeColors[_prop.type]!;
-
-          // 镂空按钮
           if (_prop.plain) {
-            $bgColor = PlatformUtil.isDesktop
-                ? ($isTap
-                    ? $themeColor.tap(context)
-                    : $isHover
-                        ? $themeColor
-                        : $themeColor.themeLightBg(context))
-                : ($isTap ? $themeColor : $themeColor.themeLightBg(context));
-
-            $textColor = $isTap || $isHover
-                ? $themeColor.elTextColor(context)
-                : $themeColor;
-
-            $borderColor = PlatformUtil.isDesktop
-                ? ($isTap
-                    ? $themeColor.tap(context)
-                    : $isHover
-                        ? $themeColor
-                        : $themeColor.themeLightBorder(context))
-                : ($isTap
-                    ? $themeColor
-                    : $themeColor.themeLightBorder(context));
-
-            if (_prop.disabled) {
-              $bgColor = $bgColor.withOpacity(_disabledOpacity);
-              $textColor = $textColor.withOpacity(_textDisabledOpacity);
-              $borderColor = $borderColor.withOpacity(_disabledOpacity);
-            }
-          }
-          // 主题按钮
-          else {
-            $bgColor = $isTap
-                ? $themeColor.tap(context)
-                : $isHover
-                    ? $themeColor.hover(context)
-                    : $themeColor;
-
-            $textColor = $themeColor.elTextColor(context);
-            if (_prop.disabled) {
-              $bgColor = $bgColor.withOpacity(_disabledOpacity);
-              $textColor =
-                  $textColor.withOpacity(_themeButtonTextDisabledOpacity);
-            }
+            return _ButtonStyleUtil.plainStyle(
+              context,
+              type: _prop.type,
+              bgColor: _prop.bgColor,
+              disabled: _prop.disabled,
+            );
+          } else {
+            return _ButtonStyleUtil.themeStyle(
+              context,
+              type: _prop.type,
+              bgColor: _prop.bgColor,
+              disabled: _prop.disabled,
+            );
           }
         }
       }
     }
-
-    return (
-      bgColor: $bgColor,
-      textColor: $textColor,
-      borderColor: $borderColor,
-      loadingTextColor: $loadingTextColor,
-    );
   }
 
-  Border calcBorder(BuildContext context, Color? borderColor) {
+  Border _calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
     final defaultBorder = Border.all(color: borderColor, width: 1);
     if (_groupData == null) return defaultBorder;
@@ -510,7 +457,7 @@ class _ElButtonState extends State<ElButton> {
     );
   }
 
-  BorderRadiusGeometry? calcBorderRadius(BuildContext context) {
+  BorderRadiusGeometry? _calcBorderRadius(BuildContext context) {
     if (_groupData == null) return _prop.borderRadius;
     if (_indexData!.length == 1) return _prop.borderRadius;
     if (_indexData!.index == 0) {
