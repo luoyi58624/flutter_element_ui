@@ -129,7 +129,7 @@ class _ElTooltipState extends State<ElTooltip> {
       buildCount.value++;
     });
     return HoverBuilder(
-      onlyCursor: true,
+      triggerBuild: false,
       onEnter: (e) {
         if (delayHideOverlay == null) {
           showOverlay.value = true;

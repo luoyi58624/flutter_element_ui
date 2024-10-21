@@ -358,7 +358,7 @@ class _MessageState extends State<_Message>
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
                   child: HoverBuilder(
-                    onlyCursor: true,
+                    triggerBuild: false,
                     onEnter: (e) {
                       if (_removeTimer != null) {
                         _removeTimer!.cancel();

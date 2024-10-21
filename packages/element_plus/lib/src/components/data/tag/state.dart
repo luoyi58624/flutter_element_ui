@@ -6,7 +6,7 @@ class _ElTagState extends State<ElTag> {
     return HoverBuilder(
       builder: (context) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             // color: context.isHover?
           ),
           child: Row(

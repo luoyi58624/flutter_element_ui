@@ -10,6 +10,8 @@ part 'state.dart';
 
 part 'button_group.dart';
 
+part 'utils.dart';
+
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件
   const ElButton({

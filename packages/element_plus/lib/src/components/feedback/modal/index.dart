@@ -1,8 +1,6 @@
-import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 part 'state.dart';
-
 
 class ElModal extends StatelessWidget {
   const ElModal({super.key});

@@ -32,7 +32,6 @@ class ElButtonGroup extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final $hoverIndex = useObs(-1);
-    final $isActive = useObs(false);
     final $borderColor = Obs<Color?>(null);
     final $data = ElButtonTheme.of(context);
     ElAssert.themeType($data.type, 'ElButtonGroup');
@@ -51,7 +50,6 @@ class ElButtonGroup extends HookWidget {
           length: $length,
           index: i,
           hoverIndex: $hoverIndex,
-          isActive: $isActive,
           borderColor: $borderColor,
         ));
       }
@@ -72,7 +70,6 @@ class ElButtonGroup extends HookWidget {
       themeData: $data,
       axis: axis,
       hoverIndex: $hoverIndex,
-      isActive: $isActive,
       borderColor: $borderColor,
       onChanged: onChanged,
       child: result,
@@ -85,14 +82,12 @@ class _GroupBorder extends StatelessWidget {
     required this.length,
     required this.index,
     required this.hoverIndex,
-    required this.isActive,
     required this.borderColor,
   });
 
   final int length;
   final int index;
   final Obs<int> hoverIndex;
-  final Obs<bool> isActive;
   final Obs<Color?> borderColor;
 
   @override
@@ -138,7 +133,6 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required this.themeData,
     required this.axis,
     required this.hoverIndex,
-    required this.isActive,
     required this.borderColor,
     required this.onChanged,
     required super.child,
@@ -148,7 +142,6 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final ElButtonThemeData themeData;
   final Axis axis;
   final Obs<int> hoverIndex;
-  final Obs<bool> isActive;
   final Obs<Color?> borderColor;
   final ValueChanged? onChanged;
 

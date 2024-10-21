@@ -19,10 +19,6 @@ class CustomScrollBehavior extends ScrollBehavior {
       return child;
     }
   }
-
-  ScrollPhysics getScrollPhysics(BuildContext context) {
-    return super.getScrollPhysics(context);
-  }
 }
 
 class NoScrollBehavior extends CustomScrollBehavior {

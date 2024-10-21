@@ -11,6 +11,7 @@ class TapBuilder extends StatefulWidget {
     required this.builder,
     this.delay = 100,
     this.disabled = false,
+    this.triggerBuild = true,
     this.hitTestBehavior,
     this.onTap,
     this.onTapDown,
@@ -23,7 +24,12 @@ class TapBuilder extends StatefulWidget {
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显
   final int delay;
 
+  /// 是否禁用
   final bool disabled;
+
+  /// 是否触发页面重建，允许用户通过 [TapBuilder.of] 访问点击状态，默认true
+  final bool triggerBuild;
+
   final HitTestBehavior? hitTestBehavior;
   final GestureTapCallback? onTap;
   final GestureTapDownCallback? onTapDown;
@@ -93,7 +99,7 @@ class _TapBuilderState extends State<TapBuilder> {
   }
 
   void update(bool value) {
-    if (mounted && isTap != value) {
+    if (mounted && widget.triggerBuild && isTap != value) {
       setState(() {
         isTap = value;
       });

@@ -148,7 +148,7 @@ class _SplitWidget extends HookWidget {
           },
           child: HoverBuilder(
             cursor: SystemMouseCursors.resizeColumn,
-            onlyCursor: true,
+            triggerBuild: false,
             builder: (context) {
               return Stack(
                 children: [
@@ -211,7 +211,7 @@ class _SplitWidget extends HookWidget {
           },
           child: HoverBuilder(
             cursor: SystemMouseCursors.resizeRow,
-            onlyCursor: true,
+            triggerBuild: false,
             builder: (context) {
               return Stack(
                 children: [
@@ -279,7 +279,7 @@ class _SplitWidget extends HookWidget {
           },
           child: HoverBuilder(
             cursor: SystemMouseCursors.resizeColumn,
-            onlyCursor: true,
+            triggerBuild: false,
             builder: (context) {
               return Stack(
                 children: [

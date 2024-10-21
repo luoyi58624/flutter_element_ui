@@ -12,7 +12,7 @@ class HoverBuilder extends StatefulWidget {
     this.cursor,
     this.hitTestBehavior,
     this.disabled = false,
-    this.onlyCursor = false,
+    this.triggerBuild = true,
     this.onEnter,
     this.onExit,
     this.onHover,
@@ -29,8 +29,8 @@ class HoverBuilder extends StatefulWidget {
   /// 是否开启禁用样式，默认false
   final bool disabled;
 
-  /// 是否仅更新显示的光标，但不触发状态
-  final bool onlyCursor;
+  /// 是否触发页面重建，允许用户通过 [HoverBuilder.of] 访问悬停状态，默认true
+  final bool triggerBuild;
 
   /// 鼠标进入事件
   final PointerEnterEventListener? onEnter;
@@ -82,7 +82,7 @@ class _HoverBuilderState extends State<HoverBuilder> {
 
   void _onEnter(PointerEnterEvent event) {
     if (widget.onEnter != null) widget.onEnter!(event);
-    if (!widget.onlyCursor && !isHover) {
+    if (widget.triggerBuild && !isHover) {
       setState(() {
         isHover = true;
       });
@@ -91,7 +91,7 @@ class _HoverBuilderState extends State<HoverBuilder> {
 
   void _onExit(PointerExitEvent event) {
     if (widget.onExit != null) widget.onExit!(event);
-    if (!widget.onlyCursor && isHover) {
+    if (widget.triggerBuild && isHover) {
       setState(() {
         isHover = false;
       });

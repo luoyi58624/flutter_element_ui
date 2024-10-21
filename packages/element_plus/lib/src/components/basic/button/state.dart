@@ -13,7 +13,7 @@ const double _textDisabledOpacity = 0.36;
 const double _themeButtonTextDisabledOpacity = 0.85;
 
 /// 按钮动画持续时间，默认 100 毫秒
-const int _duration = 0;
+const int _duration = 100;
 
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
@@ -82,8 +82,6 @@ class _ElButtonState extends State<ElButton> {
   /// 按钮 child 是否是图标
   late bool _isIconChild;
 
-  final _isHover = Obs(false);
-
   @override
   Widget build(BuildContext context) {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
@@ -96,7 +94,7 @@ class _ElButtonState extends State<ElButton> {
     _calcProp();
 
     Widget result = _buildEvent(
-      builder: (context) => buildButtonWrapper(context),
+      builder: (context) => _buildButtonWrapper(context),
     );
 
     return _prop.block && !_prop.circle
@@ -157,74 +155,41 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮事件
   Widget _buildEvent({required WidgetBuilder builder}) {
     return TapBuilder(
-      onTap: () {
-        if (widget.onPressed != null) {
-          widget.onPressed!();
-        }
-      },
-      onTapDown: (e) {
-        if (_groupData != null) {
-          _groupData!.isActive.value = true;
-        }
-        if (widget.onTapDown != null) {
-          widget.onTapDown!(e);
-        }
-      },
-      onTapUp: (e) {
-        if (_groupData != null) {
-          _groupData!.isActive.value = false;
-        }
-        if (widget.onTapUp != null) {
-          widget.onTapUp!(e);
-        }
-      },
-      onTapCancel: () {
-        if (_groupData != null) {
-          _groupData!.isActive.value = false;
-        }
-        if (widget.onTapCancel != null) {
-          widget.onTapCancel!();
-        }
-      },
+      onTap: widget.onPressed,
+      onTapDown: widget.onTapDown,
+      onTapUp: widget.onTapUp,
+      onTapCancel: widget.onTapCancel,
       disabled: _prop.disabled,
       delay: _duration,
       builder: (context) {
-        return MouseRegion(
+        return HoverBuilder(
           cursor: _prop.loading
               ? MouseCursor.defer
               : _prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
+          disabled: _prop.disabled,
           onHover: widget.onHover,
-          onEnter: _prop.disabled
-              ? null
-              : (e) {
-                  if (_groupData != null) {
-                    _groupData!.hoverIndex.value = _indexData!.index;
-                  }
-                  _isHover.value = true;
-                },
-          onExit: _prop.disabled
-              ? null
-              : (e) {
-                  if (_groupData != null) {
-                    _groupData!.hoverIndex.value = -1;
-                  }
-                  _isHover.value = false;
-                },
-          child: ObsBuilder(builder: (context) {
-            return builder(context);
-          }),
+          onEnter: (e) {
+            if (_groupData != null) {
+              _groupData!.hoverIndex.value = _indexData!.index;
+            }
+          },
+          builder: (context) => builder(context),
         );
       },
     );
   }
 
   /// 构建按钮外观
-  Widget buildButtonWrapper(BuildContext context) {
-    _colorStyle = calcColorStyle(context);
-
+  Widget _buildButtonWrapper(BuildContext context) {
+    _colorStyle = _calcColorStyle(context);
+    if (_groupData != null) {
+      nextTick(() {
+        _groupData!.borderColor.value = _colorStyle.borderColor;
+      });
+    }
     final $constraints = _prop.link
         ? null
         : BoxConstraints(
@@ -237,7 +202,7 @@ class _ElButtonState extends State<ElButton> {
 
     Widget result = Center(
       child: Builder(builder: (context) {
-        return buildButtonContent(context);
+        return _buildButtonContent(context);
       }),
     );
 
@@ -276,7 +241,7 @@ class _ElButtonState extends State<ElButton> {
                 color: _colorStyle.loadingTextColor,
               ),
               child: Center(
-                child: buildIconTheme(
+                child: _buildIconTheme(
                   color: _colorStyle.loadingTextColor,
                   child: _prop.loadingBuilder!(
                     ElButtonLoadingState(
@@ -295,7 +260,7 @@ class _ElButtonState extends State<ElButton> {
   }
 
   /// 构建默认的图标主题
-  Widget buildIconTheme({required Widget child, Color? color}) {
+  Widget _buildIconTheme({required Widget child, Color? color}) {
     return ElIconTheme(
       data: ElIconThemeData(
         size: _prop.iconSize,
@@ -306,7 +271,7 @@ class _ElButtonState extends State<ElButton> {
   }
 
   /// 构建按钮内容
-  Widget buildButtonContent(BuildContext context) {
+  Widget _buildButtonContent(BuildContext context) {
     late Widget $child;
     if (_prop.child is Widget) {
       $child = _prop.child;
@@ -359,7 +324,7 @@ class _ElButtonState extends State<ElButton> {
       );
     }
 
-    $child = buildIconTheme(
+    $child = _buildIconTheme(
       color: ElDefaultTextStyle.of(context).style.color,
       child: childContent,
     );
@@ -368,11 +333,11 @@ class _ElButtonState extends State<ElButton> {
   }
 
   /// 计算按钮颜色样式
-  _ColorStyle calcColorStyle(BuildContext context) {
+  _ColorStyle _calcColorStyle(BuildContext context) {
     final $elTheme = context.elTheme;
     final $defaultBorderColor = $elTheme.borderColor;
     final $isDark = context.isDark;
-    final $isHover = _isHover.value;
+    final $isHover = context.isHover;
     final $isTap = context.isTap;
 
     Color? $bgColor;
@@ -522,9 +487,6 @@ class _ElButtonState extends State<ElButton> {
     if (borderColor == null) return const Border();
     final defaultBorder = Border.all(color: borderColor, width: 1);
     if (_groupData == null) return defaultBorder;
-    nextTick(() {
-      _groupData!.borderColor.value = _colorStyle.borderColor;
-    });
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
     final borderSide = BorderSide(color: borderColor, width: 1);

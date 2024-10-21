@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class TempTestPage extends HookWidget {
@@ -19,7 +17,7 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: Demo3(),
+      body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,
       // ),
