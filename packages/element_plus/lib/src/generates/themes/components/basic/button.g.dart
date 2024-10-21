@@ -9,7 +9,7 @@ part of '../../../../themes/components/basic/button.dart';
 extension ElButtonThemeDataExtension on ElButtonThemeData {
   /// 接收一组可选参数，返回新的对象
   ElButtonThemeData copyWith({
-    dynamic? child,
+    dynamic child,
     double? width,
     double? height,
     Color? bgColor,

@@ -164,7 +164,8 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (MirrorUtils.isSerializeModel(fieldInfo.type.element)) {
-        final String modelName = modelBuilderConfig.modelNameTemplate.replaceFirst(
+        final String modelName =
+            modelBuilderConfig.modelNameTemplate.replaceFirst(
           '{{}}',
           fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
         );
@@ -272,6 +273,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
       final fieldInfo = _classFields[i].declaration;
       if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
       String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
+      if (fieldInfo.type.toString() == 'dynamic') {
+        fieldType = fieldType.substring(0, fieldType.length - 1);
+      }
       String field = fieldInfo.name;
       copyWithArgument += '$fieldType $field,\n';
 

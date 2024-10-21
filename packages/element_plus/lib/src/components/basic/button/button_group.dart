@@ -57,7 +57,7 @@ class ElButtonGroup extends HookWidget {
         }
       }
       $children.add(itemWidget);
-      if (i < $length - 1) {
+      if ($data.text != true && i < $length - 1) {
         $children.add(_GroupDivide(
           length: $length,
           index: i,
@@ -108,8 +108,6 @@ class _GroupDivide extends StatelessWidget {
     late final Color $borderColor;
     late final double $width;
     final $height = $data.height ?? context.elConfig.size;
-
-    if ($data.text == true) return const SizedBox();
 
     if ($data.type == null && $data.bgColor == null) {
       $width = 1.0;

@@ -9,7 +9,7 @@ part of '../../../../themes/components/basic/icon.dart';
 extension ElIconThemeDataExtension on ElIconThemeData {
   /// 接收一组可选参数，返回新的对象
   ElIconThemeData copyWith({
-    dynamic? icon,
+    dynamic icon,
     double? size,
     Color? color,
   }) {
