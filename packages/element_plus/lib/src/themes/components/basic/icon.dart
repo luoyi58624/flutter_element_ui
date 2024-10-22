@@ -22,7 +22,7 @@ class ElIconThemeData {
   /// 默认的图标
   final dynamic icon;
 
-  /// 图标尺寸，默认: [1.5.rem(context)]
+  /// 图标尺寸，默认 18
   final double? size;
 
   /// 图标颜色

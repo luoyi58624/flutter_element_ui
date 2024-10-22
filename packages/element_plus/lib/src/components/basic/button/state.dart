@@ -566,6 +566,15 @@ class _ButtonProp {
         ? BorderRadius.circular($height / 2)
         : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
 
+    double? $iconSize = widget.iconSize ?? $data.iconSize;
+    if ($iconSize == null) {
+      if ($height >= 36) {
+        $iconSize = $height / 2 - 2;
+      } else {
+        $iconSize = $height / 2;
+      }
+    }
+
     return _ButtonProp(
       child: widget.child ?? $data.child,
       width: widget.width ?? $data.width,
@@ -583,7 +592,7 @@ class _ButtonProp {
           widget.borderBuilder ?? $data.borderBuilder ?? _borderBuilder,
       borderRadius: $borderRadius,
       padding: $padding,
-      iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
+      iconSize: $iconSize,
       leftIcon: widget.leftIcon ?? $data.leftIcon,
       rightIcon: widget.rightIcon ?? $data.rightIcon,
       circle: $circle,

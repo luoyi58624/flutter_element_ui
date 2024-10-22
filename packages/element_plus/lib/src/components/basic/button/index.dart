@@ -105,8 +105,7 @@ class ElButton extends StatefulWidget {
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
 
-  /// 图标尺寸，默认根据按钮高度自动计算: [height] / 2 - 2，如果图标尺寸不符合预期，
-  /// 你可以自己手动指定图标大小
+  /// 自定义图标尺寸
   final double? iconSize;
 
   /// 按钮左图标

@@ -43,7 +43,6 @@ class Example9 extends HookWidget {
                   height: 20,
                   type: 'success',
                   loading: loading.value,
-                  iconSize: 10,
                   leftIcon: const ElIcon(ElIcons.delete),
                   loadingBuilder: loadingBuilder,
                   child: const ElText('删除', style: TextStyle(fontSize: 12)),
@@ -97,7 +96,6 @@ Wrap(
     const ElButton(
       height: 20,
       type: 'success',
-      iconSize: 10,
       leftIcon: ElIcon(ElIcons.delete),
       child: ElText('删除', style: TextStyle(fontSize: 12)),
     ),

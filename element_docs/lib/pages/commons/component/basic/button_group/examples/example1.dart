@@ -57,18 +57,22 @@ class _Example extends StatelessWidget {
         Gap(8),
         ElButtonTheme(
           data: ElButtonThemeData(
-            iconSize: 20,
+            iconSize: 18,
           ),
           child: ElButtonGroup(
             null,
             children: [
               ElButton(
-                child: '上一页',
                 leftIcon: ElIcon(ElIcons.arrowLeft),
+                child: ElText(
+                  '上一页',
+                ),
               ),
               ElButton(
-                child: '下一页',
                 rightIcon: ElIcon(ElIcons.arrowRight),
+                child: ElText(
+                  '下一页',
+                ),
               ),
             ],
           ),
@@ -205,10 +209,9 @@ class _Example extends StatelessWidget {
         ElButtonGroup(
           null,
           children: [
-            ElButton(child: ElIcon(ElIcons.house)),
             ElButton(child: ElIcon(ElIcons.edit)),
+            ElButton(child: ElIcon(ElIcons.share)),
             ElButton(child: ElIcon(ElIcons.delete)),
-            ElButton(child: ElIcon(ElIcons.upload2)),
           ],
         ),
         Gap(8),
@@ -219,10 +222,9 @@ class _Example extends StatelessWidget {
           child: ElButtonGroup(
             null,
             children: [
-              ElButton(child: ElIcon(ElIcons.house)),
               ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.share)),
               ElButton(child: ElIcon(ElIcons.delete)),
-              ElButton(child: ElIcon(ElIcons.upload2)),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../index.dart';
@@ -44,6 +45,15 @@ class Example1 extends StatelessWidget {
                   .toList(),
             ),
             const Gap(8),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Row(
+                children: [
+                  Icon(Icons.keyboard_arrow_left),
+                  Text('上传'),
+                ],
+              ),
+            ),
             Wrap(
               spacing: 8,
               runSpacing: 8,

@@ -259,6 +259,7 @@ class _GroupDivide extends StatelessWidget {
         $selectedColor = null;
       }
     } else {
+      final $themeColor = $data.bgColor ?? context.elThemeColors[$data.type]!;
       if ($data.plain == true) {
         $width = 1.0;
         $defaultColor = _Preset.plainButton(
@@ -277,10 +278,8 @@ class _GroupDivide extends StatelessWidget {
           bgColor: $data.bgColor,
         ).borderColor!;
       } else {
-        $width = 0.5;
-        if (context.isDark) {
-          $defaultColor = context.lightTheme.bgColor;
-        }
+        $width = 1.0;
+        $defaultColor = $themeColor.mix(context.lightTheme.bgColor, 50);
       }
     }
 

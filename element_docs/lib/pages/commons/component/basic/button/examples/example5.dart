@@ -25,7 +25,7 @@ class Example5 extends StatelessWidget {
                 ElButton(
                   type: 'primary',
                   leftIcon: ElIcon(ElIcons.search),
-                  child: '搜索',
+                  child: 'Search',
                 ),
                 ElButton(
                   type: 'primary',
