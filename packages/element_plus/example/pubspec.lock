@@ -90,21 +90,21 @@ packages:
     source: hosted
     version: "0.0.2"
   element_annotation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../element_annotation"
       relative: true
     source: path
     version: "1.0.0"
   element_dart:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../element_dart"
       relative: true
     source: path
     version: "1.0.0"
   element_extension:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../element_extension"
       relative: true
@@ -195,13 +195,12 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_obs:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: flutter_obs
-      sha256: "19767df906d8d37d6097317c45b35b61289a831d5e90f3c746ceb0f659e81307"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.6.3"
+      path: "../../flutter_obs"
+      relative: true
+    source: path
+    version: "1.5.4"
   flutter_shaders:
     dependency: transitive
     description:
@@ -605,10 +604,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_windows
-      sha256: "49c10f879746271804767cb45551ec5592cdab00ee105c06dddde1a98f73b185"
+      sha256: "44cf3aabcedde30f2dba119a9dea3b0f2672fbe6fa96e85536251d678216b3c4"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.1.2"
+    version: "3.1.3"
   uuid:
     dependency: transitive
     description:

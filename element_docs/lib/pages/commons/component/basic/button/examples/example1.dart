@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:element_docs/global.dart';
 import 'package:flutter/widgets.dart';
 
@@ -28,7 +30,6 @@ class Example1 extends StatelessWidget {
         // const Gap(8),
         CodeExample(
           code: code,
-          expanded: true,
           children: [
             Wrap(
               spacing: 8,
@@ -52,6 +53,28 @@ class Example1 extends StatelessWidget {
                       type: type,
                       plain: true,
                       child: (type ?? 'Default').firstUpperCase,
+                    ),
+                  )
+                  .toList(),
+            ),
+            const Gap(8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: ButtonPage.buttonTypes
+                  .map(
+                    (type) => ElHoverBuilder(
+                      builder: (context) {
+                        return ElButton(
+                          type: type,
+                          child: (type ?? 'Default').firstUpperCase,
+                          plain: true,
+                          borderBuilder: (color) => Border.all(
+                            width: context.isHover ? 1.5 : 0.00001,
+                            color: color,
+                          ),
+                        );
+                      },
                     ),
                   )
                   .toList(),
@@ -106,8 +129,20 @@ class Example1 extends StatelessWidget {
 
 String get code => '''
 ElButton(child: 'Hello'),
-ElButton(child: 'Hello', type: 'primary'),
-ElButton(child: 'Hello', type: 'primary', plain: true),
-ElButton(child: 'Hello', type: 'primary', round: true),
+ElButton(child: 'Hello', type: El.primary),
+ElButton(child: 'Hello', type: El.primary, plain: true),
+ElHoverBuilder(
+  builder: (context) {
+    return ElButton(
+      child: 'Hello',
+      plain: true,
+      borderBuilder: (color)=> Border.all(
+        width: context.isHover ? 1.5 : 0.00001,
+        color: color,
+      ),
+    );
+  },
+),
+ElButton(child: 'Hello', type: El.primary, round: true),
 ElButton(child: ElIcon(ElIcons.aim)),
 ElButton(child: ElIcon(ElIcons.aim), circle: true)''';

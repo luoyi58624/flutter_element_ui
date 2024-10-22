@@ -16,7 +16,7 @@ class _ElButtonState extends State<ElButton> {
   /// child 是否是图标
   bool get _isIconChild => _prop.child is ElIcon || _prop.child is Icon;
 
-  /// 当前处于按钮组环境下
+  /// 当前是否处于按钮组环境下
   bool get _hasGroup => _groupData != null;
 
   @override
@@ -68,7 +68,7 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget _buildEvent({required WidgetBuilder builder}) {
-    return TapBuilder(
+    return ElTapBuilder(
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
         if (_hasGroup) {
@@ -81,7 +81,7 @@ class _ElButtonState extends State<ElButton> {
       disabled: _prop.disabled,
       delay: _duration.inMilliseconds,
       builder: (context) {
-        return HoverBuilder(
+        return ElHoverBuilder(
           cursor: _prop.loading
               ? MouseCursor.defer
               : _prop.disabled
@@ -258,11 +258,14 @@ class _ElButtonState extends State<ElButton> {
 
   Border _calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
-    final defaultBorder = Border.all(color: borderColor, width: 1);
+    final defaultBorder = _prop.borderBuilder(borderColor);
     if (_groupData == null) return defaultBorder;
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
-    final borderSide = BorderSide(color: borderColor, width: 1);
+    final borderSide = BorderSide(
+      color: borderColor,
+      width: max(defaultBorder.left.width, defaultBorder.right.width),
+    );
     if (_indexData!.index == 0) {
       return Border(
         top: borderSide,

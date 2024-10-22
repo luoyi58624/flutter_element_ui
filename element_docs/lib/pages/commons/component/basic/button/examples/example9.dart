@@ -54,7 +54,7 @@ class Example9 extends HookWidget {
                   type: 'primary',
                   child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
                 ),
-                HoverBuilder(builder: (context) {
+                ElHoverBuilder(builder: (context) {
                   return ElButton(
                     width: 80,
                     height: 80,
@@ -107,7 +107,7 @@ Wrap(
       type: 'primary',
       child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
     ),
-    HoverBuilder(builder: (context) {
+    ElHoverBuilder(builder: (context) {
       return ElButton(
         width: 80,
         height: 80,

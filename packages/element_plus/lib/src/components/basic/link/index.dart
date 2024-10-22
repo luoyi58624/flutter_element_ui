@@ -147,15 +147,15 @@ class ElLink extends StatelessWidget {
       toLink,
       child: ElDefaultTextStyle.merge(
         style: TextStyle(
-          color: HoverBuilder.of(context) ? $activeColor : $color,
+          color: ElHoverBuilder.of(context) ? $activeColor : $color,
           decoration: $decoration == ElLinkDecoration.underline
               ? TextDecoration.underline
               : $decoration == ElLinkDecoration.hoverUnderline
-                  ? (HoverBuilder.of(context)
+                  ? (ElHoverBuilder.of(context)
                       ? TextDecoration.underline
                       : TextDecoration.none)
                   : TextDecoration.none,
-          decorationColor: HoverBuilder.of(context) ? $activeColor : $color,
+          decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
       ),
@@ -165,7 +165,7 @@ class ElLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final previewLink = getPreviewLink(href);
-    Widget result = HoverBuilder(
+    Widget result = ElHoverBuilder(
       cursor: cursor,
       onEnter: previewLink == null
           ? null

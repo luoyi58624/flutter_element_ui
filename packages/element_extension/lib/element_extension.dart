@@ -12,7 +12,6 @@ export 'package:super_sliver_list/super_sliver_list.dart';
 
 export 'src/extensions/color.dart';
 export 'src/extensions/context.dart';
-export 'src/extensions/event.dart';
 export 'src/extensions/num.dart';
 export 'src/extensions/responsive.dart';
 export 'src/extensions/widget.dart';
@@ -33,9 +32,7 @@ export 'src/utils/shortcut.dart';
 export 'src/widgets/animated_widgets.dart';
 export 'src/widgets/click.dart';
 export 'src/widgets/custom_layout.dart';
-export 'src/widgets/hover.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/nest_scroll_wrapper.dart';
 export 'src/widgets/scroll_behavior.dart';
 export 'src/widgets/simple_widgets.dart';
-export 'src/widgets/tap.dart';

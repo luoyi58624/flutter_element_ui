@@ -51,7 +51,7 @@ class Example2 extends StatelessWidget {
               onTap: () {
                 CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
               },
-              child: HoverBuilder(
+              child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {
                   return Center(

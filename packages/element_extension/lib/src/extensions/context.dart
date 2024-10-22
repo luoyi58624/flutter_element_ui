@@ -4,7 +4,7 @@ import 'package:element_plus/element_plus.dart';
 
 extension ElContextExtension on BuildContext {
   /// 获取当平台亮度模式
-  Brightness get brightness => ElApp.of(this).brightness;
+  Brightness? get brightness => ElBrightness.of(this);
 
   /// 当前环境是否是暗黑模式
   bool get isDark => brightness == Brightness.dark;

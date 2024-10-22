@@ -10,7 +10,7 @@ import 'utils/font.dart';
 
 /// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
 class ElAppData {
-  /// 当前主题模式
+  /// 当前的主题模式
   final Brightness brightness;
 
   /// 亮色主题配置

@@ -9,7 +9,7 @@ class ElDateTimeSerialize implements ElSerialize<DateTime> {
   const ElDateTimeSerialize();
 
   @override
-  String? serialize(DateTime? obj) => obj?.millisecondsSinceEpoch.toString();
+  String? serialize(DateTime? data) => data?.millisecondsSinceEpoch.toString();
 
   @override
   DateTime? deserialize(String? str) =>
@@ -22,7 +22,7 @@ class ElColorSerialize implements ElSerialize<Color> {
   const ElColorSerialize();
 
   @override
-  String? serialize(Color? obj) => obj?.toHex();
+  String? serialize(Color? data) => data?.toHex();
 
   @override
   Color? deserialize(String? str) => str?.toColor();
@@ -34,7 +34,7 @@ class ElMaterialColorSerialize implements ElSerialize<MaterialColor> {
   const ElMaterialColorSerialize();
 
   @override
-  String? serialize(MaterialColor? obj) => obj?.toHex();
+  String? serialize(MaterialColor? data) => data?.toHex();
 
   @override
   MaterialColor? deserialize(String? str) => str?.toColor().toMaterialColor();

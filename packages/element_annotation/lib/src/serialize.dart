@@ -1,7 +1,7 @@
 /// 对象序列化接口，此接口用于实现自定义序列化注解
 abstract interface class ElSerialize<T> {
   /// 序列化: object -> string
-  String? serialize(T? obj);
+  String? serialize(T? data);
 
   /// 反序列化: string -> object
   T? deserialize(String? str);

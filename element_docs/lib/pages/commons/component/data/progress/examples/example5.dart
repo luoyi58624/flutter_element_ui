@@ -58,7 +58,7 @@ class _Example extends HookWidget {
         onHorizontalDragCancel: () {
           isDrag.value = false;
         },
-        child: HoverBuilder(
+        child: ElHoverBuilder(
           cursor: SystemMouseCursors.click,
           builder: (context) {
             final isHover = context.isHover;
@@ -135,7 +135,7 @@ class _Example extends HookWidget {
         onHorizontalDragCancel: () {
           isDrag.value = false;
         },
-        child: HoverBuilder(
+        child: ElHoverBuilder(
           cursor: SystemMouseCursors.click,
           builder: (context) {
             final isHover = context.isHover;

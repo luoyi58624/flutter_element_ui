@@ -3,7 +3,7 @@ part of 'index.dart';
 class _ElTabState extends State<ElTab> {
   @override
   Widget build(BuildContext context) {
-    return HoverBuilder(
+    return ElHoverBuilder(
       builder: (context) {
         return Container(
           decoration: BoxDecoration(

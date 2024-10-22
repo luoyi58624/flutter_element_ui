@@ -96,3 +96,7 @@ export 'src/themes/services/modal.dart';
 export 'src/themes/services/toast.dart';
 
 export 'src/utils/font.dart';
+
+export 'src/widgets/brightness.dart';
+export 'src/widgets/hover.dart';
+export 'src/widgets/tap.dart';

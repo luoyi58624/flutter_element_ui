@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,11 @@ part 'state.dart';
 
 part 'button_group.dart';
 
+part 'group_divide.dart';
+
 part 'commons.dart';
+
+
 
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件
@@ -31,6 +36,7 @@ class ElButton extends StatefulWidget {
     this.plain,
     this.round,
     this.block,
+    this.borderBuilder,
     this.borderRadius,
     this.padding,
     this.iconSize,
@@ -86,10 +92,14 @@ class ElButton extends StatefulWidget {
   /// 圆角按钮
   final bool? round;
 
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件，
+  /// 所以，块级按钮的宽度现在由父级约束决定，而不是按钮本身的大小
   final bool? block;
 
-  /// 自定义圆角
+  /// 构建自定义边框
+  final ElBorderBuilder? borderBuilder;
+
+  /// 边框圆角
   final BorderRadius? borderRadius;
 
   /// 自定义内边距
@@ -105,7 +115,7 @@ class ElButton extends StatefulWidget {
   /// 按钮右图标
   final Widget? rightIcon;
 
-  /// 圆形按钮
+  /// 圆形按钮，按钮宽度强制和高度保持一致
   final bool? circle;
 
   /// 是否禁用按钮

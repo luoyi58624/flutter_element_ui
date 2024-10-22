@@ -55,11 +55,7 @@ void elementGeneratesTest() {
         'name': 'hihi',
         'child': {'age': 20}
       });
-      // 测试 equals 是否工作正常，重新序列化、反序列化对象判断是否相等
-      // 注意：对于像 Color 这样需要自己配置序列化类型的数据，equals 无法对它们进行比较
       expect(TestModel.fromJson(model.toJson()), model);
-      
-      // 测试颜色序列化注解是否工作正常
       final model2 = model.copyWith(materialColor: Colors.red);
       expect(
         $testModel.fromJson(model2.toJson()).materialColor?.toHex(),

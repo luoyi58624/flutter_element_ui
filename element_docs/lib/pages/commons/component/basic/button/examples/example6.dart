@@ -1,7 +1,7 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-int _loadingDuration = 3000;
+int _loadingDuration = 1000;
 
 class Example6 extends StatelessWidget {
   const Example6({super.key, required this.title});

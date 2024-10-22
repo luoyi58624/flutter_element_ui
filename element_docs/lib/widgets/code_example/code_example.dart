@@ -25,7 +25,7 @@ class CodeExample extends HookWidget {
   Widget build(BuildContext context) {
     final isExpanded = useState(expanded);
 
-    return HoverBuilder(builder: (context) {
+    return ElHoverBuilder(builder: (context) {
       return Card(
         elevation: 0,
         shadowColor: Colors.black38,
@@ -96,7 +96,7 @@ class _PreviewButton extends HookWidget {
       end: 0.0,
     ).animate(curve);
 
-    return HoverBuilder(
+    return ElHoverBuilder(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         if (context.isHover) {

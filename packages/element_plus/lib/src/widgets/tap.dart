@@ -4,9 +4,14 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:element_dart/element_dart.dart';
 
-class TapBuilder extends StatefulWidget {
+extension ElTapExtension on BuildContext {
+  /// 通过上下文访问最近的 Tap 点击状态
+  bool get isTap => ElTapBuilder.of(this);
+}
+
+class ElTapBuilder extends StatefulWidget {
   /// 点击事件构建器
-  const TapBuilder({
+  const ElTapBuilder({
     super.key,
     required this.builder,
     this.delay = 100,
@@ -21,13 +26,14 @@ class TapBuilder extends StatefulWidget {
 
   final WidgetBuilder builder;
 
-  /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显
+  /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
+  /// 否则，轻点时 tapDown -> tapUp 之间的时间间隔极短，对于依赖 tap 事件而改变状态的元素几乎看不出任何效果
   final int delay;
 
   /// 是否禁用
   final bool disabled;
 
-  /// 是否触发页面重建，允许用户通过 [TapBuilder.of] 访问点击状态，默认true
+  /// 是否触发页面重建，默认true
   final bool triggerBuild;
 
   final HitTestBehavior? hitTestBehavior;
@@ -41,10 +47,10 @@ class TapBuilder extends StatefulWidget {
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
 
   @override
-  State<TapBuilder> createState() => _TapBuilderState();
+  State<ElTapBuilder> createState() => _TapBuilderState();
 }
 
-class _TapBuilderState extends State<TapBuilder> {
+class _TapBuilderState extends State<ElTapBuilder> {
   bool isTap = false;
   int? _time;
   Timer? _timer;

@@ -57,6 +57,7 @@ class _ButtonProp {
   final bool plain;
   final bool round;
   final bool block;
+  final ElBorderBuilder borderBuilder;
   final BorderRadius borderRadius;
   final EdgeInsetsGeometry? padding;
   final double iconSize;
@@ -81,6 +82,7 @@ class _ButtonProp {
     required this.plain,
     required this.round,
     required this.block,
+    required this.borderBuilder,
     required this.borderRadius,
     required this.padding,
     required this.iconSize,
@@ -158,6 +160,8 @@ class _ButtonProp {
       plain: $plain,
       round: $round,
       block: $block,
+      borderBuilder:
+          widget.borderBuilder ?? $data.borderBuilder ?? _borderBuilder,
       borderRadius: $borderRadius,
       padding: $padding,
       iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
@@ -172,6 +176,32 @@ class _ButtonProp {
       loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
     );
   }
+}
+
+ElBorderBuilder _borderBuilder =
+    (color) => Border.all(width: 1.0, color: color);
+
+class _ElButtonGroupInheritedWidget extends InheritedWidget {
+  const _ElButtonGroupInheritedWidget({
+    required this.modelValue,
+    required this.axis,
+    required this.hoverIndex,
+    required this.borderColor,
+    required this.onChanged,
+    required super.child,
+  });
+
+  final dynamic modelValue;
+  final Axis axis;
+  final Obs<int> hoverIndex;
+  final Obs<Color?> borderColor;
+  final ValueChanged onChanged;
+
+  static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElButtonGroupInheritedWidget>();
+
+  @override
+  bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => true;
 }
 
 class _ButtonStyleUtil {

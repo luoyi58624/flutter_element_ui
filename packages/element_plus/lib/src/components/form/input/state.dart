@@ -55,7 +55,7 @@ class ElInputState extends ModelValueState<ElInput, String> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: HoverBuilder(
+        child: ElHoverBuilder(
           builder: (context) => buildTextField(context),
         ),
       ),

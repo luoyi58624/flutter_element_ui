@@ -1,12 +1,16 @@
+import 'package:element_extension/element_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../utils/platform/platform.dart';
+extension ElHoverExtension on BuildContext {
+  /// 通过上下文访问最近的 Hover 悬停状态
+  bool get isHover => ElHoverBuilder.of(this);
+}
 
-class HoverBuilder extends StatefulWidget {
-  /// hover构建器
-  const HoverBuilder({
+class ElHoverBuilder extends StatefulWidget {
+  /// Hover 悬停事件构建器
+  const ElHoverBuilder({
     super.key,
     required this.builder,
     this.cursor,
@@ -29,7 +33,7 @@ class HoverBuilder extends StatefulWidget {
   /// 是否开启禁用样式，默认false
   final bool disabled;
 
-  /// 是否触发页面重建，允许用户通过 [HoverBuilder.of] 访问悬停状态，默认true
+  /// 是否触发页面重建，默认true
   final bool triggerBuild;
 
   /// 鼠标进入事件
@@ -50,10 +54,10 @@ class HoverBuilder extends StatefulWidget {
       _HoverInheritedWidget.maybeOf(context)?.mouseCursor;
 
   @override
-  State<HoverBuilder> createState() => _HoverBuilderState();
+  State<ElHoverBuilder> createState() => _HoverBuilderState();
 }
 
-class _HoverBuilderState extends State<HoverBuilder> {
+class _HoverBuilderState extends State<ElHoverBuilder> {
   bool isHover = false;
 
   @override
@@ -61,7 +65,7 @@ class _HoverBuilderState extends State<HoverBuilder> {
     // 仅限桌面端，移动端不存在hover
     if (PlatformUtil.isDesktop) {
       final cursor = widget.cursor ?? MouseCursor.defer;
-      if(widget.disabled) isHover = false;
+      if (widget.disabled) isHover = false;
       return _HoverInheritedWidget(
         isHover: isHover,
         mouseCursor: cursor,
