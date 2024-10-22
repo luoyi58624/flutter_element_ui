@@ -155,38 +155,50 @@ class _Example extends StatelessWidget {
           ),
         ),
         Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
-            bgColor: Colors.purple,
-            plain: true,
-            round: true,
-          ),
-          child: ElButtonGroup(
-            null,
-            children: [
-              ElButton(child: '选项一', disabled: true),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四', disabled: true),
-              ElButton(child: '选项五'),
-            ],
+        SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ElButtonTheme(
+              data: ElButtonThemeData(
+                bgColor: Colors.purple,
+                plain: true,
+                round: true,
+              ),
+              child: ElButtonGroup(
+                null,
+                children: [
+                  ElButton(child: '选项一', disabled: true),
+                  ElButton(child: '选项二'),
+                  ElButton(child: '选项三'),
+                  ElButton(child: '选项四', disabled: true),
+                  ElButton(child: '选项五'),
+                ],
+              ),
+            ),
           ),
         ),
         Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
-            bgColor: Colors.cyan,
-            round: true,
-          ),
-          child: ElButtonGroup(
-            null,
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四', disabled: true),
-              ElButton(child: '选项五', loading: true),
-            ],
+        SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ElButtonTheme(
+              data: ElButtonThemeData(
+                bgColor: Colors.cyan,
+                round: true,
+              ),
+              child: ElButtonGroup(
+                null,
+                children: [
+                  ElButton(child: '选项一'),
+                  ElButton(child: '选项二'),
+                  ElButton(child: '选项三'),
+                  ElButton(child: '选项四', disabled: true),
+                  ElButton(child: '选项五', loading: true),
+                ],
+              ),
+            ),
           ),
         ),
         Gap(8),
@@ -203,7 +215,6 @@ class _Example extends StatelessWidget {
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
-            round: true,
           ),
           child: ElButtonGroup(
             null,
@@ -227,8 +238,7 @@ class _Example extends StatelessWidget {
             children: [
               ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),
-              ElButton(child: '选项三', block: false),
-              ElButton(child: '选项四'),
+              ElButton(child: '选项三'),
             ],
           ),
         ),
@@ -359,8 +369,7 @@ class _Example extends StatelessWidget {
             children: [
               ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),
-              ElButton(child: '选项三', block: false),
-              ElButton(child: '选项四'),
+              ElButton(child: '选项三'),
             ],
           ),
         ),

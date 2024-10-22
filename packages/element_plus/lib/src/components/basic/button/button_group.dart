@@ -201,6 +201,23 @@ class _GroupDivide extends StatelessWidget {
   //   return false;
   // }
 
+  bool matchIndex(int targetIndex) {
+    if (length == 2) {
+      if (targetIndex != -1) return true;
+    } else if (length > 2) {
+      if (targetIndex == 0) {
+        if (index == targetIndex) return true;
+      } else if (targetIndex == length - 1) {
+        if (index == targetIndex - 1) return true;
+      } else if (targetIndex != -1) {
+        if (index == targetIndex - 1 || index == targetIndex) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   Color? calcIndexColor(int targetIndex, Color? activeColor) {
     if (length == 2) {
       if (targetIndex != -1) return activeColor;
@@ -223,9 +240,9 @@ class _GroupDivide extends StatelessWidget {
     final $data = ElButtonTheme.of(context);
     final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
 
-    late final Color $defaultColor;
-    late final Color $hoverColor;
-    late final Color $activeColor;
+    Color $defaultColor = _Preset.defaultButton(context).borderColor!;
+    Color? $hoverColor;
+    Color? $activeColor;
 
     Color? $selectedColor;
     late final double $width;
@@ -233,7 +250,8 @@ class _GroupDivide extends StatelessWidget {
 
     if ($data.type == null && $data.bgColor == null) {
       $width = 1.0;
-      $defaultColor = context.elTheme.borderColor;
+      $hoverColor = _Preset.defaultButtonHover(context).borderColor!;
+      $activeColor = _Preset.defaultButtonActive(context).borderColor!;
 
       if (_ButtonGroupUtil.isSelected($groupData.modelValue, index)) {
         $selectedColor = _Preset.defaultButtonActive(context).borderColor!;
@@ -248,30 +266,41 @@ class _GroupDivide extends StatelessWidget {
           type: $data.type,
           bgColor: $data.bgColor,
         ).borderColor!;
+        $hoverColor = _Preset.plainButtonHover(
+          context,
+          type: $data.type,
+          bgColor: $data.bgColor,
+        ).borderColor!;
+        $activeColor = _Preset.plainButtonActive(
+          context,
+          type: $data.type,
+          bgColor: $data.bgColor,
+        ).borderColor!;
       } else {
         $width = 0.5;
-        $defaultColor = context.isDark
-            ? context.lightTheme.bgColor
-            : context.elTheme.borderColor;
+        if (context.isDark) {
+          $defaultColor = context.lightTheme.bgColor;
+        }
       }
     }
 
     return ObsBuilder(builder: (context) {
-      Color? color;
-      if ($groupData.activeIndex.value != -1) {
-        color = calcIndexColor(
-          $groupData.activeIndex.value,
-          $groupData.divideColor.value,
-        );
+      final $hoverIndex = $groupData.hoverIndex.value;
+      final $activeIndex = $groupData.activeIndex.value;
+
+      Color? $color;
+      if ($activeIndex != -1) {
+        if (matchIndex($activeIndex)) {
+          $color = $activeColor;
+        }
+      } else if ($hoverIndex != -1) {
+        if (matchIndex($hoverIndex)) {
+          $color = $hoverColor;
+        }
       }
-      final activeColor = calcIndexColor(
-        $groupData.activeIndex.value,
-        $groupData.divideColor.value,
-      );
-      // i($groupData.activeIndex.value, activeColor);
       return AnimatedColoredBox(
         duration: context.elDuration(_duration),
-        color: $selectedColor ?? activeColor ?? $defaultColor,
+        color: $selectedColor ?? $color ?? $defaultColor,
         child: SizedBox(
           width: $width,
           height: $height,
@@ -280,4 +309,3 @@ class _GroupDivide extends StatelessWidget {
     });
   }
 }
-

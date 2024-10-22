@@ -18,12 +18,6 @@ const _duration = Duration(milliseconds: 100);
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
 
-/// 按钮组悬停退出延迟器
-Timer? _buttonGroupHoverExitTimer;
-
-/// 按钮组按下取消延迟器
-Timer? _buttonGroupTapCancelTimer;
-
 class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，则会初始化此变量
   _ElButtonGroupInheritedWidget? _groupData;
@@ -114,10 +108,6 @@ class _ElButtonState extends State<ElButton> {
                     _isHover = true;
                   });
                   if (_hasGroup) {
-                    if (_buttonGroupHoverExitTimer != null) {
-                      _buttonGroupHoverExitTimer!.cancel();
-                      _buttonGroupHoverExitTimer = null;
-                    }
                     _groupData!.hoverIndex.value = _indexData!.index;
                   }
                 },
@@ -128,9 +118,7 @@ class _ElButtonState extends State<ElButton> {
                     _isHover = false;
                   });
                   if (_hasGroup) {
-                    _buttonGroupHoverExitTimer = setTimeout(() {
-                      _groupData!.activeIndex.value = -1;
-                    }, _duration.inMilliseconds);
+                    _groupData!.hoverIndex.value = -1;
                   }
                 },
           child: Builder(builder: (context) {
