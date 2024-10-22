@@ -14,11 +14,7 @@ part 'state.dart';
 
 part 'button_group.dart';
 
-part 'group_divide.dart';
-
 part 'commons.dart';
-
-
 
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件
@@ -36,6 +32,7 @@ class ElButton extends StatefulWidget {
     this.plain,
     this.round,
     this.block,
+    this.flex,
     this.borderBuilder,
     this.borderRadius,
     this.padding,
@@ -93,8 +90,11 @@ class ElButton extends StatefulWidget {
   final bool? round;
 
   /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件，
-  /// 所以，块级按钮的宽度现在由父级约束决定，而不是按钮本身的大小
+  /// 所以，块级按钮的宽度将由父级约束决定
   final bool? block;
+
+  /// 如果处于按钮组中，同时按钮设置了 [block] 属性，你可以设置当前按钮所占用的空间比例
+  final int? flex;
 
   /// 构建自定义边框
   final ElBorderBuilder? borderBuilder;

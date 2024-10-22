@@ -70,7 +70,7 @@ class Example1 extends StatelessWidget {
                           child: (type ?? 'Default').firstUpperCase,
                           plain: true,
                           borderBuilder: (color) => Border.all(
-                            width: context.isHover ? 1.5 : 0.00001,
+                            width: context.isHover ? 1.5 : 0.1,
                             color: color,
                           ),
                         );
@@ -137,7 +137,7 @@ ElHoverBuilder(
       child: 'Hello',
       plain: true,
       borderBuilder: (color)=> Border.all(
-        width: context.isHover ? 1.5 : 0.00001,
+        width: context.isHover ? 1.5 : 0.1, // 提示：flutter 边框无法设置为 0
         color: color,
       ),
     );

@@ -1,5 +1,29 @@
 part of 'index.dart';
 
+/// 按钮最小宽度
+const double _minWidth = 64;
+
+/// 按钮 background、border 禁用透明度
+const double _disabledOpacity = 0.6;
+
+/// 按钮 text 禁用透明度
+const double _textDisabledOpacity = 0.36;
+
+/// 主题按钮 text 禁用透明度
+const double _themeButtonTextDisabledOpacity = 0.85;
+
+/// 按钮动画持续时间，默认 100 毫秒
+const _duration = Duration(milliseconds: 100);
+
+/// 按钮默认文本样式
+const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
+
+/// 按钮组悬停退出延迟器
+Timer? _buttonGroupHoverExitTimer;
+
+/// 按钮组按下取消延迟器
+Timer? _buttonGroupTapCancelTimer;
+
 class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，则会初始化此变量
   _ElButtonGroupInheritedWidget? _groupData;
@@ -7,16 +31,13 @@ class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，此变量将保存当前按钮所在的位置
   ChildIndexData? _indexData;
 
-  /// 按钮 prop 配置
   late _ButtonProp _prop;
-
-  /// 按钮颜色样式
   late _ColorStyle _colorStyle;
+  bool _isTap = false;
+  bool _isHover = false;
 
-  /// child 是否是图标
   bool get _isIconChild => _prop.child is ElIcon || _prop.child is Icon;
 
-  /// 当前是否处于按钮组环境下
   bool get _hasGroup => _groupData != null;
 
   @override
@@ -30,36 +51,7 @@ class _ElButtonState extends State<ElButton> {
 
     _prop = _ButtonProp.create(context, widget, _hasGroup);
 
-    Widget result = _buildEvent(
-      builder: (context) {
-        bool $isHover = context.isHover;
-        bool $isTap = context.isTap;
-
-        if (_hasGroup) {
-          final $isSelected = _ButtonGroupUtil.isSelected(
-            _groupData!.modelValue,
-            _indexData!.index,
-          );
-          if ($isSelected) {
-            $isHover = true;
-          }
-        }
-
-        _colorStyle = _ButtonStyleUtil._calcColorStyle(
-          context,
-          prop: _prop,
-          isHover: $isHover,
-          isTap: $isTap,
-        );
-
-        if (_hasGroup) {
-          nextTick(() {
-            _groupData!.borderColor.value = _colorStyle.borderColor;
-          });
-        }
-        return _buildButtonWrapper(context);
-      },
-    );
+    Widget result = _buildButtonEvent();
 
     return _prop.block && !_prop.circle
         ? result
@@ -67,7 +59,7 @@ class _ElButtonState extends State<ElButton> {
   }
 
   /// 构建按钮事件
-  Widget _buildEvent({required WidgetBuilder builder}) {
+  Widget _buildButtonEvent() {
     return ElTapBuilder(
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
@@ -75,38 +67,86 @@ class _ElButtonState extends State<ElButton> {
           _groupData!.onChanged(_indexData!.index);
         }
       },
-      onTapDown: widget.onTapDown,
-      onTapUp: widget.onTapUp,
-      onTapCancel: widget.onTapCancel,
+      onTapDown: (e) {
+        setState(() {
+          _isTap = true;
+        });
+        if (widget.onTapDown != null) widget.onTapDown!(e);
+        if (_hasGroup) {
+          _groupData!.activeIndex.value = _indexData!.index;
+        }
+      },
+      onTapUp: (e) {
+        setState(() {
+          _isTap = false;
+        });
+        if (widget.onTapUp != null) widget.onTapUp!(e);
+        if (_hasGroup) {
+          _groupData!.activeIndex.value = -1;
+        }
+      },
+      onTapCancel: () {
+        setState(() {
+          _isTap = false;
+        });
+        if (widget.onTapCancel != null) widget.onTapCancel!();
+        if (_hasGroup) {
+          _groupData!.activeIndex.value = -1;
+        }
+      },
       disabled: _prop.disabled,
+      triggerBuild: false,
       delay: _duration.inMilliseconds,
       builder: (context) {
-        return ElHoverBuilder(
+        if (_prop.disabled) _isHover = false;
+        return MouseRegion(
           cursor: _prop.loading
               ? MouseCursor.defer
               : _prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
-          disabled: _prop.disabled,
           onHover: widget.onHover,
-          onEnter: (e) {
-            if (_hasGroup) {
-              if (_buttonGroupHoverExitTimer != null) {
-                _buttonGroupHoverExitTimer!.cancel();
-                _buttonGroupHoverExitTimer = null;
-              }
-              _groupData!.hoverIndex.value = _indexData!.index;
-            }
-          },
-          onExit: (e) {
-            if (_hasGroup) {
-              _buttonGroupHoverExitTimer = setTimeout(() {
-                _groupData!.hoverIndex.value = -1;
-              }, _duration.inMilliseconds);
-            }
-          },
-          builder: (context) => builder(context),
+          onEnter: _prop.disabled
+              ? null
+              : (e) {
+                  setState(() {
+                    _isHover = true;
+                  });
+                  if (_hasGroup) {
+                    if (_buttonGroupHoverExitTimer != null) {
+                      _buttonGroupHoverExitTimer!.cancel();
+                      _buttonGroupHoverExitTimer = null;
+                    }
+                    _groupData!.hoverIndex.value = _indexData!.index;
+                  }
+                },
+          onExit: _prop.disabled
+              ? null
+              : (e) {
+                  setState(() {
+                    _isHover = false;
+                  });
+                  if (_hasGroup) {
+                    _buttonGroupHoverExitTimer = setTimeout(() {
+                      _groupData!.activeIndex.value = -1;
+                    }, _duration.inMilliseconds);
+                  }
+                },
+          child: Builder(builder: (context) {
+            // if (_hasGroup) {
+            //   final $isSelected = _ButtonGroupUtil.isSelected(
+            //     _groupData!.modelValue,
+            //     _indexData!.index,
+            //   );
+            //   if ($isSelected) {
+            //     $isHover = true;
+            //   }
+            // }
+
+            _colorStyle = _calcColorStyle();
+            return _buildButtonWrapper(context);
+          }),
         );
       },
     );
@@ -256,6 +296,120 @@ class _ElButtonState extends State<ElButton> {
     return $child;
   }
 
+  /// 计算按钮颜色样式
+  _ColorStyle _calcColorStyle() {
+    late _ColorStyle colors;
+    if (_prop.loadingBuilder != null && _prop.loading) {
+      return _Preset.loadingButton(
+        context,
+        type: _prop.type,
+        bgColor: _prop.bgColor,
+        link: _prop.link,
+        text: _prop.text,
+        plain: _prop.plain,
+      );
+    } else {
+      if (_prop.link) {
+        if (_isTap) {
+          colors = _Preset.linkButtonActive(
+            context,
+            type: _prop.type,
+          );
+        } else if (_isHover) {
+          colors = _Preset.linkButtonHover(
+            context,
+            type: _prop.type,
+          );
+        } else {
+          colors = _Preset.linkButton(
+            context,
+            type: _prop.type,
+          );
+        }
+        return colors.linkButtonDisabled(_prop.disabled);
+      } else if (_prop.text) {
+        if (_isTap) {
+          colors = _Preset.textButtonActive(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+            bg: _prop.bg,
+          );
+        } else if (_isHover) {
+          colors = _Preset.textButtonHover(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+            bg: _prop.bg,
+          );
+        } else {
+          colors = _Preset.textButton(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+            bg: _prop.bg,
+          );
+        }
+        return colors.textButtonDisabled(_prop.disabled);
+      } else {
+        if (_prop.type == null && _prop.bgColor == null) {
+          if (_isTap) {
+            colors = _Preset.defaultButtonActive(context);
+          } else if (_isHover) {
+            colors = _Preset.defaultButtonHover(context);
+          } else {
+            colors = _Preset.defaultButton(context);
+          }
+          return colors.defaultButtonDisabled(_prop.disabled);
+        } else {
+          if (_prop.plain) {
+            if (_isTap) {
+              colors = _Preset.plainButtonActive(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            } else if (_isHover) {
+              colors = _Preset.plainButtonHover(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            } else {
+              colors = _Preset.plainButton(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            }
+            return colors.plainButtonDisabled(_prop.disabled);
+          } else {
+            if (_isTap) {
+              colors = _Preset.themeButtonActive(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            } else if (_isHover) {
+              colors = _Preset.themeButtonHover(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            } else {
+              colors = _Preset.themeButton(
+                context,
+                type: _prop.type,
+                bgColor: _prop.bgColor,
+              );
+            }
+            return colors.themeButtonDisabled(_prop.disabled);
+          }
+        }
+      }
+    }
+  }
+
   Border _calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
     final defaultBorder = _prop.borderBuilder(borderColor);
@@ -302,5 +456,213 @@ class _ElButtonState extends State<ElButton> {
       );
     }
     return null;
+  }
+}
+
+/// 按钮颜色样式
+class _ColorStyle {
+  Color? bgColor;
+  Color? textColor;
+  Color? borderColor;
+  Color? loadingTextColor;
+
+  _ColorStyle({
+    this.bgColor,
+    this.textColor,
+    this.borderColor,
+    this.loadingTextColor,
+  });
+}
+
+/// 按钮最终 prop 配置
+class _ButtonProp {
+  final dynamic child;
+  final double? width;
+  final double height;
+  final Color? bgColor;
+  final Color? color;
+  final String? type;
+  final bool text;
+  final bool bg;
+  final bool link;
+  final bool plain;
+  final bool round;
+  final bool block;
+  final ElBorderBuilder borderBuilder;
+  final BorderRadius borderRadius;
+  final EdgeInsetsGeometry? padding;
+  final double iconSize;
+  final Widget? leftIcon;
+  final Widget? rightIcon;
+  final bool circle;
+  final bool disabled;
+  final bool loading;
+  final Widget loadingWidget;
+  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
+
+  _ButtonProp({
+    required this.child,
+    required this.width,
+    required this.height,
+    required this.bgColor,
+    required this.color,
+    required this.type,
+    required this.text,
+    required this.bg,
+    required this.link,
+    required this.plain,
+    required this.round,
+    required this.block,
+    required this.borderBuilder,
+    required this.borderRadius,
+    required this.padding,
+    required this.iconSize,
+    required this.leftIcon,
+    required this.rightIcon,
+    required this.circle,
+    required this.disabled,
+    required this.loading,
+    required this.loadingWidget,
+    required this.loadingBuilder,
+  });
+
+  /// 通过工厂函数创建按钮最终 prop 配置
+  factory _ButtonProp.create(
+    BuildContext context,
+    ElButton widget,
+    bool hasGroup,
+  ) {
+    final $data = ElButtonTheme.of(context);
+    late final double $height;
+    late final Color? $bgColor;
+    late final String? $type;
+    late final bool $text;
+    late final bool $bg;
+    late final bool $circle;
+    late final bool $link;
+    late final bool $plain;
+    late final bool $round;
+    final bool $block = widget.block ?? $data.block ?? false;
+    final $loading = widget.loading ?? $data.loading ?? false;
+    final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
+
+    if (hasGroup) {
+      $height = $data.height ?? context.elConfig.size;
+      $bgColor = $data.bgColor;
+      $type = $data.type;
+      $text = $data.text ?? false;
+      $bg = $data.bg ?? false;
+      $circle = false;
+      $link = false;
+      $plain = $data.plain ?? false;
+      $round = $data.round ?? false;
+    } else {
+      $height = widget.height ?? $data.height ?? context.elConfig.size;
+      $bgColor = widget.bgColor ?? $data.bgColor;
+      $type = widget.type ?? $data.type;
+      $circle = widget.circle ?? $data.circle ?? false;
+      $text = widget.text ?? $data.text ?? false;
+      $bg = widget.bg ?? $data.bg ?? false;
+      $link = widget.link ?? $data.link ?? false;
+      $plain = widget.plain ?? $data.plain ?? false;
+      $round = widget.round ?? $data.round ?? false;
+    }
+
+    final $horizontalPadding = $height / 2;
+    final $padding = $circle || $link
+        ? null
+        : (widget.padding ??
+            $data.padding ??
+            EdgeInsets.symmetric(horizontal: $horizontalPadding));
+    final $borderRadius = $round || $circle
+        ? BorderRadius.circular($height / 2)
+        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
+
+    return _ButtonProp(
+      child: widget.child ?? $data.child,
+      width: widget.width ?? $data.width,
+      height: $height,
+      bgColor: $bgColor,
+      color: widget.color ?? $data.color,
+      type: $type,
+      text: $text,
+      bg: $bg,
+      link: $link,
+      plain: $plain,
+      round: $round,
+      block: $block,
+      borderBuilder:
+          widget.borderBuilder ?? $data.borderBuilder ?? _borderBuilder,
+      borderRadius: $borderRadius,
+      padding: $padding,
+      iconSize: widget.iconSize ?? $data.iconSize ?? $height / 2 - 2,
+      leftIcon: widget.leftIcon ?? $data.leftIcon,
+      rightIcon: widget.rightIcon ?? $data.rightIcon,
+      circle: $circle,
+      disabled: $disabled,
+      loading: $loading,
+      loadingWidget: widget.loadingWidget ??
+          $data.loadingWidget ??
+          const ElLoading(ElIcons.loading),
+      loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
+    );
+  }
+
+  static Border _borderBuilder(Color color) =>
+      Border.all(width: 1.0, color: color);
+}
+
+extension _ButtonColorExtension on Color {
+  /// hover 悬停颜色，颜色会变得更浅
+  Color hover(BuildContext context) => elLight3(context);
+
+  /// tap 按下颜色，颜色会变得更深
+  Color tap(BuildContext context) => elLight3(context, reverse: true);
+
+  /// 应用主题透明背景颜色
+  Color themeLightBg(BuildContext context) => elLight9(context);
+
+  /// 应用主题透明边框颜色
+  Color themeLightBorder(BuildContext context) => elLight6(context);
+}
+
+extension _ColorStyleExtension on _ColorStyle {
+  _ColorStyle defaultButtonDisabled(bool disabled) {
+    if (disabled) {
+      textColor = textColor!.withOpacity(_textDisabledOpacity);
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+    }
+    return this;
+  }
+
+  _ColorStyle themeButtonDisabled(bool disabled) {
+    if (disabled) {
+      bgColor = bgColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withOpacity(_themeButtonTextDisabledOpacity);
+    }
+    return this;
+  }
+
+  _ColorStyle plainButtonDisabled(bool disabled) {
+    if (disabled) {
+      bgColor = bgColor!.withOpacity(_disabledOpacity);
+      textColor = textColor!.withOpacity(_textDisabledOpacity);
+      borderColor = borderColor!.withOpacity(_disabledOpacity);
+    }
+    return this;
+  }
+
+  _ColorStyle textButtonDisabled(bool disabled) {
+    if (disabled) {
+      textColor = textColor!.withOpacity(_textDisabledOpacity);
+    }
+    return this;
+  }
+
+  _ColorStyle linkButtonDisabled(bool disabled) {
+    if (disabled) {
+      textColor = textColor!.withOpacity(_textDisabledOpacity);
+    }
+    return this;
   }
 }

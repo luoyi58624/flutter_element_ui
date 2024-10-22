@@ -65,5 +65,5 @@ ElButton(child: 'Hello', link: true),
 
 const ElLink(
   href: 'https://github.com/luoyi58624/flutter_element_ui',
-  child: ElButton(link: true, child: 'Hello'),
+  child: ElButton(child: 'Hello', link: true),
 ),''';

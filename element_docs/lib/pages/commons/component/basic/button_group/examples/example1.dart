@@ -225,7 +225,7 @@ class _Example extends StatelessWidget {
           child: ElButtonGroup(
             null,
             children: [
-              ElButton(child: '选项一'),
+              ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),
               ElButton(child: '选项三', block: false),
               ElButton(child: '选项四'),
@@ -284,6 +284,21 @@ class _Example extends StatelessWidget {
         ElButtonTheme(
           data: ElButtonThemeData(
             text: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: ElIcon(ElIcons.house)),
+              ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.delete)),
+              ElButton(child: ElIcon(ElIcons.upload2)),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            text: true,
             bg: true,
           ),
           child: ElButtonGroup(
@@ -331,7 +346,8 @@ class _Example extends StatelessWidget {
           ),
         ),
         Gap(8),
-        // 设置 block 属性可以让按钮填充剩余空间
+        // 设置 block 属性可以让按钮填充剩余空间，内部会给按钮包裹 Expanded 小部件，
+        // 你还可以设置按钮的 flex 属性控制它的空间比例
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
@@ -341,7 +357,7 @@ class _Example extends StatelessWidget {
           child: ElButtonGroup(
             null,
             children: [
-              ElButton(child: '选项一'),
+              ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),
               ElButton(child: '选项三', block: false),
               ElButton(child: '选项四'),

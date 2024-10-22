@@ -1,7 +1,32 @@
 part of 'index.dart';
 
-class ElButtonGroup extends HookWidget {
-  /// Element UI 按钮组，可以在 [ElButtonThemeData] 中进行更多配置
+class _ElButtonGroupInheritedWidget extends InheritedWidget {
+  const _ElButtonGroupInheritedWidget({
+    required this.modelValue,
+    required this.axis,
+    required this.hoverIndex,
+    required this.activeIndex,
+    required this.divideColor,
+    required this.onChanged,
+    required super.child,
+  });
+
+  final dynamic modelValue;
+  final Axis axis;
+  final Obs<int> hoverIndex;
+  final Obs<int> activeIndex;
+  final Obs<Color?> divideColor;
+  final ValueChanged onChanged;
+
+  static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElButtonGroupInheritedWidget>();
+
+  @override
+  bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => true;
+}
+
+class ElButtonGroup extends StatefulWidget {
+  /// Element UI 按钮组
   const ElButtonGroup(
     this.modelValue, {
     super.key,
@@ -17,7 +42,7 @@ class ElButtonGroup extends HookWidget {
   /// * List<int> || ValueNotifier<List<int>> 选中多个按钮，支持双向绑定
   final dynamic modelValue;
 
-  /// 按钮集合，注意：在按钮组模式下，[ElButton] 的很多属性不能直接使用
+  /// 按钮集合
   final List<ElButton> children;
 
   /// 按钮组方向
@@ -29,18 +54,36 @@ class ElButtonGroup extends HookWidget {
   /// 更新事件
   final ValueChanged? onChanged;
 
+  @override
+  State<ElButtonGroup> createState() => _ElButtonGroupState();
+}
+
+class _ElButtonGroupState extends State<ElButtonGroup> {
+  /// 当前鼠标悬停的按钮
+  final _hoverIndex = Obs(-1);
+
+  /// 当前鼠标激活的按钮
+  final _activeIndex = Obs(-1);
+
+  /// 按钮组分割线颜色，它的颜色会和按钮边框同步
+  final _divideColor = Obs<Color?>(null);
+
+  get _modelValue => widget.modelValue is ValueNotifier
+      ? (widget.modelValue as ValueNotifier).value
+      : widget.modelValue;
+
   /// 计算按钮组选中逻辑
   void _onChange(dynamic value) {
-    dynamic $modelValue = modelValue;
+    dynamic $modelValue = widget.modelValue;
     dynamic $value;
 
-    if (modelValue is ValueNotifier) {
-      $modelValue = (modelValue as ValueNotifier).value;
+    if (widget.modelValue is ValueNotifier) {
+      $modelValue = (widget.modelValue as ValueNotifier).value;
     }
 
     if ($modelValue is int) {
       if ($modelValue == value) {
-        if (mandatory == false) {
+        if (widget.mandatory == false) {
           $value = -1;
         }
       } else {
@@ -50,7 +93,7 @@ class ElButtonGroup extends HookWidget {
       final list = List<int>.from($modelValue);
       if (list.contains(value)) {
         if (list.length == 1) {
-          if (mandatory == false) {
+          if (widget.mandatory == false) {
             list.clear();
           }
         } else {
@@ -64,57 +107,51 @@ class ElButtonGroup extends HookWidget {
       return;
     }
 
-    if (modelValue is ValueNotifier) {
-      (modelValue as ValueNotifier).value = $value;
+    if (widget.modelValue is ValueNotifier) {
+      (widget.modelValue as ValueNotifier).value = $value;
     }
 
-    if (onChanged != null) onChanged!($value);
+    if (widget.onChanged != null) widget.onChanged!($value);
   }
 
   @override
   Widget build(BuildContext context) {
-    final $hoverIndex = useObs(-1);
-    final $borderColor = useObs<Color?>(null);
     final $data = ElButtonTheme.of(context);
-    final $modelValue = modelValue is ValueNotifier
-        ? (modelValue as ValueNotifier).value
-        : modelValue;
     ElAssert.themeType($data.type, 'ElButtonGroup');
     final List<Widget> $children = [];
-    int $length = children.length;
+    int $length = widget.children.length;
     for (int i = 0; i < $length; i++) {
       Widget itemWidget = ChildIndexData(
         length: $length,
         index: i,
-        child: children[i],
+        child: widget.children[i],
       );
+      int? flex = widget.children[i].flex;
+      if (flex == null || flex < 1) flex = 1;
       if ($data.block == true) {
-        if (children[i].block == null) {
-          itemWidget = Expanded(child: itemWidget);
+        if (widget.children[i].block == null) {
+          itemWidget = Expanded(flex: flex, child: itemWidget);
         } else {
-          if (children[i].block != false) {
-            itemWidget = Expanded(child: itemWidget);
+          if (widget.children[i].block != false) {
+            itemWidget = Expanded(flex: flex, child: itemWidget);
           }
         }
       } else {
-        if (children[i].block == true) {
-          itemWidget = Expanded(child: itemWidget);
+        if (widget.children[i].block == true) {
+          itemWidget = Expanded(flex: flex, child: itemWidget);
         }
       }
       $children.add(itemWidget);
       if ($data.text != true && i < $length - 1) {
         $children.add(_GroupDivide(
-          modelValue: $modelValue,
           length: $length,
           index: i,
-          hoverIndex: $hoverIndex,
-          borderColor: $borderColor,
         ));
       }
     }
 
     late Widget result;
-    if (axis == Axis.horizontal) {
+    if (widget.axis == Axis.horizontal) {
       result = Row(
         children: $children,
       );
@@ -124,13 +161,123 @@ class ElButtonGroup extends HookWidget {
       );
     }
     return _ElButtonGroupInheritedWidget(
-      modelValue: $modelValue,
-      axis: axis,
-      hoverIndex: $hoverIndex,
-      borderColor: $borderColor,
+      modelValue: _modelValue,
+      axis: widget.axis,
+      hoverIndex: _hoverIndex,
+      activeIndex: _activeIndex,
+      divideColor: _divideColor,
       onChanged: _onChange,
       child: result,
     );
+  }
+}
+
+/// 按钮组分割线
+class _GroupDivide extends StatelessWidget {
+  const _GroupDivide({
+    required this.length,
+    required this.index,
+  });
+
+  /// 按钮组的按钮数量
+  final int length;
+
+  /// 当前分割线的索引位置
+  final int index;
+
+  // bool _isActive(int targetIndex) {
+  //   int $hoverIndex = hoverIndex.value;
+  //   int? activeIndex;
+  //   if (_ButtonGroupUtil.isSelected(modelValue, index)) {
+  //     activeIndex = index;
+  //   }
+  //
+  //   if ($hoverIndex == targetIndex) {
+  //     return true;
+  //   }
+  //   if (activeIndex != null && activeIndex == targetIndex) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  Color? calcIndexColor(int targetIndex, Color? activeColor) {
+    if (length == 2) {
+      if (targetIndex != -1) return activeColor;
+    } else if (length > 2) {
+      if (targetIndex == 0) {
+        if (index == targetIndex) return activeColor;
+      } else if (targetIndex == length - 1) {
+        if (index == targetIndex - 1) return activeColor;
+      } else if (targetIndex != -1) {
+        if (index == targetIndex - 1 || index == targetIndex) {
+          return activeColor;
+        }
+      }
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final $data = ElButtonTheme.of(context);
+    final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
+
+    late final Color $defaultColor;
+    late final Color $hoverColor;
+    late final Color $activeColor;
+
+    Color? $selectedColor;
+    late final double $width;
+    final $height = $data.height ?? context.elConfig.size;
+
+    if ($data.type == null && $data.bgColor == null) {
+      $width = 1.0;
+      $defaultColor = context.elTheme.borderColor;
+
+      if (_ButtonGroupUtil.isSelected($groupData.modelValue, index)) {
+        $selectedColor = _Preset.defaultButtonActive(context).borderColor!;
+      } else {
+        $selectedColor = null;
+      }
+    } else {
+      if ($data.plain == true) {
+        $width = 1.0;
+        $defaultColor = _Preset.plainButton(
+          context,
+          type: $data.type,
+          bgColor: $data.bgColor,
+        ).borderColor!;
+      } else {
+        $width = 0.5;
+        $defaultColor = context.isDark
+            ? context.lightTheme.bgColor
+            : context.elTheme.borderColor;
+      }
+    }
+
+    return ObsBuilder(builder: (context) {
+      Color? color;
+      if ($groupData.activeIndex.value != -1) {
+        color = calcIndexColor(
+          $groupData.activeIndex.value,
+          $groupData.divideColor.value,
+        );
+      }
+      final activeColor = calcIndexColor(
+        $groupData.activeIndex.value,
+        $groupData.divideColor.value,
+      );
+      // i($groupData.activeIndex.value, activeColor);
+      return AnimatedColoredBox(
+        duration: context.elDuration(_duration),
+        color: $selectedColor ?? activeColor ?? $defaultColor,
+        child: SizedBox(
+          width: $width,
+          height: $height,
+        ),
+      );
+    });
   }
 }
 
