@@ -1,29 +1,17 @@
 part of 'index.dart';
 
-/// 按钮 background、border 禁用透明度
-const double _disabledOpacity = 0.6;
-
-/// 按钮 text 禁用透明度
-const double _textDisabledOpacity = 0.36;
-
-/// 主题按钮 text 禁用透明度
-const double _themeButtonTextDisabledOpacity = 0.85;
-
-extension _ButtonColorStyleExtension on _ButtonColorStyle {
-  _ButtonColorStyle linkButtonDisabled(bool disabled) {
-    if (disabled) {
-      textColor = textColor!.withOpacity(_textDisabledOpacity);
-    }
-    return this;
-  }
-}
-
 extension _ButtonColorExtension on Color {
-  /// hover 悬停颜色，颜色会变得更浅
+  /// 悬停状态颜色，颜色会变得更浅
   Color hover(BuildContext context) => elLight3(context);
 
-  /// tap 按下颜色，颜色会变得更深
+  /// 按下状态颜色，颜色会变得更深
   Color tap(BuildContext context) => elLight3(context, reverse: true);
+
+  /// 禁用状态颜色
+  Color disabled(BuildContext context) => elLight5(context);
+
+  /// 链接悬停状态文字颜色
+  Color linkTextHover(BuildContext context) => elLight5(context);
 
   /// 应用主题透明背景颜色
   Color themeLightBg(BuildContext context) => elLight9(context);

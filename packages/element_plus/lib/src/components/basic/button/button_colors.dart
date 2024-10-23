@@ -33,7 +33,6 @@ class _ButtonColors {
             disabled: prop.disabled,
           );
         }
-        return colors.linkButtonDisabled(prop.disabled);
       } else if (prop.text) {
         if (isTap) {
           colors = textButtonActive(
@@ -66,7 +65,7 @@ class _ButtonColors {
           }
         } else {
           if (isTap) {
-            colors = themeButtonActive(context, bgColor: prop.bgColor!);
+            colors = plainThemeButtonActive(context, bgColor: prop.bgColor!);
           } else if (isHover) {
             colors = themeButton(context, bgColor: prop.bgColor!);
           } else {
@@ -116,9 +115,8 @@ class _ButtonColors {
     Color $borderColor = $elTheme.borderColor;
 
     if (disabled) {
-      $bgColor = $bgColor.withOpacity(_disabledOpacity);
-      $textColor = $textColor.withOpacity(_textDisabledOpacity);
-      $borderColor = $borderColor.withOpacity(_disabledOpacity);
+      $textColor = $textColor.disabled(context);
+      $borderColor = $borderColor.disabled(context);
     }
 
     return _ButtonColorStyle(
@@ -155,15 +153,18 @@ class _ButtonColors {
   }) {
     Color $bgColor = bgColor;
     Color $textColor = bgColor.elTextColor(context);
+    Color $borderColor = bgColor;
 
     if (disabled) {
-      $bgColor = bgColor.withOpacity(_disabledOpacity);
-      $textColor = $textColor.withOpacity(_themeButtonTextDisabledOpacity);
+      $bgColor = bgColor.disabled(context);
+      $textColor = $textColor.disabled(context);
+      $borderColor = bgColor.disabled(context);
     }
 
     return _ButtonColorStyle(
       bgColor: $bgColor,
       textColor: $textColor,
+      borderColor: $borderColor,
     );
   }
 
@@ -199,9 +200,8 @@ class _ButtonColors {
     Color $borderColor = $elTheme.borderColor;
 
     if (disabled) {
-      $bgColor = $bgColor.withOpacity(_disabledOpacity);
-      $textColor = $textColor.withOpacity(_textDisabledOpacity);
-      $borderColor = $borderColor.withOpacity(_disabledOpacity);
+      $textColor = $textColor.disabled(context);
+      $borderColor = $borderColor.disabled(context);
     }
 
     return _ButtonColorStyle(
@@ -247,9 +247,9 @@ class _ButtonColors {
     Color $borderColor = bgColor.themeLightBorder(context);
 
     if (disabled) {
-      $bgColor = $bgColor.withOpacity(_disabledOpacity);
-      $textColor = $textColor.withOpacity(_textDisabledOpacity);
-      $borderColor = $borderColor.withOpacity(_disabledOpacity);
+      $bgColor = $bgColor.disabled(context);
+      $textColor = $textColor.disabled(context);
+      $borderColor = $borderColor.disabled(context);
     }
 
     return _ButtonColorStyle(
@@ -257,6 +257,17 @@ class _ButtonColors {
       textColor: $textColor,
       borderColor: $borderColor,
     );
+  }
+
+  static _ButtonColorStyle plainThemeButtonActive(
+    BuildContext context, {
+    required Color bgColor,
+  }) {
+    if (PlatformUtil.isDesktop) {
+      return themeButtonActive(context, bgColor: bgColor);
+    }else{
+      return themeButton(context, bgColor: bgColor);
+    }
   }
 
   static _ButtonColorStyle textButton(
@@ -275,7 +286,7 @@ class _ButtonColors {
     var $textColor = bgColor ?? $elTheme.regularTextColor;
 
     if (disabled) {
-      $textColor = $textColor.withOpacity(_textDisabledOpacity);
+      $textColor = $textColor.disabled(context);
     }
 
     return _ButtonColorStyle(
@@ -332,7 +343,7 @@ class _ButtonColors {
     final $elTheme = context.elTheme;
     var $textColor = bgColor ?? $elTheme.regularTextColor;
     if (disabled) {
-      $textColor = $textColor.withOpacity(_textDisabledOpacity);
+      $textColor = $textColor.disabled(context);
     }
     return _ButtonColorStyle(
       textColor: $textColor,
@@ -346,7 +357,7 @@ class _ButtonColors {
     final $elTheme = context.elTheme;
     var $textColor = bgColor ?? $elTheme.regularTextColor;
     return _ButtonColorStyle(
-      textColor: $textColor.withOpacity(_disabledOpacity),
+      textColor: $textColor.linkTextHover(context),
     );
   }
 

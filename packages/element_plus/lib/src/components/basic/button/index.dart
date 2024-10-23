@@ -253,7 +253,7 @@ class _ElButtonState extends State<ElButton> {
             });
           }
         }
-        return MouseRegion(
+        return ElHoverBuilder(
           cursor: _prop.loading
               ? MouseCursor.defer
               : _prop.disabled
@@ -293,7 +293,7 @@ class _ElButtonState extends State<ElButton> {
                     _groupData!.hoverIndex.value = -1;
                   }
                 },
-          child: Builder(builder: (context) {
+          builder: (context) {
             _colorStyle =
                 _groupData == null || _groupData!.type == _ButtonGroupType.none
                     ? _ButtonColors.calcButtonColorStyle(
@@ -310,7 +310,7 @@ class _ElButtonState extends State<ElButton> {
                         isSelected: _isSelected,
                       );
             return _buildButtonWrapper(context);
-          }),
+          },
         );
       },
     );

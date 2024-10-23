@@ -319,7 +319,7 @@ class _ButtonGroupColors {
         : context.elThemeColors[type]!);
 
     return _ButtonColorStyle(
-      textColor: $textColor.withOpacity(_disabledOpacity),
+      textColor: $textColor.linkTextHover(context),
     );
   }
 

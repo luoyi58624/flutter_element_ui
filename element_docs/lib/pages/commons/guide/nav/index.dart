@@ -23,8 +23,27 @@ class _Example extends HookWidget {
     final selected = useState(-1);
     final loading = useState(false);
 
+    i(context.elTheme.primary);
+    i(context.elTheme.primary.withOpacity(0.5));
     return Column(
       children: [
+        const Gap(8),
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: context.elTheme.primary.mix(Colors.white, 70),
+            border: Border.all(
+              width: 5,
+              color: context.elTheme.primary.mix(Colors.white, 70),
+            ),
+          ),
+        ),
+        const Gap(8),
+        const ElButton(
+          child: '选项一',
+          type: El.primary,
+        ),
         const Gap(8),
         ElButtonTheme.merge(
           data: ElButtonThemeData(

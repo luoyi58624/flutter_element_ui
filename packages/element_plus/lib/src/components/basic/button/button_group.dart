@@ -353,9 +353,18 @@ class _GroupDivide extends StatelessWidget {
         $hoverColor = _ButtonColors.plainButtonHover(context).borderColor!;
         $activeColor = _ButtonColors.plainButtonActive(context).borderColor!;
       } else {
-        $defaultColor = bgColor.themeLightBorder(context);
-        $hoverColor = bgColor;
-        $activeColor = bgColor;
+        $defaultColor = _ButtonColors.plainThemeButton(
+          context,
+          bgColor: bgColor,
+        ).borderColor!;
+        $hoverColor = _ButtonColors.themeButton(
+          context,
+          bgColor: bgColor,
+        ).borderColor!;
+        $activeColor = _ButtonColors.plainThemeButtonActive(
+          context,
+          bgColor: bgColor,
+        ).borderColor!;
       }
     } else {
       if (bgColor == null) {
