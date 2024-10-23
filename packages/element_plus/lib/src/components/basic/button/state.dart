@@ -339,6 +339,27 @@ class _ElButtonState extends State<ElButton> {
           );
         }
         return colors.textButtonDisabled(_prop.disabled);
+      } else if (_prop.plain) {
+        if (_isTap) {
+          colors = _Preset.plainButtonActive(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+          );
+        } else if (_isHover) {
+          colors = _Preset.plainButtonHover(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+          );
+        } else {
+          colors = _Preset.plainButton(
+            context,
+            type: _prop.type,
+            bgColor: _prop.bgColor,
+          );
+        }
+        return colors.plainButtonDisabled(_prop.disabled);
       } else {
         if (_prop.type == null && _prop.bgColor == null) {
           if (_isTap) {
@@ -350,49 +371,26 @@ class _ElButtonState extends State<ElButton> {
           }
           return colors.defaultButtonDisabled(_prop.disabled);
         } else {
-          if (_prop.plain) {
-            if (_isTap) {
-              colors = _Preset.plainButtonActive(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            } else if (_isHover) {
-              colors = _Preset.plainButtonHover(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            } else {
-              colors = _Preset.plainButton(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            }
-            return colors.plainButtonDisabled(_prop.disabled);
+          if (_isTap) {
+            colors = _Preset.themeButtonActive(
+              context,
+              type: _prop.type,
+              bgColor: _prop.bgColor,
+            );
+          } else if (_isHover) {
+            colors = _Preset.themeButtonHover(
+              context,
+              type: _prop.type,
+              bgColor: _prop.bgColor,
+            );
           } else {
-            if (_isTap) {
-              colors = _Preset.themeButtonActive(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            } else if (_isHover) {
-              colors = _Preset.themeButtonHover(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            } else {
-              colors = _Preset.themeButton(
-                context,
-                type: _prop.type,
-                bgColor: _prop.bgColor,
-              );
-            }
-            return colors.themeButtonDisabled(_prop.disabled);
+            colors = _Preset.themeButton(
+              context,
+              type: _prop.type,
+              bgColor: _prop.bgColor,
+            );
           }
+          return colors.themeButtonDisabled(_prop.disabled);
         }
       }
     }
@@ -642,7 +640,7 @@ extension _ColorStyleExtension on _ColorStyle {
 
   _ColorStyle plainButtonDisabled(bool disabled) {
     if (disabled) {
-      bgColor = bgColor!.withOpacity(_disabledOpacity);
+      bgColor = bgColor?.withOpacity(_disabledOpacity);
       textColor = textColor!.withOpacity(_textDisabledOpacity);
       borderColor = borderColor!.withOpacity(_disabledOpacity);
     }

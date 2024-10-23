@@ -82,12 +82,25 @@ class _Preset {
     String? type,
     Color? bgColor,
   }) {
+    final $elTheme = context.elTheme;
     final $themeColor = bgColor ?? context.elThemeColors[type];
-    assert($themeColor != null);
+    Color? $bgColor;
+    late Color $textColor;
+    late Color $borderColor;
+
+    if ($themeColor != null) {
+      $bgColor = $themeColor.themeLightBg(context);
+      $textColor = $themeColor;
+      $borderColor = $themeColor.themeLightBorder(context);
+    } else {
+      $textColor = $elTheme.regularTextColor;
+      $borderColor = $elTheme.borderColor;
+    }
+
     return _ColorStyle(
-      bgColor: $themeColor!.themeLightBg(context),
-      textColor: $themeColor,
-      borderColor: $themeColor.themeLightBorder(context),
+      bgColor: $bgColor,
+      textColor: $textColor,
+      borderColor: $borderColor,
       loadingTextColor: null,
     );
   }
@@ -97,12 +110,26 @@ class _Preset {
     String? type,
     Color? bgColor,
   }) {
+    final $elTheme = context.elTheme;
     final $themeColor = bgColor ?? context.elThemeColors[type];
-    assert($themeColor != null);
+
+    Color? $bgColor;
+    late Color $textColor;
+    late Color $borderColor;
+
+    if ($themeColor != null) {
+      $bgColor = $themeColor;
+      $textColor = $themeColor.elTextColor(context);
+      $borderColor = $themeColor;
+    } else {
+      $textColor = $elTheme.primary;
+      $borderColor = $elTheme.primary.themeLightBorder(context);
+    }
+
     return _ColorStyle(
-      bgColor: $themeColor,
-      textColor: $themeColor!.elTextColor(context),
-      borderColor: $themeColor,
+      bgColor: $bgColor,
+      textColor: $textColor,
+      borderColor: $borderColor,
       loadingTextColor: null,
     );
   }
@@ -112,21 +139,27 @@ class _Preset {
     String? type,
     Color? bgColor,
   }) {
+    final $elTheme = context.elTheme;
     final $themeColor = bgColor ?? context.elThemeColors[type];
-    assert($themeColor != null);
-    if (PlatformUtil.isDesktop) {
-      return _ColorStyle(
-        bgColor: $themeColor!.tap(context),
-        textColor: $themeColor.elTextColor(context),
-        borderColor: $themeColor.tap(context),
-        loadingTextColor: null,
-      );
+
+    if ($themeColor != null) {
+      if (PlatformUtil.isDesktop) {
+        return _ColorStyle(
+          bgColor: $themeColor.tap(context),
+          textColor: $themeColor.elTextColor(context),
+          borderColor: $themeColor.tap(context),
+        );
+      } else {
+        return _ColorStyle(
+          bgColor: $themeColor,
+          textColor: $themeColor.elTextColor(context),
+          borderColor: $themeColor,
+        );
+      }
     } else {
       return _ColorStyle(
-        bgColor: $themeColor,
-        textColor: $themeColor!.elTextColor(context),
-        borderColor: $themeColor,
-        loadingTextColor: null,
+        textColor: $elTheme.primary,
+        borderColor: $elTheme.primary,
       );
     }
   }
