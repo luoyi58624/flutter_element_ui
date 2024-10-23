@@ -345,31 +345,26 @@ class _GroupDivide extends StatelessWidget {
 
     final $height = $data.height ?? context.elConfig.size;
 
-    if ($data.type == null && $data.bgColor == null) {
-      $hoverColor = _ButtonColors.buttonHover(context).borderColor!;
-      $activeColor = _ButtonColors.buttonActive(context).borderColor!;
-      $selectedColor =
-          _ButtonGroupColors.defaultButtonSelected(context).borderColor!;
-    } else {
-      final $themeColor = $data.bgColor ?? context.elThemeColors[$data.type]!;
-      if ($data.plain == true) {
-        $defaultColor = _ButtonColors.plainButton(
-          context,
-          type: $data.type,
-          bgColor: $data.bgColor,
-        ).borderColor!;
-        $hoverColor = _ButtonColors.plainButtonHover(
-          context,
-          type: $data.type,
-          bgColor: $data.bgColor,
-        ).borderColor!;
-        $activeColor = _ButtonColors.plainButtonActive(
-          context,
-          type: $data.type,
-          bgColor: $data.bgColor,
-        ).borderColor!;
+    Color? bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
+
+    if ($data.plain == true) {
+      if (bgColor == null) {
+        $defaultColor = _ButtonColors.plainButton(context).borderColor!;
+        $hoverColor = _ButtonColors.plainButtonHover(context).borderColor!;
+        $activeColor = _ButtonColors.plainButtonActive(context).borderColor!;
       } else {
-        $defaultColor = $themeColor.mix(context.lightTheme.bgColor, 50);
+        $defaultColor = bgColor.themeLightBorder(context);
+        $hoverColor = bgColor;
+        $activeColor = bgColor;
+      }
+    } else {
+      if (bgColor == null) {
+        $hoverColor = _ButtonColors.buttonHover(context).borderColor!;
+        $activeColor = _ButtonColors.buttonActive(context).borderColor!;
+        $selectedColor =
+            _ButtonGroupColors.defaultButtonSelected(context).borderColor!;
+      } else {
+        $defaultColor = bgColor.mix(context.lightTheme.bgColor, 50);
       }
     }
 

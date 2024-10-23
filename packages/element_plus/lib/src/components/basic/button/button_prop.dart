@@ -7,7 +7,6 @@ class _ButtonProp {
   final double height;
   final Color? bgColor;
   final Color? color;
-  final String? type;
   final bool text;
   final bool bg;
   final bool link;
@@ -32,7 +31,6 @@ class _ButtonProp {
     required this.height,
     required this.bgColor,
     required this.color,
-    required this.type,
     required this.text,
     required this.bg,
     required this.link,
@@ -61,7 +59,6 @@ class _ButtonProp {
     final $data = ElButtonTheme.of(context);
     late final double $height;
     late final Color? $bgColor;
-    late final String? $type;
     late final bool $text;
     late final bool $bg;
     late final bool $circle;
@@ -75,8 +72,7 @@ class _ButtonProp {
 
     if (hasGroup) {
       $height = $data.height ?? context.elConfig.size;
-      $bgColor = $data.bgColor;
-      $type = $data.type;
+      $bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
       $text = $data.text ?? false;
       $bg = $data.bg ?? false;
       $circle = false;
@@ -86,8 +82,9 @@ class _ButtonProp {
       $borderBuilder = $data.borderBuilder ?? defaultBorderBuilder;
     } else {
       $height = widget.height ?? $data.height ?? context.elConfig.size;
-      $bgColor = widget.bgColor ?? $data.bgColor;
-      $type = widget.type ?? $data.type;
+      $bgColor = widget.bgColor ??
+          $data.bgColor ??
+          context.elThemeColors[widget.type ?? $data.type];
       $circle = widget.circle ?? $data.circle ?? false;
       $text = widget.text ?? $data.text ?? false;
       $bg = widget.bg ?? $data.bg ?? false;
@@ -123,7 +120,6 @@ class _ButtonProp {
       height: $height,
       bgColor: $bgColor,
       color: widget.color ?? $data.color,
-      type: $type,
       text: $text,
       bg: $bg,
       link: $link,

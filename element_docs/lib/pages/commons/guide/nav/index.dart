@@ -25,27 +25,19 @@ class _Example extends HookWidget {
 
     return Column(
       children: [
-        ElText(selected.value),
-        ElButtonTheme(
+        const Gap(8),
+        ElButtonTheme.merge(
           data: ElButtonThemeData(
-            borderBuilder: (state) => Border.all(
-              color: state.color,
-            ),
+            type: El.primary,
+            plain: true,
+            borderBuilder: (state) => Border.all(width: 5),
           ),
-          child: ElButtonGroup.single(
-            selected,
+          child: const ElButtonGroup(
             children: [
-              ElButton(
-                onPressed: () {
-                  loading.value = true;
-                  setTimeout(() {
-                    loading.value = false;
-                  }, 1000);
-                },
-                child: '选项一',
-                loading: loading.value,
-              ),
+              ElButton(child: '选项一'),
               ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
             ],
           ),
         ),

@@ -16,100 +16,93 @@ class _ButtonGroupColors {
     if (prop.loadingBuilder != null && prop.loading) {
       return _ButtonColors.loadingButton(
         context,
-        type: prop.type,
         bgColor: prop.bgColor,
         link: prop.link,
         text: prop.text,
         plain: prop.plain,
       );
     } else {
-      if (prop.link) {
-        if (isTap) {
-          colors = linkButtonActive(
-            context,
-            type: prop.type,
-          );
-        } else if (isHover) {
-          colors = linkButtonHover(
-            context,
-            type: prop.type,
-          );
-        } else {
-          colors = linkButton(
-            context,
-            type: prop.type,
-          );
-        }
-        return colors.linkButtonDisabled(prop.disabled);
-      } else if (prop.text) {
+      if (prop.text) {
         if (isTap) {
           colors = textButtonActive(
             context,
-            type: prop.type,
             bgColor: prop.bgColor,
             bg: prop.bg,
           );
         } else if (isHover) {
           colors = textButtonHover(
             context,
-            type: prop.type,
             bgColor: prop.bgColor,
             bg: prop.bg,
           );
         } else {
           colors = textButton(
             context,
-            type: prop.type,
             bgColor: prop.bgColor,
             bg: prop.bg,
           );
         }
-        return colors.textButtonDisabled(prop.disabled);
       } else if (prop.plain) {
-        if (isTap) {
-          colors = plainButtonActive(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-          );
-        } else if (isHover) {
-          colors = plainButtonHover(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-          );
+        if (prop.bgColor == null) {
+          if (isTap) {
+            colors = _ButtonColors.plainButtonActive(context);
+          } else if (isHover) {
+            colors = _ButtonColors.plainButtonHover(context);
+          } else {
+            colors =
+                _ButtonColors.plainButton(context, disabled: prop.disabled);
+          }
         } else {
-          colors = plainButton(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-          );
+          if (isTap) {
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else if (isHover) {
+            colors = _ButtonColors.themeButton(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else {
+            colors = _ButtonColors.plainThemeButton(
+              context,
+              bgColor: prop.bgColor!,
+              disabled: prop.disabled,
+            );
+          }
         }
-        return colors.plainButtonDisabled(prop.disabled);
       } else {
-        if (isTap) {
-          colors = themeButtonActive(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-          );
-        } else if (isHover) {
-          colors = themeButtonHover(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-          );
+        if (prop.bgColor != null) {
+          if (isTap) {
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else if (isHover) {
+            colors = _ButtonColors.themeButtonHover(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else {
+            colors = _ButtonColors.themeButton(
+              context,
+              bgColor: prop.bgColor!,
+              disabled: prop.disabled,
+            );
+          }
         } else {
-          colors = _ButtonColors.button(
-            context,
-            type: prop.type,
-            bgColor: prop.bgColor,
-            disabled: prop.disabled,
-          );
+          if (isTap) {
+            colors = _ButtonColors.buttonActive(context);
+          } else if (isHover) {
+            colors = _ButtonColors.buttonHover(context);
+          } else {
+            colors = _ButtonColors.button(context, disabled: prop.disabled);
+          }
         }
-        return colors;
       }
     }
+
+    return colors;
   }
 
   static _ButtonColorStyle defaultButtonSelected(BuildContext context) {

@@ -77,7 +77,7 @@ class ElButton extends StatefulWidget {
   /// 按钮高度
   final double? height;
 
-  /// 按钮背景颜色
+  /// 自定义按钮背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
   /// 按钮文字、图标颜色，如果为空，则根据 [bgColor] 自动计算为全局默认的文字颜色

@@ -10,22 +10,6 @@ const double _textDisabledOpacity = 0.36;
 const double _themeButtonTextDisabledOpacity = 0.85;
 
 extension _ButtonColorStyleExtension on _ButtonColorStyle {
-  _ButtonColorStyle plainButtonDisabled(bool disabled) {
-    if (disabled) {
-      bgColor = bgColor?.withOpacity(_disabledOpacity);
-      textColor = textColor!.withOpacity(_textDisabledOpacity);
-      borderColor = borderColor!.withOpacity(_disabledOpacity);
-    }
-    return this;
-  }
-
-  _ButtonColorStyle textButtonDisabled(bool disabled) {
-    if (disabled) {
-      textColor = textColor!.withOpacity(_textDisabledOpacity);
-    }
-    return this;
-  }
-
   _ButtonColorStyle linkButtonDisabled(bool disabled) {
     if (disabled) {
       textColor = textColor!.withOpacity(_textDisabledOpacity);
