@@ -36,12 +36,10 @@ class _Example extends StatelessWidget {
     return Column(
       children: <Widget>[
         const ElButtonGroup(
-          null,
           children: [],
         ),
         const Gap(8),
         const ElButtonGroup(
-          null,
           children: [
             ElButton(child: '选项一'),
           ],
@@ -52,7 +50,6 @@ class _Example extends StatelessWidget {
             iconSize: 18,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(
                 leftIcon: ElIcon(ElIcons.arrowLeft),
@@ -71,7 +68,6 @@ class _Example extends StatelessWidget {
         ),
         const Gap(8),
         const ElButtonGroup(
-          null,
           children: [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
@@ -84,7 +80,6 @@ class _Example extends StatelessWidget {
             type: El.primary,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -99,7 +94,6 @@ class _Example extends StatelessWidget {
             round: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -113,7 +107,6 @@ class _Example extends StatelessWidget {
             plain: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -129,7 +122,6 @@ class _Example extends StatelessWidget {
             plain: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -146,7 +138,6 @@ class _Example extends StatelessWidget {
             round: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -167,7 +158,6 @@ class _Example extends StatelessWidget {
                 round: true,
               ),
               child: const ElButtonGroup(
-                null,
                 children: [
                   ElButton(child: '选项一', disabled: true),
                   ElButton(child: '选项二'),
@@ -190,7 +180,6 @@ class _Example extends StatelessWidget {
                 round: true,
               ),
               child: const ElButtonGroup(
-                null,
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -204,7 +193,6 @@ class _Example extends StatelessWidget {
         ),
         const Gap(8),
         const ElButtonGroup(
-          null,
           children: [
             ElButton(child: ElIcon(ElIcons.edit)),
             ElButton(child: ElIcon(ElIcons.share)),
@@ -217,7 +205,6 @@ class _Example extends StatelessWidget {
             type: El.primary,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: ElIcon(ElIcons.edit)),
               ElButton(child: ElIcon(ElIcons.share)),
@@ -233,7 +220,6 @@ class _Example extends StatelessWidget {
             round: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),
@@ -247,7 +233,6 @@ class _Example extends StatelessWidget {
             text: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -263,7 +248,6 @@ class _Example extends StatelessWidget {
             round: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -280,7 +264,6 @@ class _Example extends StatelessWidget {
             bg: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -295,7 +278,6 @@ class _Example extends StatelessWidget {
             text: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: ElIcon(ElIcons.house)),
               ElButton(child: ElIcon(ElIcons.edit)),
@@ -311,7 +293,6 @@ class _Example extends StatelessWidget {
             bg: true,
           ),
           child: const ElButtonGroup(
-            null,
             children: [
               ElButton(child: ElIcon(ElIcons.house)),
               ElButton(child: ElIcon(ElIcons.edit)),
@@ -334,7 +315,6 @@ class _Example extends StatelessWidget {
     return const Column(
       children: [
         ElButtonGroup(
-          null,
           children: [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
@@ -346,7 +326,6 @@ class _Example extends StatelessWidget {
             type: El.primary,
           ),
           child: ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -355,8 +334,6 @@ class _Example extends StatelessWidget {
           ),
         ),
         Gap(8),
-        // 设置 block 属性可以让按钮填充剩余空间，内部会给按钮包裹 Expanded 小部件，
-        // 你还可以设置按钮的 flex 属性控制它的空间比例
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
@@ -364,7 +341,6 @@ class _Example extends StatelessWidget {
             round: true,
           ),
           child: ElButtonGroup(
-            null,
             children: [
               ElButton(child: '选项一', flex: 2),
               ElButton(child: '选项二', block: false),

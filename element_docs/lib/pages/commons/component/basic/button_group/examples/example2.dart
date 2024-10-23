@@ -29,28 +29,29 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selected = useState(-1);
-    final selectedList = useState([]);
-    final loading = useState(false);
-
-    openLoading() {
-      loading.value = true;
-      setTimeout(() {
-        loading.value = false;
-      }, 1000);
-    }
 
     return Column(
       children: [
-        ElText(selected.value),
+        ElButtonGroup.single(
+          selected,
+          children: const [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+            ElButton(child: '选项四'),
+          ],
+        ),
+        const Gap(8),
         ElButtonTheme.merge(
           data: ElButtonThemeData(
             borderBuilder: (state) => Border.all(
-              width: state.isHover || state.isTap ? 1.5 : 1.0,
+              width: state.isActive ? 1.5 : 1.0,
               color: state.color,
             ),
           ),
-          child: ElButtonGroup(
+          child: ElButtonGroup.single(
             selected,
+            mandatory: true,
             children: const [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
@@ -60,9 +61,42 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElText(selectedList.value),
-        ElButtonGroup(
-          selectedList,
+        ElButtonTheme.merge(
+          data: ElButtonThemeData(
+            type: El.success,
+            borderBuilder: (state) => Border.all(
+              width: state.isActive ? 1.5 : 1.0,
+              color: state.color,
+            ),
+          ),
+          child: ElButtonGroup.single(
+            selected,
+            mandatory: true,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+String get code => '''
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final selected = useState(-1);
+
+    return Column(
+      children: [
+        ElButtonGroup.single(
+          selected,
           children: const [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
@@ -73,7 +107,4 @@ class _Example extends HookWidget {
       ],
     );
   }
-}
-
-String get code => '''
-ElButton(child: 'Hello', disabled: true),''';
+}''';

@@ -111,3 +111,28 @@ class ElButtonThemeData {
 /// 构建按钮自定义边框
 typedef ElBorderBuilder = Border Function(ElButtonBorderState state);
 
+class ElButtonLoadingState {
+  /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
+  final Color color;
+
+  /// 按钮 loading 尺寸，它的大小和图标一致
+  final double size;
+
+  ElButtonLoadingState({
+    required this.color,
+    required this.size,
+  });
+}
+
+class ElButtonBorderState {
+  /// 按钮边框颜色
+  final Color color;
+
+  /// 按钮是否处于激活状态：悬停、点击、选中
+  final bool isActive;
+
+  const ElButtonBorderState({
+    this.color = Colors.transparent,
+    this.isActive = false,
+  });
+}

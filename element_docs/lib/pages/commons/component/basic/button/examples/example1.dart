@@ -66,7 +66,7 @@ class Example1 extends StatelessWidget {
                       child: (type ?? 'Default').firstUpperCase,
                       plain: true,
                       borderBuilder: (state) => Border.all(
-                        width: state.isHover || state.isTap ? 1.5 : 0.1,
+                        width: state.isActive ? 1.5 : 0.1,
                         color: state.color,
                       ),
                     ),
@@ -130,9 +130,9 @@ ElButton(
   plain: true,
   borderBuilder: (state) => Border.all(
     color: color,
-    width: state.isHover || state.isTap ? 1.5 : 0.1,
+    width: state.isActive ? 1.5 : 0.1,
   ),
 ),
-ElButton(child: 'Hello', type: El.primary, round: true),
+ElButton(child: 'Hello', round: true),
 ElButton(child: ElIcon(ElIcons.aim)),
 ElButton(child: ElIcon(ElIcons.aim), circle: true)''';

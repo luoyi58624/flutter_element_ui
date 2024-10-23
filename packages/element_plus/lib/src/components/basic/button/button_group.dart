@@ -1,7 +1,14 @@
 part of 'index.dart';
 
+enum _ButtonGroupType {
+  none,
+  single,
+  multi,
+}
+
 class _ElButtonGroupInheritedWidget extends InheritedWidget {
   const _ElButtonGroupInheritedWidget({
+    required this.type,
     required this.modelValue,
     required this.axis,
     required this.hoverIndex,
@@ -12,6 +19,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required super.child,
   });
 
+  final _ButtonGroupType type;
   final dynamic modelValue;
   final Axis axis;
   final Obs<int> hoverIndex;
@@ -29,19 +37,57 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
 
 class ElButtonGroup extends StatefulWidget {
   /// Element UI 按钮组
-  const ElButtonGroup(
+  const ElButtonGroup({
+    super.key,
+    required this.children,
+    this.axis = Axis.horizontal,
+  })  : _type = _ButtonGroupType.none,
+        modelValue = null,
+        mandatory = false,
+        onChanged = null;
+
+  /// Element UI 单选按钮组，[modelValue] 支持 [int]、[ValueNotifier] 类型
+  ElButtonGroup.single(
     this.modelValue, {
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
     this.mandatory = false,
     this.onChanged,
-  });
+  })  : _type = _ButtonGroupType.single,
+        assert(() {
+          if ((modelValue is int? ||
+                  modelValue is int ||
+                  modelValue is ValueNotifier<int?> ||
+                  modelValue is ValueNotifier<int>) ==
+              false) {
+            throw 'ElButtonGroup.single 单选按钮组 modelValue 类型错误，参数类型必须明确指定 int 或者 int? 类型';
+          }
+          return true;
+        }());
 
-  /// 支持的类型：
-  /// * null 按钮组无需选中状态
-  /// * int || ValueNotifier<int> 选中的按钮索引，支持双向绑定
-  /// * List<int> || ValueNotifier<List<int>> 选中多个按钮，支持双向绑定
+  /// Element UI 多选按钮组，[modelValue] 支持 [List]、[ValueNotifier] 类型
+  ElButtonGroup.multi(
+    this.modelValue, {
+    super.key,
+    required this.children,
+    this.axis = Axis.horizontal,
+    this.mandatory = false,
+    this.onChanged,
+  })  : _type = _ButtonGroupType.multi,
+        assert(() {
+          if ((modelValue is List<int> ||
+                  modelValue is ValueNotifier<List<int>>) ==
+              false) {
+            throw 'ElButtonGroup.multi 多选按钮组 modelValue 类型错误，参数类型必须明确指定为 List<int>';
+          }
+          return true;
+        }());
+
+  /// 按钮组类型
+  final _ButtonGroupType _type;
+
+  /// 按钮组绑定选中的值
   final dynamic modelValue;
 
   /// 按钮集合
@@ -50,7 +96,7 @@ class ElButtonGroup extends StatefulWidget {
   /// 按钮组方向
   final Axis axis;
 
-  /// 是否必须选择一个值，默认 false
+  /// 当选中的值只剩一个时，是否固定它，默认 false
   final bool mandatory;
 
   /// 更新事件
@@ -80,6 +126,10 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
       ? (widget.modelValue as ValueNotifier).value
       : widget.modelValue;
 
+  bool get _hasSelected => _modelValue is List
+      ? (_modelValue as List).isNotEmpty
+      : _modelValue != null;
+
   @override
   void initState() {
     super.initState();
@@ -106,6 +156,8 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
 
   /// 计算按钮组选中逻辑
   void _onChange(dynamic value) {
+    if (widget._type == _ButtonGroupType.none) return;
+
     dynamic $modelValue = widget.modelValue;
     dynamic $value;
 
@@ -139,14 +191,16 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
       return;
     }
 
-    if (widget.modelValue is ValueNotifier) {
-      (widget.modelValue as ValueNotifier).value = $value;
-    }
+    if ($value != null) {
+      if (widget.modelValue is ValueNotifier) {
+        (widget.modelValue as ValueNotifier).value = $value;
+      }
 
-    if (widget.onChanged != null) widget.onChanged!($value);
+      if (widget.onChanged != null) widget.onChanged!($value);
+    }
   }
 
-  /// 更新分割线的位置，只有当
+  /// 更新分割线的位置，只有当分割线位置明确发生变化时才更新它们
   void _updateDivideOffset() {
     nextTick(() {
       List<double> $list = [];
@@ -217,6 +271,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     }
 
     return _ElButtonGroupInheritedWidget(
+      type: widget._type,
       modelValue: _modelValue,
       axis: widget.axis,
       hoverIndex: _hoverIndex,
@@ -232,6 +287,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
               (i, e) => _GroupDivide(
                 length: $length,
                 index: i,
+                hasSelected: _hasSelected,
               ),
             ),
           ],
@@ -246,6 +302,7 @@ class _GroupDivide extends StatelessWidget {
   const _GroupDivide({
     required this.length,
     required this.index,
+    required this.hasSelected,
   });
 
   /// 按钮组的按钮数量
@@ -254,23 +311,12 @@ class _GroupDivide extends StatelessWidget {
   /// 当前分割线的索引位置
   final int index;
 
-  // bool _isActive(int targetIndex) {
-  //   int $hoverIndex = hoverIndex.value;
-  //   int? activeIndex;
-  //   if (_ButtonGroupUtil.isSelected(modelValue, index)) {
-  //     activeIndex = index;
-  //   }
-  //
-  //   if ($hoverIndex == targetIndex) {
-  //     return true;
-  //   }
-  //   if (activeIndex != null && activeIndex == targetIndex) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
+  /// 存在选中的按钮
+  final bool hasSelected;
 
-  bool matchIndex(int targetIndex) {
+  /// 将指定的索引与当前索引进行匹配
+  bool matchIndex(int? targetIndex) {
+    if (targetIndex == null) return false;
     if (length == 2) {
       if (targetIndex != -1) return true;
     } else if (length > 2) {
@@ -287,59 +333,37 @@ class _GroupDivide extends StatelessWidget {
     return false;
   }
 
-  Color? calcIndexColor(int targetIndex, Color? activeColor) {
-    if (length == 2) {
-      if (targetIndex != -1) return activeColor;
-    } else if (length > 2) {
-      if (targetIndex == 0) {
-        if (index == targetIndex) return activeColor;
-      } else if (targetIndex == length - 1) {
-        if (index == targetIndex - 1) return activeColor;
-      } else if (targetIndex != -1) {
-        if (index == targetIndex - 1 || index == targetIndex) {
-          return activeColor;
-        }
-      }
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     final $data = ElButtonTheme.of(context);
     final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
 
-    Color $defaultColor = _Preset.defaultButton(context).borderColor!;
+    Color $defaultColor = _ButtonColors.button(context).borderColor!;
     Color? $hoverColor;
     Color? $activeColor;
-
     Color? $selectedColor;
 
     final $height = $data.height ?? context.elConfig.size;
 
     if ($data.type == null && $data.bgColor == null) {
-      $hoverColor = _Preset.defaultButtonHover(context).borderColor!;
-      $activeColor = _Preset.defaultButtonActive(context).borderColor!;
-
-      if (_ButtonGroupUtil.isSelected($groupData.modelValue, index)) {
-        $selectedColor = _Preset.defaultButtonActive(context).borderColor!;
-      } else {
-        $selectedColor = null;
-      }
+      $hoverColor = _ButtonColors.buttonHover(context).borderColor!;
+      $activeColor = _ButtonColors.buttonActive(context).borderColor!;
+      $selectedColor =
+          _ButtonGroupColors.defaultButtonSelected(context).borderColor!;
     } else {
       final $themeColor = $data.bgColor ?? context.elThemeColors[$data.type]!;
       if ($data.plain == true) {
-        $defaultColor = _Preset.plainButton(
+        $defaultColor = _ButtonColors.plainButton(
           context,
           type: $data.type,
           bgColor: $data.bgColor,
         ).borderColor!;
-        $hoverColor = _Preset.plainButtonHover(
+        $hoverColor = _ButtonColors.plainButtonHover(
           context,
           type: $data.type,
           bgColor: $data.bgColor,
         ).borderColor!;
-        $activeColor = _Preset.plainButtonActive(
+        $activeColor = _ButtonColors.plainButtonActive(
           context,
           type: $data.type,
           bgColor: $data.bgColor,
@@ -357,7 +381,27 @@ class _GroupDivide extends StatelessWidget {
       final $activeIndex = $groupData.activeIndex.value;
       bool $isHover = false;
       bool $isTap = false;
+      bool $isSelected = false;
       Color? $color;
+      Color? $$selectedColor;
+
+      if (hasSelected) {
+        if ($groupData.type == _ButtonGroupType.single) {
+          if (matchIndex($groupData.modelValue)) {
+            $$selectedColor = $selectedColor;
+            $isSelected = true;
+          }
+        } else {
+          for (int i in $groupData.modelValue as List<int>) {
+            if (matchIndex(i)) {
+              $$selectedColor = $selectedColor;
+              $isSelected = true;
+              break;
+            }
+          }
+        }
+      }
+
       if ($activeIndex != -1) {
         if (matchIndex($activeIndex)) {
           $color = $activeColor;
@@ -370,11 +414,12 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      final double $width = ($data.borderBuilder ??
-          _ButtonProp._borderBuilder)(ElButtonBorderState._(
-        isHover: $isHover,
-        isTap: $isTap,
-      )).maxWidth;
+      final double $width =
+          ($data.borderBuilder ?? _ButtonProp.defaultBorderBuilder)(
+        ElButtonBorderState(
+          isActive: $isHover || $isTap || $isSelected,
+        ),
+      ).maxWidth;
 
       return Positioned(
         left: $dividePositionList[index],
@@ -383,7 +428,7 @@ class _GroupDivide extends StatelessWidget {
             duration: context.elDuration(_duration),
             width: $width,
             height: $height,
-            color: $color ?? $defaultColor,
+            color: $$selectedColor ?? $color ?? $defaultColor,
           ),
         ),
       );

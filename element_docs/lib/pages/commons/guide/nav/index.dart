@@ -29,11 +29,10 @@ class _Example extends HookWidget {
         ElButtonTheme(
           data: ElButtonThemeData(
             borderBuilder: (state) => Border.all(
-              width: state.isHover || state.isTap ? 1.5 : 1.0,
               color: state.color,
             ),
           ),
-          child: ElButtonGroup(
+          child: ElButtonGroup.single(
             selected,
             children: [
               ElButton(
