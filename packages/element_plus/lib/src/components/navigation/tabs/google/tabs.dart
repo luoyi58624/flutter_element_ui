@@ -73,7 +73,7 @@ class _ElGoogleTabsState extends ElBaseTabsState<ElGoogleTabs> {
                 ),
                 children: [
                   ...children.mapIndexed(
-                    (i, e) => ChildIndexData(
+                    (i, e) => ElChildIndex(
                       index: i,
                       child: LayoutId(
                         id: i,

@@ -23,7 +23,7 @@ class _ElButtonState extends State<ElButton> {
   _ElButtonGroupInheritedWidget? _groupData;
 
   /// 如果是按钮组，此变量将保存当前按钮所在的位置
-  ChildIndexData? _indexData;
+  ElChildIndex? _indexData;
 
   late _ButtonProp _prop;
   late _ColorStyle _colorStyle;
@@ -38,7 +38,7 @@ class _ElButtonState extends State<ElButton> {
   Widget build(BuildContext context) {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
     if (_hasGroup) {
-      _indexData = ChildIndexData.of(context);
+      _indexData = ElChildIndex.of(context);
     } else {
       ElAssert.themeType(widget.type, 'ElButton');
     }

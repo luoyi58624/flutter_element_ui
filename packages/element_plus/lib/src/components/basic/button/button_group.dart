@@ -121,7 +121,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     final List<Widget> $children = [];
     int $length = widget.children.length;
     for (int i = 0; i < $length; i++) {
-      Widget itemWidget = ChildIndexData(
+      Widget itemWidget = ElChildIndex(
         length: $length,
         index: i,
         child: widget.children[i],

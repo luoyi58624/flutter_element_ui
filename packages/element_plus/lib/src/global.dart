@@ -12,6 +12,8 @@ export 'components/basic/icon/index.dart';
 export 'services/message.dart';
 export 'services/toast.dart';
 
+export 'widgets/brightness.dart';
 export 'widgets/hover.dart';
+export 'widgets/simple_widgets.dart';
 export 'widgets/tap.dart';
 

@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../index.dart';
 
