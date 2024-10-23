@@ -25,8 +25,12 @@ class _ElButtonState extends State<ElButton> {
   /// 如果是按钮组，此变量将保存当前按钮所在的位置
   ElChildIndex? _indexData;
 
+  /// 按钮最终的 prop 配置
   late _ButtonProp _prop;
+
+  /// 按钮颜色样式
   late _ColorStyle _colorStyle;
+
   bool _isTap = false;
   bool _isHover = false;
 
@@ -196,7 +200,7 @@ class _ElButtonState extends State<ElButton> {
                 child: _buildIconTheme(
                   color: _colorStyle.loadingTextColor,
                   child: _prop.loadingBuilder!(
-                    ElButtonLoadingState(
+                    ElButtonLoadingState._(
                       color: _colorStyle.loadingTextColor!,
                       size: _prop.iconSize,
                     ),
@@ -398,7 +402,11 @@ class _ElButtonState extends State<ElButton> {
 
   Border _calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
-    final defaultBorder = _prop.borderBuilder(borderColor);
+    final defaultBorder = _prop.borderBuilder(ElButtonBorderState._(
+      color: borderColor,
+      isHover: _isHover,
+      isTap: _isTap,
+    ));
     if (_groupData == null) return defaultBorder;
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
@@ -528,6 +536,7 @@ class _ButtonProp {
     late final bool $link;
     late final bool $plain;
     late final bool $round;
+    late final ElBorderBuilder $borderBuilder;
     final bool $block = widget.block ?? $data.block ?? false;
     final $loading = widget.loading ?? $data.loading ?? false;
     final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
@@ -542,6 +551,7 @@ class _ButtonProp {
       $link = false;
       $plain = $data.plain ?? false;
       $round = $data.round ?? false;
+      $borderBuilder = $data.borderBuilder ?? _borderBuilder;
     } else {
       $height = widget.height ?? $data.height ?? context.elConfig.size;
       $bgColor = widget.bgColor ?? $data.bgColor;
@@ -552,6 +562,8 @@ class _ButtonProp {
       $link = widget.link ?? $data.link ?? false;
       $plain = widget.plain ?? $data.plain ?? false;
       $round = widget.round ?? $data.round ?? false;
+      $borderBuilder =
+          widget.borderBuilder ?? $data.borderBuilder ?? _borderBuilder;
     }
 
     final $horizontalPadding = $height / 2;
@@ -586,8 +598,7 @@ class _ButtonProp {
       plain: $plain,
       round: $round,
       block: $block,
-      borderBuilder:
-          widget.borderBuilder ?? $data.borderBuilder ?? _borderBuilder,
+      borderBuilder: $borderBuilder,
       borderRadius: $borderRadius,
       padding: $padding,
       iconSize: $iconSize,
@@ -603,8 +614,38 @@ class _ButtonProp {
     );
   }
 
-  static Border _borderBuilder(Color color) =>
-      Border.all(width: 1.0, color: color);
+  static Border _borderBuilder(ElButtonBorderState state) =>
+      Border.all(width: 1.0, color: state.color);
+}
+
+class ElButtonLoadingState {
+  /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
+  final Color color;
+
+  /// 按钮 loading 尺寸，它的大小和图标一致
+  final double size;
+
+  ElButtonLoadingState._({
+    required this.color,
+    required this.size,
+  });
+}
+
+class ElButtonBorderState {
+  /// 按钮边框颜色
+  final Color color;
+
+  /// 按钮是否处于悬停状态
+  final bool isHover;
+
+  /// 按钮是否处于点击状态
+  final bool isTap;
+
+  const ElButtonBorderState._({
+    this.color = Colors.transparent,
+    this.isHover = false,
+    this.isTap = false,
+  });
 }
 
 extension _ButtonColorExtension on Color {

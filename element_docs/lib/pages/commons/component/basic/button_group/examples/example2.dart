@@ -42,14 +42,22 @@ class _Example extends HookWidget {
     return Column(
       children: [
         ElText(selected.value),
-        ElButtonGroup(
-          selected,
-          children: const [
-            ElButton(child: '选项一'),
-            ElButton(child: '选项二'),
-            ElButton(child: '选项三'),
-            ElButton(child: '选项四'),
-          ],
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            borderBuilder: (state) => Border.all(
+              width: state.isHover || state.isTap ? 1.5 : 1.0,
+              color: state.color,
+            ),
+          ),
+          child: ElButtonGroup(
+            selected,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
         ),
         const Gap(8),
         ElText(selectedList.value),

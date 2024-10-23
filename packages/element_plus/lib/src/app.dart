@@ -29,8 +29,8 @@ class ElAppData {
   final ScrollBehavior scrollBehavior;
 
   /// 当 [brightness] 发生变化时，[ElApp] 会构建两次 build 方法：
-  /// * 第一次构建设置全局动画时间: [config.themeDuration]，保证整体页面过渡一致性
-  /// * 第二次构建是将此变量还原为 null，局部小部件将使用自定义的过渡动画
+  /// * 第一次构建前先设置全局动画时间: [config.themeDuration]，保证整体页面过渡一致性
+  /// * 然后将此变量还原为 null，触发第二次构建，让小部件将使用自己的动画时间
   final Duration? themeDuration;
 
   /// 全局主题动画曲线

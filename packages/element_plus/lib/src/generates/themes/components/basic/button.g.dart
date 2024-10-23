@@ -21,7 +21,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
     bool? plain,
     bool? round,
     bool? block,
-    Border Function(Color)? borderBuilder,
+    Border Function(ElButtonBorderState)? borderBuilder,
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? padding,
     double? iconSize,

@@ -15,15 +15,7 @@ class Example1 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            '在按钮组模式下，height、type、plain、round、bgColor、text、bg 等属性只能通过 ElButtonTheme 指定',
-          ],
-        ),
-        textGap,
-        const SectionCard(
-          type: 'warning',
-          title: 'Warning',
-          content: [
-            '按钮组不支持 cricle、link 等属性，在构建过程中，这些属性会强制设置为 false',
+            '在按钮组模式下，height、type、plain、round、bgColor、text、bg 等属性只能通过 ElButtonTheme 统一指定',
           ],
         ),
         textGap,
@@ -87,16 +79,6 @@ class _Example extends StatelessWidget {
           ],
         ),
         Gap(8),
-        ElButtonGroup(
-          null,
-          children: [
-            ElButton(child: '选项一'),
-            ElButton(child: '选项二'),
-            ElButton(child: '选项三'),
-            ElButton(child: '选项四'),
-          ],
-        ),
-        Gap(8),
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
@@ -122,6 +104,21 @@ class _Example extends StatelessWidget {
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
               ElButton(child: '选项三'),
+            ],
+          ),
+        ),
+        Gap(8),
+        ElButtonTheme(
+          data: ElButtonThemeData(
+            plain: true,
+          ),
+          child: ElButtonGroup(
+            null,
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
             ],
           ),
         ),

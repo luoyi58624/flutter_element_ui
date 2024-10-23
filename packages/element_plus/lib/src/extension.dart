@@ -12,17 +12,11 @@ extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置
   ElConfigData get elConfig => ElApp.of(this).config;
 
-  /// Element UI 过渡动画时间扩展方法，当使用动画小部件时，如果直接应用过渡动画，
-  /// 当切换主题模式时，就会出现动画过渡不协调问题，此扩展方法便是解决该问题：
-  /// ```dart
-  /// AnimatedContainer(
-  ///   duration: context.elDuration(Duration(milliseconds: 200)),
-  /// ),
-  /// ```
+  /// Element UI 动画时间扩展方法，避免切换主题模式时动画过渡不协调问题
   Duration elDuration([Duration? duration]) =>
       ElApp.of(this).themeDuration ?? duration ?? Duration.zero;
 
-  /// Element UI 过渡动画曲线扩展方法
+  /// Element UI 动画曲线扩展方法
   Curve elCurve([Curve? curve]) =>
       ElApp.of(this).themeCurve ?? curve ?? Curves.linear;
 }

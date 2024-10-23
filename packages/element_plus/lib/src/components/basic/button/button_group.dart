@@ -245,11 +245,10 @@ class _GroupDivide extends StatelessWidget {
     Color? $activeColor;
 
     Color? $selectedColor;
-    late final double $width;
+
     final $height = $data.height ?? context.elConfig.size;
 
     if ($data.type == null && $data.bgColor == null) {
-      $width = 1.0;
       $hoverColor = _Preset.defaultButtonHover(context).borderColor!;
       $activeColor = _Preset.defaultButtonActive(context).borderColor!;
 
@@ -261,7 +260,6 @@ class _GroupDivide extends StatelessWidget {
     } else {
       final $themeColor = $data.bgColor ?? context.elThemeColors[$data.type]!;
       if ($data.plain == true) {
-        $width = 1.0;
         $defaultColor = _Preset.plainButton(
           context,
           type: $data.type,
@@ -278,7 +276,6 @@ class _GroupDivide extends StatelessWidget {
           bgColor: $data.bgColor,
         ).borderColor!;
       } else {
-        $width = 1.0;
         $defaultColor = $themeColor.mix(context.lightTheme.bgColor, 50);
       }
     }
@@ -286,24 +283,32 @@ class _GroupDivide extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       final $hoverIndex = $groupData.hoverIndex.value;
       final $activeIndex = $groupData.activeIndex.value;
-
+      bool $isHover = false;
+      bool $isTap = false;
       Color? $color;
       if ($activeIndex != -1) {
         if (matchIndex($activeIndex)) {
           $color = $activeColor;
+          $isTap = true;
         }
       } else if ($hoverIndex != -1) {
         if (matchIndex($hoverIndex)) {
           $color = $hoverColor;
+          $isHover = true;
         }
       }
-      return AnimatedColoredBox(
+
+      final double $width = ($data.borderBuilder ??
+          _ButtonProp._borderBuilder)(ElButtonBorderState._(
+        isHover: $isHover,
+        isTap: $isTap,
+      )).maxWidth;
+
+      return AnimatedContainer(
         duration: context.elDuration(_duration),
-        color: $selectedColor ?? $color ?? $defaultColor,
-        child: SizedBox(
-          width: $width,
-          height: $height,
-        ),
+        width: $width,
+        height: $height,
+        color: $color ?? $defaultColor,
       );
     });
   }

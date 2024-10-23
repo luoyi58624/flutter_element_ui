@@ -1,6 +1,8 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 
+import '../../../components/basic/button/index.dart';
+
 part '../../../generates/themes/components/basic/button.g.dart';
 
 @$ElModel.copy()
@@ -107,14 +109,5 @@ class ElButtonThemeData {
 }
 
 /// 构建按钮自定义边框
-typedef ElBorderBuilder = Border Function(Color color);
+typedef ElBorderBuilder = Border Function(ElButtonBorderState state);
 
-class ElButtonLoadingState {
-  /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
-  final Color color;
-
-  /// 按钮 loading 尺寸，它的大小和图标一致
-  final double size;
-
-  ElButtonLoadingState({required this.color, required this.size});
-}

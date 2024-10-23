@@ -8,7 +8,6 @@ class _Preset {
       bgColor: $elTheme.bgColor,
       textColor: $elTheme.regularTextColor,
       borderColor: $elTheme.borderColor,
-      loadingTextColor: null,
     );
   }
 
@@ -18,7 +17,6 @@ class _Preset {
       bgColor: $elTheme.primary.themeLightBg(context),
       textColor: $elTheme.primary,
       borderColor: $elTheme.primary.themeLightBorder(context),
-      loadingTextColor: null,
     );
   }
 
@@ -28,7 +26,6 @@ class _Preset {
       bgColor: $elTheme.primary.themeLightBg(context),
       textColor: $elTheme.primary,
       borderColor: $elTheme.primary,
-      loadingTextColor: null,
     );
   }
 
@@ -42,8 +39,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $themeColor,
       textColor: $themeColor!.elTextColor(context),
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -57,8 +52,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $themeColor!.hover(context),
       textColor: $themeColor.elTextColor(context),
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -72,8 +65,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $themeColor!.tap(context),
       textColor: $themeColor.elTextColor(context),
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -101,7 +92,6 @@ class _Preset {
       bgColor: $bgColor,
       textColor: $textColor,
       borderColor: $borderColor,
-      loadingTextColor: null,
     );
   }
 
@@ -130,7 +120,6 @@ class _Preset {
       bgColor: $bgColor,
       textColor: $textColor,
       borderColor: $borderColor,
-      loadingTextColor: null,
     );
   }
 
@@ -184,8 +173,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $bgColor,
       textColor: $textColor,
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -211,8 +198,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $bgColor,
       textColor: $textColor,
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -238,8 +223,6 @@ class _Preset {
     return _ColorStyle(
       bgColor: $bgColor,
       textColor: $textColor,
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -251,10 +234,7 @@ class _Preset {
         : context.elThemeColors[type]!);
 
     return _ColorStyle(
-      bgColor: null,
       textColor: $textColor,
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -266,10 +246,7 @@ class _Preset {
         : context.elThemeColors[type]!);
 
     return _ColorStyle(
-      bgColor: null,
       textColor: $textColor.withOpacity(_disabledOpacity),
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -281,10 +258,7 @@ class _Preset {
         : context.elThemeColors[type]!);
 
     return _ColorStyle(
-      bgColor: null,
       textColor: $textColor.tap(context),
-      borderColor: null,
-      loadingTextColor: null,
     );
   }
 
@@ -323,7 +297,6 @@ class _Preset {
 
     return _ColorStyle(
       bgColor: $bgColor,
-      textColor: null,
       borderColor: $borderColor,
       loadingTextColor: $loadingTextColor,
     );

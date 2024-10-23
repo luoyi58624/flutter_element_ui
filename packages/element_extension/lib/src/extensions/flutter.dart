@@ -11,9 +11,9 @@ extension ElWidgetExtension on Widget {
 
   /// 将 [RawScrollbar] 作为默认滚动条
   Widget get rawScrollBehavior => ScrollConfiguration(
-    behavior: const RawScrollBehavior(),
-    child: this,
-  );
+        behavior: const RawScrollBehavior(),
+        child: this,
+      );
 
   /// 将 [Scrollbar] 作为默认滚动条
   Widget get materialScrollBehavior => ScrollConfiguration(
@@ -26,4 +26,13 @@ extension ElWidgetExtension on Widget {
         behavior: const CupertinoScrollBehavior(),
         child: this,
       );
+}
+
+extension ElBorderExtension on Border {
+  /// 获取 Border 最大的宽度
+  double get maxWidth {
+    final list = [left.width, left.width, left.width, left.width];
+    list.sort();
+    return list.last;
+  }
 }

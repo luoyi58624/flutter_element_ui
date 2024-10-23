@@ -14,7 +14,7 @@ export 'src/extensions/color.dart';
 export 'src/extensions/context.dart';
 export 'src/extensions/num.dart';
 export 'src/extensions/responsive.dart';
-export 'src/extensions/widget.dart';
+export 'src/extensions/flutter.dart';
 
 export 'src/hooks/id.dart';
 export 'src/hooks/interval.dart';

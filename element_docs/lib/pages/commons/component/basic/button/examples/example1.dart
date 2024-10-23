@@ -61,18 +61,14 @@ class Example1 extends StatelessWidget {
               runSpacing: 8,
               children: ButtonPage.buttonTypes
                   .map(
-                    (type) => ElHoverBuilder(
-                      builder: (context) {
-                        return ElButton(
-                          type: type,
-                          child: (type ?? 'Default').firstUpperCase,
-                          plain: true,
-                          borderBuilder: (color) => Border.all(
-                            width: context.isHover ? 1.5 : 0.1,
-                            color: color,
-                          ),
-                        );
-                      },
+                    (type) => ElButton(
+                      type: type,
+                      child: (type ?? 'Default').firstUpperCase,
+                      plain: true,
+                      borderBuilder: (state) => Border.all(
+                        width: state.isHover || state.isTap ? 1.5 : 0.1,
+                        color: state.color,
+                      ),
                     ),
                   )
                   .toList(),
@@ -129,17 +125,13 @@ String get code => '''
 ElButton(child: 'Hello'),
 ElButton(child: 'Hello', type: El.primary),
 ElButton(child: 'Hello', type: El.primary, plain: true),
-ElHoverBuilder(
-  builder: (context) {
-    return ElButton(
-      child: 'Hello',
-      plain: true,
-      borderBuilder: (color)=> Border.all(
-        width: context.isHover ? 1.5 : 0.1, // 提示：flutter 边框无法设置为 0
-        color: color,
-      ),
-    );
-  },
+ElButton(
+  child: 'Hello',
+  plain: true,
+  borderBuilder: (state) => Border.all(
+    color: color,
+    width: state.isHover || state.isTap ? 1.5 : 0.1,
+  ),
 ),
 ElButton(child: 'Hello', type: El.primary, round: true),
 ElButton(child: ElIcon(ElIcons.aim)),
