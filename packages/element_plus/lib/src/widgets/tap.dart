@@ -71,30 +71,36 @@ class _TapBuilderState extends State<ElTapBuilder> {
                   _timer = null;
                   update(false);
                   setTimeout(() {
-                    update(true);
-                    if (widget.onTapDown != null) widget.onTapDown!(e);
+                    if (mounted) {
+                      if (widget.onTapDown != null) widget.onTapDown!(e);
+                      update(true);
+                    }
                   }, 16);
                 } else {
-                  update(true);
                   if (widget.onTapDown != null) widget.onTapDown!(e);
+                  update(true);
                 }
               },
         onTapUp: widget.disabled
             ? null
             : (e) {
                 _timer = setTimeout(() {
-                  update(false);
-                  if (widget.onTapUp != null) widget.onTapUp!(e);
                   _timer = null;
+                  if (mounted) {
+                    if (widget.onTapUp != null) widget.onTapUp!(e);
+                    update(false);
+                  }
                 }, max(widget.delay - (currentMilliseconds - _time!), 0));
               },
         onTapCancel: widget.disabled
             ? null
             : () {
                 _timer = setTimeout(() {
-                  update(false);
-                  if (widget.onTapCancel != null) widget.onTapCancel!();
                   _timer = null;
+                  if (mounted) {
+                    if (widget.onTapCancel != null) widget.onTapCancel!();
+                    update(false);
+                  }
                 }, widget.delay);
               },
         child: Builder(builder: (context) {
@@ -105,7 +111,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void update(bool value) {
-    if (mounted && widget.triggerBuild && isTap != value) {
+    if (widget.triggerBuild && isTap != value) {
       setState(() {
         isTap = value;
       });

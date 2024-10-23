@@ -7,6 +7,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required this.hoverIndex,
     required this.activeIndex,
     required this.divideColor,
+    required this.dividePositionList,
     required this.onChanged,
     required super.child,
   });
@@ -16,6 +17,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final Obs<int> hoverIndex;
   final Obs<int> activeIndex;
   final Obs<Color?> divideColor;
+  final Obs<List<double>> dividePositionList;
   final ValueChanged onChanged;
 
   static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
@@ -68,9 +70,39 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
   /// 按钮组分割线颜色，它的颜色会和按钮边框同步
   final _divideColor = Obs<Color?>(null);
 
+  /// 需要绘制分割线的按钮 key 列表，当构建完成按钮组后，会在下一帧通过这些 key 计算每个分割线的位置
+  List<GlobalKey> _childrenKeyList = [];
+
+  /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的，为的就是分割线不占用按钮空间
+  final _dividePositionList = Obs<List<double>>([]);
+
   get _modelValue => widget.modelValue is ValueNotifier
       ? (widget.modelValue as ValueNotifier).value
       : widget.modelValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _setChildrenKeyList(widget.children.length);
+  }
+
+  @override
+  void didUpdateWidget(covariant ElButtonGroup oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.children.length != oldWidget.children.length) {
+      _setChildrenKeyList(widget.children.length);
+    }
+  }
+
+  void _setChildrenKeyList(int length) {
+    if (length <= 1) {
+      _childrenKeyList.clear();
+    } else {
+      _childrenKeyList =
+          List.generate(widget.children.length - 1, (i) => GlobalKey())
+              .toList();
+    }
+  }
 
   /// 计算按钮组选中逻辑
   void _onChange(dynamic value) {
@@ -114,11 +146,26 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     if (widget.onChanged != null) widget.onChanged!($value);
   }
 
+  /// 更新分割线的位置，只有当
+  void _updateDivideOffset() {
+    nextTick(() {
+      List<double> $list = [];
+      for (int i = 0; i < _childrenKeyList.length; i++) {
+        final offset = _childrenKeyList[i].currentContext!.getOffset(context);
+        $list.add(widget.axis == Axis.horizontal ? offset.dx : offset.dy);
+      }
+      if (_dividePositionList.value.eq($list) == false) {
+        _dividePositionList.value = $list;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final $data = ElButtonTheme.of(context);
     ElAssert.themeType($data.type, 'ElButtonGroup');
-    final List<Widget> $children = [];
+    List<Widget> $children = [];
+
     int $length = widget.children.length;
     for (int i = 0; i < $length; i++) {
       Widget itemWidget = ElChildIndex(
@@ -126,6 +173,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
         index: i,
         child: widget.children[i],
       );
+
       int? flex = widget.children[i].flex;
       if (flex == null || flex < 1) flex = 1;
       if ($data.block == true) {
@@ -142,12 +190,19 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
         }
       }
       $children.add(itemWidget);
-      if ($data.text != true && i < $length - 1) {
-        $children.add(_GroupDivide(
-          length: $length,
-          index: i,
-        ));
-      }
+    }
+
+    if ($length > 1 && $data.text != true) {
+      $children = [
+        $children.first,
+        ...$children.sublist(1).mapIndexed((i, e) {
+          return Builder(
+            key: _childrenKeyList[i],
+            builder: (context) => e,
+          );
+        }),
+      ];
+      _updateDivideOffset();
     }
 
     late Widget result;
@@ -160,14 +215,28 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
         children: $children,
       );
     }
+
     return _ElButtonGroupInheritedWidget(
       modelValue: _modelValue,
       axis: widget.axis,
       hoverIndex: _hoverIndex,
       activeIndex: _activeIndex,
       divideColor: _divideColor,
+      dividePositionList: _dividePositionList,
       onChanged: _onChange,
-      child: result,
+      child: ObsBuilder(builder: (context) {
+        return Stack(
+          children: [
+            result,
+            ..._childrenKeyList.mapIndexed(
+              (i, e) => _GroupDivide(
+                length: $length,
+                index: i,
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -281,6 +350,9 @@ class _GroupDivide extends StatelessWidget {
     }
 
     return ObsBuilder(builder: (context) {
+      final $dividePositionList = $groupData.dividePositionList.value;
+      if ($dividePositionList.length != length - 1) return const SizedBox();
+
       final $hoverIndex = $groupData.hoverIndex.value;
       final $activeIndex = $groupData.activeIndex.value;
       bool $isHover = false;
@@ -304,11 +376,16 @@ class _GroupDivide extends StatelessWidget {
         isTap: $isTap,
       )).maxWidth;
 
-      return AnimatedContainer(
-        duration: context.elDuration(_duration),
-        width: $width,
-        height: $height,
-        color: $color ?? $defaultColor,
+      return Positioned(
+        left: $dividePositionList[index],
+        child: IgnorePointer(
+          child: AnimatedContainer(
+            duration: context.elDuration(_duration),
+            width: $width,
+            height: $height,
+            color: $color ?? $defaultColor,
+          ),
+        ),
       );
     });
   }

@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
+import 'package:element_plus/src/components/navigation/tabs/default/tabs.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

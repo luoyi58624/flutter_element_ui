@@ -39,6 +39,12 @@ class _ElButtonState extends State<ElButton> {
   bool get _hasGroup => _groupData != null;
 
   @override
+  dispose() {
+    super.dispose();
+    // i('销毁');
+  }
+
+  @override
   Widget build(BuildContext context) {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
     if (_hasGroup) {
@@ -96,7 +102,14 @@ class _ElButtonState extends State<ElButton> {
       triggerBuild: false,
       delay: _duration.inMilliseconds,
       builder: (context) {
-        if (_prop.disabled) _isHover = false;
+        if (_prop.disabled) {
+          _isHover = false;
+          if (_hasGroup) {
+            nextTick(() {
+              _groupData!.hoverIndex.value = -1;
+            });
+          }
+        }
         return MouseRegion(
           cursor: _prop.loading
               ? MouseCursor.defer
@@ -104,7 +117,19 @@ class _ElButtonState extends State<ElButton> {
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
           hitTestBehavior: HitTestBehavior.deferToChild,
-          onHover: widget.onHover,
+          onHover: _prop.disabled
+              ? null
+              : (e) {
+                  if (widget.onHover != null) widget.onHover!(e);
+                  if (_isHover == false) {
+                    setState(() {
+                      _isHover = true;
+                    });
+                  }
+                  if (_hasGroup) {
+                    _groupData!.hoverIndex.value = _indexData!.index;
+                  }
+                },
           onEnter: _prop.disabled
               ? null
               : (e) {
