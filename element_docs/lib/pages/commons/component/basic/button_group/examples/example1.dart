@@ -33,25 +33,25 @@ class _Example extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        ElButtonGroup(
+    return Column(
+      children: <Widget>[
+        const ElButtonGroup(
           null,
           children: [],
         ),
-        Gap(8),
-        ElButtonGroup(
+        const Gap(8),
+        const ElButtonGroup(
           null,
           children: [
             ElButton(child: '选项一'),
           ],
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             iconSize: 18,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(
@@ -69,8 +69,8 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonGroup(
+        const Gap(8),
+        const ElButtonGroup(
           null,
           children: [
             ElButton(child: '选项一'),
@@ -78,12 +78,12 @@ class _Example extends StatelessWidget {
             ElButton(child: '选项三'),
           ],
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.primary,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -92,13 +92,13 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.success,
             round: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -107,12 +107,12 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             plain: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -122,13 +122,13 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.primary,
             plain: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -138,14 +138,14 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.success,
             plain: true,
             round: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -155,18 +155,18 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
+        const Gap(8),
         SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: ElButtonTheme(
-              data: ElButtonThemeData(
+            child: ElButtonTheme.merge(
+              data: const ElButtonThemeData(
                 bgColor: Colors.purple,
                 plain: true,
                 round: true,
               ),
-              child: ElButtonGroup(
+              child: const ElButtonGroup(
                 null,
                 children: [
                   ElButton(child: '选项一', disabled: true),
@@ -179,17 +179,17 @@ class _Example extends StatelessWidget {
             ),
           ),
         ),
-        Gap(8),
+        const Gap(8),
         SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: ElButtonTheme(
-              data: ElButtonThemeData(
+            child: ElButtonTheme.merge(
+              data: const ElButtonThemeData(
                 bgColor: Colors.cyan,
                 round: true,
               ),
-              child: ElButtonGroup(
+              child: const ElButtonGroup(
                 null,
                 children: [
                   ElButton(child: '选项一'),
@@ -202,8 +202,8 @@ class _Example extends StatelessWidget {
             ),
           ),
         ),
-        Gap(8),
-        ElButtonGroup(
+        const Gap(8),
+        const ElButtonGroup(
           null,
           children: [
             ElButton(child: ElIcon(ElIcons.edit)),
@@ -211,12 +211,12 @@ class _Example extends StatelessWidget {
             ElButton(child: ElIcon(ElIcons.delete)),
           ],
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.primary,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: ElIcon(ElIcons.edit)),
@@ -225,14 +225,14 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             type: El.primary,
             block: true,
             round: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一', flex: 2),
@@ -241,12 +241,12 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             text: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -256,13 +256,13 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             text: true,
             round: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -272,14 +272,14 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             text: true,
             round: true,
             bg: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: '选项一'),
@@ -289,12 +289,12 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             text: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: ElIcon(ElIcons.house)),
@@ -304,13 +304,13 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-        Gap(8),
-        ElButtonTheme(
-          data: ElButtonThemeData(
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
             text: true,
             bg: true,
           ),
-          child: ElButtonGroup(
+          child: const ElButtonGroup(
             null,
             children: [
               ElButton(child: ElIcon(ElIcons.house)),

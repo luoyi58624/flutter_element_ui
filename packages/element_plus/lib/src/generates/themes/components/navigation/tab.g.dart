@@ -30,6 +30,7 @@ extension ElTabThemeDataExtension on ElTabThemeData {
 // **************************************************************************
 
 class ElTabTheme extends InheritedWidget {
+  /// 设置局部默认数据，注意：如果你想尊重 "全局" 或 "祖先" 提供的默认样式，请使用 [merge] 方法构建
   const ElTabTheme({super.key, required super.child, required this.data});
 
   /// 主题数据

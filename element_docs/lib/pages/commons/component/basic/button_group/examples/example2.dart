@@ -42,10 +42,10 @@ class _Example extends HookWidget {
     return Column(
       children: [
         ElText(selected.value),
-        ElButtonTheme(
+        ElButtonTheme.merge(
           data: ElButtonThemeData(
             borderBuilder: (state) => Border.all(
-              width: state.isHover || state.isTap ? 2.5 : 1.0,
+              width: state.isHover || state.isTap ? 1.5 : 1.0,
               color: state.color,
             ),
           ),

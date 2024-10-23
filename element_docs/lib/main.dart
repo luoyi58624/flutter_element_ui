@@ -41,6 +41,10 @@ class MainApp extends StatelessWidget {
           codePreviewTheme: const ElCodePreviewThemeData(
             fontFamily: MyFonts.consolas,
           ),
+          buttonTheme: ElButtonThemeData(
+            borderBuilder: (state) =>
+                Border.all(color: state.color, width: 1.0),
+          ),
         ),
         darkTheme: ElThemeData.dark(
           primary: GlobalState.primaryColor.value,
