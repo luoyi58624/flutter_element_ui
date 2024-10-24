@@ -143,6 +143,7 @@ class _ButtonColors {
     required bool isHover,
     required bool isSelected,
   }) {
+    final $elTheme = context.elTheme;
     late _ButtonColorStyle colors;
 
     if (prop.text) {
@@ -179,11 +180,17 @@ class _ButtonColors {
     } else if (prop.plain) {
       if (prop.bgColor == null) {
         if (isSelected) {
-          colors = buttonSelected(context);
+          colors = _ButtonColorStyle(
+            bgColor: $elTheme.bgColor,
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.primary,
+          );
         } else if (isTap) {
           colors = _ButtonColors.plainButtonActive(context);
         } else if (isHover) {
-          colors = _ButtonColors.plainButtonHover(context);
+          final $colors = _ButtonColors.plainButtonHover(context);
+          $colors.borderColor = context.elTheme.borderColor;
+          colors = $colors;
         } else {
           colors = _ButtonColors.plainButton(context, disabled: prop.disabled);
         }
@@ -208,7 +215,7 @@ class _ButtonColors {
               bgColor: prop.bgColor!,
             );
           } else if (isHover) {
-            colors = _ButtonColors.themeButton(
+            colors = _ButtonColors.themeButtonHover(
               context,
               bgColor: prop.bgColor!,
             );
@@ -224,45 +231,33 @@ class _ButtonColors {
     } else {
       if (prop.bgColor == null) {
         if (isSelected) {
-          colors = buttonSelected(context);
-        } else if (isTap) {
-          colors = _ButtonColors.buttonActive(context);
-        } else if (isHover) {
-          colors = _ButtonColors.buttonHover(context);
+          colors = _ButtonColorStyle(
+            bgColor: $elTheme.bgColor,
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.primary,
+          );
+        } else if (isHover || isTap) {
+          colors = _ButtonColorStyle(
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.borderColor,
+          );
         } else {
           colors = _ButtonColors.button(context, disabled: prop.disabled);
         }
       } else {
         if (isSelected) {
-          if (isTap) {
-            colors = _ButtonColors.themeButtonActive(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else {
-            colors = _ButtonColors.themeButton(
-              context,
-              bgColor: prop.bgColor!,
-              disabled: prop.disabled,
-            );
-          }
+          colors = _ButtonColorStyle(
+            bgColor: prop.bgColor,
+            textColor: prop.bgColor!.elTextColor(context),
+            borderColor: prop.bgColor,
+          );
+        } else if (isHover || isTap) {
+          colors = _ButtonColorStyle(
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.borderColor,
+          );
         } else {
-          if (isTap) {
-            colors = _ButtonColors.themeButtonActive(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else if (isHover) {
-            colors = _ButtonColors.themeButton(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else {
-            colors = _ButtonColors.button(
-              context,
-              disabled: prop.disabled,
-            );
-          }
+          colors = _ButtonColors.button(context, disabled: prop.disabled);
         }
       }
     }
@@ -307,16 +302,6 @@ class _ButtonColors {
     final $elTheme = context.elTheme;
     return _ButtonColorStyle(
       bgColor: $elTheme.primary.elLight9(context),
-      textColor: $elTheme.primary,
-      borderColor: $elTheme.primary,
-    );
-  }
-
-  /// 选中状态下的按钮样式
-  static _ButtonColorStyle buttonSelected(BuildContext context) {
-    final $elTheme = context.elTheme;
-    return _ButtonColorStyle(
-      bgColor: $elTheme.bgColor,
       textColor: $elTheme.primary,
       borderColor: $elTheme.primary,
     );
@@ -609,4 +594,3 @@ class _ButtonColors {
     );
   }
 }
-

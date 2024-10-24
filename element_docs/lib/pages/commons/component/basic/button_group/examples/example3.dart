@@ -41,6 +41,51 @@ class _Example extends HookWidget {
             ElButton(child: '选项四'),
           ],
         ),
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            plain: true,
+          ),
+          child: ElButtonGroup.multi(
+            selectedList,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup.multi(
+            selectedList,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
+        const Gap(8),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            type: El.success,
+          ),
+          child: ElButtonGroup.multi(
+            selectedList,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
       ],
     );
   }

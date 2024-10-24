@@ -20,11 +20,24 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selected = useState(-1);
+    final selectedList = useState<List<int>>([]);
 
     return Column(
       children: [
-
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            type: El.success,
+          ),
+          child: ElButtonGroup.multi(
+            selectedList,
+            children: const [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+              ElButton(child: '选项四'),
+            ],
+          ),
+        ),
       ],
     );
   }

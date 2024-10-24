@@ -342,8 +342,6 @@ class _GroupDivide extends StatelessWidget {
     final $data = ElButtonTheme.of(context);
     final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
 
-    Color $defaultColor = _ButtonColors.button(context).borderColor!;
-
     final $height = $data.height ?? context.elConfig.size;
     Color? bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
 
@@ -352,7 +350,6 @@ class _GroupDivide extends StatelessWidget {
       if ($dividePositionList.length != length - 1) return const SizedBox();
 
       Color? $borderColor;
-
       final $hoverIndex = $groupData.hoverIndex.value;
       final $tapIndex = $groupData.tapIndex.value;
       final $modelValue = $groupData.modelValue;
@@ -375,30 +372,53 @@ class _GroupDivide extends StatelessWidget {
 
       if (hasSelected) {
         if ($groupData.type == _ButtonGroupType.single) {
+          // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
+          if (index == $hoverIndex || index == $tapIndex) {
+            if ($hoverIndex == $modelValue - 1 ||
+                ($tapIndex >= 0 && $tapIndex == $modelValue - 1)) {
+              isUnionBorder = true;
+            }
+          }
           if (matchIndex($modelValue)) {
             $isSelected = true;
             // 当鼠标悬停的按钮位置在选中之后，需要绘制显眼的分割线
-            if ($hoverIndex == $modelValue + 1 ||
-                $tapIndex == $modelValue + 1) {
+            if ($modelValue + 1 == $hoverIndex ||
+                $modelValue + 1 == $tapIndex) {
               if (index == $hoverIndex - 1 || index == $tapIndex - 1) {
                 isUnionBorder = true;
               }
             }
           }
         } else {
-          for (int i in $modelValue as List<int>) {
-            if (matchIndex(i)) {
-              $isSelected = true;
+          ($modelValue as List<int>).sort();
+          // 对相邻选中的按钮添加显眼的分割线
+          for (int i in $modelValue) {
+            if (i == index) {
+              if ($modelValue.contains(i + 1)) {
+                isUnionBorder = true;
+              }
               break;
             }
           }
-        }
-
-        // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
-        if (index == $hoverIndex || index == $tapIndex) {
-          if ($hoverIndex == $modelValue - 1 ||
-              ($tapIndex >= 0 && $tapIndex == $modelValue - 1)) {
-            isUnionBorder = true;
+          // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
+          if (index == $hoverIndex || index == $tapIndex) {
+            if ($modelValue.contains($hoverIndex + 1) ||
+                $modelValue.contains($tapIndex + 1)) {
+              isUnionBorder = true;
+            }
+          }
+          for (int i in $modelValue) {
+            if (matchIndex(i)) {
+              $isSelected = true;
+              // 当鼠标悬停的按钮位置在选中之后，需要绘制显眼的分割线
+              if (i + 1 == $hoverIndex ||
+                  i + 1 == $tapIndex) {
+                if (index == $hoverIndex - 1 || index == $tapIndex - 1) {
+                  isUnionBorder = true;
+                }
+              }
+              break;
+            }
           }
         }
       }
@@ -444,7 +464,7 @@ class _GroupDivide extends StatelessWidget {
             duration: context.elDuration(_duration),
             width: $width,
             height: $height,
-            color: $borderColor ?? $defaultColor,
+            color: $borderColor ?? context.elTheme.borderColor,
           ),
         ),
       );

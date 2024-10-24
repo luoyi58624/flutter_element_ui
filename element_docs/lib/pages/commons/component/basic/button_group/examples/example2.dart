@@ -49,7 +49,6 @@ class _Example extends HookWidget {
           ),
           child: ElButtonGroup.single(
             selected,
-            mandatory: true,
             children: const [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
