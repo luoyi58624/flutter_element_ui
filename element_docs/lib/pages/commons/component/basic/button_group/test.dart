@@ -15,11 +15,13 @@ class ButtonGroupTestPage extends HookWidget {
   }
 }
 
-class _Example extends StatelessWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
+    final selected = useState(0);
+    final selectedList = useState<List<int>>([]);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(28.0),
@@ -345,6 +347,68 @@ class _Example extends StatelessWidget {
                   ElButton(child: ElIcon(ElIcons.edit)),
                   ElButton(child: ElIcon(ElIcons.share)),
                   ElButton(child: ElIcon(ElIcons.delete)),
+                ],
+              ),
+            ),
+            const Gap(8),
+            ElButtonGroup.single(
+              selected,
+              children: const [
+                ElButton(child: '选项一'),
+                ElButton(child: '选项二', disabled: true),
+                ElButton(child: '选项三', disabled: true),
+                ElButton(child: '选项四'),
+                ElButton(child: '选项五'),
+              ],
+            ),
+            const Gap(8),
+            ElButtonTheme.merge(
+              data: const ElButtonThemeData(type: El.primary),
+              child: ElButtonGroup.single(
+                selected,
+                children: const [
+                  ElButton(child: '选项一'),
+                  ElButton(child: '选项二', disabled: true),
+                  ElButton(child: '选项三', disabled: true),
+                  ElButton(child: '选项四'),
+                  ElButton(child: '选项五'),
+                ],
+              ),
+            ),
+            const Gap(8),
+            ElButtonTheme.merge(
+              data: const ElButtonThemeData(
+                type: El.primary,
+                plain: true,
+              ),
+              child: ElButtonGroup.single(
+                selected,
+                children: const [
+                  ElButton(child: '选项一'),
+                  ElButton(child: '选项二', disabled: true),
+                  ElButton(child: '选项三', disabled: true),
+                  ElButton(child: '选项四'),
+                  ElButton(child: '选项五'),
+                ],
+              ),
+            ),
+            const Gap(8),
+            ElButtonTheme.merge(
+              data: const ElButtonThemeData(
+                type: El.primary,
+                round: true,
+              ),
+              child: ElButtonGroup.multi(
+                selectedList,
+                children: const [
+                  ElButton(child: '选项一'),
+                  ElButton(child: '选项二', disabled: true),
+                  ElButton(child: '选项三', loading: true),
+                  ElButton(child: '选项四'),
+                  ElButton(child: '选项五'),
+                  ElButton(child: '选项六'),
+                  ElButton(child: '选项七', disabled: true),
+                  ElButton(child: '选项八', disabled: true),
                 ],
               ),
             ),

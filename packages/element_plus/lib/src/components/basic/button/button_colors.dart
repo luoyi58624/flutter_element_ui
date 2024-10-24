@@ -254,7 +254,7 @@ class _ButtonColors {
           );
         } else if (isHover || isTap) {
           colors = _ButtonColorStyle(
-            textColor: $elTheme.primary,
+            textColor: prop.bgColor,
             borderColor: $elTheme.borderColor,
           );
         } else {

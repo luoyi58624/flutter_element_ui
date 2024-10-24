@@ -20,7 +20,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedList = useState<List<int>>([]);
+    final selectedList = useObs<List<int>>([]);
 
     return Column(
       children: [

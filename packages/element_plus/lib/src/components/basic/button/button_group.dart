@@ -37,25 +37,24 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => true;
 }
 
-class ElButtonGroup extends StatefulWidget {
+class ElButtonGroup extends ModelValue {
   /// Element UI 按钮组
   const ElButtonGroup({
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
   })  : _type = _ButtonGroupType.none,
-        modelValue = null,
         mandatory = false,
-        onChanged = null;
+        super(null, onChanged: null);
 
   /// Element UI 单选按钮组，[modelValue] 支持 [int]、[ValueNotifier] 类型
   ElButtonGroup.single(
-    this.modelValue, {
+    super.modelValue, {
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
     this.mandatory = false,
-    this.onChanged,
+    super.onChanged,
   })  : _type = _ButtonGroupType.single,
         assert(() {
           if ((modelValue is int? ||
@@ -70,12 +69,12 @@ class ElButtonGroup extends StatefulWidget {
 
   /// Element UI 多选按钮组，[modelValue] 支持 [List]、[ValueNotifier] 类型
   ElButtonGroup.multi(
-    this.modelValue, {
+    super.modelValue, {
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
     this.mandatory = false,
-    this.onChanged,
+    super.onChanged,
   })  : _type = _ButtonGroupType.multi,
         assert(() {
           if ((modelValue is List<int> ||
@@ -89,9 +88,6 @@ class ElButtonGroup extends StatefulWidget {
   /// 按钮组类型
   final _ButtonGroupType _type;
 
-  /// 按钮组绑定选中的值
-  final dynamic modelValue;
-
   /// 按钮集合
   final List<ElButton> children;
 
@@ -101,14 +97,11 @@ class ElButtonGroup extends StatefulWidget {
   /// 当选中的值只剩一个时，是否固定它，默认 false
   final bool mandatory;
 
-  /// 更新事件
-  final ValueChanged? onChanged;
-
   @override
   State<ElButtonGroup> createState() => _ElButtonGroupState();
 }
 
-class _ElButtonGroupState extends State<ElButtonGroup> {
+class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
   /// 当前鼠标悬停的按钮
   final _hoverIndex = Obs(-1);
 
@@ -124,16 +117,12 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
   /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的，为的就是分割线不占用按钮空间
   final _dividePositionList = Obs<List<double>>([]);
 
-  get _modelValue => widget.modelValue is ValueNotifier
-      ? (widget.modelValue as ValueNotifier).value
-      : widget.modelValue;
-
-  bool get _hasSelected => _modelValue is List
-      ? (_modelValue as List).isNotEmpty
-      : _modelValue != null &&
-          _modelValue is int &&
-          _modelValue >= 0 &&
-          _modelValue <= widget.children.length - 1;
+  bool get _hasSelected => modelValue is List
+      ? (modelValue as List).isNotEmpty
+      : modelValue != null &&
+          modelValue is int &&
+          modelValue >= 0 &&
+          modelValue <= widget.children.length - 1;
 
   @override
   void initState() {
@@ -197,7 +186,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     }
 
     if ($value != null) {
-      if (widget.modelValue is ValueNotifier) {
+      if (isReactive) {
         (widget.modelValue as ValueNotifier).value = $value;
       }
 
@@ -220,7 +209,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context) {
     final $data = ElButtonTheme.of(context);
     ElAssert.themeType($data.type, 'ElButtonGroup');
     List<Widget> $children = [];
@@ -278,7 +267,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
 
     return _ElButtonGroupInheritedWidget(
       type: widget._type,
-      modelValue: _modelValue,
+      modelValue: modelValue,
       children: widget.children,
       axis: widget.axis,
       hoverIndex: _hoverIndex,
@@ -376,7 +365,7 @@ class _GroupDivide extends StatelessWidget {
               $groupData.children[index + 1].loading);
       if ($groupData.type == _ButtonGroupType.none) {
         if (bgColor != null && $data.plain != true) {
-          $borderColor = bgColor.mix(Colors.white, 50);
+          $borderColor = bgColor.mix(Colors.white, disabled ? 75 : 50);
         } else {
           $borderColor = _ButtonColors.calcColorStyle(
             context,
