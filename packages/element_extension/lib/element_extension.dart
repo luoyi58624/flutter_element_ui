@@ -29,6 +29,8 @@ export 'src/utils/common.dart';
 export 'src/utils/cursor.dart';
 export 'src/utils/shortcut.dart';
 
+export 'src/widgets/html/list.dart';
+export 'src/widgets/html/typography.dart';
 export 'src/widgets/animated_widgets.dart';
 export 'src/widgets/click.dart';
 export 'src/widgets/custom_layout.dart';
