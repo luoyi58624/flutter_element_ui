@@ -45,8 +45,12 @@ class _Example extends StatelessWidget {
         ),
         const Gap(8),
         ElButtonTheme.merge(
-          data: const ElButtonThemeData(
+          data: ElButtonThemeData(
             plain: true,
+            borderBuilder: (state) => Border.all(
+              width: state.isHover || state.isTap ? 1.5 : 1.0,
+              color: Colors.red,
+            ),
           ),
           child: const ElButtonGroup(
             children: [
@@ -140,7 +144,6 @@ class _Example extends StatelessWidget {
             ],
           ),
         ),
-
       ],
     );
   }

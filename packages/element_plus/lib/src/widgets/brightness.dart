@@ -3,6 +3,14 @@ import 'package:flutter/widgets.dart';
 
 import '../app.dart';
 
+extension ElBrightnessExtension on BuildContext {
+  /// 获取当平台亮度模式
+  Brightness? get brightness => ElBrightness.of(this);
+
+  /// 当前环境是否是暗黑模式
+  bool get isDark => brightness == Brightness.dark;
+}
+
 class ElBrightness extends InheritedWidget {
   /// 平台亮度小部件，此小部件用于局部主题
   const ElBrightness({

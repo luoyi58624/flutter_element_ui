@@ -1,14 +1,8 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/widgets.dart';
 import 'package:element_plus/element_plus.dart';
 
 extension ElContextExtension on BuildContext {
-  /// 获取当平台亮度模式
-  Brightness? get brightness => ElBrightness.of(this);
-
-  /// 当前环境是否是暗黑模式
-  bool get isDark => brightness == Brightness.dark;
-
   /// Element 亮色主题
   ElThemeData get lightTheme => ElApp.of(this).theme;
 

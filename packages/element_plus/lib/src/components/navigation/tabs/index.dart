@@ -10,7 +10,7 @@ import '../tab/index.dart';
 
 part 'state.dart';
 
-class ElTabs extends ModelValue<int> {
+class ElTabs extends ElModelValue<int> {
   /// Element UI 标签导航，此组件只适用于桌面端，在移动端你可以使用官方提供的 [TabBar] 小部件
   const ElTabs(
     super.modelValue, {

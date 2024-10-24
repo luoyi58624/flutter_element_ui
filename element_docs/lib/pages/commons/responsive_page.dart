@@ -27,11 +27,9 @@ abstract class ResponsivePage extends HookWidget {
               body: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Builder(builder: (context) {
-                    return Column(
-                      children: buildPage(context),
-                    );
-                  }),
+                  child: Column(
+                    children: buildPage(context),
+                  ),
                 ),
               ),
             )
@@ -43,22 +41,20 @@ abstract class ResponsivePage extends HookWidget {
                   horizontal: 50,
                   vertical: 50,
                 ),
-                child: Builder(builder: (context) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      H1(
-                        title,
-                        style: TextStyle(
-                          color: context.isDark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade800,
-                        ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    H1(
+                      title,
+                      style: TextStyle(
+                        color: context.isDark
+                            ? Colors.grey.shade300
+                            : Colors.grey.shade800,
                       ),
-                      ...buildPage(context),
-                    ],
-                  );
-                }),
+                    ),
+                    ...buildPage(context),
+                  ],
+                ),
               ),
             ),
     );

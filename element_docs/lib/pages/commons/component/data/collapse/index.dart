@@ -51,11 +51,11 @@ class CollapsePage extends ResponsivePage {
 
     return [
       const Example1(title: '折叠动画'),
-      ElCollapsePanel(expanded1, children: children),
-      const Gap(16),
-      const H4('手风琴模式'),
-      const Gap(16),
-      ElCollapsePanel(expanded2, accordion: true, children: children),
+      // ElCollapsePanel(expanded1, children: children),
+      // const Gap(16),
+      // const H4('手风琴模式'),
+      // const Gap(16),
+      // ElCollapsePanel(expanded2, accordion: true, children: children),
     ];
   }
 }

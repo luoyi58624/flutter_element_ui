@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class ElInputState extends ModelValueState<ElInput, String> {
+class ElInputState extends ElModelValueState<ElInput, String> {
   late final TextEditingController controller =
       widget.controller ?? TextEditingController(text: modelValue);
   final focusNode = FocusNode();

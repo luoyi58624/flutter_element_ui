@@ -37,7 +37,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => true;
 }
 
-class ElButtonGroup extends ModelValue {
+class ElButtonGroup extends ElModelValue {
   /// Element UI 按钮组
   const ElButtonGroup({
     super.key,
@@ -91,7 +91,7 @@ class ElButtonGroup extends ModelValue {
   /// 按钮集合
   final List<ElButton> children;
 
-  /// 按钮组方向
+  /// 按钮组方向 （暂未实现垂直方向）
   final Axis axis;
 
   /// 当选中的值只剩一个时，是否固定它，默认 false
@@ -101,7 +101,7 @@ class ElButtonGroup extends ModelValue {
   State<ElButtonGroup> createState() => _ElButtonGroupState();
 }
 
-class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
+class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
   /// 当前鼠标悬停的按钮
   final _hoverIndex = Obs(-1);
 
@@ -275,20 +275,18 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
       divideColor: _divideColor,
       dividePositionList: _dividePositionList,
       onChanged: _onChange,
-      child: ObsBuilder(builder: (context) {
-        return Stack(
-          children: [
-            result,
-            ..._childrenKeyList.mapIndexed(
-              (i, e) => _GroupDivide(
-                length: $length,
-                index: i,
-                hasSelected: _hasSelected,
-              ),
+      child: Stack(
+        children: [
+          result,
+          ..._childrenKeyList.mapIndexed(
+            (i, e) => _GroupDivide(
+              length: $length,
+              index: i,
+              hasSelected: _hasSelected,
             ),
-          ],
-        );
-      }),
+          ),
+        ],
+      ),
     );
   }
 }

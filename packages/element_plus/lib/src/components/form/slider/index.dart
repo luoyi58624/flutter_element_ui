@@ -11,7 +11,7 @@ part 'thumbs/default_thumb.dart';
 
 part 'thumbs/progress_thumb.dart';
 
-class ElSlider extends ModelValue<double> {
+class ElSlider extends ElModelValue<double> {
   const ElSlider(
     super.modelValue, {
     super.key,

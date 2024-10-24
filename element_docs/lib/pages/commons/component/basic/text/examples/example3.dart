@@ -16,7 +16,7 @@ class Example3 extends StatelessWidget {
           '这些组件 Element UI 没有提供，你需要自行封装，',
           ElLink(
             href:
-                'https://gitee.com/luoyi666/flutter_base/blob/main/lib/src/widgets/html/typography.dart',
+                'https://github.com/luoyi58624/flutter_element_ui/tree/main/packages/element_extension/lib/src/widgets/html/typography.dart',
             decoration: ElLinkDecoration.hoverUnderline,
             child: '查看示例',
           ),

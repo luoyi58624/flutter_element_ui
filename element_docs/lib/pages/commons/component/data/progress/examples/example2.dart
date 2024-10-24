@@ -14,10 +14,7 @@ class Example2 extends HookWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          content: [
-            'Flutter 动画在平移过程中元素存在抖动问题，一开始我以为是逻辑问题，'
-                '但经过测试，内置组件 AnimatedAlign 也存在此问题。'
-          ],
+          content: ['如果动画曲线不是线性，那么 Flutter 动画在平移过程中元素存在细微的抖动问题'],
         ),
         textGap,
         CodeExample(
