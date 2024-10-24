@@ -1,89 +1,201 @@
 part of 'index.dart';
 
+typedef _ColorStyleProp = ({
+  Color? bgColor,
+  bool plain,
+  bool text,
+  bool bg,
+  bool link,
+  bool disabled,
+});
+
+/// 按钮颜色样式
+class _ButtonColorStyle {
+  Color? bgColor;
+  Color? textColor;
+  Color? borderColor;
+  Color? loadingTextColor;
+
+  _ButtonColorStyle({
+    this.bgColor,
+    this.textColor,
+    this.borderColor,
+    this.loadingTextColor,
+  });
+}
+
+extension _ButtonColorExtension on Color {
+  /// 悬停状态颜色，颜色会变得更浅
+  Color hover(BuildContext context, [bool? reverse]) =>
+      elLight2(context, reverse: reverse ?? false);
+
+  /// 按下状态颜色，颜色会变得更深
+  Color tap(BuildContext context, [bool? reverse]) =>
+      elLight3(context, reverse: reverse == null ? true : !reverse);
+
+  /// 禁用状态颜色
+  Color disabled(BuildContext context) => elLight5(context);
+}
+
 /// 按钮颜色样式预设，封装各种类型按钮在 default、hover、active 三种状态下的颜色主题
 class _ButtonColors {
   _ButtonColors._();
 
   /// 计算按钮颜色样式
-  static _ButtonColorStyle calcButtonColorStyle(
+  static _ButtonColorStyle calcColorStyle(
     BuildContext context, {
-    required _ButtonProp prop,
+    required _ColorStyleProp prop,
     required bool isTap,
     required bool isHover,
   }) {
     late _ButtonColorStyle colors;
-    if (prop.loadingBuilder != null && prop.loading) {
-      return loadingButton(
-        context,
-        bgColor: prop.bgColor,
-        link: prop.link,
-        text: prop.text,
-        plain: prop.plain,
-      );
-    } else {
-      if (prop.link) {
+
+    if (prop.link) {
+      if (isTap) {
+        colors = linkButtonActive(context, bgColor: prop.bgColor);
+      } else if (isHover) {
+        colors = linkButtonHover(context, bgColor: prop.bgColor);
+      } else {
+        colors = linkButton(
+          context,
+          bgColor: prop.bgColor,
+          disabled: prop.disabled,
+        );
+      }
+    } else if (prop.text) {
+      if (isTap) {
+        colors = textButtonActive(
+          context,
+          bgColor: prop.bgColor,
+          bg: prop.bg,
+        );
+      } else if (isHover) {
+        colors = textButtonHover(
+          context,
+          bgColor: prop.bgColor,
+          bg: prop.bg,
+        );
+      } else {
+        colors = textButton(
+          context,
+          bgColor: prop.bgColor,
+          bg: prop.bg,
+          disabled: prop.disabled,
+        );
+      }
+    } else if (prop.plain) {
+      if (prop.bgColor == null) {
         if (isTap) {
-          colors = linkButtonActive(context, bgColor: prop.bgColor);
+          colors = plainButtonActive(context);
         } else if (isHover) {
-          colors = linkButtonHover(context, bgColor: prop.bgColor);
+          colors = plainButtonHover(context);
         } else {
-          colors = linkButton(
-            context,
-            bgColor: prop.bgColor,
-            disabled: prop.disabled,
-          );
-        }
-      } else if (prop.text) {
-        if (isTap) {
-          colors = textButtonActive(
-            context,
-            bgColor: prop.bgColor,
-            bg: prop.bg,
-          );
-        } else if (isHover) {
-          colors = textButtonHover(
-            context,
-            bgColor: prop.bgColor,
-            bg: prop.bg,
-          );
-        } else {
-          colors = textButton(
-            context,
-            bgColor: prop.bgColor,
-            bg: prop.bg,
-            disabled: prop.disabled,
-          );
-        }
-      } else if (prop.plain) {
-        if (prop.bgColor == null) {
-          if (isTap) {
-            colors = plainButtonActive(context);
-          } else if (isHover) {
-            colors = plainButtonHover(context);
-          } else {
-            colors = plainButton(context, disabled: prop.disabled);
-          }
-        } else {
-          if (isTap) {
-            colors = plainThemeButtonActive(context, bgColor: prop.bgColor!);
-          } else if (isHover) {
-            colors = themeButton(context, bgColor: prop.bgColor!);
-          } else {
-            colors = plainThemeButton(
-              context,
-              bgColor: prop.bgColor!,
-              disabled: prop.disabled,
-            );
-          }
+          colors = plainButton(context, disabled: prop.disabled);
         }
       } else {
-        if (prop.bgColor != null) {
+        if (isTap) {
+          colors = plainThemeButtonActive(context, bgColor: prop.bgColor!);
+        } else if (isHover) {
+          colors = themeButton(context, bgColor: prop.bgColor!);
+        } else {
+          colors = plainThemeButton(
+            context,
+            bgColor: prop.bgColor!,
+            disabled: prop.disabled,
+          );
+        }
+      }
+    } else {
+      if (prop.bgColor == null) {
+        if (isTap) {
+          colors = buttonActive(context);
+        } else if (isHover) {
+          colors = buttonHover(context);
+        } else {
+          colors = button(
+            context,
+            disabled: prop.disabled,
+          );
+        }
+      } else {
+        if (isTap) {
+          colors = themeButtonActive(context, bgColor: prop.bgColor!);
+        } else if (isHover) {
+          colors = themeButtonHover(context, bgColor: prop.bgColor!);
+        } else {
+          colors = themeButton(
+            context,
+            bgColor: prop.bgColor!,
+            disabled: prop.disabled,
+          );
+        }
+      }
+    }
+
+    return colors;
+  }
+
+  /// 计算按钮组颜色样式，它多了 isSelected 选中状态
+  static _ButtonColorStyle calcGroupColorStyle(
+    BuildContext context, {
+    required _ColorStyleProp prop,
+    required bool isTap,
+    required bool isHover,
+    required bool isSelected,
+  }) {
+    late _ButtonColorStyle colors;
+
+    if (prop.text) {
+      if (isSelected) {
+        if (isTap) {
+          colors = _ButtonColors.textButtonSelectedActive(
+            context,
+            bgColor: prop.bgColor,
+          );
+        } else {
+          colors = _ButtonColors.textButtonSelected(
+            context,
+            bgColor: prop.bgColor,
+          );
+        }
+      } else {
+        if (isTap) {
+          colors = _ButtonColors.textButtonActive(
+            context,
+            bg: prop.bg,
+          );
+        } else if (isHover) {
+          colors = _ButtonColors.textButtonHover(
+            context,
+            bg: prop.bg,
+          );
+        } else {
+          colors = _ButtonColors.textButton(
+            context,
+            bg: prop.bg,
+          );
+        }
+      }
+    } else if (prop.plain) {
+      if (prop.bgColor == null) {
+        if (isSelected) {
+          colors = buttonSelected(context);
+        } else if (isTap) {
+          colors = _ButtonColors.plainButtonActive(context);
+        } else if (isHover) {
+          colors = _ButtonColors.plainButtonHover(context);
+        } else {
+          colors = _ButtonColors.plainButton(context, disabled: prop.disabled);
+        }
+      } else {
+        if (isSelected) {
           if (isTap) {
-            colors = themeButtonActive(context, bgColor: prop.bgColor!);
-          } else if (isHover) {
-            colors = themeButtonHover(context, bgColor: prop.bgColor!);
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
           } else {
-            colors = themeButton(
+            colors = _ButtonColors.themeButton(
               context,
               bgColor: prop.bgColor!,
               disabled: prop.disabled,
@@ -91,11 +203,65 @@ class _ButtonColors {
           }
         } else {
           if (isTap) {
-            colors = buttonActive(context);
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
           } else if (isHover) {
-            colors = buttonHover(context);
+            colors = _ButtonColors.themeButton(
+              context,
+              bgColor: prop.bgColor!,
+            );
           } else {
-            colors = button(context, disabled: prop.disabled);
+            colors = _ButtonColors.plainThemeButton(
+              context,
+              bgColor: prop.bgColor!,
+              disabled: prop.disabled,
+            );
+          }
+        }
+      }
+    } else {
+      if (prop.bgColor == null) {
+        if (isSelected) {
+          colors = buttonSelected(context);
+        } else if (isTap) {
+          colors = _ButtonColors.buttonActive(context);
+        } else if (isHover) {
+          colors = _ButtonColors.buttonHover(context);
+        } else {
+          colors = _ButtonColors.button(context, disabled: prop.disabled);
+        }
+      } else {
+        if (isSelected) {
+          if (isTap) {
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else {
+            colors = _ButtonColors.themeButton(
+              context,
+              bgColor: prop.bgColor!,
+              disabled: prop.disabled,
+            );
+          }
+        } else {
+          if (isTap) {
+            colors = _ButtonColors.themeButtonActive(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else if (isHover) {
+            colors = _ButtonColors.themeButtonHover(
+              context,
+              bgColor: prop.bgColor!,
+            );
+          } else {
+            colors = _ButtonColors.button(
+              context,
+              disabled: prop.disabled,
+            );
           }
         }
       }
@@ -130,9 +296,9 @@ class _ButtonColors {
   static _ButtonColorStyle buttonHover(BuildContext context) {
     final $elTheme = context.elTheme;
     return _ButtonColorStyle(
-      bgColor: $elTheme.primary.themeLightBg(context),
+      bgColor: $elTheme.primary.elLight9(context),
       textColor: $elTheme.primary,
-      borderColor: $elTheme.primary.themeLightBorder(context),
+      borderColor: $elTheme.primary.elLight6(context),
     );
   }
 
@@ -140,7 +306,17 @@ class _ButtonColors {
   static _ButtonColorStyle buttonActive(BuildContext context) {
     final $elTheme = context.elTheme;
     return _ButtonColorStyle(
-      bgColor: $elTheme.primary.themeLightBg(context),
+      bgColor: $elTheme.primary.elLight9(context),
+      textColor: $elTheme.primary,
+      borderColor: $elTheme.primary,
+    );
+  }
+
+  /// 选中状态下的按钮样式
+  static _ButtonColorStyle buttonSelected(BuildContext context) {
+    final $elTheme = context.elTheme;
+    return _ButtonColorStyle(
+      bgColor: $elTheme.bgColor,
       textColor: $elTheme.primary,
       borderColor: $elTheme.primary,
     );
@@ -215,7 +391,7 @@ class _ButtonColors {
     final $elTheme = context.elTheme;
     Color $bgColor = $elTheme.bgColor;
     Color $textColor = $elTheme.primary;
-    Color $borderColor = $elTheme.primary.themeLightBorder(context);
+    Color $borderColor = $elTheme.primary;
 
     return _ButtonColorStyle(
       bgColor: $bgColor,
@@ -242,9 +418,9 @@ class _ButtonColors {
     required Color bgColor,
     bool disabled = false,
   }) {
-    Color $bgColor = bgColor.themeLightBg(context);
+    Color $bgColor = bgColor.elLight9(context);
     Color $textColor = bgColor;
-    Color $borderColor = bgColor.themeLightBorder(context);
+    Color $borderColor = bgColor.elLight6(context);
 
     if (disabled) {
       $bgColor = $bgColor.disabled(context);
@@ -265,7 +441,7 @@ class _ButtonColors {
   }) {
     if (PlatformUtil.isDesktop) {
       return themeButtonActive(context, bgColor: bgColor);
-    }else{
+    } else {
       return themeButton(context, bgColor: bgColor);
     }
   }
@@ -335,6 +511,30 @@ class _ButtonColors {
     );
   }
 
+  static _ButtonColorStyle textButtonSelected(
+    BuildContext context, {
+    Color? bgColor,
+  }) {
+    final $elTheme = context.elTheme;
+    Color $color = bgColor ?? $elTheme.primary;
+    return _ButtonColorStyle(
+      bgColor: $color.elLight9(context),
+      textColor: $color,
+    );
+  }
+
+  static _ButtonColorStyle textButtonSelectedActive(
+    BuildContext context, {
+    Color? bgColor,
+  }) {
+    final $elTheme = context.elTheme;
+    Color $color = bgColor ?? $elTheme.primary;
+    return _ButtonColorStyle(
+      bgColor: $color.elLight8(context),
+      textColor: $color,
+    );
+  }
+
   static _ButtonColorStyle linkButton(
     BuildContext context, {
     Color? bgColor,
@@ -357,7 +557,7 @@ class _ButtonColors {
     final $elTheme = context.elTheme;
     var $textColor = bgColor ?? $elTheme.regularTextColor;
     return _ButtonColorStyle(
-      textColor: $textColor.linkTextHover(context),
+      textColor: $textColor.elLight5(context),
     );
   }
 
@@ -409,3 +609,4 @@ class _ButtonColors {
     );
   }
 }
+

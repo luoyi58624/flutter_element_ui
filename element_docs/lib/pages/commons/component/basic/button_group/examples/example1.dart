@@ -161,7 +161,7 @@ class _Example extends StatelessWidget {
                 children: [
                   ElButton(child: '选项一', disabled: true),
                   ElButton(child: '选项二'),
-                  ElButton(child: '选项三'),
+                  ElButton(child: '选项三', disabled: true),
                   ElButton(child: '选项四', disabled: true),
                   ElButton(child: '选项五'),
                 ],
@@ -279,10 +279,9 @@ class _Example extends StatelessWidget {
           ),
           child: const ElButtonGroup(
             children: [
-              ElButton(child: ElIcon(ElIcons.house)),
               ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.share)),
               ElButton(child: ElIcon(ElIcons.delete)),
-              ElButton(child: ElIcon(ElIcons.upload2)),
             ],
           ),
         ),
@@ -294,10 +293,9 @@ class _Example extends StatelessWidget {
           ),
           child: const ElButtonGroup(
             children: [
-              ElButton(child: ElIcon(ElIcons.house)),
               ElButton(child: ElIcon(ElIcons.edit)),
+              ElButton(child: ElIcon(ElIcons.share)),
               ElButton(child: ElIcon(ElIcons.delete)),
-              ElButton(child: ElIcon(ElIcons.upload2)),
             ],
           ),
         ),

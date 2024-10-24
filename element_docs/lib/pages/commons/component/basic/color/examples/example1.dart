@@ -222,7 +222,8 @@ Row(
               decoration: BoxDecoration(
                 color: e,
                 border: Border.all(
-                  // 直接写 0 将出现 1px 的边框，这是 flutter 的一个 bug
+                  // flutter 边框设置 0 依旧会当做 1px 渲染
+                  // https://api.flutter.dev/flutter/painting/BorderSide/width.html
                   width: context.isHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
                 ),

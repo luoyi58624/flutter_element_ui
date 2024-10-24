@@ -66,7 +66,7 @@ class Example1 extends StatelessWidget {
                       child: (type ?? 'Default').firstUpperCase,
                       plain: true,
                       borderBuilder: (state) => Border.all(
-                        width: state.isActive ? 1.5 : 0.1,
+                        width: state.isHover || state.isTap ? 1.5 : 0.1,
                         color: state.color,
                       ),
                     ),

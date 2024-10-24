@@ -25,7 +25,7 @@ class ElConfigData {
   const ElConfigData({
     this.size = 36,
     this.radius = const BorderRadius.all(Radius.circular(4)),
-    this.themeDuration = const Duration(milliseconds: 200),
+    this.themeDuration = Duration.zero,
     this.themeCurve = Curves.linear,
   }) : assert(size >= 24);
 }

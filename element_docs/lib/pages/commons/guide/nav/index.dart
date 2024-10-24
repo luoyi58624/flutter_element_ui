@@ -23,8 +23,6 @@ class _Example extends HookWidget {
     final selected = useState(-1);
     final loading = useState(false);
 
-    i(context.elTheme.primary);
-    i(context.elTheme.primary.withOpacity(0.5));
     return Column(
       children: [
         const Gap(8),

@@ -128,11 +128,19 @@ class ElButtonBorderState {
   /// 按钮边框颜色
   final Color color;
 
-  /// 按钮是否处于激活状态：悬停、点击、选中
-  final bool isActive;
+  /// 按钮是否处于悬停状态
+  final bool isHover;
+
+  /// 按钮是否处于点击状态
+  final bool isTap;
+
+  /// 按钮是否处于选中状态，只有在按钮组中此属性才会生效
+  final bool isSelected;
 
   const ElButtonBorderState({
     this.color = Colors.transparent,
-    this.isActive = false,
+    this.isHover = false,
+    this.isTap = false,
+    this.isSelected = false,
   });
 }
