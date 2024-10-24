@@ -28,8 +28,6 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
     Widget? leftIcon,
     Widget? rightIcon,
     bool? circle,
-    bool? disabled,
-    bool? loading,
     Widget? loadingWidget,
     Widget Function(ElButtonLoadingState)? loadingBuilder,
   }) {
@@ -53,8 +51,6 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
       leftIcon: leftIcon ?? this.leftIcon,
       rightIcon: rightIcon ?? this.rightIcon,
       circle: circle ?? this.circle,
-      disabled: disabled ?? this.disabled,
-      loading: loading ?? this.loading,
       loadingWidget: loadingWidget ?? this.loadingWidget,
       loadingBuilder: loadingBuilder ?? this.loadingBuilder,
     );
@@ -83,8 +79,6 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
       leftIcon: other.leftIcon,
       rightIcon: other.rightIcon,
       circle: other.circle,
-      disabled: other.disabled,
-      loading: other.loading,
       loadingWidget: other.loadingWidget,
       loadingBuilder: other.loadingBuilder,
     );

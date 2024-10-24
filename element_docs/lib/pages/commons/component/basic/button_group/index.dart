@@ -5,6 +5,7 @@ import 'examples/example1.dart';
 import 'examples/example2.dart';
 import 'examples/example3.dart';
 import 'performance_test.dart';
+import 'test.dart';
 
 class ButtonGroupPage extends ResponsivePage {
   const ButtonGroupPage({super.key});
@@ -15,7 +16,16 @@ class ButtonGroupPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      titleGap,
+      textGap,
+      ElButton(
+        onPressed: () {
+          context.push(const ButtonGroupTestPage());
+        },
+        link: true,
+        type: 'primary',
+        child: const ElText('按钮组功能测试'),
+      ),
+      const Gap(8),
       ElButton(
         onPressed: () {
           context.push(const PerformanceTestPage());

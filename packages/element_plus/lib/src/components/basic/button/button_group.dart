@@ -10,6 +10,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   const _ElButtonGroupInheritedWidget({
     required this.type,
     required this.modelValue,
+    required this.children,
     required this.axis,
     required this.hoverIndex,
     required this.tapIndex,
@@ -21,6 +22,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
 
   final _ButtonGroupType type;
   final dynamic modelValue;
+  final List<ElButton> children;
   final Axis axis;
   final Obs<int> hoverIndex;
   final Obs<int> tapIndex;
@@ -277,6 +279,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     return _ElButtonGroupInheritedWidget(
       type: widget._type,
       modelValue: _modelValue,
+      children: widget.children,
       axis: widget.axis,
       hoverIndex: _hoverIndex,
       tapIndex: _tapIndex,
@@ -357,9 +360,6 @@ class _GroupDivide extends StatelessWidget {
       bool $isTap = false;
       bool $isSelected = false;
 
-      // 判断主题类型的按钮组 selected、hover、tap 是否是相邻的，如果是则需要在中间绘制比较显眼的分割线
-      bool isUnionBorder = false;
-
       if ($tapIndex != -1) {
         if (matchIndex($tapIndex)) {
           $isTap = true;
@@ -370,73 +370,57 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      if (hasSelected) {
-        if ($groupData.type == _ButtonGroupType.single) {
-          // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
-          if (index == $hoverIndex || index == $tapIndex) {
-            if ($hoverIndex == $modelValue - 1 ||
-                ($tapIndex >= 0 && $tapIndex == $modelValue - 1)) {
-              isUnionBorder = true;
-            }
-          }
-          if (matchIndex($modelValue)) {
-            $isSelected = true;
-            // 当鼠标悬停的按钮位置在选中之后，需要绘制显眼的分割线
-            if ($modelValue + 1 == $hoverIndex ||
-                $modelValue + 1 == $tapIndex) {
-              if (index == $hoverIndex - 1 || index == $tapIndex - 1) {
-                isUnionBorder = true;
-              }
-            }
-          }
+      bool disabled = ($groupData.children[index].disabled ||
+              $groupData.children[index].loading) &&
+          ($groupData.children[index + 1].disabled ||
+              $groupData.children[index + 1].loading);
+      if ($groupData.type == _ButtonGroupType.none) {
+        if (bgColor != null && $data.plain != true) {
+          $borderColor = bgColor.mix(Colors.white, 50);
         } else {
-          ($modelValue as List<int>).sort();
-          // 对相邻选中的按钮添加显眼的分割线
-          for (int i in $modelValue) {
-            if (i == index) {
-              if ($modelValue.contains(i + 1)) {
-                isUnionBorder = true;
-              }
-              break;
-            }
-          }
-          // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
-          if (index == $hoverIndex || index == $tapIndex) {
-            if ($modelValue.contains($hoverIndex + 1) ||
-                $modelValue.contains($tapIndex + 1)) {
-              isUnionBorder = true;
-            }
-          }
-          for (int i in $modelValue) {
-            if (matchIndex(i)) {
+          $borderColor = _ButtonColors.calcColorStyle(
+            context,
+            prop: (
+              bgColor: bgColor,
+              plain: $data.plain ?? false,
+              text: $data.text ?? false,
+              bg: $data.bg ?? false,
+              link: false,
+              disabled: disabled,
+            ),
+            isTap: $isTap,
+            isHover: $isHover,
+          ).borderColor;
+        }
+      } else {
+        // 判断多选主题类型按钮组 selected 是否相邻，需要在中间绘制比较显眼的分割线
+        bool isUnionBorder = false;
+
+        if (hasSelected) {
+          if ($groupData.type == _ButtonGroupType.single) {
+            if (matchIndex($modelValue)) {
               $isSelected = true;
-              // 当鼠标悬停的按钮位置在选中之后，需要绘制显眼的分割线
-              if (i + 1 == $hoverIndex ||
-                  i + 1 == $tapIndex) {
-                if (index == $hoverIndex - 1 || index == $tapIndex - 1) {
+            }
+          } else {
+            ($modelValue as List<int>).sort();
+            // 对相邻选中的按钮添加显眼的分割线
+            for (int i in $modelValue) {
+              if (i == index) {
+                if ($modelValue.contains(i + 1)) {
                   isUnionBorder = true;
                 }
+                break;
               }
-              break;
+            }
+            for (int i in $modelValue) {
+              if (matchIndex(i)) {
+                $isSelected = true;
+                break;
+              }
             }
           }
         }
-      }
 
-      final double $width =
-          ($data.borderBuilder ?? _ButtonProp.defaultBorderBuilder)(
-        ElButtonBorderState(
-          isHover: $isHover,
-          isTap: $isTap,
-          isSelected: $isSelected,
-        ),
-      ).maxWidth;
-
-      if ($groupData.type == _ButtonGroupType.none &&
-          bgColor != null &&
-          $data.plain != true) {
-        $borderColor = bgColor.mix(Colors.white, 50);
-      } else {
         $borderColor = _ButtonColors.calcGroupColorStyle(
           context,
           prop: (
@@ -456,6 +440,15 @@ class _GroupDivide extends StatelessWidget {
           $borderColor = bgColor.mix(Colors.white, 50);
         }
       }
+
+      final double $width =
+          ($data.borderBuilder ?? _ButtonProp.defaultBorderBuilder)(
+        ElButtonBorderState(
+          isHover: $isHover,
+          isTap: $isTap,
+          isSelected: $isSelected,
+        ),
+      ).maxWidth;
 
       return Positioned(
         left: $dividePositionList[index],

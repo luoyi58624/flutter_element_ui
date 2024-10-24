@@ -37,38 +37,6 @@ class _Example extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const ElButtonGroup(
-          children: [],
-        ),
-        const Gap(8),
-        const ElButtonGroup(
-          children: [
-            ElButton(child: '选项一'),
-          ],
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            iconSize: 18,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(
-                leftIcon: ElIcon(ElIcons.arrowLeft),
-                child: ElText(
-                  '上一页',
-                ),
-              ),
-              ElButton(
-                rightIcon: ElIcon(ElIcons.arrowRight),
-                child: ElText(
-                  '下一页',
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Gap(8),
-        const ElButtonGroup(
           children: [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
@@ -78,33 +46,6 @@ class _Example extends StatelessWidget {
         const Gap(8),
         ElButtonTheme.merge(
           data: const ElButtonThemeData(
-            type: El.primary,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            type: El.success,
-            round: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
             plain: true,
           ),
           child: const ElButtonGroup(
@@ -112,7 +53,6 @@ class _Example extends StatelessWidget {
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
               ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
             ],
           ),
         ),
@@ -120,14 +60,12 @@ class _Example extends StatelessWidget {
         ElButtonTheme.merge(
           data: const ElButtonThemeData(
             type: El.primary,
-            plain: true,
           ),
           child: const ElButtonGroup(
             children: [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
               ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
             ],
           ),
         ),
@@ -143,62 +81,36 @@ class _Example extends StatelessWidget {
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),
               ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
             ],
           ),
         ),
         const Gap(8),
-        SizedBox(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ElButtonTheme.merge(
-              data: const ElButtonThemeData(
-                bgColor: Colors.purple,
-                plain: true,
-                round: true,
-              ),
-              child: const ElButtonGroup(
-                children: [
-                  ElButton(child: '选项一', disabled: true),
-                  ElButton(child: '选项二'),
-                  ElButton(child: '选项三', disabled: true),
-                  ElButton(child: '选项四', disabled: true),
-                  ElButton(child: '选项五'),
-                ],
-              ),
-            ),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            text: true,
+          ),
+          child: const ElButtonGroup(
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
           ),
         ),
         const Gap(8),
-        SizedBox(
-          width: double.infinity,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ElButtonTheme.merge(
-              data: const ElButtonThemeData(
-                bgColor: Colors.cyan,
-                round: true,
-              ),
-              child: const ElButtonGroup(
-                children: [
-                  ElButton(child: '选项一'),
-                  ElButton(child: '选项二'),
-                  ElButton(child: '选项三'),
-                  ElButton(child: '选项四', disabled: true),
-                  ElButton(child: '选项五', loading: true),
-                ],
-              ),
-            ),
+        ElButtonTheme.merge(
+          data: const ElButtonThemeData(
+            text: true,
+            round: true,
+            bg: true,
           ),
-        ),
-        const Gap(8),
-        const ElButtonGroup(
-          children: [
-            ElButton(child: ElIcon(ElIcons.edit)),
-            ElButton(child: ElIcon(ElIcons.share)),
-            ElButton(child: ElIcon(ElIcons.delete)),
-          ],
+          child: const ElButtonGroup(
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
+          ),
         ),
         const Gap(8),
         ElButtonTheme.merge(
@@ -222,84 +134,13 @@ class _Example extends StatelessWidget {
           ),
           child: const ElButtonGroup(
             children: [
-              ElButton(child: '选项一', flex: 2),
+              ElButton(child: '选项一'),
               ElButton(child: '选项二', block: false),
-              ElButton(child: '选项三'),
+              ElButton(child: '选项三', flex: 2),
             ],
           ),
         ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-            round: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-            round: true,
-            bg: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: ElIcon(ElIcons.edit)),
-              ElButton(child: ElIcon(ElIcons.share)),
-              ElButton(child: ElIcon(ElIcons.delete)),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-            bg: true,
-          ),
-          child: const ElButtonGroup(
-            children: [
-              ElButton(child: ElIcon(ElIcons.edit)),
-              ElButton(child: ElIcon(ElIcons.share)),
-              ElButton(child: ElIcon(ElIcons.delete)),
-            ],
-          ),
-        ),
+
       ],
     );
   }
@@ -313,13 +154,16 @@ class _Example extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
+        // 基础使用
         ElButtonGroup(
           children: [
             ElButton(child: '选项一'),
             ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
           ],
         ),
         Gap(8),
+        // 使用 ElButtonTheme 设置主题
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
@@ -333,6 +177,7 @@ class _Example extends StatelessWidget {
           ),
         ),
         Gap(8),
+        // 使用 block 属性实现 flex 弹性布局
         ElButtonTheme(
           data: ElButtonThemeData(
             type: El.primary,
@@ -341,9 +186,9 @@ class _Example extends StatelessWidget {
           ),
           child: ElButtonGroup(
             children: [
-              ElButton(child: '选项一', flex: 2),
+              ElButton(child: '选项一'),
               ElButton(child: '选项二', block: false),
-              ElButton(child: '选项三'),
+              ElButton(child: '选项三', flex: 2),
             ],
           ),
         ),

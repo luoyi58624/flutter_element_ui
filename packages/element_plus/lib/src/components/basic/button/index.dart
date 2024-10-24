@@ -46,8 +46,8 @@ class ElButton extends StatefulWidget {
     this.leftIcon,
     this.rightIcon,
     this.circle,
-    this.disabled,
-    this.loading,
+    this.disabled = false,
+    this.loading = false,
     this.loadingWidget,
     this.loadingBuilder,
     this.onPressed,
@@ -123,11 +123,11 @@ class ElButton extends StatefulWidget {
   /// 圆形按钮，按钮宽度强制和高度保持一致
   final bool? circle;
 
-  /// 是否禁用按钮
-  final bool? disabled;
+  /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
+  final bool disabled;
 
   /// 开启 loading
-  final bool? loading;
+  final bool loading;
 
   /// loading 图标小部件
   final Widget? loadingWidget;
@@ -580,8 +580,6 @@ class _ButtonProp {
     late final bool $round;
     late final ElBorderBuilder $borderBuilder;
     final bool $block = widget.block ?? $data.block ?? false;
-    final $loading = widget.loading ?? $data.loading ?? false;
-    final $disabled = (widget.disabled ?? $data.disabled ?? false) || $loading;
 
     if (hasGroup) {
       $height = $data.height ?? context.elConfig.size;
@@ -646,8 +644,8 @@ class _ButtonProp {
       leftIcon: widget.leftIcon ?? $data.leftIcon,
       rightIcon: widget.rightIcon ?? $data.rightIcon,
       circle: $circle,
-      disabled: $disabled,
-      loading: $loading,
+      disabled: widget.disabled || widget.loading,
+      loading: widget.loading,
       loadingWidget: widget.loadingWidget ??
           $data.loadingWidget ??
           const ElLoading(ElIcons.loading),

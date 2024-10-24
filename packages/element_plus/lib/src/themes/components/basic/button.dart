@@ -31,8 +31,6 @@ class ElButtonThemeData {
     this.leftIcon,
     this.rightIcon,
     this.circle,
-    this.disabled,
-    this.loading,
     this.loadingWidget,
     this.loadingBuilder,
   });
@@ -94,12 +92,6 @@ class ElButtonThemeData {
 
   /// 圆形按钮
   final bool? circle;
-
-  /// 是否禁用按钮
-  final bool? disabled;
-
-  /// 开启 loading
-  final bool? loading;
 
   /// loading 图标小部件
   final Widget? loadingWidget;

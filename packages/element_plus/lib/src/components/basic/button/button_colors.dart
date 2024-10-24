@@ -48,6 +48,7 @@ class _ButtonColors {
     required bool isTap,
     required bool isHover,
   }) {
+    final $elTheme = context.elTheme;
     late _ButtonColorStyle colors;
 
     if (prop.link) {
@@ -108,9 +109,17 @@ class _ButtonColors {
     } else {
       if (prop.bgColor == null) {
         if (isTap) {
-          colors = buttonActive(context);
+          colors = _ButtonColorStyle(
+            bgColor: $elTheme.primary.elLight9(context),
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.primary,
+          );
         } else if (isHover) {
-          colors = buttonHover(context);
+          colors = _ButtonColorStyle(
+            bgColor: $elTheme.primary.elLight9(context),
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.primary.elLight6(context),
+          );
         } else {
           colors = button(
             context,
@@ -148,15 +157,16 @@ class _ButtonColors {
 
     if (prop.text) {
       if (isSelected) {
+        Color $color = prop.bgColor ?? $elTheme.primary;
         if (isTap) {
-          colors = _ButtonColors.textButtonSelectedActive(
-            context,
-            bgColor: prop.bgColor,
+          colors = _ButtonColorStyle(
+            bgColor: $color.elLight8(context),
+            textColor: $color,
           );
         } else {
-          colors = _ButtonColors.textButtonSelected(
-            context,
-            bgColor: prop.bgColor,
+          colors = _ButtonColorStyle(
+            bgColor: $color.elLight9(context),
+            textColor: $color,
           );
         }
       } else {
@@ -185,47 +195,35 @@ class _ButtonColors {
             textColor: $elTheme.primary,
             borderColor: $elTheme.primary,
           );
-        } else if (isTap) {
-          colors = _ButtonColors.plainButtonActive(context);
-        } else if (isHover) {
-          final $colors = _ButtonColors.plainButtonHover(context);
-          $colors.borderColor = context.elTheme.borderColor;
-          colors = $colors;
+        } else if (isHover || isTap) {
+          colors = _ButtonColorStyle(
+            bgColor: $elTheme.bgColor,
+            textColor: $elTheme.primary,
+            borderColor: $elTheme.borderColor,
+          );
         } else {
           colors = _ButtonColors.plainButton(context, disabled: prop.disabled);
         }
       } else {
         if (isSelected) {
-          if (isTap) {
-            colors = _ButtonColors.themeButtonActive(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else {
-            colors = _ButtonColors.themeButton(
-              context,
-              bgColor: prop.bgColor!,
-              disabled: prop.disabled,
-            );
-          }
+          colors = _ButtonColors.themeButton(
+            context,
+            bgColor: prop.bgColor!,
+            disabled: prop.disabled,
+          );
+        } else if (isHover || isTap) {
+          colors = _ButtonColors.plainThemeButton(
+            context,
+            bgColor: prop.bgColor!,
+            disabled: prop.disabled,
+          );
+          colors.textColor = colors.textColor!.tap(context);
         } else {
-          if (isTap) {
-            colors = _ButtonColors.themeButtonActive(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else if (isHover) {
-            colors = _ButtonColors.themeButtonHover(
-              context,
-              bgColor: prop.bgColor!,
-            );
-          } else {
-            colors = _ButtonColors.plainThemeButton(
-              context,
-              bgColor: prop.bgColor!,
-              disabled: prop.disabled,
-            );
-          }
+          colors = _ButtonColors.plainThemeButton(
+            context,
+            bgColor: prop.bgColor!,
+            disabled: prop.disabled,
+          );
         }
       }
     } else {
@@ -242,7 +240,10 @@ class _ButtonColors {
             borderColor: $elTheme.borderColor,
           );
         } else {
-          colors = _ButtonColors.button(context, disabled: prop.disabled);
+          colors = _ButtonColors.button(
+            context,
+            disabled: prop.disabled,
+          );
         }
       } else {
         if (isSelected) {
@@ -257,7 +258,10 @@ class _ButtonColors {
             borderColor: $elTheme.borderColor,
           );
         } else {
-          colors = _ButtonColors.button(context, disabled: prop.disabled);
+          colors = _ButtonColors.button(
+            context,
+            disabled: prop.disabled,
+          );
         }
       }
     }
@@ -284,26 +288,6 @@ class _ButtonColors {
       bgColor: $bgColor,
       textColor: $textColor,
       borderColor: $borderColor,
-    );
-  }
-
-  /// 悬停状态下的按钮样式
-  static _ButtonColorStyle buttonHover(BuildContext context) {
-    final $elTheme = context.elTheme;
-    return _ButtonColorStyle(
-      bgColor: $elTheme.primary.elLight9(context),
-      textColor: $elTheme.primary,
-      borderColor: $elTheme.primary.elLight6(context),
-    );
-  }
-
-  /// 激活状态下的按钮样式
-  static _ButtonColorStyle buttonActive(BuildContext context) {
-    final $elTheme = context.elTheme;
-    return _ButtonColorStyle(
-      bgColor: $elTheme.primary.elLight9(context),
-      textColor: $elTheme.primary,
-      borderColor: $elTheme.primary,
     );
   }
 
@@ -493,30 +477,6 @@ class _ButtonColors {
     return _ButtonColorStyle(
       bgColor: $bgColor,
       textColor: bgColor ?? $elTheme.regularTextColor,
-    );
-  }
-
-  static _ButtonColorStyle textButtonSelected(
-    BuildContext context, {
-    Color? bgColor,
-  }) {
-    final $elTheme = context.elTheme;
-    Color $color = bgColor ?? $elTheme.primary;
-    return _ButtonColorStyle(
-      bgColor: $color.elLight9(context),
-      textColor: $color,
-    );
-  }
-
-  static _ButtonColorStyle textButtonSelectedActive(
-    BuildContext context, {
-    Color? bgColor,
-  }) {
-    final $elTheme = context.elTheme;
-    Color $color = bgColor ?? $elTheme.primary;
-    return _ButtonColorStyle(
-      bgColor: $color.elLight8(context),
-      textColor: $color,
     );
   }
 
