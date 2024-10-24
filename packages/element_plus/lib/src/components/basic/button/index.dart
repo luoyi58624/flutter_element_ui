@@ -214,7 +214,7 @@ class _ElButtonState extends State<ElButton> {
         });
         if (widget.onTapDown != null) widget.onTapDown!(e);
         if (_hasGroup) {
-          _groupData!.activeIndex.value = _indexData!.index;
+          _groupData!.tapIndex.value = _indexData!.index;
         }
       },
       onTapUp: (e) {
@@ -223,7 +223,7 @@ class _ElButtonState extends State<ElButton> {
         });
         if (widget.onTapUp != null) widget.onTapUp!(e);
         if (_hasGroup) {
-          _groupData!.activeIndex.value = -1;
+          _groupData!.tapIndex.value = -1;
         }
       },
       onTapCancel: () {
@@ -232,7 +232,7 @@ class _ElButtonState extends State<ElButton> {
         });
         if (widget.onTapCancel != null) widget.onTapCancel!();
         if (_hasGroup) {
-          _groupData!.activeIndex.value = -1;
+          _groupData!.tapIndex.value = -1;
         }
       },
       disabled: _prop.disabled,

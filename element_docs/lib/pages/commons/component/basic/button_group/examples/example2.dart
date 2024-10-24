@@ -31,6 +31,7 @@ class _Example extends HookWidget {
     final selected = useState(0);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ElButtonGroup.single(
           selected,

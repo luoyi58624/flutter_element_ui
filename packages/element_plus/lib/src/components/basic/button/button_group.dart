@@ -12,7 +12,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required this.modelValue,
     required this.axis,
     required this.hoverIndex,
-    required this.activeIndex,
+    required this.tapIndex,
     required this.divideColor,
     required this.dividePositionList,
     required this.onChanged,
@@ -23,7 +23,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final dynamic modelValue;
   final Axis axis;
   final Obs<int> hoverIndex;
-  final Obs<int> activeIndex;
+  final Obs<int> tapIndex;
   final Obs<Color?> divideColor;
   final Obs<List<double>> dividePositionList;
   final ValueChanged onChanged;
@@ -111,7 +111,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
   final _hoverIndex = Obs(-1);
 
   /// 当前鼠标激活的按钮
-  final _activeIndex = Obs(-1);
+  final _tapIndex = Obs(-1);
 
   /// 按钮组分割线颜色，它的颜色会和按钮边框同步
   final _divideColor = Obs<Color?>(null);
@@ -128,7 +128,10 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
 
   bool get _hasSelected => _modelValue is List
       ? (_modelValue as List).isNotEmpty
-      : _modelValue != null;
+      : _modelValue != null &&
+          _modelValue is int &&
+          _modelValue >= 0 &&
+          _modelValue <= widget.children.length - 1;
 
   @override
   void initState() {
@@ -262,6 +265,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
     late Widget result;
     if (widget.axis == Axis.horizontal) {
       result = Row(
+        mainAxisSize: MainAxisSize.min,
         children: $children,
       );
     } else {
@@ -275,7 +279,7 @@ class _ElButtonGroupState extends State<ElButtonGroup> {
       modelValue: _modelValue,
       axis: widget.axis,
       hoverIndex: _hoverIndex,
-      activeIndex: _activeIndex,
+      tapIndex: _tapIndex,
       divideColor: _divideColor,
       dividePositionList: _dividePositionList,
       onChanged: _onChange,
@@ -343,86 +347,59 @@ class _GroupDivide extends StatelessWidget {
     final $height = $data.height ?? context.elConfig.size;
     Color? bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
 
-    // if ($data.plain == true) {
-    //   if (bgColor == null) {
-    //     $defaultColor = _ButtonColors.plainButton(context).borderColor!;
-    //     $hoverColor = _ButtonColors.plainButtonHover(context).borderColor!;
-    //     $activeColor = _ButtonColors.plainButtonActive(context).borderColor!;
-    //     $selectedColor =
-    //         _ButtonGroupColors.buttonSelected(context).borderColor!;
-    //   } else {
-    //     $defaultColor = _ButtonColors.plainThemeButton(
-    //       context,
-    //       bgColor: bgColor,
-    //     ).borderColor!;
-    //     $hoverColor = _ButtonColors.themeButton(
-    //       context,
-    //       bgColor: bgColor,
-    //     ).borderColor!;
-    //     $activeColor = _ButtonColors.plainThemeButtonActive(
-    //       context,
-    //       bgColor: bgColor,
-    //     ).borderColor!;
-    //   }
-    // } else {
-    //   if (bgColor == null) {
-    //     $hoverColor = _ButtonColors.buttonHover(context).borderColor!;
-    //     $activeColor = _ButtonColors.buttonActive(context).borderColor!;
-    //     $selectedColor =
-    //         _ButtonGroupColors.buttonSelected(context).borderColor!;
-    //   } else {
-    //     if ($groupData.type == _ButtonGroupType.none) {
-    //       $defaultColor = bgColor.mix(Colors.white, 50);
-    //     } else {
-    //       $hoverColor = _ButtonColors.themeButtonHover(
-    //         context,
-    //         bgColor: bgColor,
-    //       ).borderColor!;
-    //       $activeColor = _ButtonColors.themeButtonActive(
-    //         context,
-    //         bgColor: bgColor,
-    //       ).borderColor!;
-    //       $selectedColor = _ButtonColors.themeButton(
-    //         context,
-    //         bgColor: bgColor,
-    //       ).borderColor!;
-    //     }
-    //   }
-    // }
-
     return ObsBuilder(builder: (context) {
       final $dividePositionList = $groupData.dividePositionList.value;
       if ($dividePositionList.length != length - 1) return const SizedBox();
 
+      Color? $borderColor;
+
       final $hoverIndex = $groupData.hoverIndex.value;
-      final $activeIndex = $groupData.activeIndex.value;
+      final $tapIndex = $groupData.tapIndex.value;
+      final $modelValue = $groupData.modelValue;
       bool $isHover = false;
       bool $isTap = false;
       bool $isSelected = false;
-      Color? $borderColor;
+
+      // 判断主题类型的按钮组 selected、hover、tap 是否是相邻的，如果是则需要在中间绘制比较显眼的分割线
+      bool isUnionBorder = false;
+
+      if ($tapIndex != -1) {
+        if (matchIndex($tapIndex)) {
+          $isTap = true;
+        }
+      } else if ($hoverIndex != -1) {
+        if (matchIndex($hoverIndex)) {
+          $isHover = true;
+        }
+      }
 
       if (hasSelected) {
         if ($groupData.type == _ButtonGroupType.single) {
-          if (matchIndex($groupData.modelValue)) {
+          if (matchIndex($modelValue)) {
             $isSelected = true;
+            // 当鼠标悬停的按钮位置在选中之后，需要绘制显眼的分割线
+            if ($hoverIndex == $modelValue + 1 ||
+                $tapIndex == $modelValue + 1) {
+              if (index == $hoverIndex - 1 || index == $tapIndex - 1) {
+                isUnionBorder = true;
+              }
+            }
           }
         } else {
-          for (int i in $groupData.modelValue as List<int>) {
+          for (int i in $modelValue as List<int>) {
             if (matchIndex(i)) {
               $isSelected = true;
               break;
             }
           }
         }
-      }
 
-      if ($activeIndex != -1) {
-        if (matchIndex($activeIndex)) {
-          $isTap = true;
-        }
-      } else if ($hoverIndex != -1) {
-        if (matchIndex($hoverIndex)) {
-          $isHover = true;
+        // 当鼠标悬停的按钮位置在选中之前，需要绘制显眼的分割线
+        if (index == $hoverIndex || index == $tapIndex) {
+          if ($hoverIndex == $modelValue - 1 ||
+              ($tapIndex >= 0 && $tapIndex == $modelValue - 1)) {
+            isUnionBorder = true;
+          }
         }
       }
 
@@ -435,20 +412,30 @@ class _GroupDivide extends StatelessWidget {
         ),
       ).maxWidth;
 
-      $borderColor = _ButtonColors.calcGroupColorStyle(
-        context,
-        prop: (
-          bgColor: bgColor,
-          plain: $data.plain ?? false,
-          text: $data.text ?? false,
-          bg: $data.bg ?? false,
-          link: false,
-          disabled: false,
-        ),
-        isTap: $isTap,
-        isHover: $isHover,
-        isSelected: $isSelected,
-      ).borderColor;
+      if ($groupData.type == _ButtonGroupType.none &&
+          bgColor != null &&
+          $data.plain != true) {
+        $borderColor = bgColor.mix(Colors.white, 50);
+      } else {
+        $borderColor = _ButtonColors.calcGroupColorStyle(
+          context,
+          prop: (
+            bgColor: bgColor,
+            plain: $data.plain ?? false,
+            text: $data.text ?? false,
+            bg: $data.bg ?? false,
+            link: false,
+            disabled: false,
+          ),
+          isTap: $isTap,
+          isHover: $isHover,
+          isSelected: $isSelected,
+        ).borderColor;
+
+        if (isUnionBorder && bgColor != null && $borderColor != null) {
+          $borderColor = bgColor.mix(Colors.white, 50);
+        }
+      }
 
       return Positioned(
         left: $dividePositionList[index],

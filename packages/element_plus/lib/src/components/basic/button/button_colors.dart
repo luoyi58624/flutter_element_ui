@@ -253,7 +253,7 @@ class _ButtonColors {
               bgColor: prop.bgColor!,
             );
           } else if (isHover) {
-            colors = _ButtonColors.themeButtonHover(
+            colors = _ButtonColors.themeButton(
               context,
               bgColor: prop.bgColor!,
             );

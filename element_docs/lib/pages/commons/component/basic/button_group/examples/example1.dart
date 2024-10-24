@@ -34,6 +34,7 @@ class _Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         const ElButtonGroup(
           children: [],
