@@ -253,40 +253,25 @@ class _ElButtonState extends State<ElButton> {
               : _prop.disabled
                   ? SystemMouseCursors.forbidden
                   : SystemMouseCursors.click,
+          disabled: _prop.disabled,
           hitTestBehavior: HitTestBehavior.deferToChild,
-          onHover: _prop.disabled
-              ? null
-              : (e) {
-                  if (widget.onHover != null) widget.onHover!(e);
-                  if (_isHover == false) {
-                    setState(() {
-                      _isHover = true;
-                    });
-                  }
-                  if (_hasGroup) {
-                    _groupData!.hoverIndex.value = _indexData!.index;
-                  }
-                },
-          onEnter: _prop.disabled
-              ? null
-              : (e) {
-                  setState(() {
-                    _isHover = true;
-                  });
-                  if (_hasGroup) {
-                    _groupData!.hoverIndex.value = _indexData!.index;
-                  }
-                },
-          onExit: _prop.disabled
-              ? null
-              : (e) {
-                  setState(() {
-                    _isHover = false;
-                  });
-                  if (_hasGroup) {
-                    _groupData!.hoverIndex.value = -1;
-                  }
-                },
+          onHover: widget.onHover,
+          onEnter: (e) {
+            setState(() {
+              _isHover = true;
+            });
+            if (_hasGroup) {
+              _groupData!.hoverIndex.value = _indexData!.index;
+            }
+          },
+          onExit: (e) {
+            setState(() {
+              _isHover = false;
+            });
+            if (_hasGroup) {
+              _groupData!.hoverIndex.value = -1;
+            }
+          },
           builder: (context) {
             if (_prop.loading && _prop.loadingBuilder != null) {
               _colorStyle = _ButtonColors.loadingButton(
