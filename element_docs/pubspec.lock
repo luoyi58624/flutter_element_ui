@@ -255,7 +255,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6265e5945436eb5d5e2a954212fa3981f84c0b44"
+      resolved-ref: "265806b4329f3ea03f334037469ee0ed401ad5df"
       url: "https://gitee.com/luoyi666/flutter_base.git"
     source: git
     version: "0.0.1"
@@ -774,10 +774,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "8fc3bae0b68c02c47c5c86fa8bfa74471d42687b0eded01b78de87872db745e2"
+      sha256: "0dea215895a4d254401730ca0ba8204b29109a34a99fb06ae559a2b60988d2de"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.3.12"
+    version: "6.3.13"
   url_launcher_ios:
     dependency: transitive
     description:

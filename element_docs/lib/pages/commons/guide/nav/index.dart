@@ -24,19 +24,41 @@ class _Example extends HookWidget {
 
     return Column(
       children: [
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            type: El.success,
-          ),
-          child: ElButtonGroup.multi(
-            selectedList,
-            children: const [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
-              ElButton(child: '选项四'),
-            ],
-          ),
+        const ElButtonGroup(
+          axis: Axis.vertical,
+          children: [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+          ],
+        ),
+        const Gap(100),
+        Stack(
+          children: [
+            IntrinsicWidth(
+              child: Column(
+                children: [
+                  Container(
+                    width: 200,
+                    height: 20,
+                    color: Colors.green,
+                  ),
+                  const Gap(8),
+                  Container(
+                    width: double.infinity,
+                    height: 2,
+                    color: Colors.red,
+                  ),
+                  const Gap(8),
+                  Container(
+                    width: 400,
+                    height: 20,
+                    color: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ],
     );

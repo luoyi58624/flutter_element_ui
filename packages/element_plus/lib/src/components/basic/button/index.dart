@@ -194,7 +194,7 @@ class _ElButtonState extends State<ElButton> {
 
     Widget result = _buildButtonEvent();
 
-    return _prop.block && !_prop.circle
+    return (_prop.block || _groupData != null) && !_prop.circle
         ? result
         : UnconstrainedBox(child: result);
   }
@@ -467,45 +467,54 @@ class _ElButtonState extends State<ElButton> {
       isTap: _isTap,
       isSelected: _isSelected,
     ));
-    if (_groupData == null) return defaultBorder;
+    if (!_hasGroup) return defaultBorder;
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
     final borderSide = BorderSide(
       color: borderColor,
       width: max(defaultBorder.left.width, defaultBorder.right.width),
     );
+    final isHorizontal = _groupData!.axis == Axis.horizontal;
     if (_indexData!.index == 0) {
       return Border(
         top: borderSide,
-        bottom: borderSide,
+        bottom: isHorizontal ? borderSide : BorderSide.none,
         left: borderSide,
+        right: !isHorizontal ? borderSide : BorderSide.none,
       );
     }
     if (_indexData!.index == _indexData!.length! - 1) {
       return Border(
-        top: borderSide,
+        top: isHorizontal ? borderSide : BorderSide.none,
         bottom: borderSide,
+        left: !isHorizontal ? borderSide : BorderSide.none,
         right: borderSide,
       );
     }
     return Border(
-      top: borderSide,
-      bottom: borderSide,
+      top: isHorizontal ? borderSide : BorderSide.none,
+      bottom: isHorizontal ? borderSide : BorderSide.none,
+      left: !isHorizontal ? borderSide : BorderSide.none,
+      right: !isHorizontal ? borderSide : BorderSide.none,
     );
   }
 
   BorderRadiusGeometry? _calcBorderRadius(BuildContext context) {
-    if (_groupData == null) return _prop.borderRadius;
+    if (!_hasGroup) return _prop.borderRadius;
+
+    final isHorizontal = _groupData!.axis == Axis.horizontal;
     if (_indexData!.length == 1) return _prop.borderRadius;
     if (_indexData!.index == 0) {
       return BorderRadius.only(
         topLeft: _prop.borderRadius.topLeft,
-        bottomLeft: _prop.borderRadius.bottomLeft,
+        topRight: !isHorizontal ? _prop.borderRadius.topLeft : Radius.zero,
+        bottomLeft: isHorizontal ? _prop.borderRadius.bottomLeft : Radius.zero,
       );
     }
     if (_indexData!.index == _indexData!.length! - 1) {
       return BorderRadius.only(
-        topRight: _prop.borderRadius.topRight,
+        topRight: isHorizontal ? _prop.borderRadius.topRight : Radius.zero,
+        bottomLeft: !isHorizontal ? _prop.borderRadius.topLeft : Radius.zero,
         bottomRight: _prop.borderRadius.bottomRight,
       );
     }

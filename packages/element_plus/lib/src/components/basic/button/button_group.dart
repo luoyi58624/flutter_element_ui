@@ -91,7 +91,7 @@ class ElButtonGroup extends ElModelValue {
   /// 按钮集合
   final List<ElButton> children;
 
-  /// 按钮组方向 （暂未实现垂直方向）
+  /// 按钮组方向
   final Axis axis;
 
   /// 当选中的值只剩一个时，是否固定它，默认 false
@@ -260,8 +260,11 @@ class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
         children: $children,
       );
     } else {
-      result = Column(
-        children: $children,
+      result = IntrinsicWidth(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: $children,
+        ),
       );
     }
 
@@ -332,8 +335,8 @@ class _GroupDivide extends StatelessWidget {
     final $data = ElButtonTheme.of(context);
     final $groupData = _ElButtonGroupInheritedWidget.maybeOf(context)!;
 
-    final $height = $data.height ?? context.elConfig.size;
     Color? bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
+    final isHorizontal = $groupData.axis == Axis.horizontal;
 
     return ObsBuilder(builder: (context) {
       final $dividePositionList = $groupData.dividePositionList.value;
@@ -428,7 +431,7 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      final double $width =
+      final double $borderSize =
           ($data.borderBuilder ?? _ButtonProp.defaultBorderBuilder)(
         ElButtonBorderState(
           isHover: $isHover,
@@ -438,13 +441,18 @@ class _GroupDivide extends StatelessWidget {
       ).maxWidth;
 
       return Positioned(
-        left: $dividePositionList[index],
+        left: isHorizontal ? $dividePositionList[index] : 0,
+        right: !isHorizontal ? 0 : null,
+        top: !isHorizontal ? $dividePositionList[index] : 0,
+        bottom: isHorizontal ? 0 : null,
         child: IgnorePointer(
-          child: AnimatedContainer(
+          child: AnimatedColoredBox(
             duration: context.elDuration(_duration),
-            width: $width,
-            height: $height,
             color: $borderColor ?? context.elTheme.borderColor,
+            child: SizedBox(
+              width: isHorizontal ? $borderSize : null,
+              height: isHorizontal ? null : $borderSize,
+            ),
           ),
         ),
       );
