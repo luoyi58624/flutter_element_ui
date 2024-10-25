@@ -6,13 +6,23 @@ part '../../../generates/themes/components/basic/text.g.dart';
 @ElModel.copy()
 @ElThemeModel(desc: '文本默认样式')
 class ElTextThemeData {
-  static const theme = ElTextThemeData();
-  static const darkTheme = ElTextThemeData();
+  static const theme = ElTextThemeData(
+    style: TextStyle(
+      color: Color(0xff323232),
+      fontSize: 15,
+    ),
+  );
+  static const darkTheme = ElTextThemeData(
+    style: TextStyle(
+      color: Color(0xfff2f2f2),
+      fontSize: 15,
+    ),
+  );
 
   const ElTextThemeData({
     this.data,
     this.duration,
-    this.style,
+    this.style = const TextStyle(),
     this.strutStyle,
     this.textAlign,
     this.textDirection,
@@ -34,7 +44,7 @@ class ElTextThemeData {
   final Duration? duration;
 
   /// 文本样式
-  final TextStyle? style;
+  final TextStyle style;
 
   /// 文本基线对齐样式
   final StrutStyle? strutStyle;

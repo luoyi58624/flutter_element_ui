@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 import 'dart:async';
 
+import '../../../themes/components/basic/text.dart';
 import '../../others/triangle/triangle.dart';
 
 part 'state.dart';

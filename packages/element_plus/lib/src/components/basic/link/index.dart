@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:url_launcher/link.dart';
 
+import '../../../themes/components/basic/text.dart';
 import './web.dart' if (dart.library.io) './io.dart';
 
 /// 超链接地址显示、隐藏动画控制器
@@ -145,17 +146,19 @@ class ElLink extends StatelessWidget {
 
     return _LinkInheritedWidget(
       toLink,
-      child: ElDefaultTextStyle.merge(
-        style: TextStyle(
-          color: ElHoverBuilder.of(context) ? $activeColor : $color,
-          decoration: $decoration == ElLinkDecoration.underline
-              ? TextDecoration.underline
-              : $decoration == ElLinkDecoration.hoverUnderline
-                  ? (ElHoverBuilder.of(context)
-                      ? TextDecoration.underline
-                      : TextDecoration.none)
-                  : TextDecoration.none,
-          decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
+      child: ElTextTheme.merge(
+        data: ElTextThemeData(
+          style: TextStyle(
+            color: ElHoverBuilder.of(context) ? $activeColor : $color,
+            decoration: $decoration == ElLinkDecoration.underline
+                ? TextDecoration.underline
+                : $decoration == ElLinkDecoration.hoverUnderline
+                    ? (ElHoverBuilder.of(context)
+                        ? TextDecoration.underline
+                        : TextDecoration.none)
+                    : TextDecoration.none,
+            decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
+          ),
         ),
         child: child is Widget ? child : ElText(child),
       ),

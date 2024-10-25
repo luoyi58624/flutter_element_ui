@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'global.dart';
+import 'utils/element_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,24 +37,10 @@ class MainApp extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       return ElApp(
         brightness: GlobalState.brightness,
-        theme: ElThemeData(
-          primary: GlobalState.primaryColor.value,
-          codePreviewTheme: const ElCodePreviewThemeData(
-            fontFamily: MyFonts.consolas,
-          ),
-        ),
-        darkTheme: ElThemeData.dark(
-          primary: GlobalState.primaryColor.value,
-          codePreviewTheme: const ElCodePreviewThemeData(
-            fontFamily: MyFonts.consolas,
-          ),
-        ),
+        theme: buildElementTheme(),
+        darkTheme: buildElementTheme(),
         config: const ElConfigData(
           themeDuration: Duration.zero,
-        ),
-        textStyle: TextStyle(
-          fontFamily: FontUtil.fontFamily,
-          fontSize: GlobalState.globalFontSize,
         ),
         child: ObsBuilder(builder: (context) {
           return MaterialApp.router(

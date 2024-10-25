@@ -25,9 +25,6 @@ class _ElThemeData {
   /// 全局背景色
   final Color bgColor;
 
-  /// 默认文本颜色
-  final Color textColor;
-
   /// 常规文本颜色
   final Color regularTextColor;
 
@@ -50,7 +47,6 @@ class _ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xfffafafa),
-    this.textColor = const Color(0xff323232),
     this.regularTextColor = const Color(0xff606266),
     this.secondaryTextColor = const Color(0xff909399),
     this.placeholderTextColor = const Color(0xffA8ABB2),
@@ -64,7 +60,6 @@ class _ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xff2b2b2b),
-    this.textColor = const Color(0xfff2f2f2),
     this.regularTextColor = const Color(0xffCFD3DC),
     this.secondaryTextColor = const Color(0xffA3A6AD),
     this.placeholderTextColor = const Color(0xff8D9095),

@@ -70,11 +70,11 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       maxLines: widget.maxLines,
       style: TextStyle(
         fontSize: 14,
-        color: context.elTheme.textColor,
+        color: context.elTheme.textTheme.style.color,
       ).merge(widget.textStyle),
       decoration: _buildInputDecoration(context),
       textInputAction: widget.textInputAction,
-      cursorColor: context.elTheme.textColor,
+      cursorColor: context.elTheme.textTheme.style.color,
       cursorWidth: 1,
       onChanged: (v) {
         modelValue = v;
@@ -104,7 +104,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
         ),
       ),
       hintText: widget.placeholder,
-      hintStyle: ElDefaultTextStyle.of(context).style.copyWith(
+      hintStyle: ElTextTheme.of(context).style.copyWith(
             fontSize: 14,
             color: context.elTheme.placeholderTextColor,
           ),

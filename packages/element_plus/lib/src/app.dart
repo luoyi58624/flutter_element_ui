@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'global.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
-import 'utils/font.dart';
 
 /// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
 class ElAppData {
@@ -21,9 +20,6 @@ class ElAppData {
 
   /// 全局配置
   final ElConfigData config;
-
-  /// 全局文本样式
-  final TextStyle textStyle;
 
   /// 默认的滚动行为
   final ScrollBehavior scrollBehavior;
@@ -41,7 +37,6 @@ class ElAppData {
     required this.theme,
     required this.darkTheme,
     required this.config,
-    required this.textStyle,
     required this.scrollBehavior,
     this.themeDuration,
     this.themeCurve,
@@ -64,7 +59,6 @@ class ElApp extends StatefulWidget {
     this.theme = ElThemeData.theme,
     this.darkTheme = ElThemeData.darkTheme,
     this.config = ElConfigData.data,
-    this.textStyle,
     this.scrollBehavior = const ElScrollBehavior(),
   });
 
@@ -82,9 +76,6 @@ class ElApp extends StatefulWidget {
 
   /// 全局配置
   final ElConfigData config;
-
-  /// 全局文本样式
-  final TextStyle? textStyle;
 
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
   final ScrollBehavior scrollBehavior;
@@ -109,21 +100,14 @@ class ElApp extends StatefulWidget {
         // 在 Overlay 之上构建自定义小部件，可以避免 context 上下文bug
         if (builder != null) result = builder(context, result);
 
-        result = ElAnimatedDefaultTextStyle(
-          duration: $data.config.themeDuration,
-          curve: $data.config.themeCurve,
-          style: $data.textStyle,
+        return Material(
+          animationDuration: $data.config.themeDuration,
+          color: context.elTheme.bgColor,
+          textStyle: context.elTheme.textTheme.style,
           child: ScrollConfiguration(
             behavior: $data.scrollBehavior,
             child: result,
           ),
-        );
-
-        return Material(
-          animationDuration: $data.config.themeDuration,
-          color: context.elTheme.bgColor,
-          textStyle: $data.textStyle,
-          child: result,
         );
       };
 
@@ -170,27 +154,12 @@ class _ElAppState extends State<ElApp> {
     Brightness $brightness =
         widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
-    // 构建默认的文本样式
-    var $textStyle = ElFont.defaultTextStyle
-        .copyWith(
-            fontWeight: ElFont.normal,
-            color: $brightness == Brightness.dark
-                ? widget.darkTheme.textColor
-                : widget.theme.textColor)
-        .merge(widget.textStyle);
-
-    // 如果未设置字体大小，则根据平台应用设置不同尺寸的字体，移动端使用 15px，桌面端使用 16px
-    if ($textStyle.fontSize == null) {
-      $textStyle = $textStyle.copyWith(fontSize: context.sm ? 15 : 16);
-    }
-
     return _AppInheritedWidget(
       ElAppData(
         brightness: $brightness,
         theme: widget.theme,
         darkTheme: widget.darkTheme,
         config: widget.config,
-        textStyle: $textStyle,
         scrollBehavior: widget.scrollBehavior,
         themeDuration: _themeDuration,
         themeCurve: _themeCurve,

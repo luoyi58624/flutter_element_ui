@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../../../themes/components/basic/button.dart';
 import '../../../themes/components/basic/icon.dart';
+import '../../../themes/components/basic/text.dart';
 import '../../feedback/loading/loading.dart';
 
 part 'button_group.dart';
@@ -351,9 +352,11 @@ class _ElButtonState extends State<ElButton> {
       result = ConstrainedBox(constraints: $constraints, child: result);
     }
 
-    result = ElDefaultTextStyle.merge(
-      style: _defaultTextStyle.copyWith(
-        color: _colorStyle.textColor,
+    result = ElTextTheme.merge(
+      data: ElTextThemeData(
+        style: _defaultTextStyle.copyWith(
+          color: _colorStyle.textColor,
+        ),
       ),
       child: AnimatedDecoratedBox(
         duration: context.elDuration(_duration),
@@ -373,9 +376,11 @@ class _ElButtonState extends State<ElButton> {
         children: [
           result,
           Positioned.fill(
-            child: ElDefaultTextStyle.merge(
-              style: _defaultTextStyle.copyWith(
-                color: _colorStyle.loadingTextColor,
+            child: ElTextTheme.merge(
+              data: ElTextThemeData(
+                style: _defaultTextStyle.copyWith(
+                  color: _colorStyle.loadingTextColor,
+                ),
               ),
               child: Center(
                 child: _buildIconTheme(
@@ -462,7 +467,7 @@ class _ElButtonState extends State<ElButton> {
     }
 
     $child = _buildIconTheme(
-      color: ElDefaultTextStyle.of(context).style.color,
+      color: ElTextTheme.of(context).style.color,
       child: childContent,
     );
 

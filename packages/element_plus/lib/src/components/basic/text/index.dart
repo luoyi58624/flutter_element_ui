@@ -2,10 +2,14 @@ import 'package:flutter/rendering.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-/// 注意：[ElText] 只会从 [ElDefaultTextStyle] 组件访问祖先默认的文本样式，
-/// 所以，它并不能完全代替 [Text] 小部件，如果你使用 Material 的一些小部件，请注意这个问题。
+import '../../../themes/components/basic/text.dart';
+
+part 'state.dart';
+
 class ElText extends StatefulWidget {
-  /// Element UI 文本小部件，底层基于 [RichText] 进行封装，同时简化了富文本的写法。
+  /// Element UI 文本小部件，内部直接基于 [RichText] 进行封装，同时简化了富文本的写法。
+  ///
+  /// 注意：[ElText] 不会从 [DefaultTextStyle] 访问默认样式，你应当使用 [ElTextTheme] 提供默认样式。
   const ElText(
     this.data, {
     super.key,
@@ -165,253 +169,130 @@ class ElText extends StatefulWidget {
   }
 }
 
-class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
-  late ElDefaultTextStyle defaultStyle;
-  TextStyle? _tempStyle;
-  bool isDidUpdate = false;
-
-  late AnimationController controller = AnimationController(
-    vsync: this,
-    duration: widget.duration ?? context.elConfig.themeDuration,
-  )
-    ..addListener(() {
-      _tempStyle = styleAnimate.value;
-    })
-    ..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _tempStyle = null;
-      }
-    });
-
-  late Animation<TextStyle> styleAnimate = TextStyleTween(
-    begin: widget.style ?? const TextStyle(),
-  ).animate(CurvedAnimation(
-    parent: controller,
-    curve: Curves.linear,
-  ));
-
-  @override
-  void didUpdateWidget(covariant ElText oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // if (context.elThemeDuration != null) {
-    //   controller.duration = context.elConfig.themeDuration;
-    // } else {
-    //   controller.duration = widget.duration ?? context.elConfig.themeDuration;
-    // }
-    controller.duration =
-        context.elDuration(widget.duration ?? context.elConfig.themeDuration);
-    if (widget.style != oldWidget.style) {
-      isDidUpdate = true;
-      defaultStyle = ElDefaultTextStyle.of(context);
-      final textStyle =
-          defaultStyle.style.merge(widget.buildDefaultTextStyle(context));
-      final oldStyle = textStyle.merge(_tempStyle ?? oldWidget.style);
-      final newStyle = textStyle.merge(widget.style);
-      styleAnimate = TextStyleTween(
-        begin: oldStyle,
-        end: newStyle,
-      ).animate(CurvedAnimation(parent: controller, curve: Curves.linear));
-      controller.forward(from: 0);
-    }
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    late TextStyle style;
-    if (isDidUpdate) {
-      isDidUpdate = false;
-    } else {
-      defaultStyle = ElDefaultTextStyle.of(context);
-    }
-    return AnimatedBuilder(
-      animation: controller.view,
-      builder: (context, child) {
-        if (_tempStyle == null) {
-          style = defaultStyle.style
-              .merge(widget.buildDefaultTextStyle(context))
-              .merge(widget.style);
-        } else {
-          style = defaultStyle.style
-              .merge(widget.buildDefaultTextStyle(context))
-              .merge(styleAnimate.value);
-        }
-        return buildText(context, style);
-      },
-    );
-  }
-
-  Widget buildText(BuildContext context, TextStyle $style) {
-    // 同步 Text 小部件的加粗文本逻辑
-    if (MediaQuery.boldTextOf(context)) {
-      $style.copyWith(fontWeight: FontWeight.bold);
-    }
-    final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
-    Widget result = RichText(
-      text: TextSpan(
-        style: $style,
-        children: widget._buildRichText(
-          context,
-          widget.data is List ? widget.data : [widget.data],
-        ),
-      ),
-      textAlign: widget.textAlign ?? defaultStyle.textAlign ?? TextAlign.start,
-      softWrap: widget.softWrap ?? defaultStyle.softWrap,
-      overflow: widget.overflow ?? defaultStyle.overflow,
-      textDirection: widget.textDirection,
-      textScaler: widget.textScaler ?? TextScaler.noScaling,
-      maxLines: widget.maxLines ?? defaultStyle.maxLines,
-      locale: widget.locale,
-      strutStyle: widget.strutStyle,
-      textWidthBasis: widget.textWidthBasis ?? defaultStyle.textWidthBasis,
-      textHeightBehavior: widget.textHeightBehavior,
-      selectionRegistrar: registrar,
-      selectionColor: widget.selectionColor ??
-          DefaultSelectionStyle.of(context).selectionColor ??
-          DefaultSelectionStyle.defaultColor,
-    );
-
-    if (registrar == null) return result;
-    return ElHoverBuilder(
-        triggerBuild: false,
-        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
-            ElHoverBuilder.mouseCursor(context) ??
-            SystemMouseCursors.text,
-        builder: (context) {
-          return result;
-        });
-  }
-}
-
-class ElDefaultTextStyle extends DefaultTextStyle {
-  /// 构建默认文本样式必须遵循继承性，所以不允许直接构造 [ElDefaultTextStyle]，
-  /// 请使用 [merge] 方法设置默认的文本样式
-  const ElDefaultTextStyle._({
-    super.key,
-    required super.style,
-    super.textAlign,
-    super.softWrap,
-    super.overflow,
-    super.maxLines,
-    super.textWidthBasis,
-    super.textHeightBehavior,
-    required super.child,
-  });
-
-  /// 将祖先提供的默认文本样式与自定义样式进行合并
-  static Widget merge({
-    Key? key,
-    TextStyle? style,
-    TextAlign? textAlign,
-    bool? softWrap,
-    TextOverflow? overflow,
-    int? maxLines,
-    TextWidthBasis? textWidthBasis,
-    required Widget child,
-  }) {
-    return Builder(
-      builder: (BuildContext context) {
-        final ElDefaultTextStyle? parent = ElDefaultTextStyle.maybeOf(context);
-        if (parent != null) {
-          return ElDefaultTextStyle._(
-            key: key,
-            style: parent.style.merge(style),
-            textAlign: textAlign ?? parent.textAlign,
-            softWrap: softWrap ?? parent.softWrap,
-            overflow: overflow ?? parent.overflow,
-            maxLines: maxLines ?? parent.maxLines,
-            textWidthBasis: textWidthBasis ?? parent.textWidthBasis,
-            child: child,
-          );
-        } else {
-          return ElDefaultTextStyle._(
-            key: key,
-            style: style ?? const TextStyle(),
-            textAlign: textAlign,
-            softWrap: softWrap ?? true,
-            overflow: overflow ?? TextOverflow.clip,
-            maxLines: maxLines,
-            textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
-            child: child,
-          );
-        }
-      },
-    );
-  }
-
-  static ElDefaultTextStyle? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
-
-  static ElDefaultTextStyle of(BuildContext context) {
-    final ElDefaultTextStyle? result = maybeOf(context);
-    assert(result != null, 'No ElDefaultTextStyle found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ElDefaultTextStyle oldWidget) => true;
-}
-
-class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
-  /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件，
-  const ElAnimatedDefaultTextStyle({
-    super.key,
-    required this.child,
-    required this.style,
-    this.textAlign,
-    this.softWrap = true,
-    this.overflow = TextOverflow.clip,
-    this.maxLines,
-    this.textWidthBasis = TextWidthBasis.parent,
-    this.textHeightBehavior,
-    super.curve,
-    required super.duration,
-    super.onEnd,
-  }) : assert(maxLines == null || maxLines > 0);
-
-  final Widget child;
-
-  /// 提示：使用自定义文本样式前注意通过 [ElDefaultTextStyle.of] 合并祖先样式
-  final TextStyle style;
-  final TextAlign? textAlign;
-  final bool softWrap;
-  final TextOverflow overflow;
-  final int? maxLines;
-  final TextWidthBasis textWidthBasis;
-  final TextHeightBehavior? textHeightBehavior;
-
-  @override
-  AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> createState() =>
-      _ElAnimatedDefaultTextStyleState();
-}
-
-class _ElAnimatedDefaultTextStyleState
-    extends AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> {
-  TextStyleTween? _style;
-
-  @override
-  void forEachTween(TweenVisitor<dynamic> visitor) {
-    _style = visitor(_style, widget.style,
-            (dynamic value) => TextStyleTween(begin: value as TextStyle))
-        as TextStyleTween?;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ElDefaultTextStyle._(
-      style: _style!.evaluate(animation),
-      textAlign: widget.textAlign,
-      softWrap: widget.softWrap,
-      overflow: widget.overflow,
-      maxLines: widget.maxLines,
-      textWidthBasis: widget.textWidthBasis,
-      textHeightBehavior: widget.textHeightBehavior,
-      child: widget.child,
-    );
-  }
-}
+// class ElTextTheme extends DefaultTextStyle {
+//   /// 构建默认文本样式必须遵循继承性，所以不允许直接构造 [ElTextTheme]，
+//   /// 请使用 [merge] 方法设置默认的文本样式
+//   const ElTextTheme._({
+//     super.key,
+//     required super.style,
+//     super.textAlign,
+//     super.softWrap,
+//     super.overflow,
+//     super.maxLines,
+//     super.textWidthBasis,
+//     super.textHeightBehavior,
+//     required super.child,
+//   });
+//
+//   /// 将祖先提供的默认文本样式与自定义样式进行合并
+//   static Widget merge({
+//     Key? key,
+//     TextStyle? style,
+//     TextAlign? textAlign,
+//     bool? softWrap,
+//     TextOverflow? overflow,
+//     int? maxLines,
+//     TextWidthBasis? textWidthBasis,
+//     required Widget child,
+//   }) {
+//     return Builder(
+//       builder: (BuildContext context) {
+//         final ElTextTheme? parent = ElTextTheme.maybeOf(context);
+//         if (parent != null) {
+//           return ElTextTheme._(
+//             key: key,
+//             style: parent.style.merge(style),
+//             textAlign: textAlign ?? parent.textAlign,
+//             softWrap: softWrap ?? parent.softWrap,
+//             overflow: overflow ?? parent.overflow,
+//             maxLines: maxLines ?? parent.maxLines,
+//             textWidthBasis: textWidthBasis ?? parent.textWidthBasis,
+//             child: child,
+//           );
+//         } else {
+//           return ElTextTheme._(
+//             key: key,
+//             style: style ?? const TextStyle(),
+//             textAlign: textAlign,
+//             softWrap: softWrap ?? true,
+//             overflow: overflow ?? TextOverflow.clip,
+//             maxLines: maxLines,
+//             textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
+//             child: child,
+//           );
+//         }
+//       },
+//     );
+//   }
+//
+//   static ElTextTheme? maybeOf(BuildContext context) =>
+//       context.dependOnInheritedWidgetOfExactType<ElTextTheme>();
+//
+//   static ElTextTheme of(BuildContext context) {
+//     final ElTextTheme? result = maybeOf(context);
+//     assert(result != null, 'No ElTextTheme found in context');
+//     return result!;
+//   }
+//
+//   @override
+//   bool updateShouldNotify(ElTextTheme oldWidget) => true;
+// }
+//
+// class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
+//   /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件，
+//   const ElAnimatedDefaultTextStyle({
+//     super.key,
+//     required this.child,
+//     required this.style,
+//     this.textAlign,
+//     this.softWrap = true,
+//     this.overflow = TextOverflow.clip,
+//     this.maxLines,
+//     this.textWidthBasis = TextWidthBasis.parent,
+//     this.textHeightBehavior,
+//     super.curve,
+//     required super.duration,
+//     super.onEnd,
+//   }) : assert(maxLines == null || maxLines > 0);
+//
+//   final Widget child;
+//
+//   /// 提示：使用自定义文本样式前注意通过 [ElTextTheme.of] 合并祖先样式
+//   final TextStyle style;
+//   final TextAlign? textAlign;
+//   final bool softWrap;
+//   final TextOverflow overflow;
+//   final int? maxLines;
+//   final TextWidthBasis textWidthBasis;
+//   final TextHeightBehavior? textHeightBehavior;
+//
+//   @override
+//   AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> createState() =>
+//       _ElAnimatedDefaultTextStyleState();
+// }
+//
+// class _ElAnimatedDefaultTextStyleState
+//     extends AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> {
+//   TextStyleTween? _style;
+//
+//   @override
+//   void forEachTween(TweenVisitor<dynamic> visitor) {
+//     _style = visitor(_style, widget.style,
+//             (dynamic value) => TextStyleTween(begin: value as TextStyle))
+//         as TextStyleTween?;
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ElTextTheme._(
+//       style: _style!.evaluate(animation),
+//       textAlign: widget.textAlign,
+//       softWrap: widget.softWrap,
+//       overflow: widget.overflow,
+//       maxLines: widget.maxLines,
+//       textWidthBasis: widget.textWidthBasis,
+//       textHeightBehavior: widget.textHeightBehavior,
+//       child: widget.child,
+//     );
+//   }
+// }

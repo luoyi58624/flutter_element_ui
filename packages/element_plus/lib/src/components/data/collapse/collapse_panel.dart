@@ -2,6 +2,7 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../themes/components/basic/icon.dart';
+import '../../../themes/components/basic/text.dart';
 import '../../others/divider.dart';
 
 class _CollapseData extends InheritedWidget {
@@ -169,13 +170,16 @@ class ElCollapseItem extends StatelessWidget {
                         children: [
                           title is Widget
                               ? title
-                              : ElDefaultTextStyle.merge(
-                                  style: TextStyle(
-                                    color: context.isDark
-                                        ? context.elTheme.textColor
-                                        : isActive
-                                            ? context.darkTheme.textColor
-                                            : context.lightTheme.textColor,
+                              : ElTextTheme.merge(
+                                  data: ElTextThemeData(
+                                    style: TextStyle(
+                                      color: context.isDark
+                                          ? context
+                                              .elTheme.textTheme.style.color
+                                          : isActive
+                                              ? context.darkTheme.textTheme.style.color
+                                              : context.lightTheme.textTheme.style.color,
+                                    ),
                                   ),
                                   child: Text('$title'),
                                 ),
@@ -183,10 +187,10 @@ class ElCollapseItem extends StatelessWidget {
                           ElIconTheme(
                             data: ElIconThemeData(
                               color: context.isDark
-                                  ? context.elTheme.textColor
+                                  ? context.elTheme.textTheme.style.color
                                   : isActive
-                                      ? context.darkTheme.textColor
-                                      : context.lightTheme.textColor,
+                                      ? context.darkTheme.textTheme.style.color
+                                      : context.lightTheme.textTheme.style.color,
                             ),
                             child: isActive
                                 ? $data.expandedIcon ??

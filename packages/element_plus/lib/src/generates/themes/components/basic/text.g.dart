@@ -27,7 +27,7 @@ extension ElTextThemeDataExtension on ElTextThemeData {
     return ElTextThemeData(
       data: data ?? this.data,
       duration: duration ?? this.duration,
-      style: this.style?.merge(style),
+      style: this.style.merge(style),
       strutStyle: strutStyle ?? this.strutStyle,
       textAlign: textAlign ?? this.textAlign,
       textDirection: textDirection ?? this.textDirection,

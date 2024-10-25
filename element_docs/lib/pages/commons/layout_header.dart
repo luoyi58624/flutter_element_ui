@@ -111,7 +111,7 @@ class LayoutHeader extends StatelessWidget {
                                         fontSize: 14,
                                         color: ElHoverBuilder.of(context)
                                             ? context.elTheme.primary
-                                            : context.elTheme.textColor),
+                                            : context.elTheme.textTheme.style.color),
                                   ),
                                 ),
                               ),

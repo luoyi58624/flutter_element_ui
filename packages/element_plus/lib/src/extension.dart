@@ -1,14 +1,12 @@
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app.dart';
+import 'themes/components/basic/text.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 
 extension ElThemeExtension on BuildContext {
-
-
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
   ElThemeData get elTheme => isDark ? darkTheme : lightTheme;
 
@@ -53,8 +51,11 @@ extension ElColorThemeExtension on Color {
       _elLight(context, 9, reverse);
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
-  Color elTextColor(BuildContext context) =>
-      isDark ? context.darkTheme.textColor : ElApp.of(context).theme.textColor;
+  Color elTextColor(BuildContext context) => isDark
+      ? context.darkTheme.textTheme.style.color ??
+          ElTextThemeData.darkTheme.style.color!
+      : ElApp.of(context).theme.textTheme.style.color ??
+          ElTextThemeData.theme.style.color!;
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
   List<Color> elLights(BuildContext context) {
