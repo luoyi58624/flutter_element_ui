@@ -43,7 +43,7 @@ class ElTextThemeData {
   /// 设置文本动画持续时间，默认 [Duration.zero]
   final Duration? duration;
 
-  /// 文本样式
+  /// 文本样式，必定包含 color、size 两个属性
   final TextStyle style;
 
   /// 文本基线对齐样式

@@ -8,73 +8,73 @@ part of '../../themes/theme.dart';
 
 class ElThemeData extends _ElThemeData {
   /// 亮色默认主题
-  static const ElThemeData theme = ElThemeData();
+  static final ElThemeData theme = ElThemeData();
 
   /// 暗色默认主题
-  static const ElThemeData darkTheme = ElThemeData.dark();
-
-  /// 侧边栏默认样式
-  final ElAsideThemeData asideTheme;
-
-  /// 滑块默认样式
-  final ElSliderThemeData sliderTheme;
-
-  /// 导航菜单默认样式
-  final ElNavMenuThemeData navMenuTheme;
+  static final ElThemeData darkTheme = ElThemeData.dark();
 
   /// 导航头默认样式
-  final ElHeaderThemeData headerTheme;
-
-  /// 卡片默认样式
-  final ElCardThemeData cardTheme;
-
-  /// 输入框默认样式
-  final ElInputThemeData inputTheme;
+  late final ElHeaderThemeData headerTheme;
 
   /// 图标默认样式
-  final ElIconThemeData iconTheme;
+  late final ElIconThemeData iconTheme;
 
-  /// 标签容器默认样式
-  final ElTabsThemeData tabsTheme;
-
-  /// 代码预览默认样式
-  final ElCodePreviewThemeData codePreviewTheme;
-
-  /// 标签容器子标签默认样式
-  final ElTabThemeData tabTheme;
-
-  /// 按钮默认样式
-  final ElButtonThemeData buttonTheme;
-
-  /// 文本默认样式
-  final ElTextThemeData textTheme;
+  /// 侧边栏默认样式
+  late final ElAsideThemeData asideTheme;
 
   /// 进度条默认样式
-  final ElProgressThemeData progressTheme;
+  late final ElProgressThemeData progressTheme;
 
-  /// 提示框默认样式
-  final ElTooltipThemeData tooltipTheme;
+  /// 滑块默认样式
+  late final ElSliderThemeData sliderTheme;
 
-  /// 标签默认样式
-  final ElTagThemeData tagTheme;
+  /// 标签容器默认样式
+  late final ElTabsThemeData tabsTheme;
+
+  /// 标签容器子标签默认样式
+  late final ElTabThemeData tabTheme;
+
+  /// 按钮默认样式
+  late final ElButtonThemeData buttonTheme;
+
+  /// 输入框默认样式
+  late final ElInputThemeData inputTheme;
+
+  /// 卡片默认样式
+  late final ElCardThemeData cardTheme;
 
   /// 超链接默认样式
-  final ElLinkThemeData linkTheme;
+  late final ElLinkThemeData linkTheme;
+
+  /// 提示框默认样式
+  late final ElTooltipThemeData tooltipTheme;
+
+  /// 标签默认样式
+  late final ElTagThemeData tagTheme;
+
+  /// 文本默认样式
+  late final ElTextThemeData textTheme;
+
+  /// 导航菜单默认样式
+  late final ElNavMenuThemeData navMenuTheme;
+
+  /// 代码预览默认样式
+  late final ElCodePreviewThemeData codePreviewTheme;
 
   /// 折叠菜单默认样式
-  final ElCollapseThemeData collapseTheme;
+  late final ElCollapseThemeData collapseTheme;
 
   /// 消息提示默认样式
-  final ElMessageThemeData messageTheme;
+  late final ElMessageThemeData messageTheme;
 
   /// 模态框默认样式
-  final ElModalThemeData modalTheme;
+  late final ElModalThemeData modalTheme;
 
   /// 轻提示默认样式
-  final ElToastThemeData toastTheme;
+  late final ElToastThemeData toastTheme;
 
   /// 亮色主题构造器
-  const ElThemeData({
+  ElThemeData({
     super.primary,
     super.success,
     super.info,
@@ -85,30 +85,52 @@ class ElThemeData extends _ElThemeData {
     super.secondaryTextColor,
     super.placeholderTextColor,
     super.borderColor,
-    this.asideTheme = ElAsideThemeData.theme,
-    this.sliderTheme = ElSliderThemeData.theme,
-    this.navMenuTheme = ElNavMenuThemeData.theme,
-    this.headerTheme = ElHeaderThemeData.theme,
-    this.cardTheme = ElCardThemeData.theme,
-    this.inputTheme = ElInputThemeData.theme,
-    this.iconTheme = ElIconThemeData.theme,
-    this.tabsTheme = ElTabsThemeData.theme,
-    this.codePreviewTheme = ElCodePreviewThemeData.theme,
-    this.tabTheme = ElTabThemeData.theme,
-    this.buttonTheme = ElButtonThemeData.theme,
-    this.textTheme = ElTextThemeData.theme,
-    this.progressTheme = ElProgressThemeData.theme,
-    this.tooltipTheme = ElTooltipThemeData.theme,
-    this.tagTheme = ElTagThemeData.theme,
-    this.linkTheme = ElLinkThemeData.theme,
-    this.collapseTheme = ElCollapseThemeData.theme,
-    this.messageTheme = ElMessageThemeData.theme,
-    this.modalTheme = ElModalThemeData.theme,
-    this.toastTheme = ElToastThemeData.theme,
-  });
+    ElHeaderThemeData? headerTheme,
+    ElIconThemeData? iconTheme,
+    ElAsideThemeData? asideTheme,
+    ElProgressThemeData? progressTheme,
+    ElSliderThemeData? sliderTheme,
+    ElTabsThemeData? tabsTheme,
+    ElTabThemeData? tabTheme,
+    ElButtonThemeData? buttonTheme,
+    ElInputThemeData? inputTheme,
+    ElCardThemeData? cardTheme,
+    ElLinkThemeData? linkTheme,
+    ElTooltipThemeData? tooltipTheme,
+    ElTagThemeData? tagTheme,
+    ElTextThemeData? textTheme,
+    ElNavMenuThemeData? navMenuTheme,
+    ElCodePreviewThemeData? codePreviewTheme,
+    ElCollapseThemeData? collapseTheme,
+    ElMessageThemeData? messageTheme,
+    ElModalThemeData? modalTheme,
+    ElToastThemeData? toastTheme,
+  }) {
+    this.headerTheme = ElHeaderThemeData.theme.merge(headerTheme);
+    this.iconTheme = ElIconThemeData.theme.merge(iconTheme);
+    this.asideTheme = ElAsideThemeData.theme.merge(asideTheme);
+    this.progressTheme = ElProgressThemeData.theme.merge(progressTheme);
+    this.sliderTheme = ElSliderThemeData.theme.merge(sliderTheme);
+    this.tabsTheme = ElTabsThemeData.theme.merge(tabsTheme);
+    this.tabTheme = ElTabThemeData.theme.merge(tabTheme);
+    this.buttonTheme = ElButtonThemeData.theme.merge(buttonTheme);
+    this.inputTheme = ElInputThemeData.theme.merge(inputTheme);
+    this.cardTheme = ElCardThemeData.theme.merge(cardTheme);
+    this.linkTheme = ElLinkThemeData.theme.merge(linkTheme);
+    this.tooltipTheme = ElTooltipThemeData.theme.merge(tooltipTheme);
+    this.tagTheme = ElTagThemeData.theme.merge(tagTheme);
+    this.textTheme = ElTextThemeData.theme.merge(textTheme);
+    this.navMenuTheme = ElNavMenuThemeData.theme.merge(navMenuTheme);
+    this.codePreviewTheme =
+        ElCodePreviewThemeData.theme.merge(codePreviewTheme);
+    this.collapseTheme = ElCollapseThemeData.theme.merge(collapseTheme);
+    this.messageTheme = ElMessageThemeData.theme.merge(messageTheme);
+    this.modalTheme = ElModalThemeData.theme.merge(modalTheme);
+    this.toastTheme = ElToastThemeData.theme.merge(toastTheme);
+  }
 
-  /// 暗色主题构造器
-  const ElThemeData.dark({
+  /// 暗色主题构造器，它是私有的，若要自定义主题请操作 [darkTheme] 实例
+  ElThemeData.dark({
     super.primary,
     super.success,
     super.info,
@@ -119,27 +141,49 @@ class ElThemeData extends _ElThemeData {
     super.secondaryTextColor,
     super.placeholderTextColor,
     super.borderColor,
-    this.asideTheme = ElAsideThemeData.darkTheme,
-    this.sliderTheme = ElSliderThemeData.darkTheme,
-    this.navMenuTheme = ElNavMenuThemeData.darkTheme,
-    this.headerTheme = ElHeaderThemeData.darkTheme,
-    this.cardTheme = ElCardThemeData.darkTheme,
-    this.inputTheme = ElInputThemeData.darkTheme,
-    this.iconTheme = ElIconThemeData.darkTheme,
-    this.tabsTheme = ElTabsThemeData.darkTheme,
-    this.codePreviewTheme = ElCodePreviewThemeData.darkTheme,
-    this.tabTheme = ElTabThemeData.darkTheme,
-    this.buttonTheme = ElButtonThemeData.darkTheme,
-    this.textTheme = ElTextThemeData.darkTheme,
-    this.progressTheme = ElProgressThemeData.darkTheme,
-    this.tooltipTheme = ElTooltipThemeData.darkTheme,
-    this.tagTheme = ElTagThemeData.darkTheme,
-    this.linkTheme = ElLinkThemeData.darkTheme,
-    this.collapseTheme = ElCollapseThemeData.darkTheme,
-    this.messageTheme = ElMessageThemeData.darkTheme,
-    this.modalTheme = ElModalThemeData.darkTheme,
-    this.toastTheme = ElToastThemeData.darkTheme,
-  }) : super.dark();
+    ElHeaderThemeData? headerTheme,
+    ElIconThemeData? iconTheme,
+    ElAsideThemeData? asideTheme,
+    ElProgressThemeData? progressTheme,
+    ElSliderThemeData? sliderTheme,
+    ElTabsThemeData? tabsTheme,
+    ElTabThemeData? tabTheme,
+    ElButtonThemeData? buttonTheme,
+    ElInputThemeData? inputTheme,
+    ElCardThemeData? cardTheme,
+    ElLinkThemeData? linkTheme,
+    ElTooltipThemeData? tooltipTheme,
+    ElTagThemeData? tagTheme,
+    ElTextThemeData? textTheme,
+    ElNavMenuThemeData? navMenuTheme,
+    ElCodePreviewThemeData? codePreviewTheme,
+    ElCollapseThemeData? collapseTheme,
+    ElMessageThemeData? messageTheme,
+    ElModalThemeData? modalTheme,
+    ElToastThemeData? toastTheme,
+  }) : super.dark() {
+    this.headerTheme = ElHeaderThemeData.darkTheme.merge(headerTheme);
+    this.iconTheme = ElIconThemeData.darkTheme.merge(iconTheme);
+    this.asideTheme = ElAsideThemeData.darkTheme.merge(asideTheme);
+    this.progressTheme = ElProgressThemeData.darkTheme.merge(progressTheme);
+    this.sliderTheme = ElSliderThemeData.darkTheme.merge(sliderTheme);
+    this.tabsTheme = ElTabsThemeData.darkTheme.merge(tabsTheme);
+    this.tabTheme = ElTabThemeData.darkTheme.merge(tabTheme);
+    this.buttonTheme = ElButtonThemeData.darkTheme.merge(buttonTheme);
+    this.inputTheme = ElInputThemeData.darkTheme.merge(inputTheme);
+    this.cardTheme = ElCardThemeData.darkTheme.merge(cardTheme);
+    this.linkTheme = ElLinkThemeData.darkTheme.merge(linkTheme);
+    this.tooltipTheme = ElTooltipThemeData.darkTheme.merge(tooltipTheme);
+    this.tagTheme = ElTagThemeData.darkTheme.merge(tagTheme);
+    this.textTheme = ElTextThemeData.darkTheme.merge(textTheme);
+    this.navMenuTheme = ElNavMenuThemeData.darkTheme.merge(navMenuTheme);
+    this.codePreviewTheme =
+        ElCodePreviewThemeData.darkTheme.merge(codePreviewTheme);
+    this.collapseTheme = ElCollapseThemeData.darkTheme.merge(collapseTheme);
+    this.messageTheme = ElMessageThemeData.darkTheme.merge(messageTheme);
+    this.modalTheme = ElModalThemeData.darkTheme.merge(modalTheme);
+    this.toastTheme = ElToastThemeData.darkTheme.merge(toastTheme);
+  }
 
   /// 接收一组可选参数，返回新的对象
   ElThemeData copyWith({
@@ -153,22 +197,22 @@ class ElThemeData extends _ElThemeData {
     Color? secondaryTextColor,
     Color? placeholderTextColor,
     Color? borderColor,
-    ElAsideThemeData? asideTheme,
-    ElSliderThemeData? sliderTheme,
-    ElNavMenuThemeData? navMenuTheme,
     ElHeaderThemeData? headerTheme,
-    ElCardThemeData? cardTheme,
-    ElInputThemeData? inputTheme,
     ElIconThemeData? iconTheme,
+    ElAsideThemeData? asideTheme,
+    ElProgressThemeData? progressTheme,
+    ElSliderThemeData? sliderTheme,
     ElTabsThemeData? tabsTheme,
-    ElCodePreviewThemeData? codePreviewTheme,
     ElTabThemeData? tabTheme,
     ElButtonThemeData? buttonTheme,
-    ElTextThemeData? textTheme,
-    ElProgressThemeData? progressTheme,
+    ElInputThemeData? inputTheme,
+    ElCardThemeData? cardTheme,
+    ElLinkThemeData? linkTheme,
     ElTooltipThemeData? tooltipTheme,
     ElTagThemeData? tagTheme,
-    ElLinkThemeData? linkTheme,
+    ElTextThemeData? textTheme,
+    ElNavMenuThemeData? navMenuTheme,
+    ElCodePreviewThemeData? codePreviewTheme,
     ElCollapseThemeData? collapseTheme,
     ElMessageThemeData? messageTheme,
     ElModalThemeData? modalTheme,
@@ -185,63 +229,26 @@ class ElThemeData extends _ElThemeData {
       secondaryTextColor: secondaryTextColor ?? super.secondaryTextColor,
       placeholderTextColor: placeholderTextColor ?? super.placeholderTextColor,
       borderColor: borderColor ?? super.borderColor,
-      asideTheme: this.asideTheme.merge(asideTheme),
-      sliderTheme: this.sliderTheme.merge(sliderTheme),
-      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
       headerTheme: this.headerTheme.merge(headerTheme),
-      cardTheme: this.cardTheme.merge(cardTheme),
-      inputTheme: this.inputTheme.merge(inputTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
+      asideTheme: this.asideTheme.merge(asideTheme),
+      progressTheme: this.progressTheme.merge(progressTheme),
+      sliderTheme: this.sliderTheme.merge(sliderTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
-      codePreviewTheme: this.codePreviewTheme.merge(codePreviewTheme),
       tabTheme: this.tabTheme.merge(tabTheme),
       buttonTheme: this.buttonTheme.merge(buttonTheme),
-      textTheme: this.textTheme.merge(textTheme),
-      progressTheme: this.progressTheme.merge(progressTheme),
+      inputTheme: this.inputTheme.merge(inputTheme),
+      cardTheme: this.cardTheme.merge(cardTheme),
+      linkTheme: this.linkTheme.merge(linkTheme),
       tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
-      linkTheme: this.linkTheme.merge(linkTheme),
+      textTheme: this.textTheme.merge(textTheme),
+      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
+      codePreviewTheme: this.codePreviewTheme.merge(codePreviewTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
       messageTheme: this.messageTheme.merge(messageTheme),
       modalTheme: this.modalTheme.merge(modalTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
-    );
-  }
-
-  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
-  ElThemeData merge([ElThemeData? other]) {
-    if (other == null) return this;
-    return copyWith(
-      primary: other.primary,
-      success: other.success,
-      info: other.info,
-      warning: other.warning,
-      error: other.error,
-      bgColor: other.bgColor,
-      regularTextColor: other.regularTextColor,
-      secondaryTextColor: other.secondaryTextColor,
-      placeholderTextColor: other.placeholderTextColor,
-      borderColor: other.borderColor,
-      asideTheme: other.asideTheme,
-      sliderTheme: other.sliderTheme,
-      navMenuTheme: other.navMenuTheme,
-      headerTheme: other.headerTheme,
-      cardTheme: other.cardTheme,
-      inputTheme: other.inputTheme,
-      iconTheme: other.iconTheme,
-      tabsTheme: other.tabsTheme,
-      codePreviewTheme: other.codePreviewTheme,
-      tabTheme: other.tabTheme,
-      buttonTheme: other.buttonTheme,
-      textTheme: other.textTheme,
-      progressTheme: other.progressTheme,
-      tooltipTheme: other.tooltipTheme,
-      tagTheme: other.tagTheme,
-      linkTheme: other.linkTheme,
-      collapseTheme: other.collapseTheme,
-      messageTheme: other.messageTheme,
-      modalTheme: other.modalTheme,
-      toastTheme: other.toastTheme,
     );
   }
 }

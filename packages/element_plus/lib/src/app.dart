@@ -56,8 +56,8 @@ class ElApp extends StatefulWidget {
     super.key,
     required this.child,
     this.brightness,
-    this.theme = ElThemeData.theme,
-    this.darkTheme = ElThemeData.darkTheme,
+    this.theme,
+    this.darkTheme,
     this.config = ElConfigData.data,
     this.scrollBehavior = const ElScrollBehavior(),
   });
@@ -69,10 +69,10 @@ class ElApp extends StatefulWidget {
   final Brightness? brightness;
 
   /// 亮色主题
-  final ElThemeData theme;
+  final ElThemeData? theme;
 
   /// 暗色主题
-  final ElThemeData darkTheme;
+  final ElThemeData? darkTheme;
 
   /// 全局配置
   final ElConfigData config;
@@ -157,8 +157,8 @@ class _ElAppState extends State<ElApp> {
     return _AppInheritedWidget(
       ElAppData(
         brightness: $brightness,
-        theme: widget.theme,
-        darkTheme: widget.darkTheme,
+        theme: widget.theme ?? ElThemeData.theme,
+        darkTheme: widget.darkTheme ?? ElThemeData.darkTheme,
         config: widget.config,
         scrollBehavior: widget.scrollBehavior,
         themeDuration: _themeDuration,

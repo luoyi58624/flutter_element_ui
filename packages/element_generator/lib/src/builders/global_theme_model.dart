@@ -21,15 +21,17 @@ class ElGlobalThemeModelGenerator
     final classFields = MirrorUtils.filterFields(classInfo);
 
     String fieldContent = "";
-    String lightConstruction = "";
-    String darkConstruction = "";
+    String lightConstructionArgument = "";
+    String lightConstructionContent = "";
+    String darkConstructionArgument = "";
+    String darkConstructionContent = "";
     String copyWithArgument = '';
     String copyWithContent = '';
     String mergeContent = '';
 
     for (final field in classFields) {
-      lightConstruction += 'super.${field.name},';
-      darkConstruction += 'super.${field.name},';
+      lightConstructionArgument += 'super.${field.name},';
+      darkConstructionArgument += 'super.${field.name},';
       copyWithArgument += '${field.type.toString()}? ${field.name},\n';
       copyWithContent +=
           '${field.name}: ${field.name} ?? super.${field.name},\n';
@@ -38,7 +40,7 @@ class ElGlobalThemeModelGenerator
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
       final themeVarName = '${rawName.firstLowerCase}Theme';
-      String $fieldContent = "final ${model.name} $themeVarName;";
+      String $fieldContent = "late final ${model.name} $themeVarName;";
       if (model.desc != '') {
         $fieldContent = """
         /// ${model.desc} 
@@ -46,8 +48,12 @@ class ElGlobalThemeModelGenerator
         """;
       }
       fieldContent += $fieldContent;
-      lightConstruction += "this.$themeVarName = ${model.name}.theme,";
-      darkConstruction += "this.$themeVarName = ${model.name}.darkTheme,";
+      lightConstructionArgument += '${model.name}? $themeVarName,\n';
+      lightConstructionContent +=
+          "this.$themeVarName = ${model.name}.theme.merge($themeVarName);\n";
+      darkConstructionArgument += '${model.name}? $themeVarName,\n';
+      darkConstructionContent +=
+          "this.$themeVarName = ${model.name}.darkTheme.merge($themeVarName);\n";
       copyWithArgument += '${model.name}? $themeVarName,\n';
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
@@ -56,22 +62,26 @@ class ElGlobalThemeModelGenerator
     return """
 class $globalThemeClassName extends $className {
   /// 亮色默认主题
-  static const $globalThemeClassName theme = $globalThemeClassName();
+  static final $globalThemeClassName theme = $globalThemeClassName();
   
   /// 暗色默认主题
-  static const $globalThemeClassName darkTheme = $globalThemeClassName.dark();
+  static final $globalThemeClassName darkTheme = $globalThemeClassName.dark();
   
   $fieldContent
   
   /// 亮色主题构造器
-  const $globalThemeClassName({
-    $lightConstruction
-  });
+  $globalThemeClassName({
+    $lightConstructionArgument
+  }) {
+    $lightConstructionContent
+  }
   
-  /// 暗色主题构造器
-  const $globalThemeClassName.dark({
-    $darkConstruction
-  }) : super.dark();
+  /// 暗色主题构造器，它是私有的，若要自定义主题请操作 [darkTheme] 实例
+  $globalThemeClassName.dark({
+    $darkConstructionArgument
+  }) : super.dark() {
+    $darkConstructionContent
+  }
   
   /// 接收一组可选参数，返回新的对象
   $globalThemeClassName copyWith({
@@ -81,15 +91,17 @@ class $globalThemeClassName extends $className {
       $copyWithContent
     );
   }
-  
-  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
-  $globalThemeClassName merge([$globalThemeClassName? other]) {
-    if (other == null) return this;
-    return copyWith(
-      $mergeContent
-    );
-  }
 }
     """;
   }
 }
+
+// 全局主题配置暂时不需要 merge 方法
+
+// /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
+// $globalThemeClassName merge([$globalThemeClassName? other]) {
+//   if (other == null) return this;
+//   return copyWith(
+//       $mergeContent
+//   );
+// }

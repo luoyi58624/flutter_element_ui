@@ -52,10 +52,8 @@ extension ElColorThemeExtension on Color {
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) => isDark
-      ? context.darkTheme.textTheme.style.color ??
-          ElTextThemeData.darkTheme.style.color!
-      : ElApp.of(context).theme.textTheme.style.color ??
-          ElTextThemeData.theme.style.color!;
+      ? context.darkTheme.textTheme.style.color!
+      : ElApp.of(context).theme.textTheme.style.color!;
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
   List<Color> elLights(BuildContext context) {
