@@ -111,6 +111,7 @@ class _Example extends HookWidget {
           ),
           child: ElButtonGroup.multi(
             selectedList,
+            mandatory: true,
             children: const [
               ElButton(child: '选项一'),
               ElButton(child: '选项二'),

@@ -126,10 +126,8 @@ ElButton(child: 'Hello', type: El.primary, plain: true),
 ElButton(
   child: 'Hello',
   plain: true,
-  borderBuilder: (state) => Border.all(
-    color: color,
-    width: state.isActive ? 1.5 : 0.1,
-  ),
+  borderWidth: 0.1,
+  borderActiveWidth: 1.5,
 ),
 ElButton(child: 'Hello', round: true),
 ElButton(child: ElIcon(ElIcons.aim)),

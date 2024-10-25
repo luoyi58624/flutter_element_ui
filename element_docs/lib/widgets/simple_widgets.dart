@@ -69,7 +69,7 @@ class SectionText extends StatelessWidget {
 class SectionCard extends StatelessWidget {
   const SectionCard({
     super.key,
-    this.type = 'primary',
+    this.type = El.primary,
     required this.title,
     required this.content,
   });
@@ -143,9 +143,9 @@ class FlutterHookTip extends StatelessWidget {
       title: 'Tip',
       content: [
         ElText([
-          '$name 不仅支持传统写法，还支持双向绑定，推荐你使用 ',
+          '$name 支持双向绑定，推荐你使用 ',
           const FlutterHookLink(),
-          ' 代替 StatefulWidget，用法更加精简',
+          ' 代替 StatefulWidget',
         ]),
       ],
     );

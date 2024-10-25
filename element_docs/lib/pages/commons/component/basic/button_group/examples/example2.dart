@@ -12,6 +12,8 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const FlutterHookTip('ElButtonGroup'),
+        textGap,
         CodeExample(
           code: code,
           children: const [

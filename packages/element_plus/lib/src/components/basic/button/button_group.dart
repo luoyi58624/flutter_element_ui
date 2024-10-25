@@ -364,20 +364,23 @@ class _GroupDivide extends StatelessWidget {
               $groupData.children[index].loading) &&
           ($groupData.children[index + 1].disabled ||
               $groupData.children[index + 1].loading);
+
+      final colorStyleProp = (
+        bgColor: bgColor,
+        plain: $data.plain ?? false,
+        text: $data.text ?? false,
+        bg: $data.bg ?? false,
+        link: false,
+        disabled: disabled,
+      );
+
       if ($groupData.type == _ButtonGroupType.none) {
         if (bgColor != null && $data.plain != true) {
           $borderColor = bgColor.mix(Colors.white, disabled ? 75 : 50);
         } else {
           $borderColor = _ButtonColors.calcColorStyle(
             context,
-            prop: (
-              bgColor: bgColor,
-              plain: $data.plain ?? false,
-              text: $data.text ?? false,
-              bg: $data.bg ?? false,
-              link: false,
-              disabled: disabled,
-            ),
+            prop: colorStyleProp,
             isTap: $isTap,
             isHover: $isHover,
           ).borderColor;
@@ -393,7 +396,6 @@ class _GroupDivide extends StatelessWidget {
             }
           } else {
             ($modelValue as List<int>).sort();
-            // 对相邻选中的按钮添加显眼的分割线
             for (int i in $modelValue) {
               if (i == index) {
                 if ($modelValue.contains(i + 1)) {
@@ -413,14 +415,7 @@ class _GroupDivide extends StatelessWidget {
 
         $borderColor = _ButtonColors.calcGroupColorStyle(
           context,
-          prop: (
-            bgColor: bgColor,
-            plain: $data.plain ?? false,
-            text: $data.text ?? false,
-            bg: $data.bg ?? false,
-            link: false,
-            disabled: false,
-          ),
+          prop: colorStyleProp,
           isTap: $isTap,
           isHover: $isHover,
           isSelected: $isSelected,

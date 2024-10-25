@@ -13,7 +13,8 @@ class Example1 extends HookWidget {
       children: [
         SectionTitle(title),
         const SectionCard(
-          title: 'Tip',
+          title: 'Warning',
+          type: El.warning,
           content: [
             '在按钮组模式下，height、type、plain、round、bgColor、text、bg 等属性只能通过 ElButtonTheme 统一指定',
           ],
