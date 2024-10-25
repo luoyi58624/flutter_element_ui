@@ -11,12 +11,14 @@ extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? size,
     BorderRadius? radius,
+    double? borderSize,
     Duration? themeDuration,
     Curve? themeCurve,
   }) {
     return ElConfigData(
       size: size ?? this.size,
       radius: radius ?? this.radius,
+      borderSize: borderSize ?? this.borderSize,
       themeDuration: themeDuration ?? this.themeDuration,
       themeCurve: themeCurve ?? this.themeCurve,
     );
@@ -28,6 +30,7 @@ extension ElConfigDataExtension on ElConfigData {
     return copyWith(
       size: other.size,
       radius: other.radius,
+      borderSize: other.borderSize,
       themeDuration: other.themeDuration,
       themeCurve: other.themeCurve,
     );

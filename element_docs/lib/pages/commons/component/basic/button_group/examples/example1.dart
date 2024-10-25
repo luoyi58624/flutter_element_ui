@@ -61,12 +61,9 @@ class _Example extends HookWidget {
         ),
         const Gap(8),
         ElButtonTheme.merge(
-          data: ElButtonThemeData(
+          data: const ElButtonThemeData(
             plain: true,
-            borderBuilder: (state) => Border.all(
-              width: state.isHover || state.isTap ? 1.5 : 1.0,
-              color: Colors.red,
-            ),
+            borderActiveWidth: 1.5,
           ),
           child: ElButtonGroup(
             children: [

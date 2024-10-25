@@ -39,7 +39,8 @@ class ElButton extends StatefulWidget {
     this.round,
     this.block,
     this.flex,
-    this.borderBuilder,
+    this.borderWidth,
+    this.borderActiveWidth,
     this.borderRadius,
     this.padding,
     this.iconSize,
@@ -102,8 +103,11 @@ class ElButton extends StatefulWidget {
   /// 如果处于按钮组中，同时按钮设置了 [block] 属性，你可以设置当前按钮所占用的空间比例
   final int? flex;
 
-  /// 构建自定义边框
-  final ElBorderBuilder? borderBuilder;
+  /// 边框宽度
+  final double? borderWidth;
+
+  /// 边框激活宽度：悬停、点击、选中
+  final double? borderActiveWidth;
 
   /// 边框圆角
   final BorderRadius? borderRadius;
@@ -182,10 +186,16 @@ class _ElButtonState extends State<ElButton> {
     _groupData = _ElButtonGroupInheritedWidget.maybeOf(context);
     if (_hasGroup) {
       _indexData = ElChildIndex.of(context);
-      _isSelected = _ButtonGroupUtil.isSelected(
-        _groupData!.modelValue,
-        _indexData!.index,
-      );
+      _isSelected = false;
+      if (_groupData!.modelValue != null) {
+        if (_groupData!.modelValue is List) {
+          if (_groupData!.modelValue.contains(_indexData!.index)) {
+            _isSelected = true;
+          }
+        } else if (_groupData!.modelValue == _indexData!.index) {
+          _isSelected = true;
+        }
+      }
     } else {
       ElAssert.themeType(widget.type, 'ElButton');
     }
@@ -461,12 +471,12 @@ class _ElButtonState extends State<ElButton> {
 
   Border _calcBorder(BuildContext context, Color? borderColor) {
     if (borderColor == null) return const Border();
-    final defaultBorder = _prop.borderBuilder(ElButtonBorderState(
+    final defaultBorder = Border.all(
       color: borderColor,
-      isHover: _isHover,
-      isTap: _isTap,
-      isSelected: _isSelected,
-    ));
+      width: _isHover || _isTap || _isSelected
+          ? _prop.borderActiveWidth
+          : _prop.borderWidth,
+    );
     if (!_hasGroup) return defaultBorder;
     if (_indexData!.length == 0) return const Border();
     if (_indexData!.length == 1) return defaultBorder;
@@ -535,7 +545,8 @@ class _ButtonProp {
   final bool plain;
   final bool round;
   final bool block;
-  final ElBorderBuilder borderBuilder;
+  final double borderWidth;
+  final double borderActiveWidth;
   final BorderRadius borderRadius;
   final EdgeInsetsGeometry? padding;
   final double iconSize;
@@ -559,7 +570,8 @@ class _ButtonProp {
     required this.plain,
     required this.round,
     required this.block,
-    required this.borderBuilder,
+    required this.borderWidth,
+    required this.borderActiveWidth,
     required this.borderRadius,
     required this.padding,
     required this.iconSize,
@@ -578,6 +590,7 @@ class _ButtonProp {
     ElButton widget,
     bool hasGroup,
   ) {
+    final defaultBorderSize = context.elConfig.borderSize;
     final $data = ElButtonTheme.of(context);
     late final double $height;
     late final Color? $bgColor;
@@ -587,7 +600,8 @@ class _ButtonProp {
     late final bool $link;
     late final bool $plain;
     late final bool $round;
-    late final ElBorderBuilder $borderBuilder;
+    late final double $borderWidth;
+    late final double $borderActiveWidth;
     final bool $block = widget.block ?? $data.block ?? false;
 
     if (hasGroup) {
@@ -599,7 +613,8 @@ class _ButtonProp {
       $link = false;
       $plain = $data.plain ?? false;
       $round = $data.round ?? false;
-      $borderBuilder = $data.borderBuilder ?? defaultBorderBuilder;
+      $borderWidth = $data.borderWidth ?? defaultBorderSize;
+      $borderActiveWidth = $data.borderActiveWidth ?? defaultBorderSize;
     } else {
       $height = widget.height ?? $data.height ?? context.elConfig.size;
       $bgColor = widget.bgColor ??
@@ -611,8 +626,11 @@ class _ButtonProp {
       $link = widget.link ?? $data.link ?? false;
       $plain = widget.plain ?? $data.plain ?? false;
       $round = widget.round ?? $data.round ?? false;
-      $borderBuilder =
-          widget.borderBuilder ?? $data.borderBuilder ?? defaultBorderBuilder;
+      $borderWidth =
+          widget.borderWidth ?? $data.borderWidth ?? defaultBorderSize;
+      $borderActiveWidth = widget.borderActiveWidth ??
+          $data.borderActiveWidth ??
+          defaultBorderSize;
     }
 
     final $horizontalPadding = $height / 2;
@@ -646,7 +664,8 @@ class _ButtonProp {
       plain: $plain,
       round: $round,
       block: $block,
-      borderBuilder: $borderBuilder,
+      borderWidth: $borderWidth,
+      borderActiveWidth: $borderActiveWidth,
       borderRadius: $borderRadius,
       padding: $padding,
       iconSize: $iconSize,
@@ -661,7 +680,4 @@ class _ButtonProp {
       loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
     );
   }
-
-  static Border defaultBorderBuilder(ElButtonBorderState state) =>
-      Border.all(width: 1.0, color: state.color);
 }

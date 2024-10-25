@@ -65,10 +65,8 @@ class Example1 extends StatelessWidget {
                       type: type,
                       child: (type ?? 'Default').firstUpperCase,
                       plain: true,
-                      borderBuilder: (state) => Border.all(
-                        width: state.isHover || state.isTap ? 1.5 : 0.1,
-                        color: state.color,
-                      ),
+                      borderWidth: 0.1,
+                      borderActiveWidth: 1.5,
                     ),
                   )
                   .toList(),

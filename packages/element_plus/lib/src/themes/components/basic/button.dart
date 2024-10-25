@@ -24,7 +24,8 @@ class ElButtonThemeData {
     this.plain,
     this.round,
     this.block,
-    this.borderBuilder,
+    this.borderWidth,
+    this.borderActiveWidth,
     this.borderRadius,
     this.padding,
     this.iconSize,
@@ -71,8 +72,11 @@ class ElButtonThemeData {
   /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
   final bool? block;
 
-  /// 构建自定义边框
-  final ElBorderBuilder? borderBuilder;
+  /// 边框宽度
+  final double? borderWidth;
+
+  /// 边框激活宽度：悬停、点击、选中
+  final double? borderActiveWidth;
 
   /// 边框圆角
   final BorderRadius? borderRadius;
@@ -100,9 +104,6 @@ class ElButtonThemeData {
   final Widget Function(ElButtonLoadingState state)? loadingBuilder;
 }
 
-/// 构建按钮自定义边框
-typedef ElBorderBuilder = Border Function(ElButtonBorderState state);
-
 class ElButtonLoadingState {
   /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
   final Color color;
@@ -116,23 +117,3 @@ class ElButtonLoadingState {
   });
 }
 
-class ElButtonBorderState {
-  /// 按钮边框颜色
-  final Color color;
-
-  /// 按钮是否处于悬停状态
-  final bool isHover;
-
-  /// 按钮是否处于点击状态
-  final bool isTap;
-
-  /// 按钮是否处于选中状态，只有在按钮组中此属性才会生效
-  final bool isSelected;
-
-  const ElButtonBorderState({
-    this.color = Colors.transparent,
-    this.isHover = false,
-    this.isTap = false,
-    this.isSelected = false,
-  });
-}

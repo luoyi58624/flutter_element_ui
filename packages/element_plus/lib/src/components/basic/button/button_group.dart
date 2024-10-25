@@ -431,14 +431,10 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      final double $borderSize =
-          ($data.borderBuilder ?? _ButtonProp.defaultBorderBuilder)(
-        ElButtonBorderState(
-          isHover: $isHover,
-          isTap: $isTap,
-          isSelected: $isSelected,
-        ),
-      ).maxWidth;
+      final double $borderSize = ($isHover || $isTap || $isSelected
+              ? $data.borderActiveWidth
+              : $data.borderWidth) ??
+          context.elConfig.borderSize;
 
       return Positioned(
         left: isHorizontal ? $dividePositionList[index] : 0,
@@ -457,22 +453,5 @@ class _GroupDivide extends StatelessWidget {
         ),
       );
     });
-  }
-}
-
-class _ButtonGroupUtil {
-  static bool isSelected(dynamic modelValue, int index) {
-    // 如果是按钮组，则将选中的值作为悬停状态
-    if (modelValue != null) {
-      if (modelValue is List) {
-        if (modelValue.contains(index)) {
-          return true;
-        }
-      } else if (modelValue == index) {
-        return true;
-      }
-    }
-
-    return false;
   }
 }
