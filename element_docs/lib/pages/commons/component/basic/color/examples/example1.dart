@@ -94,21 +94,23 @@ class Example1 extends StatelessWidget {
       ].map((color) {
         return ObsBuilder(builder: (context) {
           final isActive = GlobalState.primaryColor.value == color;
-          return Ink(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(color: color),
-            child: InkWell(
-              onTap: () {
-                GlobalState.primaryColor.value = color;
-              },
-              child: Container(
-                child: isActive
-                    ? const Icon(
-                        Icons.done,
-                        color: Colors.white,
-                      )
-                    : null,
+          return Material(
+            child: Ink(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(color: color),
+              child: InkWell(
+                onTap: () {
+                  GlobalState.primaryColor.value = color;
+                },
+                child: Container(
+                  child: isActive
+                      ? const Icon(
+                          Icons.done,
+                          color: Colors.white,
+                        )
+                      : null,
+                ),
               ),
             ),
           );

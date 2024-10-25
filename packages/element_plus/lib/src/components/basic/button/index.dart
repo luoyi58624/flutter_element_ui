@@ -352,11 +352,10 @@ class _ElButtonState extends State<ElButton> {
       result = ConstrainedBox(constraints: $constraints, child: result);
     }
 
-    result = ElTextTheme.merge(
-      data: ElTextThemeData(
-        style: _defaultTextStyle.copyWith(
-          color: _colorStyle.textColor,
-        ),
+    result = ElAnimatedDefaultTextStyle(
+      duration: context.elDuration(_duration),
+      style: _defaultTextStyle.copyWith(
+        color: _colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
         duration: context.elDuration(_duration),

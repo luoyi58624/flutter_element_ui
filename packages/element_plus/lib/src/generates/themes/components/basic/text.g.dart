@@ -9,6 +9,7 @@ part of '../../../../themes/components/basic/text.dart';
 extension ElTextThemeDataExtension on ElTextThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTextThemeData copyWith({
+    Color? testColor,
     dynamic data,
     Duration? duration,
     TextStyle? style,
@@ -25,6 +26,7 @@ extension ElTextThemeDataExtension on ElTextThemeData {
     Color? selectionColor,
   }) {
     return ElTextThemeData(
+      testColor: testColor ?? this.testColor,
       data: data ?? this.data,
       duration: duration ?? this.duration,
       style: this.style.merge(style),
@@ -46,6 +48,7 @@ extension ElTextThemeDataExtension on ElTextThemeData {
   ElTextThemeData merge([ElTextThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      testColor: other.testColor,
       data: other.data,
       duration: other.duration,
       style: other.style,
@@ -69,7 +72,7 @@ extension ElTextThemeDataExtension on ElTextThemeData {
 // **************************************************************************
 
 class ElTextTheme extends InheritedWidget {
-  /// 设置局部默认数据，注意：如果你想尊重 "全局" 或 "祖先" 提供的默认样式，请使用 [merge] 方法构建
+  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
   const ElTextTheme({super.key, required super.child, required this.data});
 
   /// 主题数据
@@ -83,7 +86,7 @@ class ElTextTheme extends InheritedWidget {
   static ElTextThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elTheme.textTheme;
 
-  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
+  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
     ElTextThemeData? data,

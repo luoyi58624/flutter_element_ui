@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/commons/component/basic/button/examples/example6.dart';
 import 'package:flutter/material.dart';
 
 class Example1 extends HookWidget {
@@ -205,133 +206,138 @@ class _Example2 extends HookWidget {
       }, 1000);
     }
 
-    return Row(
-      children: [
-        ElButtonGroup(
-          axis: Axis.vertical,
-          children: [
-            const ElButton(child: '选项一'),
-            ElButton(
-              onPressed: openLoading,
-              loading: loading.value,
-              child: '选项二',
+    return ElButtonTheme.merge(
+      data: ElButtonThemeData(
+        loadingBuilder: loadingBuilder,
+      ),
+      child: Row(
+        children: [
+          ElButtonGroup(
+            axis: Axis.vertical,
+            children: [
+              const ElButton(child: '选项一'),
+              ElButton(
+                onPressed: openLoading,
+                loading: loading.value,
+                child: '选项二',
+              ),
+              const ElButton(child: '选项三'),
+            ],
+          ),
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              plain: true,
             ),
-            const ElButton(child: '选项三'),
-          ],
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            plain: true,
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: '选项二',
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
           ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: '选项一'),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: '选项二',
-              ),
-              const ElButton(child: '选项三'),
-            ],
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              type: El.primary,
+            ),
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: '选项二',
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
           ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            type: El.primary,
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              type: El.success,
+              plain: true,
+              round: true,
+            ),
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: '选项二',
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
           ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: '选项一'),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: '选项二',
-              ),
-              const ElButton(child: '选项三'),
-            ],
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              text: true,
+            ),
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: '选项二',
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
           ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            type: El.success,
-            plain: true,
-            round: true,
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              text: true,
+              round: true,
+              bg: true,
+            ),
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: '选项二',
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
           ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: '选项一'),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: '选项二',
-              ),
-              const ElButton(child: '选项三'),
-            ],
+          const Gap(8),
+          ElButtonTheme.merge(
+            data: const ElButtonThemeData(
+              type: El.primary,
+            ),
+            child: ElButtonGroup(
+              axis: Axis.vertical,
+              children: [
+                const ElButton(child: ElIcon(ElIcons.edit)),
+                ElButton(
+                  onPressed: openLoading,
+                  loading: loading.value,
+                  child: const ElIcon(ElIcons.share),
+                ),
+                const ElButton(child: ElIcon(ElIcons.delete)),
+              ],
+            ),
           ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-          ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: '选项一'),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: '选项二',
-              ),
-              const ElButton(child: '选项三'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            text: true,
-            round: true,
-            bg: true,
-          ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: '选项一'),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: '选项二',
-              ),
-              const ElButton(child: '选项三'),
-            ],
-          ),
-        ),
-        const Gap(8),
-        ElButtonTheme.merge(
-          data: const ElButtonThemeData(
-            type: El.primary,
-          ),
-          child: ElButtonGroup(
-            axis: Axis.vertical,
-            children: [
-              const ElButton(child: ElIcon(ElIcons.edit)),
-              ElButton(
-                onPressed: openLoading,
-                loading: loading.value,
-                child: const ElIcon(ElIcons.share),
-              ),
-              const ElButton(child: ElIcon(ElIcons.delete)),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

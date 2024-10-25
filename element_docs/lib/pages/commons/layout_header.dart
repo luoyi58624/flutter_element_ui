@@ -48,7 +48,7 @@ class LayoutHeader extends StatelessWidget {
                   icon: Icon(
                     GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
                   ),
-                  color: context.elTheme.iconTheme.color,
+                  // color: context.elTheme.iconTheme.color,
                 );
               }),
               IconButton(

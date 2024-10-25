@@ -14,7 +14,6 @@ Builder elModelBuilder(BuilderOptions options) {
 }
 
 Builder elThemeModelBuilder(BuilderOptions options) {
-  themeModelBuilderConfig = ThemeModelBuilderConfig.fromConfig(options.config);
   return SharedPartBuilder([
     ElThemeModelGenerator(),
   ], 'themeModel');

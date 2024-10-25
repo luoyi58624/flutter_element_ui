@@ -22,7 +22,8 @@ ElThemeData buildElementTheme({
     );
   } else {
     return ElThemeData.dark(
-      primary: GlobalState.primaryColor.value,
+      primary: Colors.red,
+      success: Colors.purple,
       textTheme: ElTextThemeData(
         style: ElFont.defaultTextStyle.copyWith(
           fontFamily: FontUtil.fontFamily,

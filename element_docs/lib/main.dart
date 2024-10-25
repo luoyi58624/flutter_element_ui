@@ -25,6 +25,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AnimatedTheme;
     GlobalState.initGlobalFontSize(context.sm ? 15 : 16);
     MainApp.currentThemeMode = ThemeMode.system;
     if (currentThemeMode == ThemeMode.system) {
@@ -39,11 +40,10 @@ class MainApp extends StatelessWidget {
         brightness: GlobalState.brightness,
         theme: buildElementTheme(),
         darkTheme: buildElementTheme(brightness: Brightness.dark),
-        config: const ElConfigData(
-          themeDuration: Duration.zero,
+        config: ElConfigThemeData(
+          themeDuration: 0.ms,
         ),
         child: ObsBuilder(builder: (context) {
-          i(context.elTheme.textTheme.style);
           return MaterialApp.router(
             routerConfig: router,
             debugShowCheckedModeBanner: false,

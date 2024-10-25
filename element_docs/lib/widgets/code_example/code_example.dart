@@ -26,45 +26,41 @@ class CodeExample extends HookWidget {
     final isExpanded = useState(expanded);
 
     return ElHoverBuilder(builder: (context) {
-      return Card(
-        elevation: 0,
-        shadowColor: Colors.black38,
-        margin: EdgeInsets.zero,
-        color: context.elTheme.bgColor,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: context.elTheme.cardTheme.radius,
-            border: Border.all(
-              color: context.elTheme.borderColor,
-              width: 1,
-            ),
+      return AnimatedContainer(
+        duration: context.elDuration(),
+        decoration: BoxDecoration(
+          color: context.elTheme.bgColor,
+          borderRadius: context.elTheme.cardTheme.radius,
+          border: Border.all(
+            color: context.elTheme.borderColor,
+            width: 1,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: children,
-                ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: children,
               ),
-              if (code != null) const ElDivider(),
-              if (code != null) _PreviewButton(isExpanded),
-              if (code != null)
-                ElCollapseTransition(
-                  isExpanded.value,
-                  child: ElCodePreview(
-                    code: code!,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
-                      bottomRight: context.elTheme.cardTheme.radius.bottomRight,
-                    ),
+            ),
+            if (code != null) const ElDivider(),
+            if (code != null) _PreviewButton(isExpanded),
+            if (code != null)
+              ElCollapseTransition(
+                isExpanded.value,
+                child: ElCodePreview(
+                  code: code!,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                    bottomRight: context.elTheme.cardTheme.radius.bottomRight,
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       );
     });

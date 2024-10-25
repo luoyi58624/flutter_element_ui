@@ -169,130 +169,45 @@ class ElText extends StatefulWidget {
   }
 }
 
-// class ElTextTheme extends DefaultTextStyle {
-//   /// 构建默认文本样式必须遵循继承性，所以不允许直接构造 [ElTextTheme]，
-//   /// 请使用 [merge] 方法设置默认的文本样式
-//   const ElTextTheme._({
-//     super.key,
-//     required super.style,
-//     super.textAlign,
-//     super.softWrap,
-//     super.overflow,
-//     super.maxLines,
-//     super.textWidthBasis,
-//     super.textHeightBehavior,
-//     required super.child,
-//   });
-//
-//   /// 将祖先提供的默认文本样式与自定义样式进行合并
-//   static Widget merge({
-//     Key? key,
-//     TextStyle? style,
-//     TextAlign? textAlign,
-//     bool? softWrap,
-//     TextOverflow? overflow,
-//     int? maxLines,
-//     TextWidthBasis? textWidthBasis,
-//     required Widget child,
-//   }) {
-//     return Builder(
-//       builder: (BuildContext context) {
-//         final ElTextTheme? parent = ElTextTheme.maybeOf(context);
-//         if (parent != null) {
-//           return ElTextTheme._(
-//             key: key,
-//             style: parent.style.merge(style),
-//             textAlign: textAlign ?? parent.textAlign,
-//             softWrap: softWrap ?? parent.softWrap,
-//             overflow: overflow ?? parent.overflow,
-//             maxLines: maxLines ?? parent.maxLines,
-//             textWidthBasis: textWidthBasis ?? parent.textWidthBasis,
-//             child: child,
-//           );
-//         } else {
-//           return ElTextTheme._(
-//             key: key,
-//             style: style ?? const TextStyle(),
-//             textAlign: textAlign,
-//             softWrap: softWrap ?? true,
-//             overflow: overflow ?? TextOverflow.clip,
-//             maxLines: maxLines,
-//             textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
-//             child: child,
-//           );
-//         }
-//       },
-//     );
-//   }
-//
-//   static ElTextTheme? maybeOf(BuildContext context) =>
-//       context.dependOnInheritedWidgetOfExactType<ElTextTheme>();
-//
-//   static ElTextTheme of(BuildContext context) {
-//     final ElTextTheme? result = maybeOf(context);
-//     assert(result != null, 'No ElTextTheme found in context');
-//     return result!;
-//   }
-//
-//   @override
-//   bool updateShouldNotify(ElTextTheme oldWidget) => true;
-// }
-//
-// class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
-//   /// 默认的动画文本样式，这也是直接复制 [AnimatedDefaultTextStyle] 小部件，
-//   const ElAnimatedDefaultTextStyle({
-//     super.key,
-//     required this.child,
-//     required this.style,
-//     this.textAlign,
-//     this.softWrap = true,
-//     this.overflow = TextOverflow.clip,
-//     this.maxLines,
-//     this.textWidthBasis = TextWidthBasis.parent,
-//     this.textHeightBehavior,
-//     super.curve,
-//     required super.duration,
-//     super.onEnd,
-//   }) : assert(maxLines == null || maxLines > 0);
-//
-//   final Widget child;
-//
-//   /// 提示：使用自定义文本样式前注意通过 [ElTextTheme.of] 合并祖先样式
-//   final TextStyle style;
-//   final TextAlign? textAlign;
-//   final bool softWrap;
-//   final TextOverflow overflow;
-//   final int? maxLines;
-//   final TextWidthBasis textWidthBasis;
-//   final TextHeightBehavior? textHeightBehavior;
-//
-//   @override
-//   AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> createState() =>
-//       _ElAnimatedDefaultTextStyleState();
-// }
-//
-// class _ElAnimatedDefaultTextStyleState
-//     extends AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> {
-//   TextStyleTween? _style;
-//
-//   @override
-//   void forEachTween(TweenVisitor<dynamic> visitor) {
-//     _style = visitor(_style, widget.style,
-//             (dynamic value) => TextStyleTween(begin: value as TextStyle))
-//         as TextStyleTween?;
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ElTextTheme._(
-//       style: _style!.evaluate(animation),
-//       textAlign: widget.textAlign,
-//       softWrap: widget.softWrap,
-//       overflow: widget.overflow,
-//       maxLines: widget.maxLines,
-//       textWidthBasis: widget.textWidthBasis,
-//       textHeightBehavior: widget.textHeightBehavior,
-//       child: widget.child,
-//     );
-//   }
-// }
+class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
+  /// 动画文本默认样式
+  const ElAnimatedDefaultTextStyle({
+    super.key,
+    required this.child,
+    required this.style,
+    super.curve,
+    required super.duration,
+    super.onEnd,
+  });
+
+  final Widget child;
+
+  /// 提示：使用自定义文本样式前注意通过 [ElTextTheme.of] 合并祖先样式
+  final TextStyle style;
+
+  @override
+  AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> createState() =>
+      _ElAnimatedDefaultTextStyleState();
+}
+
+class _ElAnimatedDefaultTextStyleState
+    extends AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> {
+  TextStyleTween? _style;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _style = visitor(_style, widget.style,
+            (dynamic value) => TextStyleTween(begin: value as TextStyle))
+        as TextStyleTween?;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElTextTheme.merge(
+      data: ElTextThemeData(
+        style: _style!.evaluate(animation),
+      ),
+      child: widget.child,
+    );
+  }
+}

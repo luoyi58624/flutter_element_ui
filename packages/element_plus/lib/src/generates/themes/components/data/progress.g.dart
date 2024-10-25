@@ -36,7 +36,7 @@ extension ElProgressThemeDataExtension on ElProgressThemeData {
 // **************************************************************************
 
 class ElProgressTheme extends InheritedWidget {
-  /// 设置局部默认数据，注意：如果你想尊重 "全局" 或 "祖先" 提供的默认样式，请使用 [merge] 方法构建
+  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
   const ElProgressTheme({super.key, required super.child, required this.data});
 
   /// 主题数据
@@ -50,7 +50,7 @@ class ElProgressTheme extends InheritedWidget {
   static ElProgressThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elTheme.progressTheme;
 
-  /// 接收自定义主题数据，将它与默认主题进行合并，组成新的主题数据提供给后代组件
+  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
     ElProgressThemeData? data,

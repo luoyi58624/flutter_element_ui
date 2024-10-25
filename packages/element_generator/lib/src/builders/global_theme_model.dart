@@ -17,7 +17,20 @@ class ElGlobalThemeModelGenerator
       Element element, ConstantReader annotation, BuildStep buildStep) {
     final classInfo = element as ClassElement;
     final className = classInfo.name;
-    final globalThemeClassName = themeModelBuilderConfig.globalThemeClassName;
+    if (className.startsWith('_') == false) {
+      throw '生成 GlobalTheme 的类名必须以 _ 开头';
+    }
+    if (className.endsWith('ThemeData') == false) {
+      throw '生成 GlobalTheme 的类名必须以 ThemeData 结尾';
+    }
+    final globalThemeClassName = className.substring(1);
+    final globalThemeWidgetClassName =
+        globalThemeClassName.replaceAll('ThemeData', 'Theme');
+    final globalAnimateThemeWidgetClassName =
+        globalThemeClassName.replaceAll('ThemeData', 'AnimatedTheme');
+    final globalAnimateTweenClassName =
+        globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween');
+
     final classFields = MirrorUtils.filterFields(classInfo);
 
     String fieldContent = "";
@@ -91,17 +104,109 @@ class $globalThemeClassName extends $className {
       $copyWithContent
     );
   }
+  
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
+  $globalThemeClassName merge([$globalThemeClassName? other]) {
+    if (other == null) return this;
+    return copyWith(
+      $mergeContent
+    );
+  }
+}
+
+class $globalThemeWidgetClassName extends InheritedWidget {
+  /// 为后代提供默认数据小部件
+  const $globalThemeWidgetClassName({super.key, required super.child, required this.data});
+
+  /// 主题数据
+  final $globalThemeClassName data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static $globalThemeClassName? maybeOf(BuildContext context) =>
+     context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>()?.data;
+  
+  static $globalThemeClassName of(BuildContext context) {
+    final $globalThemeWidgetClassName? result = context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>();
+    assert(result != null, 'No $globalThemeWidgetClassName found in context');
+    return result!.data;
+  }
+
+  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
+  static Widget merge({
+    Key? key,
+    $globalThemeClassName? data,
+    required Widget child,
+  }) {
+    return Builder(builder: (context) {
+      final parent = $globalThemeWidgetClassName.of(context);
+      return $globalThemeWidgetClassName(
+        data: parent.merge(data),
+        child: child,
+      );
+    });
+  }
+
+  @override
+  bool updateShouldNotify($globalThemeWidgetClassName oldWidget) => true;
+}
+
+
+
+class $globalAnimateThemeWidgetClassName extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const $globalAnimateThemeWidgetClassName({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final $globalThemeClassName data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> createState() =>
+      _${globalThemeClassName}State();
+}
+
+class _${globalThemeClassName}State extends AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> {
+  $globalAnimateTweenClassName? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(_data, widget.data,
+            (dynamic value) => $globalAnimateTweenClassName(begin: value as $globalThemeClassName))!
+        as $globalAnimateTweenClassName;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return $globalThemeWidgetClassName(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
 }
     """;
   }
 }
 
-// 全局主题配置暂时不需要 merge 方法
-
-// /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
-// $globalThemeClassName merge([$globalThemeClassName? other]) {
-//   if (other == null) return this;
-//   return copyWith(
-//       $mergeContent
-//   );
+// class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
+//   $globalAnimateTweenClassName({super.begin, super.end});
+//
+//   @override
+//   $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
+//
+//   static $globalThemeClassName _lerp($globalThemeClassName a, $globalThemeClassName b, double t) {
+//     if (identical(a, b)) {
+//       return a;
+//     }
+//
+//     return $globalThemeClassName(
+//       primary: Color.lerp(a.primary, b.primary, t)!,
+//       success: Color.lerp(a.success, b.success, t)!,
+//     );
+//   }
 // }

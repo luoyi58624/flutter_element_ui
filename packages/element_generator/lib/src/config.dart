@@ -19,20 +19,3 @@ class ModelBuilderConfig {
     );
   }
 }
-
-/// 当启动代码生成器时将初始化全局构建配置
-late ThemeModelBuilderConfig themeModelBuilderConfig;
-
-/// 构建器配置
-class ThemeModelBuilderConfig {
-  /// 全局主题类名
-  final String globalThemeClassName;
-
-  ThemeModelBuilderConfig({required this.globalThemeClassName});
-
-  factory ThemeModelBuilderConfig.fromConfig(Map<String, dynamic> config) {
-    return ThemeModelBuilderConfig(
-      globalThemeClassName: config['global_theme_class_name'] ?? 'ElThemeData',
-    );
-  }
-}

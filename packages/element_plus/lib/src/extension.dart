@@ -11,7 +11,7 @@ extension ElThemeExtension on BuildContext {
   ElThemeData get elTheme => isDark ? darkTheme : lightTheme;
 
   /// Element UI 全局配置
-  ElConfigData get elConfig => ElApp.of(this).config;
+  ElConfigThemeData get elConfig => ElApp.of(this).config;
 
   /// Element UI 动画时间扩展方法，避免切换主题模式时动画过渡不协调问题
   Duration elDuration([Duration? duration]) =>

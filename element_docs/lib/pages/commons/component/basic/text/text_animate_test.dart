@@ -92,16 +92,14 @@ class _ElText extends HookWidget {
         Expanded(
           child: SingleChildScrollView(
             child: flag2.value
-                ? ElTextTheme(
-                    data: ElTextThemeData(
-                      duration: context.elDuration(300.ms),
-                      style: flag.value
-                          ? const TextStyle(
-                              fontSize: 18,
-                              color: Colors.green,
-                            )
-                          : ElTextTheme.of(context).style,
-                    ),
+                ? ElAnimatedDefaultTextStyle(
+                    duration: context.elDuration(300.ms),
+                    style: flag.value
+                        ? const TextStyle(
+                            fontSize: 18,
+                            color: Colors.green,
+                          )
+                        : ElTextTheme.of(context).style,
                     child: Wrap(
                       children: const ElText('Text') * count,
                     ),

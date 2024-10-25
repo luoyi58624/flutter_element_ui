@@ -19,7 +19,7 @@ class ElAppData {
   final ElThemeData darkTheme;
 
   /// 全局配置
-  final ElConfigData config;
+  final ElConfigThemeData config;
 
   /// 默认的滚动行为
   final ScrollBehavior scrollBehavior;
@@ -58,7 +58,7 @@ class ElApp extends StatefulWidget {
     this.brightness,
     this.theme,
     this.darkTheme,
-    this.config = ElConfigData.data,
+    this.config = ElConfigThemeData.data,
     this.scrollBehavior = const ElScrollBehavior(),
   });
 
@@ -75,7 +75,7 @@ class ElApp extends StatefulWidget {
   final ElThemeData? darkTheme;
 
   /// 全局配置
-  final ElConfigData config;
+  final ElConfigThemeData config;
 
   /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
   final ScrollBehavior scrollBehavior;
@@ -104,9 +104,14 @@ class ElApp extends StatefulWidget {
           animationDuration: $data.config.themeDuration,
           color: context.elTheme.bgColor,
           textStyle: context.elTheme.textTheme.style,
-          child: ScrollConfiguration(
-            behavior: $data.scrollBehavior,
-            child: result,
+          child: ElAnimatedDefaultTextStyle(
+            duration: context.elDuration(),
+            curve: context.elCurve(),
+            style: context.elTheme.textTheme.style,
+            child: ScrollConfiguration(
+              behavior: $data.scrollBehavior,
+              child: result,
+            ),
           ),
         );
       };
@@ -154,17 +159,23 @@ class _ElAppState extends State<ElApp> {
     Brightness $brightness =
         widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
-    return _AppInheritedWidget(
-      ElAppData(
-        brightness: $brightness,
-        theme: widget.theme ?? ElThemeData.theme,
-        darkTheme: widget.darkTheme ?? ElThemeData.darkTheme,
-        config: widget.config,
-        scrollBehavior: widget.scrollBehavior,
-        themeDuration: _themeDuration,
-        themeCurve: _themeCurve,
+    return ElAnimatedTheme(
+      duration: 1000.ms,
+      data: $brightness == Brightness.dark
+          ? widget.darkTheme ?? ElThemeData.darkTheme
+          : widget.theme ?? ElThemeData.theme,
+      child: _AppInheritedWidget(
+        ElAppData(
+          brightness: $brightness,
+          theme: widget.theme ?? ElThemeData.theme,
+          darkTheme: widget.darkTheme ?? ElThemeData.darkTheme,
+          config: widget.config,
+          scrollBehavior: widget.scrollBehavior,
+          themeDuration: _themeDuration,
+          themeCurve: _themeCurve,
+        ),
+        child: widget.child,
       ),
-      child: widget.child,
     );
   }
 }
@@ -192,3 +203,41 @@ class _AppInheritedWidget extends InheritedWidget {
     return true;
   }
 }
+
+
+// class ElAnimatedTheme extends ImplicitlyAnimatedWidget {
+//   const ElAnimatedTheme({
+//     super.key,
+//     required this.data,
+//     super.curve,
+//     super.duration = kThemeAnimationDuration,
+//     super.onEnd,
+//     required this.child,
+//   });
+//
+//   final ElThemeData data;
+//   final Widget child;
+//
+//   @override
+//   AnimatedWidgetBaseState<ElAnimatedTheme> createState() =>
+//       _ElAnimatedThemeState();
+// }
+//
+// class _ElAnimatedThemeState extends AnimatedWidgetBaseState<ElAnimatedTheme> {
+//   ElThemeDataTween? _data;
+//
+//   @override
+//   void forEachTween(TweenVisitor<dynamic> visitor) {
+//     _data = visitor(_data, widget.data,
+//             (dynamic value) => ElThemeDataTween(begin: value as ElThemeData))!
+//         as ElThemeDataTween;
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ElTheme(
+//       data: _data!.evaluate(animation),
+//       child: widget.child,
+//     );
+//   }
+// }
