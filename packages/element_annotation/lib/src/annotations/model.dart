@@ -1,9 +1,9 @@
 import 'package:meta/meta_meta.dart';
 
 @Target({TargetKind.classType})
-class $ElModel {
+class ElModel {
   /// 生成通用的操作数据模型方法：json序列化、copyWith对象克隆等...
-  const $ElModel({
+  const ElModel({
     this.formJson = false,
     this.toJson = false,
     this.copyWith = false,
@@ -16,7 +16,7 @@ class $ElModel {
   });
 
   /// 默认开启所有功能
-  const $ElModel.all({
+  const ElModel.all({
     this.formJson = true,
     this.toJson = true,
     this.copyWith = true,
@@ -29,7 +29,7 @@ class $ElModel {
   });
 
   /// 默认生成 json 序列化方法
-  const $ElModel.json({
+  const ElModel.json({
     this.formJson = true,
     this.toJson = true,
     this.copyWith = false,
@@ -42,7 +42,7 @@ class $ElModel {
   });
 
   /// 默认生成 copyWith、merge 方法
-  const $ElModel.copy({
+  const ElModel.copy({
     this.formJson = false,
     this.toJson = false,
     this.copyWith = true,
@@ -112,15 +112,15 @@ class $ElModel {
 class ElField {
   /// 模型字段注解
   const ElField({
-    this.ignore = const $ElModel(),
+    this.ignore = const ElModel(),
     this.jsonKey,
     this.defaultValue,
   });
 
-  /// 生成的代码是否忽略此字段，接收 [$ElModel] 作为对象，你可以控制
+  /// 生成的代码是否忽略此字段，接收 [ElModel] 作为对象，你可以控制
   /// formJson、toJson、copyWith、merge、generateToString 等参数，其他参数无效，
   /// 被设置为 true 的参数在生成目标代码时将忽略该字段。
-  final $ElModel ignore;
+  final ElModel ignore;
 
   /// 序列化、反序列化时指定映射的 json key
   final String? jsonKey;

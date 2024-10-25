@@ -6,8 +6,8 @@ import '../../../components/basic/link/index.dart';
 part '../../../generates/themes/components/basic/link.g.dart';
 
 
-@$ElModel.copy()
-@$ElThemeModel(desc: '超链接默认样式')
+@ElModel.copy()
+@ElThemeModel(desc: '超链接默认样式')
 class ElLinkThemeData {
   static const theme = ElLinkThemeData(
     color: Color.fromRGBO(9, 105, 218, 1.0),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 part '../../../generates/themes/components/others/code_preview.g.dart';
 
-@$ElModel.copy()
-@$ElThemeModel(desc: '代码预览默认样式')
+@ElModel.copy()
+@ElThemeModel(desc: '代码预览默认样式')
 class ElCodePreviewThemeData {
   static const theme = ElCodePreviewThemeData();
   static const darkTheme = ElCodePreviewThemeData();

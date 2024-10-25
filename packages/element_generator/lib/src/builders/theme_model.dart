@@ -29,8 +29,8 @@ class ThemeModelRecord {
 }
 
 @immutable
-class ElThemeModelGenerator extends GeneratorForAnnotation<$ElThemeModel> {
-  /// 记录所有添加 $ElThemeModel 注解的类名
+class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
+  /// 记录所有添加 ElThemeModel 注解的类名
   static final Set<ThemeModelRecord> themeModelList = {};
 
   /// 过滤前缀和后缀，获取单纯的组件名字，例如：

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 part '../../../generates/themes/components/feedback/tooltip.g.dart';
 
-@$ElModel.copy()
-@$ElThemeModel(generateInheritedWidget: false, desc: '提示框默认样式')
+@ElModel.copy()
+@ElThemeModel(generateInheritedWidget: false, desc: '提示框默认样式')
 class ElTooltipThemeData {
   static const theme = ElTooltipThemeData(color: Color(0xFF616161));
   static const darkTheme = ElTooltipThemeData(color: Color(0xFF757575));

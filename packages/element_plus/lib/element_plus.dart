@@ -13,7 +13,7 @@ export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/scrollbar.dart';
-export 'src/components/basic/text.dart';
+export 'src/components/basic/text/index.dart';
 
 export 'src/components/data/table/config.dart';
 export 'src/components/data/avatar/index.dart';
@@ -71,6 +71,7 @@ export 'src/themes/config.dart';
 export 'src/themes/components/basic/button.dart';
 export 'src/themes/components/basic/icon.dart';
 export 'src/themes/components/basic/link.dart';
+export 'src/themes/components/basic/text.dart';
 
 export 'src/themes/components/data/card.dart';
 export 'src/themes/components/data/collapse.dart';

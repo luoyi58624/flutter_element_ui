@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 
 part '../../generates/themes/services/modal.g.dart';
 
-@$ElModel.copy()
-@$ElThemeModel(generateInheritedWidget: false, desc: '模态框默认样式')
+@ElModel.copy()
+@ElThemeModel(generateInheritedWidget: false, desc: '模态框默认样式')
 class ElModalThemeData {
   static const theme = ElModalThemeData(
     color: Color(0xffffffff),

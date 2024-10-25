@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 part '../generates/models/config.g.dart';
 
-@$ElModel.copy()
+@ElModel.copy()
 class ConfigData {
   /// Element UI 默认全局配置
   static const ConfigData data = ConfigData();

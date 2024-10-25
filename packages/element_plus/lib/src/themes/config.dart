@@ -4,7 +4,7 @@ import '../global.dart';
 
 part '../generates/themes/config.g.dart';
 
-@$ElModel.copy()
+@ElModel.copy()
 class ElConfigData {
   /// Element UI 默认全局配置
   static const ElConfigData data = ElConfigData();

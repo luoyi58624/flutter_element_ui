@@ -3,8 +3,8 @@ import 'package:flutter/widgets.dart';
 
 part '../../generates/themes/services/message.g.dart';
 
-@$ElModel.copy()
-@$ElThemeModel(generateInheritedWidget: false, desc: '消息提示默认样式')
+@ElModel.copy()
+@ElThemeModel(generateInheritedWidget: false, desc: '消息提示默认样式')
 class ElMessageThemeData {
   static const theme = ElMessageThemeData();
   static const darkTheme = ElMessageThemeData();

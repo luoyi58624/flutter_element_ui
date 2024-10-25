@@ -4,7 +4,7 @@ import 'animal.dart';
 
 part '../generates/models/user.g.dart';
 
-@$ElModel.all()
+@ElModel.all()
 class UserModel implements ElSerializeModel<UserModel> {
   final String? username;
   final int? age;

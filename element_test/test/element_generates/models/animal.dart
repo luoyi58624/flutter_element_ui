@@ -2,7 +2,7 @@ import 'package:element_extension/element_extension.dart';
 
 part '../generates/models/animal.g.dart';
 
-@$ElModel.all()
+@ElModel.all()
 class AnimalModel implements ElSerializeModel {
   final String? name;
   final String? type;

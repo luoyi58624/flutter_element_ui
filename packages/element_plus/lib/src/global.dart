@@ -6,7 +6,7 @@ export 'service.dart';
 export 'types.dart';
 export 'extension.dart';
 
-export 'components/basic/text.dart';
+export 'components/basic/text/index.dart';
 export 'components/basic/icon/index.dart';
 
 export 'services/message.dart';

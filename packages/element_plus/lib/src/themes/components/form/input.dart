@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 part '../../../generates/themes/components/form/input.g.dart';
 
-@$ElModel.copy()
-@$ElThemeModel(desc: '输入框默认样式')
+@ElModel.copy()
+@ElThemeModel(desc: '输入框默认样式')
 class ElInputThemeData {
   static const theme = ElInputThemeData();
   static const darkTheme = ElInputThemeData();

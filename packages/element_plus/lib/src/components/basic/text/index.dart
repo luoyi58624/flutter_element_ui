@@ -25,17 +25,17 @@ class ElText extends StatefulWidget {
     this.selectionColor,
   });
 
-  /// 渲染的文本内容，支持传递任意小部件，如果是[List]集合，则会渲染成富文本。
+  /// 渲染的文本内容，支持传递类型数据，它们会统一使用 toString 转成字符串，
+  /// 如果是[List]集合，则会当做富文本进行渲染。
   ///
   /// 渲染富文本有一点需要注意，嵌套的组件会被转换成 TextSpan、WidgetSpan，
   /// 所以如果是继承 [ElText] 的文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
 
-  /// 文字动画持续时间，默认跟随 [context.elConfig.themeDuration]，如果不想应用默认动画，请设置 [Duration.zero]，
-  /// 同时，当切换全局主题时，文本动画依旧会正确应用过渡，保证一致性。
+  /// 设置文本动画持续时间，默认 [Duration.zero]
   final Duration? duration;
 
-  /// 文本样式，当你改变它时会自动应用过渡动画
+  /// 文本样式
   final TextStyle? style;
 
   /// 文本基线对齐样式
@@ -64,6 +64,10 @@ class ElText extends StatefulWidget {
 
   /// 语义化标签
   final String? semanticsLabel;
+
+  /// 测量一行或多行文本宽度的不同方法：
+  /// * parent 多行文本将占据父级给出的整个宽度。对于单行文本，将仅使用包含文本所需的最小宽度。这方面的一个常见用例是一系列标准段落
+  /// * longestLine 宽度刚好足以容纳最长的一行，而不会更长。一个常见的用例是聊天气泡
   final TextWidthBasis? textWidthBasis;
   final TextHeightBehavior? textHeightBehavior;
 

@@ -5,8 +5,8 @@ import '../global.dart';
 
 part '../generates/themes/theme.g.dart';
 
-@$ElGlobalThemeModel()
-class _ElBaseThemeData {
+@ElGlobalThemeModel()
+class _ElThemeData {
   /// 主要颜色
   final Color primary;
 
@@ -43,7 +43,7 @@ class _ElBaseThemeData {
   /// 边框颜色与背景色进行混合形成的颜色
   Color get borderLightColor => borderColor.mix(bgColor, 50);
 
-  const _ElBaseThemeData({
+  const _ElThemeData({
     this.primary = const Color(0xff409EFF),
     this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
@@ -57,7 +57,7 @@ class _ElBaseThemeData {
     this.borderColor = const Color(0xffDCDFE6),
   });
 
-  const _ElBaseThemeData.dark({
+  const _ElThemeData.dark({
     this.primary = const Color(0xff0ea5e9),
     this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
