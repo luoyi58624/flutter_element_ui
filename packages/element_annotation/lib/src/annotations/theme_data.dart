@@ -5,16 +5,12 @@ class ElThemeModel {
   /// 将此类变为 Element UI 主题配置类，当运行代码生成器时，它会生成局部主题注入小部件
   const ElThemeModel({
     this.generateInheritedWidget = true,
-    this.generateLerp = false,
     this.desc = '',
     this.ignoreGlobalTheme = false,
   });
 
   /// 生成主题注入小部件
   final bool generateInheritedWidget;
-
-  /// 是否生成 lerp 函数，若为 true，代码生成器会尝试遍历字段
-  final bool generateLerp;
 
   /// 生成代码注释
   final String desc;

@@ -77,3 +77,20 @@ class ElTabsTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElTabsTheme oldWidget) => true;
 }
+
+extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
+  ElTabsThemeData lerp(ElTabsThemeData a, ElTabsThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElTabsThemeData(
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      padding: EdgeInsets.lerp(a.padding, b.padding, t) ?? a.padding,
+      itemGap: lerpDouble(a.itemGap, b.itemGap, t) ?? a.itemGap,
+      enabledDrag: t < 0.5 ? a.enabledDrag : b.enabledDrag,
+      dragDelay: t < 0.5 ? a.dragDelay : b.dragDelay,
+      direction: t < 0.5 ? a.direction : b.direction,
+    );
+  }
+}

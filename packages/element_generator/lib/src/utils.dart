@@ -76,4 +76,30 @@ class MirrorUtils {
     }
     return null;
   }
+
+  /// 生成字段的 lerp 函数
+  static String generateFieldLerp(FieldElement fieldInfo){
+    String content = '';
+    final fieldName = fieldInfo.name;
+    final fieldType = fieldInfo.type.toString().replaceAll('?', '');
+    if (fieldInfo.type.isDartCoreDouble) {
+      content +=
+      "$fieldName: lerpDouble(a.$fieldName, b.$fieldName, t) ?? a.$fieldName,";
+    } else if (_hasLerp(fieldInfo)) {
+      content +=
+      "$fieldName: $fieldType.lerp(a.$fieldName, b.$fieldName, t) ?? a.$fieldName,";
+    } else {
+      content += "$fieldName: t < 0.5 ? a.$fieldName : b.$fieldName,";
+    }
+
+    return content;
+  }
+}
+
+bool _hasLerp(FieldElement fieldInfo) {
+  final fieldElement = fieldInfo.type.element;
+  if (fieldElement is ClassElement && fieldElement.getMethod('lerp') != null) {
+    return true;
+  }
+  return false;
 }

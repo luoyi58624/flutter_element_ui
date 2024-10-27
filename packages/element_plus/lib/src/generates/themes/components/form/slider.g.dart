@@ -71,3 +71,19 @@ class ElSliderTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElSliderTheme oldWidget) => true;
 }
+
+extension ElSliderThemeDataLerpExtension on ElSliderThemeData {
+  ElSliderThemeData lerp(ElSliderThemeData a, ElSliderThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElSliderThemeData(
+      sliderSize: lerpDouble(a.sliderSize, b.sliderSize, t) ?? a.sliderSize,
+      thumbSize: lerpDouble(a.thumbSize, b.thumbSize, t) ?? a.thumbSize,
+      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
+      inactiveColor:
+          Color.lerp(a.inactiveColor, b.inactiveColor, t) ?? a.inactiveColor,
+    );
+  }
+}

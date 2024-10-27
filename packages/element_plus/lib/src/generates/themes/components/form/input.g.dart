@@ -74,3 +74,20 @@ class ElInputTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElInputTheme oldWidget) => true;
 }
+
+extension ElInputThemeDataLerpExtension on ElInputThemeData {
+  ElInputThemeData lerp(ElInputThemeData a, ElInputThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElInputThemeData(
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
+          a.borderRadius,
+      margin: EdgeInsetsGeometry.lerp(a.margin, b.margin, t) ?? a.margin,
+      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
+    );
+  }
+}

@@ -19,18 +19,7 @@ class ElTextThemeData {
     ),
   );
 
-  ElTextThemeData lerp(ElTextThemeData a, ElTextThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElTextThemeData(
-      style: TextStyle.lerp(a.style, b.style, t)!,
-    );
-  }
-
   const ElTextThemeData({
-    this.testColor = Colors.transparent,
     this.data,
     this.duration,
     this.style = const TextStyle(),
@@ -46,8 +35,6 @@ class ElTextThemeData {
     this.textHeightBehavior,
     this.selectionColor,
   });
-
-  final Color testColor;
 
   /// 渲染的文本内容，支持传递类型数据，它们会统一使用 toString 转成字符串，
   /// 如果是[List]集合，则会当做富文本进行渲染。

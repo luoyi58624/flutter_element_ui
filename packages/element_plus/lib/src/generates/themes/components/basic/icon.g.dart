@@ -68,3 +68,17 @@ class ElIconTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElIconTheme oldWidget) => true;
 }
+
+extension ElIconThemeDataLerpExtension on ElIconThemeData {
+  ElIconThemeData lerp(ElIconThemeData a, ElIconThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElIconThemeData(
+      icon: t < 0.5 ? a.icon : b.icon,
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+    );
+  }
+}

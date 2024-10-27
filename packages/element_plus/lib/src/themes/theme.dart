@@ -54,8 +54,7 @@ class _ElThemeData {
   });
 
   const _ElThemeData.dark({
-    // this.primary = const Color(0xff0ea5e9),
-    this.primary = Colors.red,
+    this.primary = const Color(0xff0ea5e9),
     this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffE6A23C),
@@ -66,23 +65,4 @@ class _ElThemeData {
     this.placeholderTextColor = const Color(0xff8D9095),
     this.borderColor = const Color(0xffa3a3a3),
   });
-}
-
-class ElThemeDataTween extends Tween<ElThemeData> {
-  ElThemeDataTween({super.begin, super.end});
-
-  @override
-  ElThemeData lerp(double t) => _lerp(begin!, end!, t);
-
-  static ElThemeData _lerp(ElThemeData a, ElThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElThemeData(
-      primary: Color.lerp(a.primary, b.primary, t)!,
-      success: Color.lerp(a.success, b.success, t)!,
-      textTheme: ElTextThemeData.theme.lerp(a.textTheme, b.textTheme, t),
-    );
-  }
 }

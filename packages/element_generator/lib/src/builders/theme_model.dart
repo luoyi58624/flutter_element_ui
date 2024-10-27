@@ -7,8 +7,6 @@ import 'package:source_gen/source_gen.dart';
 
 import '../utils.dart';
 
-const TypeChecker _themeModelChecker = TypeChecker.fromRuntime(ElThemeModel);
-
 /// Element 组件命名前缀
 const String _prefix = 'El';
 
@@ -31,7 +29,10 @@ class ThemeModelRecord {
   final String name;
   final String desc;
 
-  ThemeModelRecord({required this.name, required this.desc});
+  ThemeModelRecord({
+    required this.name,
+    required this.desc,
+  });
 
   @override
   bool operator ==(Object other) =>
@@ -77,10 +78,9 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
       themeModelList.add(ThemeModelRecord(name: _className, desc: desc));
     }
 
-    generateLerp(annotation);
-
     String result = """
         ${generateThemeWidget(annotation)}
+        ${generateLerp(annotation)}
     """;
     return result;
   }
@@ -145,42 +145,26 @@ class $themeClassName extends InheritedWidget {
     """;
   }
 
-  /// 生成 copyWith 拷贝方法
   String generateLerp(ConstantReader annotation) {
+    String content = '';
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (fieldInfo.type.toString() == 'Color') {
-        // print('Color - ${fieldInfo.name}');
-
-        _hasLerp(fieldInfo);
-      }
-      // if (_hasLerp(fieldInfo)) {
-      //   print('存在 lerp - ${fieldInfo.name}');
-      // }
+      content += MirrorUtils.generateFieldLerp(fieldInfo);
     }
 
-    return """""";
+    return """
+extension ${_className}LerpExtension on $_className {
+  $_className lerp($_className a, $_className b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $_className(
+      $content
+    );
   }
 }
 
-/// 判断反射的字段是否包含克隆方法，如果包含，则生成的代码需要调用目标的克隆方法
-bool _hasLerp(FieldElement fieldInfo) {
-  final fieldElement = fieldInfo.type.element;
-  if (fieldElement is ClassElement) {
-    print('进来了, ${fieldElement.name}, ${fieldElement.getMethod('lerp')}');
-
-    bool isElModelField = _themeModelChecker.hasAnnotationOfExact(fieldElement);
-    if (isElModelField) {
-      return _themeModelChecker
-              .firstAnnotationOfExact(fieldElement)!
-              .getField('lerp')!
-              .toBoolValue() ??
-          false;
-    }
-    // 判断当前字段类型是否包含了 merge 方法
-    if (fieldElement.methods.map((method) => method.name).contains('merge')) {
-      return true;
-    }
+    """;
   }
-  return false;
 }

@@ -30,3 +30,21 @@ extension ElToastThemeDataExtension on ElToastThemeData {
     );
   }
 }
+
+// **************************************************************************
+// ElThemeModelGenerator
+// **************************************************************************
+
+extension ElToastThemeDataLerpExtension on ElToastThemeData {
+  ElToastThemeData lerp(ElToastThemeData a, ElToastThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElToastThemeData(
+      closeDuration: t < 0.5 ? a.closeDuration : b.closeDuration,
+      enableFeedback: t < 0.5 ? a.enableFeedback : b.enableFeedback,
+      builder: t < 0.5 ? a.builder : b.builder,
+    );
+  }
+}

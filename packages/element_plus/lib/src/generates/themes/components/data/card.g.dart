@@ -68,3 +68,17 @@ class ElCardTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElCardTheme oldWidget) => true;
 }
+
+extension ElCardThemeDataLerpExtension on ElCardThemeData {
+  ElCardThemeData lerp(ElCardThemeData a, ElCardThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCardThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      elevation: lerpDouble(a.elevation, b.elevation, t) ?? a.elevation,
+      radius: BorderRadius.lerp(a.radius, b.radius, t) ?? a.radius,
+    );
+  }
+}

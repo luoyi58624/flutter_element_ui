@@ -71,3 +71,18 @@ class ElLinkTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElLinkTheme oldWidget) => true;
 }
+
+extension ElLinkThemeDataLerpExtension on ElLinkThemeData {
+  ElLinkThemeData lerp(ElLinkThemeData a, ElLinkThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElLinkThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
+      decoration: t < 0.5 ? a.decoration : b.decoration,
+      allowDrag: t < 0.5 ? a.allowDrag : b.allowDrag,
+    );
+  }
+}

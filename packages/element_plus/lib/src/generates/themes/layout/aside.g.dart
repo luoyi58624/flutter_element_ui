@@ -65,3 +65,16 @@ class ElAsideTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElAsideTheme oldWidget) => true;
 }
+
+extension ElAsideThemeDataLerpExtension on ElAsideThemeData {
+  ElAsideThemeData lerp(ElAsideThemeData a, ElAsideThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElAsideThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      width: lerpDouble(a.width, b.width, t) ?? a.width,
+    );
+  }
+}

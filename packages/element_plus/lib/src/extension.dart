@@ -13,7 +13,19 @@ extension ElThemeExtension on BuildContext {
   /// Element UI 全局配置
   ElConfigThemeData get elConfig => ElApp.of(this).config;
 
-  /// Element UI 动画时间扩展方法，避免切换主题模式时动画过渡不协调问题
+  /// Element UI 动画时间扩展方法，使用此扩展方法时可以避免切换全局主题时动画不一致问题，
+  /// 当切换主题时，[ElApp] 会 build 两次，第一次 build 是设置全局 themeDuration，第二次 build 是还原全局 themeDuration，
+  /// 使用方式只需要用此方法包装 [Duration] 对象即可：
+  /// ```dart
+  /// AnimatedContainer(
+  ///   duration: context.elDuration(300.ms),
+  /// ),
+  /// ```
+  ///
+  /// 提示：Flutter 官方是通过 [AnimateTheme] 小部件进行全局主题切换，这种方式有以下缺点：
+  /// 1. 如果你使用 [AnimatedContainer] 之类的动画小部件，页面元素颜色过渡将会不一致
+  /// 2. 主题代码复杂度更高，需要为每个全局主题都实现 lerp 函数
+  /// 3. 性能并不会更好，当修改全局主题时，触发的动画意味着你的应用将 build 几十次
   Duration elDuration([Duration? duration]) =>
       ElApp.of(this).themeDuration ?? duration ?? Duration.zero;
 

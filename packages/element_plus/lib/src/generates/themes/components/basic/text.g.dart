@@ -9,7 +9,6 @@ part of '../../../../themes/components/basic/text.dart';
 extension ElTextThemeDataExtension on ElTextThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTextThemeData copyWith({
-    Color? testColor,
     dynamic data,
     Duration? duration,
     TextStyle? style,
@@ -26,7 +25,6 @@ extension ElTextThemeDataExtension on ElTextThemeData {
     Color? selectionColor,
   }) {
     return ElTextThemeData(
-      testColor: testColor ?? this.testColor,
       data: data ?? this.data,
       duration: duration ?? this.duration,
       style: this.style.merge(style),
@@ -48,7 +46,6 @@ extension ElTextThemeDataExtension on ElTextThemeData {
   ElTextThemeData merge([ElTextThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      testColor: other.testColor,
       data: other.data,
       duration: other.duration,
       style: other.style,
@@ -103,4 +100,30 @@ class ElTextTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ElTextTheme oldWidget) => true;
+}
+
+extension ElTextThemeDataLerpExtension on ElTextThemeData {
+  ElTextThemeData lerp(ElTextThemeData a, ElTextThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElTextThemeData(
+      data: t < 0.5 ? a.data : b.data,
+      duration: t < 0.5 ? a.duration : b.duration,
+      style: TextStyle.lerp(a.style, b.style, t) ?? a.style,
+      strutStyle: t < 0.5 ? a.strutStyle : b.strutStyle,
+      textAlign: t < 0.5 ? a.textAlign : b.textAlign,
+      textDirection: t < 0.5 ? a.textDirection : b.textDirection,
+      locale: t < 0.5 ? a.locale : b.locale,
+      softWrap: t < 0.5 ? a.softWrap : b.softWrap,
+      overflow: t < 0.5 ? a.overflow : b.overflow,
+      textScaler: t < 0.5 ? a.textScaler : b.textScaler,
+      maxLines: t < 0.5 ? a.maxLines : b.maxLines,
+      textWidthBasis: t < 0.5 ? a.textWidthBasis : b.textWidthBasis,
+      textHeightBehavior: t < 0.5 ? a.textHeightBehavior : b.textHeightBehavior,
+      selectionColor:
+          Color.lerp(a.selectionColor, b.selectionColor, t) ?? a.selectionColor,
+    );
+  }
 }

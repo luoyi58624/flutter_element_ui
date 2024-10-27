@@ -72,3 +72,19 @@ class ElCodePreviewTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElCodePreviewTheme oldWidget) => true;
 }
+
+extension ElCodePreviewThemeDataLerpExtension on ElCodePreviewThemeData {
+  ElCodePreviewThemeData lerp(
+      ElCodePreviewThemeData a, ElCodePreviewThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCodePreviewThemeData(
+      fontFamily: t < 0.5 ? a.fontFamily : b.fontFamily,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
+      enableSection: t < 0.5 ? a.enableSection : b.enableSection,
+    );
+  }
+}

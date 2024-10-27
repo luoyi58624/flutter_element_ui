@@ -24,7 +24,11 @@ class _Example extends HookWidget {
 
     return Column(
       children: [
-        Container(
+        AnimatedContainer(
+          duration: context.elDuration(300.ms),
+        ),
+        AnimatedContainer(
+          duration: context.elDuration(300.ms),
           width: 400,
           height: 400,
           color: ElTheme.of(context).primary,

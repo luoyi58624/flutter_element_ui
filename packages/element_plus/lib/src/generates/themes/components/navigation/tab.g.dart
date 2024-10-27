@@ -62,3 +62,15 @@ class ElTabTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElTabTheme oldWidget) => true;
 }
+
+extension ElTabThemeDataLerpExtension on ElTabThemeData {
+  ElTabThemeData lerp(ElTabThemeData a, ElTabThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElTabThemeData(
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+    );
+  }
+}

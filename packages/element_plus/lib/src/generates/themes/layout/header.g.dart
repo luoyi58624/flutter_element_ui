@@ -65,3 +65,16 @@ class ElHeaderTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElHeaderTheme oldWidget) => true;
 }
+
+extension ElHeaderThemeDataLerpExtension on ElHeaderThemeData {
+  ElHeaderThemeData lerp(ElHeaderThemeData a, ElHeaderThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElHeaderThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+    );
+  }
+}

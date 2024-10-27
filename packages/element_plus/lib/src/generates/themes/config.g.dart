@@ -77,3 +77,19 @@ class ElConfigTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElConfigTheme oldWidget) => true;
 }
+
+extension ElConfigThemeDataLerpExtension on ElConfigThemeData {
+  ElConfigThemeData lerp(ElConfigThemeData a, ElConfigThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElConfigThemeData(
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      radius: BorderRadius.lerp(a.radius, b.radius, t) ?? a.radius,
+      borderSize: lerpDouble(a.borderSize, b.borderSize, t) ?? a.borderSize,
+      themeDuration: t < 0.5 ? a.themeDuration : b.themeDuration,
+      themeCurve: t < 0.5 ? a.themeCurve : b.themeCurve,
+    );
+  }
+}

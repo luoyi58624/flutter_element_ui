@@ -3,7 +3,6 @@ import 'package:build/build.dart';
 import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:element_generator/src/builders/theme_model.dart';
-import 'package:element_generator/src/config.dart';
 import 'package:meta/meta.dart';
 import 'package:source_gen/source_gen.dart';
 
@@ -41,14 +40,16 @@ class ElGlobalThemeModelGenerator
     String copyWithArgument = '';
     String copyWithContent = '';
     String mergeContent = '';
+    String lerpContent = '';
 
-    for (final field in classFields) {
-      lightConstructionArgument += 'super.${field.name},';
-      darkConstructionArgument += 'super.${field.name},';
-      copyWithArgument += '${field.type.toString()}? ${field.name},\n';
-      copyWithContent +=
-          '${field.name}: ${field.name} ?? super.${field.name},\n';
-      mergeContent += '${field.name}: other.${field.name},\n';
+    for (final fieldInfo in classFields) {
+      final fieldName = fieldInfo.name;
+      lightConstructionArgument += 'super.$fieldName,';
+      darkConstructionArgument += 'super.$fieldName,';
+      copyWithArgument += '${fieldInfo.type.toString()}? $fieldName,\n';
+      copyWithContent += '$fieldName: $fieldName ?? super.$fieldName,\n';
+      mergeContent += '$fieldName: other.$fieldName,\n';
+      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
     }
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
@@ -71,6 +72,7 @@ class ElGlobalThemeModelGenerator
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
       mergeContent += '$themeVarName: other.$themeVarName,\n';
+      lerpContent += "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
     }
     return """
 class $globalThemeClassName extends $className {
@@ -150,8 +152,6 @@ class $globalThemeWidgetClassName extends InheritedWidget {
   bool updateShouldNotify($globalThemeWidgetClassName oldWidget) => true;
 }
 
-
-
 class $globalAnimateThemeWidgetClassName extends ImplicitlyAnimatedWidget {
   /// 提供动画默认数据小部件
   const $globalAnimateThemeWidgetClassName({
@@ -189,24 +189,25 @@ class _${globalThemeClassName}State extends AnimatedWidgetBaseState<$globalAnima
     );
   }
 }
-    """;
+
+class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
+  $globalAnimateTweenClassName({super.begin, super.end});
+
+  @override
+  $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
+
+  static $globalThemeClassName _lerp($globalThemeClassName a, $globalThemeClassName b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $globalThemeClassName(
+        $lerpContent
+    );
+  }
+}
+""";
   }
 }
 
-// class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
-//   $globalAnimateTweenClassName({super.begin, super.end});
-//
-//   @override
-//   $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
-//
-//   static $globalThemeClassName _lerp($globalThemeClassName a, $globalThemeClassName b, double t) {
-//     if (identical(a, b)) {
-//       return a;
-//     }
-//
-//     return $globalThemeClassName(
-//       primary: Color.lerp(a.primary, b.primary, t)!,
-//       success: Color.lerp(a.success, b.success, t)!,
-//     );
-//   }
-// }
+

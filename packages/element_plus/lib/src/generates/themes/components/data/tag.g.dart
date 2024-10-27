@@ -62,3 +62,15 @@ class ElTagTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElTagTheme oldWidget) => true;
 }
+
+extension ElTagThemeDataLerpExtension on ElTagThemeData {
+  ElTagThemeData lerp(ElTagThemeData a, ElTagThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElTagThemeData(
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+    );
+  }
+}

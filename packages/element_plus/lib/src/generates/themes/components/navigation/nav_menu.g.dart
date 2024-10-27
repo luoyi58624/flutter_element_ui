@@ -62,3 +62,17 @@ class ElNavMenuTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElNavMenuTheme oldWidget) => true;
 }
+
+extension ElNavMenuThemeDataLerpExtension on ElNavMenuThemeData {
+  ElNavMenuThemeData lerp(
+      ElNavMenuThemeData a, ElNavMenuThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElNavMenuThemeData(
+      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
+          a.activeTextColor,
+    );
+  }
+}

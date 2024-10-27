@@ -68,3 +68,18 @@ class ElCollapseTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(ElCollapseTheme oldWidget) => true;
 }
+
+extension ElCollapseThemeDataLerpExtension on ElCollapseThemeData {
+  ElCollapseThemeData lerp(
+      ElCollapseThemeData a, ElCollapseThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCollapseThemeData(
+      keepState: t < 0.5 ? a.keepState : b.keepState,
+      duration: t < 0.5 ? a.duration : b.duration,
+      curve: t < 0.5 ? a.curve : b.curve,
+    );
+  }
+}
