@@ -1,10 +1,10 @@
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 part '../../generates/themes/services/message.g.dart';
 
 @ElModel.copy()
-@ElThemeModel(generateInheritedWidget: false, desc: '消息提示默认样式')
+@ElThemeModel(generateThemeWidget: false, desc: '消息提示默认样式')
 class ElMessageThemeData {
   static const theme = ElMessageThemeData();
   static const darkTheme = ElMessageThemeData();

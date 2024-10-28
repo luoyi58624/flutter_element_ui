@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/commons/component/basic/button/examples/example6.dart';
 import 'package:flutter/material.dart';
 
 class NavPage extends ResponsivePage {
@@ -21,9 +22,10 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedList = useObs<List<int>>([]);
-
+    final isLoading = useState(false);
     return Column(
       children: [
+        const Gap(8),
         AnimatedContainer(
           duration: context.elDuration(300.ms),
         ),
@@ -31,16 +33,19 @@ class _Example extends HookWidget {
           duration: context.elDuration(300.ms),
           width: 400,
           height: 400,
-          color: ElTheme.of(context).primary,
+          color: context.elTheme.primary,
           child: Text(
             'hello',
-            style: ElTheme.of(context).textTheme.style,
+            style: context.elTheme.textTheme.style,
           ),
         ),
         Container(
           width: 400,
-          height: 400,
-          color: ElTheme.of(context).success,
+          height: 36,
+          color: context.elTheme.success,
+          child: Center(
+            child: Text('hihi' * 100),
+          ),
         ),
       ],
     );

@@ -162,14 +162,14 @@ packages:
     source: hosted
     version: "2.0.0"
   element_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/element_annotation"
       relative: true
     source: path
     version: "1.0.0"
   element_dart:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/element_dart"
       relative: true

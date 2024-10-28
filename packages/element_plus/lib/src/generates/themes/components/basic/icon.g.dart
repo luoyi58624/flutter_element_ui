@@ -82,3 +82,64 @@ extension ElIconThemeDataLerpExtension on ElIconThemeData {
     );
   }
 }
+
+class ElAnimatedIconTheme extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const ElAnimatedIconTheme({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final ElIconThemeData data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<ElAnimatedIconTheme> createState() =>
+      _ElIconThemeDataState();
+}
+
+class _ElIconThemeDataState
+    extends AnimatedWidgetBaseState<ElAnimatedIconTheme> {
+  _ElIconDataTween? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(
+            _data,
+            widget.data,
+            (dynamic value) =>
+                _ElIconDataTween(begin: value as ElIconThemeData))!
+        as _ElIconDataTween;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElIconTheme.merge(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _ElIconDataTween extends Tween<ElIconThemeData> {
+  _ElIconDataTween({super.begin});
+
+  @override
+  ElIconThemeData lerp(double t) => _lerp(begin!, end!, t);
+
+  static ElIconThemeData _lerp(ElIconThemeData a, ElIconThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElIconThemeData(
+      icon: t < 0.5 ? a.icon : b.icon,
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+    );
+  }
+}

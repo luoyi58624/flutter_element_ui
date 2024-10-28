@@ -80,15 +80,15 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
 
     String result = """
         ${generateThemeWidget(annotation)}
-        ${generateLerp(annotation)}
+        ${generateLerpExtension(annotation)}
+        ${generateAnimatedWidget(annotation)}
     """;
     return result;
   }
 
   String generateThemeWidget(ConstantReader annotation) {
-    bool generateInheritedWidget =
-        annotation.read('generateInheritedWidget').boolValue;
-    if (!generateInheritedWidget) return '';
+    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
+    if (!generateThemeWidget) return '';
 
     final rawName = getRawName(_className);
     String themeClassName = '$_prefix${rawName}Theme';
@@ -145,7 +145,7 @@ class $themeClassName extends InheritedWidget {
     """;
   }
 
-  String generateLerp(ConstantReader annotation) {
+  String generateLerpExtension(ConstantReader annotation) {
     String content = '';
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
@@ -164,7 +164,81 @@ extension ${_className}LerpExtension on $_className {
     );
   }
 }
+    """;
+  }
 
+  String generateAnimatedWidget(ConstantReader annotation) {
+    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
+    if (!generateThemeWidget) return '';
+    bool generateAnimatedThemeWidget =
+        annotation.read('generateAnimatedThemeWidget').boolValue;
+    if (!generateAnimatedThemeWidget) return '';
+
+    final rawName = getRawName(_className);
+    String themeClassName = '$_prefix${rawName}Theme';
+    String animatedThemeClassName = '${_prefix}Animated${rawName}Theme';
+    String tweenClassName = '_$_prefix${rawName}DataTween';
+    String lerpContent = '';
+    for (int i = 0; i < _classFields.length; i++) {
+      final fieldInfo = _classFields[i].declaration;
+      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
+    }
+
+    return """
+class $animatedThemeClassName extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const $animatedThemeClassName({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final $_className data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<$animatedThemeClassName> createState() =>
+      _${_className}State();
+}
+
+class _${_className}State extends AnimatedWidgetBaseState<$animatedThemeClassName> {
+  $tweenClassName? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(_data, widget.data,
+            (dynamic value) => $tweenClassName(begin: value as $_className))!
+        as $tweenClassName;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return $themeClassName.merge(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
+}
+
+class $tweenClassName extends Tween<$_className> {
+  $tweenClassName({super.begin});
+
+  @override
+  $_className lerp(double t) => _lerp(begin!, end!, t);
+
+  static $_className _lerp($_className a, $_className b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $_className(
+        $lerpContent
+    );
+  }
+}
     """;
   }
 }

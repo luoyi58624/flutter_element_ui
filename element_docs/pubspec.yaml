@@ -10,10 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  element_dart:
+    path: ../packages/element_dart
   element_plus:
     path: ../packages/element_plus
   element_extension:
     path: ../packages/element_extension
+  element_annotation:
+    path: ../packages/element_annotation
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git

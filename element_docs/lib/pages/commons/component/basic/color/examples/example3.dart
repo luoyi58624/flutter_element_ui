@@ -41,7 +41,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElApp(
-      theme: ElThemeData(
+      theme: ElThemeData.theme.copyWith(
         primary: primaryColor,
       ),
       // 演示代码就不可以再嵌套 MaterialApp 了，否则路由系统会出现异常

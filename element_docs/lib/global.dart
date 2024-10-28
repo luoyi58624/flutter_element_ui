@@ -1,6 +1,8 @@
 export 'package:flutter_base/flutter_base.dart';
 export 'package:element_plus/element_plus.dart';
 export 'package:element_extension/element_extension.dart';
+export 'package:element_dart/element_dart.dart';
+export 'package:element_annotation/element_annotation.dart';
 
 export 'extension.dart';
 export 'state.dart';

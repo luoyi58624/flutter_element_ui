@@ -1,8 +1,5 @@
 library element_extension;
 
-export 'package:element_dart/element_dart.dart';
-export 'package:element_annotation/element_annotation.dart';
-
 export 'src/common.dart';
 
 export 'package:gap/gap.dart';

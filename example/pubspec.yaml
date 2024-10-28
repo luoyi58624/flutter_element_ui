@@ -1,0 +1,29 @@
+name: example
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  element_plus:
+    path: ../packages/element_plus
+  element_extension:
+    path: ../packages/element_extension
+  flutter_obs:
+    path: ../packages/flutter_obs
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+dependency_overrides:
+  flutter_obs:
+    path: ../packages/flutter_obs
+
+flutter:
+  uses-material-design: true

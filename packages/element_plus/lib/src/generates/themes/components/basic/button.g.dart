@@ -161,3 +161,87 @@ extension ElButtonThemeDataLerpExtension on ElButtonThemeData {
     );
   }
 }
+
+class ElAnimatedButtonTheme extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const ElAnimatedButtonTheme({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final ElButtonThemeData data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<ElAnimatedButtonTheme> createState() =>
+      _ElButtonThemeDataState();
+}
+
+class _ElButtonThemeDataState
+    extends AnimatedWidgetBaseState<ElAnimatedButtonTheme> {
+  _ElButtonDataTween? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(
+            _data,
+            widget.data,
+            (dynamic value) =>
+                _ElButtonDataTween(begin: value as ElButtonThemeData))!
+        as _ElButtonDataTween;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElButtonTheme.merge(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _ElButtonDataTween extends Tween<ElButtonThemeData> {
+  _ElButtonDataTween({super.begin});
+
+  @override
+  ElButtonThemeData lerp(double t) => _lerp(begin!, end!, t);
+
+  static ElButtonThemeData _lerp(
+      ElButtonThemeData a, ElButtonThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElButtonThemeData(
+      child: t < 0.5 ? a.child : b.child,
+      width: lerpDouble(a.width, b.width, t) ?? a.width,
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      type: t < 0.5 ? a.type : b.type,
+      text: t < 0.5 ? a.text : b.text,
+      bg: t < 0.5 ? a.bg : b.bg,
+      link: t < 0.5 ? a.link : b.link,
+      plain: t < 0.5 ? a.plain : b.plain,
+      round: t < 0.5 ? a.round : b.round,
+      block: t < 0.5 ? a.block : b.block,
+      borderWidth: lerpDouble(a.borderWidth, b.borderWidth, t) ?? a.borderWidth,
+      borderActiveWidth:
+          lerpDouble(a.borderActiveWidth, b.borderActiveWidth, t) ??
+              a.borderActiveWidth,
+      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
+          a.borderRadius,
+      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
+      iconSize: lerpDouble(a.iconSize, b.iconSize, t) ?? a.iconSize,
+      leftIcon: t < 0.5 ? a.leftIcon : b.leftIcon,
+      rightIcon: t < 0.5 ? a.rightIcon : b.rightIcon,
+      circle: t < 0.5 ? a.circle : b.circle,
+      loadingWidget: t < 0.5 ? a.loadingWidget : b.loadingWidget,
+      loadingBuilder: t < 0.5 ? a.loadingBuilder : b.loadingBuilder,
+    );
+  }
+}

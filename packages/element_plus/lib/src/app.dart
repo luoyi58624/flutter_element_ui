@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'global.dart';
+import 'themes/components/basic/text.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 
@@ -104,10 +105,12 @@ class ElApp extends StatefulWidget {
           animationDuration: $data.config.themeDuration,
           color: context.elTheme.bgColor,
           textStyle: context.elTheme.textTheme.style,
-          child: ElAnimatedDefaultTextStyle(
+          child: ElAnimatedTextTheme(
             duration: context.elDuration(),
             curve: context.elCurve(),
-            style: context.elTheme.textTheme.style,
+            data: ElTextThemeData(
+              style: context.elTheme.textTheme.style,
+            ),
             child: ScrollConfiguration(
               behavior: $data.scrollBehavior,
               child: result,

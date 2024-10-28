@@ -1,4 +1,4 @@
-import 'package:element_extension/element_extension.dart';
+import 'package:element_annotation/element_annotation.dart';
 
 part '../generates/models/animal.g.dart';
 

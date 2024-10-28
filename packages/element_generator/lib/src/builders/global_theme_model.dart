@@ -28,15 +28,13 @@ class ElGlobalThemeModelGenerator
     final globalAnimateThemeWidgetClassName =
         globalThemeClassName.replaceAll('ThemeData', 'AnimatedTheme');
     final globalAnimateTweenClassName =
-        globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween');
+        '_${globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween')}';
 
     final classFields = MirrorUtils.filterFields(classInfo);
 
     String fieldContent = "";
     String lightConstructionArgument = "";
-    String lightConstructionContent = "";
     String darkConstructionArgument = "";
-    String darkConstructionContent = "";
     String copyWithArgument = '';
     String copyWithContent = '';
     String mergeContent = '';
@@ -54,7 +52,7 @@ class ElGlobalThemeModelGenerator
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
       final themeVarName = '${rawName.firstLowerCase}Theme';
-      String $fieldContent = "late final ${model.name} $themeVarName;";
+      String $fieldContent = "final ${model.name} $themeVarName;";
       if (model.desc != '') {
         $fieldContent = """
         /// ${model.desc} 
@@ -62,41 +60,36 @@ class ElGlobalThemeModelGenerator
         """;
       }
       fieldContent += $fieldContent;
-      lightConstructionArgument += '${model.name}? $themeVarName,\n';
-      lightConstructionContent +=
-          "this.$themeVarName = ${model.name}.theme.merge($themeVarName);\n";
-      darkConstructionArgument += '${model.name}? $themeVarName,\n';
-      darkConstructionContent +=
-          "this.$themeVarName = ${model.name}.darkTheme.merge($themeVarName);\n";
+      lightConstructionArgument +=
+          'this.$themeVarName = ${model.name}.theme,\n';
+      darkConstructionArgument +=
+          'this.$themeVarName = ${model.name}.darkTheme,\n';
       copyWithArgument += '${model.name}? $themeVarName,\n';
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
       mergeContent += '$themeVarName: other.$themeVarName,\n';
-      lerpContent += "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
+      lerpContent +=
+          "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
     }
     return """
 class $globalThemeClassName extends $className {
   /// 亮色默认主题
-  static final $globalThemeClassName theme = $globalThemeClassName();
+  static const $globalThemeClassName theme = $globalThemeClassName();
   
   /// 暗色默认主题
-  static final $globalThemeClassName darkTheme = $globalThemeClassName.dark();
+  static const $globalThemeClassName darkTheme = $globalThemeClassName.dark();
   
   $fieldContent
   
-  /// 亮色主题构造器
-  $globalThemeClassName({
+  /// 亮色主题构造器，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
+  const $globalThemeClassName({
     $lightConstructionArgument
-  }) {
-    $lightConstructionContent
-  }
+  });
   
-  /// 暗色主题构造器，它是私有的，若要自定义主题请操作 [darkTheme] 实例
-  $globalThemeClassName.dark({
+  /// 暗色主题构造器，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
+  const $globalThemeClassName.dark({
     $darkConstructionArgument
-  }) : super.dark() {
-    $darkConstructionContent
-  }
+  }) : super.dark();
   
   /// 接收一组可选参数，返回新的对象
   $globalThemeClassName copyWith({
@@ -126,25 +119,26 @@ class $globalThemeWidgetClassName extends InheritedWidget {
   /// 通过上下文访问默认的主题数据，可能为 null
   static $globalThemeClassName? maybeOf(BuildContext context) =>
      context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>()?.data;
-  
-  static $globalThemeClassName of(BuildContext context) {
-    final $globalThemeWidgetClassName? result = context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>();
-    assert(result != null, 'No $globalThemeWidgetClassName found in context');
-    return result!.data;
-  }
 
   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
-    $globalThemeClassName? data,
+    required $globalThemeClassName data,
     required Widget child,
   }) {
     return Builder(builder: (context) {
-      final parent = $globalThemeWidgetClassName.of(context);
-      return $globalThemeWidgetClassName(
-        data: parent.merge(data),
-        child: child,
-      );
+      final parent = $globalThemeWidgetClassName.maybeOf(context);
+      if (parent != null) {
+        return $globalThemeWidgetClassName(
+          data: parent.merge(data),
+          child: child,
+        );
+      } else {
+        return $globalThemeWidgetClassName(
+          data: data,
+          child: child,
+        );
+      }
     });
   }
 
@@ -191,7 +185,7 @@ class _${globalThemeClassName}State extends AnimatedWidgetBaseState<$globalAnima
 }
 
 class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
-  $globalAnimateTweenClassName({super.begin, super.end});
+  $globalAnimateTweenClassName({super.begin});
 
   @override
   $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
@@ -209,5 +203,3 @@ class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
 """;
   }
 }
-
-

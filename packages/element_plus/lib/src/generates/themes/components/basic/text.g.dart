@@ -127,3 +127,76 @@ extension ElTextThemeDataLerpExtension on ElTextThemeData {
     );
   }
 }
+
+class ElAnimatedTextTheme extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const ElAnimatedTextTheme({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final ElTextThemeData data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<ElAnimatedTextTheme> createState() =>
+      _ElTextThemeDataState();
+}
+
+class _ElTextThemeDataState
+    extends AnimatedWidgetBaseState<ElAnimatedTextTheme> {
+  _ElTextDataTween? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(
+            _data,
+            widget.data,
+            (dynamic value) =>
+                _ElTextDataTween(begin: value as ElTextThemeData))!
+        as _ElTextDataTween;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElTextTheme.merge(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _ElTextDataTween extends Tween<ElTextThemeData> {
+  _ElTextDataTween({super.begin});
+
+  @override
+  ElTextThemeData lerp(double t) => _lerp(begin!, end!, t);
+
+  static ElTextThemeData _lerp(ElTextThemeData a, ElTextThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElTextThemeData(
+      data: t < 0.5 ? a.data : b.data,
+      duration: t < 0.5 ? a.duration : b.duration,
+      style: TextStyle.lerp(a.style, b.style, t) ?? a.style,
+      strutStyle: t < 0.5 ? a.strutStyle : b.strutStyle,
+      textAlign: t < 0.5 ? a.textAlign : b.textAlign,
+      textDirection: t < 0.5 ? a.textDirection : b.textDirection,
+      locale: t < 0.5 ? a.locale : b.locale,
+      softWrap: t < 0.5 ? a.softWrap : b.softWrap,
+      overflow: t < 0.5 ? a.overflow : b.overflow,
+      textScaler: t < 0.5 ? a.textScaler : b.textScaler,
+      maxLines: t < 0.5 ? a.maxLines : b.maxLines,
+      textWidthBasis: t < 0.5 ? a.textWidthBasis : b.textWidthBasis,
+      textHeightBehavior: t < 0.5 ? a.textHeightBehavior : b.textHeightBehavior,
+      selectionColor:
+          Color.lerp(a.selectionColor, b.selectionColor, t) ?? a.selectionColor,
+    );
+  }
+}

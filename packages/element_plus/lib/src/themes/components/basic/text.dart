@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/basic/text.g.dart';
 
 @ElModel.copy()
-@ElThemeModel(desc: '文本默认样式')
+@ElThemeModel(desc: '文本默认样式', generateAnimatedThemeWidget: true)
 class ElTextThemeData {
   static const theme = ElTextThemeData(
     style: TextStyle(
