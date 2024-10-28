@@ -1,7 +1,8 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 
 class ElBrightness extends InheritedWidget {
-  /// 平台亮度小部件，默认情况下，Element UI 会从 [Theme] 小部件中访问当前主题模式
+  /// Element UI 主题模式小部件
   const ElBrightness({
     super.key,
     this.brightness,
@@ -15,6 +16,7 @@ class ElBrightness extends InheritedWidget {
   /// 从当前上下文获取主题模式
   static Brightness of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ElBrightness>()?.brightness ??
+      ElApp.of(context).brightness ??
       Theme.of(context).brightness;
 
   @override

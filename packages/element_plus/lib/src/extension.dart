@@ -2,7 +2,6 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app.dart';
-import 'themes/components/basic/text.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 

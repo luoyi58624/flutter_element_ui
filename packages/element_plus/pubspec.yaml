@@ -16,6 +16,7 @@ dependencies:
     path: ../element_extension
   element_annotation:
     path: ../element_annotation
+  flutter_obs: ^1.6.3
   collection: ^1.18.0
   cached_network_image: ^3.3.1
   defer_pointer: ^0.0.2

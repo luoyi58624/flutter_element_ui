@@ -4,7 +4,6 @@ export 'src/common.dart';
 
 export 'package:gap/gap.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
-export 'package:flutter_obs/flutter_obs.dart';
 export 'package:super_sliver_list/super_sliver_list.dart';
 
 export 'src/extensions/color.dart';

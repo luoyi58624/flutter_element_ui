@@ -8,88 +8,40 @@ import 'themes/components/basic/text.dart';
 import 'themes/config.dart';
 import 'themes/theme.dart';
 
-/// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
-class ElAppData {
-  /// 当前的主题模式
-  final Brightness brightness;
-
-  /// 亮色主题配置
-  final ElThemeData theme;
-
-  /// 暗色主题配置
-  final ElThemeData darkTheme;
-
-  /// 全局配置
-  final ElConfigThemeData config;
-
-  /// 默认的滚动行为
-  final ScrollBehavior scrollBehavior;
-
-  /// 当 [brightness] 发生变化时，[ElApp] 会构建两次 build 方法：
-  /// * 第一次构建前先设置全局动画时间: [config.themeDuration]，保证整体页面过渡一致性
-  /// * 然后将此变量还原为 null，触发第二次构建，让小部件将使用自己的动画时间
-  final Duration? themeDuration;
-
-  /// 全局主题动画曲线
-  final Curve? themeCurve;
-
-  ElAppData({
-    required this.brightness,
-    required this.theme,
-    required this.darkTheme,
-    required this.config,
-    required this.scrollBehavior,
-    this.themeDuration,
-    this.themeCurve,
-  });
-}
-
 class ElApp extends StatefulWidget {
-  /// Element UI 全局配置小部件，使用方式：
-  /// ```dart
-  /// ElApp(
-  ///   child: MaterialApp(
-  ///     builder: ElApp.builder(),
-  ///   ),
-  /// );
-  /// ```
+  /// Element UI 全局配置小部件
   const ElApp({
     super.key,
     required this.child,
     this.brightness,
     this.theme,
     this.darkTheme,
-    this.config = ElConfigThemeData.data,
-    this.scrollBehavior = const ElScrollBehavior(),
+    this.config,
   });
 
-  /// 子组件
   final Widget child;
 
-  /// 应用的主题模式，为 null 则表示跟随系统
+  /// 当前主题模式，默认通过 [Theme] 访问
   final Brightness? brightness;
 
-  /// 亮色主题
+  /// 自定义亮色主题
   final ElThemeData? theme;
 
-  /// 暗色主题
+  /// 自定义暗色主题
   final ElThemeData? darkTheme;
 
   /// 全局配置
-  final ElConfigThemeData config;
-
-  /// 自定义全局滚动行为，默认实现是 [ElScrollBehavior]，原生默认行为是 [ScrollBehavior]
-  final ScrollBehavior scrollBehavior;
+  final ElConfigThemeData? config;
 
   /// 通过上下文 context 访问注入的全局主题配置
-  static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
+  static AppData of(BuildContext context) =>
+      _AppInheritedWidget.maybeOf(context) ?? const AppData();
 
   /// 构建 Element UI 默认文本主题、[Overlay] 浮层、滚动配置...
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
-        assert(child != null, 'ElApp builder child 参数不能为空');
-        final $data = _AppInheritedWidget.of(context);
+        final $data = ElApp.of(context);
 
         // 创建默认遮罩小部件，否则使用依赖浮层元素 api 时会报错，例如：message、toast、loading
         Widget result = Overlay(initialEntries: [
@@ -112,7 +64,7 @@ class ElApp extends StatefulWidget {
               style: context.elTheme.textTheme.style,
             ),
             child: ScrollConfiguration(
-              behavior: $data.scrollBehavior,
+              behavior: const ElScrollBehavior(),
               child: result,
             ),
           ),
@@ -128,6 +80,8 @@ class _ElAppState extends State<ElApp> {
   Curve? _themeCurve;
   Timer? _timer;
 
+  ElConfigThemeData get config => widget.config ?? ElConfigThemeData.data;
+
   @override
   void didUpdateWidget(covariant ElApp oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -142,8 +96,8 @@ class _ElAppState extends State<ElApp> {
       _timer!.cancel();
       _timer = null;
     }
-    _themeDuration = widget.config.themeDuration;
-    _themeCurve = widget.config.themeCurve;
+    _themeDuration = config.themeDuration;
+    _themeCurve = config.themeCurve;
     _timer = setTimeout(() {
       if (mounted) {
         setState(() {
@@ -152,33 +106,20 @@ class _ElAppState extends State<ElApp> {
           _timer = null;
         });
       }
-    }, max(500, widget.config.themeDuration.inMilliseconds));
+    }, max(500, config.themeDuration.inMilliseconds));
   }
-
-  bool get isDark => widget.brightness == Brightness.dark;
 
   @override
   Widget build(BuildContext context) {
-    Brightness $brightness =
-        widget.brightness ?? MediaQuery.platformBrightnessOf(context);
-
-    return ElAnimatedTheme(
-      duration: 1000.ms,
-      data: $brightness == Brightness.dark
-          ? widget.darkTheme ?? ElThemeData.darkTheme
-          : widget.theme ?? ElThemeData.theme,
-      child: _AppInheritedWidget(
-        ElAppData(
-          brightness: $brightness,
-          theme: widget.theme ?? ElThemeData.theme,
-          darkTheme: widget.darkTheme ?? ElThemeData.darkTheme,
-          config: widget.config,
-          scrollBehavior: widget.scrollBehavior,
-          themeDuration: _themeDuration,
-          themeCurve: _themeCurve,
-        ),
-        child: widget.child,
+    return _AppInheritedWidget(
+      AppData(
+        theme: widget.theme ?? ElThemeData.theme,
+        darkTheme: widget.darkTheme ?? ElThemeData.darkTheme,
+        config: config,
+        themeDuration: _themeDuration,
+        themeCurve: _themeCurve,
       ),
+      child: widget.child,
     );
   }
 }
@@ -189,20 +130,44 @@ class _AppInheritedWidget extends InheritedWidget {
     required super.child,
   });
 
-  final ElAppData data;
+  final AppData data;
 
-  static ElAppData of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>();
-    assert(
-        result != null,
-        '当前上下文 context 没有找到 Element UI 全局主题配置，'
-        '如果你已配置了 ElApp，请尝试使用 Builder 小部件转发 context。');
-    return result!.data;
-  }
+  static AppData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>()?.data;
 
   @override
   bool updateShouldNotify(_AppInheritedWidget oldWidget) {
     return true;
   }
+}
+
+/// ElApp 注入的全局数据，你可以通过 [ElApp.of] 方法访问它们
+class AppData {
+  final Brightness? brightness;
+
+  /// 亮色主题配置
+  final ElThemeData theme;
+
+  /// 暗色主题配置
+  final ElThemeData darkTheme;
+
+  /// 全局配置
+  final ElConfigThemeData config;
+
+  /// 当 [brightness] 发生变化时，[ElApp] 会构建两次 build 方法：
+  /// * 第一次构建前先设置全局动画时间: [config.themeDuration]，保证整体页面过渡一致性
+  /// * 然后将此变量还原为 null，触发第二次构建，让小部件将使用自己的动画时间
+  final Duration? themeDuration;
+
+  /// 全局主题动画曲线
+  final Curve? themeCurve;
+
+  const AppData({
+    this.brightness,
+    this.theme = ElThemeData.theme,
+    this.darkTheme = ElThemeData.darkTheme,
+    this.config = ElConfigThemeData.data,
+    this.themeDuration,
+    this.themeCurve,
+  });
 }

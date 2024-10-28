@@ -284,7 +284,7 @@ packages:
     source: hosted
     version: "4.0.0"
   flutter_obs:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_obs
       sha256: "19767df906d8d37d6097317c45b35b61289a831d5e90f3c746ceb0f659e81307"
@@ -465,10 +465,10 @@ packages:
     dependency: transitive
     description:
       name: path_parsing
-      sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
+      sha256: "45f7d6bba1128761de5540f39d5ca000ea8a1f22f06b76b61094a60a2997bd0e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   path_provider:
     dependency: transitive
     description:

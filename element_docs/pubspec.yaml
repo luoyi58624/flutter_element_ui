@@ -21,6 +21,7 @@ dependencies:
   flutter_base:
     git:
       url: https://gitee.com/luoyi666/flutter_base.git
+  flutter_obs: ^1.6.3
   flutter_svg: ^2.0.10+1
   cupertino_icons: ^1.0.8
   syntax_highlight: ^0.4.0

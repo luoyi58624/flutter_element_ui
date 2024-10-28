@@ -3,6 +3,7 @@ export 'dart:ui';
 export 'package:element_dart/element_dart.dart';
 export 'package:element_extension/element_extension.dart';
 export 'package:element_annotation/element_annotation.dart';
+export 'package:flutter_obs/flutter_obs.dart';
 
 export 'service.dart';
 export 'types.dart';

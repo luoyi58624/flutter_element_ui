@@ -5,7 +5,6 @@ import '../global.dart';
 part '../generates/themes/config.g.dart';
 
 @ElModel.copy()
-@ElThemeModel(ignoreGlobalTheme: true)
 class ElConfigThemeData {
   /// Element UI 默认全局配置
   static const ElConfigThemeData data = ElConfigThemeData();
