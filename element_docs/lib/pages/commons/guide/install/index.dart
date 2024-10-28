@@ -49,13 +49,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ElApp 只负责注入全局配置信息，所以你依然需要使用 MaterialApp 或其他顶级 App 构建应用
     return ElApp(
       child: MaterialApp(
-        // 必须绑定路由导航 key，因为很多 api 依赖 el.context
         navigatorKey: el.navigatorKey,
         home: const HomePage(),
-        // 构建 Element 默认文本主题、滚动配置等内容
         builder: ElApp.builder(),
       ),
     );
@@ -92,7 +89,6 @@ void main() {
 }
 
 final router = GoRouter(
-  // 绑定路由导航 key
   navigatorKey: el.navigatorKey,
   routes: [
     GoRoute(

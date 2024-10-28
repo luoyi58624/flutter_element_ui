@@ -65,7 +65,7 @@ export 'src/components/others/split/split.dart';
 export 'src/models/menu.dart';
 export 'src/models/tab.dart';
 
-export 'src/themes/theme.dart';
+export 'src/themes/theme.dart' hide ElTheme, ElAnimatedTheme;
 export 'src/themes/config.dart';
 
 export 'src/themes/components/basic/button.dart';

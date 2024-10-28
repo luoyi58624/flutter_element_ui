@@ -40,6 +40,7 @@ class FlutterColorData {
   static List<Color> get expandMaterialSwatchColors {
     return [
       ...materialColorSwatchs.map((e) => Colors.cyan[e]!),
+      ...materialColorSwatchs.map((e) => Colors.cyanAccent[e]!),
       ...materialColorSwatchs.map((e) => Colors.green[e]!),
       ...materialColorSwatchs.map((e) => Colors.amber[e]!),
       ...materialColorSwatchs.map((e) => Colors.indigo[e]!),
@@ -130,38 +131,54 @@ class Example1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              height: 80,
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 16),
-              decoration: BoxDecoration(
-                color: context.elTheme.primary,
-              ),
-              child: SelectionArea(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ElText(
-                      'Primary Color',
-                      style: TextStyle(
-                          color: GlobalState.primaryColor.value
-                              .elTextColor(context)),
-                    ),
-                    const Gap(4),
-                    ElText(
-                      context.elTheme.primary.toHex().toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 0.875.rem(context),
-                        color:
-                            GlobalState.primaryColor.value.elTextColor(context),
-                      ),
-                    ),
-                  ],
+            ElHoverBuilder(builder: (context) {
+              return AnimatedContainer(
+                duration: context.elDuration(200.ms),
+                curve: Curves.easeInOut,
+                width: double.infinity,
+                height: 80,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(left: 16),
+                decoration: BoxDecoration(
+                  color: context.isHover
+                      ? context.elTheme.primary.withOpacity(0.8)
+                      : context.elTheme.primary,
                 ),
-              ),
-            ),
+                child: ElTextTheme(
+                  data: ElTextThemeData(
+                    style: TextStyle(
+                      fontSize: 0.875.rem(context),
+                      color:
+                          GlobalState.primaryColor.value.elTextColor(context),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElText(
+                        'Primary Color',
+                        style: TextStyle(
+                          fontSize: 1.rem(context),
+                        ),
+                      ),
+                      const Gap(4),
+                      Row(
+                        children: [
+                          ElText(
+                            context.elTheme.primary.toHex().toUpperCase(),
+                          ),
+                          const Gap(20),
+                          ElText(
+                            context.elTheme.primary.hsp,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
             Row(
               children: context.elTheme.primary
                   .elLights(context)
@@ -177,7 +194,7 @@ class Example1 extends StatelessWidget {
                               cursor: SystemMouseCursors.click,
                               builder: (context) {
                                 return AnimatedContainer(
-                                  duration: 150.ms,
+                                  duration: context.elDuration(150.ms),
                                   curve: Curves.easeOut,
                                   decoration: BoxDecoration(
                                     color: e,

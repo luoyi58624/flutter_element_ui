@@ -1,5 +1,5 @@
 import 'package:element_plus/element_plus.dart';
-
+import 'package:flutter/material.dart';
 import '../global.dart';
 
 part '../generates/themes/theme.g.dart';
@@ -53,7 +53,7 @@ class _ElThemeData {
   });
 
   const _ElThemeData.dark({
-    this.primary = const Color(0xff0ea5e9),
+    this.primary = Colors.white,
     this.success = const Color(0xff67C23A),
     this.info = const Color(0xff909399),
     this.warning = const Color(0xffE6A23C),

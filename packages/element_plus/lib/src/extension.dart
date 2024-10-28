@@ -1,4 +1,5 @@
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app.dart';
@@ -7,30 +8,31 @@ import 'themes/theme.dart';
 
 extension ElThemeExtension on BuildContext {
   /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme => isDark ? darkTheme : lightTheme;
+  ElThemeData get elTheme =>
+      isDark ? ElApp.of(this).darkTheme : ElApp.of(this).theme;
+
+  /// Element UI 自适应动画主题，引用的值具有动画特性，它不适用于隐式动画小部件，同时使用会引起页面颜色更新不一致
+  ElThemeData get elAnimatedTheme => ElTheme.of(this);
 
   /// Element UI 全局配置
   ElConfigThemeData get elConfig => ElApp.of(this).config;
 
-  /// Element UI 动画时间扩展方法，使用此扩展方法时可以避免切换全局主题时动画不一致问题，
-  /// 当切换主题时，[ElApp] 会 build 两次，第一次 build 是设置全局 themeDuration，第二次 build 是还原全局 themeDuration，
-  /// 使用方式只需要用此方法包装 [Duration] 对象即可：
+  /// Element UI 全局主题动画时间扩展方法，此方法用于弥补 [elAnimatedTheme] 的缺陷，使用方式：
   /// ```dart
   /// AnimatedContainer(
   ///   duration: context.elDuration(300.ms),
   /// ),
   /// ```
-  ///
-  /// 提示：Flutter 官方是通过 [AnimateTheme] 小部件进行全局主题切换，这种方式有以下缺点：
-  /// 1. 如果你使用 [AnimatedContainer] 之类的动画小部件，页面元素颜色过渡将会不一致
-  /// 2. 主题代码复杂度更高，需要为每个全局主题都实现 lerp 函数
-  /// 3. 性能并不会更好，当修改全局主题时，触发的动画意味着你的应用将 build 几十次
   Duration elDuration([Duration? duration]) =>
-      ElApp.of(this).themeDuration ?? duration ?? Duration.zero;
+      ThemeAnimationInheritedWidget.of(this).themeDuration ??
+      duration ??
+      Duration.zero;
 
   /// Element UI 动画曲线扩展方法
   Curve elCurve([Curve? curve]) =>
-      ElApp.of(this).themeCurve ?? curve ?? Curves.linear;
+      ThemeAnimationInheritedWidget.of(this).themeCurve ??
+      curve ??
+      Curves.linear;
 }
 
 extension ElColorThemeExtension on Color {
@@ -64,7 +66,7 @@ extension ElColorThemeExtension on Color {
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
   Color elTextColor(BuildContext context) => isDark
       ? context.darkTheme.textTheme.style.color!
-      : ElApp.of(context).theme.textTheme.style.color!;
+      : context.lightTheme.textTheme.style.color!;
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
   List<Color> elLights(BuildContext context) {

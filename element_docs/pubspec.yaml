@@ -40,6 +40,8 @@ dependency_overrides:
   web: ^1.0.0
   element_plus:
     path: ../packages/element_plus
+  element_dart:
+    path: ../packages/element_dart
   element_extension:
     path: ../packages/element_extension
 

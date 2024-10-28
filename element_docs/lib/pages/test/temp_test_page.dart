@@ -8,16 +8,24 @@ class TempTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // i(context.elAnimatedTheme.textTheme.style.color);
+    i(ElTextTheme.of(context).style.color);
     final flag = useState(false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('临时测试页面'),
         actions: [
-          ElSwitch(flag),
+          ObsBuilder(builder: (context) {
+            return ElSwitch(
+              GlobalState.isDark,
+              onChanged: (v) => GlobalState.isDark = v,
+            );
+          }),
           const Gap(8),
         ],
       ),
-      body: const Demo3(),
+      body: ElText('xx'),
+      // body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,
       // ),

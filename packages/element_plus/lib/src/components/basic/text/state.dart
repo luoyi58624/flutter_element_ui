@@ -32,6 +32,7 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
         context.elDuration(widget.duration ?? context.elConfig.themeDuration);
     if (widget.style != oldWidget.style) {
       isDidUpdate = true;
+      // i(ElTextTheme.maybeOf(context));
       _data = ElTextTheme.of(context);
       final textStyle =
           _data.style.merge(widget.buildDefaultTextStyle(context));

@@ -23,12 +23,12 @@ class ElGlobalThemeModelGenerator
       throw '生成 GlobalTheme 的类名必须以 ThemeData 结尾';
     }
     final globalThemeClassName = className.substring(1);
-    // final globalThemeWidgetClassName =
-    //     globalThemeClassName.replaceAll('ThemeData', 'Theme');
-    // final globalAnimateThemeWidgetClassName =
-    //     globalThemeClassName.replaceAll('ThemeData', 'AnimatedTheme');
-    // final globalAnimateTweenClassName =
-    //     '_${globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween')}';
+    final globalThemeWidgetClassName =
+        globalThemeClassName.replaceAll('ThemeData', 'Theme');
+    final globalAnimateThemeWidgetClassName =
+        globalThemeClassName.replaceAll('ThemeData', 'AnimatedTheme');
+    final globalAnimateTweenClassName =
+        '_${globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween')}';
 
     final classFields = MirrorUtils.filterFields(classInfo);
 
@@ -38,7 +38,7 @@ class ElGlobalThemeModelGenerator
     String copyWithArgument = '';
     String copyWithContent = '';
     String mergeContent = '';
-    // String lerpContent = '';
+    String lerpContent = '';
 
     for (final fieldInfo in classFields) {
       final fieldName = fieldInfo.name;
@@ -47,7 +47,7 @@ class ElGlobalThemeModelGenerator
       copyWithArgument += '${fieldInfo.type.toString()}? $fieldName,\n';
       copyWithContent += '$fieldName: $fieldName ?? super.$fieldName,\n';
       mergeContent += '$fieldName: other.$fieldName,\n';
-      // lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
+      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
     }
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
@@ -68,8 +68,8 @@ class ElGlobalThemeModelGenerator
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
       mergeContent += '$themeVarName: other.$themeVarName,\n';
-      // lerpContent +=
-      //     "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
+      lerpContent +=
+          "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
     }
     return """
 class $globalThemeClassName extends $className {
@@ -108,98 +108,77 @@ class $globalThemeClassName extends $className {
     );
   }
 }
+
+class $globalThemeWidgetClassName extends InheritedWidget {
+  /// 为后代提供默认数据小部件
+  const $globalThemeWidgetClassName({super.key, required super.child, required this.data});
+
+  /// 主题数据
+  final $globalThemeClassName data;
+
+  /// 通过上下文访问默认的主题数据
+  static $globalThemeClassName of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>()!.data;
+
+  @override
+  bool updateShouldNotify($globalThemeWidgetClassName oldWidget) => true;
+}
+
+class $globalAnimateThemeWidgetClassName extends ImplicitlyAnimatedWidget {
+  /// 提供动画默认数据小部件
+  const $globalAnimateThemeWidgetClassName({
+    super.key,
+    required this.data,
+    super.curve,
+    super.duration = kThemeAnimationDuration,
+    super.onEnd,
+    required this.child,
+  });
+
+  final $globalThemeClassName data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> createState() =>
+      _${globalThemeClassName}State();
+}
+
+class _${globalThemeClassName}State extends AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> {
+$globalAnimateTweenClassName? _data;
+
+@override
+void forEachTween(TweenVisitor<dynamic> visitor) {
+  _data = visitor(_data, widget.data,
+          (dynamic value) => $globalAnimateTweenClassName(begin: value as $globalThemeClassName))!
+  as $globalAnimateTweenClassName;
+}
+
+@override
+Widget build(BuildContext context) {
+  return $globalThemeWidgetClassName(
+    data: _data!.evaluate(animation),
+    child: widget.child,
+  );
+}
+}
+
+class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
+  $globalAnimateTweenClassName({super.begin});
+
+  @override
+  $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
+
+  static $globalThemeClassName _lerp($globalThemeClassName a, $globalThemeClassName b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $globalThemeClassName(
+        $lerpContent
+    );
+  }
+}
 """;
   }
 }
 
-// class $globalThemeWidgetClassName extends InheritedWidget {
-//   /// 为后代提供默认数据小部件
-//   const $globalThemeWidgetClassName({super.key, required super.child, required this.data});
-//
-//   /// 主题数据
-//   final $globalThemeClassName data;
-//
-//   /// 通过上下文访问默认的主题数据，可能为 null
-//   static $globalThemeClassName? maybeOf(BuildContext context) =>
-//       context.dependOnInheritedWidgetOfExactType<$globalThemeWidgetClassName>()?.data;
-//
-//   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-//   static Widget merge({
-//     Key? key,
-//     required $globalThemeClassName data,
-//     required Widget child,
-//   }) {
-//     return Builder(builder: (context) {
-//       final parent = $globalThemeWidgetClassName.maybeOf(context);
-//       if (parent != null) {
-//         return $globalThemeWidgetClassName(
-//           data: parent.merge(data),
-//           child: child,
-//         );
-//       } else {
-//         return $globalThemeWidgetClassName(
-//           data: data,
-//           child: child,
-//         );
-//       }
-//     });
-//   }
-//
-//   @override
-//   bool updateShouldNotify($globalThemeWidgetClassName oldWidget) => true;
-// }
-//
-// class $globalAnimateThemeWidgetClassName extends ImplicitlyAnimatedWidget {
-//   /// 提供动画默认数据小部件
-//   const $globalAnimateThemeWidgetClassName({
-//     super.key,
-//     required this.data,
-//     super.curve,
-//     super.duration = kThemeAnimationDuration,
-//     super.onEnd,
-//     required this.child,
-//   });
-//
-//   final $globalThemeClassName data;
-//   final Widget child;
-//
-//   @override
-//   AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> createState() =>
-//       _${globalThemeClassName}State();
-// }
-//
-// class _${globalThemeClassName}State extends AnimatedWidgetBaseState<$globalAnimateThemeWidgetClassName> {
-// $globalAnimateTweenClassName? _data;
-//
-// @override
-// void forEachTween(TweenVisitor<dynamic> visitor) {
-//   _data = visitor(_data, widget.data,
-//           (dynamic value) => $globalAnimateTweenClassName(begin: value as $globalThemeClassName))!
-//   as $globalAnimateTweenClassName;
-// }
-//
-// @override
-// Widget build(BuildContext context) {
-//   return $globalThemeWidgetClassName(
-//     data: _data!.evaluate(animation),
-//     child: widget.child,
-//   );
-// }
-// }
-//
-// class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
-//   $globalAnimateTweenClassName({super.begin});
-//
-//   @override
-//   $globalThemeClassName lerp(double t) => _lerp(begin!, end!, t);
-//
-//   static $globalThemeClassName _lerp($globalThemeClassName a, $globalThemeClassName b, double t) {
-//     if (identical(a, b)) {
-//       return a;
-//     }
-//
-//     return $globalThemeClassName(
-//         $lerpContent
-//     );
-//   }
-// }

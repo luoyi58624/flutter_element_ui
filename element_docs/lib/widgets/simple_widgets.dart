@@ -89,7 +89,8 @@ class SectionCard extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          child: Container(
+          child: AnimatedContainer(
+            duration: context.elDuration(),
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
               vertical: 16,

@@ -16,7 +16,7 @@ extension ElColorExtension on Color {
   // 通常我们以 128 作为分界点，但这个值对于 Element 主题系统来讲实在太低了，
   // 例如：默认的 primary 颜色的 hsp 高达 141，而 warning 颜色更是高达 171,
   // 如果将此值设置为默认的 128，那么很多与主题相关的文字颜色将都变成黑色。
-  bool get isDark => hsp <= 178;
+  bool get isDark => hsp <= 171;
 
   /// 返回一个颜色的hsp (颜色的感知亮度)
   ///

@@ -26,13 +26,12 @@ class CodeExample extends HookWidget {
     final isExpanded = useState(expanded);
 
     return ElHoverBuilder(builder: (context) {
-      return AnimatedContainer(
-        duration: context.elDuration(),
+      return Container(
         decoration: BoxDecoration(
-          color: context.elTheme.bgColor,
+          color: context.elAnimatedTheme.bgColor,
           borderRadius: context.elTheme.cardTheme.radius,
           border: Border.all(
-            color: context.elTheme.borderColor,
+            color: context.elAnimatedTheme.borderColor,
             width: 1,
           ),
         ),

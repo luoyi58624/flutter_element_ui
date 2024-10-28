@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/widgets.dart';
 
 import '../widgets/scroll_behavior.dart';
@@ -51,4 +53,8 @@ extension FlutterBorderExtension on Border {
     list.sort();
     return list.last;
   }
+}
+
+extension FlutterBrightnessExtension on Brightness {
+  bool get isDark => this == Brightness.dark;
 }

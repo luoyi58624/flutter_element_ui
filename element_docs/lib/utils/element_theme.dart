@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 ElThemeData buildElementTheme({
   Brightness brightness = Brightness.light,
 }) {
-  ElThemeData data = brightness == Brightness.light
-      ? ElThemeData.theme
-      : ElThemeData.darkTheme;
+  ElThemeData data =
+      brightness.isDark ? ElThemeData.darkTheme : ElThemeData.theme;
 
-  return data.copyWith(
+  final $data = data.copyWith(
     primary: GlobalState.primaryColor.value,
     textTheme: ElTextThemeData(
       style: ElFont.defaultTextStyle.copyWith(
@@ -21,32 +20,5 @@ ElThemeData buildElementTheme({
     ),
   );
 
-  // if (brightness == Brightness.light) {
-  //   return ElThemeData(
-  //     primary: GlobalState.primaryColor.value,
-  //     textTheme: ElTextThemeData(
-  //       style: ElFont.defaultTextStyle.copyWith(
-  //         fontFamily: FontUtil.fontFamily,
-  //         fontSize: GlobalState.globalFontSize,
-  //       ),
-  //     ),
-  //     codePreviewTheme: const ElCodePreviewThemeData(
-  //       fontFamily: MyFonts.consolas,
-  //     ),
-  //   );
-  // } else {
-  //   return ElThemeData.dark(
-  //     primary: Colors.red,
-  //     success: Colors.purple,
-  //     textTheme: ElTextThemeData(
-  //       style: ElFont.defaultTextStyle.copyWith(
-  //         fontFamily: FontUtil.fontFamily,
-  //         fontSize: GlobalState.globalFontSize,
-  //       ),
-  //     ),
-  //     codePreviewTheme: const ElCodePreviewThemeData(
-  //       fontFamily: MyFonts.consolas,
-  //     ),
-  //   );
-  // }
+  return $data;
 }
