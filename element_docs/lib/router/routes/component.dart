@@ -4,7 +4,6 @@ import '../../pages/commons/component/basic/button/index.dart';
 import '../../pages/commons/component/basic/button_group/index.dart';
 import '../../pages/commons/component/basic/color/index.dart';
 import '../../pages/commons/component/basic/icon/index.dart';
-import '../../pages/commons/component/basic/scrollbar/index.dart';
 import '../../pages/commons/component/basic/text/index.dart';
 import '../../pages/commons/component/data/collapse/index.dart';
 import '../../pages/commons/component/data/progress/index.dart';
@@ -61,10 +60,6 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}text',
       builder: (context, state) => const TextPage(),
-    ),
-    RouterUtil.buildRoute(
-      path: '${path}scrollbar',
-      builder: (context, state) => const ScrollbarPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}typography',

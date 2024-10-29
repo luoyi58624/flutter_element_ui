@@ -95,11 +95,6 @@ class SlideRouterConfig {
         ('Layout 布局', '/${RootRoute.component.$2}/layout', WorkStatus.pending),
         ('Text 文本', '/${RootRoute.component.$2}/text', WorkStatus.finished),
         (
-          'Scrollbar 滚动条',
-          '/${RootRoute.component.$2}/scrollbar',
-          WorkStatus.finished
-        ),
-        (
           'Typography 排版',
           '/${RootRoute.component.$2}/typography',
           WorkStatus.pending
