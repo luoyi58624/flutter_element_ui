@@ -15,7 +15,7 @@ class GlobalSetting extends StatelessWidget {
             child: Row(
               children: [
                 const Gap(16),
-                const H4('设置'),
+                H4('设置'),
                 const Spacer(),
                 IconButton(
                   onPressed: () {
@@ -31,8 +31,8 @@ class GlobalSetting extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
                 child: H5('调整全局文本尺寸'),
               ),
               ObsBuilder(builder: (context) {

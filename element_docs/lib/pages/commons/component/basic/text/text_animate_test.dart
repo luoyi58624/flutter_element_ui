@@ -46,7 +46,7 @@ class _Text extends HookWidget {
     final flag = useState(false);
     return Column(
       children: [
-        const H4('Text 动画测试'),
+        H4('Text 动画测试'),
         ElSwitch(flag),
         Expanded(
           child: SingleChildScrollView(
@@ -80,7 +80,7 @@ class _ElText extends HookWidget {
     final flag2 = useState(false);
     return Column(
       children: [
-        const H4('ElText 动画测试'),
+        H4('ElText 动画测试'),
         ElSwitch(flag),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

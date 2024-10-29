@@ -106,7 +106,6 @@ class LayoutHeader extends StatelessWidget {
                                 child: Center(
                                   child: H6(
                                     e.$1,
-                                    duration: 0.ms,
                                     style: TextStyle(
                                         fontSize: 14,
                                         color: ElHoverBuilder.of(context)

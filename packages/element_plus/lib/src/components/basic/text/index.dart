@@ -83,9 +83,6 @@ class ElText extends StatefulWidget {
   @override
   State<ElText> createState() => ElTextState();
 
-  /// 自定义默认的文本样式
-  TextStyle? buildDefaultTextStyle(BuildContext context) => null;
-
   /// 构建富文本片段集合
   List<InlineSpan> _buildRichText(BuildContext context, List children) {
     List<InlineSpan> richChildren = [];
@@ -111,16 +108,12 @@ class ElText extends StatefulWidget {
       );
     }
 
-    // 3. 处理自定义的 ElText 小部件，2、3 两个步骤是对第 4 步进行一个扩充，
-    // 目的是以最大限度解决文本垂直对齐问题，单纯地使用 WidgetSpan 渲染如果有些文字太大，
-    // 那么依旧存在文本无法垂直对齐bug
+    // 3. 处理 ElText 小部件
     if (data is ElText) {
       if (ElUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
-          style: data.buildDefaultTextStyle(context) != null
-              ? data.buildDefaultTextStyle(context)!.merge(data.style)
-              : data.style,
+          style: data.style,
           semanticsLabel: data.semanticsLabel,
         );
       } else if (data.data is List) {
@@ -137,9 +130,7 @@ class ElText extends StatefulWidget {
             .any((e) => e is Widget && (e is! Text || e is! ElText));
         if (!hasWidget) {
           return TextSpan(
-            style: data.buildDefaultTextStyle(context) != null
-                ? data.buildDefaultTextStyle(context)!.merge(data.style)
-                : data.style,
+            style: data.style,
             children: _buildRichText(context, data.data),
           );
         }

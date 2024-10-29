@@ -26,7 +26,7 @@ class NotFoundPage extends StatelessWidget {
               ),
             ),
             const Gap(16),
-            const H4('找不到资源'),
+            H4('找不到资源'),
             const Gap(4),
             const ElText(
               '请求的页面不存在。',

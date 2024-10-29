@@ -16,11 +16,18 @@ class HomePage extends StatelessWidget {
             children: [
               const Gap(32),
               GestureDetector(
-                onDoubleTap: (){
+                onDoubleTap: () {
                   el.context.push(const TempTestPage());
                 },
-                child: H1('Element UI',
-                    style: context.sm ? null : const TextStyle(fontSize: 48)),
+                child: H1(
+                  'Element UI',
+                  style: context.sm
+                      ? null
+                      : const TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold,
+                        ),
+                ),
               ),
               const Gap(16),
               const ElText('基于 Flutter，面向设计师和开发者的组件库'),
@@ -120,7 +127,7 @@ class _CardWidget extends StatelessWidget {
               href: href,
               child: Builder(builder: (context) {
                 return GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     ElLink.to(context);
                   },
                   child: AnimatedContainer(
@@ -133,7 +140,8 @@ class _CardWidget extends StatelessWidget {
                               : context.elTheme.cardTheme.color,
                       borderRadius: BorderRadius.only(
                         bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
-                        bottomRight: context.elTheme.cardTheme.radius.bottomRight,
+                        bottomRight:
+                            context.elTheme.cardTheme.radius.bottomRight,
                       ),
                     ),
                     child: Center(
