@@ -11,8 +11,9 @@ class CommonUtil {
     if (!ElUtil.isEmpty(copyMessage)) {
       $copyMessage += ': $copyMessage';
     }
-    el.message.primary(
+    el.message.show(
       $copyMessage,
+      type: El.success,
       icon: const ElIcon(ElIcons.success),
     );
   }

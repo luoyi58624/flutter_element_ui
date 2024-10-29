@@ -246,7 +246,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
         return GestureDetector(
           onTap: () async {
             await Clipboard.setData(ClipboardData(text: widget.code));
-            el.message.success('复制成功');
+            el.message.show('复制成功', type: El.success);
           },
           onTapDown: (e) {
             HapticFeedback.mediumImpact();

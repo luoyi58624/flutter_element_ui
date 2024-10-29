@@ -43,7 +43,7 @@ class MessageServiceInstance {
   ElMessageModel show(
     String content, {
     BuildContext? context,
-    String type = 'info',
+    String type = El.info,
     Widget? icon,
     int? duration,
     bool? showClose,
@@ -88,116 +88,6 @@ class MessageServiceInstance {
     // 插入浮层元素
     Overlay.of(context ?? el.context).insert(overlayEntry);
     return model;
-  }
-
-  /// primary 主题消息
-  ElMessageModel primary(
-    String content, {
-    BuildContext? context,
-    Widget? icon,
-    int? duration,
-    bool? showClose,
-    double? offset,
-    bool? grouping,
-  }) {
-    return show(
-      content,
-      context: context,
-      type: El.primary,
-      icon: icon,
-      duration: duration,
-      showClose: showClose,
-      offset: offset,
-      grouping: grouping,
-    );
-  }
-
-  /// success 主题消息
-  ElMessageModel success(
-    String content, {
-    BuildContext? context,
-    Widget? icon,
-    int? duration,
-    bool? showClose,
-    double? offset,
-    bool? grouping,
-  }) {
-    return show(
-      content,
-      context: context,
-      type: 'success',
-      icon: icon,
-      duration: duration,
-      showClose: showClose,
-      offset: offset,
-      grouping: grouping,
-    );
-  }
-
-  /// info 主题消息
-  ElMessageModel info(
-    String content, {
-    BuildContext? context,
-    Widget? icon,
-    int? duration,
-    bool? showClose,
-    double? offset,
-    bool? grouping,
-  }) {
-    return show(
-      content,
-      context: context,
-      type: 'info',
-      icon: icon,
-      duration: duration,
-      showClose: showClose,
-      offset: offset,
-      grouping: grouping,
-    );
-  }
-
-  /// warning 主题消息
-  ElMessageModel warning(
-    String content, {
-    BuildContext? context,
-    Widget? icon,
-    int? duration,
-    bool? showClose,
-    double? offset,
-    bool? grouping,
-  }) {
-    return show(
-      content,
-      context: context,
-      type: 'warning',
-      icon: icon,
-      duration: duration,
-      showClose: showClose,
-      offset: offset,
-      grouping: grouping,
-    );
-  }
-
-  /// error 主题消息
-  ElMessageModel error(
-    String content, {
-    BuildContext? context,
-    Widget? icon,
-    int? duration,
-    bool? showClose,
-    double? offset,
-    bool? grouping,
-  }) {
-    return show(
-      content,
-      context: context,
-      type: 'error',
-      icon: icon,
-      duration: duration,
-      showClose: showClose,
-      offset: offset,
-      grouping: grouping,
-    );
   }
 }
 

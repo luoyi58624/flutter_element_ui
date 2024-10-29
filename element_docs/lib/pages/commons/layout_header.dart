@@ -35,7 +35,7 @@ class LayoutHeader extends StatelessWidget {
                 tooltip: '刷新路由配置',
                 onPressed: () {
                   RouterState.isMobile.notify();
-                  el.message.success('全局路由已刷新');
+                  el.message.show('全局路由已刷新', type: El.success);
                 },
                 icon: const Icon(Icons.refresh),
               ),
@@ -110,7 +110,8 @@ class LayoutHeader extends StatelessWidget {
                                         fontSize: 14,
                                         color: ElHoverBuilder.of(context)
                                             ? context.elTheme.primary
-                                            : context.elAnimatedTheme.textTheme.textStyle.color),
+                                            : context.elAnimatedTheme.textTheme
+                                                .textStyle.color),
                                   ),
                                 ),
                               ),

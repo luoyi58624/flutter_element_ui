@@ -15,36 +15,41 @@ class Example1 extends StatelessWidget {
           onPressed: () {
             el.message.show('这是一条消息提示');
           },
-          child: '默认消息(局部)',
+          type: El.info,
+          child: '默认',
         ),
+        const Gap(8),
         ElButton(
           onPressed: () {
-            el.message.success('恭喜你，这是一条成功消息');
+            el.message.show('这是一条消息提示', type: El.primary);
           },
-          type: 'success',
+          type: El.primary,
+          child: '主要',
+        ),
+        const Gap(8),
+        ElButton(
+          onPressed: () {
+            el.message.show('恭喜你，这是一条成功消息', type: El.success);
+          },
+          type: El.success,
           child: '成功',
         ),
+        const Gap(8),
         ElButton(
           onPressed: () {
-            el.message.info('这是一条消息提示');
+            el.message.show('警告哦，这是一条警告消息', type: El.warning);
           },
-          type: 'info',
-          child: '消息',
-        ),
-        ElButton(
-          onPressed: () {
-            el.message.warning('警告哦，这是一条警告消息');
-          },
-          type: 'warning',
+          type: El.warning,
           child: '警告',
         ),
+        const Gap(8),
         ElButton(
           onPressed: () {
-            for (int i = 0; i < 100; i++) {
-              el.message.error('错了哦，这是一条错误消息');
+            for (int i = 0; i < 10; i++) {
+              el.message.show('错了哦，这是一条错误消息', type: El.error);
             }
           },
-          type: 'error',
+          type: El.error,
           child: '错误',
         ),
       ],
