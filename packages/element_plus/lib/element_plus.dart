@@ -102,5 +102,6 @@ export 'src/utils/font.dart';
 
 export 'src/widgets/brightness.dart';
 export 'src/widgets/hover.dart';
+export 'src/widgets/model_value.dart';
 export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/tap.dart';

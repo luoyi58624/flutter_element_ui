@@ -2,17 +2,6 @@ import 'package:element_extension/element_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-class NullWidget extends StatelessWidget {
-  const NullWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    throw FlutterError(
-      'NullWidget 通常用于 mixin 混入，子类如果没有执行 super.build 函数将抛出此异常',
-    );
-  }
-}
-
 class GridWidget extends StatelessWidget {
   /// 网格小部件
   const GridWidget({

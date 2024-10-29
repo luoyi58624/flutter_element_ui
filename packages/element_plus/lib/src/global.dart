@@ -19,6 +19,7 @@ export 'services/toast.dart';
 
 export 'widgets/brightness.dart';
 export 'widgets/hover.dart';
+export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/tap.dart';
 

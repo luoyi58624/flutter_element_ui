@@ -1,63 +1,44 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
-/// 双向绑定小部件抽象类，当传递 [ValueNotifier] 类型数据时，
-/// 将无需在 onChanged 事件中手动更新状态
-abstract class ElModelValue<D> extends StatefulWidget {
-  const ElModelValue(
-    this.modelValue, {
-    super.key,
-    this.onChanged,
-  });
-
-  /// 模型数据，它同时支持基本数据类型和响应式类型
-  final dynamic modelValue;
-
-  /// 变量更新事件
-  final ValueChanged<D>? onChanged;
-
-  @override
-  State<ElModelValue<D>> createState();
-}
-
-abstract class ElModelValueState<T extends ElModelValue<D>, D>
-    extends State<T> {
-  /// 是否是响应式类型
-  bool get isReactive {
-    if (widget.modelValue is ValueNotifier) {
-      assert(widget.modelValue is ValueNotifier<D>,
-          '${widget.toString()} 接收的响应式参数必须是 $D 类型');
-      return true;
-    } else {
-      assert(widget.modelValue is D, '${widget.toString()} 接收的参数必须是 $D 类型');
-      return false;
-    }
-  }
-
-  /// 返回原始数据类型，如果是 [ValueNotifier] 则自动取 .value 值
-  D get modelValue => isReactive ? widget.modelValue.value : widget.modelValue;
-
-  /// 更新变量，同时处理 [ValueNotifier] 和 onChange 事件
-  set modelValue(D v) {
-    if (isReactive) widget.modelValue.value = v;
-    if (widget.onChanged != null) widget.onChanged!(v);
-  }
-
-  /// 构建小部件，此方法会自动适配响应式
-  Widget builder(BuildContext context);
+class ElNullWidget extends StatelessWidget {
+  /// 永远都不应该触发的小部件，如果构建它将抛出异常，应用场景：
+  /// * mixin build 覆写，如果子类没有执行 super.build，那么将抛出此异常
+  /// * 当做无效 widget，例如 [ElDefaultTextStyle.of] 方法返回的默认构造
+  const ElNullWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (isReactive) {
-      return ValueListenableBuilder(
-        valueListenable: widget.modelValue,
-        builder: (context, status, _) {
-          return builder(context);
-        },
-      );
-    } else {
-      return builder(context);
-    }
+    throw FlutterError('ElNullWidget Error');
   }
+}
+
+class ElCurrentColor extends InheritedWidget {
+  /// 一个功能小部件，让一些常用颜色拥有继承性，通常，绝大部分 Element 组件都会设置它们
+  const ElCurrentColor({
+    super.key,
+    this.textColor,
+    this.bgColor,
+    required super.child,
+  });
+
+  /// 当前文本颜色
+  final Color? textColor;
+
+  /// 当前背景颜色
+  final Color? bgColor;
+
+  static ElCurrentColor? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElCurrentColor>();
+
+  static ElCurrentColor? of(BuildContext context) {
+    final ElCurrentColor? result = maybeOf(context);
+    assert(result != null, 'No ElCurrentColor found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(ElCurrentColor oldWidget) => true;
 }
 
 class ElChildIndex extends InheritedWidget {

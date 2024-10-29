@@ -51,7 +51,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     if (result == null) {
       return ElDefaultTextStyle(
         style: context.elAnimatedTheme.textTheme.textStyle,
-        child: const NullWidget(),
+        child: const ElNullWidget(),
       );
     }
     return result;
