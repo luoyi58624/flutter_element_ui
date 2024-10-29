@@ -75,7 +75,8 @@ class ElText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultStyle = ElDefaultTextStyle.of(context);
-    var $style = style ?? defaultStyle.style;
+    var $style = defaultStyle.style.merge(style);
+
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
       $style.copyWith(fontWeight: FontWeight.bold);

@@ -26,6 +26,7 @@ class ElApp extends StatelessWidget {
 
   final Widget child;
 
+  /// 主题模式，如果为 null，则跟随系统
   final Brightness? brightness;
 
   /// 亮色主题
@@ -37,8 +38,10 @@ class ElApp extends StatelessWidget {
   /// 全局配置
   final ElConfigThemeData config;
 
-  static AppData of(BuildContext context) => AppInheritedWidget.of(context);
+  /// 访问 ElApp 注入的全局配置信息
+  static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
 
+  /// 提供给顶级 App builder 构建器，这里的内容必须构建在顶级 App 下面
   static Widget Function(BuildContext, Widget?) builder(
           [TransitionBuilder? builder]) =>
       (BuildContext context, Widget? child) {
@@ -48,7 +51,11 @@ class ElApp extends StatelessWidget {
             builder: (context) => child!,
           ),
         ]);
-        if (builder != null) result = builder(context, result);
+        if (builder != null) {
+          result = builder(context, result);
+        }
+
+        // 应用 Element UI 滚动条策略
         return ScrollConfiguration(
           behavior: const ElScrollBehavior(),
           child: result,
@@ -60,8 +67,8 @@ class ElApp extends StatelessWidget {
     final $brightness = brightness ?? MediaQuery.of(context).platformBrightness;
     ElThemeData $data = $brightness.isDark ? darkTheme : theme;
 
-    return AppInheritedWidget(
-      AppData(
+    return _AppInheritedWidget(
+      ElAppData(
         brightness: $brightness,
         theme: theme,
         darkTheme: darkTheme,
@@ -72,20 +79,25 @@ class ElApp extends StatelessWidget {
         child: ElAnimatedTheme(
           duration: config.themeDuration,
           data: $data,
-          child: child,
+          child: Builder(builder: (context) {
+            return ElDefaultTextStyle(
+              style: context.elAnimatedTheme.textTheme.textStyle,
+              child: child,
+            );
+          }),
         ),
       ),
     );
   }
 }
 
-class AppData {
+class ElAppData {
   final Brightness brightness;
   final ElThemeData theme;
   final ElThemeData darkTheme;
   final ElConfigThemeData config;
 
-  const AppData({
+  const ElAppData({
     required this.brightness,
     required this.theme,
     required this.darkTheme,
@@ -93,25 +105,24 @@ class AppData {
   });
 }
 
-class AppInheritedWidget extends InheritedWidget {
-  const AppInheritedWidget(
+class _AppInheritedWidget extends InheritedWidget {
+  const _AppInheritedWidget(
     this.data, {
-    super.key,
     required super.child,
   });
 
-  final AppData data;
+  final ElAppData data;
 
-  static AppData of(BuildContext context) {
-    final AppInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<AppInheritedWidget>();
+  static ElAppData of(BuildContext context) {
+    final _AppInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<_AppInheritedWidget>();
     assert(result != null,
         'ElApp.of(context) 没有找到，你是否配置了 ElApp 小部件？如果已配置，请使用 Builder 小部件转发 context 对象');
     return result!.data;
   }
 
   @override
-  bool updateShouldNotify(AppInheritedWidget oldWidget) {
+  bool updateShouldNotify(_AppInheritedWidget oldWidget) {
     return true;
   }
 }

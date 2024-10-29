@@ -98,11 +98,11 @@ class SlideWidget extends StatelessWidget {
                                                             isActive
                                                         ? context
                                                             .elTheme.primary
-                                                        : context.isDark
-                                                            ? Colors
-                                                                .grey.shade100
-                                                            : Colors
-                                                                .grey.shade800,
+                                                        : context
+                                                            .elAnimatedTheme
+                                                            .textTheme
+                                                            .textStyle
+                                                            .color,
                                                     fontSize:
                                                         0.875.rem(context),
                                                   ),

@@ -8,8 +8,6 @@ class TempTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // i(context.elAnimatedTheme.textTheme.style.color);
-    i(ElDefaultTextStyle.of(context).style.color);
     final flag = useState(false);
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +22,12 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: ElText('xx'),
+      body: Column(
+        children: [
+          // ElText('xx'),
+          H1('xx'),
+        ],
+      ),
       // body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,

@@ -11,13 +11,13 @@ extension ElThemeExtension on BuildContext {
   ElThemeData get elTheme =>
       isDark ? ElApp.of(this).darkTheme : ElApp.of(this).theme;
 
-  /// Element UI 自适应动画主题，引用的值具有动画特性，它不适用于隐式动画小部件，同时使用会引起页面颜色更新不一致
+  /// Element UI 自适应动画主题，引用的值具有动画特性，注意：它只适用于普通小部件，不适用于隐式动画小部件
   ElThemeData get elAnimatedTheme => ElTheme.of(this);
 
   /// Element UI 全局配置
   ElConfigThemeData get elConfig => ElApp.of(this).config;
 
-  /// Element UI 全局主题动画时间扩展方法，此方法用于弥补 [elAnimatedTheme] 的缺陷，使用方式：
+  /// Element UI 全局主题动画时间扩展方法，此方法用于隐式动画小部件，例如：
   /// ```dart
   /// AnimatedContainer(
   ///   duration: context.elDuration(300.ms),

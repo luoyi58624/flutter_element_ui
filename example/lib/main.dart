@@ -1,4 +1,5 @@
 import 'package:element_extension/element_extension.dart';
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
@@ -14,18 +15,25 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ObsBuilder(builder: (context) {
-      return materialApp();
-    });
-  }
-
-  Widget materialApp() {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+      return ElApp(
         brightness: isDark.value ? Brightness.dark : Brightness.light,
-      ),
-      home: const HomePage(),
-    );
+        config: ElConfigThemeData(
+          themeDuration: Duration(milliseconds: 500),
+        ),
+        child: Builder(
+          builder: (context) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                brightness: isDark.value ? Brightness.dark : Brightness.light,
+              ),
+              themeAnimationDuration: context.elConfig.themeDuration,
+              home: const HomePage(),
+            );
+          }
+        ),
+      );
+    });
   }
 }
 
@@ -55,7 +63,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: ObsBuilder(builder: (context) {
-          return Text('isDark: ${context.isDark}');
+          return H1('isDark: ${context.isDark}');
         }),
       ),
     );

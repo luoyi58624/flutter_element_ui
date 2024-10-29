@@ -35,11 +35,13 @@ class SectionTitle extends StatelessWidget {
         // ),
         ElAnchor(
           name: title,
-          child: H2(
-            title,
+          child: ElAnimatedDefaultTextStyle(
             style: TextStyle(
               color:
                   context.isDark ? Colors.grey.shade300 : Colors.grey.shade800,
+            ),
+            child: H2(
+              title,
             ),
           ),
         ),

@@ -44,13 +44,13 @@ abstract class ResponsivePage extends HookWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    H1(
-                      title,
+                    ElAnimatedDefaultTextStyle(
                       style: TextStyle(
                         color: context.isDark
                             ? Colors.grey.shade300
                             : Colors.grey.shade800,
                       ),
+                      child: H1(title),
                     ),
                     ...buildPage(context),
                   ],

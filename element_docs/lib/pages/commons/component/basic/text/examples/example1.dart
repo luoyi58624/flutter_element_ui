@@ -15,13 +15,8 @@ class Example1 extends StatelessWidget {
         CodeExample(
           code: code,
           expanded: true,
-          children: [
-            ElText(
-              'Hello, 这是一段普通文本',
-              style: TextStyle(
-                color: context.elTheme.textTheme.regularStyle.color,
-              ),
-            ),
+          children: const [
+            ElText('Hello, 这是一段普通文本'),
           ],
         ),
       ],

@@ -61,14 +61,41 @@ class ElDefaultTextStyle extends DefaultTextStyle {
   bool updateShouldNotify(ElDefaultTextStyle oldWidget) => true;
 }
 
-class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
+class ElAnimatedDefaultTextStyle extends StatelessWidget {
   /// 默认文本动画样式
   const ElAnimatedDefaultTextStyle({
     super.key,
     required this.child,
     required this.style,
-    super.curve,
+    this.duration,
+    this.curve,
+    this.onEnd,
+  });
+
+  final Duration? duration;
+  final Curve? curve;
+  final VoidCallback? onEnd;
+  final Widget child;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ElAnimatedDefaultTextStyle(
+      duration: duration ?? context.elDuration(),
+      curve: curve ?? context.elCurve(),
+      onEnd: onEnd,
+      style: style,
+      child: child,
+    );
+  }
+}
+
+class _ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
+  const _ElAnimatedDefaultTextStyle({
+    required this.child,
+    required this.style,
     required super.duration,
+    super.curve,
     super.onEnd,
   });
 
@@ -76,12 +103,12 @@ class ElAnimatedDefaultTextStyle extends ImplicitlyAnimatedWidget {
   final TextStyle style;
 
   @override
-  AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> createState() =>
+  AnimatedWidgetBaseState<_ElAnimatedDefaultTextStyle> createState() =>
       _ElAnimatedDefaultTextStyleState();
 }
 
 class _ElAnimatedDefaultTextStyleState
-    extends AnimatedWidgetBaseState<ElAnimatedDefaultTextStyle> {
+    extends AnimatedWidgetBaseState<_ElAnimatedDefaultTextStyle> {
   TextStyleTween? _style;
 
   @override

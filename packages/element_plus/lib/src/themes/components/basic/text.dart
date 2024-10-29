@@ -50,7 +50,7 @@ class ElTextThemeData {
     required this.placeholderStyle,
   });
 
-  /// 默认文本样式
+  /// 默认文本样式，构建 [ElApp] 时，会将此样式作为 [ElDefaultTextStyle] 小部件的默认文本样式
   final TextStyle textStyle;
 
   /// 常规文本样式

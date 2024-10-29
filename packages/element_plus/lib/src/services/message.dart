@@ -444,14 +444,14 @@ class _DefaultMessage extends StatelessWidget {
                 constraints: BoxConstraints(
                   maxWidth: maxTextWidth,
                 ),
-                child: ElText(
-                  message.content,
+                child: ElAnimatedDefaultTextStyle(
                   style: TextStyle(
                     color: context.isDark
                         ? context.darkTheme.textTheme.textStyle.color
                         : themeColor,
                     fontWeight: ElFont.medium,
                   ),
+                  child: ElText(message.content),
                 ),
               ),
               if (message.showClose) const Gap(10),

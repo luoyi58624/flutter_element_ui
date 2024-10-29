@@ -3,7 +3,7 @@ library flutter_element_ui;
 export 'package:url_launcher/link.dart' show LinkTarget;
 export 'package:logger/logger.dart' show Level;
 
-export 'src/app.dart' show ElApp;
+export 'src/app.dart';
 export 'src/service.dart';
 export 'src/types.dart';
 export 'src/extension.dart';
