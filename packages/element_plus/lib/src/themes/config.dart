@@ -5,9 +5,9 @@ import '../global.dart';
 part '../generates/themes/config.g.dart';
 
 @ElModel.copy()
-class ElConfigThemeData {
+class ElConfigData {
   /// Element UI 默认全局配置
-  static const ElConfigThemeData data = ElConfigThemeData();
+  static const ElConfigData data = ElConfigData();
 
   /// 基础控件默认尺寸，例如：按钮、输入框...
   final double size;
@@ -25,7 +25,7 @@ class ElConfigThemeData {
   /// 切换全局主题动画曲线，它等同于 [MaterialApp] 中 themeAnimationCurve 属性
   final Curve themeCurve;
 
-  const ElConfigThemeData({
+  const ElConfigData({
     this.size = 36,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.borderSize = 1.0,

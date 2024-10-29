@@ -28,12 +28,12 @@ class ElApp extends StatelessWidget {
     this.brightness,
     this.theme = ElThemeData.theme,
     this.darkTheme = ElThemeData.darkTheme,
-    this.config = ElConfigThemeData.data,
+    this.config = ElConfigData.data,
   });
 
   final Widget child;
 
-  /// 主题模式，如果为 null，则跟随系统
+  /// 应用的主题模式，如果为 null，则跟随系统
   final Brightness? brightness;
 
   /// 亮色主题
@@ -43,7 +43,7 @@ class ElApp extends StatelessWidget {
   final ElThemeData darkTheme;
 
   /// 全局配置
-  final ElConfigThemeData config;
+  final ElConfigData config;
 
   /// 访问 ElApp 注入的全局配置信息
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
@@ -58,11 +58,12 @@ class ElApp extends StatelessWidget {
             builder: (context) => child!,
           ),
         ]);
+
         if (builder != null) {
           result = builder(context, result);
         }
 
-        // 应用 Element UI 滚动条策略
+        // 应用 Element UI 的滚动条策略
         return ScrollConfiguration(
           behavior: const ElScrollBehavior(),
           child: result,
@@ -102,7 +103,7 @@ class ElAppData {
   final Brightness brightness;
   final ElThemeData theme;
   final ElThemeData darkTheme;
-  final ElConfigThemeData config;
+  final ElConfigData config;
 
   const ElAppData({
     required this.brightness,

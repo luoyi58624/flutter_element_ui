@@ -49,10 +49,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 1. ElApp 只负责注入全局数据，所以它的构造十分简单，您可以搭配任意顶级 App 构建应用
     return ElApp(
       child: MaterialApp(
+        // 2. 您需要添加 navigatorKey，否则当你使用弹窗、消息等 api 时会报错
         navigatorKey: el.navigatorKey,
         home: const HomePage(),
+        // 3. 在顶级 App 下面插入自定义小部件，内部代码不超过 10 行，您完全可以自己构造它们
         builder: ElApp.builder(),
       ),
     );
@@ -66,13 +69,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('首页'),
+        title: const Text('Home'),
       ),
-      body: const Center(
-        child: ElButton(
-          child: 'Hello'
-        ),
-      ),
+      body: ElButton(child: 'Hello'),
     );
   }
 }''';

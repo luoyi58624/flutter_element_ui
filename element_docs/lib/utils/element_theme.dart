@@ -8,7 +8,7 @@ ElThemeData buildElementTheme({
       brightness.isDark ? ElThemeData.darkTheme : ElThemeData.theme;
 
   final $data = data.copyWith(
-    primary: brightness.isDark ? Colors.red : GlobalState.primaryColor.value,
+    primary: GlobalState.primaryColor.value,
     textTheme: data.textTheme.copyWith(
       textStyle: ElFont.defaultTextStyle.copyWith(
         fontFamily: FontUtil.fontFamily,

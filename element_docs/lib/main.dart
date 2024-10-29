@@ -40,8 +40,8 @@ class MainApp extends StatelessWidget {
         brightness: GlobalState.brightness,
         theme: buildElementTheme(),
         darkTheme: buildElementTheme(brightness: Brightness.dark),
-        config: ElConfigThemeData(
-          themeDuration: 0.ms,
+        config: ElConfigData(
+          themeDuration: 200.ms,
         ),
         child: ObsBuilder(builder: (context) {
           return MaterialApp.router(

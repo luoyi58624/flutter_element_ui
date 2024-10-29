@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       return ElApp(
         brightness: isDark.value ? Brightness.dark : Brightness.light,
-        config: ElConfigThemeData(
+        config: ElConfigData(
           themeDuration: Duration(milliseconds: 500),
         ),
         child: Builder(
