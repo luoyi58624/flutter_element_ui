@@ -103,7 +103,7 @@ class MessageServiceInstance {
     return show(
       content,
       context: context,
-      type: 'primary',
+      type: El.primary,
       icon: icon,
       duration: duration,
       showClose: showClose,

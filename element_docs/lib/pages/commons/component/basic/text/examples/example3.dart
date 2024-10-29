@@ -13,7 +13,7 @@ class Example3 extends StatelessWidget {
       children: [
         SectionTitle(title),
         const SectionText([
-          '这些组件 Element UI 没有提供，你需要自行封装，',
+          '这些组件 element_plus 包没有提供，',
           ElLink(
             href:
                 'https://github.com/luoyi58624/flutter_element_ui/tree/main/packages/element_extension/lib/src/widgets/html/typography.dart',

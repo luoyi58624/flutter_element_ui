@@ -126,4 +126,25 @@ class _Example extends HookWidget {
 }
 
 String get code => '''
-ElButton(child: 'Hello', disabled: true),''';
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedList = useState<List<int>>([]);
+
+    return Column(
+      children: [
+        ElButtonGroup.multi(
+          selectedList,
+          children: const [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+            ElButton(child: '选项四'),
+          ],
+        ),
+      ],
+    );
+  }
+}''';

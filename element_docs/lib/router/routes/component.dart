@@ -7,6 +7,7 @@ import '../../pages/commons/component/basic/icon/index.dart';
 import '../../pages/commons/component/basic/text/index.dart';
 import '../../pages/commons/component/data/collapse/index.dart';
 import '../../pages/commons/component/data/progress/index.dart';
+import '../../pages/commons/component/data/tag/index.dart';
 import '../../pages/commons/component/feedback/message/index.dart';
 import '../../pages/commons/component/feedback/toast/index.dart';
 import '../../pages/commons/component/form/input/index.dart';
@@ -148,6 +149,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}progress',
       builder: (context, state) => const ProgressPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}tag',
+      builder: (context, state) => const TagPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}message',

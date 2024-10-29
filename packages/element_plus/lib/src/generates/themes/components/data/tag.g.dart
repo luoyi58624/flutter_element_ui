@@ -9,10 +9,28 @@ part of '../../../../themes/components/data/tag.dart';
 extension ElTagThemeDataExtension on ElTagThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTagThemeData copyWith({
-    double? size,
+    String? type,
+    double? width,
+    double? height,
+    Color? bgColor,
+    Color? color,
+    bool? plain,
+    bool? round,
+    bool? closable,
+    BorderRadius? borderRadius,
+    EdgeInsetsGeometry? padding,
   }) {
     return ElTagThemeData(
-      size: size ?? this.size,
+      type: type ?? this.type,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      bgColor: bgColor ?? this.bgColor,
+      color: color ?? this.color,
+      plain: plain ?? this.plain,
+      round: round ?? this.round,
+      closable: closable ?? this.closable,
+      borderRadius: borderRadius ?? this.borderRadius,
+      padding: padding ?? this.padding,
     );
   }
 
@@ -20,7 +38,16 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   ElTagThemeData merge([ElTagThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      size: other.size,
+      type: other.type,
+      width: other.width,
+      height: other.height,
+      bgColor: other.bgColor,
+      color: other.color,
+      plain: other.plain,
+      round: other.round,
+      closable: other.closable,
+      borderRadius: other.borderRadius,
+      padding: other.padding,
     );
   }
 }
@@ -71,7 +98,17 @@ extension ElTagThemeDataLerpExtension on ElTagThemeData {
     }
 
     return ElTagThemeData(
-      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      type: t < 0.5 ? a.type : b.type,
+      width: lerpDouble(a.width, b.width, t) ?? a.width,
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      plain: t < 0.5 ? a.plain : b.plain,
+      round: t < 0.5 ? a.round : b.round,
+      closable: t < 0.5 ? a.closable : b.closable,
+      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
+          a.borderRadius,
+      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
     );
   }
 }

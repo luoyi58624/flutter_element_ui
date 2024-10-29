@@ -56,11 +56,11 @@ class ElButton extends StatefulWidget {
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
   final dynamic child;
 
-  /// 按钮宽度，按钮的宽度受多种因素影响，具体表现有以下几种情况（按优先级排序）：
+  /// 按钮最小宽度，按钮的宽度受多种因素影响，具体表现有以下几种情况（按优先级排序）：
   /// * [block]，它会解除按钮约束，通常情况下按钮将充满整个空间，这取决于父级约束条件
   /// * [link]，按钮宽度、高度、内边距全部清空，和普通文字无异
   /// * [circle]，按钮宽度强制等于高度，因为此时按钮是圆形
-  /// * [width]，这一步用户指定的宽度才会生效，注意：宽度约束为 minWidth
+  /// * [width]，这一步用户指定的宽度才会生效
   /// * 最后：如果 [child] 是 [ElIcon] 或 [Icon]，那么 width = height * 1.25，否则最小宽度为 64 像素
   final double? width;
 
@@ -70,7 +70,7 @@ class ElButton extends StatefulWidget {
   /// 自定义按钮背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
-  /// 按钮文字、图标颜色，如果为空，则根据 [bgColor] 自动计算为全局默认的文字颜色
+  /// 文字、图标颜色，如果为空，则根据 [bgColor] 自动计算
   final Color? color;
 
   /// 主题类型

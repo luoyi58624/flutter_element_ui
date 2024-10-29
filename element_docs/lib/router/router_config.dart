@@ -219,7 +219,7 @@ class SlideRouterConfig {
           WorkStatus.pending
         ),
         ('Table 表格', '/${RootRoute.component.$2}/Table', WorkStatus.pending),
-        ('Tag 标签', '/${RootRoute.component.$2}/Tag', WorkStatus.pending),
+        ('Tag 标签', '/${RootRoute.component.$2}/tag', WorkStatus.finished),
         (
           'Timeline 时间线',
           '/${RootRoute.component.$2}/Timeline',

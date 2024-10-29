@@ -48,7 +48,7 @@ class ElButtonThemeData {
   /// 按钮背景颜色
   final Color? bgColor;
 
-  /// 按钮文字、图标颜色
+  /// 文字、图标颜色
   final Color? color;
 
   /// 主题类型

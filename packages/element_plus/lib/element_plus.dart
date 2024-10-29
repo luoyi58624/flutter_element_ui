@@ -22,9 +22,9 @@ export 'src/components/data/card/index.dart';
 export 'src/components/data/collapse/index.dart';
 export 'src/components/data/collapse/collapse_panel.dart';
 export 'src/components/data/progress/index.dart';
+export 'src/components/data/tag/index.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/image.dart';
-export 'src/components/data/tag.dart';
 
 export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
@@ -55,6 +55,7 @@ export 'src/components/navigation/tabs/index.dart';
 export 'src/components/navigation/tab/index.dart';
 
 export 'src/components/others/anchor/index.dart' show ElAnchor;
+export 'src/components/others/close_button/index.dart';
 export 'src/components/others/code_preview/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';

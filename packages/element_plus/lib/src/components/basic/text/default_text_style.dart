@@ -1,13 +1,10 @@
 part of 'index.dart';
 
 /// 之所以不使用 [DefaultTextStyle] 是因为与 [Material] 设计存在严重冲突，[Material] 小部件作为 Material UI 的基本小部件，
-/// 其内部构建的默认文本样式没有 merge 祖先默认文本（这是 Flutter 官方有意这样设计的，为此在 [MaterialApp] 中创建了黄色双下划线的错误默认文本样式），
-/// 这导致如果 [ElText] 使用 [DefaultTextStyle]，那么文本样式继承性将被破坏，甚至如果你使用 [MaterialApp] 构建应用，
-/// 如果不在 [Material] 小部件中使用 Element UI 组件，那么组件中的文字就会出现黄色双下滑线错误。
-///
-/// 所以，并非是我不想使用 [DefaultTextStyle]，而是踩了很多坑后只能创建一个独立的默认文本样式来解决冲突问题。
+/// 其内部构建的默认文本样式没有 merge 祖先默认文本（这是 Flutter 官方有意这样设计的，因为他们在 [MaterialApp] 中创建了黄色双下划线的错误默认文本样式），
+/// 这导致如果 [ElText] 使用 [DefaultTextStyle]，那么 Element UI 本身的文本主题将很容易被破坏。
 class ElDefaultTextStyle extends DefaultTextStyle {
-  /// 构建默认文本样式，注意：直接通过此构造函数构建默认文本样式会中断文本的继承性，请尽量通过 [merge] 方法构建默认文本样式
+  /// 构建默认文本样式，注意：请尽量通过 [merge] 方法构建默认文本样式
   const ElDefaultTextStyle({
     super.key,
     required super.style,
