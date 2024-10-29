@@ -9,12 +9,12 @@ ElThemeData buildElementTheme({
 
   final $data = data.copyWith(
     primary: GlobalState.primaryColor.value,
-    textTheme: ElTextThemeData(
-      style: ElFont.defaultTextStyle.copyWith(
-        fontFamily: FontUtil.fontFamily,
-        fontSize: GlobalState.globalFontSize,
-      ),
-    ),
+    // textTheme: ElTextThemeData(
+    //   style: ElFont.defaultTextStyle.copyWith(
+    //     fontFamily: FontUtil.fontFamily,
+    //     fontSize: GlobalState.globalFontSize,
+    //   ),
+    // ),
     codePreviewTheme: const ElCodePreviewThemeData(
       fontFamily: MyFonts.consolas,
     ),

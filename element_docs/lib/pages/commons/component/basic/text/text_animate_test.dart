@@ -107,7 +107,6 @@ class _ElText extends HookWidget {
                 : Wrap(
                     children: ElText(
                           'Text',
-                          duration: 300.ms,
                           style: flag.value
                               ? const TextStyle(
                                   fontSize: 18,

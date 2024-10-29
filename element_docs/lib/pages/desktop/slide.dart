@@ -93,7 +93,6 @@ class SlideWidget extends StatelessWidget {
                                               Expanded(
                                                 child: ElText(
                                                   e.$1,
-                                                  duration: Duration.zero,
                                                   style: TextStyle(
                                                     color: context.isHover ||
                                                             isActive

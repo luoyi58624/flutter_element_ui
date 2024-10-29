@@ -2,20 +2,15 @@ import 'package:flutter/rendering.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../themes/components/basic/text.dart';
-
-part 'state.dart';
-
 part 'default_text_style.dart';
 
-class ElText extends StatefulWidget {
+class ElText extends StatelessWidget {
   /// Element UI 文本小部件，内部直接基于 [RichText] 进行封装，同时简化了富文本的写法。
   ///
   /// 注意：[ElText] 不会从 [DefaultTextStyle] 访问默认样式，你应当使用 [ElTextTheme] 提供默认样式。
   const ElText(
     this.data, {
     super.key,
-    this.duration,
     this.style,
     this.strutStyle,
     this.textAlign,
@@ -37,9 +32,6 @@ class ElText extends StatefulWidget {
   /// 渲染富文本有一点需要注意，嵌套的组件会被转换成 TextSpan、WidgetSpan，
   /// 所以如果是继承 [ElText] 的文本组件，那么只有 style、semanticsLabel 等属性会生效
   final dynamic data;
-
-  /// 设置文本动画持续时间，默认 [Duration.zero]
-  final Duration? duration;
 
   /// 文本样式
   final TextStyle? style;
@@ -81,7 +73,49 @@ class ElText extends StatefulWidget {
   final Color? selectionColor;
 
   @override
-  State<ElText> createState() => ElTextState();
+  Widget build(BuildContext context) {
+    final defaultStyle = ElDefaultTextStyle.of(context);
+    var $style = style ?? defaultStyle.style;
+    // 同步 Text 小部件的加粗文本逻辑
+    if (MediaQuery.boldTextOf(context)) {
+      $style.copyWith(fontWeight: FontWeight.bold);
+    }
+
+    final SelectionRegistrar? registrar = SelectionContainer.maybeOf(context);
+    Widget result = RichText(
+      text: TextSpan(
+        style: $style,
+        children: _buildRichText(
+          context,
+          data is List ? data : [data],
+        ),
+      ),
+      textAlign: textAlign ?? defaultStyle.textAlign ?? TextAlign.start,
+      softWrap: softWrap ?? defaultStyle.softWrap,
+      overflow: overflow ?? defaultStyle.overflow,
+      textDirection: textDirection,
+      textScaler: textScaler ?? TextScaler.noScaling,
+      maxLines: maxLines ?? defaultStyle.maxLines,
+      locale: locale,
+      strutStyle: strutStyle,
+      textWidthBasis: textWidthBasis ?? defaultStyle.textWidthBasis,
+      textHeightBehavior: textHeightBehavior,
+      selectionRegistrar: registrar,
+      selectionColor: selectionColor ??
+          DefaultSelectionStyle.of(context).selectionColor ??
+          DefaultSelectionStyle.defaultColor,
+    );
+
+    if (registrar == null) return result;
+    return ElHoverBuilder(
+        triggerBuild: false,
+        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+            ElHoverBuilder.mouseCursor(context) ??
+            SystemMouseCursors.text,
+        builder: (context) {
+          return result;
+        });
+  }
 
   /// 构建富文本片段集合
   List<InlineSpan> _buildRichText(BuildContext context, List children) {
