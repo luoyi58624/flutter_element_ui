@@ -6,6 +6,8 @@ import '../../../themes/components/basic/text.dart';
 
 part 'state.dart';
 
+part 'default_text_style.dart';
+
 class ElText extends StatefulWidget {
   /// Element UI 文本小部件，内部直接基于 [RichText] 进行封装，同时简化了富文本的写法。
   ///
