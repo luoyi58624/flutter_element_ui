@@ -42,7 +42,7 @@ class ElTabTheme extends InheritedWidget {
 
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElTabThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elTheme.tabTheme;
+      maybeOf(context) ?? context.elAnimatedTheme.tabTheme;
 
   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({

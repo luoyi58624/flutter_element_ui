@@ -51,7 +51,7 @@ class ElLinkTheme extends InheritedWidget {
 
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElLinkThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elTheme.linkTheme;
+      maybeOf(context) ?? context.elAnimatedTheme.linkTheme;
 
   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({

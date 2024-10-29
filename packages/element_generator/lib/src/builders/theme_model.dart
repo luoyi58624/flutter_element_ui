@@ -107,7 +107,7 @@ static $_className of(BuildContext context) {
       ofContent = """
 /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
 static $_className of(BuildContext context) =>
-  maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;""";
+  maybeOf(context) ?? context.elAnimatedTheme.${rawName.firstLowerCase}Theme;""";
     }
 
     return """
