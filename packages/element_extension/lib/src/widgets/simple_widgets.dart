@@ -8,7 +8,7 @@ class NullWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     throw FlutterError(
-      'ElNullWidget 通常用于 mixin 混入，子类如果没有执行 super.build 函数将抛出此异常',
+      'NullWidget 通常用于 mixin 混入，子类如果没有执行 super.build 函数将抛出此异常',
     );
   }
 }

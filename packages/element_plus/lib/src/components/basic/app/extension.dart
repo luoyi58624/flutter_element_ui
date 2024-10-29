@@ -5,7 +5,7 @@ extension ElAppExtension on BuildContext {
   ElThemeData get elTheme =>
       isDark ? ElApp.of(this).darkTheme : ElApp.of(this).theme;
 
-  /// Element UI 自适应动画主题，引用的值具有动画插值，注意：它不适用于隐式动画小部件
+  /// Element UI 自适应动画主题，引用的值具有动画插值
   ElThemeData get elAnimatedTheme => ElTheme.of(this);
 
   /// Element UI 全局配置

@@ -45,13 +45,16 @@ class ElDefaultTextStyle extends DefaultTextStyle {
     );
   }
 
-  static ElDefaultTextStyle? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
-
   static ElDefaultTextStyle of(BuildContext context) {
-    final ElDefaultTextStyle? result = maybeOf(context);
-    assert(result != null, 'No ElDefaultTextStyle found in context');
-    return result!;
+    final ElDefaultTextStyle? result =
+        context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
+    if (result == null) {
+      return ElDefaultTextStyle(
+        style: context.elAnimatedTheme.textTheme.textStyle,
+        child: const NullWidget(),
+      );
+    }
+    return result;
   }
 
   @override

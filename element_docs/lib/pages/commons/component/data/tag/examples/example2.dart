@@ -16,7 +16,7 @@ class Example2 extends StatelessWidget {
           code: code,
           children: const [
             ElCloseButton(),
-            const Gap(8),
+            Gap(8),
             _Example(),
           ],
         ),
