@@ -57,7 +57,7 @@ class _Text extends HookWidget {
                       fontSize: 18,
                       color: Colors.green,
                     )
-                  : ElTextTheme.of(context).style,
+                  : ElDefaultTextStyle.of(context).style,
               child: Wrap(
                 children: const Text('Text') * count,
               ),
@@ -92,16 +92,13 @@ class _ElText extends HookWidget {
         Expanded(
           child: SingleChildScrollView(
             child: flag2.value
-                ? ElTextTheme.merge(
-                    data: ElTextThemeData(
-                      duration: context.elDuration(300.ms),
-                      style: flag.value
-                          ? const TextStyle(
-                              fontSize: 18,
-                              color: Colors.green,
-                            )
-                          : ElTextTheme.of(context).style,
-                    ),
+                ? ElDefaultTextStyle.merge(
+                    style: flag.value
+                        ? const TextStyle(
+                            fontSize: 18,
+                            color: Colors.green,
+                          )
+                        : ElDefaultTextStyle.of(context).style,
                     child: Wrap(
                       children: const ElText('Text') * count,
                     ),

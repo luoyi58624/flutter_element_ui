@@ -144,13 +144,11 @@ class Example1 extends StatelessWidget {
                       ? context.elTheme.primary.withOpacity(0.8)
                       : context.elTheme.primary,
                 ),
-                child: ElTextTheme(
-                  data: ElTextThemeData(
-                    style: TextStyle(
-                      fontSize: 0.875.rem(context),
-                      color:
-                          GlobalState.primaryColor.value.elTextColor(context),
-                    ),
+                child: ElDefaultTextStyle(
+                  style: TextStyle(
+                    fontSize: 0.875.rem(context),
+                    color:
+                    GlobalState.primaryColor.value.elTextColor(context),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

@@ -10,7 +10,7 @@ extension ElFontNumExtension on num {
   /// * 1.5.rem(context) = 24
   // 必须传递当前组件的 context，因为这样才能绑定依赖关系，否则当全局字体尺寸发生变化时，目标小部件是不会刷新的
   double rem(BuildContext context) {
-    assert(context.elTheme.textTheme.style.fontSize != null);
-    return context.elTheme.textTheme.style.fontSize! * this;
+    assert(context.elTheme.textTheme.textStyle.fontSize != null);
+    return context.elTheme.textTheme.textStyle.fontSize! * this;
   }
 }

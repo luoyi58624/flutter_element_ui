@@ -448,7 +448,7 @@ class _DefaultMessage extends StatelessWidget {
                   message.content,
                   style: TextStyle(
                     color: context.isDark
-                        ? context.darkTheme.textTheme.style.color
+                        ? context.darkTheme.textTheme.textStyle.color
                         : themeColor,
                     fontWeight: ElFont.medium,
                   ),

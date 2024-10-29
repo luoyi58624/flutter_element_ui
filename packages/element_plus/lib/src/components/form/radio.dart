@@ -76,11 +76,11 @@ class ElRadio<T> extends StatelessWidget {
                           ? FontWeight.w500
                           : FontWeight.normal,
                       color: disabled
-                          ? elTheme.textTheme.style.color!
+                          ? elTheme.textTheme.textStyle.color!
                               .withOpacity(disabledColorOpacity)
                           : $value == $selectedValue
                               ? elTheme.primary
-                              : elTheme.textTheme.style.color,
+                              : elTheme.textTheme.textStyle.color,
                     ),
                   ),
                 ),

@@ -9,7 +9,7 @@ class TempTestPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     // i(context.elAnimatedTheme.textTheme.style.color);
-    i(ElTextTheme.of(context).style.color);
+    i(ElDefaultTextStyle.of(context).style.color);
     final flag = useState(false);
     return Scaffold(
       appBar: AppBar(

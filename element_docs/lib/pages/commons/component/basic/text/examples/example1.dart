@@ -19,7 +19,7 @@ class Example1 extends StatelessWidget {
             ElText(
               'Hello, 这是一段普通文本',
               style: TextStyle(
-                color: context.elTheme.regularTextColor,
+                color: context.elTheme.textTheme.regularStyle.color,
               ),
             ),
           ],

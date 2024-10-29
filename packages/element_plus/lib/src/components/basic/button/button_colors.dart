@@ -276,7 +276,7 @@ class _ButtonColors {
   }) {
     final $elTheme = context.elTheme;
     Color $bgColor = $elTheme.bgColor;
-    Color $textColor = $elTheme.regularTextColor;
+    Color $textColor = $elTheme.textTheme.regularStyle.color!;
     Color $borderColor = $elTheme.borderColor;
 
     if (disabled) {
@@ -341,7 +341,7 @@ class _ButtonColors {
   }) {
     final $elTheme = context.elTheme;
     Color $bgColor = $elTheme.bgColor;
-    Color $textColor = $elTheme.regularTextColor;
+    Color $textColor = $elTheme.textTheme.regularStyle.color!;
     Color $borderColor = $elTheme.borderColor;
 
     if (disabled) {
@@ -428,7 +428,7 @@ class _ButtonColors {
       $bgColor = pageBgColor.deepen(5);
     }
 
-    var $textColor = bgColor ?? $elTheme.regularTextColor;
+    var $textColor = bgColor ?? $elTheme.textTheme.regularStyle.color!;
 
     if (disabled) {
       $textColor = $textColor.disabled(context);
@@ -456,7 +456,7 @@ class _ButtonColors {
 
     return _ButtonColorStyle(
       bgColor: $bgColor,
-      textColor: bgColor ?? $elTheme.regularTextColor,
+      textColor: bgColor ?? $elTheme.textTheme.regularStyle.color!,
     );
   }
 
@@ -476,7 +476,7 @@ class _ButtonColors {
 
     return _ButtonColorStyle(
       bgColor: $bgColor,
-      textColor: bgColor ?? $elTheme.regularTextColor,
+      textColor: bgColor ?? $elTheme.textTheme.regularStyle.color!,
     );
   }
 
@@ -486,7 +486,7 @@ class _ButtonColors {
     bool disabled = false,
   }) {
     final $elTheme = context.elTheme;
-    var $textColor = bgColor ?? $elTheme.regularTextColor;
+    var $textColor = bgColor ?? $elTheme.textTheme.regularStyle.color!;
     if (disabled) {
       $textColor = $textColor.disabled(context);
     }
@@ -500,7 +500,7 @@ class _ButtonColors {
     Color? bgColor,
   }) {
     final $elTheme = context.elTheme;
-    var $textColor = bgColor ?? $elTheme.regularTextColor;
+    var $textColor = bgColor ?? $elTheme.textTheme.regularStyle.color!;
     return _ButtonColorStyle(
       textColor: $textColor.elLight5(context),
     );
@@ -511,7 +511,7 @@ class _ButtonColors {
     Color? bgColor,
   }) {
     final $elTheme = context.elTheme;
-    var $textColor = bgColor ?? $elTheme.regularTextColor;
+    var $textColor = bgColor ?? $elTheme.textTheme.regularStyle.color!;
     return _ButtonColorStyle(
       textColor: $textColor.tap(context),
     );
@@ -532,7 +532,7 @@ class _ButtonColors {
     Color? $borderColor;
 
     if (text || link) {
-      $loadingTextColor = bgColor ?? $elTheme.regularTextColor;
+      $loadingTextColor = bgColor ?? $elTheme.textTheme.regularStyle.color!;
     } else {
       $bgColor = $isDark
           ? const Color.fromRGBO(57, 57, 57, 1.0)

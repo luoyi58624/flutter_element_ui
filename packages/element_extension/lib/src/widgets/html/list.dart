@@ -154,12 +154,10 @@ class Li extends _ListBase {
           prefix,
           Gap($data.markerGap),
           Expanded(
-            child: ElTextTheme.merge(
-              data: ElTextThemeData(
-                style: TextStyle(
-                  fontSize: fontSize,
-                  height: lineHeight,
-                ),
+            child: ElDefaultTextStyle.merge(
+              style: TextStyle(
+                fontSize: fontSize,
+                height: lineHeight,
               ),
               child: result,
             ),

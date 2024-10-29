@@ -51,7 +51,7 @@ class _ChildPage extends StatelessWidget {
       body: Column(
         children: [
           ElText(
-            context.elTheme.textTheme.style.fontSize,
+            context.elTheme.textTheme.textStyle.fontSize,
             style: TextStyle(fontSize: 1.rem(context)),
           ),
           ObsBuilder(builder: (context) {

@@ -33,7 +33,7 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     if (widget.style != oldWidget.style) {
       isDidUpdate = true;
       // i(ElTextTheme.maybeOf(context));
-      _data = ElTextTheme.of(context);
+      _data = ElDefaultTextStyle.of(context);
       final textStyle = _data.style;
       final oldStyle = textStyle.merge(_tempStyle ?? oldWidget.style);
       final newStyle = textStyle.merge(widget.style);
@@ -57,15 +57,15 @@ class ElTextState extends State<ElText> with SingleTickerProviderStateMixin {
     if (isDidUpdate) {
       isDidUpdate = false;
     } else {
-      _data = ElTextTheme.of(context);
+      _data = ElDefaultTextStyle.of(context);
     }
     return AnimatedBuilder(
       animation: controller.view,
       builder: (context, child) {
         if (_tempStyle == null) {
-          style = _data.style.merge(widget.style);
+          style = _data.textStyle.merge(widget.style);
         } else {
-          style = _data.style.merge(styleAnimate.value);
+          style = _data.textStyle.merge(styleAnimate.value);
         }
         return buildText(context, style);
       },

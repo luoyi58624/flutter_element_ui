@@ -42,7 +42,7 @@ class ElTag extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: fill ? context.darkTheme.textTheme.style.color : color,
+            color: fill ? context.darkTheme.textTheme.textStyle.color : color,
             fontSize: 12,
           ),
           strutStyle: const StrutStyle(

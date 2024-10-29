@@ -231,7 +231,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
             '${index + 1}',
             textAlign: TextAlign.right,
             style: _textStyle.copyWith(
-              color: context.elTheme.secondaryTextColor,
+              color: context.elTheme.textTheme.secondaryStyle.color,
             ),
           ),
         ),

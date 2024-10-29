@@ -352,12 +352,10 @@ class _ElButtonState extends State<ElButton> {
       result = ConstrainedBox(constraints: $constraints, child: result);
     }
 
-    result = ElAnimatedTextTheme(
+    result = ElAnimatedDefaultTextStyle(
       duration: context.elDuration(_duration),
-      data: ElTextThemeData(
-        style: _defaultTextStyle.copyWith(
-          color: _colorStyle.textColor,
-        ),
+      style: _defaultTextStyle.copyWith(
+        color: _colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
         duration: context.elDuration(_duration),
@@ -377,11 +375,9 @@ class _ElButtonState extends State<ElButton> {
         children: [
           result,
           Positioned.fill(
-            child: ElTextTheme.merge(
-              data: ElTextThemeData(
-                style: _defaultTextStyle.copyWith(
-                  color: _colorStyle.loadingTextColor,
-                ),
+            child: ElDefaultTextStyle.merge(
+              style: _defaultTextStyle.copyWith(
+                color: _colorStyle.loadingTextColor,
               ),
               child: Center(
                 child: _buildIconTheme(
@@ -468,7 +464,7 @@ class _ElButtonState extends State<ElButton> {
     }
 
     $child = _buildIconTheme(
-      color: ElTextTheme.of(context).style.color,
+      color: ElDefaultTextStyle.of(context).style.color,
       child: childContent,
     );
 

@@ -146,19 +146,17 @@ class ElLink extends StatelessWidget {
 
     return _LinkInheritedWidget(
       toLink,
-      child: ElTextTheme.merge(
-        data: ElTextThemeData(
-          style: TextStyle(
-            color: ElHoverBuilder.of(context) ? $activeColor : $color,
-            decoration: $decoration == ElLinkDecoration.underline
-                ? TextDecoration.underline
-                : $decoration == ElLinkDecoration.hoverUnderline
-                    ? (ElHoverBuilder.of(context)
-                        ? TextDecoration.underline
-                        : TextDecoration.none)
-                    : TextDecoration.none,
-            decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
-          ),
+      child: ElDefaultTextStyle.merge(
+        style: TextStyle(
+          color: ElHoverBuilder.of(context) ? $activeColor : $color,
+          decoration: $decoration == ElLinkDecoration.underline
+              ? TextDecoration.underline
+              : $decoration == ElLinkDecoration.hoverUnderline
+              ? (ElHoverBuilder.of(context)
+              ? TextDecoration.underline
+              : TextDecoration.none)
+              : TextDecoration.none,
+          decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
       ),

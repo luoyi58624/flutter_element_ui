@@ -67,7 +67,7 @@ class _Right extends HookWidget {
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             valueIndicatorTextStyle:
-                ElTextTheme.of(context).style.copyWith(
+            ElDefaultTextStyle.of(context).style.copyWith(
                       fontSize: 14,
                       color: Colors.white,
                     ),

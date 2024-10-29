@@ -82,12 +82,10 @@ class SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ElTextTheme.merge(
-          data: const ElTextThemeData(
-            style: TextStyle(
-              fontFamily: MyFonts.consolas,
-              fontSize: 14,
-            ),
+        ElDefaultTextStyle.merge(
+          style: const TextStyle(
+            fontFamily: MyFonts.consolas,
+            fontSize: 14,
           ),
           child: AnimatedContainer(
             duration: context.elDuration(),
@@ -136,7 +134,7 @@ class SectionCard extends StatelessWidget {
 }
 
 class FlutterHookTip extends StatelessWidget {
-  const FlutterHookTip(this.name,{super.key});
+  const FlutterHookTip(this.name, {super.key});
 
   final String name;
 

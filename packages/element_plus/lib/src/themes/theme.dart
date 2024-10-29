@@ -24,15 +24,6 @@ class _ElThemeData {
   /// 全局背景色
   final Color bgColor;
 
-  /// 常规文本颜色
-  final Color regularTextColor;
-
-  /// 次要文本颜色
-  final Color secondaryTextColor;
-
-  /// 占位文本颜色
-  final Color placeholderTextColor;
-
   /// 边框颜色
   final Color borderColor;
 
@@ -46,9 +37,6 @@ class _ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xfffafafa),
-    this.regularTextColor = const Color(0xff606266),
-    this.secondaryTextColor = const Color(0xff909399),
-    this.placeholderTextColor = const Color(0xffA8ABB2),
     this.borderColor = const Color(0xffDCDFE6),
   });
 
@@ -59,9 +47,6 @@ class _ElThemeData {
     this.warning = const Color(0xffE6A23C),
     this.error = const Color(0xffF56C6C),
     this.bgColor = const Color(0xff2b2b2b),
-    this.regularTextColor = const Color(0xffCFD3DC),
-    this.secondaryTextColor = const Color(0xffA3A6AD),
-    this.placeholderTextColor = const Color(0xff8D9095),
     this.borderColor = const Color(0xffa3a3a3),
   });
 }
