@@ -70,6 +70,7 @@ class ElProgressTheme extends InheritedWidget {
 }
 
 extension ElProgressThemeDataLerpExtension on ElProgressThemeData {
+  /// 主题动画线性插值
   ElProgressThemeData lerp(
       ElProgressThemeData a, ElProgressThemeData b, double t) {
     if (identical(a, b)) {

@@ -74,6 +74,7 @@ class ElCodePreviewTheme extends InheritedWidget {
 }
 
 extension ElCodePreviewThemeDataLerpExtension on ElCodePreviewThemeData {
+  /// 主题动画线性插值
   ElCodePreviewThemeData lerp(
       ElCodePreviewThemeData a, ElCodePreviewThemeData b, double t) {
     if (identical(a, b)) {

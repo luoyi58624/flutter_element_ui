@@ -72,11 +72,11 @@ class ElAnimatedDefaultTextStyle extends StatelessWidget {
     this.onEnd,
   });
 
+  final Widget child;
+  final TextStyle style;
   final Duration? duration;
   final Curve? curve;
   final VoidCallback? onEnd;
-  final Widget child;
-  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {

@@ -2,40 +2,7 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'app.dart';
-import 'themes/config.dart';
-import 'themes/theme.dart';
-
-extension ElThemeExtension on BuildContext {
-  /// Element UI 自适应主题，如果当前是暗黑模式，则获取注入的暗黑主题，否则获取注入的亮色主题
-  ElThemeData get elTheme =>
-      isDark ? ElApp.of(this).darkTheme : ElApp.of(this).theme;
-
-  /// Element UI 自适应动画主题，引用的值具有动画特性，注意：它只适用于普通小部件，不适用于隐式动画小部件
-  ElThemeData get elAnimatedTheme => ElTheme.of(this);
-
-  /// Element UI 全局配置
-  ElConfigThemeData get elConfig => ElApp.of(this).config;
-
-  /// Element UI 全局主题动画时间扩展方法，此方法用于隐式动画小部件，例如：
-  /// ```dart
-  /// AnimatedContainer(
-  ///   duration: context.elDuration(300.ms),
-  /// ),
-  /// ```
-  Duration elDuration([Duration? duration]) =>
-      ThemeAnimationInheritedWidget.of(this).themeDuration ??
-      duration ??
-      Duration.zero;
-
-  /// Element UI 动画曲线扩展方法
-  Curve elCurve([Curve? curve]) =>
-      ThemeAnimationInheritedWidget.of(this).themeCurve ??
-      curve ??
-      Curves.linear;
-}
-
-extension ElColorThemeExtension on Color {
+extension ElColorExtension on Color {
   Color elLight1(BuildContext context, {bool reverse = false}) =>
       _elLight(context, 1, reverse);
 

@@ -64,6 +64,7 @@ class ElTagTheme extends InheritedWidget {
 }
 
 extension ElTagThemeDataLerpExtension on ElTagThemeData {
+  /// 主题动画线性插值
   ElTagThemeData lerp(ElTagThemeData a, ElTagThemeData b, double t) {
     if (identical(a, b)) {
       return a;

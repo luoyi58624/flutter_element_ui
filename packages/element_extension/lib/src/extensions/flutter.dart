@@ -1,10 +1,32 @@
 import 'dart:ui';
 
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
 import '../widgets/scroll_behavior.dart';
 
 extension FlutterContextExtension on BuildContext {
+  /// 获取当平台亮度模式
+  Brightness? get brightness => ElBrightness.of(this);
+
+  /// 当前环境是否是暗黑模式
+  bool get isDark => brightness == Brightness.dark;
+
+  /// Element UI 亮色主题
+  ElThemeData get lightTheme => ElApp.of(this).theme;
+
+  /// Element UI 暗色主题
+  ElThemeData get darkTheme => ElApp.of(this).darkTheme;
+
+  /// Element UI 主题颜色集合
+  Map<String, Color> get elThemeColors => {
+    'primary': elTheme.primary,
+    'success': elTheme.success,
+    'info': elTheme.info,
+    'warning': elTheme.warning,
+    'error': elTheme.error,
+  };
+
   /// 从上下文 context 获取当前 Widget 的坐标位置，默认情况下获取的位置相对于屏幕原点，
   /// 你还可以传递另一个 Widget 的 context 作为参数，计算相对坐标
   Offset getOffset([BuildContext? context]) {

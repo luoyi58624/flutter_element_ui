@@ -39,6 +39,7 @@ extension ElTextThemeDataExtension on ElTextThemeData {
 // **************************************************************************
 
 extension ElTextThemeDataLerpExtension on ElTextThemeData {
+  /// 主题动画线性插值
   ElTextThemeData lerp(ElTextThemeData a, ElTextThemeData b, double t) {
     if (identical(a, b)) {
       return a;

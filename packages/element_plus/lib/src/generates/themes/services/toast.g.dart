@@ -36,6 +36,7 @@ extension ElToastThemeDataExtension on ElToastThemeData {
 // **************************************************************************
 
 extension ElToastThemeDataLerpExtension on ElToastThemeData {
+  /// 主题动画线性插值
   ElToastThemeData lerp(ElToastThemeData a, ElToastThemeData b, double t) {
     if (identical(a, b)) {
       return a;

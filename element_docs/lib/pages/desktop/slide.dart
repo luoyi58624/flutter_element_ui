@@ -97,7 +97,8 @@ class SlideWidget extends StatelessWidget {
                                                     color: context.isHover ||
                                                             isActive
                                                         ? context
-                                                            .elTheme.primary
+                                                            .elAnimatedTheme
+                                                            .primary
                                                         : context
                                                             .elAnimatedTheme
                                                             .textTheme

@@ -154,6 +154,7 @@ class $themeClassName extends InheritedWidget {
 
     return """
 extension ${_className}LerpExtension on $_className {
+  /// 主题动画线性插值
   $_className lerp($_className a, $_className b, double t) {
     if (identical(a, b)) {
       return a;
@@ -178,20 +179,42 @@ extension ${_className}LerpExtension on $_className {
     String themeClassName = '$_prefix${rawName}Theme';
     String animatedThemeClassName = '${_prefix}Animated${rawName}Theme';
     String tweenClassName = '_$_prefix${rawName}DataTween';
-    String lerpContent = '';
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
-      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
-    }
 
     return """
-class $animatedThemeClassName extends ImplicitlyAnimatedWidget {
+class $animatedThemeClassName extends StatelessWidget {
   /// 提供动画默认数据小部件
   const $animatedThemeClassName({
     super.key,
+    required this.child,
     required this.data,
+    this.duration,
+    this.curve,
+    this.onEnd,
+  });
+
+  final Widget child;
+  final $_className data;
+  final Duration? duration;
+  final Curve? curve;
+  final VoidCallback? onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return _$animatedThemeClassName(
+      duration: duration ?? context.elDuration(),
+      curve: curve ?? context.elCurve(),
+      onEnd: onEnd,
+      data: data,
+      child: child,
+    );
+  }
+}  
+    
+class _$animatedThemeClassName extends ImplicitlyAnimatedWidget {
+  const _$animatedThemeClassName({
+    required this.data,
+    required super.duration,
     super.curve,
-    super.duration = kThemeAnimationDuration,
     super.onEnd,
     required this.child,
   });
@@ -200,11 +223,11 @@ class $animatedThemeClassName extends ImplicitlyAnimatedWidget {
   final Widget child;
 
   @override
-  AnimatedWidgetBaseState<$animatedThemeClassName> createState() =>
+  AnimatedWidgetBaseState<_$animatedThemeClassName> createState() =>
       _${_className}State();
 }
 
-class _${_className}State extends AnimatedWidgetBaseState<$animatedThemeClassName> {
+class _${_className}State extends AnimatedWidgetBaseState<_$animatedThemeClassName> {
   $tweenClassName? _data;
 
   @override
@@ -227,17 +250,7 @@ class $tweenClassName extends Tween<$_className> {
   $tweenClassName({super.begin});
 
   @override
-  $_className lerp(double t) => _lerp(begin!, end!, t);
-
-  static $_className _lerp($_className a, $_className b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return $_className(
-        $lerpContent
-    );
-  }
+  $_className lerp(double t) => $_className.theme.lerp(begin!, end!, t);
 }
     """;
   }

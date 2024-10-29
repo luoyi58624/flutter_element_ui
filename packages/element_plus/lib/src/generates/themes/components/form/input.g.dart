@@ -76,6 +76,7 @@ class ElInputTheme extends InheritedWidget {
 }
 
 extension ElInputThemeDataLerpExtension on ElInputThemeData {
+  /// 主题动画线性插值
   ElInputThemeData lerp(ElInputThemeData a, ElInputThemeData b, double t) {
     if (identical(a, b)) {
       return a;

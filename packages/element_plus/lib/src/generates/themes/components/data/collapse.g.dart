@@ -70,6 +70,7 @@ class ElCollapseTheme extends InheritedWidget {
 }
 
 extension ElCollapseThemeDataLerpExtension on ElCollapseThemeData {
+  /// 主题动画线性插值
   ElCollapseThemeData lerp(
       ElCollapseThemeData a, ElCollapseThemeData b, double t) {
     if (identical(a, b)) {

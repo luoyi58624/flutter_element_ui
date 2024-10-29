@@ -33,6 +33,7 @@ extension ElTooltipThemeDataExtension on ElTooltipThemeData {
 // **************************************************************************
 
 extension ElTooltipThemeDataLerpExtension on ElTooltipThemeData {
+  /// 主题动画线性插值
   ElTooltipThemeData lerp(
       ElTooltipThemeData a, ElTooltipThemeData b, double t) {
     if (identical(a, b)) {

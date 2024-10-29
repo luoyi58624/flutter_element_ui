@@ -64,6 +64,7 @@ class ElNavMenuTheme extends InheritedWidget {
 }
 
 extension ElNavMenuThemeDataLerpExtension on ElNavMenuThemeData {
+  /// 主题动画线性插值
   ElNavMenuThemeData lerp(
       ElNavMenuThemeData a, ElNavMenuThemeData b, double t) {
     if (identical(a, b)) {

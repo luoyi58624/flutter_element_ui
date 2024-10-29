@@ -73,6 +73,7 @@ class ElSliderTheme extends InheritedWidget {
 }
 
 extension ElSliderThemeDataLerpExtension on ElSliderThemeData {
+  /// 主题动画线性插值
   ElSliderThemeData lerp(ElSliderThemeData a, ElSliderThemeData b, double t) {
     if (identical(a, b)) {
       return a;

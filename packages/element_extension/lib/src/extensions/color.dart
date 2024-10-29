@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart'
     show MaterialColor, Color, HSLColor;
 
-extension ElColorStringExtension on String {
+extension FlutterColorStringExtension on String {
   /// 将16进制字符串颜色转成Color对象
   Color toColor() {
     final buffer = StringBuffer();
@@ -11,7 +11,7 @@ extension ElColorStringExtension on String {
   }
 }
 
-extension ElColorExtension on Color {
+extension FlutterColorExtension on Color {
   /// 判断一个颜色是否是暗色
   // 通常我们以 128 作为分界点，但这个值对于 Element 主题系统来讲实在太低了，
   // 例如：默认的 primary 颜色的 hsp 高达 141，而 warning 颜色更是高达 171,

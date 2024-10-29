@@ -29,7 +29,7 @@ class ElConfigThemeData {
     this.size = 36,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.borderSize = 1.0,
-    this.themeDuration = Duration.zero,
+    this.themeDuration = kThemeAnimationDuration,
     this.themeCurve = Curves.linear,
   }) : assert(size >= 24);
 }

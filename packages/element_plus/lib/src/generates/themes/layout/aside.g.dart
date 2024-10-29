@@ -67,6 +67,7 @@ class ElAsideTheme extends InheritedWidget {
 }
 
 extension ElAsideThemeDataLerpExtension on ElAsideThemeData {
+  /// 主题动画线性插值
   ElAsideThemeData lerp(ElAsideThemeData a, ElAsideThemeData b, double t) {
     if (identical(a, b)) {
       return a;

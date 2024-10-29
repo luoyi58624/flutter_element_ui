@@ -67,6 +67,7 @@ class ElHeaderTheme extends InheritedWidget {
 }
 
 extension ElHeaderThemeDataLerpExtension on ElHeaderThemeData {
+  /// 主题动画线性插值
   ElHeaderThemeData lerp(ElHeaderThemeData a, ElHeaderThemeData b, double t) {
     if (identical(a, b)) {
       return a;

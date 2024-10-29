@@ -73,6 +73,7 @@ class ElLinkTheme extends InheritedWidget {
 }
 
 extension ElLinkThemeDataLerpExtension on ElLinkThemeData {
+  /// 主题动画线性插值
   ElLinkThemeData lerp(ElLinkThemeData a, ElLinkThemeData b, double t) {
     if (identical(a, b)) {
       return a;

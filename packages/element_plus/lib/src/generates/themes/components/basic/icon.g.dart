@@ -70,6 +70,7 @@ class ElIconTheme extends InheritedWidget {
 }
 
 extension ElIconThemeDataLerpExtension on ElIconThemeData {
+  /// 主题动画线性插值
   ElIconThemeData lerp(ElIconThemeData a, ElIconThemeData b, double t) {
     if (identical(a, b)) {
       return a;
@@ -83,13 +84,40 @@ extension ElIconThemeDataLerpExtension on ElIconThemeData {
   }
 }
 
-class ElAnimatedIconTheme extends ImplicitlyAnimatedWidget {
+class ElAnimatedIconTheme extends StatelessWidget {
   /// 提供动画默认数据小部件
   const ElAnimatedIconTheme({
     super.key,
+    required this.child,
     required this.data,
+    this.duration,
+    this.curve,
+    this.onEnd,
+  });
+
+  final Widget child;
+  final ElIconThemeData data;
+  final Duration? duration;
+  final Curve? curve;
+  final VoidCallback? onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ElAnimatedIconTheme(
+      duration: duration ?? context.elDuration(),
+      curve: curve ?? context.elCurve(),
+      onEnd: onEnd,
+      data: data,
+      child: child,
+    );
+  }
+}
+
+class _ElAnimatedIconTheme extends ImplicitlyAnimatedWidget {
+  const _ElAnimatedIconTheme({
+    required this.data,
+    required super.duration,
     super.curve,
-    super.duration = kThemeAnimationDuration,
     super.onEnd,
     required this.child,
   });
@@ -98,12 +126,12 @@ class ElAnimatedIconTheme extends ImplicitlyAnimatedWidget {
   final Widget child;
 
   @override
-  AnimatedWidgetBaseState<ElAnimatedIconTheme> createState() =>
+  AnimatedWidgetBaseState<_ElAnimatedIconTheme> createState() =>
       _ElIconThemeDataState();
 }
 
 class _ElIconThemeDataState
-    extends AnimatedWidgetBaseState<ElAnimatedIconTheme> {
+    extends AnimatedWidgetBaseState<_ElAnimatedIconTheme> {
   _ElIconDataTween? _data;
 
   @override
@@ -129,17 +157,5 @@ class _ElIconDataTween extends Tween<ElIconThemeData> {
   _ElIconDataTween({super.begin});
 
   @override
-  ElIconThemeData lerp(double t) => _lerp(begin!, end!, t);
-
-  static ElIconThemeData _lerp(ElIconThemeData a, ElIconThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElIconThemeData(
-      icon: t < 0.5 ? a.icon : b.icon,
-      size: lerpDouble(a.size, b.size, t) ?? a.size,
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-    );
-  }
+  ElIconThemeData lerp(double t) => ElIconThemeData.theme.lerp(begin!, end!, t);
 }

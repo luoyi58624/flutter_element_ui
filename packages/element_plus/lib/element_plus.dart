@@ -3,11 +3,10 @@ library flutter_element_ui;
 export 'package:url_launcher/link.dart' show LinkTarget;
 export 'package:logger/logger.dart' show Level;
 
-export 'src/app.dart';
 export 'src/service.dart';
 export 'src/types.dart';
-export 'src/extension.dart';
 
+export 'src/components/basic/app/index.dart';
 export 'src/components/basic/button/index.dart';
 export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
@@ -61,6 +60,8 @@ export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
+
+export 'src/extensions/color.dart';
 
 export 'src/models/menu.dart';
 export 'src/models/tab.dart';

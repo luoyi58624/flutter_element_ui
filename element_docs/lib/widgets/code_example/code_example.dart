@@ -77,7 +77,9 @@ class _PreviewButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useAnimationController(duration: 250.ms);
+    final controller = useAnimationController(
+      duration: 250.ms,
+    );
     final curve = CurvedAnimation(
       parent: controller,
       curve: Curves.easeOut,

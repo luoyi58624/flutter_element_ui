@@ -1,9 +1,16 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-import 'global.dart';
-import 'themes/config.dart';
-import 'themes/theme.dart';
-import 'components/basic/scrollbar.dart';
+import '../../../global.dart';
+import '../../../themes/config.dart';
+import '../../../themes/theme.dart';
+import '../scrollbar.dart';
+
+part 'extension.dart';
+
+part 'theme_animation.dart';
 
 class ElApp extends StatelessWidget {
   /// Element UI 全局配置小部件
@@ -74,7 +81,7 @@ class ElApp extends StatelessWidget {
         darkTheme: darkTheme,
         config: config,
       ),
-      child: ThemeAnimation(
+      child: _ThemeAnimation(
         data: $data,
         child: ElAnimatedTheme(
           duration: config.themeDuration,

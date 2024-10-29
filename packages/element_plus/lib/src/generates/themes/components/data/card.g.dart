@@ -70,6 +70,7 @@ class ElCardTheme extends InheritedWidget {
 }
 
 extension ElCardThemeDataLerpExtension on ElCardThemeData {
+  /// 主题动画线性插值
   ElCardThemeData lerp(ElCardThemeData a, ElCardThemeData b, double t) {
     if (identical(a, b)) {
       return a;

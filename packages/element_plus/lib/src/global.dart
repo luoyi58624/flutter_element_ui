@@ -7,10 +7,12 @@ export 'package:flutter_obs/flutter_obs.dart';
 
 export 'service.dart';
 export 'types.dart';
-export 'extension.dart';
 
+export 'components/basic/app/index.dart';
 export 'components/basic/text/index.dart';
 export 'components/basic/icon/index.dart';
+
+export 'extensions/color.dart';
 
 export 'services/message.dart';
 export 'services/toast.dart';

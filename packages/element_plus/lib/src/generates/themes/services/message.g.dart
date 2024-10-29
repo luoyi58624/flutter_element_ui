@@ -45,6 +45,7 @@ extension ElMessageThemeDataExtension on ElMessageThemeData {
 // **************************************************************************
 
 extension ElMessageThemeDataLerpExtension on ElMessageThemeData {
+  /// 主题动画线性插值
   ElMessageThemeData lerp(
       ElMessageThemeData a, ElMessageThemeData b, double t) {
     if (identical(a, b)) {
