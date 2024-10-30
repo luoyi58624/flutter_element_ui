@@ -2,6 +2,14 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
+const _minWidth = 56.0;
+const _height = 28.0;
+const _padding = EdgeInsets.symmetric(horizontal: 12);
+const _hasClosablePadding = EdgeInsets.only(
+  left: 12,
+  right: 6,
+);
+
 class ElTag extends StatelessWidget {
   const ElTag(
     this.text, {
@@ -10,7 +18,7 @@ class ElTag extends StatelessWidget {
     this.width,
     this.height,
     this.bgColor,
-    this.color,
+    this.textStyle,
     this.plain,
     this.round,
     this.closable,
@@ -29,14 +37,14 @@ class ElTag extends StatelessWidget {
   /// 标签最小宽度
   final double? width;
 
-  /// 标签高度，默认 28
+  /// 标签高度
   final double? height;
 
   /// 自定义标签背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
-  /// 文字、图标颜色，如果为空，则根据 [bgColor] 自动计算
-  final Color? color;
+  /// 自定义文本样式
+  final TextStyle? textStyle;
 
   /// 镂空标签
   final bool? plain;
@@ -61,39 +69,28 @@ class ElTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tagTheme = ElTagTheme.of(context);
-    final $type = type ?? tagTheme.type ?? El.primary;
-    final $bgColor =
-        bgColor ?? tagTheme.bgColor ?? context.elThemeColors[$type]!;
-    final $plain = plain ?? tagTheme.plain ?? false;
-    final $round = round ?? tagTheme.round ?? false;
-    final $width = width ?? tagTheme.width ?? 56;
-    final $height = height ?? tagTheme.height ?? 28;
-    final $closable = closable ?? tagTheme.closable ?? false;
+    final theme = ElTagTheme.maybeOf(context) ?? context.elTheme.tagTheme;
+    final $type = type ?? theme.type ?? El.primary;
+    final $bgColor = bgColor ?? theme.bgColor ?? context.elThemeColors[$type]!;
+    final $plain = plain ?? theme.plain ?? false;
+    final $round = round ?? theme.round ?? false;
+    final $width = width ?? theme.width ?? _minWidth;
+    final $height = height ?? theme.height ?? _height;
+    final $closable = closable ?? theme.closable ?? false;
     final $borderRadius = $round
         ? BorderRadius.circular($height / 2)
-        : borderRadius ?? tagTheme.borderRadius ?? context.elConfig.radius;
+        : borderRadius ?? theme.borderRadius ?? context.elConfig.radius;
     final $padding = padding ??
-        tagTheme.padding ??
-        const EdgeInsets.symmetric(horizontal: 12);
+        theme.padding ??
+        ($closable ? _hasClosablePadding : _padding);
+    final $textStyle = TextStyle(
+      color: $plain ? $bgColor : $bgColor.elTextColor(context),
+      fontSize: 12,
+    ).merge(textStyle ?? theme.textStyle);
 
-    Widget result = Row(
-      children: [
-        ElText(
-          text,
-          style: TextStyle(
-            color: $plain ? $bgColor : $bgColor.elTextColor(context),
-            fontSize: 14,
-          ),
-          strutStyle: const StrutStyle(
-            forceStrutHeight: true,
-          ),
-        ),
-      ],
-    );
-
-    result = UnconstrainedBox(
-      child: Container(
+    return UnconstrainedBox(
+      child: AnimatedContainer(
+        duration: context.elDuration(),
         constraints: BoxConstraints(
           minWidth: $width,
           minHeight: $height,
@@ -105,10 +102,33 @@ class ElTag extends StatelessWidget {
           borderRadius: $borderRadius,
           border: Border.all(color: $bgColor, width: 1),
         ),
-        child: Center(child: result),
+        child: Center(
+          child: Row(
+            children: [
+              ElAnimatedDefaultTextStyle(
+                style: $textStyle,
+                child: ElText(text),
+              ),
+              if ($closable)
+                Padding(
+                  padding: const EdgeInsets.only(left: 6.0),
+                  child: ElAnimatedIconTheme(
+                    data: ElIconThemeData(
+                      color: $textStyle.color,
+                    ),
+                    child: ElCloseButton(
+                      cursor: SystemMouseCursors.click,
+                      iconHoverColor: $plain
+                          ? $bgColor.elTextColor(context)
+                          : $textStyle.color,
+                      bgHoverColor: $plain ? $bgColor : $bgColor.deepen(25),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
-
-    return result;
   }
 }

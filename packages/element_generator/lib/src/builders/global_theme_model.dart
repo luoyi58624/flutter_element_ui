@@ -33,6 +33,8 @@ class ElGlobalThemeModelGenerator
     final classFields = MirrorUtils.filterFields(classInfo);
 
     String fieldContent = "";
+    String lightInstanceArgument = "";
+    String darkInstanceArgument = "";
     String lightConstructionArgument = "";
     String darkConstructionArgument = "";
     String copyWithArgument = '';
@@ -43,7 +45,6 @@ class ElGlobalThemeModelGenerator
     for (final fieldInfo in classFields) {
       final fieldName = fieldInfo.name;
       lightConstructionArgument += 'super.$fieldName,';
-      darkConstructionArgument += 'super.$fieldName,';
       copyWithArgument += '${fieldInfo.type.toString()}? $fieldName,\n';
       copyWithContent += '$fieldName: $fieldName ?? super.$fieldName,\n';
       mergeContent += '$fieldName: other.$fieldName,\n';
@@ -60,10 +61,10 @@ class ElGlobalThemeModelGenerator
         """;
       }
       fieldContent += $fieldContent;
-      lightConstructionArgument +=
-          'this.$themeVarName = ${model.name}.theme,\n';
-      darkConstructionArgument +=
-          'this.$themeVarName = ${model.name}.darkTheme,\n';
+      lightInstanceArgument += '$themeVarName: ${model.name}.theme,\n';
+      darkInstanceArgument += '$themeVarName: ${model.name}.darkTheme,\n';
+      lightConstructionArgument += 'required this.$themeVarName,\n';
+      darkConstructionArgument += 'required this.$themeVarName,\n';
       copyWithArgument += '${model.name}? $themeVarName,\n';
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
@@ -74,20 +75,24 @@ class ElGlobalThemeModelGenerator
     return """
 class $globalThemeClassName extends $className {
   /// 亮色默认主题
-  static const $globalThemeClassName theme = $globalThemeClassName();
+  static const $globalThemeClassName theme = $globalThemeClassName._(
+    $lightInstanceArgument
+  );
   
   /// 暗色默认主题
-  static const $globalThemeClassName darkTheme = $globalThemeClassName.dark();
+  static const $globalThemeClassName darkTheme = $globalThemeClassName._dark(
+    $darkInstanceArgument
+  );
   
   $fieldContent
   
-  /// 亮色主题构造器，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
-  const $globalThemeClassName({
+  /// 亮色主题构造器，构建器是私有的，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
+  const $globalThemeClassName._({
     $lightConstructionArgument
   });
   
-  /// 暗色主题构造器，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
-  const $globalThemeClassName.dark({
+  /// 暗色主题构造器，构建器是私有的，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
+  const $globalThemeClassName._dark({
     $darkConstructionArgument
   }) : super.dark();
   
@@ -95,7 +100,7 @@ class $globalThemeClassName extends $className {
   $globalThemeClassName copyWith({
     $copyWithArgument
   }) {
-    return $globalThemeClassName(
+    return $globalThemeClassName._(
       $copyWithContent
     );
   }
@@ -173,7 +178,7 @@ class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
       return a;
     }
 
-    return $globalThemeClassName(
+    return $globalThemeClassName._(
         $lerpContent
     );
   }
@@ -181,4 +186,3 @@ class $globalAnimateTweenClassName extends Tween<$globalThemeClassName> {
 """;
   }
 }
-

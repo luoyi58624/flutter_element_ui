@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart'
-    show MaterialColor, Color, HSLColor;
+import 'package:element_plus/element_plus.dart';
+import 'package:flutter/material.dart' show MaterialColor, Color, HSLColor;
 
 extension FlutterColorStringExtension on String {
   /// 将16进制字符串颜色转成Color对象
@@ -12,13 +12,10 @@ extension FlutterColorStringExtension on String {
 }
 
 extension FlutterColorExtension on Color {
-  /// 判断一个颜色是否是暗色
-  // 通常我们以 128 作为分界点，但这个值对于 Element 主题系统来讲实在太低了，
-  // 例如：默认的 primary 颜色的 hsp 高达 141，而 warning 颜色更是高达 171,
-  // 如果将此值设置为默认的 128，那么很多与主题相关的文字颜色将都变成黑色。
+  /// 判断一个颜色是否是暗色，171 表示 [El.warning] 的感知亮度，这个值可以覆盖 Element UI 默认的主题系统
   bool get isDark => hsp <= 171;
 
-  /// 返回一个颜色的hsp (颜色的感知亮度)
+  /// 返回一个颜色的感知亮度：0 - 255，0 表示纯黑色，255 表示纯白色
   ///
   /// http://www.w3.org/TR/AERT#color-contrast
   int get hsp =>
@@ -108,28 +105,20 @@ extension FlutterColorExtension on Color {
   }
 
   /// 将当前颜色和另一种颜色按一定比例进行混合
-  /// * color2 与之混合的颜色
+  /// * other 与之混合的颜色
   /// * scale 0-100，比值越小就越接近color1，比值越大就接近color2
-  Color mix(Color color2, int scale) {
+  Color mix(Color other, int scale) {
     assert(scale >= 0 && scale <= 100);
     var p = scale / 100;
     return Color.fromARGB(
-      ((color2.alpha - alpha) * p + alpha).round(),
-      ((color2.red - red) * p + red).round(),
-      ((color2.green - green) * p + green).round(),
-      ((color2.blue - blue) * p + blue).round(),
+      ((other.alpha - alpha) * p + alpha).round(),
+      ((other.red - red) * p + red).round(),
+      ((other.green - green) * p + green).round(),
+      ((other.blue - blue) * p + blue).round(),
     );
   }
 
   /// 根据状态返回新的颜色
   Color on(bool flag, {int scale = 10, Color? color}) =>
       flag ? (color ?? deepen(scale)) : this;
-
-  /// 将当前颜色和另一种颜色进行线性插值
-  Color lerp(Color otherColor, double t) {
-    assert(Color.lerp(this, otherColor, t) != null);
-    return Color.lerp(this, otherColor, t)!;
-  }
 }
-
-typedef ColorEventBuilder = Color Function(Color color);

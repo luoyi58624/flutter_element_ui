@@ -33,6 +33,24 @@ class GlobalSetting extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
+                child: H5('全局主题动画时间'),
+              ),
+              ObsBuilder(builder: (context) {
+                return Slider(
+                  min: 0,
+                  max: 5000,
+                  label: GlobalState.themeDuration.value.round().toString(),
+                  value: GlobalState.themeDuration.value,
+                  onChanged: (v) => GlobalState.themeDuration.value = v,
+                );
+              }),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
                 child: H5('调整全局文本尺寸'),
               ),
               ObsBuilder(builder: (context) {

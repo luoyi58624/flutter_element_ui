@@ -11,8 +11,8 @@ class ElMessageThemeData {
 
   const ElMessageThemeData({
     this.offset = 20,
-    this.closeDuration = 3000,
-    this.animationDuration = 300,
+    this.closeDuration = const Duration(milliseconds: 3000),
+    this.animationDuration = const Duration(milliseconds: 300),
     this.showClose = true,
     this.grouping = false,
     this.builder,
@@ -22,10 +22,10 @@ class ElMessageThemeData {
   final double offset;
 
   /// 自动关闭时间，默认 3000 毫秒
-  final int closeDuration;
+  final Duration closeDuration;
 
   /// 动画持续时间，默认 300 毫秒
-  final int animationDuration;
+  final Duration animationDuration;
 
   /// 是否显示关闭按钮：默认false
   final bool showClose;

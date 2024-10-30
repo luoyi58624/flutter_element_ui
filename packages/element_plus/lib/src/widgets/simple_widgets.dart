@@ -14,16 +14,16 @@ class ElNullWidget extends StatelessWidget {
 }
 
 class ElCurrentColor extends InheritedWidget {
-  /// 一个功能小部件，让一些常用颜色拥有继承性，通常，绝大部分 Element 组件都会设置它们
+  /// 一个功能小部件，传递当前文字颜色、背景颜色
   const ElCurrentColor({
     super.key,
-    this.textColor,
+    this.color,
     this.bgColor,
     required super.child,
   });
 
   /// 当前文本颜色
-  final Color? textColor;
+  final Color? color;
 
   /// 当前背景颜色
   final Color? bgColor;

@@ -147,8 +147,7 @@ class Example1 extends StatelessWidget {
                 child: ElDefaultTextStyle(
                   style: TextStyle(
                     fontSize: 0.875.rem(context),
-                    color:
-                    GlobalState.primaryColor.value.elTextColor(context),
+                    color: context.elAnimatedTheme.primary.elTextColor(context),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -186,7 +185,7 @@ class Example1 extends StatelessWidget {
                         aspectRatio: 1.0,
                         child: GestureDetector(
                           onTap: () async {
-                            CommonUtil.copy(e.toHex(), copyMessage: e.toHex());
+                            CommonUtil.copy(e.toHex(), '复制成功：${e.toHex()}');
                           },
                           child: ElHoverBuilder(
                               cursor: SystemMouseCursors.click,

@@ -49,7 +49,10 @@ class Example2 extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
-                CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
+                CommonUtil.copy(
+                  'ElIcon(ElIcons.${keys[index]})',
+                  'ElIcon(ElIcons.${keys[index]})',
+                );
               },
               child: ElHoverBuilder(
                 cursor: SystemMouseCursors.click,

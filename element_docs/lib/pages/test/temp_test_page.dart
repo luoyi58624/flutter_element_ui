@@ -22,11 +22,16 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: Column(
-        children: [
-          // ElText('xx'),
-          H1('xx'),
-        ],
+      body: const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElTag(
+              'Tag',
+              closable: true,
+            )
+          ],
+        ),
       ),
       // body: const Demo3(),
       // body: Demo(

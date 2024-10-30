@@ -21,7 +21,7 @@ class Example1 extends StatelessWidget {
         const Gap(8),
         ElButton(
           onPressed: () {
-            el.message.show('这是一条消息提示', type: El.primary);
+            el.message.show('这是一条消息提示', type: El.primary, closeDuration: 10.ss);
           },
           type: El.primary,
           child: '主要',

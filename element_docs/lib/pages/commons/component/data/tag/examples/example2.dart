@@ -15,9 +15,9 @@ class Example2 extends StatelessWidget {
         CodeExample(
           code: code,
           children: const [
-            ElCloseButton(),
-            Gap(8),
             _Example(),
+            Gap(8),
+            _Example2(),
           ],
         ),
       ],
@@ -34,7 +34,31 @@ class _Example extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: El.themeTypes
-          .mapIndexed((i, e) => ElTag('Tag ${i + 1}', type: e))
+          .mapIndexed((i, e) => ElTag(
+                'Tag ${i + 1}',
+                type: e,
+                closable: true,
+              ))
+          .toList(),
+    );
+  }
+}
+
+class _Example2 extends StatelessWidget {
+  const _Example2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: El.themeTypes
+          .mapIndexed((i, e) => ElTag(
+                'Tag ${i + 1}',
+                type: e,
+                plain: true,
+                closable: true,
+              ))
           .toList(),
     );
   }

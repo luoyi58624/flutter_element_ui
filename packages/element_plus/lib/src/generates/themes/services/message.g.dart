@@ -10,8 +10,8 @@ extension ElMessageThemeDataExtension on ElMessageThemeData {
   /// 接收一组可选参数，返回新的对象
   ElMessageThemeData copyWith({
     double? offset,
-    int? closeDuration,
-    int? animationDuration,
+    Duration? closeDuration,
+    Duration? animationDuration,
     bool? showClose,
     bool? grouping,
     Widget Function(BuildContext, ElMessageModel)? builder,

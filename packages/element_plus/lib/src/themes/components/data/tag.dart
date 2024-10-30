@@ -14,7 +14,7 @@ class ElTagThemeData {
     this.width,
     this.height,
     this.bgColor,
-    this.color,
+    this.textStyle,
     this.plain,
     this.round,
     this.closable,
@@ -34,8 +34,8 @@ class ElTagThemeData {
   /// 自定义标签背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
-  /// 文字、图标颜色，如果为空，则根据 [bgColor] 自动计算
-  final Color? color;
+  /// 自定义文本样式
+  final TextStyle? textStyle;
 
   /// 镂空标签
   final bool? plain;

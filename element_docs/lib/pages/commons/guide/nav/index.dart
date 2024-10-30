@@ -23,42 +23,44 @@ class _Example extends HookWidget {
     return Column(
       children: [
         const Gap(8),
-        ElHoverBuilder(builder: (context) {
-          return Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: context.isHover ? Colors.green : context.elTheme.bgColor,
-              border: Border.all(),
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: context.elAnimatedTheme.primary
+                .mix(const Color(0xffffffff), 50),
+          ),
+          child: ElText(
+            'Hello',
+            style: TextStyle(
+              color: context.elTheme.bgColor.elTextColor(context),
             ),
-          );
-        }),
+          ),
+        ),
         const Gap(8),
-        ElHoverBuilder(builder: (context) {
-          return Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: context.isHover
-                  ? Colors.green
-                  : context.elAnimatedTheme.bgColor,
-              border: Border.all(),
-            ),
-          );
-        }),
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: context.elAnimatedTheme.primary.demo(context),
+          ),
+        ),
         const Gap(8),
-        ElHoverBuilder(builder: (context) {
-          return AnimatedContainer(
-            duration: context.elDuration(500.ms),
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: context.isHover ? Colors.green : context.elTheme.bgColor,
-              border: Border.all(),
-            ),
-          );
-        }),
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: context.elAnimatedTheme.primary.elLight5(context),
+          ),
+        ),
       ],
     );
   }
+}
+
+extension ElColorExtension2 on Color {
+  Color demo(BuildContext context) => mix(Colors.black, 50);
+
+  Color demo2(BuildContext context) =>
+      context.isDark ? mix(Colors.black, 50) : mix(Colors.white, 50);
 }

@@ -199,7 +199,7 @@ class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
     nextTick(() {
       List<double> $list = [];
       for (int i = 0; i < _childrenKeyList.length; i++) {
-        final offset = _childrenKeyList[i].currentContext!.getOffset(context);
+        final offset = _childrenKeyList[i].currentContext!.getPosition(context);
         $list.add(widget.axis == Axis.horizontal ? offset.dx : offset.dy);
       }
       if (_dividePositionList.value.eq($list) == false) {

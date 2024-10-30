@@ -2,18 +2,14 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/services.dart';
 
 class CommonUtil {
-  static void copy(
-    String text, {
-    String? copyMessage,
-  }) async {
+  static void copy(String text, [String? message]) async {
     await Clipboard.setData(ClipboardData(text: text));
-    String $copyMessage = '复制成功';
-    if (!ElUtil.isEmpty(copyMessage)) {
-      $copyMessage += ': $copyMessage';
-    }
+    String $copyMessage = message ?? '复制成功';
+
     el.message.show(
       $copyMessage,
-      type: El.success,
+      type: El.primary,
+      showClose: false,
       icon: const ElIcon(ElIcons.success),
     );
   }

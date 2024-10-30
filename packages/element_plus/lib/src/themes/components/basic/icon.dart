@@ -8,9 +8,11 @@ part '../../../generates/themes/components/basic/icon.g.dart';
 class ElIconThemeData {
   static const theme = ElIconThemeData(
     color: Color.fromRGBO(96, 98, 102, 1.0),
+    size: 18,
   );
   static const darkTheme = ElIconThemeData(
     color: Color(0xfff6f6f6),
+    size: 18,
   );
 
   const ElIconThemeData({

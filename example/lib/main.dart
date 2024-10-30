@@ -20,18 +20,16 @@ class MainApp extends StatelessWidget {
         config: ElConfigData(
           themeDuration: Duration(milliseconds: 500),
         ),
-        child: Builder(
-          builder: (context) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                brightness: isDark.value ? Brightness.dark : Brightness.light,
-              ),
-              themeAnimationDuration: context.elConfig.themeDuration,
-              home: const HomePage(),
-            );
-          }
-        ),
+        child: Builder(builder: (context) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              brightness: isDark.value ? Brightness.dark : Brightness.light,
+            ),
+            themeAnimationDuration: context.elConfig.themeDuration,
+            home: HomePage(),
+          );
+        }),
       );
     });
   }

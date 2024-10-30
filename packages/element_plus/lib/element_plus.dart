@@ -1,7 +1,6 @@
 library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
-export 'package:logger/logger.dart' show Level;
 
 export 'src/service.dart';
 export 'src/types.dart';
@@ -90,6 +89,7 @@ export 'src/themes/components/navigation/tab.dart';
 export 'src/themes/components/navigation/tabs.dart';
 
 export 'src/themes/components/others/code_preview.dart';
+export 'src/themes/components/others/close_button.dart';
 
 export 'src/themes/layout/aside.dart';
 export 'src/themes/layout/header.dart';

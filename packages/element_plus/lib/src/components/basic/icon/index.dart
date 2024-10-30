@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../../themes/components/basic/icon.dart';
 
-part 'state.dart';
-
 part 'icons.dart';
 
 /// Element UI 图标
@@ -30,7 +28,7 @@ class ElIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElIconTheme.of(context);
     final $icon = child ?? $theme.icon;
-    final $size = size ?? $theme.size ?? 18;
+    final $size = size ?? $theme.size ?? ElIconThemeData.theme.size!;
     final $color = color ?? $theme.color;
     if ($icon is IconData) {
       return Icon($icon, size: $size, color: $color);

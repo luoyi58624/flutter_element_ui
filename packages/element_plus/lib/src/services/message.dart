@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:element_plus/src/components/others/close_button/index.dart';
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
@@ -45,7 +46,7 @@ class MessageServiceInstance {
     BuildContext? context,
     String type = El.info,
     Widget? icon,
-    int? duration,
+    Duration? closeDuration,
     bool? showClose,
     double? offset,
     bool? grouping,
@@ -73,7 +74,7 @@ class MessageServiceInstance {
     final overlayEntry = OverlayEntry(
       builder: (context) => _Message(
         id,
-        duration ?? style.closeDuration,
+        closeDuration ?? style.closeDuration,
         style.animationDuration,
         builder ?? style.builder ?? _defaultBuilder,
       ),
@@ -140,14 +141,14 @@ class ElMessageModel {
 class _Message extends StatefulWidget {
   const _Message(
     this.id,
-    this.messageDuration,
+    this.closeDuration,
     this.animationDuration,
     this.builder,
   );
 
   final int id;
-  final int messageDuration;
-  final int animationDuration;
+  final Duration closeDuration;
+  final Duration animationDuration;
   final ElMessageBuilder builder;
 
   @override
@@ -170,7 +171,7 @@ class _MessageState extends State<_Message>
     message = el.message._messageList.firstWhere((e) => e.id == widget.id);
     // 初始化动画
     controller =
-        AnimationController(vsync: this, duration: widget.animationDuration.ms);
+        AnimationController(vsync: this, duration: widget.animationDuration);
     offsetAnimation = Tween<double>(begin: -_messageHeight, end: 0).animate(
         CurvedAnimation(parent: controller, curve: const Cubic(0, 0, 0.2, 1)));
     opacityAnimation = Tween<double>(begin: 0, end: 1)
@@ -205,7 +206,10 @@ class _MessageState extends State<_Message>
 
   /// 设置移除消息计时器
   void setRemoveTimer() {
-    _removeTimer ??= setTimeout(removeMessage, widget.messageDuration);
+    _removeTimer ??= setTimeout(
+      removeMessage,
+      widget.closeDuration.inMilliseconds,
+    );
   }
 
   /// 移除消息
@@ -216,7 +220,7 @@ class _MessageState extends State<_Message>
     // 执行移除动画
     controller.reverse();
     // 动画执行完毕后从列表中移除消息对象
-    await widget.animationDuration.ms.delay();
+    await widget.animationDuration.delay();
     message._overlayEntry.remove();
     el.message._messageList.remove(message);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
@@ -235,7 +239,7 @@ class _MessageState extends State<_Message>
 
     return ObsBuilder(builder: (context) {
       return AnimatedPositioned(
-        duration: widget.animationDuration.ms,
+        duration: widget.animationDuration,
         top: MediaQuery.paddingOf(context).top + topOffset,
         left: 0,
         right: 0,
@@ -291,10 +295,10 @@ class _DefaultMessage extends StatelessWidget {
   final ElMessageModel message;
 
   Widget get messageIcon {
-    if (message.type == 'primary') return const ElIcon(ElIcons.platformEleme);
-    if (message.type == 'success') return const ElIcon(ElIcons.success);
-    if (message.type == 'warning') return const ElIcon(ElIcons.warning);
-    if (message.type == 'error') return const ElIcon(ElIcons.error);
+    if (message.type == El.primary) return const ElIcon(ElIcons.platformEleme);
+    if (message.type == El.success) return const ElIcon(ElIcons.success);
+    if (message.type == El.warning) return const ElIcon(ElIcons.warning);
+    if (message.type == El.error) return const ElIcon(ElIcons.error);
     return const ElIcon(ElIcons.info);
   }
 
@@ -309,7 +313,7 @@ class _DefaultMessage extends StatelessWidget {
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
     return SelectionArea(
       child: AnimatedContainer(
-        duration: context.elConfig.themeDuration,
+        duration: context.elDuration(),
         constraints: BoxConstraints(
           maxWidth: maxWidth,
           minHeight: _messageHeight,
@@ -323,50 +327,41 @@ class _DefaultMessage extends StatelessWidget {
           borderRadius: context.elTheme.cardTheme.radius,
           border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
-        child: ElIconTheme(
-          data: ElIconThemeData(color: themeColor),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              message.icon ?? messageIcon,
-              const Gap(10),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: maxTextWidth,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElAnimatedIconTheme(
+              data: ElIconThemeData(color: themeColor),
+              child: message.icon ?? messageIcon,
+            ),
+            const Gap(10),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: maxTextWidth,
+              ),
+              child: ElAnimatedDefaultTextStyle(
+                style: TextStyle(
+                  color: context.isDark
+                      ? context.darkTheme.textTheme.textStyle.color
+                      : themeColor,
+                  fontWeight: ElFont.medium,
                 ),
-                child: ElAnimatedDefaultTextStyle(
-                  style: TextStyle(
-                    color: context.isDark
-                        ? context.darkTheme.textTheme.textStyle.color
-                        : themeColor,
-                    fontWeight: ElFont.medium,
-                  ),
-                  child: ElText(message.content),
+                child: ElText(message.content),
+              ),
+            ),
+            if (message.showClose) const Gap(10),
+            if (message.showClose)
+              ElAnimatedIconTheme(
+                data: ElIconThemeData(
+                    color: context.elTheme.iconTheme.color!
+                        .withAlpha(150)),
+                child: ElCloseButton(
+                  onTap: message.removeMessage,
+                  cursor: SystemMouseCursors.click,
+                  iconHoverColor: themeColor,
                 ),
               ),
-              if (message.showClose) const Gap(10),
-              if (message.showClose)
-                GestureDetector(
-                  onTap: () {
-                    message.removeMessage();
-                  },
-                  child: ElHoverBuilder(
-                    cursor: SystemMouseCursors.click,
-                    builder: (context) {
-                      return ElIcon(
-                        ElIcons.close,
-                        color: ElHoverBuilder.of(context)
-                            ? themeColor
-                            : context.isDark
-                                ? Colors.grey.shade600
-                                : Colors.grey.shade400,
-                        size: 1.25.rem(context),
-                      );
-                    },
-                  ),
-                ),
-            ],
-          ),
+          ],
         ),
       ),
     );

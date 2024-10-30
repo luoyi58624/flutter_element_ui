@@ -35,6 +35,9 @@ class GlobalState {
   static Brightness get brightness =>
       isDark ? Brightness.dark : Brightness.light;
 
+  /// 全局主题动画时间
+  static final themeDuration = Obs(0.0);
+
   static Obs<double>? _globalFontSize;
 
   static double get globalFontSize => _globalFontSize!.value;
