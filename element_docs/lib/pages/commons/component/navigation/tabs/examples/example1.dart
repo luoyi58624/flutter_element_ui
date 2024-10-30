@@ -28,14 +28,14 @@ class _Example extends HookWidget {
     final activeIndex = useState(0);
     final tabs = useState(
       List.generate(
-        20,
+        100,
         (index) => ElTab(title: '标签${index + 1}'),
       ),
     );
     return ElTabsTheme.merge(
       data: const ElTabsThemeData(
         enabledDrag: true,
-        itemGap: 16,
+        // itemGap: 16,
       ),
       child: ElTabs(
         activeIndex,

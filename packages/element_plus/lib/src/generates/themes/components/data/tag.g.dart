@@ -10,7 +10,7 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTagThemeData copyWith({
     String? type,
-    Widget? leftIcon,
+    Widget? icon,
     double? width,
     double? height,
     Color? bgColor,
@@ -26,7 +26,7 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   }) {
     return ElTagThemeData(
       type: type ?? this.type,
-      leftIcon: leftIcon ?? this.leftIcon,
+      icon: icon ?? this.icon,
       width: width ?? this.width,
       height: height ?? this.height,
       bgColor: bgColor ?? this.bgColor,
@@ -47,7 +47,7 @@ extension ElTagThemeDataExtension on ElTagThemeData {
     if (other == null) return this;
     return copyWith(
       type: other.type,
-      leftIcon: other.leftIcon,
+      icon: other.icon,
       width: other.width,
       height: other.height,
       bgColor: other.bgColor,
@@ -82,6 +82,7 @@ class ElTagTheme extends InheritedWidget {
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElTagThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.tagTheme;
+
   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
@@ -110,7 +111,7 @@ extension ElTagThemeDataLerpExtension on ElTagThemeData {
 
     return ElTagThemeData(
       type: t < 0.5 ? a.type : b.type,
-      leftIcon: t < 0.5 ? a.leftIcon : b.leftIcon,
+      icon: t < 0.5 ? a.icon : b.icon,
       width: lerpDouble(a.width, b.width, t) ?? a.width,
       height: lerpDouble(a.height, b.height, t) ?? a.height,
       bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,

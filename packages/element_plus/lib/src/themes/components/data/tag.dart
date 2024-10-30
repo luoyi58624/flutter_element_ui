@@ -11,7 +11,7 @@ class ElTagThemeData {
 
   const ElTagThemeData({
     this.type,
-    this.leftIcon,
+    this.icon,
     this.width,
     this.height,
     this.bgColor,
@@ -29,8 +29,8 @@ class ElTagThemeData {
   /// 主题类型，默认 [El.primary]
   final String? type;
 
-  /// 左图标
-  final Widget? leftIcon;
+  /// 标签左图标
+  final Widget? icon;
 
   /// 标签最小宽度
   final double? width;

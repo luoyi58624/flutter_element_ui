@@ -12,7 +12,7 @@ class ElTag extends StatelessWidget {
     this.text, {
     super.key,
     this.type,
-    this.leftIcon,
+    this.icon,
     this.width,
     this.height,
     this.bgColor,
@@ -31,11 +31,11 @@ class ElTag extends StatelessWidget {
   /// 标签文字信息
   final String text;
 
-  /// 主题类型，默认 [El.primary]
+  /// 主题类型
   final String? type;
 
-  /// 左图标
-  final Widget? leftIcon;
+  /// 标签左图标
+  final Widget? icon;
 
   /// 标签最小宽度
   final double? width;
@@ -79,9 +79,12 @@ class ElTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ElTagTheme.maybeOf(context) ?? context.elTheme.tagTheme;
-    final $type = type ?? theme.type ?? El.primary;
-    final $leftIcon = leftIcon ?? theme.leftIcon;
-    final $bgColor = bgColor ?? theme.bgColor ?? context.elThemeColors[$type]!;
+    final $type = type ?? theme.type;
+    final $icon = icon ?? theme.icon;
+    final $bgColor = bgColor ??
+        theme.bgColor ??
+        context.elThemeColors[$type] ??
+        context.elTheme.tabsTheme.bgColor!;
     final $plain = plain ?? theme.plain ?? false;
     final $round = round ?? theme.round ?? false;
     final $width = width ?? theme.width ?? _minWidth;
@@ -93,7 +96,7 @@ class ElTag extends StatelessWidget {
     final $padding = padding ??
         theme.padding ??
         EdgeInsets.only(
-          left: $leftIcon == null ? 12 : 10,
+          left: $icon == null ? 12 : 10,
           right: $closable == false ? 12 : 6,
         );
     final $textStyle = TextStyle(
@@ -120,15 +123,15 @@ class ElTag extends StatelessWidget {
         child: Center(
           child: Row(
             children: [
-              if ($leftIcon != null)
+              if ($icon != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 6.0),
-                  child: ElIconTheme.merge(
+                  child: ElAnimatedIconTheme(
                     data: ElIconThemeData(
                       size: iconSize ?? theme.iconSize ?? _iconSize,
                       color: $textStyle.color,
                     ),
-                    child: $leftIcon,
+                    child: $icon,
                   ),
                 ),
               ElAnimatedDefaultTextStyle(

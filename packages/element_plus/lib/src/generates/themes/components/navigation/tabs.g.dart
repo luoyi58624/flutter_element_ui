@@ -10,18 +10,25 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTabsThemeData copyWith({
     double? size,
+    Color? bgColor,
     EdgeInsets? padding,
     double? itemGap,
     bool? enabledDrag,
     Duration? dragDelay,
+    double? autoScrollerVelocityScalar,
+    Widget Function(Widget, int, Animation<double>)? dragProxyDecorator,
     AxisDirection? direction,
   }) {
     return ElTabsThemeData(
       size: size ?? this.size,
+      bgColor: bgColor ?? this.bgColor,
       padding: padding ?? this.padding,
       itemGap: itemGap ?? this.itemGap,
       enabledDrag: enabledDrag ?? this.enabledDrag,
       dragDelay: dragDelay ?? this.dragDelay,
+      autoScrollerVelocityScalar:
+          autoScrollerVelocityScalar ?? this.autoScrollerVelocityScalar,
+      dragProxyDecorator: dragProxyDecorator ?? this.dragProxyDecorator,
       direction: direction ?? this.direction,
     );
   }
@@ -31,10 +38,13 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
     if (other == null) return this;
     return copyWith(
       size: other.size,
+      bgColor: other.bgColor,
       padding: other.padding,
       itemGap: other.itemGap,
       enabledDrag: other.enabledDrag,
       dragDelay: other.dragDelay,
+      autoScrollerVelocityScalar: other.autoScrollerVelocityScalar,
+      dragProxyDecorator: other.dragProxyDecorator,
       direction: other.direction,
     );
   }
@@ -87,10 +97,15 @@ extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
 
     return ElTabsThemeData(
       size: lerpDouble(a.size, b.size, t) ?? a.size,
+      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
       padding: EdgeInsets.lerp(a.padding, b.padding, t) ?? a.padding,
       itemGap: lerpDouble(a.itemGap, b.itemGap, t) ?? a.itemGap,
       enabledDrag: t < 0.5 ? a.enabledDrag : b.enabledDrag,
       dragDelay: t < 0.5 ? a.dragDelay : b.dragDelay,
+      autoScrollerVelocityScalar: lerpDouble(
+              a.autoScrollerVelocityScalar, b.autoScrollerVelocityScalar, t) ??
+          a.autoScrollerVelocityScalar,
+      dragProxyDecorator: t < 0.5 ? a.dragProxyDecorator : b.dragProxyDecorator,
       direction: t < 0.5 ? a.direction : b.direction,
     );
   }

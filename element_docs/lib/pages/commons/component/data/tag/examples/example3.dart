@@ -35,7 +35,7 @@ class _Example extends HookWidget {
       children: [
         ...tagList.value.map((e) => ElTag(
               e,
-              leftIcon: const ElIcon(ElIcons.document),
+              icon: const ElIcon(ElIcons.document),
               closable: true,
               onClose: () {
                 final temp = List<String>.from(tagList.value);
@@ -78,7 +78,7 @@ class _Example extends HookWidget {
       children: [
         ...tagList.value.map((e) => ElTag(
               e,
-              leftIcon: const ElIcon(ElIcons.document),
+              icon: const ElIcon(ElIcons.document),
               closable: true,
               onClose: () {
                 final temp = List<String>.from(tagList.value);

@@ -35,7 +35,7 @@ class _Example extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: El.themeTypes
+      children: ['', ...El.themeTypes]
           .mapIndexed((i, e) => ElTag('Tag ${i + 1}', type: e))
           .toList(),
     );
@@ -50,7 +50,7 @@ class _Example2 extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: El.themeTypes
+      children: ['', ...El.themeTypes]
           .mapIndexed((i, e) => ElTag('Tag ${i + 1}', type: e, plain: true))
           .toList(),
     );
@@ -65,7 +65,7 @@ class _Example3 extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: El.themeTypes
+      children: ['', ...El.themeTypes]
           .mapIndexed((i, e) =>
               ElTag('Tag ${i + 1}', type: e, plain: true, round: true))
           .toList(),

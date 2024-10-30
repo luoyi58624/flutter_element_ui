@@ -1,9 +1,8 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-part 'state.dart';
-
-class ElTab extends StatefulWidget {
+class ElTab extends StatelessWidget {
   const ElTab({
     super.key,
     required this.title,
@@ -14,5 +13,19 @@ class ElTab extends StatefulWidget {
   final Widget? icon;
 
   @override
-  State<ElTab> createState() => _ElTabState();
+  Widget build(BuildContext context) {
+    return ElTag(
+      title,
+      borderRadius: BorderRadius.zero,
+    );
+    // return ElHoverBuilder(builder: (context) {
+    //   return Container(
+    //     child: Row(
+    //       children: [
+    //         ElText(title),
+    //       ],
+    //     ),
+    //   );
+    // });
+  }
 }

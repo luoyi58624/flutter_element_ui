@@ -1,5 +1,7 @@
 part of 'index.dart';
 
+const _autoScrollerVelocityScalar = 100.0;
+
 class _ElTabsState extends ElModelValueState<ElTabs, int>
     with SingleTickerProviderStateMixin {
   final ScrollController scrollController = ScrollController();
@@ -15,21 +17,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
       tempList.insert(newIndex, item);
       widget.onDragChanged!(tempList);
     }
-  }
-
-  Widget proxyDecorator(Widget child, int index, Animation<double> animation) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (BuildContext context, Widget? child) {
-        final double animValue = Curves.easeInOut.transform(animation.value);
-        final double scale = lerpDouble(1, 1.15, animValue)!;
-        return Transform.scale(
-          scale: scale,
-          child: child,
-        );
-      },
-      child: child,
-    );
   }
 
   @override
@@ -51,8 +38,10 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
           scrollController: scrollController,
           scrollDirection: axis,
           buildDefaultDragHandles: false,
-          autoScrollerVelocityScalar: 500,
-          proxyDecorator: proxyDecorator,
+          autoScrollerVelocityScalar:
+              theme.autoScrollerVelocityScalar ?? _autoScrollerVelocityScalar,
+          proxyDecorator:
+              theme.dragProxyDecorator ?? ElTabs.dragProxyDecorator(),
           onReorder: _onReorder,
           children: widget.tabs.mapIndexed((i, e) {
             Widget result = e;
@@ -80,9 +69,8 @@ class _ElTabsState extends ElModelValueState<ElTabs, int>
       ),
     );
 
-    return TabsInheritedWidget(
-      prop: TabsProp(
-        themeData: theme,
+    return ElTabsInheritedWidget(
+      data: ElTabsData(
         activeIndex: modelValue,
       ),
       child: result,
