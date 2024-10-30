@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
 import 'examples/example2.dart';
+import 'examples/example3.dart';
 
 class TagPage extends ResponsivePage {
   const TagPage({super.key});
@@ -15,6 +16,7 @@ class TagPage extends ResponsivePage {
     return [
       const Example1(title: '基础使用'),
       const Example2(title: '可关闭标签'),
+      const Example3(title: '动态编辑标签'),
     ];
   }
 }

@@ -10,10 +10,14 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTagThemeData copyWith({
     String? type,
+    Widget? leftIcon,
     double? width,
     double? height,
     Color? bgColor,
-    TextStyle? textStyle,
+    Color? textColor,
+    double? textSize,
+    Color? iconColor,
+    double? iconSize,
     bool? plain,
     bool? round,
     bool? closable,
@@ -22,10 +26,14 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   }) {
     return ElTagThemeData(
       type: type ?? this.type,
+      leftIcon: leftIcon ?? this.leftIcon,
       width: width ?? this.width,
       height: height ?? this.height,
       bgColor: bgColor ?? this.bgColor,
-      textStyle: this.textStyle?.merge(textStyle),
+      textColor: textColor ?? this.textColor,
+      textSize: textSize ?? this.textSize,
+      iconColor: iconColor ?? this.iconColor,
+      iconSize: iconSize ?? this.iconSize,
       plain: plain ?? this.plain,
       round: round ?? this.round,
       closable: closable ?? this.closable,
@@ -39,10 +47,14 @@ extension ElTagThemeDataExtension on ElTagThemeData {
     if (other == null) return this;
     return copyWith(
       type: other.type,
+      leftIcon: other.leftIcon,
       width: other.width,
       height: other.height,
       bgColor: other.bgColor,
-      textStyle: other.textStyle,
+      textColor: other.textColor,
+      textSize: other.textSize,
+      iconColor: other.iconColor,
+      iconSize: other.iconSize,
       plain: other.plain,
       round: other.round,
       closable: other.closable,
@@ -70,7 +82,6 @@ class ElTagTheme extends InheritedWidget {
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElTagThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.tagTheme;
-
   /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
   static Widget merge({
     Key? key,
@@ -99,10 +110,14 @@ extension ElTagThemeDataLerpExtension on ElTagThemeData {
 
     return ElTagThemeData(
       type: t < 0.5 ? a.type : b.type,
+      leftIcon: t < 0.5 ? a.leftIcon : b.leftIcon,
       width: lerpDouble(a.width, b.width, t) ?? a.width,
       height: lerpDouble(a.height, b.height, t) ?? a.height,
       bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
+      textColor: Color.lerp(a.textColor, b.textColor, t) ?? a.textColor,
+      textSize: lerpDouble(a.textSize, b.textSize, t) ?? a.textSize,
+      iconColor: Color.lerp(a.iconColor, b.iconColor, t) ?? a.iconColor,
+      iconSize: lerpDouble(a.iconSize, b.iconSize, t) ?? a.iconSize,
       plain: t < 0.5 ? a.plain : b.plain,
       round: t < 0.5 ? a.round : b.round,
       closable: t < 0.5 ? a.closable : b.closable,

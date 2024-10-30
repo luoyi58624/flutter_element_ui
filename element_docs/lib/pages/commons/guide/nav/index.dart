@@ -20,38 +20,18 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final flag = useState(false);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Gap(8),
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: context.elAnimatedTheme.primary
-                .mix(const Color(0xffffffff), 50),
-          ),
-          child: ElText(
-            'Hello',
-            style: TextStyle(
-              color: context.elTheme.bgColor.elTextColor(context),
-            ),
-          ),
-        ),
+        ElSwitch(flag),
         const Gap(8),
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: context.elAnimatedTheme.primary.demo(context),
-          ),
-        ),
-        const Gap(8),
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: context.elAnimatedTheme.primary.elLight5(context),
-          ),
+        ElAnimatedButtonTheme(
+          duration: 250.ms,
+          curve: Curves.easeOut,
+          data: ElButtonThemeData(width: flag.value ? 200 : null),
+          child: const ElButton(child: 'Hello'),
         ),
       ],
     );

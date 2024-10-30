@@ -38,6 +38,9 @@ class _Example extends StatelessWidget {
                 'Tag ${i + 1}',
                 type: e,
                 closable: true,
+                onClose: () {
+                  el.message.show('点击了关闭按钮', type: e);
+                },
               ))
           .toList(),
     );
@@ -58,6 +61,9 @@ class _Example2 extends StatelessWidget {
                 type: e,
                 plain: true,
                 closable: true,
+                onClose: () {
+                  el.message.show('点击了关闭按钮', type: e);
+                },
               ))
           .toList(),
     );
@@ -73,7 +79,16 @@ class _Example extends StatelessWidget {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: El.themeTypes.map((e) => ElTag('Hello', type: e)).toList(),
+      children: El.themeTypes
+          .mapIndexed((i, e) => ElTag(
+                'Tag \${i + 1}',
+                type: e,
+                closable: true,
+                onClose: () {
+                  el.message.show('点击了关闭按钮', type: e);
+                },
+              ))
+          .toList(),
     );
   }
 }''';

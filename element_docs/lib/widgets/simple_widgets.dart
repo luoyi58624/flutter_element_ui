@@ -122,7 +122,7 @@ class SectionCard extends StatelessWidget {
           child: Container(
             width: context.elTheme.cardTheme.radius.bottomLeft.x,
             decoration: BoxDecoration(
-              color: context.elThemeColors[type],
+              color: context.elAnimatedThemeColors[type],
               borderRadius: BorderRadius.only(
                 topLeft: context.elTheme.cardTheme.radius.topLeft,
                 bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,

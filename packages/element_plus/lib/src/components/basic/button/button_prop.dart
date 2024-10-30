@@ -59,7 +59,7 @@ class _ButtonProp {
     bool hasGroup,
   ) {
     final defaultBorderSize = context.elConfig.borderSize;
-    final $data = ElButtonTheme.of(context);
+    final $data = ElButtonTheme.maybeOf(context) ?? context.elTheme.buttonTheme;
     late final double $height;
     late final Color? $bgColor;
     late final bool $text;

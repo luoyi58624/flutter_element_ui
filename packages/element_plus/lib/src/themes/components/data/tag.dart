@@ -11,10 +11,14 @@ class ElTagThemeData {
 
   const ElTagThemeData({
     this.type,
+    this.leftIcon,
     this.width,
     this.height,
     this.bgColor,
-    this.textStyle,
+    this.textColor,
+    this.textSize,
+    this.iconColor,
+    this.iconSize,
     this.plain,
     this.round,
     this.closable,
@@ -25,17 +29,29 @@ class ElTagThemeData {
   /// 主题类型，默认 [El.primary]
   final String? type;
 
+  /// 左图标
+  final Widget? leftIcon;
+
   /// 标签最小宽度
   final double? width;
 
-  /// 标签高度
+  /// 标签高度，默认 28
   final double? height;
 
   /// 自定义标签背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
-  /// 自定义文本样式
-  final TextStyle? textStyle;
+  /// 文字颜色
+  final Color? textColor;
+
+  /// 文字大小，默认 12
+  final double? textSize;
+
+  /// 图标颜色
+  final Color? iconColor;
+
+  /// 图标大小，默认 18
+  final double? iconSize;
 
   /// 镂空标签
   final bool? plain;

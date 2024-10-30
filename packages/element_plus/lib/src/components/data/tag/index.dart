@@ -4,27 +4,27 @@ import 'package:flutter/widgets.dart';
 
 const _minWidth = 56.0;
 const _height = 28.0;
-const _padding = EdgeInsets.symmetric(horizontal: 12);
-const _hasClosablePadding = EdgeInsets.only(
-  left: 12,
-  right: 6,
-);
+const _fontSize = 12.0;
+const _iconSize = 16.0;
 
 class ElTag extends StatelessWidget {
   const ElTag(
     this.text, {
     super.key,
     this.type,
+    this.leftIcon,
     this.width,
     this.height,
     this.bgColor,
-    this.textStyle,
+    this.textColor,
+    this.textSize,
+    this.iconColor,
+    this.iconSize,
     this.plain,
     this.round,
     this.closable,
     this.borderRadius,
     this.padding,
-    this.onTap,
     this.onClose,
   });
 
@@ -34,17 +34,29 @@ class ElTag extends StatelessWidget {
   /// 主题类型，默认 [El.primary]
   final String? type;
 
+  /// 左图标
+  final Widget? leftIcon;
+
   /// 标签最小宽度
   final double? width;
 
-  /// 标签高度
+  /// 标签高度，默认 28
   final double? height;
 
   /// 自定义标签背景颜色，此属性会替代 [type]
   final Color? bgColor;
 
-  /// 自定义文本样式
-  final TextStyle? textStyle;
+  /// 文字颜色
+  final Color? textColor;
+
+  /// 文字大小，默认 12
+  final double? textSize;
+
+  /// 图标颜色
+  final Color? iconColor;
+
+  /// 图标大小，默认 18
+  final double? iconSize;
 
   /// 镂空标签
   final bool? plain;
@@ -61,9 +73,6 @@ class ElTag extends StatelessWidget {
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
 
-  /// 点击事件
-  final void Function()? onTap;
-
   /// 点击关闭按钮事件
   final void Function()? onClose;
 
@@ -71,6 +80,7 @@ class ElTag extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = ElTagTheme.maybeOf(context) ?? context.elTheme.tagTheme;
     final $type = type ?? theme.type ?? El.primary;
+    final $leftIcon = leftIcon ?? theme.leftIcon;
     final $bgColor = bgColor ?? theme.bgColor ?? context.elThemeColors[$type]!;
     final $plain = plain ?? theme.plain ?? false;
     final $round = round ?? theme.round ?? false;
@@ -82,11 +92,16 @@ class ElTag extends StatelessWidget {
         : borderRadius ?? theme.borderRadius ?? context.elConfig.radius;
     final $padding = padding ??
         theme.padding ??
-        ($closable ? _hasClosablePadding : _padding);
+        EdgeInsets.only(
+          left: $leftIcon == null ? 12 : 10,
+          right: $closable == false ? 12 : 6,
+        );
     final $textStyle = TextStyle(
-      color: $plain ? $bgColor : $bgColor.elTextColor(context),
-      fontSize: 12,
-    ).merge(textStyle ?? theme.textStyle);
+      color: textColor ??
+          theme.textColor ??
+          ($plain ? $bgColor : $bgColor.elTextColor(context)),
+      fontSize: textSize ?? theme.textSize ?? _fontSize,
+    );
 
     return UnconstrainedBox(
       child: AnimatedContainer(
@@ -105,6 +120,17 @@ class ElTag extends StatelessWidget {
         child: Center(
           child: Row(
             children: [
+              if ($leftIcon != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 6.0),
+                  child: ElIconTheme.merge(
+                    data: ElIconThemeData(
+                      size: iconSize ?? theme.iconSize ?? _iconSize,
+                      color: $textStyle.color,
+                    ),
+                    child: $leftIcon,
+                  ),
+                ),
               ElAnimatedDefaultTextStyle(
                 style: $textStyle,
                 child: ElText(text),
@@ -114,6 +140,7 @@ class ElTag extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 6.0),
                   child: ElAnimatedIconTheme(
                     data: ElIconThemeData(
+                      size: $textStyle.fontSize,
                       color: $textStyle.color,
                     ),
                     child: ElCloseButton(
@@ -122,6 +149,7 @@ class ElTag extends StatelessWidget {
                           ? $bgColor.elTextColor(context)
                           : $textStyle.color,
                       bgHoverColor: $plain ? $bgColor : $bgColor.deepen(25),
+                      onTap: onClose,
                     ),
                   ),
                 ),

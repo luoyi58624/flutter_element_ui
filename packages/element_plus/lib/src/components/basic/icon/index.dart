@@ -1,3 +1,4 @@
+import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../themes/components/basic/icon.dart';
@@ -26,7 +27,8 @@ class ElIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $theme = ElIconTheme.of(context);
+    final $theme =
+        ElIconTheme.maybeOf(context) ?? context.elAnimatedTheme.iconTheme;
     final $icon = child ?? $theme.icon;
     final $size = size ?? $theme.size ?? ElIconThemeData.theme.size!;
     final $color = color ?? $theme.color;
