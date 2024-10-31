@@ -8,7 +8,6 @@ class TempTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('临时测试页面'),
@@ -22,14 +21,21 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElTag(
+            const ElTag(
               'Tag',
               closable: true,
-            )
+            ),
+            ElIconTheme(
+              data: ElIconThemeData(
+                size: 50,
+                color: context.elAnimatedTheme.iconTheme.color,
+              ),
+              child: const ElIcon(ElIcons.house),
+            ),
           ],
         ),
       ),

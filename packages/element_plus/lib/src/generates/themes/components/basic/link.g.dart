@@ -38,7 +38,24 @@ extension ElLinkThemeDataExtension on ElLinkThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElLinkThemeDataLerpExtension on ElLinkThemeData {
+  /// 默认主题动画线性插值
+  ElLinkThemeData lerp(ElLinkThemeData a, ElLinkThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElLinkThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
+      decoration: t < 0.5 ? a.decoration : b.decoration,
+      allowDrag: t < 0.5 ? a.allowDrag : b.allowDrag,
+    );
+  }
+}
+
 class ElLinkTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElLinkTheme({
     super.key,
     required this.child,
@@ -52,11 +69,9 @@ class ElLinkTheme extends StatelessWidget {
   static ElLinkThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElLinkTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElLinkThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.linkTheme;
+      maybeOf(context) ?? context.elTheme.linkTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -78,20 +93,4 @@ class _ElLinkTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElLinkTheme oldWidget) => true;
-}
-
-extension ElLinkThemeDataLerpExtension on ElLinkThemeData {
-  /// 主题动画线性插值
-  ElLinkThemeData lerp(ElLinkThemeData a, ElLinkThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElLinkThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
-      decoration: t < 0.5 ? a.decoration : b.decoration,
-      allowDrag: t < 0.5 ? a.allowDrag : b.allowDrag,
-    );
-  }
 }

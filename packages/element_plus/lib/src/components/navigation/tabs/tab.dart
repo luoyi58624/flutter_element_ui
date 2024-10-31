@@ -1,9 +1,4 @@
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/widgets.dart';
-
-import '../../../themes/components/navigation/tabs.dart';
-import '../../data/tag/index.dart';
-import '../tabs/index.dart';
+part of 'index.dart';
 
 class ElTab extends StatelessWidget {
   const ElTab({

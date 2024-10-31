@@ -35,7 +35,26 @@ extension ElCloseButtonThemeDataExtension on ElCloseButtonThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElCloseButtonThemeDataLerpExtension on ElCloseButtonThemeData {
+  /// 默认主题动画线性插值
+  ElCloseButtonThemeData lerp(
+      ElCloseButtonThemeData a, ElCloseButtonThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCloseButtonThemeData(
+      iconHoverColor:
+          Color.lerp(a.iconHoverColor, b.iconHoverColor, t) ?? a.iconHoverColor,
+      bgHoverColor:
+          Color.lerp(a.bgHoverColor, b.bgHoverColor, t) ?? a.bgHoverColor,
+      cursor: t < 0.5 ? a.cursor : b.cursor,
+    );
+  }
+}
+
 class ElCloseButtonTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElCloseButtonTheme({
     super.key,
     required this.child,
@@ -49,11 +68,9 @@ class ElCloseButtonTheme extends StatelessWidget {
   static ElCloseButtonThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElCloseButtonTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElCloseButtonThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.closeButtonTheme;
+      maybeOf(context) ?? context.elTheme.closeButtonTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -77,26 +94,8 @@ class _ElCloseButtonTheme extends InheritedWidget {
   bool updateShouldNotify(_ElCloseButtonTheme oldWidget) => true;
 }
 
-extension ElCloseButtonThemeDataLerpExtension on ElCloseButtonThemeData {
-  /// 主题动画线性插值
-  ElCloseButtonThemeData lerp(
-      ElCloseButtonThemeData a, ElCloseButtonThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCloseButtonThemeData(
-      iconHoverColor:
-          Color.lerp(a.iconHoverColor, b.iconHoverColor, t) ?? a.iconHoverColor,
-      bgHoverColor:
-          Color.lerp(a.bgHoverColor, b.bgHoverColor, t) ?? a.bgHoverColor,
-      cursor: t < 0.5 ? a.cursor : b.cursor,
-    );
-  }
-}
-
 class ElAnimatedCloseButtonTheme extends StatelessWidget {
-  /// 提供动画默认数据小部件
+  /// 提供带有动画的局部默认主题小部件
   const ElAnimatedCloseButtonTheme({
     super.key,
     required this.child,
@@ -115,8 +114,8 @@ class ElAnimatedCloseButtonTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ElAnimatedCloseButtonTheme(
-      duration: duration ?? context.elDuration(),
-      curve: curve ?? context.elCurve(),
+      duration: context.elDuration(duration),
+      curve: context.elCurve(curve),
       onEnd: onEnd,
       data: data,
       child: child,

@@ -53,7 +53,7 @@ class ElTabsThemeData {
   /// 开启拖拽排序，默认 false
   final bool? enabledDrag;
 
-  /// 触发拖拽延迟时间，默认 200 毫秒
+  /// 触发拖拽延迟时间，默认 100 毫秒，移动端目前强制为长按触发：[kLongPressTimeout]
   final Duration? dragDelay;
 
   /// 拖拽到临界点时自动滚动速率，默认 100

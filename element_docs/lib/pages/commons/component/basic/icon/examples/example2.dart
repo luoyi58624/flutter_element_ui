@@ -40,6 +40,7 @@ class Example2 extends StatelessWidget {
         ElIconTheme(
           data: ElIconThemeData(
             size: 1.8.rem(context),
+            color: context.elAnimatedTheme.iconTheme.color,
           ),
           child: GridWidget(
             size: 125,

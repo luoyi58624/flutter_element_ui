@@ -92,50 +92,8 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElButtonTheme extends StatelessWidget {
-  const ElButtonTheme({
-    super.key,
-    required this.child,
-    required this.data,
-  });
-
-  final Widget child;
-  final ElButtonThemeData data;
-
-  /// 通过上下文访问默认的主题数据，可能为 null
-  static ElButtonThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ElButtonTheme>()?.data;
-
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
-  static ElButtonThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.buttonTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    final parent = ElButtonTheme.of(context);
-    return _ElButtonTheme(
-      data: parent.merge(data),
-      child: child,
-    );
-  }
-}
-
-class _ElButtonTheme extends InheritedWidget {
-  const _ElButtonTheme({
-    required super.child,
-    required this.data,
-  });
-
-  final ElButtonThemeData data;
-
-  @override
-  bool updateShouldNotify(_ElButtonTheme oldWidget) => true;
-}
-
 extension ElButtonThemeDataLerpExtension on ElButtonThemeData {
-  /// 主题动画线性插值
+  /// 默认主题动画线性插值
   ElButtonThemeData lerp(ElButtonThemeData a, ElButtonThemeData b, double t) {
     if (identical(a, b)) {
       return a;
@@ -171,8 +129,49 @@ extension ElButtonThemeDataLerpExtension on ElButtonThemeData {
   }
 }
 
+class ElButtonTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
+  const ElButtonTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
+
+  final Widget child;
+  final ElButtonThemeData data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElButtonThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElButtonTheme>()?.data;
+
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElButtonThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.buttonTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElButtonTheme.of(context);
+    return _ElButtonTheme(
+      data: parent.merge(data),
+      child: child,
+    );
+  }
+}
+
+class _ElButtonTheme extends InheritedWidget {
+  const _ElButtonTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElButtonThemeData data;
+
+  @override
+  bool updateShouldNotify(_ElButtonTheme oldWidget) => true;
+}
+
 class ElAnimatedButtonTheme extends StatelessWidget {
-  /// 提供动画默认数据小部件
+  /// 提供带有动画的局部默认主题小部件
   const ElAnimatedButtonTheme({
     super.key,
     required this.child,
@@ -191,8 +190,8 @@ class ElAnimatedButtonTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ElAnimatedButtonTheme(
-      duration: duration ?? context.elDuration(),
-      curve: curve ?? context.elCurve(),
+      duration: context.elDuration(duration),
+      curve: context.elCurve(curve),
       onEnd: onEnd,
       data: data,
       child: child,

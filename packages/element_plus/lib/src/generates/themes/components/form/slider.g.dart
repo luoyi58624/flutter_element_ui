@@ -38,7 +38,25 @@ extension ElSliderThemeDataExtension on ElSliderThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElSliderThemeDataLerpExtension on ElSliderThemeData {
+  /// 默认主题动画线性插值
+  ElSliderThemeData lerp(ElSliderThemeData a, ElSliderThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElSliderThemeData(
+      sliderSize: lerpDouble(a.sliderSize, b.sliderSize, t) ?? a.sliderSize,
+      thumbSize: lerpDouble(a.thumbSize, b.thumbSize, t) ?? a.thumbSize,
+      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
+      inactiveColor:
+          Color.lerp(a.inactiveColor, b.inactiveColor, t) ?? a.inactiveColor,
+    );
+  }
+}
+
 class ElSliderTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElSliderTheme({
     super.key,
     required this.child,
@@ -52,11 +70,9 @@ class ElSliderTheme extends StatelessWidget {
   static ElSliderThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElSliderTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElSliderThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.sliderTheme;
+      maybeOf(context) ?? context.elTheme.sliderTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +94,4 @@ class _ElSliderTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElSliderTheme oldWidget) => true;
-}
-
-extension ElSliderThemeDataLerpExtension on ElSliderThemeData {
-  /// 主题动画线性插值
-  ElSliderThemeData lerp(ElSliderThemeData a, ElSliderThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElSliderThemeData(
-      sliderSize: lerpDouble(a.sliderSize, b.sliderSize, t) ?? a.sliderSize,
-      thumbSize: lerpDouble(a.thumbSize, b.thumbSize, t) ?? a.thumbSize,
-      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
-      inactiveColor:
-          Color.lerp(a.inactiveColor, b.inactiveColor, t) ?? a.inactiveColor,
-    );
-  }
 }

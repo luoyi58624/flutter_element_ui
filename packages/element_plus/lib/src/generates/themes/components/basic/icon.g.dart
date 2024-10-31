@@ -35,7 +35,23 @@ extension ElIconThemeDataExtension on ElIconThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElIconThemeDataLerpExtension on ElIconThemeData {
+  /// 默认主题动画线性插值
+  ElIconThemeData lerp(ElIconThemeData a, ElIconThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElIconThemeData(
+      icon: t < 0.5 ? a.icon : b.icon,
+      size: lerpDouble(a.size, b.size, t) ?? a.size,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+    );
+  }
+}
+
 class ElIconTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElIconTheme({
     super.key,
     required this.child,
@@ -49,11 +65,9 @@ class ElIconTheme extends StatelessWidget {
   static ElIconThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElIconTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElIconThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.iconTheme;
+      maybeOf(context) ?? context.elTheme.iconTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -77,23 +91,8 @@ class _ElIconTheme extends InheritedWidget {
   bool updateShouldNotify(_ElIconTheme oldWidget) => true;
 }
 
-extension ElIconThemeDataLerpExtension on ElIconThemeData {
-  /// 主题动画线性插值
-  ElIconThemeData lerp(ElIconThemeData a, ElIconThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElIconThemeData(
-      icon: t < 0.5 ? a.icon : b.icon,
-      size: lerpDouble(a.size, b.size, t) ?? a.size,
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-    );
-  }
-}
-
 class ElAnimatedIconTheme extends StatelessWidget {
-  /// 提供动画默认数据小部件
+  /// 提供带有动画的局部默认主题小部件
   const ElAnimatedIconTheme({
     super.key,
     required this.child,
@@ -112,8 +111,8 @@ class ElAnimatedIconTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _ElAnimatedIconTheme(
-      duration: duration ?? context.elDuration(),
-      curve: curve ?? context.elCurve(),
+      duration: context.elDuration(duration),
+      curve: context.elCurve(curve),
       onEnd: onEnd,
       data: data,
       child: child,

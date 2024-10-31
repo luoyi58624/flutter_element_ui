@@ -41,7 +41,26 @@ extension ElInputThemeDataExtension on ElInputThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElInputThemeDataLerpExtension on ElInputThemeData {
+  /// 默认主题动画线性插值
+  ElInputThemeData lerp(ElInputThemeData a, ElInputThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElInputThemeData(
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
+          a.borderRadius,
+      margin: EdgeInsetsGeometry.lerp(a.margin, b.margin, t) ?? a.margin,
+      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
+      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
+    );
+  }
+}
+
 class ElInputTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElInputTheme({
     super.key,
     required this.child,
@@ -55,11 +74,9 @@ class ElInputTheme extends StatelessWidget {
   static ElInputThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElInputTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElInputThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.inputTheme;
+      maybeOf(context) ?? context.elTheme.inputTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -81,22 +98,4 @@ class _ElInputTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElInputTheme oldWidget) => true;
-}
-
-extension ElInputThemeDataLerpExtension on ElInputThemeData {
-  /// 主题动画线性插值
-  ElInputThemeData lerp(ElInputThemeData a, ElInputThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElInputThemeData(
-      height: lerpDouble(a.height, b.height, t) ?? a.height,
-      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
-          a.borderRadius,
-      margin: EdgeInsetsGeometry.lerp(a.margin, b.margin, t) ?? a.margin,
-      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
-    );
-  }
 }

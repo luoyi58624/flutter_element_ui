@@ -112,14 +112,16 @@ class _CardWidget extends StatelessWidget {
               height: 120,
               padding: const EdgeInsets.all(16.0),
               alignment: Alignment.center,
-              child: ElText(
-                content,
+              child: ElAnimatedDefaultTextStyle(
                 style: TextStyle(
                   fontSize: 14,
                   color:
                       context.isDark ? Colors.grey.shade300 : Colors.blueGrey,
                 ),
-                textAlign: TextAlign.center,
+                child: ElText(
+                  content,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             const ElDivider(),
@@ -151,7 +153,7 @@ class _CardWidget extends StatelessWidget {
                           color: ElTapBuilder.of(context) ||
                                   ElHoverBuilder.of(context)
                               ? Colors.white
-                              : context.elTheme.primary,
+                              : context.elAnimatedTheme.primary,
                         ),
                       ),
                     ),

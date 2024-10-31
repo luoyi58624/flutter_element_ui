@@ -286,7 +286,7 @@ class SlideRouterConfig {
         ),
         (
           'Message 消息提示',
-          '/${RootRoute.component.$2}/Message',
+          '/${RootRoute.component.$2}/message',
           WorkStatus.finished
         ),
         (

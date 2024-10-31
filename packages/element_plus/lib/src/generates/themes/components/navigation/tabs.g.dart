@@ -60,50 +60,8 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElTabsTheme extends StatelessWidget {
-  const ElTabsTheme({
-    super.key,
-    required this.child,
-    required this.data,
-  });
-
-  final Widget child;
-  final ElTabsThemeData data;
-
-  /// 通过上下文访问默认的主题数据，可能为 null
-  static ElTabsThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ElTabsTheme>()?.data;
-
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
-  static ElTabsThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.tabsTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    final parent = ElTabsTheme.of(context);
-    return _ElTabsTheme(
-      data: parent.merge(data),
-      child: child,
-    );
-  }
-}
-
-class _ElTabsTheme extends InheritedWidget {
-  const _ElTabsTheme({
-    required super.child,
-    required this.data,
-  });
-
-  final ElTabsThemeData data;
-
-  @override
-  bool updateShouldNotify(_ElTabsTheme oldWidget) => true;
-}
-
 extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
-  /// 主题动画线性插值
+  /// 默认主题动画线性插值
   ElTabsThemeData lerp(ElTabsThemeData a, ElTabsThemeData b, double t) {
     if (identical(a, b)) {
       return a;
@@ -125,4 +83,45 @@ extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
       dragProxyDecorator: t < 0.5 ? a.dragProxyDecorator : b.dragProxyDecorator,
     );
   }
+}
+
+class ElTabsTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
+  const ElTabsTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
+
+  final Widget child;
+  final ElTabsThemeData data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElTabsThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElTabsTheme>()?.data;
+
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElTabsThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.tabsTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElTabsTheme.of(context);
+    return _ElTabsTheme(
+      data: parent.merge(data),
+      child: child,
+    );
+  }
+}
+
+class _ElTabsTheme extends InheritedWidget {
+  const _ElTabsTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElTabsThemeData data;
+
+  @override
+  bool updateShouldNotify(_ElTabsTheme oldWidget) => true;
 }

@@ -79,8 +79,8 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     }
 
     String result = """
-        ${generateThemeWidget(annotation)}
         ${generateLerpExtension(annotation)}
+        ${generateThemeWidget(annotation)}
         ${generateAnimatedWidget(annotation)}
     """;
     return result;
@@ -105,15 +105,14 @@ static $_className of(BuildContext context) {
 }""";
     } else {
       ofContent = """
-/// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-///
-/// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+/// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
 static $_className of(BuildContext context) =>
-  maybeOf(context) ?? context.elAnimatedTheme.${rawName.firstLowerCase}Theme;""";
+  maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;""";
     }
 
     return """
 class $themeClassName extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const $themeClassName({
     super.key,
     required this.child,
@@ -162,7 +161,7 @@ class _$themeClassName extends InheritedWidget {
 
     return """
 extension ${_className}LerpExtension on $_className {
-  /// 主题动画线性插值
+  /// 默认主题动画线性插值
   $_className lerp($_className a, $_className b, double t) {
     if (identical(a, b)) {
       return a;
@@ -190,7 +189,7 @@ extension ${_className}LerpExtension on $_className {
 
     return """
 class $animatedThemeClassName extends StatelessWidget {
-  /// 提供动画默认数据小部件
+  /// 提供带有动画的局部默认主题小部件
   const $animatedThemeClassName({
     super.key,
     required this.child,
@@ -209,8 +208,8 @@ class $animatedThemeClassName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _$animatedThemeClassName(
-      duration: duration ?? context.elDuration(),
-      curve: curve ?? context.elCurve(),
+      duration: context.elDuration(duration),
+      curve: context.elCurve(curve),
       onEnd: onEnd,
       data: data,
       child: child,

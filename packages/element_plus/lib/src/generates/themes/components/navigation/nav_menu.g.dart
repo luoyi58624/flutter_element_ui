@@ -29,7 +29,23 @@ extension ElNavMenuThemeDataExtension on ElNavMenuThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElNavMenuThemeDataLerpExtension on ElNavMenuThemeData {
+  /// 默认主题动画线性插值
+  ElNavMenuThemeData lerp(
+      ElNavMenuThemeData a, ElNavMenuThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElNavMenuThemeData(
+      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
+          a.activeTextColor,
+    );
+  }
+}
+
 class ElNavMenuTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElNavMenuTheme({
     super.key,
     required this.child,
@@ -43,11 +59,9 @@ class ElNavMenuTheme extends StatelessWidget {
   static ElNavMenuThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElNavMenuTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElNavMenuThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.navMenuTheme;
+      maybeOf(context) ?? context.elTheme.navMenuTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -69,19 +83,4 @@ class _ElNavMenuTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElNavMenuTheme oldWidget) => true;
-}
-
-extension ElNavMenuThemeDataLerpExtension on ElNavMenuThemeData {
-  /// 主题动画线性插值
-  ElNavMenuThemeData lerp(
-      ElNavMenuThemeData a, ElNavMenuThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElNavMenuThemeData(
-      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
-          a.activeTextColor,
-    );
-  }
 }

@@ -20,27 +20,6 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Gap(8),
-        ElSwitch(flag),
-        const Gap(8),
-        ElAnimatedButtonTheme(
-          duration: 250.ms,
-          curve: Curves.easeOut,
-          data: ElButtonThemeData(width: flag.value ? 200 : null),
-          child: const ElButton(child: 'Hello'),
-        ),
-      ],
-    );
+    return Container();
   }
-}
-
-extension ElColorExtension2 on Color {
-  Color demo(BuildContext context) => mix(Colors.black, 50);
-
-  Color demo2(BuildContext context) =>
-      context.isDark ? mix(Colors.black, 50) : mix(Colors.white, 50);
 }

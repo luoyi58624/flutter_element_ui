@@ -35,7 +35,24 @@ extension ElProgressThemeDataExtension on ElProgressThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElProgressThemeDataLerpExtension on ElProgressThemeData {
+  /// 默认主题动画线性插值
+  ElProgressThemeData lerp(
+      ElProgressThemeData a, ElProgressThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElProgressThemeData(
+      duration: t < 0.5 ? a.duration : b.duration,
+      curve: t < 0.5 ? a.curve : b.curve,
+      secondCurve: t < 0.5 ? a.secondCurve : b.secondCurve,
+    );
+  }
+}
+
 class ElProgressTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElProgressTheme({
     super.key,
     required this.child,
@@ -49,11 +66,9 @@ class ElProgressTheme extends StatelessWidget {
   static ElProgressThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElProgressTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElProgressThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.progressTheme;
+      maybeOf(context) ?? context.elTheme.progressTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -75,20 +90,4 @@ class _ElProgressTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElProgressTheme oldWidget) => true;
-}
-
-extension ElProgressThemeDataLerpExtension on ElProgressThemeData {
-  /// 主题动画线性插值
-  ElProgressThemeData lerp(
-      ElProgressThemeData a, ElProgressThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElProgressThemeData(
-      duration: t < 0.5 ? a.duration : b.duration,
-      curve: t < 0.5 ? a.curve : b.curve,
-      secondCurve: t < 0.5 ? a.secondCurve : b.secondCurve,
-    );
-  }
 }

@@ -35,7 +35,24 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElCollapseThemeDataLerpExtension on ElCollapseThemeData {
+  /// 默认主题动画线性插值
+  ElCollapseThemeData lerp(
+      ElCollapseThemeData a, ElCollapseThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCollapseThemeData(
+      keepState: t < 0.5 ? a.keepState : b.keepState,
+      duration: t < 0.5 ? a.duration : b.duration,
+      curve: t < 0.5 ? a.curve : b.curve,
+    );
+  }
+}
+
 class ElCollapseTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElCollapseTheme({
     super.key,
     required this.child,
@@ -49,11 +66,9 @@ class ElCollapseTheme extends StatelessWidget {
   static ElCollapseThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElCollapseTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElCollapseThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.collapseTheme;
+      maybeOf(context) ?? context.elTheme.collapseTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -75,20 +90,4 @@ class _ElCollapseTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElCollapseTheme oldWidget) => true;
-}
-
-extension ElCollapseThemeDataLerpExtension on ElCollapseThemeData {
-  /// 主题动画线性插值
-  ElCollapseThemeData lerp(
-      ElCollapseThemeData a, ElCollapseThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCollapseThemeData(
-      keepState: t < 0.5 ? a.keepState : b.keepState,
-      duration: t < 0.5 ? a.duration : b.duration,
-      curve: t < 0.5 ? a.curve : b.curve,
-    );
-  }
 }

@@ -35,7 +35,23 @@ extension ElCardThemeDataExtension on ElCardThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElCardThemeDataLerpExtension on ElCardThemeData {
+  /// 默认主题动画线性插值
+  ElCardThemeData lerp(ElCardThemeData a, ElCardThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCardThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      elevation: lerpDouble(a.elevation, b.elevation, t) ?? a.elevation,
+      radius: BorderRadius.lerp(a.radius, b.radius, t) ?? a.radius,
+    );
+  }
+}
+
 class ElCardTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElCardTheme({
     super.key,
     required this.child,
@@ -49,11 +65,9 @@ class ElCardTheme extends StatelessWidget {
   static ElCardThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElCardTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElCardThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.cardTheme;
+      maybeOf(context) ?? context.elTheme.cardTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -75,19 +89,4 @@ class _ElCardTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElCardTheme oldWidget) => true;
-}
-
-extension ElCardThemeDataLerpExtension on ElCardThemeData {
-  /// 主题动画线性插值
-  ElCardThemeData lerp(ElCardThemeData a, ElCardThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCardThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      elevation: lerpDouble(a.elevation, b.elevation, t) ?? a.elevation,
-      radius: BorderRadius.lerp(a.radius, b.radius, t) ?? a.radius,
-    );
-  }
 }

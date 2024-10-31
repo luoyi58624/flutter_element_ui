@@ -33,7 +33,7 @@ extension ElModalThemeDataExtension on ElModalThemeData {
 // **************************************************************************
 
 extension ElModalThemeDataLerpExtension on ElModalThemeData {
-  /// 主题动画线性插值
+  /// 默认主题动画线性插值
   ElModalThemeData lerp(ElModalThemeData a, ElModalThemeData b, double t) {
     if (identical(a, b)) {
       return a;

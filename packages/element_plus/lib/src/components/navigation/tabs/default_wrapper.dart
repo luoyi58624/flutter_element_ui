@@ -11,7 +11,8 @@ class ElTabsWrapper extends StatelessWidget {
     final data = ElTabs.of(context);
     final size = data.size;
     final axis = data.axis;
-    return Container(
+    return AnimatedContainer(
+      duration: context.elDuration(),
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
       color: data.bgColor,

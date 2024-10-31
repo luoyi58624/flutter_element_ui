@@ -103,7 +103,7 @@ class DragStartListener extends ReorderableDragStartListener {
     this.delay,
   });
 
-  /// 自定义长按触发延迟，默认情况下：桌面端 200 毫秒，移动端 500 毫秒
+  /// 自定义长按触发延迟，默认情况下：桌面端 100 毫秒，移动端 500 毫秒
   final Duration? delay;
 
   @override
@@ -111,9 +111,7 @@ class DragStartListener extends ReorderableDragStartListener {
     return DelayedMultiDragGestureRecognizer(
       debugOwner: this,
       delay: delay ??
-          (PlatformUtil.isDesktop
-              ? const Duration(milliseconds: 200)
-              : const Duration(milliseconds: 500)),
+          (PlatformUtil.isDesktop ? desktopDragTimeout : kLongPressTimeout),
     );
   }
 }

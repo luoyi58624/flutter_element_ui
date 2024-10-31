@@ -38,7 +38,25 @@ extension ElCodePreviewThemeDataExtension on ElCodePreviewThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElCodePreviewThemeDataLerpExtension on ElCodePreviewThemeData {
+  /// 默认主题动画线性插值
+  ElCodePreviewThemeData lerp(
+      ElCodePreviewThemeData a, ElCodePreviewThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCodePreviewThemeData(
+      fontFamily: t < 0.5 ? a.fontFamily : b.fontFamily,
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
+      enableSection: t < 0.5 ? a.enableSection : b.enableSection,
+    );
+  }
+}
+
 class ElCodePreviewTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElCodePreviewTheme({
     super.key,
     required this.child,
@@ -52,11 +70,9 @@ class ElCodePreviewTheme extends StatelessWidget {
   static ElCodePreviewThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElCodePreviewTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElCodePreviewThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.codePreviewTheme;
+      maybeOf(context) ?? context.elTheme.codePreviewTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +94,4 @@ class _ElCodePreviewTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElCodePreviewTheme oldWidget) => true;
-}
-
-extension ElCodePreviewThemeDataLerpExtension on ElCodePreviewThemeData {
-  /// 主题动画线性插值
-  ElCodePreviewThemeData lerp(
-      ElCodePreviewThemeData a, ElCodePreviewThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCodePreviewThemeData(
-      fontFamily: t < 0.5 ? a.fontFamily : b.fontFamily,
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
-      enableSection: t < 0.5 ? a.enableSection : b.enableSection,
-    );
-  }
 }

@@ -32,7 +32,22 @@ extension ElHeaderThemeDataExtension on ElHeaderThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
+extension ElHeaderThemeDataLerpExtension on ElHeaderThemeData {
+  /// 默认主题动画线性插值
+  ElHeaderThemeData lerp(ElHeaderThemeData a, ElHeaderThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElHeaderThemeData(
+      color: Color.lerp(a.color, b.color, t) ?? a.color,
+      height: lerpDouble(a.height, b.height, t) ?? a.height,
+    );
+  }
+}
+
 class ElHeaderTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
   const ElHeaderTheme({
     super.key,
     required this.child,
@@ -46,11 +61,9 @@ class ElHeaderTheme extends StatelessWidget {
   static ElHeaderThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElHeaderTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElHeaderThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.headerTheme;
+      maybeOf(context) ?? context.elTheme.headerTheme;
 
   @override
   Widget build(BuildContext context) {
@@ -72,18 +85,4 @@ class _ElHeaderTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElHeaderTheme oldWidget) => true;
-}
-
-extension ElHeaderThemeDataLerpExtension on ElHeaderThemeData {
-  /// 主题动画线性插值
-  ElHeaderThemeData lerp(ElHeaderThemeData a, ElHeaderThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElHeaderThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      height: lerpDouble(a.height, b.height, t) ?? a.height,
-    );
-  }
 }

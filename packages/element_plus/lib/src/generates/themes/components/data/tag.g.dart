@@ -68,50 +68,8 @@ extension ElTagThemeDataExtension on ElTagThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElTagTheme extends StatelessWidget {
-  const ElTagTheme({
-    super.key,
-    required this.child,
-    required this.data,
-  });
-
-  final Widget child;
-  final ElTagThemeData data;
-
-  /// 通过上下文访问默认的主题数据，可能为 null
-  static ElTagThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ElTagTheme>()?.data;
-
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
-  ///
-  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
-  static ElTagThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elAnimatedTheme.tagTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    final parent = ElTagTheme.of(context);
-    return _ElTagTheme(
-      data: parent.merge(data),
-      child: child,
-    );
-  }
-}
-
-class _ElTagTheme extends InheritedWidget {
-  const _ElTagTheme({
-    required super.child,
-    required this.data,
-  });
-
-  final ElTagThemeData data;
-
-  @override
-  bool updateShouldNotify(_ElTagTheme oldWidget) => true;
-}
-
 extension ElTagThemeDataLerpExtension on ElTagThemeData {
-  /// 主题动画线性插值
+  /// 默认主题动画线性插值
   ElTagThemeData lerp(ElTagThemeData a, ElTagThemeData b, double t) {
     if (identical(a, b)) {
       return a;
@@ -135,4 +93,45 @@ extension ElTagThemeDataLerpExtension on ElTagThemeData {
       padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
     );
   }
+}
+
+class ElTagTheme extends StatelessWidget {
+  /// 提供局部默认主题小部件
+  const ElTagTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
+
+  final Widget child;
+  final ElTagThemeData data;
+
+  /// 通过上下文访问默认的主题数据，可能为 null
+  static ElTagThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElTagTheme>()?.data;
+
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  static ElTagThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.tagTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElTagTheme.of(context);
+    return _ElTagTheme(
+      data: parent.merge(data),
+      child: child,
+    );
+  }
+}
+
+class _ElTagTheme extends InheritedWidget {
+  const _ElTagTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElTagThemeData data;
+
+  @override
+  bool updateShouldNotify(_ElTagTheme oldWidget) => true;
 }
