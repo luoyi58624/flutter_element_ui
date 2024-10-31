@@ -17,7 +17,6 @@ class _ThemeAnimation extends StatefulWidget {
 
 class _ThemeAnimationState extends State<_ThemeAnimation> {
   Duration? _themeDuration;
-  Curve? _themeCurve;
   Timer? _timer;
 
   ElConfigData get config => context.elConfig;
@@ -35,24 +34,21 @@ class _ThemeAnimationState extends State<_ThemeAnimation> {
       _timer!.cancel();
       _timer = null;
     }
-    _themeDuration = config.themeDuration;
-    _themeCurve = config.themeCurve;
+    _themeDuration = Duration.zero;
     _timer = setTimeout(() {
       if (mounted) {
         setState(() {
           _themeDuration = null;
-          _themeCurve = null;
           _timer = null;
         });
       }
-    }, max(500, config.themeDuration.inMilliseconds));
+    }, 100);
   }
 
   @override
   Widget build(BuildContext context) {
     return _ThemeAnimationInheritedWidget(
       _themeDuration,
-      _themeCurve,
       child: widget.child,
     );
   }
@@ -60,13 +56,11 @@ class _ThemeAnimationState extends State<_ThemeAnimation> {
 
 class _ThemeAnimationInheritedWidget extends InheritedWidget {
   const _ThemeAnimationInheritedWidget(
-    this.themeDuration,
-    this.themeCurve, {
+    this.themeDuration, {
     required super.child,
   });
 
   final Duration? themeDuration;
-  final Curve? themeCurve;
 
   static _ThemeAnimationInheritedWidget of(BuildContext context) {
     final _ThemeAnimationInheritedWidget? result = context
