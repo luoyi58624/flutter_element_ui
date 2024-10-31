@@ -28,10 +28,10 @@ class CodeExample extends HookWidget {
     return ElHoverBuilder(builder: (context) {
       return Container(
         decoration: BoxDecoration(
-          color: context.elAnimatedTheme.bgColor,
+          color: context.elTheme.bgColor,
           borderRadius: context.elTheme.cardTheme.radius,
           border: Border.all(
-            color: context.elAnimatedTheme.borderColor,
+            color: context.elTheme.borderColor,
             width: 1,
           ),
         ),

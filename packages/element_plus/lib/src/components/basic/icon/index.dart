@@ -27,8 +27,7 @@ class ElIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $theme =
-        ElIconTheme.maybeOf(context) ?? context.elAnimatedTheme.iconTheme;
+    final $theme = ElIconTheme.of(context);
     final $icon = child ?? $theme.icon;
     final $size = size ?? $theme.size ?? ElIconThemeData.theme.size!;
     final $color = color ?? $theme.color;

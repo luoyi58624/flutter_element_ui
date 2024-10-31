@@ -16,7 +16,7 @@ class Example1 extends HookWidget {
           Container(
             width: 100,
             height: 100,
-            color: context.elAnimatedTheme.primary,
+            color: context.elTheme.primary,
           ),
           _Example(),
         ]),

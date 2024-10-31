@@ -28,7 +28,7 @@ class TempTestPage extends HookWidget {
             // Container(
             //   width: 100,
             //   height: 100,
-            //   color: context.elAnimatedTheme.primary,
+            //   color: context.elTheme.primary,
             // ),
             ElHoverBuilder(builder: (context) {
               return ElTagTheme(
@@ -45,7 +45,7 @@ class TempTestPage extends HookWidget {
             ElIconTheme(
               data: ElIconThemeData(
                 size: 50,
-                color: context.elAnimatedTheme.iconTheme.color,
+                color: context.elTheme.iconTheme.color,
               ),
               child: const ElIcon(ElIcons.house),
             ),

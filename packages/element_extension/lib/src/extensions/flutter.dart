@@ -36,11 +36,11 @@ extension FlutterContextExtension on BuildContext {
 
   /// Element UI 动画主题颜色集合
   Map<String, Color> get elAnimatedThemeColors => {
-        El.primary: elAnimatedTheme.primary,
-        El.success: elAnimatedTheme.success,
-        El.info: elAnimatedTheme.info,
-        El.warning: elAnimatedTheme.warning,
-        El.error: elAnimatedTheme.error,
+        El.primary: elTheme.primary,
+        El.success: elTheme.success,
+        El.info: elTheme.info,
+        El.warning: elTheme.warning,
+        El.error: elTheme.error,
       };
 
   /// 从上下文 context 获取当前 Widget 的坐标位置，默认情况下获取的位置相对于屏幕原点，

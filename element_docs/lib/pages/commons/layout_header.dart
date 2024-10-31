@@ -18,7 +18,7 @@ class LayoutHeader extends StatelessWidget {
             child: SvgPicture.asset(
               'assets/images/element-plus-logo.svg',
               colorFilter: ColorFilter.mode(
-                context.elAnimatedTheme.primary,
+                context.elTheme.primary,
                 BlendMode.srcIn,
               ),
               width: 28,
@@ -110,7 +110,7 @@ class LayoutHeader extends StatelessWidget {
                                         fontSize: 14,
                                         color: ElHoverBuilder.of(context)
                                             ? context.elTheme.primary
-                                            : context.elAnimatedTheme.textTheme
+                                            : context.elTheme.textTheme
                                                 .textStyle.color),
                                   ),
                                 ),
@@ -123,7 +123,7 @@ class LayoutHeader extends StatelessWidget {
                                   child: Container(
                                     height: 2,
                                     decoration: BoxDecoration(
-                                      color: context.elAnimatedTheme.primary,
+                                      color: context.elTheme.primary,
                                     ),
                                   ),
                                 ),
@@ -153,7 +153,7 @@ class _GithubLogo extends StatelessWidget {
       width: 24,
       height: 24,
       colorFilter: ColorFilter.mode(
-        context.elAnimatedTheme.iconTheme.color!,
+        context.elTheme.iconTheme.color!,
         BlendMode.srcIn,
       ),
     );

@@ -2,7 +2,7 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-/// 注意：颜色扩展函数不支持线性插值，如果你引用这些扩展函数，那么请不要使用 [context.elAnimatedTheme]
+/// 注意：颜色扩展函数不支持线性插值，如果你引用这些扩展函数，那么请不要使用 [context.elTheme]
 extension ElColorExtension on Color {
   Color elLight1(BuildContext context, {bool reverse = false}) =>
       _elLight(context, 1, reverse);

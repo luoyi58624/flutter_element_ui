@@ -50,7 +50,7 @@ class ElDefaultTextStyle extends DefaultTextStyle {
         context.dependOnInheritedWidgetOfExactType<ElDefaultTextStyle>();
     if (result == null) {
       return ElDefaultTextStyle(
-        style: context.elAnimatedTheme.textTheme.textStyle,
+        style: context.elTheme.textTheme.textStyle,
         child: const ElNullWidget(),
       );
     }

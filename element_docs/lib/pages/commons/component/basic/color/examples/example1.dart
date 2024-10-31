@@ -147,7 +147,7 @@ class Example1 extends StatelessWidget {
                 child: ElDefaultTextStyle(
                   style: TextStyle(
                     fontSize: 0.875.rem(context),
-                    color: context.elAnimatedTheme.primary.elTextColor(context),
+                    color: context.elTheme.primary.elTextColor(context),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

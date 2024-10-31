@@ -153,7 +153,7 @@ class _CardWidget extends StatelessWidget {
                           color: ElTapBuilder.of(context) ||
                                   ElHoverBuilder.of(context)
                               ? Colors.white
-                              : context.elAnimatedTheme.primary,
+                              : context.elTheme.primary,
                         ),
                       ),
                     ),
