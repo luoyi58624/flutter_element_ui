@@ -84,12 +84,7 @@ class ElApp extends StatelessWidget {
       ),
       child: _ThemeAnimation(
         data: $data,
-        child: ElAnimatedTheme(
-          duration: config.themeDuration,
-          curve: config.themeCurve,
-          data: $data,
-          child: child,
-        ),
+        child: child,
       ),
     );
   }
