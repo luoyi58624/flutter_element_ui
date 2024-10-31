@@ -98,21 +98,21 @@ class ElAnimatedIconTheme extends StatelessWidget {
     required this.child,
     required this.data,
     this.duration,
-    this.curve,
+    this.curve = Curves.linear,
     this.onEnd,
   });
 
   final Widget child;
   final ElIconThemeData data;
   final Duration? duration;
-  final Curve? curve;
+  final Curve curve;
   final VoidCallback? onEnd;
 
   @override
   Widget build(BuildContext context) {
     return _ElAnimatedIconTheme(
       duration: context.elDuration(duration),
-      curve: context.elCurve(curve),
+      curve: curve,
       onEnd: onEnd,
       data: data,
       child: child,

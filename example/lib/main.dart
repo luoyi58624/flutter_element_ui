@@ -17,16 +17,13 @@ class MainApp extends StatelessWidget {
     return ObsBuilder(builder: (context) {
       return ElApp(
         brightness: isDark.value ? Brightness.dark : Brightness.light,
-        config: ElConfigData(
-          themeDuration: Duration(milliseconds: 500),
-        ),
         child: Builder(builder: (context) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               brightness: isDark.value ? Brightness.dark : Brightness.light,
             ),
-            themeAnimationDuration: context.elConfig.themeDuration,
+            themeAnimationDuration: Duration.zero,
             home: HomePage(),
           );
         }),
