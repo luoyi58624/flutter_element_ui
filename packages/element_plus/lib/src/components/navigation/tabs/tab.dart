@@ -14,14 +14,14 @@ class ElTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final $theme = ElTabsTheme.of(context);
     return ElHoverBuilder(builder: (context) {
-      return ElAnimatedTagTheme(
-        duration: 200.ms,
+      return ElTagTheme(
         data: ElTagThemeData(
           bgColor: context.isHover ? $theme.hoverBgColor : $theme.bgColor,
         ),
         child: ElTag(
           title,
           height: $theme.size!,
+          duration: 200.ms,
           borderRadius: BorderRadius.zero,
           closable: true,
         ),

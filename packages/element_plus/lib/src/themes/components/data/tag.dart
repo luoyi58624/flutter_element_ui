@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 part '../../../generates/themes/components/data/tag.g.dart';
 
 @ElModel.copy()
-@ElThemeModel(desc: '标签默认样式', generateAnimatedThemeWidget: true)
+@ElThemeModel(desc: '标签默认样式')
 class ElTagThemeData {
   static const theme = ElTagThemeData();
   static const darkTheme = ElTagThemeData();
 
   const ElTagThemeData({
+    this.duration,
+    this.curve,
     this.type,
     this.icon,
     this.width,
@@ -25,6 +27,12 @@ class ElTagThemeData {
     this.borderRadius,
     this.padding,
   });
+
+  /// 动画持续时间
+  final Duration? duration;
+
+  /// 动画曲线
+  final Curve? curve;
 
   /// 主题类型，默认 [El.primary]
   final String? type;

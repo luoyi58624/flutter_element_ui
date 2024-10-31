@@ -8,9 +8,12 @@ const _fontSize = 12.0;
 const _iconSize = 16.0;
 
 class ElTag extends StatelessWidget {
+  /// Element UI 标签小部件
   const ElTag(
     this.text, {
     super.key,
+    this.duration,
+    this.curve,
     this.type,
     this.icon,
     this.width,
@@ -30,6 +33,12 @@ class ElTag extends StatelessWidget {
 
   /// 标签文字信息
   final String text;
+
+  /// 动画持续时间，[ElTag] 属于隐式动画小部件
+  final Duration? duration;
+
+  /// 动画曲线
+  final Curve? curve;
 
   /// 主题类型，默认 [El.primary]
   final String? type;
@@ -78,7 +87,7 @@ class ElTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ElTagTheme.maybeOf(context) ?? context.elTheme.tagTheme;
+    final theme = ElTagTheme.of(context);
     final $type = type ?? theme.type ?? El.primary;
     final $icon = icon ?? theme.icon;
     final $bgColor = bgColor ?? theme.bgColor ?? context.elThemeColors[$type]!;
@@ -105,7 +114,8 @@ class ElTag extends StatelessWidget {
 
     return UnconstrainedBox(
       child: AnimatedContainer(
-        duration: context.elDuration(),
+        duration: context.elDuration(duration ?? theme.duration),
+        curve: context.elCurve(curve ?? theme.curve),
         constraints: BoxConstraints(
           minWidth: $width,
           minHeight: $height,

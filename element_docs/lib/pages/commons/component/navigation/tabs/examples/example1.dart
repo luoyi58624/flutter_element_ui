@@ -12,7 +12,12 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        CodeExample(code: code, children: const [
+        CodeExample(code: code, children: [
+          Container(
+            width: 100,
+            height: 100,
+            color: context.elAnimatedTheme.primary,
+          ),
           _Example(),
         ]),
       ],

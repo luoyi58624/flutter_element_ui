@@ -25,10 +25,23 @@ class TempTestPage extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const ElTag(
-              'Tag',
-              closable: true,
-            ),
+            // Container(
+            //   width: 100,
+            //   height: 100,
+            //   color: context.elAnimatedTheme.primary,
+            // ),
+            ElHoverBuilder(builder: (context) {
+              return ElTagTheme(
+                data: ElTagThemeData(
+                  bgColor: context.isHover ? Colors.green : null,
+                ),
+                child: const ElTag(
+                  'Tag',
+                  closable: true,
+                  // duration: Duration(milliseconds: 200),
+                ),
+              );
+            }),
             ElIconTheme(
               data: ElIconThemeData(
                 size: 50,

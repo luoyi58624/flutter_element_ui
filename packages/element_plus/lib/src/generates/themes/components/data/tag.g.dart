@@ -9,6 +9,8 @@ part of '../../../../themes/components/data/tag.dart';
 extension ElTagThemeDataExtension on ElTagThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTagThemeData copyWith({
+    Duration? duration,
+    Curve? curve,
     String? type,
     Widget? icon,
     double? width,
@@ -25,6 +27,8 @@ extension ElTagThemeDataExtension on ElTagThemeData {
     EdgeInsetsGeometry? padding,
   }) {
     return ElTagThemeData(
+      duration: duration ?? this.duration,
+      curve: curve ?? this.curve,
       type: type ?? this.type,
       icon: icon ?? this.icon,
       width: width ?? this.width,
@@ -46,6 +50,8 @@ extension ElTagThemeDataExtension on ElTagThemeData {
   ElTagThemeData merge([ElTagThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      duration: other.duration,
+      curve: other.curve,
       type: other.type,
       icon: other.icon,
       width: other.width,
@@ -76,6 +82,8 @@ extension ElTagThemeDataLerpExtension on ElTagThemeData {
     }
 
     return ElTagThemeData(
+      duration: t < 0.5 ? a.duration : b.duration,
+      curve: t < 0.5 ? a.curve : b.curve,
       type: t < 0.5 ? a.type : b.type,
       icon: t < 0.5 ? a.icon : b.icon,
       width: lerpDouble(a.width, b.width, t) ?? a.width,
@@ -134,77 +142,4 @@ class _ElTagTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_ElTagTheme oldWidget) => true;
-}
-
-class ElAnimatedTagTheme extends StatelessWidget {
-  /// 提供带有动画的局部默认主题小部件
-  const ElAnimatedTagTheme({
-    super.key,
-    required this.child,
-    required this.data,
-    this.duration,
-    this.curve,
-    this.onEnd,
-  });
-
-  final Widget child;
-  final ElTagThemeData data;
-  final Duration? duration;
-  final Curve? curve;
-  final VoidCallback? onEnd;
-
-  @override
-  Widget build(BuildContext context) {
-    return _ElAnimatedTagTheme(
-      duration: context.elDuration(duration),
-      curve: context.elCurve(curve),
-      onEnd: onEnd,
-      data: data,
-      child: child,
-    );
-  }
-}
-
-class _ElAnimatedTagTheme extends ImplicitlyAnimatedWidget {
-  const _ElAnimatedTagTheme({
-    required this.data,
-    required super.duration,
-    super.curve,
-    super.onEnd,
-    required this.child,
-  });
-
-  final ElTagThemeData data;
-  final Widget child;
-
-  @override
-  AnimatedWidgetBaseState<_ElAnimatedTagTheme> createState() =>
-      _ElTagThemeDataState();
-}
-
-class _ElTagThemeDataState
-    extends AnimatedWidgetBaseState<_ElAnimatedTagTheme> {
-  _ElTagDataTween? _data;
-
-  @override
-  void forEachTween(TweenVisitor<dynamic> visitor) {
-    _data = visitor(_data, widget.data,
-            (dynamic value) => _ElTagDataTween(begin: value as ElTagThemeData))!
-        as _ElTagDataTween;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ElTagTheme(
-      data: _data!.evaluate(animation),
-      child: widget.child,
-    );
-  }
-}
-
-class _ElTagDataTween extends Tween<ElTagThemeData> {
-  _ElTagDataTween({super.begin});
-
-  @override
-  ElTagThemeData lerp(double t) => ElTagThemeData.theme.lerp(begin!, end!, t);
 }
