@@ -79,7 +79,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
         builder: (context) {
           return AnimatedContainer(
             duration: context.elDuration(_duration),
-            curve: context.elCurve(_curve),
+            curve: _curve,
             height: containerHeight,
             width: containerWidth,
             decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
                 child: UnconstrainedBox(
                   child: AnimatedContainer(
                     duration: context.elDuration(_duration),
-                    curve: context.elCurve(_curve),
+                    curve: _curve,
                     width: widget.size,
                     height: widget.size,
                     decoration: BoxDecoration(

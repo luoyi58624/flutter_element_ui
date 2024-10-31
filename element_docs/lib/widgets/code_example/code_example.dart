@@ -115,7 +115,7 @@ class _PreviewButton extends HookWidget {
           child: AnimatedContainer(
             duration:
                 context.elDuration(context.elTheme.collapseTheme.duration),
-            curve: context.elCurve(context.elTheme.collapseTheme.curve),
+            curve: context.elTheme.collapseTheme.curve,
             height: 40,
             decoration: BoxDecoration(
                 color: context.isHover

@@ -68,21 +68,21 @@ class ElAnimatedDefaultTextStyle extends StatelessWidget {
     required this.child,
     required this.style,
     this.duration,
-    this.curve,
+    this.curve = Curves.linear,
     this.onEnd,
   });
 
   final Widget child;
   final TextStyle style;
   final Duration? duration;
-  final Curve? curve;
+  final Curve curve;
   final VoidCallback? onEnd;
 
   @override
   Widget build(BuildContext context) {
     return _ElAnimatedDefaultTextStyle(
       duration: duration ?? context.elDuration(),
-      curve: curve ?? context.elCurve(),
+      curve: curve,
       onEnd: onEnd,
       style: style,
       child: child,

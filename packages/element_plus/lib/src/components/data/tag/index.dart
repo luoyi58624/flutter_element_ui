@@ -115,7 +115,7 @@ class ElTag extends StatelessWidget {
     return UnconstrainedBox(
       child: AnimatedContainer(
         duration: context.elDuration(duration ?? theme.duration),
-        curve: context.elCurve(curve ?? theme.curve),
+        curve: curve ?? theme.curve ?? Curves.linear,
         constraints: BoxConstraints(
           minWidth: $width,
           minHeight: $height,

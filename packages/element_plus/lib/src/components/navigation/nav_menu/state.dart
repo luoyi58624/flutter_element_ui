@@ -226,7 +226,7 @@ class _MenuItemState extends State<_MenuItem> {
       child: Builder(builder: (context) {
         return AnimatedColoredBox(
           duration: context.elDuration(const Duration(milliseconds: 100)),
-          curve: context.elCurve(Curves.easeOut),
+          curve: Curves.easeOut,
           color: bgColor.on(ElHoverBuilder.of(context),
               scale: bgColor.isDark ? 16 : 10),
           child: SizedBox(

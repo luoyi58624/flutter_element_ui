@@ -91,8 +91,7 @@ class _CardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget result = Padding(
       padding: const EdgeInsets.all(8.0),
-      child: AnimatedContainer(
-        duration: context.elConfig.themeDuration,
+      child: Container(
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
           border: Border.all(color: context.elTheme.borderColor),
@@ -132,8 +131,7 @@ class _CardWidget extends StatelessWidget {
                   onTap: () {
                     ElLink.to(context);
                   },
-                  child: AnimatedContainer(
-                    duration: context.elConfig.themeDuration,
+                  child: Container(
                     height: 50,
                     decoration: BoxDecoration(
                       color:

@@ -145,8 +145,7 @@ class ElCollapseItem extends StatelessWidget {
                   valueListenable: $data.modelValue,
                   builder: (context, value, _) {
                     bool isActive = value.contains(id);
-                    return AnimatedContainer(
-                      duration: context.elConfig.themeDuration,
+                    return Container(
                       height: $data.height,
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(

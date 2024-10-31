@@ -17,10 +17,4 @@ extension ElAppExtension on BuildContext {
       _ThemeAnimationInheritedWidget.of(this).themeDuration ??
       duration ??
       Duration.zero;
-
-  /// Element UI 自适应全局动画曲线扩展方法
-  Curve elCurve([Curve? curve]) =>
-      _ThemeAnimationInheritedWidget.of(this).themeCurve ??
-      curve ??
-      Curves.linear;
 }

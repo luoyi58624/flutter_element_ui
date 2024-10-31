@@ -206,8 +206,7 @@ class Li extends _ListBase {
           alignment: Alignment.center,
           child: Padding(
             padding: EdgeInsets.only(left: $data.markerGap),
-            child: AnimatedContainer(
-              duration: context.elConfig.themeDuration,
+            child: Container(
               width: _listStyleSize,
               height: _listStyleSize,
               decoration: decoration,

@@ -138,8 +138,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
                 ? Colors.blueAccent.withOpacity(0.5)
                 : Colors.blue.withOpacity(0.36),
           ),
-          child: AnimatedContainer(
-            duration: context.elConfig.themeDuration,
+          child: Container(
             width: double.infinity,
             height: widget.height,
             constraints: widget.maxHeight != null
