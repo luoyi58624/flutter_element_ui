@@ -38,38 +38,46 @@ extension ElSliderThemeDataExtension on ElSliderThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElSliderTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElSliderTheme({super.key, required super.child, required this.data});
+class ElSliderTheme extends StatelessWidget {
+  const ElSliderTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElSliderThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElSliderThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElSliderTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElSliderTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElSliderThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.sliderTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElSliderThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElSliderTheme.of(context);
-      return ElSliderTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElSliderTheme.of(context);
+    return _ElSliderTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElSliderTheme extends InheritedWidget {
+  const _ElSliderTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElSliderThemeData data;
 
   @override
-  bool updateShouldNotify(ElSliderTheme oldWidget) => true;
+  bool updateShouldNotify(_ElSliderTheme oldWidget) => true;
 }
 
 extension ElSliderThemeDataLerpExtension on ElSliderThemeData {

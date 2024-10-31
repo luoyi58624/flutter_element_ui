@@ -8,28 +8,41 @@ part '../../../generates/themes/components/navigation/tabs.g.dart';
 class ElTabsThemeData {
   static const theme = ElTabsThemeData(
     bgColor: Color.fromRGBO(227, 227, 227, 1.0),
+    thumbColor: Color(0x59000000),
   );
   static const darkTheme = ElTabsThemeData(
     bgColor: Color.fromRGBO(60, 63, 65, 1.0),
+    thumbColor: Color(0x80FFFFFF),
   );
 
   const ElTabsThemeData({
+    this.builder,
     this.size,
+    this.direction,
     this.bgColor,
+    this.thumbColor,
     this.padding,
     this.itemGap,
     this.enabledDrag,
     this.dragDelay,
     this.autoScrollerVelocityScalar,
     this.dragProxyDecorator,
-    this.direction,
   });
+
+  /// 构建标签容器外观
+  final ElWidgetWrapperBuilder? builder;
 
   /// 标签容器尺寸，默认 50
   final double? size;
 
+  /// 标签方向
+  final AxisDirection? direction;
+
   /// 标签容器背景颜色
   final Color? bgColor;
+
+  /// 标签容器滚动条颜色
+  final Color? thumbColor;
 
   /// 标签容器内边距，默认 0
   final EdgeInsets? padding;
@@ -48,7 +61,4 @@ class ElTabsThemeData {
 
   /// 自定义拖拽代理
   final ReorderItemProxyDecorator? dragProxyDecorator;
-
-  /// 标签方向
-  final AxisDirection? direction;
 }

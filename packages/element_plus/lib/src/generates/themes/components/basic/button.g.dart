@@ -92,38 +92,46 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElButtonTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElButtonTheme({super.key, required super.child, required this.data});
+class ElButtonTheme extends StatelessWidget {
+  const ElButtonTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElButtonThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElButtonThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElButtonTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElButtonTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElButtonThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.buttonTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElButtonThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElButtonTheme.of(context);
-      return ElButtonTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElButtonTheme.of(context);
+    return _ElButtonTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElButtonTheme extends InheritedWidget {
+  const _ElButtonTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElButtonThemeData data;
 
   @override
-  bool updateShouldNotify(ElButtonTheme oldWidget) => true;
+  bool updateShouldNotify(_ElButtonTheme oldWidget) => true;
 }
 
 extension ElButtonThemeDataLerpExtension on ElButtonThemeData {
@@ -225,7 +233,7 @@ class _ElButtonThemeDataState
 
   @override
   Widget build(BuildContext context) {
-    return ElButtonTheme.merge(
+    return ElButtonTheme(
       data: _data!.evaluate(animation),
       child: widget.child,
     );

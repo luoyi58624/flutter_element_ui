@@ -20,9 +20,6 @@ class ElConfigData {
 
   /// 切换全局主题动画时间，它等同于 [MaterialApp] 中 themeAnimationDuration 属性，
   /// 如果使用了 [MaterialApp] 构建应用，请将二者进行同步，这样可以避免动画不一致问题。
-  ///
-  /// Element UI 默认关闭全局动画，如果开启意味着更改一次全局主题整个 App 会 build 几十次，
-  /// 如果页面比较复杂、或者在低端设备上可能会造成卡顿。
   final Duration themeDuration;
 
   /// 切换全局主题动画曲线，它等同于 [MaterialApp] 中 themeAnimationCurve 属性
@@ -32,7 +29,7 @@ class ElConfigData {
     this.size = 36,
     this.radius = const BorderRadius.all(Radius.circular(4)),
     this.borderSize = 1.0,
-    this.themeDuration = Duration.zero,
+    this.themeDuration = kThemeAnimationDuration,
     this.themeCurve = Curves.linear,
   }) : assert(size >= 24);
 }

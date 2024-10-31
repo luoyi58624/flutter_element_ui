@@ -9,19 +9,24 @@ part of '../../../../themes/components/navigation/tabs.dart';
 extension ElTabsThemeDataExtension on ElTabsThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTabsThemeData copyWith({
+    Widget Function(BuildContext, Widget)? builder,
     double? size,
+    AxisDirection? direction,
     Color? bgColor,
+    Color? thumbColor,
     EdgeInsets? padding,
     double? itemGap,
     bool? enabledDrag,
     Duration? dragDelay,
     double? autoScrollerVelocityScalar,
     Widget Function(Widget, int, Animation<double>)? dragProxyDecorator,
-    AxisDirection? direction,
   }) {
     return ElTabsThemeData(
+      builder: builder ?? this.builder,
       size: size ?? this.size,
+      direction: direction ?? this.direction,
       bgColor: bgColor ?? this.bgColor,
+      thumbColor: thumbColor ?? this.thumbColor,
       padding: padding ?? this.padding,
       itemGap: itemGap ?? this.itemGap,
       enabledDrag: enabledDrag ?? this.enabledDrag,
@@ -29,7 +34,6 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
       autoScrollerVelocityScalar:
           autoScrollerVelocityScalar ?? this.autoScrollerVelocityScalar,
       dragProxyDecorator: dragProxyDecorator ?? this.dragProxyDecorator,
-      direction: direction ?? this.direction,
     );
   }
 
@@ -37,15 +41,17 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
   ElTabsThemeData merge([ElTabsThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      builder: other.builder,
       size: other.size,
+      direction: other.direction,
       bgColor: other.bgColor,
+      thumbColor: other.thumbColor,
       padding: other.padding,
       itemGap: other.itemGap,
       enabledDrag: other.enabledDrag,
       dragDelay: other.dragDelay,
       autoScrollerVelocityScalar: other.autoScrollerVelocityScalar,
       dragProxyDecorator: other.dragProxyDecorator,
-      direction: other.direction,
     );
   }
 }
@@ -54,38 +60,46 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElTabsTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElTabsTheme({super.key, required super.child, required this.data});
+class ElTabsTheme extends StatelessWidget {
+  const ElTabsTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElTabsThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElTabsThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElTabsTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElTabsTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElTabsThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.tabsTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElTabsThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElTabsTheme.of(context);
-      return ElTabsTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElTabsTheme.of(context);
+    return _ElTabsTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElTabsTheme extends InheritedWidget {
+  const _ElTabsTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElTabsThemeData data;
 
   @override
-  bool updateShouldNotify(ElTabsTheme oldWidget) => true;
+  bool updateShouldNotify(_ElTabsTheme oldWidget) => true;
 }
 
 extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
@@ -96,8 +110,11 @@ extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
     }
 
     return ElTabsThemeData(
+      builder: t < 0.5 ? a.builder : b.builder,
       size: lerpDouble(a.size, b.size, t) ?? a.size,
+      direction: t < 0.5 ? a.direction : b.direction,
       bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
+      thumbColor: Color.lerp(a.thumbColor, b.thumbColor, t) ?? a.thumbColor,
       padding: EdgeInsets.lerp(a.padding, b.padding, t) ?? a.padding,
       itemGap: lerpDouble(a.itemGap, b.itemGap, t) ?? a.itemGap,
       enabledDrag: t < 0.5 ? a.enabledDrag : b.enabledDrag,
@@ -106,7 +123,6 @@ extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
               a.autoScrollerVelocityScalar, b.autoScrollerVelocityScalar, t) ??
           a.autoScrollerVelocityScalar,
       dragProxyDecorator: t < 0.5 ? a.dragProxyDecorator : b.dragProxyDecorator,
-      direction: t < 0.5 ? a.direction : b.direction,
     );
   }
 }

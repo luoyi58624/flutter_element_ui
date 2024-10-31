@@ -8,8 +8,12 @@ import '../tab/index.dart';
 
 part 'state.dart';
 
+part 'default_wrapper.dart';
+
+part 'scroll_list.dart';
+
 class ElTabs extends ElModelValue<int> {
-  /// Element UI 标签导航，此组件只适用于桌面端，在移动端你可以使用官方提供的 [TabBar] 小部件
+  /// Element UI 标签导航，此组件只适用于桌面端，如果要适配移动端，你可以使用官方提供的 [TabBar] 小部件
   const ElTabs(
     super.modelValue, {
     super.key,
@@ -28,7 +32,7 @@ class ElTabs extends ElModelValue<int> {
   static ElTabsData of(BuildContext context) =>
       ElTabsInheritedWidget.of(context).data;
 
-  /// 默认的拖拽代理
+  /// 拖拽代理，默认效果仅做一个放大处理
   static ReorderItemProxyDecorator dragProxyDecorator({
     double scaleValue = 1.15,
   }) {

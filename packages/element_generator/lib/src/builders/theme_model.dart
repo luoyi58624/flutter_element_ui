@@ -99,49 +99,57 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     if (_ignoreGlobalTheme) {
       ofContent = """
 static $_className of(BuildContext context) {
-  final $themeClassName? result = context.dependOnInheritedWidgetOfExactType<$themeClassName>();
-  assert(result != null, 'No $themeClassName found in context');
+  final _$themeClassName? result = context.dependOnInheritedWidgetOfExactType<_$themeClassName>();
+  assert(result != null, 'No _$themeClassName found in context');
     return result!.data;
 }""";
     } else {
       ofContent = """
-/// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+/// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+///
+/// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
 static $_className of(BuildContext context) =>
   maybeOf(context) ?? context.elAnimatedTheme.${rawName.firstLowerCase}Theme;""";
     }
 
     return """
-class $themeClassName extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const $themeClassName({super.key, required super.child, required this.data});
+class $themeClassName extends StatelessWidget {
+  const $themeClassName({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final $_className data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static $_className? maybeOf(BuildContext context) =>
-     context.dependOnInheritedWidgetOfExactType<$themeClassName>()?.data;
-  
+     context.dependOnInheritedWidgetOfExactType<_$themeClassName>()?.data;
+     
   $ofContent
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    $_className? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = $themeClassName.of(context);
-      return $themeClassName(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
-  }
-
   @override
-  bool updateShouldNotify($themeClassName oldWidget) => true;
+  Widget build(BuildContext context) {
+    final parent = $themeClassName.of(context);
+    return _$themeClassName(
+      data: parent.merge(data),
+      child: child,
+    );
+  }
 }
+
+class _$themeClassName extends InheritedWidget {
+  const _$themeClassName({
+    required super.child,
+    required this.data,
+  });
+
+  final $_className data;
+  
+  @override
+  bool updateShouldNotify(_$themeClassName oldWidget) => true;
+}    
     """;
   }
 
@@ -239,7 +247,7 @@ class _${_className}State extends AnimatedWidgetBaseState<_$animatedThemeClassNa
 
   @override
   Widget build(BuildContext context) {
-    return $themeClassName.merge(
+    return $themeClassName(
       data: _data!.evaluate(animation),
       child: widget.child,
     );

@@ -38,39 +38,46 @@ extension ElCodePreviewThemeDataExtension on ElCodePreviewThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElCodePreviewTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElCodePreviewTheme(
-      {super.key, required super.child, required this.data});
+class ElCodePreviewTheme extends StatelessWidget {
+  const ElCodePreviewTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElCodePreviewThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElCodePreviewThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElCodePreviewTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElCodePreviewTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElCodePreviewThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.codePreviewTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElCodePreviewThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElCodePreviewTheme.of(context);
-      return ElCodePreviewTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElCodePreviewTheme.of(context);
+    return _ElCodePreviewTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElCodePreviewTheme extends InheritedWidget {
+  const _ElCodePreviewTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElCodePreviewThemeData data;
 
   @override
-  bool updateShouldNotify(ElCodePreviewTheme oldWidget) => true;
+  bool updateShouldNotify(_ElCodePreviewTheme oldWidget) => true;
 }
 
 extension ElCodePreviewThemeDataLerpExtension on ElCodePreviewThemeData {

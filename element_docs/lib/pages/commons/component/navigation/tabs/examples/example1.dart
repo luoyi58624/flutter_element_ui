@@ -32,7 +32,7 @@ class _Example extends HookWidget {
         (index) => ElTab(title: '标签${index + 1}'),
       ),
     );
-    return ElTabsTheme.merge(
+    return ElTabsTheme(
       data: const ElTabsThemeData(
         enabledDrag: true,
         // itemGap: 16,

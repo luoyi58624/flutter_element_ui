@@ -31,7 +31,7 @@ class ElTag extends StatelessWidget {
   /// 标签文字信息
   final String text;
 
-  /// 主题类型
+  /// 主题类型，默认 [El.primary]
   final String? type;
 
   /// 标签左图标
@@ -79,12 +79,9 @@ class ElTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = ElTagTheme.maybeOf(context) ?? context.elTheme.tagTheme;
-    final $type = type ?? theme.type;
+    final $type = type ?? theme.type ?? El.primary;
     final $icon = icon ?? theme.icon;
-    final $bgColor = bgColor ??
-        theme.bgColor ??
-        context.elThemeColors[$type] ??
-        context.elTheme.tabsTheme.bgColor!;
+    final $bgColor = bgColor ?? theme.bgColor ?? context.elThemeColors[$type]!;
     final $plain = plain ?? theme.plain ?? false;
     final $round = round ?? theme.round ?? false;
     final $width = width ?? theme.width ?? _minWidth;

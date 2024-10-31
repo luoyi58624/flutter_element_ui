@@ -49,7 +49,6 @@ export 'src/components/layout/layout.dart';
 export 'src/components/layout/page.dart';
 
 export 'src/components/navigation/nav_menu/index.dart';
-export 'src/components/navigation/tabs/tabs.dart';
 export 'src/components/navigation/tabs/index.dart';
 export 'src/components/navigation/tab/index.dart';
 

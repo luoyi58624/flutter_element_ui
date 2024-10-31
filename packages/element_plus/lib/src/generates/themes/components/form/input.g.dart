@@ -41,38 +41,46 @@ extension ElInputThemeDataExtension on ElInputThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElInputTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElInputTheme({super.key, required super.child, required this.data});
+class ElInputTheme extends StatelessWidget {
+  const ElInputTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElInputThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElInputThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElInputTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElInputTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElInputThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.inputTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElInputThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElInputTheme.of(context);
-      return ElInputTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElInputTheme.of(context);
+    return _ElInputTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElInputTheme extends InheritedWidget {
+  const _ElInputTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElInputThemeData data;
 
   @override
-  bool updateShouldNotify(ElInputTheme oldWidget) => true;
+  bool updateShouldNotify(_ElInputTheme oldWidget) => true;
 }
 
 extension ElInputThemeDataLerpExtension on ElInputThemeData {

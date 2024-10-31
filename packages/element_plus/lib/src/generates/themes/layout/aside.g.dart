@@ -32,38 +32,46 @@ extension ElAsideThemeDataExtension on ElAsideThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElAsideTheme extends InheritedWidget {
-  /// 设置局部默认数据，提示：请尽量使用 [merge] 方法构建默认主题数据
-  const ElAsideTheme({super.key, required super.child, required this.data});
+class ElAsideTheme extends StatelessWidget {
+  const ElAsideTheme({
+    super.key,
+    required this.child,
+    required this.data,
+  });
 
-  /// 主题数据
+  final Widget child;
   final ElAsideThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
   static ElAsideThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElAsideTheme>()?.data;
+      context.dependOnInheritedWidgetOfExactType<_ElAsideTheme>()?.data;
 
-  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
+  /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据。
+  ///
+  /// 注意：默认值是动画主题，如果小部件存在隐式动画小部件，请使用 [maybeOf] + context.elTheme 引用主题。
   static ElAsideThemeData of(BuildContext context) =>
       maybeOf(context) ?? context.elAnimatedTheme.asideTheme;
 
-  /// 接收自定义主题数据，将它与祖先提供的主题进行合并，组成新的主题数据提供给后代组件
-  static Widget merge({
-    Key? key,
-    ElAsideThemeData? data,
-    required Widget child,
-  }) {
-    return Builder(builder: (context) {
-      final parent = ElAsideTheme.of(context);
-      return ElAsideTheme(
-        data: parent.merge(data),
-        child: child,
-      );
-    });
+  @override
+  Widget build(BuildContext context) {
+    final parent = ElAsideTheme.of(context);
+    return _ElAsideTheme(
+      data: parent.merge(data),
+      child: child,
+    );
   }
+}
+
+class _ElAsideTheme extends InheritedWidget {
+  const _ElAsideTheme({
+    required super.child,
+    required this.data,
+  });
+
+  final ElAsideThemeData data;
 
   @override
-  bool updateShouldNotify(ElAsideTheme oldWidget) => true;
+  bool updateShouldNotify(_ElAsideTheme oldWidget) => true;
 }
 
 extension ElAsideThemeDataLerpExtension on ElAsideThemeData {
