@@ -62,7 +62,7 @@ class _Example extends HookWidget {
           ],
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             plain: true,
             borderActiveWidth: 1.5,
@@ -80,7 +80,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.primary,
           ),
@@ -97,7 +97,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.success,
             plain: true,
@@ -116,7 +116,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             text: true,
           ),
@@ -133,7 +133,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             text: true,
             round: true,
@@ -152,7 +152,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.primary,
           ),
@@ -169,7 +169,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.primary,
             block: true,
@@ -206,7 +206,7 @@ class _Example2 extends HookWidget {
       }, 1000);
     }
 
-    return ElButtonTheme.merge(
+    return ElButtonTheme(
       data: ElButtonThemeData(
         loadingBuilder: loadingBuilder,
       ),
@@ -225,7 +225,7 @@ class _Example2 extends HookWidget {
             ],
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               plain: true,
             ),
@@ -243,7 +243,7 @@ class _Example2 extends HookWidget {
             ),
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               type: El.primary,
             ),
@@ -261,7 +261,7 @@ class _Example2 extends HookWidget {
             ),
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               type: El.success,
               plain: true,
@@ -281,7 +281,7 @@ class _Example2 extends HookWidget {
             ),
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               text: true,
             ),
@@ -299,7 +299,7 @@ class _Example2 extends HookWidget {
             ),
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               text: true,
               round: true,
@@ -319,7 +319,7 @@ class _Example2 extends HookWidget {
             ),
           ),
           const Gap(8),
-          ElButtonTheme.merge(
+          ElButtonTheme(
             data: const ElButtonThemeData(
               type: El.primary,
             ),

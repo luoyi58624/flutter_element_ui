@@ -45,7 +45,7 @@ class _Example extends HookWidget {
           ],
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             plain: true,
           ),
@@ -60,7 +60,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.primary,
           ),
@@ -75,7 +75,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.success,
           ),
@@ -91,7 +91,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.warning,
             plain: true,
@@ -107,7 +107,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.error,
             plain: true,
@@ -125,7 +125,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             text: true,
           ),
@@ -140,7 +140,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.success,
             text: true,
@@ -157,7 +157,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: ElButtonThemeData(
             bgColor: context.isDark ? Colors.purpleAccent : Colors.purple,
             text: true,

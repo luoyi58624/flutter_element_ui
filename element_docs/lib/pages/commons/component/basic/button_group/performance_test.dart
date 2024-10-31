@@ -73,7 +73,7 @@ class _Right extends HookWidget {
               100,
               (index) => Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: ElButtonTheme.merge(
+                child: ElButtonTheme(
                   data: const ElButtonThemeData(
                     type: El.primary,
                   ),

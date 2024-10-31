@@ -44,11 +44,11 @@ class _Example extends HookWidget {
               ],
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 iconSize: 18,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(
                     leftIcon: ElIcon(ElIcons.arrowLeft),
@@ -66,11 +66,11 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 iconSize: 18,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(
                     leftIcon: ElIcon(ElIcons.arrowLeft),
@@ -113,11 +113,11 @@ class _Example extends HookWidget {
               ],
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.primary,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一', disabled: true),
                   ElButton(child: '选项二', disabled: true),
@@ -126,11 +126,11 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.primary,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二', disabled: true),
@@ -139,12 +139,12 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.success,
                 round: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -153,11 +153,11 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 plain: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -167,12 +167,12 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.primary,
                 plain: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -182,13 +182,13 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.success,
                 plain: true,
                 round: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -198,17 +198,17 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: ElButtonTheme.merge(
-                  data: const ElButtonThemeData(
+                child: ElButtonTheme(
+                  data: ElButtonThemeData(
                     bgColor: Colors.purple,
                     plain: true,
                     round: true,
                   ),
-                  child: const ElButtonGroup(
+                  child: ElButtonGroup(
                     children: [
                       ElButton(child: '选项一', disabled: true),
                       ElButton(child: '选项二'),
@@ -221,16 +221,16 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            SizedBox(
+            const SizedBox(
               width: double.infinity,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: ElButtonTheme.merge(
-                  data: const ElButtonThemeData(
+                child: ElButtonTheme(
+                  data: ElButtonThemeData(
                     bgColor: Colors.purple,
                     round: true,
                   ),
-                  child: const ElButtonGroup(
+                  child: ElButtonGroup(
                     children: [
                       ElButton(child: '选项一'),
                       ElButton(child: '选项二'),
@@ -251,11 +251,11 @@ class _Example extends HookWidget {
               ],
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.primary,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: ElIcon(ElIcons.edit)),
                   ElButton(child: ElIcon(ElIcons.share)),
@@ -264,13 +264,13 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 type: El.primary,
                 block: true,
                 round: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一', flex: 2),
                   ElButton(child: '选项二', block: false),
@@ -279,11 +279,11 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 text: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -293,12 +293,12 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 text: true,
                 round: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -308,13 +308,13 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 text: true,
                 round: true,
                 bg: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: '选项一'),
                   ElButton(child: '选项二'),
@@ -324,11 +324,11 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 text: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: ElIcon(ElIcons.edit)),
                   ElButton(child: ElIcon(ElIcons.share)),
@@ -337,12 +337,12 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
-              data: const ElButtonThemeData(
+            const ElButtonTheme(
+              data: ElButtonThemeData(
                 text: true,
                 bg: true,
               ),
-              child: const ElButtonGroup(
+              child: ElButtonGroup(
                 children: [
                   ElButton(child: ElIcon(ElIcons.edit)),
                   ElButton(child: ElIcon(ElIcons.share)),
@@ -362,7 +362,7 @@ class _Example extends HookWidget {
               ],
             ),
             const Gap(8),
-            ElButtonTheme.merge(
+            ElButtonTheme(
               data: const ElButtonThemeData(type: El.primary),
               child: ElButtonGroup.single(
                 selected,
@@ -376,7 +376,7 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
+            ElButtonTheme(
               data: const ElButtonThemeData(
                 type: El.primary,
                 plain: true,
@@ -393,7 +393,7 @@ class _Example extends HookWidget {
               ),
             ),
             const Gap(8),
-            ElButtonTheme.merge(
+            ElButtonTheme(
               data: const ElButtonThemeData(
                 type: El.primary,
                 round: true,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
-import '../../../themes/components/basic/text.dart';
 import '../form.dart';
 import '../form_item.dart';
 

@@ -42,7 +42,7 @@ class _Example extends HookWidget {
           ],
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             plain: true,
           ),
@@ -57,7 +57,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.primary,
           ),
@@ -72,7 +72,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.success,
           ),
@@ -87,7 +87,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.warning,
             plain: true,
@@ -104,7 +104,7 @@ class _Example extends HookWidget {
           ),
         ),
         const Gap(8),
-        ElButtonTheme.merge(
+        ElButtonTheme(
           data: const ElButtonThemeData(
             type: El.success,
             text: true,

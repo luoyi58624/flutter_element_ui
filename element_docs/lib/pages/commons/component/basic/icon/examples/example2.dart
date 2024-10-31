@@ -37,7 +37,7 @@ class Example2 extends StatelessWidget {
           ],
         ),
         textGap,
-        ElIconTheme.merge(
+        ElIconTheme(
           data: ElIconThemeData(
             size: 1.8.rem(context),
           ),
