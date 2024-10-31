@@ -2,9 +2,16 @@ import 'package:flutter/widgets.dart';
 
 import 'services/message.dart';
 
-/// 包装小部件构建器
-typedef ElWidgetWrapperBuilder = Widget Function(
+/// 小部件构建器
+typedef ElWidgetBuilder = Widget Function(
   BuildContext context,
+  Widget child,
+);
+
+/// 滚动条小部件构建器
+typedef ElScrollbarBuilder = Widget Function(
+  BuildContext context,
+  ScrollController controller,
   Widget child,
 );
 

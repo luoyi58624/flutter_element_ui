@@ -12,24 +12,20 @@ class ElTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = ElTabs.of(context).bgColor;
+    final $theme = ElTabsTheme.of(context);
     return ElHoverBuilder(builder: (context) {
-      return ElTag(
-        title,
-        // height: 28,
-        borderRadius: BorderRadius.zero,
-        bgColor: context.isHover ? $bgColor.darken(30) : $bgColor,
-        closable: true,
+      return ElAnimatedTagTheme(
+        duration: 200.ms,
+        data: ElTagThemeData(
+          bgColor: context.isHover ? $theme.hoverBgColor : $theme.bgColor,
+        ),
+        child: ElTag(
+          title,
+          height: $theme.size!,
+          borderRadius: BorderRadius.zero,
+          closable: true,
+        ),
       );
     });
-    // return ElHoverBuilder(builder: (context) {
-    //   return Container(
-    //     child: Row(
-    //       children: [
-    //         ElText(title),
-    //       ],
-    //     ),
-    //   );
-    // });
   }
 }

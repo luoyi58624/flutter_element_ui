@@ -1,21 +1,24 @@
 part of 'index.dart';
 
-class ElTabsWrapper extends StatelessWidget {
+class _TabsWrapper extends StatelessWidget {
   /// Element UI 默认的标签容器外观实现
-  const ElTabsWrapper({super.key, required this.child});
+  const _TabsWrapper({
+    required this.child,
+  });
 
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    final data = ElTabs.of(context);
-    final size = data.size;
-    final axis = data.axis;
+    final $theme = ElTabsTheme.of(context);
+
+    final size = $theme.size!;
+    final axis = axisDirectionToAxis($theme.direction!);
     return AnimatedContainer(
       duration: context.elDuration(),
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
-      color: data.bgColor,
+      color: $theme.bgColor,
       child: child,
     );
   }

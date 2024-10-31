@@ -114,7 +114,7 @@ class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
   /// 需要绘制分割线的按钮 key 列表，当构建完成按钮组后，会在下一帧通过这些 key 计算每个分割线的位置
   List<GlobalKey> _childrenKeyList = [];
 
-  /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的，为的就是分割线不占用按钮空间
+  /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的
   final _dividePositionList = Obs<List<double>>([]);
 
   bool get _hasSelected => modelValue is List

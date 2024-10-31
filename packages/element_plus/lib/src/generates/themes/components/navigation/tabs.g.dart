@@ -9,11 +9,16 @@ part of '../../../../themes/components/navigation/tabs.dart';
 extension ElTabsThemeDataExtension on ElTabsThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTabsThemeData copyWith({
-    Widget Function(BuildContext, Widget)? builder,
+    Widget Function(BuildContext, Widget)? builderWrapper,
+    Widget Function(BuildContext, ScrollController, Widget)? builderScrollbar,
     double? size,
     AxisDirection? direction,
     Color? bgColor,
-    Color? thumbColor,
+    Color? hoverBgColor,
+    Color? activeBgColor,
+    Color? textColor,
+    Color? hoverTextColor,
+    Color? activeTextColor,
     EdgeInsets? padding,
     double? itemGap,
     bool? enabledDrag,
@@ -22,11 +27,16 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
     Widget Function(Widget, int, Animation<double>)? dragProxyDecorator,
   }) {
     return ElTabsThemeData(
-      builder: builder ?? this.builder,
+      builderWrapper: builderWrapper ?? this.builderWrapper,
+      builderScrollbar: builderScrollbar ?? this.builderScrollbar,
       size: size ?? this.size,
       direction: direction ?? this.direction,
       bgColor: bgColor ?? this.bgColor,
-      thumbColor: thumbColor ?? this.thumbColor,
+      hoverBgColor: hoverBgColor ?? this.hoverBgColor,
+      activeBgColor: activeBgColor ?? this.activeBgColor,
+      textColor: textColor ?? this.textColor,
+      hoverTextColor: hoverTextColor ?? this.hoverTextColor,
+      activeTextColor: activeTextColor ?? this.activeTextColor,
       padding: padding ?? this.padding,
       itemGap: itemGap ?? this.itemGap,
       enabledDrag: enabledDrag ?? this.enabledDrag,
@@ -41,11 +51,16 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
   ElTabsThemeData merge([ElTabsThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      builder: other.builder,
+      builderWrapper: other.builderWrapper,
+      builderScrollbar: other.builderScrollbar,
       size: other.size,
       direction: other.direction,
       bgColor: other.bgColor,
-      thumbColor: other.thumbColor,
+      hoverBgColor: other.hoverBgColor,
+      activeBgColor: other.activeBgColor,
+      textColor: other.textColor,
+      hoverTextColor: other.hoverTextColor,
+      activeTextColor: other.activeTextColor,
       padding: other.padding,
       itemGap: other.itemGap,
       enabledDrag: other.enabledDrag,
@@ -68,11 +83,20 @@ extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
     }
 
     return ElTabsThemeData(
-      builder: t < 0.5 ? a.builder : b.builder,
+      builderWrapper: t < 0.5 ? a.builderWrapper : b.builderWrapper,
+      builderScrollbar: t < 0.5 ? a.builderScrollbar : b.builderScrollbar,
       size: lerpDouble(a.size, b.size, t) ?? a.size,
       direction: t < 0.5 ? a.direction : b.direction,
       bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
-      thumbColor: Color.lerp(a.thumbColor, b.thumbColor, t) ?? a.thumbColor,
+      hoverBgColor:
+          Color.lerp(a.hoverBgColor, b.hoverBgColor, t) ?? a.hoverBgColor,
+      activeBgColor:
+          Color.lerp(a.activeBgColor, b.activeBgColor, t) ?? a.activeBgColor,
+      textColor: Color.lerp(a.textColor, b.textColor, t) ?? a.textColor,
+      hoverTextColor:
+          Color.lerp(a.hoverTextColor, b.hoverTextColor, t) ?? a.hoverTextColor,
+      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
+          a.activeTextColor,
       padding: EdgeInsets.lerp(a.padding, b.padding, t) ?? a.padding,
       itemGap: lerpDouble(a.itemGap, b.itemGap, t) ?? a.itemGap,
       enabledDrag: t < 0.5 ? a.enabledDrag : b.enabledDrag,

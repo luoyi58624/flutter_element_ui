@@ -17,7 +17,8 @@ class Example9 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            'Element UI 没有提供 size 选项，你可以通过设置 width、height、padding、block 等属性自由地创建各种尺寸按钮，'
+            '因为 size 实现的效果往往差强人意，而且令源码变得更加复杂，所以 Element UI 所有组件都没有提供 size 选项，'
+                '你可以通过设置 width、height、padding、block 等属性自由地封装各种尺寸按钮。'
           ],
         ),
         textGap,

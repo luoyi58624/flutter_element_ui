@@ -26,16 +26,8 @@ class ElTabsInheritedWidget extends InheritedWidget {
 class ElTabsData {
   /// 激活的标签索引
   final int activeIndex;
-  final double size;
-  final AxisDirection direction;
-  final Axis axis;
-  final Color bgColor;
 
   ElTabsData({
     required this.activeIndex,
-    required this.size,
-    required this.direction,
-    required this.axis,
-    required this.bgColor,
   });
 }

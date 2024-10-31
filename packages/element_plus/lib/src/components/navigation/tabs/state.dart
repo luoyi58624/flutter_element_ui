@@ -10,23 +10,16 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   @override
   Widget builder(BuildContext context) {
     theme = ElTabsTheme.maybeOf(context) ?? context.elTheme.tabsTheme;
-    final size = theme.size ?? 36;
-    final bgColor = theme.bgColor!;
-    final direction = theme.direction ?? AxisDirection.right;
-    axis = axisDirectionToAxis(direction);
-    final builder =
-        theme.builder ?? (context, child) => ElTabsWrapper(child: child);
+
+    axis = axisDirectionToAxis(theme.direction!);
+    final builderWrapper = theme.builderWrapper ?? ElTabs.buildTabsWrapper();
 
     return ElTabsInheritedWidget(
       data: ElTabsData(
         activeIndex: modelValue,
-        size: size,
-        direction: direction,
-        axis: axis,
-        bgColor: bgColor,
       ),
       child: Builder(builder: (context) {
-        return builder(context, buildScroll());
+        return builderWrapper(context, buildScroll());
       }),
     );
   }
@@ -37,18 +30,18 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
     final delay = PlatformUtil.isDesktop
         ? (theme.dragDelay ?? desktopDragTimeout)
         : kLongPressTimeout;
+    final builderScrollbar = theme.builderScrollbar ?? ElTabs.buildScrollbar();
+
     // 目前需要插入 Overlay 实例，防止拖拽的代理标签出现 context 作用域问题
     return Overlay(
       initialEntries: [
         OverlayEntry(
           builder: (context) => HorizontalScrollWidget(
             controller: scrollController,
-            child: RawScrollbar(
-              controller: scrollController,
-              thickness: 3,
-              radius: const Radius.circular(1.5),
-              thumbColor: theme.thumbColor,
-              child: ReorderableListView(
+            child: builderScrollbar(
+              context,
+              scrollController,
+              ReorderableListView(
                 scrollController: scrollController,
                 scrollDirection: axis,
                 buildDefaultDragHandles: false,

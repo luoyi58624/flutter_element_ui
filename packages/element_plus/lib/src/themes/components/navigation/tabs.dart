@@ -7,20 +7,31 @@ part '../../../generates/themes/components/navigation/tabs.g.dart';
 @ElThemeModel(desc: '标签容器默认样式')
 class ElTabsThemeData {
   static const theme = ElTabsThemeData(
+    size: 28,
+    direction: AxisDirection.right,
     bgColor: Color.fromRGBO(227, 227, 227, 1.0),
-    thumbColor: Color(0x59000000),
+    hoverBgColor: Color.fromRGBO(199, 199, 199, 1.0),
+    activeBgColor: Color.fromRGBO(255, 255, 255, 1.0),
   );
   static const darkTheme = ElTabsThemeData(
+    size: 28,
+    direction: AxisDirection.right,
     bgColor: Color.fromRGBO(60, 63, 65, 1.0),
-    thumbColor: Color(0x80FFFFFF),
+    hoverBgColor: Color.fromRGBO(39, 41, 42, 1.0),
+    activeBgColor: Color.fromRGBO(79, 82, 84, 1.0),
   );
 
   const ElTabsThemeData({
-    this.builder,
+    this.builderWrapper,
+    this.builderScrollbar,
     this.size,
     this.direction,
     this.bgColor,
-    this.thumbColor,
+    this.hoverBgColor,
+    this.activeBgColor,
+    this.textColor,
+    this.hoverTextColor,
+    this.activeTextColor,
     this.padding,
     this.itemGap,
     this.enabledDrag,
@@ -29,20 +40,35 @@ class ElTabsThemeData {
     this.dragProxyDecorator,
   });
 
-  /// 构建标签容器外观
-  final ElWidgetWrapperBuilder? builder;
+  /// 自定义构建标签容器外观
+  final ElWidgetBuilder? builderWrapper;
 
-  /// 标签容器尺寸，默认 50
+  /// 自定义构建标签滚动条
+  final ElScrollbarBuilder? builderScrollbar;
+
+  /// 标签容器尺寸，默认 28
   final double? size;
 
   /// 标签方向
   final AxisDirection? direction;
 
-  /// 标签容器背景颜色
+  /// 标签背景颜色
   final Color? bgColor;
 
-  /// 标签容器滚动条颜色
-  final Color? thumbColor;
+  /// 标签悬停背景颜色
+  final Color? hoverBgColor;
+
+  /// 标签激活背景颜色
+  final Color? activeBgColor;
+
+  /// 标签文字颜色
+  final Color? textColor;
+
+  /// 标签悬停文字颜色
+  final Color? hoverTextColor;
+
+  /// 标签激活文字颜色
+  final Color? activeTextColor;
 
   /// 标签容器内边距，默认 0
   final EdgeInsets? padding;

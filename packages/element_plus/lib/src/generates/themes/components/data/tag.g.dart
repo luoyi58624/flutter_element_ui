@@ -135,3 +135,76 @@ class _ElTagTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(_ElTagTheme oldWidget) => true;
 }
+
+class ElAnimatedTagTheme extends StatelessWidget {
+  /// 提供带有动画的局部默认主题小部件
+  const ElAnimatedTagTheme({
+    super.key,
+    required this.child,
+    required this.data,
+    this.duration,
+    this.curve,
+    this.onEnd,
+  });
+
+  final Widget child;
+  final ElTagThemeData data;
+  final Duration? duration;
+  final Curve? curve;
+  final VoidCallback? onEnd;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ElAnimatedTagTheme(
+      duration: context.elDuration(duration),
+      curve: context.elCurve(curve),
+      onEnd: onEnd,
+      data: data,
+      child: child,
+    );
+  }
+}
+
+class _ElAnimatedTagTheme extends ImplicitlyAnimatedWidget {
+  const _ElAnimatedTagTheme({
+    required this.data,
+    required super.duration,
+    super.curve,
+    super.onEnd,
+    required this.child,
+  });
+
+  final ElTagThemeData data;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<_ElAnimatedTagTheme> createState() =>
+      _ElTagThemeDataState();
+}
+
+class _ElTagThemeDataState
+    extends AnimatedWidgetBaseState<_ElAnimatedTagTheme> {
+  _ElTagDataTween? _data;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _data = visitor(_data, widget.data,
+            (dynamic value) => _ElTagDataTween(begin: value as ElTagThemeData))!
+        as _ElTagDataTween;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElTagTheme(
+      data: _data!.evaluate(animation),
+      child: widget.child,
+    );
+  }
+}
+
+class _ElTagDataTween extends Tween<ElTagThemeData> {
+  _ElTagDataTween({super.begin});
+
+  @override
+  ElTagThemeData lerp(double t) => ElTagThemeData.theme.lerp(begin!, end!, t);
+}

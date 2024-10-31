@@ -28,7 +28,7 @@ class _Example extends HookWidget {
     final activeIndex = useState(0);
     final tabs = useState(
       List.generate(
-        20,
+        50,
         (index) => ElTab(title: '标签${index + 1}'),
       ),
     );
@@ -36,16 +36,12 @@ class _Example extends HookWidget {
       data: const ElTabsThemeData(
         enabledDrag: true,
       ),
-      child: Builder(
-        builder: (context) {
-          return ElTabs(
-            activeIndex,
-            tabs: tabs.value,
-            onDragChanged: (v) {
-              tabs.value = v;
-            },
-          );
-        }
+      child: ElTabs(
+        activeIndex,
+        tabs: tabs.value,
+        onDragChanged: (v) {
+          tabs.value = v;
+        },
       ),
     );
   }
