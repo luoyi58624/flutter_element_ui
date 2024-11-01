@@ -262,33 +262,4 @@ class $tweenClassName extends Tween<$_className> {
 }
     """;
   }
-
-  @Deprecated('因为不再需要全局主题过渡，所以 lerp 扩展被弃用')
-  String generateLerpExtension(ConstantReader annotation) {
-    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
-    if (!generateThemeWidget) return '';
-    bool generateAnimatedThemeWidget =
-        annotation.read('generateAnimatedThemeWidget').boolValue;
-    if (!generateAnimatedThemeWidget) return '';
-    String content = '';
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
-      content += MirrorUtils.generateFieldLerp(fieldInfo);
-    }
-
-    return """
-extension ${_className}LerpExtension on $_className {
-  /// 默认主题动画线性插值
-  $_className lerp($_className a, $_className b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return $_className(
-      $content
-    );
-  }
-}
-    """;
-  }
 }
