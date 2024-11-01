@@ -73,7 +73,8 @@ class ElText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultStyle = ElDefaultTextStyle.of(context);
-    var $style = defaultStyle.style.merge(style);
+    var $style = (defaultStyle.style ?? context.elTheme.textTheme.textStyle)
+        .merge(style);
 
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
@@ -90,14 +91,16 @@ class ElText extends StatelessWidget {
         ),
       ),
       textAlign: textAlign ?? defaultStyle.textAlign ?? TextAlign.start,
-      softWrap: softWrap ?? defaultStyle.softWrap,
-      overflow: overflow ?? defaultStyle.overflow,
+      softWrap: softWrap ?? defaultStyle.softWrap ?? true,
+      overflow: overflow ?? defaultStyle.overflow ?? TextOverflow.clip,
       textDirection: textDirection,
       textScaler: textScaler ?? TextScaler.noScaling,
       maxLines: maxLines ?? defaultStyle.maxLines,
       locale: locale,
       strutStyle: strutStyle,
-      textWidthBasis: textWidthBasis ?? defaultStyle.textWidthBasis,
+      textWidthBasis: textWidthBasis ??
+          defaultStyle.textWidthBasis ??
+          TextWidthBasis.parent,
       textHeightBehavior: textHeightBehavior,
       selectionRegistrar: registrar,
       selectionColor: selectionColor ??

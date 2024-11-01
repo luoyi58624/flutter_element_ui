@@ -7,11 +7,11 @@ import 'package:source_gen/source_gen.dart';
 
 import '../utils.dart';
 
-/// Element 组件命名前缀
+/// 数据类命名前缀，用于解析出目标字段名，字段名通常不需要特定的前缀，例如：ElButtonThemeData -> buttonTheme
 const String _prefix = 'El';
 
-/// Element 组件主题数据后缀
-const String _suffix = 'ThemeData';
+/// 数据类命名后缀
+const String _suffix = 'Data';
 
 /// 当前实体类的信息
 late ClassElement _classInfo;
@@ -61,6 +61,9 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     if (rawName.endsWith(_suffix)) {
       rawName = rawName.substring(0, rawName.lastIndexOf(_suffix));
     }
+    if (rawName.endsWith('Theme')) {
+      rawName = rawName.substring(0, rawName.lastIndexOf('Theme'));
+    }
     return rawName;
   }
 
@@ -81,7 +84,6 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     String result = """
         ${generateThemeWidget(annotation)}
         ${generateAnimatedWidget(annotation)}
-        ${generateLerpExtension(annotation)}
     """;
     return result;
   }
@@ -90,8 +92,13 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
     if (!generateThemeWidget) return '';
 
-    final rawName = getRawName(_className);
-    String themeClassName = '$_prefix${rawName}Theme';
+    assert(
+        _className.startsWith(_prefix), '生成 ThemeWidget 的模型类必须以 $_prefix 开始');
+    assert(_className.endsWith(_suffix), '生成 ThemeWidget 的模型类必须以 $_suffix 结尾');
+    String themeClassName =
+        _className.substring(0, _className.lastIndexOf(_suffix));
+    String globalThemeFieldName =
+        themeClassName.substring(_prefix.length).firstLowerCase;
     // String fieldName = '$_prefix$rawName$_suffix';
 
     late String ofContent;
@@ -107,7 +114,7 @@ static $_className of(BuildContext context) {
       ofContent = """
 /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
 static $_className of(BuildContext context) =>
-  maybeOf(context) ?? context.elTheme.${rawName.firstLowerCase}Theme;""";
+  maybeOf(context) ?? context.elTheme.$globalThemeFieldName;""";
     }
 
     return """
@@ -152,34 +159,6 @@ class _$themeClassName extends InheritedWidget {
     """;
   }
 
-  String generateLerpExtension(ConstantReader annotation) {
-    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
-    if (!generateThemeWidget) return '';
-    bool generateAnimatedThemeWidget =
-        annotation.read('generateAnimatedThemeWidget').boolValue;
-    if (!generateAnimatedThemeWidget) return '';
-    String content = '';
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
-      content += MirrorUtils.generateFieldLerp(fieldInfo);
-    }
-
-    return """
-extension ${_className}LerpExtension on $_className {
-  /// 默认主题动画线性插值
-  $_className _lerp($_className a, $_className b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return $_className(
-      $content
-    );
-  }
-}
-    """;
-  }
-
   String generateAnimatedWidget(ConstantReader annotation) {
     bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
     if (!generateThemeWidget) return '';
@@ -187,10 +166,17 @@ extension ${_className}LerpExtension on $_className {
         annotation.read('generateAnimatedThemeWidget').boolValue;
     if (!generateAnimatedThemeWidget) return '';
 
-    final rawName = getRawName(_className);
-    String themeClassName = '$_prefix${rawName}Theme';
-    String animatedThemeClassName = '${_prefix}Animated${rawName}Theme';
-    String tweenClassName = '_$_prefix${rawName}DataTween';
+    String themeClassName =
+        _className.substring(0, _className.lastIndexOf(_suffix));
+    String animatedThemeClassName =
+        '${_prefix}Animated${themeClassName.substring(_prefix.length)}';
+    String tweenClassName = '_$_prefix${getRawName(_className)}DataTween';
+
+    String lerpContent = '';
+    for (int i = 0; i < _classFields.length; i++) {
+      final fieldInfo = _classFields[i].declaration;
+      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
+    }
 
     return """
 class $animatedThemeClassName extends StatelessWidget {
@@ -262,7 +248,46 @@ class $tweenClassName extends Tween<$_className> {
   $tweenClassName({super.begin});
 
   @override
-  $_className lerp(double t) => $_className.theme._lerp(begin!, end!, t);
+  $_className lerp(double t) => _lerp(begin!, end!, t);
+  
+  static $_className _lerp($_className a, $_className b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $_className(
+        $lerpContent
+    );
+  }
+}
+    """;
+  }
+
+  @Deprecated('因为不再需要全局主题过渡，所以 lerp 扩展被弃用')
+  String generateLerpExtension(ConstantReader annotation) {
+    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
+    if (!generateThemeWidget) return '';
+    bool generateAnimatedThemeWidget =
+        annotation.read('generateAnimatedThemeWidget').boolValue;
+    if (!generateAnimatedThemeWidget) return '';
+    String content = '';
+    for (int i = 0; i < _classFields.length; i++) {
+      final fieldInfo = _classFields[i].declaration;
+      content += MirrorUtils.generateFieldLerp(fieldInfo);
+    }
+
+    return """
+extension ${_className}LerpExtension on $_className {
+  /// 默认主题动画线性插值
+  $_className lerp($_className a, $_className b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return $_className(
+      $content
+    );
+  }
 }
     """;
   }

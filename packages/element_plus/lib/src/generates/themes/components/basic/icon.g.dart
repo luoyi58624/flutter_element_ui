@@ -149,13 +149,9 @@ class _ElIconDataTween extends Tween<ElIconThemeData> {
   _ElIconDataTween({super.begin});
 
   @override
-  ElIconThemeData lerp(double t) =>
-      ElIconThemeData.theme._lerp(begin!, end!, t);
-}
+  ElIconThemeData lerp(double t) => _lerp(begin!, end!, t);
 
-extension ElIconThemeDataLerpExtension on ElIconThemeData {
-  /// 默认主题动画线性插值
-  ElIconThemeData _lerp(ElIconThemeData a, ElIconThemeData b, double t) {
+  static ElIconThemeData _lerp(ElIconThemeData a, ElIconThemeData b, double t) {
     if (identical(a, b)) {
       return a;
     }

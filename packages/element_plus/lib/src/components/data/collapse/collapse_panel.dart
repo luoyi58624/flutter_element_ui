@@ -168,7 +168,7 @@ class ElCollapseItem extends StatelessWidget {
                         children: [
                           title is Widget
                               ? title
-                              : ElDefaultTextStyle.merge(
+                              : ElDefaultTextStyle(
                                   style: TextStyle(
                                     color: context.isDark
                                         ? context

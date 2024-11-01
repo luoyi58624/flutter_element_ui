@@ -111,7 +111,7 @@ class _ElTooltipState extends State<ElTooltip> {
         color: bgColor,
         borderRadius: context.elConfig.radius,
       ),
-      child: ElDefaultTextStyle.merge(
+      child: ElDefaultTextStyle(
         style: TextStyle(
           color: bgColor.elTextColor(context),
           fontSize: 12,

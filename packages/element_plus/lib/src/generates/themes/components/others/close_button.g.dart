@@ -149,13 +149,9 @@ class _ElCloseButtonDataTween extends Tween<ElCloseButtonThemeData> {
   _ElCloseButtonDataTween({super.begin});
 
   @override
-  ElCloseButtonThemeData lerp(double t) =>
-      ElCloseButtonThemeData.theme._lerp(begin!, end!, t);
-}
+  ElCloseButtonThemeData lerp(double t) => _lerp(begin!, end!, t);
 
-extension ElCloseButtonThemeDataLerpExtension on ElCloseButtonThemeData {
-  /// 默认主题动画线性插值
-  ElCloseButtonThemeData _lerp(
+  static ElCloseButtonThemeData _lerp(
       ElCloseButtonThemeData a, ElCloseButtonThemeData b, double t) {
     if (identical(a, b)) {
       return a;

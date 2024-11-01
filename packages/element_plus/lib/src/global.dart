@@ -17,6 +17,8 @@ export 'extensions/color.dart';
 export 'services/message.dart';
 export 'services/toast.dart';
 
+export 'themes/components/basic/text.dart';
+
 export 'widgets/brightness.dart';
 export 'widgets/hover.dart';
 export 'widgets/model_value.dart';

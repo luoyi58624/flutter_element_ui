@@ -154,7 +154,7 @@ class Li extends _ListBase {
           prefix,
           Gap($data.markerGap),
           Expanded(
-            child: ElDefaultTextStyle.merge(
+            child: ElDefaultTextStyle(
               style: TextStyle(
                 fontSize: fontSize,
                 height: lineHeight,

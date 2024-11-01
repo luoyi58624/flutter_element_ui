@@ -145,7 +145,7 @@ class ElLink extends StatelessWidget {
 
     return _LinkInheritedWidget(
       toLink,
-      child: ElDefaultTextStyle.merge(
+      child: ElDefaultTextStyle(
         style: TextStyle(
           color: ElHoverBuilder.of(context) ? $activeColor : $color,
           decoration: $decoration == ElLinkDecoration.underline

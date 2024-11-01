@@ -84,7 +84,7 @@ class SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ElDefaultTextStyle.merge(
+        ElDefaultTextStyle(
           style: const TextStyle(
             fontFamily: MyFonts.consolas,
             fontSize: 14,

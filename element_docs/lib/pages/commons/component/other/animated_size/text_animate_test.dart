@@ -92,7 +92,7 @@ class _ElText extends HookWidget {
         Expanded(
           child: SingleChildScrollView(
             child: flag2.value
-                ? ElDefaultTextStyle.merge(
+                ? ElDefaultTextStyle(
                     style: flag.value
                         ? const TextStyle(
                             fontSize: 18,

@@ -225,7 +225,7 @@ class _ElButtonState extends State<ElButton> {
         children: [
           result,
           Positioned.fill(
-            child: ElDefaultTextStyle.merge(
+            child: ElDefaultTextStyle(
               style: _defaultTextStyle.copyWith(
                 color: _colorStyle.loadingTextColor,
               ),
