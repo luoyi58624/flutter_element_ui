@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:archive/archive.dart';
+import 'package:element_dart/element_dart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:crypto/crypto.dart' as crypto;
@@ -78,9 +80,9 @@ class ElUtil {
   /// 判断字符串是否是 http 链接
   static bool isHttp(String url) => url.startsWith('http');
 
-  /// 刷新整个应用
+  /// 刷新整个应用，其效果相当于热重载
   static void refreshApp() {
-    WidgetsBinding.instance.reassembleApplication();
+    WidgetsBinding.instance.reassembleApplication.throttle(50)();
   }
 
   /// 隐藏手机软键盘但保留焦点

@@ -6,7 +6,7 @@ final List<String> _throttleKeyList = [];
 final Map<String, Timer> _debounceKeyMap = {};
 
 extension DartFunExtension on Function {
-  /// 节流函数扩展，在一定时间内忽略多次点击事件
+  /// 节流函数扩展，在一定时间内忽略多次调用
   /// * wait 节流时间(毫秒)
   /// * key 如果目标函数已经定义，那么你可以忽略此参数，但如果是匿名函数，你必须手动添加一个标识符
   ///

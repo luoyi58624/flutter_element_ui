@@ -28,24 +28,6 @@ class GlobalSetting extends StatelessWidget {
             ),
           ),
           const ElDivider(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 12.0),
-                child: H5('调整全局文本尺寸'),
-              ),
-              ObsBuilder(builder: (context) {
-                return Slider(
-                  min: 8,
-                  max: 100,
-                  label: GlobalState.globalFontSize.round().toString(),
-                  value: GlobalState.globalFontSize,
-                  onChanged: (v) => GlobalState.globalFontSize = v,
-                );
-              }),
-            ],
-          ),
           if (kDebugMode)
             ObsBuilder(builder: (context) {
               return CellWidget(

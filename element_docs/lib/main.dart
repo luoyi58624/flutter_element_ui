@@ -25,9 +25,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AnimatedTheme;
-    GlobalState.initGlobalFontSize(context.sm ? 15 : 16);
-    GlobalState.globalFontSize = MediaQuery.of(context).size.width / 512 * 16;
+    GlobalState.globalFontSize = context.sm ? 15 : 16;
     MainApp.currentThemeMode = ThemeMode.system;
     if (currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {

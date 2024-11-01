@@ -35,17 +35,8 @@ class GlobalState {
   static Brightness get brightness =>
       isDark ? Brightness.dark : Brightness.light;
 
-  static Obs<double>? _globalFontSize;
-
-  static double get globalFontSize => _globalFontSize!.value;
-
-  static set globalFontSize(double v) {
-    _globalFontSize!.value = v;
-  }
-
-  static initGlobalFontSize(double v) {
-    _globalFontSize ??= Obs(v);
-  }
+  /// 全局文字大小
+  static double globalFontSize = 16;
 
   /// 开启边界重绘
   static final enabledRepaintRainbow = Obs(

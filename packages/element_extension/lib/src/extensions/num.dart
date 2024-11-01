@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:element_plus/element_plus.dart';
 
 extension ElFontNumExtension on num {
