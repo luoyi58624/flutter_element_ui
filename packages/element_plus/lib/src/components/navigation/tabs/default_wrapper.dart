@@ -14,8 +14,7 @@ class _TabsWrapper extends StatelessWidget {
 
     final size = $theme.size!;
     final axis = axisDirectionToAxis($theme.direction!);
-    return AnimatedContainer(
-      duration: context.elDuration(),
+    return Container(
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,
       color: $theme.bgColor,

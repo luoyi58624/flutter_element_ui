@@ -11,8 +11,6 @@ class ElScrollBehavior extends CustomScrollBehavior {
         PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
-        mode: ElScrollbarMode.hover,
-        trackColor: Colors.green,
         child: child,
       );
     }
