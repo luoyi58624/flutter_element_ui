@@ -1,9 +1,7 @@
 part of 'index.dart';
 
-/// Element UI 全局主题动画小部件，当切换全局主题时，该小部件会先应用 [ElConfigData] 配置的全局主题过渡动画时间、曲线，
-/// 用于保证切换主题过渡一致性，然后会触发第二次 build 构建，用于重置过渡时间、曲线
-class _ThemeAnimation extends StatefulWidget {
-  const _ThemeAnimation({
+class _SwitchThemeAnimation extends StatefulWidget {
+  const _SwitchThemeAnimation({
     required this.child,
     required this.data,
   });
@@ -12,17 +10,15 @@ class _ThemeAnimation extends StatefulWidget {
   final ElThemeData data;
 
   @override
-  State<_ThemeAnimation> createState() => _ThemeAnimationState();
+  State<_SwitchThemeAnimation> createState() => _ThemeAnimationState();
 }
 
-class _ThemeAnimationState extends State<_ThemeAnimation> {
+class _ThemeAnimationState extends State<_SwitchThemeAnimation> {
   Duration? _themeDuration;
   Timer? _timer;
 
-  ElConfigData get config => context.elConfig;
-
   @override
-  void didUpdateWidget(covariant _ThemeAnimation oldWidget) {
+  void didUpdateWidget(covariant _SwitchThemeAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.data != oldWidget.data) {
       _changeTheme();
@@ -47,27 +43,29 @@ class _ThemeAnimationState extends State<_ThemeAnimation> {
 
   @override
   Widget build(BuildContext context) {
-    return _ThemeAnimationInheritedWidget(
+    return _SwitchThemeAnimationInheritedWidget(
       _themeDuration,
       child: widget.child,
     );
   }
 }
 
-class _ThemeAnimationInheritedWidget extends InheritedWidget {
-  const _ThemeAnimationInheritedWidget(
+class _SwitchThemeAnimationInheritedWidget extends InheritedWidget {
+  const _SwitchThemeAnimationInheritedWidget(
     this.themeDuration, {
     required super.child,
   });
 
   final Duration? themeDuration;
 
-  static _ThemeAnimationInheritedWidget of(BuildContext context) {
-    final _ThemeAnimationInheritedWidget? result = context
-        .dependOnInheritedWidgetOfExactType<_ThemeAnimationInheritedWidget>();
+  static _SwitchThemeAnimationInheritedWidget of(BuildContext context) {
+    final _SwitchThemeAnimationInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<
+            _SwitchThemeAnimationInheritedWidget>();
     return result!;
   }
 
   @override
-  bool updateShouldNotify(_ThemeAnimationInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(_SwitchThemeAnimationInheritedWidget oldWidget) =>
+      true;
 }

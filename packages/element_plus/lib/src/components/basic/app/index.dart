@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -82,7 +81,7 @@ class ElApp extends StatelessWidget {
         darkTheme: darkTheme,
         config: config,
       ),
-      child: _ThemeAnimation(
+      child: _SwitchThemeAnimation(
         data: $data,
         child: child,
       ),
