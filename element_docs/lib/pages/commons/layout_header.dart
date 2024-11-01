@@ -31,14 +31,15 @@ class LayoutHeader extends StatelessWidget {
             children: [
               if (!context.sm) buildDesktopNav(context),
               const Gap(16),
-              IconButton(
-                tooltip: '刷新路由配置',
-                onPressed: () {
-                  RouterState.isMobile.notify();
-                  el.message.show('全局路由已刷新', type: El.success);
-                },
-                icon: const Icon(Icons.refresh),
-              ),
+              if (!isRelease)
+                IconButton(
+                  tooltip: '刷新路由配置',
+                  onPressed: () {
+                    RouterState.isMobile.notify();
+                    el.message.show('全局路由已刷新', type: El.success);
+                  },
+                  icon: const Icon(Icons.refresh),
+                ),
               ObsBuilder(builder: (context) {
                 return IconButton(
                   tooltip: GlobalState.isDark ? '切换亮色模式' : '切换黑暗模式',

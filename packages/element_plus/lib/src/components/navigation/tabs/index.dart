@@ -2,12 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/components/navigation/tabs/common.dart';
 import 'package:element_plus/src/global.dart';
-import 'package:element_plus/src/themes/components/data/tag.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../../../themes/components/navigation/tabs.dart';
-import '../../data/tag/index.dart';
 
 part 'state.dart';
 
@@ -47,17 +43,16 @@ class ElTabs extends ElModelValue<int> {
     bool showScrollbar = true,
   }) {
     return (context, controller, child) => showScrollbar
-        ? RawScrollbar(
+        ? ElScrollbar(
             controller: controller,
             thickness: 3,
-            radius: const Radius.circular(1.5),
-            thumbColor: context.isDark
-                ? const Color(0x20FFFFFF)
-                : const Color(0x20000000),
-            timeToFade: 200.ms,
+            onlyScrolling: true,
+            activeThumbColor: context.isDark
+                ? const Color(0x30FFFFFF)
+                : const Color(0x30000000),
+            timeToFade: 1000.ms,
             child: child,
           )
-        // ? ElScrollbar(controller: controller, child: child)
         : child;
   }
 

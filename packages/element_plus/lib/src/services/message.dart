@@ -312,8 +312,7 @@ class _DefaultMessage extends StatelessWidget {
             : 450;
     double maxTextWidth = message.showClose ? maxWidth - 100 : maxWidth - 80;
     return SelectionArea(
-      child: AnimatedContainer(
-        duration: context.elDuration(),
+      child: Container(
         constraints: BoxConstraints(
           maxWidth: maxWidth,
           minHeight: _messageHeight,
@@ -330,7 +329,7 @@ class _DefaultMessage extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElAnimatedIconTheme(
+            ElIconTheme(
               data: ElIconThemeData(color: themeColor),
               child: message.icon ?? messageIcon,
             ),
@@ -339,22 +338,21 @@ class _DefaultMessage extends StatelessWidget {
               constraints: BoxConstraints(
                 maxWidth: maxTextWidth,
               ),
-              child: ElAnimatedDefaultTextStyle(
+              child: ElText(
+                message.content,
                 style: TextStyle(
                   color: context.isDark
                       ? context.darkTheme.textTheme.textStyle.color
                       : themeColor,
                   fontWeight: ElFont.medium,
                 ),
-                child: ElText(message.content),
               ),
             ),
             if (message.showClose) const Gap(10),
             if (message.showClose)
-              ElAnimatedIconTheme(
+              ElIconTheme(
                 data: ElIconThemeData(
-                    color: context.elTheme.iconTheme.color!
-                        .withAlpha(150)),
+                    color: context.elTheme.iconTheme.color!.withAlpha(150)),
                 child: ElCloseButton(
                   onTap: message.removeMessage,
                   cursor: SystemMouseCursors.click,

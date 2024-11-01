@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../global.dart';
 import '../../../themes/config.dart';
 import '../../../themes/theme.dart';
-import '../scrollbar.dart';
+import '../scrollbar/index.dart';
 
 part 'extension.dart';
 

@@ -1,10 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:element_plus/src/global.dart';
+part of 'index.dart';
 
 const double _defaultThickness = 6.0;
 const Radius _defaultRadius = Radius.circular(3.0);
@@ -12,56 +6,6 @@ const int _animationDuration = 200;
 
 /// 延迟激活滚动条高亮时间，防止鼠标快速划过导致滚动条出现轻微闪动
 const int _delayActiveDuration = 100;
-
-class ElScrollBehavior extends CustomScrollBehavior {
-  /// Element UI 默认的滚动行为，在桌面端默认使用 [ElScrollbar]
-  const ElScrollBehavior();
-
-  @override
-  Widget buildScrollbar(context, child, details) {
-    if (PlatformUtil.isWindows ||
-        PlatformUtil.isMacOS ||
-        PlatformUtil.isLinux) {
-      return ElScrollbar(
-        controller: details.controller,
-        child: child,
-      );
-    }
-    if (PlatformUtil.isIOS) {
-      return CupertinoScrollbar(
-        controller: details.controller,
-        child: child,
-      );
-    }
-    return Scrollbar(
-      controller: details.controller,
-      child: child,
-    );
-  }
-}
-
-class ElScrollbar extends RawScrollbar {
-  /// Element UI 滚动条，特点是当鼠标进入滚动区域立即出现滚动条，离开滚动区域则立即消失，
-  /// 由于它的特征依赖于 hover 事件，所以此滚动条只适合桌面平台，移动端的最佳选择还是官方默认的 [Scrollbar] 组件
-  const ElScrollbar({
-    super.key,
-    required super.child,
-    this.always = false,
-    super.controller,
-    super.thumbColor,
-    super.thickness = _defaultThickness,
-    super.radius = _defaultRadius,
-    super.mainAxisMargin = 1.0,
-    super.crossAxisMargin = 1.0,
-    super.minThumbLength = 36.0,
-  });
-
-  /// 是否总是显示滚动条，默认情况下，当鼠标离开滚动区域时，滚动条将消失
-  final bool always;
-
-  @override
-  RawScrollbarState<ElScrollbar> createState() => _ElScrollbarState();
-}
 
 class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 创建滚动条动画控制器
@@ -92,10 +36,14 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
       widget.thumbColor ?? const Color.fromRGBO(144, 147, 153, 1.0);
 
   /// 鼠标进入滚动范围显示的颜色
-  Color get hoverColor => thumbColor.withOpacity(0.45);
+  Color get hoverColor => widget.hidden
+      ? thumbColor.withOpacity(0)
+      : widget.hoverThumbColor ?? thumbColor.withOpacity(0.45);
 
   /// 鼠标悬停在滚动轨道的颜色
-  Color get activeColor => thumbColor.withOpacity(0.9);
+  Color get activeColor => widget.hidden
+      ? thumbColor.withOpacity(0)
+      : widget.activeThumbColor ?? thumbColor.withOpacity(0.9);
 
   /// 默认情况下，滚动条是处于隐藏状态，但如果开启一直显示，则固定为悬停状态
   Color get hideThumbColor =>
@@ -115,6 +63,36 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     this.color1 = lerpColor ?? color1;
     this.color2 = color2;
     controller.forward(from: 0);
+  }
+
+  /// 延迟激活悬停滚动条，用户必须在滚动条上悬停一段时间，才激活滚动条高亮状态
+  Timer? _delayActiveHover;
+
+  void _cancelDelayActiveHover() {
+    if (_delayActiveHover != null) {
+      _delayActiveHover!.cancel();
+      _delayActiveHover = null;
+    }
+  }
+
+  /// 隐藏滚动中的滚动条，如果滚动停止超过一段时间，将隐藏它
+  Timer? _hideScrollingTimer;
+
+  void _cancelHideScrollingTimer() {
+    if (_hideScrollingTimer != null) {
+      _hideScrollingTimer!.cancel();
+      _hideScrollingTimer = null;
+    }
+  }
+
+  /// 延迟清除 [color1]、[color2]
+  Timer? _delayCleanColor;
+
+  void _cancelDelayCleanColor() {
+    if (_delayCleanColor != null) {
+      _delayCleanColor!.cancel();
+      _delayCleanColor = null;
+    }
   }
 
   @override
@@ -182,20 +160,11 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     }, 16);
   }
 
-  /// 延迟激活悬停滚动条，用户必须在滚动条上悬停一段时间，才激活滚动条高亮状态
-  Timer? _delayActiveHover;
-
-  void _cancelDelayActiveHover() {
-    if (_delayActiveHover != null) {
-      _delayActiveHover!.cancel();
-      _delayActiveHover = null;
-    }
-  }
-
   /// 鼠标在滚动区域悬停事件
   @override
   void handleHover(PointerHoverEvent event) {
     super.handleHover(event);
+    if (widget.onlyScrolling) return;
     // 优先处理鼠标悬停在滚动条上的事件
     if (isPointerOverThumb(event.position, event.kind)) {
       if (isScrollbarHover == false) {
@@ -220,6 +189,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
   /// 2. 鼠标直接离开滚动容器
   @override
   void handleHoverExit(PointerExitEvent event) {
+    if (widget.onlyScrolling) return;
     // 离开时一定要先取消延迟激活动画，防止快速将鼠标悬停在滚动条时，又快速离开产生状态bug
     _cancelDelayActiveHover();
     // 将这两种状态重置是必须的，后续的逻辑判断依赖它们
@@ -228,16 +198,44 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
     super.handleHoverExit(event);
     // 如果是处于拖拽状态便离开滚动区域，那么保存滚动条当前颜色状态，否则隐藏滚动条
     if (isDragScroll) return;
-    changeColor(color2!, hideThumbColor);
+    if (color2 != null) {
+      changeColor(color2!, hideThumbColor);
+    }
   }
 
   /// [RawScrollbar]没有提供监听[onEnter]事件，导致当鼠标离开滚动区域时，
   /// 无法监听是否重新回到滚动区域，所以只能再套一层[MouseRegion]
   @override
   Widget build(BuildContext context) {
+    Widget result = super.build(context);
+    if (widget.onlyScrolling) {
+      result = NotificationListener<ScrollNotification>(
+        onNotification: (e) {
+          _cancelHideScrollingTimer();
+          _cancelDelayCleanColor();
+          _hideScrollingTimer = setTimeout(
+            () {
+              _hideScrollingTimer = null;
+              changeColor(activeColor, hideThumbColor);
+              _delayCleanColor = setTimeout(() {
+                _delayCleanColor = null;
+                color1 = null;
+                color2 = null;
+              }, _animationDuration);
+            },
+            widget.timeToFade.inMilliseconds,
+          );
+          if (color1 == null && color2 == null) {
+            changeColor(hideThumbColor, activeColor);
+          }
+          return false;
+        },
+        child: result,
+      );
+    }
     return MouseRegion(
       onEnter: (event) {
-        if (isHover == false) {
+        if (widget.onlyScrolling == false && isHover == false) {
           isHover = true;
           // 如果是在拖拽状态下鼠标重新进入滚动区域，需要重新判断是否处于
           if (isDragScroll) {
@@ -249,7 +247,7 @@ class _ElScrollbarState extends RawScrollbarState<ElScrollbar> {
           }
         }
       },
-      child: super.build(context),
+      child: result,
     );
   }
 }
