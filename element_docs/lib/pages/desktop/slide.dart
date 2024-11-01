@@ -97,15 +97,13 @@ class SlideWidget extends StatelessWidget {
                                                     color: context.isHover ||
                                                             isActive
                                                         ? context
-                                                            .elTheme
-                                                            .primary
+                                                            .elTheme.primary
                                                         : context
                                                             .elTheme
                                                             .textTheme
                                                             .textStyle
                                                             .color,
-                                                    fontSize:
-                                                        0.875.rem(context),
+                                                    fontSize: 0.875.rem,
                                                   ),
                                                   overflow:
                                                       TextOverflow.ellipsis,

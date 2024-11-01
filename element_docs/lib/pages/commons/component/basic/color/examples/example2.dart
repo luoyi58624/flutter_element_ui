@@ -72,7 +72,7 @@ class Example2 extends StatelessWidget {
                   ElText(
                     themeColor.toHex().toUpperCase(),
                     style: TextStyle(
-                      fontSize: 0.875.rem(context),
+                      fontSize: 0.875.rem,
                       color: themeColor.elTextColor(context),
                     ),
                   ),

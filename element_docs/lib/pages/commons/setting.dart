@@ -38,7 +38,7 @@ class GlobalSetting extends StatelessWidget {
               ObsBuilder(builder: (context) {
                 return Slider(
                   min: 8,
-                  max: 24,
+                  max: 100,
                   label: GlobalState.globalFontSize.round().toString(),
                   value: GlobalState.globalFontSize,
                   onChanged: (v) => GlobalState.globalFontSize = v,

@@ -146,7 +146,7 @@ class Example1 extends StatelessWidget {
                 ),
                 child: ElDefaultTextStyle(
                   style: TextStyle(
-                    fontSize: 0.875.rem(context),
+                    fontSize: 0.875.rem,
                     color: context.elTheme.primary.elTextColor(context),
                   ),
                   child: Column(
@@ -156,7 +156,7 @@ class Example1 extends StatelessWidget {
                       ElText(
                         'Primary Color',
                         style: TextStyle(
-                          fontSize: 1.rem(context),
+                          fontSize: 1.rem,
                         ),
                       ),
                       const Gap(4),

@@ -52,7 +52,7 @@ class _ChildPage extends StatelessWidget {
         children: [
           ElText(
             context.elTheme.textTheme.textStyle.fontSize,
-            style: TextStyle(fontSize: 1.rem(context)),
+            style: TextStyle(fontSize: 1.rem),
           ),
           ObsBuilder(builder: (context) {
             return Slider(
