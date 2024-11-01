@@ -23,13 +23,6 @@ class ElGlobalThemeModelGenerator
       throw '生成 GlobalTheme 的类名必须以 ThemeData 结尾';
     }
     final globalThemeClassName = className.substring(1);
-    final globalThemeWidgetClassName =
-        globalThemeClassName.replaceAll('ThemeData', 'Theme');
-    final globalAnimateThemeWidgetClassName =
-        globalThemeClassName.replaceAll('ThemeData', 'AnimatedTheme');
-    final globalAnimateTweenClassName =
-        '_${globalThemeClassName.replaceAll('ThemeData', 'ThemeDataTween')}';
-
     final classFields = MirrorUtils.filterFields(classInfo);
 
     String fieldContent = "";
@@ -40,7 +33,6 @@ class ElGlobalThemeModelGenerator
     String copyWithArgument = '';
     String copyWithContent = '';
     String mergeContent = '';
-    String lerpContent = '';
 
     for (final fieldInfo in classFields) {
       final fieldName = fieldInfo.name;
@@ -48,7 +40,6 @@ class ElGlobalThemeModelGenerator
       copyWithArgument += '${fieldInfo.type.toString()}? $fieldName,\n';
       copyWithContent += '$fieldName: $fieldName ?? super.$fieldName,\n';
       mergeContent += '$fieldName: other.$fieldName,\n';
-      lerpContent += MirrorUtils.generateFieldLerp(fieldInfo);
     }
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
@@ -69,8 +60,6 @@ class ElGlobalThemeModelGenerator
       copyWithContent +=
           '$themeVarName: this.$themeVarName.merge($themeVarName),';
       mergeContent += '$themeVarName: other.$themeVarName,\n';
-      lerpContent +=
-          "$themeVarName: ${model.name}.theme.lerp(a.$themeVarName, b.$themeVarName, t),";
     }
     return """
 class $globalThemeClassName extends $className {
