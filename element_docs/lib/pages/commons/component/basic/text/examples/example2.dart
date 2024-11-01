@@ -16,23 +16,7 @@ class Example2 extends StatelessWidget {
           code: code,
           expanded: true,
           children: const [
-            ElText([
-              'hello, ',
-              ElText(
-                '这是一段富文本, ',
-                style: TextStyle(color: Colors.green),
-              ),
-              ElLink(
-                href: 'https://github.com/luoyi58624/flutter_element_ui',
-                target: LinkTarget.blank,
-                decoration: ElLinkDecoration.hoverUnderline,
-                child: 'github链接',
-              ),
-              ' ',
-              ElButton(child: '链接按钮', type: 'success', link: true),
-              ' ',
-              ElButton(child: 'Hello', type: 'primary'),
-            ]),
+            _Example(),
           ],
         ),
       ],
@@ -40,18 +24,77 @@ class Example2 extends StatelessWidget {
   }
 }
 
+class _Example extends StatelessWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SelectionArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElText([
+            'hello, ',
+            ElText(
+              '这是一段富文本, ',
+              style: TextStyle(color: Colors.green),
+            ),
+            ElLink(
+              href: 'https://github.com/luoyi58624/flutter_element_ui',
+              target: LinkTarget.blank,
+              decoration: ElLinkDecoration.hoverUnderline,
+              child: 'github链接',
+            ),
+            ' ',
+            ElButton(child: '链接按钮', type: 'success', link: true),
+            ' ',
+            SelectionContainer.disabled(
+              child: ElButton(
+                child: 'Hello',
+                type: El.primary,
+              ),
+            ),
+          ]),
+        ],
+      ),
+    );
+  }
+}
+
 String get code => '''
-ElText([
-  'hello, ',
-  ElText(
-    '这是一段富文本',
-    style: TextStyle(color: Colors.green),
-  ),
-  ElLink(
-    href: 'https://github.com/luoyi58624/flutter_element_ui',
-    decoration: ElLinkDecoration.hoverUnderline,
-    child: 'github链接',
-  ),
-  ElButton(child: '链接按钮', type: 'success', link: true),
-  ElButton(child: 'Hello', type: 'primary'),
-]),''';
+class _Example extends StatelessWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SelectionArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElText([
+            'hello, ',
+            ElText(
+              '这是一段富文本, ',
+              style: TextStyle(color: Colors.green),
+            ),
+            ElLink(
+              href: 'https://github.com/luoyi58624/flutter_element_ui',
+              target: LinkTarget.blank,
+              decoration: ElLinkDecoration.hoverUnderline,
+              child: 'github链接',
+            ),
+            ' ',
+            ElButton(child: '链接按钮', type: 'success', link: true),
+            ' ',
+            SelectionContainer.disabled(
+              child: ElButton(
+                child: 'Hello',
+                type: El.primary,
+              ),
+            ),
+          ]),
+        ],
+      ),
+    );
+  }
+}''';

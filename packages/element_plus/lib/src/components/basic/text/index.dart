@@ -73,8 +73,7 @@ class ElText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultStyle = ElDefaultTextStyle.of(context);
-    var $style = (defaultStyle.style ?? context.elTheme.textTheme.textStyle)
-        .merge(style);
+    var $style = defaultStyle.style.merge(style);
 
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
@@ -109,14 +108,11 @@ class ElText extends StatelessWidget {
     );
 
     if (registrar == null) return result;
-    return ElHoverBuilder(
-        triggerBuild: false,
-        cursor: DefaultSelectionStyle.of(context).mouseCursor ??
-            ElHoverBuilder.mouseCursor(context) ??
-            SystemMouseCursors.text,
-        builder: (context) {
-          return result;
-        });
+    return MouseRegion(
+      cursor: DefaultSelectionStyle.of(context).mouseCursor ??
+          SystemMouseCursors.text,
+      child: result,
+    );
   }
 
   /// 构建富文本片段集合

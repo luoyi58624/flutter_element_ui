@@ -25,6 +25,8 @@ class _ElButtonState extends State<ElButton> {
   /// 按钮颜色样式
   late _ButtonColorStyle _colorStyle;
 
+  late MouseCursor _cursor;
+
   bool _isTap = false;
   bool _isHover = false;
 
@@ -53,6 +55,11 @@ class _ElButtonState extends State<ElButton> {
 
     _prop = _ButtonProp.create(context, widget, _hasGroup);
 
+    _cursor = _prop.loading
+        ? MouseCursor.defer
+        : _prop.disabled
+            ? SystemMouseCursors.forbidden
+            : SystemMouseCursors.click;
     Widget result = _buildButtonEvent();
 
     return (_prop.block || _groupData != null) && !_prop.circle
@@ -109,11 +116,7 @@ class _ElButtonState extends State<ElButton> {
           }
         }
         return ElHoverBuilder(
-          cursor: _prop.loading
-              ? MouseCursor.defer
-              : _prop.disabled
-                  ? SystemMouseCursors.forbidden
-                  : SystemMouseCursors.click,
+          cursor: _cursor,
           disabled: _prop.disabled,
           hitTestBehavior: HitTestBehavior.deferToChild,
           onHover: widget.onHover,
@@ -295,15 +298,18 @@ class _ElButtonState extends State<ElButton> {
           : $child,
     );
 
-    childContent = Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if ($leftIcon != null) $leftIcon,
-        childContent,
-        if ($rightIcon != null) $rightIcon,
-      ],
+    childContent = DefaultSelectionStyle(
+      mouseCursor: _cursor,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if ($leftIcon != null) $leftIcon,
+          childContent,
+          if ($rightIcon != null) $rightIcon,
+        ],
+      ),
     );
 
     if (_prop.loadingBuilder != null) {

@@ -165,41 +165,44 @@ class ElLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final previewLink = getPreviewLink(href);
-    Widget result = ElHoverBuilder(
-      cursor: cursor,
-      onEnter: previewLink == null
-          ? null
-          : (e) {
-              if (_delayHideOverlay != null) {
-                _delayHideOverlay!.cancel();
-                _delayHideOverlay = null;
-              } else {
-                if (_delayRemoveOverlay != null) {
-                  _controller!.forward();
-                  _delayRemoveOverlay!.cancel();
-                  _delayRemoveOverlay = null;
+    Widget result = DefaultSelectionStyle(
+      mouseCursor: cursor,
+      child: ElHoverBuilder(
+        cursor: cursor,
+        onEnter: previewLink == null
+            ? null
+            : (e) {
+                if (_delayHideOverlay != null) {
+                  _delayHideOverlay!.cancel();
+                  _delayHideOverlay = null;
+                } else {
+                  if (_delayRemoveOverlay != null) {
+                    _controller!.forward();
+                    _delayRemoveOverlay!.cancel();
+                    _delayRemoveOverlay = null;
+                  }
                 }
-              }
-              if (_linkOverlay == null) {
-                _delayShowOverlay = setTimeout(() {
+                if (_linkOverlay == null) {
+                  _delayShowOverlay = setTimeout(() {
+                    _show(previewLink);
+                  }, _delayTime);
+                } else {
                   _show(previewLink);
-                }, _delayTime);
-              } else {
-                _show(previewLink);
-              }
-            },
-      onExit: previewLink == null
-          ? null
-          : (e) {
-              if (_delayShowOverlay != null) {
-                _delayShowOverlay!.cancel();
-                _delayShowOverlay = null;
-              }
-              if (_linkOverlay != null) {
-                _delayHideOverlay = setTimeout(_hide, _delayTime);
-              }
-            },
-      builder: (context) => buildTextTheme(context, _toLink),
+                }
+              },
+        onExit: previewLink == null
+            ? null
+            : (e) {
+                if (_delayShowOverlay != null) {
+                  _delayShowOverlay!.cancel();
+                  _delayShowOverlay = null;
+                }
+                if (_linkOverlay != null) {
+                  _delayHideOverlay = setTimeout(_hide, _delayTime);
+                }
+              },
+        builder: (context) => buildTextTheme(context, _toLink),
+      ),
     );
     if (!disabledEvent) {
       result = ClickWidget(

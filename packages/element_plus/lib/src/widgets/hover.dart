@@ -49,10 +49,6 @@ class ElHoverBuilder extends StatefulWidget {
   static bool of(BuildContext context) =>
       _HoverInheritedWidget.maybeOf(context)?.isHover ?? false;
 
-  /// 根据上下文获取最近的光标样式
-  static MouseCursor? mouseCursor(BuildContext context) =>
-      _HoverInheritedWidget.maybeOf(context)?.mouseCursor;
-
   @override
   State<ElHoverBuilder> createState() => _HoverBuilderState();
 }
@@ -68,7 +64,6 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
       if (widget.disabled) isHover = false;
       return _HoverInheritedWidget(
         isHover: isHover,
-        mouseCursor: cursor,
         child: MouseRegion(
           cursor: cursor,
           hitTestBehavior: widget.hitTestBehavior,
@@ -107,11 +102,9 @@ class _HoverInheritedWidget extends InheritedWidget {
   const _HoverInheritedWidget({
     required super.child,
     required this.isHover,
-    this.mouseCursor,
   });
 
   final bool isHover;
-  final MouseCursor? mouseCursor;
 
   static _HoverInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_HoverInheritedWidget>();
