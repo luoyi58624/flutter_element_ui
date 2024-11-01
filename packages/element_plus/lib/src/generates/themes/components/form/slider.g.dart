@@ -38,23 +38,6 @@ extension ElSliderThemeDataExtension on ElSliderThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElSliderThemeDataLerpExtension on ElSliderThemeData {
-  /// 默认主题动画线性插值
-  ElSliderThemeData lerp(ElSliderThemeData a, ElSliderThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElSliderThemeData(
-      sliderSize: lerpDouble(a.sliderSize, b.sliderSize, t) ?? a.sliderSize,
-      thumbSize: lerpDouble(a.thumbSize, b.thumbSize, t) ?? a.thumbSize,
-      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
-      inactiveColor:
-          Color.lerp(a.inactiveColor, b.inactiveColor, t) ?? a.inactiveColor,
-    );
-  }
-}
-
 class ElSliderTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElSliderTheme({

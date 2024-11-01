@@ -35,24 +35,6 @@ extension ElCloseButtonThemeDataExtension on ElCloseButtonThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElCloseButtonThemeDataLerpExtension on ElCloseButtonThemeData {
-  /// 默认主题动画线性插值
-  ElCloseButtonThemeData lerp(
-      ElCloseButtonThemeData a, ElCloseButtonThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCloseButtonThemeData(
-      iconHoverColor:
-          Color.lerp(a.iconHoverColor, b.iconHoverColor, t) ?? a.iconHoverColor,
-      bgHoverColor:
-          Color.lerp(a.bgHoverColor, b.bgHoverColor, t) ?? a.bgHoverColor,
-      cursor: t < 0.5 ? a.cursor : b.cursor,
-    );
-  }
-}
-
 class ElCloseButtonTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElCloseButtonTheme({
@@ -168,5 +150,23 @@ class _ElCloseButtonDataTween extends Tween<ElCloseButtonThemeData> {
 
   @override
   ElCloseButtonThemeData lerp(double t) =>
-      ElCloseButtonThemeData.theme.lerp(begin!, end!, t);
+      ElCloseButtonThemeData.theme._lerp(begin!, end!, t);
+}
+
+extension ElCloseButtonThemeDataLerpExtension on ElCloseButtonThemeData {
+  /// 默认主题动画线性插值
+  ElCloseButtonThemeData _lerp(
+      ElCloseButtonThemeData a, ElCloseButtonThemeData b, double t) {
+    if (identical(a, b)) {
+      return a;
+    }
+
+    return ElCloseButtonThemeData(
+      iconHoverColor:
+          Color.lerp(a.iconHoverColor, b.iconHoverColor, t) ?? a.iconHoverColor,
+      bgHoverColor:
+          Color.lerp(a.bgHoverColor, b.bgHoverColor, t) ?? a.bgHoverColor,
+      cursor: t < 0.5 ? a.cursor : b.cursor,
+    );
+  }
 }

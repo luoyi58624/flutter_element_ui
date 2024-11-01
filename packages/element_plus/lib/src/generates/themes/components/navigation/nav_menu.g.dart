@@ -29,21 +29,6 @@ extension ElNavMenuThemeDataExtension on ElNavMenuThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElNavMenuThemeDataLerpExtension on ElNavMenuThemeData {
-  /// 默认主题动画线性插值
-  ElNavMenuThemeData lerp(
-      ElNavMenuThemeData a, ElNavMenuThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElNavMenuThemeData(
-      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
-          a.activeTextColor,
-    );
-  }
-}
-
 class ElNavMenuTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElNavMenuTheme({

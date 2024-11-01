@@ -35,22 +35,6 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElCollapseThemeDataLerpExtension on ElCollapseThemeData {
-  /// 默认主题动画线性插值
-  ElCollapseThemeData lerp(
-      ElCollapseThemeData a, ElCollapseThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCollapseThemeData(
-      keepState: t < 0.5 ? a.keepState : b.keepState,
-      duration: t < 0.5 ? a.duration : b.duration,
-      curve: t < 0.5 ? a.curve : b.curve,
-    );
-  }
-}
-
 class ElCollapseTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElCollapseTheme({

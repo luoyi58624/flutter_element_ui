@@ -35,21 +35,6 @@ extension ElCardThemeDataExtension on ElCardThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElCardThemeDataLerpExtension on ElCardThemeData {
-  /// 默认主题动画线性插值
-  ElCardThemeData lerp(ElCardThemeData a, ElCardThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElCardThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      elevation: lerpDouble(a.elevation, b.elevation, t) ?? a.elevation,
-      radius: BorderRadius.lerp(a.radius, b.radius, t) ?? a.radius,
-    );
-  }
-}
-
 class ElCardTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElCardTheme({

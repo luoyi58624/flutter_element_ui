@@ -74,35 +74,6 @@ extension ElTagThemeDataExtension on ElTagThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElTagThemeDataLerpExtension on ElTagThemeData {
-  /// 默认主题动画线性插值
-  ElTagThemeData lerp(ElTagThemeData a, ElTagThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElTagThemeData(
-      duration: t < 0.5 ? a.duration : b.duration,
-      curve: t < 0.5 ? a.curve : b.curve,
-      type: t < 0.5 ? a.type : b.type,
-      icon: t < 0.5 ? a.icon : b.icon,
-      width: lerpDouble(a.width, b.width, t) ?? a.width,
-      height: lerpDouble(a.height, b.height, t) ?? a.height,
-      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
-      textColor: Color.lerp(a.textColor, b.textColor, t) ?? a.textColor,
-      textSize: lerpDouble(a.textSize, b.textSize, t) ?? a.textSize,
-      iconColor: Color.lerp(a.iconColor, b.iconColor, t) ?? a.iconColor,
-      iconSize: lerpDouble(a.iconSize, b.iconSize, t) ?? a.iconSize,
-      plain: t < 0.5 ? a.plain : b.plain,
-      round: t < 0.5 ? a.round : b.round,
-      closable: t < 0.5 ? a.closable : b.closable,
-      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
-          a.borderRadius,
-      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
-    );
-  }
-}
-
 class ElTagTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElTagTheme({

@@ -35,22 +35,6 @@ extension ElProgressThemeDataExtension on ElProgressThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElProgressThemeDataLerpExtension on ElProgressThemeData {
-  /// 默认主题动画线性插值
-  ElProgressThemeData lerp(
-      ElProgressThemeData a, ElProgressThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElProgressThemeData(
-      duration: t < 0.5 ? a.duration : b.duration,
-      curve: t < 0.5 ? a.curve : b.curve,
-      secondCurve: t < 0.5 ? a.secondCurve : b.secondCurve,
-    );
-  }
-}
-
 class ElProgressTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElProgressTheme({

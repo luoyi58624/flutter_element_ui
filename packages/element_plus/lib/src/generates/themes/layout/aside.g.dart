@@ -32,20 +32,6 @@ extension ElAsideThemeDataExtension on ElAsideThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElAsideThemeDataLerpExtension on ElAsideThemeData {
-  /// 默认主题动画线性插值
-  ElAsideThemeData lerp(ElAsideThemeData a, ElAsideThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElAsideThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      width: lerpDouble(a.width, b.width, t) ?? a.width,
-    );
-  }
-}
-
 class ElAsideTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElAsideTheme({

@@ -34,15 +34,6 @@ extension FlutterContextExtension on BuildContext {
         El.error: elTheme.error,
       };
 
-  /// Element UI 动画主题颜色集合
-  Map<String, Color> get elAnimatedThemeColors => {
-        El.primary: elTheme.primary,
-        El.success: elTheme.success,
-        El.info: elTheme.info,
-        El.warning: elTheme.warning,
-        El.error: elTheme.error,
-      };
-
   /// 从上下文 context 获取当前 Widget 的坐标位置，默认情况下获取的位置相对于屏幕原点，
   /// 你还可以传递另一个 Widget 的 context 作为参数，计算相对坐标
   Offset getPosition([BuildContext? context]) {

@@ -27,21 +27,3 @@ extension ElModalThemeDataExtension on ElModalThemeData {
     );
   }
 }
-
-// **************************************************************************
-// ElThemeModelGenerator
-// **************************************************************************
-
-extension ElModalThemeDataLerpExtension on ElModalThemeData {
-  /// 默认主题动画线性插值
-  ElModalThemeData lerp(ElModalThemeData a, ElModalThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElModalThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      elevation: lerpDouble(a.elevation, b.elevation, t) ?? a.elevation,
-    );
-  }
-}

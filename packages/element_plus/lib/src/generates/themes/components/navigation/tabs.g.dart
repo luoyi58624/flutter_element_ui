@@ -75,40 +75,6 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElTabsThemeDataLerpExtension on ElTabsThemeData {
-  /// 默认主题动画线性插值
-  ElTabsThemeData lerp(ElTabsThemeData a, ElTabsThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElTabsThemeData(
-      builderWrapper: t < 0.5 ? a.builderWrapper : b.builderWrapper,
-      builderScrollbar: t < 0.5 ? a.builderScrollbar : b.builderScrollbar,
-      size: lerpDouble(a.size, b.size, t) ?? a.size,
-      direction: t < 0.5 ? a.direction : b.direction,
-      bgColor: Color.lerp(a.bgColor, b.bgColor, t) ?? a.bgColor,
-      hoverBgColor:
-          Color.lerp(a.hoverBgColor, b.hoverBgColor, t) ?? a.hoverBgColor,
-      activeBgColor:
-          Color.lerp(a.activeBgColor, b.activeBgColor, t) ?? a.activeBgColor,
-      textColor: Color.lerp(a.textColor, b.textColor, t) ?? a.textColor,
-      hoverTextColor:
-          Color.lerp(a.hoverTextColor, b.hoverTextColor, t) ?? a.hoverTextColor,
-      activeTextColor: Color.lerp(a.activeTextColor, b.activeTextColor, t) ??
-          a.activeTextColor,
-      padding: EdgeInsets.lerp(a.padding, b.padding, t) ?? a.padding,
-      itemGap: lerpDouble(a.itemGap, b.itemGap, t) ?? a.itemGap,
-      enabledDrag: t < 0.5 ? a.enabledDrag : b.enabledDrag,
-      dragDelay: t < 0.5 ? a.dragDelay : b.dragDelay,
-      autoScrollerVelocityScalar: lerpDouble(
-              a.autoScrollerVelocityScalar, b.autoScrollerVelocityScalar, t) ??
-          a.autoScrollerVelocityScalar,
-      dragProxyDecorator: t < 0.5 ? a.dragProxyDecorator : b.dragProxyDecorator,
-    );
-  }
-}
-
 class ElTabsTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElTabsTheme({

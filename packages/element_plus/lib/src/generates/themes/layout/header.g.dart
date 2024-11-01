@@ -32,20 +32,6 @@ extension ElHeaderThemeDataExtension on ElHeaderThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElHeaderThemeDataLerpExtension on ElHeaderThemeData {
-  /// 默认主题动画线性插值
-  ElHeaderThemeData lerp(ElHeaderThemeData a, ElHeaderThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElHeaderThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      height: lerpDouble(a.height, b.height, t) ?? a.height,
-    );
-  }
-}
-
 class ElHeaderTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElHeaderTheme({

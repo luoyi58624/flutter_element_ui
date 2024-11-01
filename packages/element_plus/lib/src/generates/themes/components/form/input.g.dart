@@ -41,24 +41,6 @@ extension ElInputThemeDataExtension on ElInputThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElInputThemeDataLerpExtension on ElInputThemeData {
-  /// 默认主题动画线性插值
-  ElInputThemeData lerp(ElInputThemeData a, ElInputThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElInputThemeData(
-      height: lerpDouble(a.height, b.height, t) ?? a.height,
-      borderRadius: BorderRadius.lerp(a.borderRadius, b.borderRadius, t) ??
-          a.borderRadius,
-      margin: EdgeInsetsGeometry.lerp(a.margin, b.margin, t) ?? a.margin,
-      padding: EdgeInsetsGeometry.lerp(a.padding, b.padding, t) ?? a.padding,
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
-    );
-  }
-}
-
 class ElInputTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElInputTheme({

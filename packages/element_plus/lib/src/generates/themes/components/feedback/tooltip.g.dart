@@ -27,22 +27,3 @@ extension ElTooltipThemeDataExtension on ElTooltipThemeData {
     );
   }
 }
-
-// **************************************************************************
-// ElThemeModelGenerator
-// **************************************************************************
-
-extension ElTooltipThemeDataLerpExtension on ElTooltipThemeData {
-  /// 默认主题动画线性插值
-  ElTooltipThemeData lerp(
-      ElTooltipThemeData a, ElTooltipThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElTooltipThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      enableFeedback: t < 0.5 ? a.enableFeedback : b.enableFeedback,
-    );
-  }
-}

@@ -33,27 +33,3 @@ extension ElTextThemeDataExtension on ElTextThemeData {
     );
   }
 }
-
-// **************************************************************************
-// ElThemeModelGenerator
-// **************************************************************************
-
-extension ElTextThemeDataLerpExtension on ElTextThemeData {
-  /// 默认主题动画线性插值
-  ElTextThemeData lerp(ElTextThemeData a, ElTextThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElTextThemeData(
-      textStyle: TextStyle.lerp(a.textStyle, b.textStyle, t) ?? a.textStyle,
-      regularStyle:
-          TextStyle.lerp(a.regularStyle, b.regularStyle, t) ?? a.regularStyle,
-      secondaryStyle: TextStyle.lerp(a.secondaryStyle, b.secondaryStyle, t) ??
-          a.secondaryStyle,
-      placeholderStyle:
-          TextStyle.lerp(a.placeholderStyle, b.placeholderStyle, t) ??
-              a.placeholderStyle,
-    );
-  }
-}

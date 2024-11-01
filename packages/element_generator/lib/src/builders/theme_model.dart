@@ -79,9 +79,9 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
     }
 
     String result = """
-        ${generateLerpExtension(annotation)}
         ${generateThemeWidget(annotation)}
         ${generateAnimatedWidget(annotation)}
+        ${generateLerpExtension(annotation)}
     """;
     return result;
   }
@@ -153,6 +153,11 @@ class _$themeClassName extends InheritedWidget {
   }
 
   String generateLerpExtension(ConstantReader annotation) {
+    bool generateThemeWidget = annotation.read('generateThemeWidget').boolValue;
+    if (!generateThemeWidget) return '';
+    bool generateAnimatedThemeWidget =
+        annotation.read('generateAnimatedThemeWidget').boolValue;
+    if (!generateAnimatedThemeWidget) return '';
     String content = '';
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
@@ -162,7 +167,7 @@ class _$themeClassName extends InheritedWidget {
     return """
 extension ${_className}LerpExtension on $_className {
   /// 默认主题动画线性插值
-  $_className lerp($_className a, $_className b, double t) {
+  $_className _lerp($_className a, $_className b, double t) {
     if (identical(a, b)) {
       return a;
     }
@@ -257,7 +262,7 @@ class $tweenClassName extends Tween<$_className> {
   $tweenClassName({super.begin});
 
   @override
-  $_className lerp(double t) => $_className.theme.lerp(begin!, end!, t);
+  $_className lerp(double t) => $_className.theme._lerp(begin!, end!, t);
 }
     """;
   }

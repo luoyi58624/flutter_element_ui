@@ -38,22 +38,6 @@ extension ElLinkThemeDataExtension on ElLinkThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-extension ElLinkThemeDataLerpExtension on ElLinkThemeData {
-  /// 默认主题动画线性插值
-  ElLinkThemeData lerp(ElLinkThemeData a, ElLinkThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElLinkThemeData(
-      color: Color.lerp(a.color, b.color, t) ?? a.color,
-      activeColor: Color.lerp(a.activeColor, b.activeColor, t) ?? a.activeColor,
-      decoration: t < 0.5 ? a.decoration : b.decoration,
-      allowDrag: t < 0.5 ? a.allowDrag : b.allowDrag,
-    );
-  }
-}
-
 class ElLinkTheme extends StatelessWidget {
   /// 提供局部默认主题小部件
   const ElLinkTheme({

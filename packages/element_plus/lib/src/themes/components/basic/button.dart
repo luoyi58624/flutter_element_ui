@@ -6,7 +6,7 @@ import '../../../components/basic/button/index.dart';
 part '../../../generates/themes/components/basic/button.g.dart';
 
 @ElModel.copy()
-@ElThemeModel(desc: '按钮默认样式', generateAnimatedThemeWidget: true)
+@ElThemeModel(desc: '按钮默认样式')
 class ElButtonThemeData {
   static const theme = ElButtonThemeData();
   static const darkTheme = ElButtonThemeData();

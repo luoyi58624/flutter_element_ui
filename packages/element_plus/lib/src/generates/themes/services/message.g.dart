@@ -39,26 +39,3 @@ extension ElMessageThemeDataExtension on ElMessageThemeData {
     );
   }
 }
-
-// **************************************************************************
-// ElThemeModelGenerator
-// **************************************************************************
-
-extension ElMessageThemeDataLerpExtension on ElMessageThemeData {
-  /// 默认主题动画线性插值
-  ElMessageThemeData lerp(
-      ElMessageThemeData a, ElMessageThemeData b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-
-    return ElMessageThemeData(
-      offset: lerpDouble(a.offset, b.offset, t) ?? a.offset,
-      closeDuration: t < 0.5 ? a.closeDuration : b.closeDuration,
-      animationDuration: t < 0.5 ? a.animationDuration : b.animationDuration,
-      showClose: t < 0.5 ? a.showClose : b.showClose,
-      grouping: t < 0.5 ? a.grouping : b.grouping,
-      builder: t < 0.5 ? a.builder : b.builder,
-    );
-  }
-}
