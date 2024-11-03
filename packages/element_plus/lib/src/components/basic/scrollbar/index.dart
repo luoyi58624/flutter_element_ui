@@ -17,13 +17,13 @@ part 'scrollbar_painter.dart';
 
 /// Element UI 滚动条显示模式
 enum ElScrollbarMode {
-  /// 不显示滚动条
+  /// 不显示滚动条，此模式下直接返回子组件，不会渲染任何内容
   hidden,
 
   /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏滚动条 (默认)
   hover,
 
-  /// 一直显示滚动条
+  /// 一直显示滚动条，只有此模式才允许绘制 track 滚动轨道
   always,
 
   /// 只有当滚动时才显示滚动条
@@ -31,11 +31,11 @@ enum ElScrollbarMode {
 }
 
 class ElScrollbar extends StatefulWidget {
-  /// Element UI 滚动条，通常情况下使用 [ScrollConfiguration] 配置全局默认滚动行为，
-  /// 用户很少需要手动添加它。
+  /// Element UI 滚动条
   const ElScrollbar({
     super.key,
     required this.child,
+    this.mode = ElScrollbarMode.hover,
     this.controller,
     this.thickness = 6.0,
     this.shape,
@@ -45,17 +45,19 @@ class ElScrollbar extends StatefulWidget {
     this.crossAxisMargin = 1.0,
     this.minThumbLength = 36.0,
     this.showTrack = false,
-    this.mode = ElScrollbarMode.hover,
     this.trackColor,
     this.trackBorderColor,
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
-    this.thumbActiveColor =const Color.fromRGBO(144, 147, 153, .9),
+    this.thumbActiveColor = const Color.fromRGBO(144, 147, 153, .9),
     this.interactive = true,
     this.fadeDuration = _kScrollbarFadeDuration,
     this.timeToFade = _kScrollbarTimeToFade,
   });
 
   final Widget child;
+
+  /// 滚动条显示模式，默认 [ElScrollbarMode.hover]
+  final ElScrollbarMode mode;
 
   /// 滚动控制器
   final ScrollController? controller;
@@ -84,9 +86,6 @@ class ElScrollbar extends StatefulWidget {
   /// 是否显示轨道，默认 true，只有当 [mode] == [ElScrollbarMode.always] 才生效
   final bool showTrack;
 
-  /// 滚动条显示模式，默认 [ElScrollbarMode.hover]
-  final ElScrollbarMode mode;
-
   /// 轨道颜色
   final Color? trackColor;
 
@@ -97,7 +96,7 @@ class ElScrollbar extends StatefulWidget {
   final Color thumbColor;
 
   /// 滚动条激活颜色
-  final Color? thumbActiveColor;
+  final Color thumbActiveColor;
 
   /// 滚动条是否支持交互，默认 true
   final bool interactive;
@@ -124,7 +123,7 @@ class ElScrollBehavior extends CustomScrollBehavior {
         PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
-        mode: ElScrollbarMode.hover,
+        // mode: ElScrollbarMode.always,
         child: child,
       );
     }
