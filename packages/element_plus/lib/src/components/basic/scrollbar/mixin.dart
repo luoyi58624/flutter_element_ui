@@ -82,21 +82,6 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
 
     scrollbarPainter = _ScrollbarPainter(
       color: scrollbarColor,
-      trackColor: widget.showTrack
-          ? (widget.trackColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent,
-      trackBorderColor: widget.showTrack
-          ? (widget.trackBorderColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent,
-      thickness: widget.thickness,
-      radius: widget.radius,
-      trackRadius: widget.trackRadius,
-      mainAxisMargin: widget.mainAxisMargin,
-      shape: widget.shape,
-      crossAxisMargin: widget.crossAxisMargin,
-      minLength: widget.minThumbLength,
     );
   }
 
