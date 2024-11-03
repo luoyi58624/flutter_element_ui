@@ -10,7 +10,6 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
   /// Creates a scrollbar with customizations given by construction arguments.
   _ScrollbarPainter({
     required Color color,
-    required this.fadeoutOpacityAnimation,
     Color trackColor = const Color(0x00000000),
     Color trackBorderColor = const Color(0x00000000),
     TextDirection? textDirection,
@@ -44,9 +43,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         _trackRadius = trackRadius,
         _scrollbarOrientation = scrollbarOrientation,
         _minOverscrollLength = minOverscrollLength ?? minLength,
-        _ignorePointer = ignorePointer {
-    fadeoutOpacityAnimation.addListener(notifyListeners);
-  }
+        _ignorePointer = ignorePointer;
 
   /// [Color] of the thumb. Mustn't be null.
   Color get color => _color;
@@ -130,11 +127,6 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     _thickness = value;
     notifyListeners();
   }
-
-  /// An opacity [Animation] that dictates the opacity of the thumb.
-  /// Changes in value of this [Listenable] will automatically trigger repaints.
-  /// Mustn't be null.
-  final Animation<double> fadeoutOpacityAnimation;
 
   /// Distance from the scrollbar thumb's start and end to the edge of the
   /// viewport in logical pixels. It affects the amount of available paint area.
@@ -491,22 +483,17 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
   // - Painting
 
   Paint get _paintThumb {
-    return Paint()
-      ..color =
-          color.withOpacity(color.opacity * fadeoutOpacityAnimation.value);
+    return Paint()..color = color;
   }
 
   Paint _paintTrack({bool isBorder = false}) {
     if (isBorder) {
       return Paint()
-        ..color = trackBorderColor.withOpacity(
-            trackBorderColor.opacity * fadeoutOpacityAnimation.value)
+        ..color = trackBorderColor
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.0;
     }
-    return Paint()
-      ..color = trackColor
-          .withOpacity(trackColor.opacity * fadeoutOpacityAnimation.value);
+    return Paint()..color = trackColor;
   }
 
   void _paintScrollbar(Canvas canvas, Size size) {
@@ -561,33 +548,30 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     _trackRect = trackOffset & trackSize;
     _thumbRect = Offset(x, y) & thumbSize;
 
-    // Paint if the opacity dictates visibility
-    if (fadeoutOpacityAnimation.value != 0.0) {
-      // Track
-      if (trackRadius == null) {
-        canvas.drawRect(_trackRect!, _paintTrack());
-      } else {
-        canvas.drawRRect(
-            RRect.fromRectAndRadius(_trackRect!, trackRadius!), _paintTrack());
-      }
-      // Track Border
-      canvas.drawLine(borderStart, borderEnd, _paintTrack(isBorder: true));
-      if (radius != null) {
-        // Rounded rect thumb
-        canvas.drawRRect(
-            RRect.fromRectAndRadius(_thumbRect!, radius!), _paintThumb);
-        return;
-      }
-      if (shape == null) {
-        // Square thumb
-        canvas.drawRect(_thumbRect!, _paintThumb);
-        return;
-      }
-      // Custom-shaped thumb
-      final Path outerPath = shape!.getOuterPath(_thumbRect!);
-      canvas.drawPath(outerPath, _paintThumb);
-      shape!.paint(canvas, _thumbRect!);
+    // Track
+    if (trackRadius == null) {
+      canvas.drawRect(_trackRect!, _paintTrack());
+    } else {
+      canvas.drawRRect(
+          RRect.fromRectAndRadius(_trackRect!, trackRadius!), _paintTrack());
     }
+    // Track Border
+    canvas.drawLine(borderStart, borderEnd, _paintTrack(isBorder: true));
+    if (radius != null) {
+      // Rounded rect thumb
+      canvas.drawRRect(
+          RRect.fromRectAndRadius(_thumbRect!, radius!), _paintThumb);
+      return;
+    }
+    if (shape == null) {
+      // Square thumb
+      canvas.drawRect(_thumbRect!, _paintThumb);
+      return;
+    }
+    // Custom-shaped thumb
+    final Path outerPath = shape!.getOuterPath(_thumbRect!);
+    canvas.drawPath(outerPath, _paintThumb);
+    shape!.paint(canvas, _thumbRect!);
   }
 
   @override
@@ -669,13 +653,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     }
 
     // Interaction disabled.
-    if (ignorePointer
-        // The thumb is not able to be hit when transparent.
-        ||
-        fadeoutOpacityAnimation.value == 0.0
-        // Not scrollable
-        ||
-        !_lastMetricsAreScrollable) {
+    if (ignorePointer || !_lastMetricsAreScrollable) {
       return false;
     }
 
@@ -711,16 +689,6 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
           center: _thumbRect!.center, radius: _kMinInteractiveSize / 2),
     );
 
-    // The scrollbar is not able to be hit when transparent - except when
-    // hovering with a mouse. This should bring the scrollbar into view so the
-    // mouse can interact with it.
-    if (fadeoutOpacityAnimation.value == 0.0) {
-      if (forHover && kind == PointerDeviceKind.mouse) {
-        return paddedRect.contains(position);
-      }
-      return false;
-    }
-
     switch (kind) {
       case PointerDeviceKind.touch:
       case PointerDeviceKind.trackpad:
@@ -740,10 +708,6 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
       return false;
     }
     if (ignorePointer) {
-      return false;
-    }
-    // The thumb is not able to be hit when transparent.
-    if (fadeoutOpacityAnimation.value == 0.0) {
       return false;
     }
 
@@ -787,7 +751,6 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         trackBorderColor != oldDelegate.trackBorderColor ||
         textDirection != oldDelegate.textDirection ||
         thickness != oldDelegate.thickness ||
-        fadeoutOpacityAnimation != oldDelegate.fadeoutOpacityAnimation ||
         mainAxisMargin != oldDelegate.mainAxisMargin ||
         crossAxisMargin != oldDelegate.crossAxisMargin ||
         radius != oldDelegate.radius ||
@@ -808,10 +771,4 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
 
   @override
   String toString() => describeIdentity(this);
-
-  @override
-  void dispose() {
-    fadeoutOpacityAnimation.removeListener(notifyListeners);
-    super.dispose();
-  }
 }

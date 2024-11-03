@@ -1,24 +1,12 @@
 part of 'index.dart';
 
-/// 之前是通过继承 [RawScrollbar] 实现的，但有些细节没法处理，所以索性直接修改官方源码
+/// 之前是通过继承 [RawScrollbar] 实现自定义滚动条，但有些细节没法处理，所以索性直接修改官方源码
 mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   Offset? _startDragScrollbarAxisOffset;
   Offset? _lastDragUpdateOffset;
   double? _startDragThumbOffset;
   ScrollController? _cachedController;
-  Timer? _fadeoutTimer;
-
   final GlobalKey _scrollbarPainterKey = GlobalKey();
-
-  /// 鼠标是否进入滚动区域
-  bool isHover = false;
-
-  /// 鼠标悬停在滚动条上
-  bool isScrollbarHover = false;
-
-  /// 是否处于拖拽滚动条状态
-  bool isDragScroll = false;
-
   Drag? _thumbDrag;
   bool _maxScrollExtentPermitsScrolling = false;
   ScrollHoldController? _thumbHold;
@@ -28,56 +16,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
 
   ScrollController? get _effectiveScrollController =>
       widget.controller ?? PrimaryScrollController.maybeOf(context);
-
-  late final _ScrollbarPainter scrollbarPainter;
-
-  bool get enableGestures => widget.interactive ?? true;
-
-  @override
-  void initState() {
-    super.initState();
-    scrollbarPainter = _ScrollbarPainter(
-      color: widget.thumbColor,
-      trackColor: widget.showTrack
-          ? (widget.trackColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent,
-      trackBorderColor: widget.showTrack
-          ? (widget.trackBorderColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent,
-      fadeoutOpacityAnimation: curvedAnimation,
-      thickness: widget.thickness,
-      radius: widget.radius,
-      trackRadius: widget.trackRadius,
-      mainAxisMargin: widget.mainAxisMargin,
-      shape: widget.shape,
-      crossAxisMargin: widget.crossAxisMargin,
-      minLength: widget.minThumbLength,
-    );
-  }
-
-  void updateScrollbarPainter() {
-    scrollbarPainter
-      ..color = widget.thumbColor
-      ..trackRadius = widget.trackRadius
-      ..trackColor = widget.showTrack
-          ? (widget.trackColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent
-      ..trackBorderColor = widget.showTrack
-          ? (widget.trackBorderColor ??
-              (context.isDark ? Colors.black : Colors.white))
-          : Colors.transparent
-      ..textDirection = Directionality.of(context)
-      ..thickness = widget.thickness
-      ..radius = widget.radius
-      ..mainAxisMargin = widget.mainAxisMargin
-      ..shape = widget.shape
-      ..crossAxisMargin = widget.crossAxisMargin
-      ..minLength = widget.minThumbLength
-      ..ignorePointer = !enableGestures;
-  }
 
   /// Returns the [Axis] of the child scroll view, or null if the
   /// we haven't seen a ScrollMetrics notification yet.
@@ -179,7 +117,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
     if (getScrollbarDirection() == null) {
       return;
     }
-    _fadeoutTimer?.cancel();
     _thumbHold = _cachedController!.position.hold(_disposeThumbHold);
   }
 
@@ -193,7 +130,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
     if (direction == null) {
       return;
     }
-    _fadeoutTimer?.cancel();
 
     assert(_thumbDrag == null);
     final ScrollPosition position = _cachedController!.position;
@@ -401,11 +337,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
 
     final ScrollMetrics metrics = notification.metrics;
     if (metrics.maxScrollExtent <= metrics.minScrollExtent) {
-      // Hide the bar when the Scrollable widget has no space to scroll.
-      // if (_fadeoutAnimationController.isForwardOrCompleted) {
-      //   _fadeoutAnimationController.reverse();
-      // }
-
       if (_shouldUpdatePainter(metrics.axis)) {
         scrollbarPainter.update(metrics, metrics.axisDirection);
       }
@@ -414,13 +345,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
 
     if (notification is ScrollUpdateNotification ||
         notification is OverscrollNotification) {
-      // Any movements always makes the scrollbar start showing up.
-      // if (!_fadeoutAnimationController.isForwardOrCompleted) {
-      //   _fadeoutAnimationController.forward();
-      // }
-
-      _fadeoutTimer?.cancel();
-
       if (_shouldUpdatePainter(metrics.axis)) {
         scrollbarPainter.update(metrics, metrics.axisDirection);
       }
@@ -483,7 +407,7 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   }
 
   bool _canHandleScrollGestures() {
-    return enableGestures &&
+    return widget.interactive &&
         _effectiveScrollController != null &&
         _effectiveScrollController!.positions.length == 1 &&
         _effectiveScrollController!.position.hasContentDimensions &&
@@ -633,13 +557,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
         // Don't use the pointer signal resolver, all hit-tested scrollables should stop.
       }
     }
-  }
-
-  @override
-  void dispose() {
-    _fadeoutTimer?.cancel();
-    scrollbarPainter.dispose();
-    super.dispose();
   }
 }
 

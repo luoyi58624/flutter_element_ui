@@ -1,17 +1,19 @@
 part of 'index.dart';
 
-const double _defaultThickness = 6.0;
-const Radius _defaultRadius = Radius.circular(3.0);
-const int _animationDuration = 200;
-
-/// 延迟激活滚动条高亮时间，防止鼠标快速划过导致滚动条出现轻微闪动
-const int _delayActiveDuration = 100;
-
 /// Element UI 自定义滚动条实现
 mixin _ElScrollbarMixin<T extends ElScrollbar>
     on SingleTickerProviderStateMixin<T> {
   late AnimationController animationController;
-  late CurvedAnimation curvedAnimation;
+  late final _ScrollbarPainter scrollbarPainter;
+
+  /// 鼠标是否进入滚动区域
+  bool isHover = false;
+
+  /// 鼠标悬停在滚动条上
+  bool isScrollbarHover = false;
+
+  /// 是否处于拖拽滚动条状态
+  bool isDragScroll = false;
 
   /// 对滚动条颜色变化进行线性插值，定义两个变量用于保存当前滚动条颜色和目标颜色
   Color? color1;
@@ -36,7 +38,7 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   /// 对滚动条颜色进行线性插值
   Color get scrollbarColor {
     if (color1 == null || color2 == null) return hideThumbColor;
-    lerpColor = Color.lerp(color1, color2, curvedAnimation.value);
+    lerpColor = Color.lerp(color1, color2, animationController.value);
     assert(lerpColor != null);
     return lerpColor!;
   }
@@ -48,24 +50,70 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
     animationController.forward(from: 0);
   }
 
+  /// 延迟激活悬停滚动条，用户必须在滚动条上悬停一段时间，才激活滚动条高亮状态
+  Timer? _delayActiveHover;
+
+  void _cancelDelayActiveHover() {
+    if (_delayActiveHover != null) {
+      _delayActiveHover!.cancel();
+      _delayActiveHover = null;
+    }
+  }
+
+  void updateScrollbarPainter() {
+    scrollbarPainter
+      ..color = scrollbarColor
+      ..trackRadius = widget.trackRadius
+      ..trackColor = widget.showTrack
+          ? (widget.trackColor ??
+              (context.isDark ? Colors.black : Colors.white))
+          : Colors.transparent
+      ..trackBorderColor = widget.showTrack
+          ? (widget.trackBorderColor ??
+              (context.isDark ? Colors.black : Colors.white))
+          : Colors.transparent
+      ..textDirection = Directionality.of(context)
+      ..thickness = widget.thickness
+      ..radius = widget.radius
+      ..mainAxisMargin = widget.mainAxisMargin
+      ..shape = widget.shape
+      ..crossAxisMargin = widget.crossAxisMargin
+      ..minLength = widget.minThumbLength
+      ..ignorePointer = !widget.interactive;
+  }
+
   @override
   void initState() {
     super.initState();
+
     animationController = AnimationController(
       vsync: this,
-      value: 1.0,
       duration: const Duration(milliseconds: 200),
-    );
-    curvedAnimation = CurvedAnimation(
-      parent: animationController,
-      curve: Curves.fastOutSlowIn,
+    )..addListener(updateScrollbarPainter);
+
+    scrollbarPainter = _ScrollbarPainter(
+      color: scrollbarColor,
+      trackColor: widget.showTrack
+          ? (widget.trackColor ??
+              (context.isDark ? Colors.black : Colors.white))
+          : Colors.transparent,
+      trackBorderColor: widget.showTrack
+          ? (widget.trackBorderColor ??
+              (context.isDark ? Colors.black : Colors.white))
+          : Colors.transparent,
+      thickness: widget.thickness,
+      radius: widget.radius,
+      trackRadius: widget.trackRadius,
+      mainAxisMargin: widget.mainAxisMargin,
+      shape: widget.shape,
+      crossAxisMargin: widget.crossAxisMargin,
+      minLength: widget.minThumbLength,
     );
   }
 
   @override
   void dispose() {
     animationController.dispose();
-    curvedAnimation.dispose();
     super.dispose();
   }
 }

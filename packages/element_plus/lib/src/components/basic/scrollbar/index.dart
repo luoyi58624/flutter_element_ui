@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/services.dart';
 
 part 'state.dart';
 
@@ -52,7 +51,7 @@ class ElScrollbar extends StatefulWidget {
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
     this.thumbHoverColor,
     this.thumbActiveColor,
-    this.interactive,
+    this.interactive = true,
     this.fadeDuration = _kScrollbarFadeDuration,
     this.timeToFade = _kScrollbarTimeToFade,
   });
@@ -105,7 +104,7 @@ class ElScrollbar extends StatefulWidget {
   final Color? thumbActiveColor;
 
   /// 滚动条是否支持交互，默认 true
-  final bool? interactive;
+  final bool interactive;
 
   /// 滚动条淡入、淡出过渡动画持续时间，默认 200 毫秒
   final Duration fadeDuration;

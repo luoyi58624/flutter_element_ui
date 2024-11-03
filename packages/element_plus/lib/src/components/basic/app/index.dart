@@ -6,6 +6,7 @@ import '../../../global.dart';
 import '../../../themes/config.dart';
 import '../../../themes/theme.dart';
 import '../scrollbar/index.dart';
+import '../scrollbar_old/index.dart';
 
 part 'extension.dart';
 

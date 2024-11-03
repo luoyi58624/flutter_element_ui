@@ -1,8 +1,8 @@
 part of 'index.dart';
 
-class ElScrollBehavior extends CustomScrollBehavior {
+class ElScrollBehavior2 extends CustomScrollBehavior {
   /// Element UI 默认的滚动行为，在桌面端默认使用 [ElScrollbar]
-  const ElScrollBehavior();
+  const ElScrollBehavior2();
 
   @override
   Widget buildScrollbar(context, child, details) {
