@@ -8,10 +8,10 @@ class _ElScrollbarState extends State<ElScrollbar>
       // 如果是在拖拽状态下鼠标重新进入滚动区域，需要重新判断是否处于滚动条上
       if (isDragScroll) {
         if (isPointerOverThumb(event.position, event.kind)) {
-          isScrollbarHover = true;
+          changeColor(activeColor, thumbColor);
         }
       } else {
-        changeColor(hideThumbColor, hoverColor);
+        changeColor(hideThumbColor, thumbColor);
       }
     }
   }
@@ -21,10 +21,10 @@ class _ElScrollbarState extends State<ElScrollbar>
     _cancelDelayActiveHover();
     // 将这两种状态重置是必须的，后续的逻辑判断依赖它们
     isHover = false;
-    isScrollbarHover = false;
     // 如果是处于拖拽状态便离开滚动区域，那么保存滚动条当前颜色状态，否则隐藏滚动条
     if (isDragScroll) return;
     if (color2 != null) {
+      i('xx');
       changeColor(color2!, hideThumbColor);
     }
   }
@@ -36,11 +36,7 @@ class _ElScrollbarState extends State<ElScrollbar>
     // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
     el.cursor.add();
     isDragScroll = true;
-    // 处理直接从边缘处立即拖动滚动条
-    if (isScrollbarHover == false) {
-      isScrollbarHover = true;
-      changeColor(isHover ? hoverColor : hideThumbColor, activeColor);
-    }
+    changeColor(thumbColor, activeColor);
   }
 
   /// 结束拖动滚动条
@@ -52,13 +48,7 @@ class _ElScrollbarState extends State<ElScrollbar>
     // isScrollbarHover 状态需要在 onEnter 中判断鼠标是否在滚动条上
     setTimeout(() {
       isDragScroll = false;
-      if (isScrollbarHover == false) {
-        if (isHover) {
-          changeColor(activeColor, hoverColor);
-        } else {
-          changeColor(activeColor, hideThumbColor);
-        }
-      }
+      changeColor(activeColor, thumbColor);
     }, 16);
   }
 

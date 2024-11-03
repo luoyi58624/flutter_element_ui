@@ -49,8 +49,7 @@ class ElScrollbar extends StatefulWidget {
     this.trackColor,
     this.trackBorderColor,
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
-    this.thumbHoverColor,
-    this.thumbActiveColor,
+    this.thumbActiveColor =const Color.fromRGBO(144, 147, 153, .9),
     this.interactive = true,
     this.fadeDuration = _kScrollbarFadeDuration,
     this.timeToFade = _kScrollbarTimeToFade,
@@ -96,9 +95,6 @@ class ElScrollbar extends StatefulWidget {
 
   /// 滚动条颜色
   final Color thumbColor;
-
-  /// 滚动条悬停颜色
-  final Color? thumbHoverColor;
 
   /// 滚动条激活颜色
   final Color? thumbActiveColor;

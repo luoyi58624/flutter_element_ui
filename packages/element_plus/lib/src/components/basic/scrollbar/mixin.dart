@@ -9,9 +9,6 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   /// 鼠标是否进入滚动区域
   bool isHover = false;
 
-  /// 鼠标悬停在滚动条上
-  bool isScrollbarHover = false;
-
   /// 是否处于拖拽滚动条状态
   bool isDragScroll = false;
 
@@ -24,9 +21,6 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
 
   /// 滚动条颜色
   Color get thumbColor => widget.thumbColor;
-
-  /// 鼠标进入滚动范围显示的颜色
-  Color get hoverColor => widget.thumbHoverColor ?? thumbColor;
 
   /// 鼠标悬停在滚动轨道的颜色
   Color get activeColor =>
