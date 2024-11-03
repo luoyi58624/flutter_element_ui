@@ -37,15 +37,19 @@ class _ElScrollbarState extends State<ElScrollbar>
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
     el.cursor.remove();
-    // 短暂延迟一段时间执行结束逻辑，因为需要依赖 isHover 判断鼠标是否还在当前滚动区域
-    setTimeout(() {
-      isDragScroll = false;
-      if (isHover) {
-        changeColor(widget.thumbActiveColor, widget.thumbColor);
-      } else {
-        changeColor(widget.thumbActiveColor, defaultThumbColor);
-      }
-    }, 16);
+    if (widget.mode == ElScrollbarMode.onlyScrolling) {
+      changeColor(widget.thumbActiveColor, widget.thumbColor);
+    } else {
+      // 短暂延迟一段时间执行结束逻辑，因为需要依赖 isHover 判断鼠标是否还在当前滚动区域
+      setTimeout(() {
+        isDragScroll = false;
+        if (isHover) {
+          changeColor(widget.thumbActiveColor, widget.thumbColor);
+        } else {
+          changeColor(widget.thumbActiveColor, defaultThumbColor);
+        }
+      }, 16);
+    }
   }
 
   /// 隐藏滚动中的滚动条，如果滚动停止超过一段时间，将隐藏它
@@ -92,19 +96,19 @@ class _ElScrollbarState extends State<ElScrollbar>
           _cancelHideScrollingTimer();
           _cancelDelayCleanColor();
           _hideScrollingTimer = setTimeout(
-                () {
+            () {
               _hideScrollingTimer = null;
-              changeColor(widget.thumbActiveColor, defaultThumbColor);
+              changeColor(widget.thumbColor, defaultThumbColor);
               _delayCleanColor = setTimeout(() {
                 _delayCleanColor = null;
                 color1 = null;
                 color2 = null;
-              }, _animationDuration);
+              }, widget.fadeDuration.inMilliseconds);
             },
             widget.timeToFade.inMilliseconds,
           );
           if (color1 == null && color2 == null) {
-            changeColor(defaultThumbColor, widget.thumbActiveColor);
+            changeColor(defaultThumbColor, widget.thumbColor);
           }
           return false;
         },

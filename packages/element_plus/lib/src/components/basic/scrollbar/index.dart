@@ -50,8 +50,10 @@ class ElScrollbar extends StatefulWidget {
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
     this.thumbActiveColor = const Color.fromRGBO(144, 147, 153, .9),
     this.interactive = true,
-    this.fadeDuration = _kScrollbarFadeDuration,
-    this.timeToFade = _kScrollbarTimeToFade,
+    this.trackInteractive = true,
+    this.fadeDuration = const Duration(milliseconds: 200),
+    this.timeToFade = const Duration(milliseconds: 1000),
+    this.trackScrollDuration = const Duration(milliseconds: 200),
   });
 
   final Widget child;
@@ -101,12 +103,18 @@ class ElScrollbar extends StatefulWidget {
   /// 滚动条是否支持交互，默认 true
   final bool interactive;
 
+  /// 轨道是否支持交互，默认 true，点击轨道将滚动到目标位置
+  final bool trackInteractive;
+
   /// 滚动条淡入、淡出过渡动画持续时间，默认 200 毫秒
   final Duration fadeDuration;
 
   /// 当交互停止时，滚动条多久才会隐藏，默认 1000 毫秒，
   /// 仅限 [mode] = [ElScrollbarMode.onlyScrolling]
   final Duration timeToFade;
+
+  /// 点击轨道滚动条跳转动画持续时间，默认 200 毫秒
+  final Duration trackScrollDuration;
 
   @override
   State<ElScrollbar> createState() => _ElScrollbarState();
@@ -123,7 +131,7 @@ class ElScrollBehavior extends CustomScrollBehavior {
         PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
-        // mode: ElScrollbarMode.always,
+        mode: ElScrollbarMode.always,
         child: child,
       );
     }

@@ -3,8 +3,6 @@ part of 'index.dart';
 const double _kMinThumbExtent = 18.0;
 const double _kMinInteractiveSize = 48.0;
 const double _kScrollbarThickness = 6.0;
-const Duration _kScrollbarFadeDuration = Duration(milliseconds: 200);
-const Duration _kScrollbarTimeToFade = Duration(milliseconds: 1000);
 
 class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
   /// Creates a scrollbar with customizations given by construction arguments.

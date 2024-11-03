@@ -274,9 +274,15 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
     final double scrollIncrement =
         ScrollAction.getDirectionalIncrement(state!, intent);
 
+    // i(_cachedController!.position.pixels, details.localPosition.dx);
+    // _cachedController!.animateTo(
+    //   0,
+    //   duration: widget.trackScrollDuration,
+    //   curve: Curves.easeInOut,
+    // );
     _cachedController!.position.moveTo(
       _cachedController!.position.pixels + scrollIncrement,
-      duration: const Duration(milliseconds: 100),
+      duration: widget.trackScrollDuration,
       curve: Curves.easeInOut,
     );
   }
@@ -453,7 +459,11 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
         customPaintKey: _scrollbarPainterKey,
       ),
       (_TrackTapGestureRecognizer instance) {
-        instance.onTapDown = _handleTrackTapDown;
+        if (widget.trackInteractive) {
+          instance.onTapDown = _handleTrackTapDown;
+        } else {
+          instance.onTapDown = null;
+        }
       },
     );
 

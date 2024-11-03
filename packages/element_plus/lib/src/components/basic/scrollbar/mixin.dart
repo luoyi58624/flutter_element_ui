@@ -1,7 +1,5 @@
 part of 'index.dart';
 
-const int _animationDuration = 200;
-
 /// Element UI 自定义滚动条实现
 mixin _ElScrollbarMixin<T extends ElScrollbar>
     on SingleTickerProviderStateMixin<T> {
@@ -68,18 +66,10 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   @override
   void initState() {
     super.initState();
-
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: _animationDuration),
-    )
-      ..addListener(updateScrollbarPainter)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          lerpColor = null;
-        }
-      });
-
+      duration: widget.fadeDuration,
+    )..addListener(updateScrollbarPainter);
     scrollbarPainter = _ScrollbarPainter(
       color: scrollbarColor,
     );
@@ -89,10 +79,9 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   void didUpdateWidget(covariant oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.mode != oldWidget.mode) {
-      if (widget.mode == ElScrollbarMode.always) {
-        color1 = null;
-        color2 = null;
-      }
+      color1 = null;
+      color2 = null;
+      lerpColor = null;
     }
   }
 

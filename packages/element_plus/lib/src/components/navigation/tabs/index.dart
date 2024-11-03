@@ -44,9 +44,11 @@ class ElTabs extends ElModelValue<int> {
   }) {
     return (context, controller, child) => showScrollbar
         ? ElScrollbar(
+            mode: ElScrollbarMode.onlyScrolling,
             controller: controller,
             thickness: 3,
-            mode: ElScrollbarMode.onlyScrolling,
+            crossAxisMargin: 0.0,
+            trackInteractive: false,
             // activeThumbColor: context.isDark
             //     ? const Color(0x30FFFFFF)
             //     : const Color(0x30000000),
