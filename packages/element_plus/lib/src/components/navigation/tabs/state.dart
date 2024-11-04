@@ -7,6 +7,10 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   late ElTabsThemeData theme;
   late Axis axis;
 
+  void onChanged(int index) {
+    modelValue = index;
+  }
+
   @override
   Widget builder(BuildContext context) {
     theme = ElTabsTheme.maybeOf(context) ?? context.elTheme.tabsTheme;
@@ -17,6 +21,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
     return ElTabsInheritedWidget(
       data: ElTabsData(
         activeIndex: modelValue,
+        onChanged: onChanged,
       ),
       child: Builder(builder: (context) {
         return builderWrapper(context, buildScroll());
@@ -28,7 +33,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
     final itemGap = theme.itemGap ?? 0.0;
     final enabledDrag = theme.enabledDrag ?? false;
     final delay = PlatformUtil.isDesktop
-        ? (theme.dragDelay ?? desktopDragTimeout)
+        ? (theme.dragDelay ?? const Duration(milliseconds: 200))
         : kLongPressTimeout;
     final builderScrollbar = theme.builderScrollbar ?? ElTabs.buildScrollbar();
 
@@ -49,6 +54,13 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     _autoScrollerVelocityScalar,
                 proxyDecorator:
                     theme.dragProxyDecorator ?? ElTabs.dragProxyDecorator(),
+                onReorderStart: (e) {
+                  // i('xx');
+                  // el.cursor.add(SystemMouseCursors.grabbing);
+                },
+                onReorderEnd: (e) {
+                  // el.cursor.remove();
+                },
                 onReorder: (int oldIndex, int newIndex) {
                   if (widget.onDragChanged != null) {
                     final tempList = List<ElTab>.from(widget.tabs);
@@ -61,6 +73,9 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                   }
                 },
                 children: widget.tabs.mapIndexed((i, e) {
+                  assert(e.key is ValueKey<int>,
+                      'ElTab 必须设置 key，而且必须是 ValueKey<int> 类型');
+                  final key = e.key as ValueKey<int>;
                   Widget result = e;
                   if (enabledDrag) {
                     if (itemGap > 0.0) {
@@ -71,14 +86,19 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                         child: result,
                       );
                     }
-                    result = DragStartListener(
-                      index: i,
-                      delay: delay,
-                      child: result,
+                    result = TapWidget(
+                      onTapDown: (e) {
+                        onChanged(key.value);
+                      },
+                      child: DragStartListener(
+                        index: key.value,
+                        delay: delay,
+                        child: result,
+                      ),
                     );
                   }
                   return Builder(
-                    key: ValueKey(i),
+                    key: e.key,
                     builder: (context) => result,
                   );
                 }).toList(),

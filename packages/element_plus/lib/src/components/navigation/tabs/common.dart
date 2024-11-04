@@ -27,7 +27,10 @@ class ElTabsData {
   /// 激活的标签索引
   final int activeIndex;
 
+  final void Function(int index) onChanged;
+
   ElTabsData({
     required this.activeIndex,
+    required this.onChanged,
   });
 }

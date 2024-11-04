@@ -12,12 +12,7 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        CodeExample(code: code, children: [
-          Container(
-            width: 100,
-            height: 100,
-            color: context.elTheme.primary,
-          ),
+        CodeExample(code: code, children: const [
           _Example(),
         ]),
       ],
@@ -34,7 +29,10 @@ class _Example extends HookWidget {
     final tabs = useState(
       List.generate(
         50,
-        (index) => ElTab(title: '标签${index + 1}'),
+        (index) => ElTab(
+          key: ValueKey(index),
+          title: '标签${index + 1}',
+        ),
       ),
     );
     return ElTabsTheme(

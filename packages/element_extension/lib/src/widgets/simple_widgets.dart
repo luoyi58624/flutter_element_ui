@@ -111,7 +111,9 @@ class DragStartListener extends ReorderableDragStartListener {
     return DelayedMultiDragGestureRecognizer(
       debugOwner: this,
       delay: delay ??
-          (PlatformUtil.isDesktop ? desktopDragTimeout : kLongPressTimeout),
+          (PlatformUtil.isDesktop
+              ? const Duration(milliseconds: 100)
+              : kLongPressTimeout),
     );
   }
 }

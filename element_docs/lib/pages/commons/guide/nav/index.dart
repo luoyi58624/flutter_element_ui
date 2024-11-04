@@ -23,22 +23,31 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return SizedBox(
-      height: 300,
-      child: MyScrollbar(
-        controller: controller,
-        child: SingleChildScrollView(
-          controller: controller,
-          child: Column(
-            children: List.generate(
-              100,
-              (index) => ListTile(
-                onTap: () {},
-                title: Text('item - ${index + 1}'),
-              ),
-            ),
+    return TapWidget(
+      onTapDown: (e) {
+        i('parent');
+      },
+      child: Container(
+        width: 300,
+        height: 300,
+        color: Colors.green,
+        child: Center(
+          child: Builder(
+            builder: (context) {
+              return TapWidget(
+                onTapDown: (e) {
+                  TapWidget.stopPropagation(context);
+                  i('child');
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.red,
+                ),
+              );
+            }
           ),
-        ).noScrollBehavior,
+        ),
       ),
     );
   }

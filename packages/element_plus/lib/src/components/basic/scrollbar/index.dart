@@ -120,7 +120,7 @@ class ElScrollbar extends StatefulWidget {
 }
 
 class ElScrollBehavior extends CustomScrollBehavior {
-  /// Element UI 滚动行为，在桌面端使用 [ElScrollbar]，移动端则使用官方实现的 [Scrollbar]
+  /// Element UI 默认滚动行为，在桌面端使用 [ElScrollbar]，移动端则使用官方实现的 [Scrollbar]
   const ElScrollBehavior({
     this.showTrack = false,
     this.trackWidth = 10.0,
@@ -142,6 +142,8 @@ class ElScrollBehavior extends CustomScrollBehavior {
           controller: details.controller,
           mode: ElScrollbarMode.always,
           thickness: trackWidth,
+          thumbColor: const Color.fromRGBO(193, 193, 193, 1.0),
+          thumbActiveColor: const Color.fromRGBO(125, 125, 125, 1.0),
           radius: Radius.circular(trackWidth / 2),
           crossAxisMargin: 2.0,
           trackBorderColor: context.isDark ? Colors.white30 : Colors.black12,

@@ -49,9 +49,6 @@ class ElTabs extends ElModelValue<int> {
             thickness: 3,
             crossAxisMargin: 0.0,
             trackInteractive: false,
-            // activeThumbColor: context.isDark
-            //     ? const Color(0x30FFFFFF)
-            //     : const Color(0x30000000),
             child: child,
           )
         : child;

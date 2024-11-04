@@ -1,3 +1,4 @@
+import 'package:element_extension/element_extension.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
@@ -32,7 +33,10 @@ class ElCloseButton extends StatelessWidget {
 
     final $size = $iconSize + 4;
 
-    return GestureDetector(
+    return TapWidget(
+      onTapDown: (e) {
+        TapWidget.stopPropagation(context);
+      },
       onTap: onTap,
       child: ElHoverBuilder(
         cursor: cursor,

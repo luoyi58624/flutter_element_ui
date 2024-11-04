@@ -6,7 +6,6 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   late AnimationController animationController;
   late final _ScrollbarPainter scrollbarPainter;
 
-  late bool isR;
   /// 鼠标是否进入滚动区域
   bool isHover = false;
 

@@ -205,8 +205,8 @@ class ElLink extends StatelessWidget {
       ),
     );
     if (!disabledEvent) {
-      result = ClickWidget(
-        onClick: () {
+      result = TapWidget(
+        onTap: () {
           _toLink();
         },
         child: result,

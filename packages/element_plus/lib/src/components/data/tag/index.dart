@@ -154,7 +154,6 @@ class ElTag extends StatelessWidget {
                       color: $textStyle.color,
                     ),
                     child: ElCloseButton(
-                      cursor: SystemMouseCursors.click,
                       iconHoverColor: $plain
                           ? $bgColor.elTextColor(context)
                           : $textStyle.color,
