@@ -55,13 +55,14 @@ class MainApp extends StatelessWidget {
               brightness: Brightness.dark,
             ),
             builder: ElApp.builder(
-              (context, child) => CupertinoTheme(
+              builder: (context, child) => CupertinoTheme(
                 data: ElThemeUtil.buildCupertinoThemeData(
                   context,
                   brightness: GlobalState.brightness,
                 ),
                 child: child!,
               ),
+              scrollBehavior: const ElScrollBehavior(showTrack: true),
             ),
           );
         }),

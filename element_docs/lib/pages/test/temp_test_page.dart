@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TempTestPage extends HookWidget {
@@ -160,6 +161,25 @@ class _Demo3State extends State<Demo3> {
               .toList(),
         ).cupertinoScrollBehavior,
       ),
+    );
+  }
+}
+
+extension FlutterWidgetExtension on Widget {
+  Widget get cupertinoScrollBehavior => ScrollConfiguration(
+    behavior: const CupertinoScrollBehavior(),
+    child: this,
+  );
+}
+
+class CupertinoScrollBehavior extends CustomScrollBehavior {
+  const CupertinoScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    return CupertinoScrollbar(
+      controller: details.controller,
+      child: child,
     );
   }
 }

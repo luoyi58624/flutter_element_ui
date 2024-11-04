@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
-import '../widgets/scroll_behavior.dart';
-
 /// 这些扩展不会在 element_plus 包中导出，如果你有需要，请自行封装它们
 extension FlutterContextExtension on BuildContext {
   /// 获取当平台亮度模式
@@ -47,32 +45,6 @@ extension FlutterContextExtension on BuildContext {
     }
     return offset;
   }
-}
-
-extension FlutterWidgetExtension on Widget {
-  /// 不使用祖先提供的默认滚动条
-  Widget get noScrollBehavior => ScrollConfiguration(
-        behavior: const NoScrollBehavior(),
-        child: this,
-      );
-
-  /// 将 [RawScrollbar] 作为默认滚动条
-  Widget get rawScrollBehavior => ScrollConfiguration(
-        behavior: const RawScrollBehavior(),
-        child: this,
-      );
-
-  /// 将 [Scrollbar] 作为默认滚动条
-  Widget get materialScrollBehavior => ScrollConfiguration(
-        behavior: const MaterialScrollBehavior(),
-        child: this,
-      );
-
-  /// 使用 [CupertinoScrollbar] 作为默认滚动条
-  Widget get cupertinoScrollBehavior => ScrollConfiguration(
-        behavior: const CupertinoScrollBehavior(),
-        child: this,
-      );
 }
 
 extension FlutterBorderExtension on Border {

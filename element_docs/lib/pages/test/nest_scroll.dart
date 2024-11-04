@@ -126,3 +126,24 @@ class _Child2 extends HookWidget {
     );
   }
 }
+
+extension FlutterWidgetExtension on Widget {
+  Widget get rawScrollBehavior => ScrollConfiguration(
+    behavior: const RawScrollBehavior(),
+    child: this,
+  );
+}
+
+
+class RawScrollBehavior extends CustomScrollBehavior {
+  /// 将原生滚动条作为默认的滚动行为
+  const RawScrollBehavior();
+
+  @override
+  Widget buildScrollbar(context, child, details) {
+    return RawScrollbar(
+      controller: details.controller,
+      child: child,
+    );
+  }
+}

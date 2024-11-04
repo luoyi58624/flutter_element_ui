@@ -13,6 +13,7 @@ export 'components/basic/text/index.dart';
 export 'components/basic/icon/index.dart';
 
 export 'extensions/color.dart';
+export 'extensions/widget.dart';
 
 export 'services/message.dart';
 export 'services/toast.dart';
@@ -24,4 +25,3 @@ export 'widgets/hover.dart';
 export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/tap.dart';
-

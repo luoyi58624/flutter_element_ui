@@ -61,6 +61,7 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 
 export 'src/extensions/color.dart';
+export 'src/extensions/widget.dart';
 
 export 'src/models/menu.dart';
 export 'src/models/tab.dart';

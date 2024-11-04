@@ -125,21 +125,34 @@ class ElScrollbar extends StatefulWidget {
 
 class ElScrollBehavior extends CustomScrollBehavior {
   /// Element UI 默认的滚动行为，在桌面端默认使用 [ElScrollbar]
-  const ElScrollBehavior();
+  const ElScrollBehavior({
+    this.showTrack = false,
+  });
+
+  /// 显示滚动轨道，默认 false
+  final bool showTrack;
 
   @override
   Widget buildScrollbar(context, child, details) {
     if (PlatformUtil.isWindows ||
         PlatformUtil.isMacOS ||
         PlatformUtil.isLinux) {
-      return ElScrollbar(
-        controller: details.controller,
-        mode: ElScrollbarMode.always,
-        thickness: 8.0,
-        crossAxisMargin: 2.0,
-        showTrack: true,
-        child: child,
-      );
+      if (showTrack) {
+        return ElScrollbar(
+          controller: details.controller,
+          mode: ElScrollbarMode.always,
+          thickness: 8.0,
+          radius: const Radius.circular(4.0),
+          crossAxisMargin: 2.0,
+          showTrack: true,
+          child: child,
+        );
+      } else {
+        return ElScrollbar(
+          controller: details.controller,
+          child: child,
+        );
+      }
     }
     if (PlatformUtil.isIOS) {
       return CupertinoScrollbar(

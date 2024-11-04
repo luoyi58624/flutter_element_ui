@@ -48,9 +48,11 @@ class ElApp extends StatelessWidget {
   /// 访问 ElApp 注入的全局配置信息
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
 
-  /// 提供给顶级 App builder 构建器，这里的内容必须构建在顶级 App 下面
-  static Widget Function(BuildContext, Widget?) builder(
-          [TransitionBuilder? builder]) =>
+  /// 提供给顶级 App builder 属性构建器
+  static Widget Function(BuildContext, Widget?) builder({
+    TransitionBuilder? builder,
+    ScrollBehavior scrollBehavior = const ElScrollBehavior(),
+  }) =>
       (BuildContext context, Widget? child) {
         // 构建默认的 Overlay 遮罩小部件，防止使用 message、toast 等 api 时报错
         Widget result = Overlay(initialEntries: [
@@ -63,9 +65,9 @@ class ElApp extends StatelessWidget {
           result = builder(context, result);
         }
 
-        // 应用 Element UI 的滚动条策略
+        // 应用全局默认的滚动策略
         return ScrollConfiguration(
-          behavior: const ElScrollBehavior(),
+          behavior: scrollBehavior,
           child: result,
         );
       };
