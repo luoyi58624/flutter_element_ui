@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-/// 之前是通过继承 [RawScrollbar] 实现自定义滚动条，但有些细节没法处理，所以索性直接修改官方源码
+/// 之前是通过继承 [RawScrollbar] 实现自定义滚动条，但很多细节没法处理，所以索性直接修改官方源码
 mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   Offset? _startDragScrollbarAxisOffset;
   Offset? _lastDragUpdateOffset;

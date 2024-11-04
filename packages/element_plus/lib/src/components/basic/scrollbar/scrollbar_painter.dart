@@ -10,6 +10,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     required Color color,
     Color trackColor = const Color(0x00000000),
     Color trackBorderColor = const Color(0x00000000),
+    double trackBorderWidth = 1.0,
     TextDirection? textDirection,
     double thickness = _kScrollbarThickness,
     EdgeInsets padding = EdgeInsets.zero,
@@ -38,6 +39,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         _minLength = minLength,
         _trackColor = trackColor,
         _trackBorderColor = trackBorderColor,
+        _trackBorderWidth = trackBorderWidth,
         _trackRadius = trackRadius,
         _scrollbarOrientation = scrollbarOrientation,
         _minOverscrollLength = minOverscrollLength ?? minLength,
@@ -79,6 +81,18 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     }
 
     _trackBorderColor = value;
+    notifyListeners();
+  }
+
+  double get trackBorderWidth => _trackBorderWidth;
+  double _trackBorderWidth;
+
+  set trackBorderWidth(double value) {
+    if (trackBorderWidth == value) {
+      return;
+    }
+
+    _trackBorderWidth = value;
     notifyListeners();
   }
 
@@ -489,7 +503,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
       return Paint()
         ..color = trackBorderColor
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0;
+        ..strokeWidth = trackBorderWidth;
     }
     return Paint()..color = trackColor;
   }
@@ -502,7 +516,10 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
 
     final double x, y;
     final Size thumbSize, trackSize;
-    final Offset trackOffset, borderStart, borderEnd;
+    final Offset trackOffset, borderStart1, borderEnd1;
+
+    // MODIFY - 第二条轨道边框，滚动条所在的位置方向只支持常见的：垂直右侧、水平底部
+    Offset? borderStart2, borderEnd2;
     _debugAssertIsValidOrientation(_resolvedOrientation);
     switch (_resolvedOrientation) {
       case ScrollbarOrientation.left:
@@ -511,8 +528,8 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         x = crossAxisMargin + padding.left;
         y = _thumbOffset;
         trackOffset = Offset(x - crossAxisMargin, _leadingTrackMainAxisOffset);
-        borderStart = trackOffset + Offset(trackSize.width, 0.0);
-        borderEnd = Offset(
+        borderStart1 = trackOffset + Offset(trackSize.width, 0.0);
+        borderEnd1 = Offset(
             trackOffset.dx + trackSize.width, trackOffset.dy + _trackExtent);
       case ScrollbarOrientation.right:
         thumbSize = Size(thickness, _thumbExtent);
@@ -520,16 +537,21 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         x = size.width - thickness - crossAxisMargin - padding.right;
         y = _thumbOffset;
         trackOffset = Offset(x - crossAxisMargin, _leadingTrackMainAxisOffset);
-        borderStart = trackOffset;
-        borderEnd = Offset(trackOffset.dx, trackOffset.dy + _trackExtent);
+        borderStart1 = trackOffset;
+        borderEnd1 = Offset(trackOffset.dx, trackOffset.dy + _trackExtent);
+        // MODIFY
+        borderStart2 = trackOffset +
+            Offset(thickness + crossAxisMargin * 2 + padding.horizontal, 0.0);
+        borderEnd2 = Offset(trackOffset.dx, trackOffset.dy + _trackExtent) +
+            Offset(thickness + crossAxisMargin * 2 + padding.horizontal, 0.0);
       case ScrollbarOrientation.top:
         thumbSize = Size(_thumbExtent, thickness);
         trackSize = Size(_trackExtent, thickness + 2 * crossAxisMargin);
         x = _thumbOffset;
         y = crossAxisMargin + padding.top;
         trackOffset = Offset(_leadingTrackMainAxisOffset, y - crossAxisMargin);
-        borderStart = trackOffset + Offset(0.0, trackSize.height);
-        borderEnd = Offset(
+        borderStart1 = trackOffset + Offset(0.0, trackSize.height);
+        borderEnd1 = Offset(
             trackOffset.dx + _trackExtent, trackOffset.dy + trackSize.height);
       case ScrollbarOrientation.bottom:
         thumbSize = Size(_thumbExtent, thickness);
@@ -537,8 +559,13 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         x = _thumbOffset;
         y = size.height - thickness - crossAxisMargin - padding.bottom;
         trackOffset = Offset(_leadingTrackMainAxisOffset, y - crossAxisMargin);
-        borderStart = trackOffset;
-        borderEnd = Offset(trackOffset.dx + _trackExtent, trackOffset.dy);
+        borderStart1 = trackOffset;
+        borderEnd1 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy);
+        // MODIFY
+        borderStart2 = trackOffset +
+            Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
+        borderEnd2 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy) +
+            Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
     }
 
     // Whether we paint or not, calculating these rects allows us to hit test
@@ -553,8 +580,11 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
       canvas.drawRRect(
           RRect.fromRectAndRadius(_trackRect!, trackRadius!), _paintTrack());
     }
-    // Track Border
-    canvas.drawLine(borderStart, borderEnd, _paintTrack(isBorder: true));
+    canvas.drawLine(borderStart1, borderEnd1, _paintTrack(isBorder: true));
+    if (borderStart2 != null && borderEnd2 != null) {
+      canvas.drawLine(borderStart2, borderEnd2, _paintTrack(isBorder: true));
+    }
+
     if (radius != null) {
       // Rounded rect thumb
       canvas.drawRRect(

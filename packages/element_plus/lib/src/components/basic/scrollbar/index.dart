@@ -17,10 +17,10 @@ part 'scrollbar_painter.dart';
 
 /// Element UI 滚动条显示模式
 enum ElScrollbarMode {
-  /// 不显示滚动条，此模式下直接返回子组件，不会渲染任何内容
+  /// 不显示滚动条，此模式下直接返回子组件，不会渲染任何中间内容
   hidden,
 
-  /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏滚动条 (默认)
+  /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏 (默认)
   hover,
 
   /// 一直显示滚动条，只有此模式才允许绘制 track 滚动轨道
@@ -31,7 +31,7 @@ enum ElScrollbarMode {
 }
 
 class ElScrollbar extends StatefulWidget {
-  /// Element UI 滚动条
+  /// Element UI 滚动条，由于可以通过 [ScrollConfiguration] 配置默认滚动条，所以并未提供 ThemeData 配置
   const ElScrollbar({
     super.key,
     required this.child,
@@ -45,8 +45,9 @@ class ElScrollbar extends StatefulWidget {
     this.crossAxisMargin = 1.0,
     this.minThumbLength = 36.0,
     this.showTrack = false,
-    this.trackColor,
+    this.trackColor = Colors.transparent,
     this.trackBorderColor,
+    this.trackBorderWidth = 1.0,
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
     this.thumbActiveColor = const Color.fromRGBO(144, 147, 153, .9),
     this.interactive = true,
@@ -85,14 +86,17 @@ class ElScrollbar extends StatefulWidget {
   /// 滚动条最小长度
   final double minThumbLength;
 
-  /// 是否显示轨道，默认 true，只有当 [mode] == [ElScrollbarMode.always] 才生效
+  /// 是否显示轨道，默认 false，仅限 [mode] == [ElScrollbarMode.always]
   final bool showTrack;
 
-  /// 轨道颜色
-  final Color? trackColor;
+  /// 轨道颜色，默认透明
+  final Color trackColor;
 
   /// 轨道边框颜色
   final Color? trackBorderColor;
+
+  /// 轨道边框宽度
+  final double trackBorderWidth;
 
   /// 滚动条颜色
   final Color thumbColor;
@@ -109,8 +113,7 @@ class ElScrollbar extends StatefulWidget {
   /// 滚动条淡入、淡出过渡动画持续时间
   final Duration fadeDuration;
 
-  /// 当交互停止时，滚动条多久才会隐藏
-  /// 仅限 [mode] = [ElScrollbarMode.onlyScrolling]
+  /// 当交互停止时，滚动条多久才会隐藏，仅限 [mode] = [ElScrollbarMode.onlyScrolling]
   final Duration timeToFade;
 
   /// 点击轨道滚动跳转动画持续时间
@@ -131,7 +134,10 @@ class ElScrollBehavior extends CustomScrollBehavior {
         PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
-        // mode: ElScrollbarMode.always,
+        mode: ElScrollbarMode.always,
+        thickness: 8.0,
+        crossAxisMargin: 2.0,
+        showTrack: true,
         child: child,
       );
     }
