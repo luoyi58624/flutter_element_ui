@@ -180,6 +180,7 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
       Axis.horizontal => Offset(primaryDelta, 0),
       Axis.vertical => Offset(0, primaryDelta),
     };
+
     final RenderBox renderBox =
         _scrollbarPainterKey.currentContext!.findRenderObject()! as RenderBox;
     final DragUpdateDetails scrollDetails = DragUpdateDetails(
@@ -188,9 +189,7 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
       globalPosition: renderBox.localToGlobal(localPosition),
       localPosition: localPosition,
     );
-    _thumbDrag!.update(
-        scrollDetails); // Triggers updates to the ScrollPosition and _ScrollbarPainter
-
+    _thumbDrag!.update(scrollDetails);
     _lastDragUpdateOffset = localPosition;
   }
 
@@ -249,39 +248,50 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
       return;
     }
 
-    final AxisDirection scrollDirection;
+    final double scrollableExtent = scrollbarPainter._totalContentExtent;
+
+    final thumbRatio = scrollbarPainter._thumbExtent /
+        scrollbarPainter._traversableTrackExtent;
+
+    late double targetOffset;
 
     switch (axisDirectionToAxis(position.axisDirection)) {
       case Axis.vertical:
         if (details.localPosition.dy > scrollbarPainter._thumbOffset) {
-          scrollDirection = AxisDirection.down;
+          final tractRatio = details.localPosition.dy /
+              scrollbarPainter._traversableTrackExtent;
+          targetOffset = math.min(
+            scrollableExtent * (tractRatio - thumbRatio / 2),
+            position.maxScrollExtent,
+          );
         } else {
-          scrollDirection = AxisDirection.up;
+          final tractRatio = details.localPosition.dy /
+              scrollbarPainter._traversableTrackExtent;
+          targetOffset = math.max(
+            scrollableExtent * (tractRatio - thumbRatio / 2),
+            position.minScrollExtent,
+          );
         }
       case Axis.horizontal:
         if (details.localPosition.dx > scrollbarPainter._thumbOffset) {
-          scrollDirection = AxisDirection.right;
+          final tractRatio = details.localPosition.dx /
+              scrollbarPainter._traversableTrackExtent;
+          targetOffset = math.min(
+            scrollableExtent * (tractRatio - thumbRatio / 2),
+            position.maxScrollExtent,
+          );
         } else {
-          scrollDirection = AxisDirection.left;
+          final tractRatio = details.localPosition.dx /
+              scrollbarPainter._traversableTrackExtent;
+          targetOffset = math.max(
+            scrollableExtent * (tractRatio - thumbRatio / 2),
+            position.minScrollExtent,
+          );
         }
     }
 
-    final ScrollableState? state =
-        Scrollable.maybeOf(position.context.notificationContext!);
-    final ScrollIntent intent = ScrollIntent(
-        direction: scrollDirection, type: ScrollIncrementType.page);
-    assert(state != null);
-    final double scrollIncrement =
-        ScrollAction.getDirectionalIncrement(state!, intent);
-
-    // i(_cachedController!.position.pixels, details.localPosition.dx);
-    // _cachedController!.animateTo(
-    //   0,
-    //   duration: widget.trackScrollDuration,
-    //   curve: Curves.easeInOut,
-    // );
-    _cachedController!.position.moveTo(
-      _cachedController!.position.pixels + scrollIncrement,
+    _cachedController!.animateTo(
+      targetOffset,
       duration: widget.trackScrollDuration,
       curve: Curves.easeInOut,
     );
@@ -374,6 +384,8 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   }
 
   void _handleThumbDragStart(DragStartDetails details) {
+    // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
+    el.cursor.add();
     handleThumbPressStart(_globalToScrollbar(details.globalPosition));
   }
 
@@ -382,11 +394,13 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   }
 
   void _handleThumbDragEnd(DragEndDetails details) {
+    el.cursor.remove();
     handleThumbPressEnd(
         _globalToScrollbar(details.globalPosition), details.velocity);
   }
 
   void _handleThumbDragCancel() {
+    el.cursor.remove();
     if (_gestureDetectorKey.currentContext == null) {
       // The cancel was caused by the GestureDetector getting disposed, which
       // means we will get disposed momentarily as well and shouldn't do

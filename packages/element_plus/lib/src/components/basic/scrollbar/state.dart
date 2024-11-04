@@ -26,8 +26,7 @@ class _ElScrollbarState extends State<ElScrollbar>
   @override
   void handleThumbPressStart(Offset localPosition) {
     super.handleThumbPressStart(localPosition);
-    // 拖拽滚动时设置全局默认光标，这样可以杜绝鼠标在拖拽过程中触发页面元素的 hover 事件
-    el.cursor.add();
+
     isDragScroll = true;
     changeColor(widget.thumbColor, widget.thumbActiveColor);
   }
@@ -36,7 +35,7 @@ class _ElScrollbarState extends State<ElScrollbar>
   @override
   void handleThumbPressEnd(Offset localPosition, Velocity velocity) {
     super.handleThumbPressEnd(localPosition, velocity);
-    el.cursor.remove();
+
     if (widget.mode == ElScrollbarMode.onlyScrolling) {
       changeColor(widget.thumbActiveColor, widget.thumbColor);
     } else {

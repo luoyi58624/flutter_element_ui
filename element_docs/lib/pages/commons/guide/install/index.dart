@@ -51,8 +51,7 @@ class MainApp extends StatelessWidget {
         // 2. 您需要添加 navigatorKey，否则使用 message 等 api 时会报错
         navigatorKey: el.navigatorKey,
         home: const HomePage(),
-        // 3. ElApp.builder 主要是在导航器上方插入一个默认的 Overlay 遮罩小部件，
-        // 否则通过 el.context 调用的 message 等 api 会报错
+        // 3. ElApp.builder 主要是在导航器上方插入一个默认的 Overlay 遮罩小部件，否则通过 el.context 调用的 message 等 api 会报错
         builder: ElApp.builder(),
       ),
     );

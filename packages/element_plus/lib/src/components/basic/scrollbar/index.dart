@@ -53,7 +53,7 @@ class ElScrollbar extends StatefulWidget {
     this.trackInteractive = true,
     this.fadeDuration = const Duration(milliseconds: 200),
     this.timeToFade = const Duration(milliseconds: 1000),
-    this.trackScrollDuration = const Duration(milliseconds: 200),
+    this.trackScrollDuration = const Duration(milliseconds: 500),
   });
 
   final Widget child;
@@ -106,14 +106,14 @@ class ElScrollbar extends StatefulWidget {
   /// 轨道是否支持交互，默认 true，点击轨道将滚动到目标位置
   final bool trackInteractive;
 
-  /// 滚动条淡入、淡出过渡动画持续时间，默认 200 毫秒
+  /// 滚动条淡入、淡出过渡动画持续时间
   final Duration fadeDuration;
 
-  /// 当交互停止时，滚动条多久才会隐藏，默认 1000 毫秒，
+  /// 当交互停止时，滚动条多久才会隐藏
   /// 仅限 [mode] = [ElScrollbarMode.onlyScrolling]
   final Duration timeToFade;
 
-  /// 点击轨道滚动条跳转动画持续时间，默认 200 毫秒
+  /// 点击轨道滚动跳转动画持续时间
   final Duration trackScrollDuration;
 
   @override
@@ -131,7 +131,7 @@ class ElScrollBehavior extends CustomScrollBehavior {
         PlatformUtil.isLinux) {
       return ElScrollbar(
         controller: details.controller,
-        mode: ElScrollbarMode.always,
+        // mode: ElScrollbarMode.always,
         child: child,
       );
     }
