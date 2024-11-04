@@ -76,11 +76,7 @@ class _ElScrollbarState extends State<ElScrollbar>
     Widget result = widget.child;
     if (widget.mode == ElScrollbarMode.hidden) return result;
 
-    nextTick(() {
-      i((context.getPosition() & context.size!).right,
-          MediaQuery.of(context).size.width);
-      updateScrollbarPainter();
-    });
+    updateScrollbarPainter();
 
     result = CustomPaint(
       key: _scrollbarPainterKey,
