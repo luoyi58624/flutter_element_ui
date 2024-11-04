@@ -10,6 +10,7 @@ class Example7 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        textGap,
         CodeExample(
           code: code,
           children: const [

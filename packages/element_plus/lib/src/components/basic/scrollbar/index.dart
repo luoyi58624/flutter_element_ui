@@ -17,10 +17,10 @@ part 'scrollbar_painter.dart';
 
 /// Element UI 滚动条显示模式
 enum ElScrollbarMode {
-  /// 不显示滚动条，此模式下直接返回子组件，不会渲染任何中间内容
+  /// 不显示滚动条
   hidden,
 
-  /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏 (默认)
+  /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏
   hover,
 
   /// 一直显示滚动条
@@ -53,7 +53,7 @@ class ElScrollbar extends StatefulWidget {
     this.trackInteractive = true,
     this.fadeDuration = const Duration(milliseconds: 200),
     this.timeToFade = const Duration(milliseconds: 1000),
-    this.trackScrollDuration = const Duration(milliseconds: 500),
+    this.trackScrollDuration = const Duration(milliseconds: 350),
   });
 
   final Widget child;
@@ -120,13 +120,17 @@ class ElScrollbar extends StatefulWidget {
 }
 
 class ElScrollBehavior extends CustomScrollBehavior {
-  /// Element UI 默认的滚动行为，在桌面端默认使用 [ElScrollbar]
+  /// Element UI 滚动行为，在桌面端使用 [ElScrollbar]，移动端则使用官方实现的 [Scrollbar]
   const ElScrollBehavior({
     this.showTrack = false,
+    this.trackWidth = 10.0,
   });
 
-  /// 显示滚动轨道，默认 false
+  /// 是否显示滚动轨道，默认 false
   final bool showTrack;
+
+  /// 滚动轨道宽度，默认 10
+  final double trackWidth;
 
   @override
   Widget buildScrollbar(context, child, details) {
@@ -137,8 +141,8 @@ class ElScrollBehavior extends CustomScrollBehavior {
         return ElScrollbar(
           controller: details.controller,
           mode: ElScrollbarMode.always,
-          thickness: 8.0,
-          radius: const Radius.circular(4.0),
+          thickness: trackWidth,
+          radius: Radius.circular(trackWidth / 2),
           crossAxisMargin: 2.0,
           trackBorderColor: context.isDark ? Colors.white30 : Colors.black12,
           child: child,
@@ -149,12 +153,6 @@ class ElScrollBehavior extends CustomScrollBehavior {
           child: child,
         );
       }
-    }
-    if (PlatformUtil.isIOS) {
-      return CupertinoScrollbar(
-        controller: details.controller,
-        child: child,
-      );
     }
     return Scrollbar(
       controller: details.controller,

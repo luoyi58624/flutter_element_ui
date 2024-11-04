@@ -73,14 +73,19 @@ class _ElScrollbarState extends State<ElScrollbar>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.mode == ElScrollbarMode.hidden) return widget.child;
+    Widget result = widget.child;
+    if (widget.mode == ElScrollbarMode.hidden) return result;
 
-    updateScrollbarPainter();
+    nextTick(() {
+      i((context.getPosition() & context.size!).right,
+          MediaQuery.of(context).size.width);
+      updateScrollbarPainter();
+    });
 
-    Widget result = CustomPaint(
+    result = CustomPaint(
       key: _scrollbarPainterKey,
       foregroundPainter: scrollbarPainter,
-      child: RepaintBoundary(child: widget.child),
+      child: RepaintBoundary(child: result),
     );
 
     if (widget.mode == ElScrollbarMode.hover) {

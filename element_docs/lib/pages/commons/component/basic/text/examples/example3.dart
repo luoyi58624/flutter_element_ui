@@ -110,5 +110,4 @@ class _Example extends StatelessWidget {
       ),
     );
   }
-}
-''';
+}''';

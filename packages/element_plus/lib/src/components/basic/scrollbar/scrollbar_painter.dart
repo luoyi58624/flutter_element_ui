@@ -518,7 +518,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
     final Size thumbSize, trackSize;
     final Offset trackOffset, borderStart1, borderEnd1;
 
-    // MODIFY - 第二条轨道边框，滚动条所在的位置方向只支持常见的：垂直右侧、水平底部
+    // MODIFY - 第二条轨道边框，只支持垂直右侧滚动条
     Offset? borderStart2, borderEnd2;
     _debugAssertIsValidOrientation(_resolvedOrientation);
     switch (_resolvedOrientation) {
@@ -542,6 +542,7 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         // MODIFY
         borderStart2 = trackOffset +
             Offset(thickness + crossAxisMargin * 2 + padding.horizontal, 0.0);
+        // i(trackOffset.dx,borderStart2.dx);
         borderEnd2 = Offset(trackOffset.dx, trackOffset.dy + _trackExtent) +
             Offset(thickness + crossAxisMargin * 2 + padding.horizontal, 0.0);
       case ScrollbarOrientation.top:
@@ -562,10 +563,10 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         borderStart1 = trackOffset;
         borderEnd1 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy);
         // MODIFY
-        borderStart2 = trackOffset +
-            Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
-        borderEnd2 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy) +
-            Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
+        // borderStart2 = trackOffset +
+        //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
+        // borderEnd2 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy) +
+        //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
     }
 
     // Whether we paint or not, calculating these rects allows us to hit test
@@ -580,9 +581,11 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
       canvas.drawRRect(
           RRect.fromRectAndRadius(_trackRect!, trackRadius!), _paintTrack());
     }
-    canvas.drawLine(borderStart1, borderEnd1, _paintTrack(isBorder: true));
-    if (borderStart2 != null && borderEnd2 != null) {
-      canvas.drawLine(borderStart2, borderEnd2, _paintTrack(isBorder: true));
+    if (trackBorderColor != Colors.transparent) {
+      canvas.drawLine(borderStart1, borderEnd1, _paintTrack(isBorder: true));
+      if (borderStart2 != null && borderEnd2 != null) {
+        canvas.drawLine(borderStart2, borderEnd2, _paintTrack(isBorder: true));
+      }
     }
 
     if (radius != null) {

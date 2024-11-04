@@ -15,6 +15,11 @@ class Example4 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: ['文字按钮默认外观没有任何额外元素，当鼠标悬停时，会以全局背景色为基准，进行加深处理'],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: [
