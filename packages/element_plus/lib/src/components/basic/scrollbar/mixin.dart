@@ -21,9 +21,6 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   /// [color1]、[color2] 动画过程中的中间颜色
   Color? lerpColor;
 
-  bool get showTrack =>
-      widget.showTrack && widget.mode == ElScrollbarMode.always;
-
   /// 默认情况下，滚动条是处于隐藏状态，但如果开启一直显示，则固定为悬停状态
   Color get defaultThumbColor => widget.mode == ElScrollbarMode.hover ||
           widget.mode == ElScrollbarMode.onlyScrolling
@@ -49,10 +46,7 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
       ..color = scrollbarColor
       ..trackRadius = widget.trackRadius
       ..trackColor = widget.trackColor
-      ..trackBorderColor = showTrack
-          ? (widget.trackBorderColor ??
-              (context.isDark ? Colors.white30 : Colors.black12))
-          : Colors.transparent
+      ..trackBorderColor = widget.trackBorderColor
       ..trackBorderWidth = widget.trackBorderWidth
       ..textDirection = Directionality.of(context)
       ..thickness = widget.thickness

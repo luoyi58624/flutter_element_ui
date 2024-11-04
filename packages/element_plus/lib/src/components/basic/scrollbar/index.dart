@@ -23,7 +23,7 @@ enum ElScrollbarMode {
   /// 当鼠标进入滚动区域立即显示滚动条，离开则立即隐藏 (默认)
   hover,
 
-  /// 一直显示滚动条，只有此模式才允许绘制 track 滚动轨道
+  /// 一直显示滚动条
   always,
 
   /// 只有当滚动时才显示滚动条
@@ -44,9 +44,8 @@ class ElScrollbar extends StatefulWidget {
     this.mainAxisMargin = 0.0,
     this.crossAxisMargin = 1.0,
     this.minThumbLength = 36.0,
-    this.showTrack = false,
     this.trackColor = Colors.transparent,
-    this.trackBorderColor,
+    this.trackBorderColor = Colors.transparent,
     this.trackBorderWidth = 1.0,
     this.thumbColor = const Color.fromRGBO(144, 147, 153, .45),
     this.thumbActiveColor = const Color.fromRGBO(144, 147, 153, .9),
@@ -86,14 +85,11 @@ class ElScrollbar extends StatefulWidget {
   /// 滚动条最小长度
   final double minThumbLength;
 
-  /// 是否显示轨道，默认 false，仅限 [mode] == [ElScrollbarMode.always]
-  final bool showTrack;
-
   /// 轨道颜色，默认透明
   final Color trackColor;
 
-  /// 轨道边框颜色
-  final Color? trackBorderColor;
+  /// 轨道边框颜色，默认透明
+  final Color trackBorderColor;
 
   /// 轨道边框宽度
   final double trackBorderWidth;
@@ -144,7 +140,7 @@ class ElScrollBehavior extends CustomScrollBehavior {
           thickness: 8.0,
           radius: const Radius.circular(4.0),
           crossAxisMargin: 2.0,
-          showTrack: true,
+          trackBorderColor: context.isDark ? Colors.white30 : Colors.black12,
           child: child,
         );
       } else {
