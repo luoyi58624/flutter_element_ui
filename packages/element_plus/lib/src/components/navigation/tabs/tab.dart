@@ -1,6 +1,7 @@
 part of 'index.dart';
 
 class ElTab extends StatelessWidget {
+  /// 最简单的 Tab 子项实现，默认实现基于 [ElTag] 标签
   const ElTab({
     super.key,
     required this.title,

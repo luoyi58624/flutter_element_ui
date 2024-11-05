@@ -40,7 +40,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
     final enabledDrag = theme.enabledDrag ?? false;
     final builderScrollbar = theme.builderScrollbar ?? ElTabs.buildScrollbar();
 
-    // 目前需要插入 Overlay 实例，防止拖拽的代理标签出现 context 作用域问题
+    // 需要插入 Overlay 实例，防止拖拽的代理标签出现 context 作用域问题
     return Overlay(
       initialEntries: [
         OverlayEntry(

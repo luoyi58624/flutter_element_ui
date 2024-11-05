@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/components/navigation/tabs/common.dart';
 import 'package:element_plus/src/global.dart';
@@ -12,7 +11,7 @@ part 'tab.dart';
 part 'default_wrapper.dart';
 
 class ElTabs extends ElModelValue<int> {
-  /// Element UI 标签导航，此组件只适用于桌面端，如果要适配移动端，你可以使用官方提供的 [TabBar] 小部件
+  /// Element UI 标签导航，此组件目前只适用于桌面端，移动端建议使用官方提供的 [TabBar] 小部件
   const ElTabs(
     super.modelValue, {
     super.key,
@@ -31,14 +30,14 @@ class ElTabs extends ElModelValue<int> {
   static ElTabsData of(BuildContext context) =>
       ElTabsInheritedWidget.of(context).data;
 
-  /// 构建默认的 tabs 外观
+  /// 默认的 tabs 外观实现
   static ElWidgetBuilder buildTabsWrapper() {
     return (context, child) => _TabsWrapper(
           child: child,
         );
   }
 
-  /// 构建默认的 tabs 滚动条
+  /// 默认的 tabs 滚动条实现
   static ElScrollbarBuilder buildScrollbar({
     bool showScrollbar = true,
   }) {
@@ -55,22 +54,9 @@ class ElTabs extends ElModelValue<int> {
   }
 
   /// 默认的拖拽代理
-  static ReorderItemProxyDecorator dragProxyDecorator({
-    double scaleValue = 1.0,
-  }) {
+  static ReorderItemProxyDecorator dragProxyDecorator() {
     return (Widget child, int index, Animation<double> animation) {
-      return AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          final double animValue = Curves.easeInOut.transform(animation.value);
-          final double scale = lerpDouble(1, scaleValue, animValue)!;
-          return Transform.scale(
-            scale: scale,
-            child: child,
-          );
-        },
-        child: child,
-      );
+      return child;
     };
   }
 

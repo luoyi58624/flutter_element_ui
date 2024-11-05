@@ -79,7 +79,9 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   @override
   void didUpdateWidget(covariant oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.mode != oldWidget.mode) {
+    if (widget.mode != oldWidget.mode ||
+        widget.thumbColor != oldWidget.thumbColor ||
+        widget.thumbActiveColor != oldWidget.thumbActiveColor) {
       color1 = null;
       color2 = null;
       lerpColor = null;
