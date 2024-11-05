@@ -11,9 +11,9 @@ class _TabsWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $theme = ElTabsTheme.of(context);
-
     final size = $theme.size!;
     final axis = axisDirectionToAxis($theme.direction!);
+
     return Container(
       width: axis == Axis.vertical ? size : null,
       height: axis == Axis.horizontal ? size : null,

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-
-import '../global.dart';
 
 extension ElTapExtension on BuildContext {
   /// 通过当前上下文访问最近的 Tap 点击状态
@@ -40,8 +40,8 @@ class ElTapBuilder extends StatefulWidget {
   /// 1. 在事件触发逻辑中调用 [stopPropagation] 方法
   /// 2. 在目标小部件上方添加 [ElStopPropagation] 小部件
   ///
-  /// 提示：事件冒泡是 [Listener] 小部件默认行为，它没有手势竞技场的概念，常用的
-  /// [GestureDetector] 小部件内部也是对 [Listener] 进行的封装。
+  /// 提示：事件冒泡是 [Listener] 小部件默认行为，[ElTapBuilder] 目前的缺陷在于，
+  /// 它不兼容 [GestureDetector]、[InkWell] 等所有的其他点击，无法阻止它们的冒泡行为。
   const ElTapBuilder({
     super.key,
     required this.builder,
@@ -52,6 +52,8 @@ class ElTapBuilder extends StatefulWidget {
     this.onTapDown,
     this.onTapUp,
     this.onTapCancel,
+    this.onLongPress,
+    this.longDuration = kLongPressTimeout,
   }) : assert(delay == 0 || delay >= 50);
 
   final WidgetBuilder builder;
@@ -65,11 +67,26 @@ class ElTapBuilder extends StatefulWidget {
   /// 是否禁用
   final bool disabled;
 
+  /// 命中测试行为
   final HitTestBehavior hitTestBehavior;
+
+  /// 点击事件
   final VoidCallback? onTap;
+
+  /// 按下事件
   final PointerDownEventListener? onTapDown;
+
+  /// 是否手指事件
   final PointerUpEventListener? onTapUp;
+
+  /// 取消事件
   final VoidCallback? onTapCancel;
+
+  /// 长按事件
+  final GestureLongPressCallback? onLongPress;
+
+  /// 自定义长按延迟时间，默认 500 毫秒
+  final Duration longDuration;
 
   /// 根据上下文获取最近的点击状态
   static bool of(BuildContext context) =>
@@ -78,8 +95,7 @@ class ElTapBuilder extends StatefulWidget {
   /// 阻止事件冒泡，执行此函数会从当前持有的 context 开始，阻止上层祖先所有的点击事件（包括 onTapDown），
   /// 然后会在释放时自动重置。
   ///
-  /// 提示：此函数不会引起 UI 重建，它只是更新一个 bool 标识，阻止上层点击事件的具体逻辑执行，
-  /// 而通过 context 一层一层查找 [InheritedWidget] 时间复杂度为 O(1)。
+  /// 提示：此函数不会引起 UI 重建，它只是更新一个 bool 标识，阻止上层点击事件的具体逻辑执行。
   static void stopPropagation(BuildContext context) {
     _TapInheritedWidget._stopPropagation(context);
   }
@@ -146,13 +162,17 @@ class _TapBuilderState extends State<ElTapBuilder> {
     if (!widget.disabled && _bubbleFlag) {
       if (!_isCancel) _onTap();
       _reset();
+      int delay = widget.delay;
+      if (_time != null) {
+        delay = max(delay - (currentMilliseconds - _time!), 0);
+      }
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {
           if (widget.onTapUp != null) widget.onTapUp!(e);
           update(false);
         }
-      }, max(widget.delay - (currentMilliseconds - _time!), 0));
+      }, delay);
     }
   }
 

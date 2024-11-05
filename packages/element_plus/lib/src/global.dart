@@ -21,7 +21,10 @@ export 'services/toast.dart';
 export 'themes/components/basic/text.dart';
 
 export 'widgets/brightness.dart';
-export 'widgets/hover.dart';
+
 export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';
-export 'widgets/tap.dart';
+
+export 'widgets/event/event_bubble.dart';
+export 'widgets/event/hover.dart';
+export 'widgets/event/tap.dart';

@@ -20,7 +20,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   @override
   Widget builder(BuildContext context) {
     theme = ElTabsTheme.maybeOf(context) ?? context.elTheme.tabsTheme;
-
     axis = axisDirectionToAxis(theme.direction!);
     final builderWrapper = theme.builderWrapper ?? ElTabs.buildTabsWrapper();
 
@@ -71,7 +70,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                 itemBuilder: (context, index) {
                   final child = widget.tabs[index];
                   assert(child.key is ValueKey<int>,
-                      'ElTab 必须设置 key，而且必须是 ValueKey<int> 类型');
+                      'ElTab 必须设置 key，而且必须是 ValueKey<int> 类型，请检查是否正确设置它们');
                   final key = child.key as ValueKey<int>;
                   Widget result = child;
                   if (enabledDrag) {
@@ -93,20 +92,16 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                       key: key,
                       onTapDown: (e) {
                         onChanged(key.value);
-                        if (modelValue == key.value) {
-                          list?.startItemDragReorder(
-                            index: index,
-                            event: e,
-                            recognizer: DelayedMultiDragGestureRecognizer(
-                              debugOwner: this,
-                              delay: (PlatformUtil.isDesktop
-                                  ? Duration.zero
-                                  : kLongPressTimeout),
-                            )..gestureSettings = gestureSettings,
-                          );
-                        } else {
-                          onChanged(key.value);
-                        }
+                        list?.startItemDragReorder(
+                          index: index,
+                          event: e,
+                          recognizer: DelayedMultiDragGestureRecognizer(
+                            debugOwner: this,
+                            delay: (PlatformUtil.isDesktop
+                                ? Duration.zero
+                                : kLongPressTimeout),
+                          )..gestureSettings = gestureSettings,
+                        );
                       },
                       builder: (context) {
                         return result;
