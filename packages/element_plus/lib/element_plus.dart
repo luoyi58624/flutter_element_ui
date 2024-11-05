@@ -11,7 +11,6 @@ export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/scrollbar/index.dart';
-export 'src/components/basic/scrollbar_old/index.dart' show ElScrollBehavior2;
 export 'src/components/basic/text/index.dart' hide TextInheritedWidget;
 
 export 'src/components/data/table/config.dart';
