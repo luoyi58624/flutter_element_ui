@@ -23,31 +23,23 @@ class _Example extends HookWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElTapBuilder(
-        onTapDown: (e) {
-          context.stopPropagation();
-          i(context.isTap);
+        onTap: (){
+          w('parent');
         },
         builder: (context) {
-          return ElHoverBuilder(builder: (context) {
-            return Container(
-              width: 300,
-              height: 300,
-              color: context.isHover ? Colors.red : Colors.green,
-              child: ElStopPropagation(
-                child: Builder(builder: (context) {
-                  return ElButton(
-                    onTapDown: (e) {
-                      // context.stopPropagation();
-                    },
-                    onPressed: () {
-                      i('hello');
-                    },
-                    child: 'Hello',
-                  );
-                }),
+          return Container(
+            width: 300,
+            height: 300,
+            color: context.isTap ? Colors.red : Colors.green,
+            child: ElStopPropagation(
+              child: ElButton(
+                onPressed: () {
+                  i('child');
+                },
+                child: 'Hello',
               ),
-            );
-          });
+            ),
+          );
         },
       ),
     );

@@ -80,7 +80,7 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isTap = true;
         });
-        if (widget.onTapDown != null) widget.onTapDown!(e);
+        if (widget.onTapDown != null) widget.onTapDown!(e.toDetails);
         if (_hasGroup) {
           _groupData!.tapIndex.value = _indexData!.index;
         }
@@ -89,7 +89,7 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isTap = false;
         });
-        if (widget.onTapUp != null) widget.onTapUp!(e);
+        if (widget.onTapUp != null) widget.onTapUp!(e.toDetails);
         if (_hasGroup) {
           _groupData!.tapIndex.value = -1;
         }
