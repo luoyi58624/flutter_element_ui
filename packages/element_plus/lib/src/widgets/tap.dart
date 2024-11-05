@@ -3,7 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:element_dart/element_dart.dart';
+
+import '../global.dart';
 
 extension ElTapExtension on BuildContext {
   /// 通过当前上下文访问最近的 Tap 点击状态
@@ -18,8 +19,11 @@ class ElTapBuilder extends StatefulWidget {
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
   /// * 默认允许冒泡，如果点击事件进行嵌套，内部触发的点击事件会一层一层冒泡到外部
   ///
-  /// 如果 [ElTapBuilder] 存在嵌套，你可以手动执行 [stopPropagation] 方法阻止冒泡行为，
-  /// 注意：冒泡行为仅限 [ElTapBuilder] 之间的嵌套，即子级的 [ElTapBuilder]
+  /// 如果 [ElTapBuilder] 存在嵌套，你有两种方式阻止事件冒泡：
+  /// 1. 在事件触发逻辑中调用 [stopPropagation] 方法
+  /// 2. 在目标小部件上方添加 [ElStopPropagation] 小部件
+  ///
+  /// 提示：冒泡行为仅限 [ElTapBuilder] 之间的嵌套，即子级的 [ElTapBuilder]
   /// 冒泡的事件是不会传递到父级的 [GestureDetector] 事件。
   const ElTapBuilder({
     super.key,
@@ -91,6 +95,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
 
   void _onTapDown(TapDownDetails e) {
     if (widget.disabled == false && _bubbleFlag) {
+      ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
       if (_timer != null) {
         _timer!.cancel();
         _timer = null;
@@ -135,8 +140,10 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _stopPropagation() {
-    _bubbleFlag = false;
-    _TapInheritedWidget._stopPropagation(context);
+    if (_bubbleFlag) {
+      _bubbleFlag = false;
+      _TapInheritedWidget._stopPropagation(context);
+    }
   }
 
   void _reset() {
