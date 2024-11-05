@@ -1,7 +1,8 @@
-import 'package:element_extension/element_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+
+import '../global.dart';
 
 extension ElHoverExtension on BuildContext {
   /// 通过上下文访问最近的 Hover 悬停状态
@@ -16,7 +17,6 @@ class ElHoverBuilder extends StatefulWidget {
     this.cursor,
     this.hitTestBehavior,
     this.disabled = false,
-    this.triggerBuild = true,
     this.onEnter,
     this.onExit,
     this.onHover,
@@ -32,9 +32,6 @@ class ElHoverBuilder extends StatefulWidget {
 
   /// 是否开启禁用样式，默认false
   final bool disabled;
-
-  /// 是否触发页面重建，默认true
-  final bool triggerBuild;
 
   /// 鼠标进入事件
   final PointerEnterEventListener? onEnter;
@@ -56,6 +53,13 @@ class ElHoverBuilder extends StatefulWidget {
 class _HoverBuilderState extends State<ElHoverBuilder> {
   bool isHover = false;
 
+  /// 是否存在依赖，如果有那么点击时会自动重建状态
+  bool hasDepend = false;
+
+  void setDependFlag(bool value) {
+    hasDepend = value;
+  }
+
   @override
   Widget build(BuildContext context) {
     // 仅限桌面端，移动端不存在hover
@@ -64,6 +68,7 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
       if (widget.disabled) isHover = false;
       return _HoverInheritedWidget(
         isHover: isHover,
+        setDependFlag: setDependFlag,
         child: MouseRegion(
           cursor: cursor,
           hitTestBehavior: widget.hitTestBehavior,
@@ -81,7 +86,7 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
 
   void _onEnter(PointerEnterEvent event) {
     if (widget.onEnter != null) widget.onEnter!(event);
-    if (widget.triggerBuild && !isHover) {
+    if (hasDepend && !isHover) {
       setState(() {
         isHover = true;
       });
@@ -90,7 +95,7 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
 
   void _onExit(PointerExitEvent event) {
     if (widget.onExit != null) widget.onExit!(event);
-    if (widget.triggerBuild && isHover) {
+    if (hasDepend && isHover) {
       setState(() {
         isHover = false;
       });
@@ -102,12 +107,20 @@ class _HoverInheritedWidget extends InheritedWidget {
   const _HoverInheritedWidget({
     required super.child,
     required this.isHover,
+    required this.setDependFlag,
   });
 
   final bool isHover;
+  final ElBoolVoidCallback setDependFlag;
 
-  static _HoverInheritedWidget? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_HoverInheritedWidget>();
+  static _HoverInheritedWidget? maybeOf(BuildContext context) {
+    final result =
+        context.dependOnInheritedWidgetOfExactType<_HoverInheritedWidget>();
+    if (result != null) {
+      result.setDependFlag(true);
+    }
+    return result;
+  }
 
   @override
   bool updateShouldNotify(_HoverInheritedWidget oldWidget) {

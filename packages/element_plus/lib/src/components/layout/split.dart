@@ -148,7 +148,7 @@ class _SplitWidget extends HookWidget {
           },
           child: ElHoverBuilder(
             cursor: SystemMouseCursors.resizeColumn,
-            triggerBuild: false,
+            
             builder: (context) {
               return Stack(
                 children: [
@@ -211,7 +211,7 @@ class _SplitWidget extends HookWidget {
           },
           child: ElHoverBuilder(
             cursor: SystemMouseCursors.resizeRow,
-            triggerBuild: false,
+            
             builder: (context) {
               return Stack(
                 children: [
@@ -279,7 +279,7 @@ class _SplitWidget extends HookWidget {
           },
           child: ElHoverBuilder(
             cursor: SystemMouseCursors.resizeColumn,
-            triggerBuild: false,
+            
             builder: (context) {
               return Stack(
                 children: [
