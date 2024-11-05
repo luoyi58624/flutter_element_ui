@@ -31,13 +31,18 @@ class _Example extends HookWidget {
             width: 300,
             height: 300,
             color: context.isTap ? Colors.red : Colors.green,
-            child: ElStopPropagation(
-              child: ElButton(
-                onPressed: () {
-                  i('child');
-                },
-                child: 'Hello',
-              ),
+            child: Builder(
+              builder: (context) {
+                return ElButton(
+                  onTapDown: (e){
+                    context.stopPropagation();
+                  },
+                  onPressed: () {
+                    i('child');
+                  },
+                  child: 'Hello',
+                );
+              }
             ),
           );
         },

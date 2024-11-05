@@ -122,24 +122,22 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _onTapDown(PointerDownEvent e) {
-    _isCancel = false;
-    if (!widget.disabled) {
+    if (!widget.disabled && _bubbleFlag) {
       _time = currentMilliseconds;
-      if (_bubbleFlag) {
-        ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
-        if (_timer != null) {
-          _timer!.cancel();
-          _timer = null;
-          setTimeout(() {
-            if (mounted) {
-              if (widget.onTapDown != null) widget.onTapDown!(e);
-              update(true);
-            }
-          }, 16);
-        } else {
-          if (widget.onTapDown != null) widget.onTapDown!(e);
-          update(true);
-        }
+      _isCancel = false;
+      ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
+      if (_timer != null) {
+        _timer!.cancel();
+        _timer = null;
+        setTimeout(() {
+          if (mounted) {
+            if (widget.onTapDown != null) widget.onTapDown!(e);
+            update(true);
+          }
+        }, 16);
+      } else {
+        if (widget.onTapDown != null) widget.onTapDown!(e);
+        update(true);
       }
     }
   }
@@ -176,17 +174,21 @@ class _TapBuilderState extends State<ElTapBuilder> {
   void _stopPropagation() {
     if (_bubbleFlag) {
       _bubbleFlag = false;
-
       _TapInheritedWidget._stopPropagation(context);
     }
   }
 
-  void _reset() {
+  void _resetPropagation() {
     if (!_bubbleFlag) {
-      setTimeout(() {
-        _bubbleFlag = true;
-      }, 1);
+      _bubbleFlag = true;
+      _TapInheritedWidget._resetPropagation(context);
     }
+  }
+
+  void _reset() {
+    setTimeout(() {
+      _TapInheritedWidget._resetPropagation(context);
+    }, 0);
   }
 
   void update(bool value) {
@@ -206,6 +208,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
       isTap: _isTap,
       setDependFlag: setDependFlag,
       stopPropagation: _stopPropagation,
+      resetPropagation: _resetPropagation,
       child: Listener(
         behavior: widget.hitTestBehavior,
         onPointerDown: _onTapDown,
@@ -232,11 +235,13 @@ class _TapInheritedWidget extends InheritedWidget {
     required this.isTap,
     required this.setDependFlag,
     required this.stopPropagation,
+    required this.resetPropagation,
   });
 
   final bool isTap;
   final ElBoolVoidCallback setDependFlag;
   final VoidCallback stopPropagation;
+  final VoidCallback resetPropagation;
 
   static _TapInheritedWidget? maybeOf(BuildContext context) {
     final result =
@@ -252,6 +257,14 @@ class _TapInheritedWidget extends InheritedWidget {
         context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
     if (result != null) {
       result.stopPropagation();
+    }
+  }
+
+  static void _resetPropagation(BuildContext context) {
+    final result =
+        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+    if (result != null) {
+      result.resetPropagation();
     }
   }
 
