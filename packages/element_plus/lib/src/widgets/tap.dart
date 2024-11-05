@@ -14,6 +14,24 @@ extension ElTapExtension on BuildContext {
   void stopPropagation() => ElTapBuilder.stopPropagation(this);
 }
 
+extension ElPointerDownEventExtension on PointerDownEvent {
+  /// 将 tapDown 原始指针事件转成 [TapDownDetails]
+  TapDownDetails get toDetails => TapDownDetails(
+        globalPosition: position,
+        localPosition: localPosition,
+        kind: kind,
+      );
+}
+
+extension ElPointerUpEventExtension on PointerUpEvent {
+  /// 将 tapUp 原始指针事件转成 [TapUpDetails]
+  TapUpDetails get toDetails => TapUpDetails(
+        globalPosition: position,
+        localPosition: localPosition,
+        kind: kind,
+      );
+}
+
 class ElTapBuilder extends StatefulWidget {
   /// 点击事件构建器，它基于最原始的小部件 [Listener] 进行封装，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
@@ -30,7 +48,7 @@ class ElTapBuilder extends StatefulWidget {
     required this.builder,
     this.delay = 100,
     this.disabled = false,
-    this.hitTestBehavior,
+    this.hitTestBehavior = HitTestBehavior.deferToChild,
     this.onTap,
     this.onTapDown,
     this.onTapUp,
@@ -48,11 +66,11 @@ class ElTapBuilder extends StatefulWidget {
   /// 是否禁用
   final bool disabled;
 
-  final HitTestBehavior? hitTestBehavior;
-  final GestureTapCallback? onTap;
-  final GestureTapDownCallback? onTapDown;
-  final GestureTapUpCallback? onTapUp;
-  final GestureTapCancelCallback? onTapCancel;
+  final HitTestBehavior hitTestBehavior;
+  final VoidCallback? onTap;
+  final PointerDownEventListener? onTapDown;
+  final PointerUpEventListener? onTapUp;
+  final VoidCallback? onTapCancel;
 
   /// 根据上下文获取最近的点击状态
   static bool of(BuildContext context) =>
@@ -71,11 +89,18 @@ class ElTapBuilder extends StatefulWidget {
 }
 
 class _TapBuilderState extends State<ElTapBuilder> {
+  GlobalKey childKey = GlobalKey();
+
+  Size childSize = Size.zero;
+
   /// 一个标识，表示是否允许冒泡，若此属性为 false，则阻止当前所有类型的点击事件触发
   bool _bubbleFlag = true;
 
   /// 是否触发点击
   bool _isTap = false;
+
+  /// 当指针在当前小部件按下时，如果指针移动超出小部件的范围，则触发取消事件
+  bool _isCancel = false;
 
   /// 是否存在依赖，如果有那么会自动触发 setState
   bool hasDepend = false;
@@ -96,9 +121,10 @@ class _TapBuilderState extends State<ElTapBuilder> {
     }
   }
 
-  void _onTapDown(TapDownDetails e) {
-    _time = currentMilliseconds;
-    if (widget.disabled == false && _bubbleFlag) {
+  void _onTapDown(PointerDownEvent e) {
+    if (!widget.disabled && _bubbleFlag) {
+      _time = currentMilliseconds;
+      _isCancel = false;
       ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
       if (_timer != null) {
         _timer!.cancel();
@@ -116,8 +142,10 @@ class _TapBuilderState extends State<ElTapBuilder> {
     }
   }
 
-  void _onTapUp(TapUpDetails e) {
-    if (widget.disabled == false && _bubbleFlag) {
+  void _onTapUp(PointerUpEvent e) {
+    if (!widget.disabled && _bubbleFlag) {
+      if (!_isCancel) _onTap();
+      _reset();
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {
@@ -129,7 +157,10 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _onTapCancel() {
-    if (widget.disabled == false && _bubbleFlag) {
+    if (_isCancel) return;
+    _reset();
+    _isCancel = true;
+    if (!widget.disabled && _bubbleFlag) {
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {
@@ -143,17 +174,21 @@ class _TapBuilderState extends State<ElTapBuilder> {
   void _stopPropagation() {
     if (_bubbleFlag) {
       _bubbleFlag = false;
-      _reset();
       _TapInheritedWidget._stopPropagation(context);
     }
   }
 
-  void _reset() {
+  void _resetPropagation() {
     if (!_bubbleFlag) {
-      setTimeout(() {
-        _bubbleFlag = true;
-      }, 1);
+      _bubbleFlag = true;
+      _TapInheritedWidget._resetPropagation(context);
     }
+  }
+
+  void _reset() {
+    setTimeout(() {
+      _TapInheritedWidget._resetPropagation(context);
+    }, 0);
   }
 
   void update(bool value) {
@@ -166,42 +201,31 @@ class _TapBuilderState extends State<ElTapBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<Type, GestureRecognizerFactory> gestures =
-        <Type, GestureRecognizerFactory>{};
-
-    gestures[_ClickGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<_ClickGestureRecognizer>(
-      () => _ClickGestureRecognizer(),
-      (instance) {
-        instance
-          ..onTapDown = _onTapDown
-          ..onTap = _onTap
-          ..onTapUp = _onTapUp
-          ..onTapCancel = _onTapCancel;
-      },
-    );
-
+    nextTick(() {
+      childSize = childKey.currentContext?.size ?? Size.zero;
+    });
     return _TapInheritedWidget(
       isTap: _isTap,
       setDependFlag: setDependFlag,
       stopPropagation: _stopPropagation,
-      child: RawGestureDetector(
+      resetPropagation: _resetPropagation,
+      child: Listener(
         behavior: widget.hitTestBehavior,
-        gestures: gestures,
-        child: Builder(builder: (context) {
-          return widget.builder(context);
-        }),
+        onPointerDown: _onTapDown,
+        onPointerUp: _onTapUp,
+        onPointerCancel: (e) => _onTapCancel(),
+        onPointerMove: (e) {
+          if (!childSize.contains(e.localPosition)) _onTapCancel();
+        },
+        // gestures: gestures,
+        child: Builder(
+          key: childKey,
+          builder: (context) {
+            return widget.builder(context);
+          },
+        ),
       ),
     );
-  }
-}
-
-class _ClickGestureRecognizer extends TapGestureRecognizer {
-  /// 重写点击拒绝事件，将拒绝变为允许
-  @override
-  void rejectGesture(int pointer) {
-    acceptGesture(pointer);
-    super.rejectGesture(pointer);
   }
 }
 
@@ -211,11 +235,13 @@ class _TapInheritedWidget extends InheritedWidget {
     required this.isTap,
     required this.setDependFlag,
     required this.stopPropagation,
+    required this.resetPropagation,
   });
 
   final bool isTap;
   final ElBoolVoidCallback setDependFlag;
   final VoidCallback stopPropagation;
+  final VoidCallback resetPropagation;
 
   static _TapInheritedWidget? maybeOf(BuildContext context) {
     final result =
@@ -231,6 +257,14 @@ class _TapInheritedWidget extends InheritedWidget {
         context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
     if (result != null) {
       result.stopPropagation();
+    }
+  }
+
+  static void _resetPropagation(BuildContext context) {
+    final result =
+        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+    if (result != null) {
+      result.resetPropagation();
     }
   }
 
