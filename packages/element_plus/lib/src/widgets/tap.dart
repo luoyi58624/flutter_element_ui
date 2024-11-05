@@ -15,7 +15,7 @@ extension ElTapExtension on BuildContext {
 }
 
 class ElTapBuilder extends StatefulWidget {
-  /// 点击事件构建器，主要有两个功能：
+  /// 点击事件构建器，它基于最原始的小部件 [Listener] 进行封装，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
   /// * 默认允许冒泡，如果点击事件进行嵌套，内部触发的点击事件会一层一层冒泡到外部
   ///
@@ -77,7 +77,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
   /// 是否触发点击
   bool _isTap = false;
 
-  /// 是否存在依赖，如果有那么点击时会自动重建状态
+  /// 是否存在依赖，如果有那么会自动触发 setState
   bool hasDepend = false;
 
   /// 每次按下都会记录当前的按下时间

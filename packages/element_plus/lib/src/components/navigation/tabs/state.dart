@@ -12,6 +12,12 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  @override
   Widget builder(BuildContext context) {
     theme = ElTabsTheme.maybeOf(context) ?? context.elTheme.tabsTheme;
 
@@ -33,7 +39,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
     final itemGap = theme.itemGap ?? 0.0;
     final enabledDrag = theme.enabledDrag ?? false;
     final delay = PlatformUtil.isDesktop
-        ? (theme.dragDelay ?? const Duration(milliseconds: 200))
+        ? (theme.dragDelay ?? const Duration(milliseconds: 0))
         : kLongPressTimeout;
     final builderScrollbar = theme.builderScrollbar ?? ElTabs.buildScrollbar();
 
@@ -46,10 +52,9 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
             child: builderScrollbar(
               context,
               scrollController,
-              ReorderableListView(
-                scrollController: scrollController,
+              ReorderableList(
+                controller: scrollController,
                 scrollDirection: axis,
-                buildDefaultDragHandles: false,
                 autoScrollerVelocityScalar: theme.autoScrollerVelocityScalar ??
                     _autoScrollerVelocityScalar,
                 proxyDecorator:
@@ -72,42 +77,101 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     widget.onDragChanged!(tempList);
                   }
                 },
-                children: widget.tabs.mapIndexed((i, e) {
-                  assert(e.key is ValueKey<int>,
+                itemCount: widget.tabs.length,
+                itemBuilder: (context, index) {
+                  final child = widget.tabs[index];
+                  assert(child.key is ValueKey<int>,
                       'ElTab 必须设置 key，而且必须是 ValueKey<int> 类型');
-                  final key = e.key as ValueKey<int>;
-                  Widget result = e;
+                  final key = child.key as ValueKey<int>;
+                  Widget result = child;
                   if (enabledDrag) {
                     if (itemGap > 0.0) {
                       result = Padding(
                         padding: EdgeInsets.only(
-                          left: i == 0.0 ? 0.0 : itemGap,
+                          left: index == 0.0 ? 0.0 : itemGap,
                         ),
                         child: result,
                       );
                     }
-                    return ElTapBuilder(
-                      key: e.key,
-                      onTapDown: (e) {
-                        onChanged(key.value);
-                      },
-                      builder: (context) => DragStartListener(
-                        index: key.value,
-                        delay: delay,
-                        child: result,
+
+                    final DeviceGestureSettings? gestureSettings =
+                        MediaQuery.maybeGestureSettingsOf(context);
+                    final SliverReorderableListState? list =
+                        SliverReorderableList.maybeOf(context);
+
+                    return _DragListener(
+                      key: key,
+                      enabled: modelValue == key.value,
+                      index: index,
+                      child: ElTapBuilder(
+                        onTapDown: (e) {
+                          onChanged(key.value);
+                          // if (modelValue == key.value) {
+                          //   list?.startItemDragReorder(
+                          //     index: index,
+                          //     event: e,
+                          //     recognizer: createRecognizer()
+                          //       ..gestureSettings = gestureSettings,
+                          //   );
+                          // } else {
+                          //   onChanged(key.value);
+                          // }
+                        },
+                        builder: (context) {
+                          return result;
+                        },
                       ),
                     );
                   }
                   return Builder(
-                    key: e.key,
+                    key: key,
                     builder: (context) => result,
                   );
-                }).toList(),
+                },
               ).noScrollBehavior,
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _DragListener extends StatelessWidget {
+  const _DragListener({
+    super.key,
+    required this.child,
+    required this.index,
+    this.enabled = true,
+  });
+
+  final Widget child;
+  final int index;
+  final bool enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    final DeviceGestureSettings? gestureSettings =
+        MediaQuery.maybeGestureSettingsOf(context);
+    final SliverReorderableListState? list =
+        SliverReorderableList.maybeOf(context);
+    return Listener(
+      onPointerDown: (event) {
+        list?.startItemDragReorder(
+          index: index,
+          event: event,
+          recognizer: createRecognizer()..gestureSettings = gestureSettings,
+        );
+      },
+      child: child,
+    );
+  }
+
+  @protected
+  MultiDragGestureRecognizer createRecognizer() {
+    return DelayedMultiDragGestureRecognizer(
+      debugOwner: this,
+      delay: (PlatformUtil.isDesktop ? Duration.zero : kLongPressTimeout),
     );
   }
 }

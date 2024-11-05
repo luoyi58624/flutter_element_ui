@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/commons/guide/nav/my_scrollbar.dart';
 import 'package:flutter/material.dart';
 
 class NavPage extends ResponsivePage {
@@ -22,44 +21,34 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useScrollController();
-    return GestureDetector(
-      onTap: () {
-        i('child');
-      },
-      child: Container(
-        width: 300,
-        height: 300,
-        color: Colors.green,
-        child: Center(
-          child: ElTapBuilder(
-            onTapDown: (e) {
-              context.stopPropagation();
-              i(context.isTap);
-            },
-            builder: (context) {
-              return Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-                // color: context.isTap ? Colors.blue : Colors.red,
-                child: ElStopPropagation(
-                  child: Builder(builder: (context) {
-                    return ElButton(
-                      onTapDown: (e) {
-                        // context.stopPropagation();
-                      },
-                      onPressed: () {
-                        i('hello');
-                      },
-                      child: 'Hello',
-                    );
-                  }),
-                ),
-              );
-            },
-          ),
-        ),
+    return Center(
+      child: ElTapBuilder(
+        onTapDown: (e) {
+          context.stopPropagation();
+          i(context.isTap);
+        },
+        builder: (context) {
+          return ElHoverBuilder(builder: (context) {
+            return Container(
+              width: 300,
+              height: 300,
+              color: context.isHover ? Colors.red : Colors.green,
+              child: ElStopPropagation(
+                child: Builder(builder: (context) {
+                  return ElButton(
+                    onTapDown: (e) {
+                      // context.stopPropagation();
+                    },
+                    onPressed: () {
+                      i('hello');
+                    },
+                    child: 'Hello',
+                  );
+                }),
+              ),
+            );
+          });
+        },
       ),
     );
   }

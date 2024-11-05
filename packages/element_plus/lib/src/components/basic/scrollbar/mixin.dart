@@ -3,7 +3,7 @@ part of 'index.dart';
 /// Element UI 自定义滚动条实现
 mixin _ElScrollbarMixin<T extends ElScrollbar>
     on SingleTickerProviderStateMixin<T> {
-  late AnimationController animationController;
+  AnimationController? animationController;
   late final _ScrollbarPainter scrollbarPainter;
 
   /// 鼠标是否进入滚动区域
@@ -30,15 +30,21 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   /// 对滚动条颜色进行线性插值
   Color get scrollbarColor {
     if (color1 == null || color2 == null) return defaultThumbColor;
-    lerpColor = Color.lerp(color1, color2!, animationController.value)!;
-    return lerpColor!;
+    if (animationController != null) {
+      lerpColor = Color.lerp(color1, color2!, animationController!.value)!;
+      return lerpColor!;
+    } else {
+      return defaultThumbColor;
+    }
   }
 
   /// 将滚动条的一个颜色以动画形式转变成另一个颜色，第一个颜色可以为 null
   void changeColor(Color? color1, Color color2) {
     this.color1 = lerpColor ?? color1 ?? defaultThumbColor;
     this.color2 = color2;
-    animationController.forward(from: 0);
+    if (animationController != null) {
+      animationController!.forward(from: 0);
+    }
   }
 
   void updateScrollbarPainter() {
@@ -82,7 +88,8 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController!.dispose();
+    animationController = null;
     super.dispose();
   }
 }

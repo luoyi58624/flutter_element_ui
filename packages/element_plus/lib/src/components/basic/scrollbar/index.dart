@@ -142,8 +142,6 @@ class ElScrollBehavior extends CustomScrollBehavior {
           controller: details.controller,
           mode: ElScrollbarMode.always,
           thickness: trackWidth,
-          thumbColor: const Color.fromRGBO(193, 193, 193, 1.0),
-          thumbActiveColor: const Color.fromRGBO(125, 125, 125, 1.0),
           radius: Radius.circular(trackWidth / 2),
           crossAxisMargin: 2.0,
           trackBorderColor: context.isDark ? Colors.white30 : Colors.black12,

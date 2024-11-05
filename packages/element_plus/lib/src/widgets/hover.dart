@@ -53,7 +53,7 @@ class ElHoverBuilder extends StatefulWidget {
 class _HoverBuilderState extends State<ElHoverBuilder> {
   bool isHover = false;
 
-  /// 是否存在依赖，如果有那么点击时会自动重建状态
+  /// 是否存在依赖，如果有那么会自动触发 setState
   bool hasDepend = false;
 
   void setDependFlag(bool value) {
