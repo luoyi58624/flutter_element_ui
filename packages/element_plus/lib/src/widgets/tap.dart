@@ -34,14 +34,14 @@ extension ElPointerUpEventExtension on PointerUpEvent {
 class ElTapBuilder extends StatefulWidget {
   /// 点击事件构建器，它基于最原始的小部件 [Listener] 进行封装，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
-  /// * 默认允许冒泡，如果点击事件进行嵌套，内部触发的点击事件会一层一层冒泡到外部
+  /// * 默认允许冒泡，如果 [ElTapBuilder] 存在嵌套，内部触发的事件会存在冒泡行为
   ///
-  /// 如果 [ElTapBuilder] 存在嵌套，你有两种方式阻止事件冒泡：
+  /// 你有两种方式阻止事件冒泡：
   /// 1. 在事件触发逻辑中调用 [stopPropagation] 方法
   /// 2. 在目标小部件上方添加 [ElStopPropagation] 小部件
   ///
-  /// 提示：冒泡行为仅限 [ElTapBuilder] 之间的嵌套，即子级的 [ElTapBuilder]
-  /// 冒泡的事件是不会传递到父级的 [GestureDetector] 事件。
+  /// 提示：事件冒泡是 [Listener] 小部件默认行为，它没有手势竞技场的概念，常用的
+  /// [GestureDetector] 小部件内部也是对 [Listener] 进行的封装。
   const ElTapBuilder({
     super.key,
     required this.builder,
@@ -57,9 +57,9 @@ class ElTapBuilder extends StatefulWidget {
   final WidgetBuilder builder;
 
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
-  /// 它适用于依赖 tap 事件而改变状态的元素，防止轻点时，tapDown -> tapUp 之间极短的时间间隔导致看不出任何效果。
+  /// 它适用于依赖 tap 事件而改变状态的元素，防止轻点时 tapDown -> tapUp 之间极短的时间间隔导致看不出任何效果。
   ///
-  /// 注意：这个延迟属性只作用于 onTapUp、onTapCancel 事件，onTap 不受影响。
+  /// 提示：这个延迟属性只作用于 [onTapUp] 事件，[onTap] 事件逻辑不受影响，通常情况下保持默认值即可。
   final int delay;
 
   /// 是否禁用
@@ -76,9 +76,10 @@ class ElTapBuilder extends StatefulWidget {
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
 
   /// 阻止事件冒泡，执行此函数会从当前持有的 context 开始，阻止上层祖先所有的点击事件（包括 onTapDown），
-  /// 然后会在释放时经过极短延迟后自动重置。
+  /// 然后会在释放时自动重置。
   ///
-  /// 提示：此函数不会引起 UI 重建，它的原理只是更新 bool 标识，阻止上层点击事件的具体逻辑执行。
+  /// 提示：此函数不会引起 UI 重建，它只是更新一个 bool 标识，阻止上层点击事件的具体逻辑执行，
+  /// 而通过 context 一层一层查找 [InheritedWidget] 时间复杂度为 O(1)。
   static void stopPropagation(BuildContext context) {
     _TapInheritedWidget._stopPropagation(context);
   }
@@ -187,7 +188,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
   void _reset() {
     if (mounted) {
       final result =
-          context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+          context.getInheritedWidgetOfExactType<_TapInheritedWidget>();
       if (result != null) {
         setTimeout(() {
           result.resetPropagation();
@@ -222,7 +223,6 @@ class _TapBuilderState extends State<ElTapBuilder> {
         onPointerMove: (e) {
           if (!childSize.contains(e.localPosition)) _onTapCancel();
         },
-        // gestures: gestures,
         child: Builder(
           key: childKey,
           builder: (context) {
@@ -258,16 +258,14 @@ class _TapInheritedWidget extends InheritedWidget {
   }
 
   static void _stopPropagation(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+    final result = context.getInheritedWidgetOfExactType<_TapInheritedWidget>();
     if (result != null) {
       result.stopPropagation();
     }
   }
 
   static void _resetPropagation(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+    final result = context.getInheritedWidgetOfExactType<_TapInheritedWidget>();
     if (result != null) {
       result.resetPropagation();
     }
