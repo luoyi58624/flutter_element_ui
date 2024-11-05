@@ -30,7 +30,6 @@ class ElTapBuilder extends StatefulWidget {
     required this.builder,
     this.delay = 100,
     this.disabled = false,
-    this.triggerBuild = true,
     this.hitTestBehavior,
     this.onTap,
     this.onTapDown,
@@ -48,9 +47,6 @@ class ElTapBuilder extends StatefulWidget {
 
   /// 是否禁用
   final bool disabled;
-
-  /// 是否触发页面重建，默认true，如果小部件不依赖 tap 事件，那么请将它设置为 false 可以避免不必要的重建
-  final bool triggerBuild;
 
   final HitTestBehavior? hitTestBehavior;
   final GestureTapCallback? onTap;
@@ -81,11 +77,18 @@ class _TapBuilderState extends State<ElTapBuilder> {
   /// 是否触发点击
   bool _isTap = false;
 
-  /// 如果 [widget.delay] 延迟大于等于 50 毫秒，则会记录当前的按下时间
+  /// 是否存在依赖，如果有那么点击时会自动重建状态
+  bool hasDepend = false;
+
+  /// 每次按下都会记录当前的按下时间
   int? _time;
 
   /// 延迟释放计时器
   Timer? _timer;
+
+  void setDependFlag(bool value) {
+    hasDepend = value;
+  }
 
   void _onTap() {
     if (widget.disabled == false && _bubbleFlag) {
@@ -94,6 +97,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _onTapDown(TapDownDetails e) {
+    _time = currentMilliseconds;
     if (widget.disabled == false && _bubbleFlag) {
       ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
       if (_timer != null) {
@@ -106,7 +110,6 @@ class _TapBuilderState extends State<ElTapBuilder> {
           }
         }, 16);
       } else {
-        _time = currentMilliseconds;
         if (widget.onTapDown != null) widget.onTapDown!(e);
         update(true);
       }
@@ -114,7 +117,6 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _onTapUp(TapUpDetails e) {
-    _reset();
     if (widget.disabled == false && _bubbleFlag) {
       _timer = setTimeout(() {
         _timer = null;
@@ -127,7 +129,6 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _onTapCancel() {
-    _reset();
     if (widget.disabled == false && _bubbleFlag) {
       _timer = setTimeout(() {
         _timer = null;
@@ -142,6 +143,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
   void _stopPropagation() {
     if (_bubbleFlag) {
       _bubbleFlag = false;
+      _reset();
       _TapInheritedWidget._stopPropagation(context);
     }
   }
@@ -151,6 +153,14 @@ class _TapBuilderState extends State<ElTapBuilder> {
       setTimeout(() {
         _bubbleFlag = true;
       }, 1);
+    }
+  }
+
+  void update(bool value) {
+    if (hasDepend && _isTap != value) {
+      setState(() {
+        _isTap = value;
+      });
     }
   }
 
@@ -173,6 +183,7 @@ class _TapBuilderState extends State<ElTapBuilder> {
 
     return _TapInheritedWidget(
       isTap: _isTap,
+      setDependFlag: setDependFlag,
       stopPropagation: _stopPropagation,
       child: RawGestureDetector(
         behavior: widget.hitTestBehavior,
@@ -182,14 +193,6 @@ class _TapBuilderState extends State<ElTapBuilder> {
         }),
       ),
     );
-  }
-
-  void update(bool value) {
-    if (widget.triggerBuild && _isTap != value) {
-      setState(() {
-        _isTap = value;
-      });
-    }
   }
 }
 
@@ -206,17 +209,26 @@ class _TapInheritedWidget extends InheritedWidget {
   const _TapInheritedWidget({
     required super.child,
     required this.isTap,
+    required this.setDependFlag,
     required this.stopPropagation,
   });
 
   final bool isTap;
+  final ElBoolVoidCallback setDependFlag;
   final VoidCallback stopPropagation;
 
-  static _TapInheritedWidget? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+  static _TapInheritedWidget? maybeOf(BuildContext context) {
+    final result =
+        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+    if (result != null) {
+      result.setDependFlag(true);
+    }
+    return result;
+  }
 
   static void _stopPropagation(BuildContext context) {
-    final _TapInheritedWidget? result = maybeOf(context);
+    final result =
+        context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
     if (result != null) {
       result.stopPropagation();
     }

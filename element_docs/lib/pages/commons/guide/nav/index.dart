@@ -23,39 +23,44 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return ElTapBuilder(onTap: () {
-      i('parent');
-    }, builder: (context) {
-      return Container(
+    return GestureDetector(
+      onTap: () {
+        i('child');
+      },
+      child: Container(
         width: 300,
         height: 300,
         color: Colors.green,
         child: Center(
-          child: ElTapBuilder(onTapDown: (e) {
-            context.stopPropagation();
-            i('child');
-          }, builder: (context) {
-            return Container(
-              width: 100,
-              height: 100,
-              color: Colors.red,
-              child: ElStopPropagation(
-                child: Builder(builder: (context) {
-                  return ElButton(
-                    onTapDown: (e) {
-                      // context.stopPropagation();
-                    },
-                    onPressed: () {
-                      i('hello');
-                    },
-                    child: 'Hello',
-                  );
-                }),
-              ),
-            );
-          }),
+          child: ElTapBuilder(
+            onTapDown: (e) {
+              context.stopPropagation();
+              i(context.isTap);
+            },
+            builder: (context) {
+              return Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+                // color: context.isTap ? Colors.blue : Colors.red,
+                child: ElStopPropagation(
+                  child: Builder(builder: (context) {
+                    return ElButton(
+                      onTapDown: (e) {
+                        // context.stopPropagation();
+                      },
+                      onPressed: () {
+                        i('hello');
+                      },
+                      child: 'Hello',
+                    );
+                  }),
+                ),
+              );
+            },
+          ),
         ),
-      );
-    });
+      ),
+    );
   }
 }

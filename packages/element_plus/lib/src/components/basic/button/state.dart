@@ -104,7 +104,6 @@ class _ElButtonState extends State<ElButton> {
         }
       },
       disabled: _prop.disabled,
-      triggerBuild: false,
       delay: _duration.inMilliseconds,
       builder: (context) {
         if (_prop.disabled) {

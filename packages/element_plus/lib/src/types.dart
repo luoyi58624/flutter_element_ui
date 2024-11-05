@@ -26,3 +26,6 @@ typedef ElToastBuilder = Widget Function(
   BuildContext context,
   dynamic content,
 );
+
+/// 返回值为空函数回调，但接收一个 bool 值
+typedef ElBoolVoidCallback = void Function(bool value);
