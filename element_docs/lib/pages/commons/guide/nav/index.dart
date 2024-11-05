@@ -23,32 +23,37 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return TapWidget(
-      onTapDown: (e) {
-        i('parent');
-      },
-      child: Container(
+    return ElTapBuilder(onTap: () {
+      i('parent');
+    }, builder: (context) {
+      return Container(
         width: 300,
         height: 300,
         color: Colors.green,
         child: Center(
-          child: Builder(
-            builder: (context) {
-              return TapWidget(
-                onTapDown: (e) {
-                  TapWidget.stopPropagation(context);
-                  i('child');
-                },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                ),
-              );
-            }
-          ),
+          child: ElTapBuilder(onTapDown: (e) {
+            context.stopPropagation();
+            i('child');
+          }, builder: (context) {
+            return Container(
+              width: 100,
+              height: 100,
+              color: Colors.red,
+              child: Builder(builder: (context) {
+                return ElButton(
+                  onTapDown: (e) {
+                    context.stopPropagation();
+                  },
+                  onPressed: () {
+                    i('hello');
+                  },
+                  child: 'Hello',
+                );
+              }),
+            );
+          }),
         ),
-      ),
-    );
+      );
+    });
   }
 }

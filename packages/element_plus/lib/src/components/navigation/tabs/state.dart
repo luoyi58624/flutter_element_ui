@@ -86,11 +86,12 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                         child: result,
                       );
                     }
-                    result = TapWidget(
+                    return ElTapBuilder(
+                      key: e.key,
                       onTapDown: (e) {
                         onChanged(key.value);
                       },
-                      child: DragStartListener(
+                      builder: (context) => DragStartListener(
                         index: key.value,
                         delay: delay,
                         child: result,

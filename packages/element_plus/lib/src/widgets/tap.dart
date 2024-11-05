@@ -1,16 +1,26 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:element_dart/element_dart.dart';
 
 extension ElTapExtension on BuildContext {
-  /// 通过上下文访问最近的 Tap 点击状态
+  /// 通过当前上下文访问最近的 Tap 点击状态
   bool get isTap => ElTapBuilder.of(this);
+
+  /// 通过当前上下文阻止事件冒泡
+  void stopPropagation() => ElTapBuilder.stopPropagation(this);
 }
 
 class ElTapBuilder extends StatefulWidget {
-  /// 点击事件构建器
+  /// 点击事件构建器，主要有两个功能：
+  /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
+  /// * 默认允许冒泡，如果点击事件进行嵌套，内部触发的点击事件会一层一层冒泡到外部
+  ///
+  /// 如果 [ElTapBuilder] 存在嵌套，你可以手动执行 [stopPropagation] 方法阻止冒泡行为，
+  /// 注意：冒泡行为仅限 [ElTapBuilder] 之间的嵌套，即子级的 [ElTapBuilder]
+  /// 冒泡的事件是不会传递到父级的 [GestureDetector] 事件。
   const ElTapBuilder({
     super.key,
     required this.builder,
@@ -22,18 +32,20 @@ class ElTapBuilder extends StatefulWidget {
     this.onTapDown,
     this.onTapUp,
     this.onTapCancel,
-  }) : assert(delay >= 0);
+  }) : assert(delay == 0 || delay >= 50);
 
   final WidgetBuilder builder;
 
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
-  /// 否则，轻点时 tapDown -> tapUp 之间的时间间隔极短，对于依赖 tap 事件而改变状态的元素几乎看不出任何效果
+  /// 它适用于依赖 tap 事件而改变状态的元素，防止轻点时，tapDown -> tapUp 之间极短的时间间隔导致看不出任何效果。
+  ///
+  /// 注意：这个延迟属性只作用于 onTapUp、onTapCancel 事件，onTap 不受影响。
   final int delay;
 
   /// 是否禁用
   final bool disabled;
 
-  /// 是否触发页面重建，默认true
+  /// 是否触发页面重建，默认true，如果小部件不依赖 tap 事件，那么请将它设置为 false 可以避免不必要的重建
   final bool triggerBuild;
 
   final HitTestBehavior? hitTestBehavior;
@@ -46,63 +58,118 @@ class ElTapBuilder extends StatefulWidget {
   static bool of(BuildContext context) =>
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
 
+  /// 阻止事件冒泡，执行此函数会从当前持有的 context 开始，阻止上层祖先所有的点击事件（包括 onTapDown），
+  /// 然后会在释放时经过极短延迟后自动重置。
+  ///
+  /// 提示：此函数不会引起 UI 重建，它的原理只是更新 bool 标识，阻止上层点击事件的具体逻辑执行。
+  static void stopPropagation(BuildContext context) {
+    _TapInheritedWidget._stopPropagation(context);
+  }
+
   @override
   State<ElTapBuilder> createState() => _TapBuilderState();
 }
 
 class _TapBuilderState extends State<ElTapBuilder> {
-  bool isTap = false;
+  /// 一个标识，表示是否允许冒泡，若此属性为 false，则阻止当前所有类型的点击事件触发
+  bool _bubbleFlag = true;
+
+  /// 是否触发点击
+  bool _isTap = false;
+
+  /// 如果 [widget.delay] 延迟大于等于 50 毫秒，则会记录当前的按下时间
   int? _time;
+
+  /// 延迟释放计时器
   Timer? _timer;
+
+  void _onTap() {
+    if (widget.disabled == false && _bubbleFlag) {
+      if (widget.onTap != null) widget.onTap!();
+    }
+  }
+
+  void _onTapDown(TapDownDetails e) {
+    if (widget.disabled == false && _bubbleFlag) {
+      if (_timer != null) {
+        _timer!.cancel();
+        _timer = null;
+        setTimeout(() {
+          if (mounted) {
+            if (widget.onTapDown != null) widget.onTapDown!(e);
+            update(true);
+          }
+        }, 16);
+      } else {
+        _time = currentMilliseconds;
+        if (widget.onTapDown != null) widget.onTapDown!(e);
+        update(true);
+      }
+    }
+  }
+
+  void _onTapUp(TapUpDetails e) {
+    _reset();
+    if (widget.disabled == false && _bubbleFlag) {
+      _timer = setTimeout(() {
+        _timer = null;
+        if (mounted) {
+          if (widget.onTapUp != null) widget.onTapUp!(e);
+          update(false);
+        }
+      }, max(widget.delay - (currentMilliseconds - _time!), 0));
+    }
+  }
+
+  void _onTapCancel() {
+    _reset();
+    if (widget.disabled == false && _bubbleFlag) {
+      _timer = setTimeout(() {
+        _timer = null;
+        if (mounted) {
+          if (widget.onTapCancel != null) widget.onTapCancel!();
+          update(false);
+        }
+      }, widget.delay);
+    }
+  }
+
+  void _stopPropagation() {
+    _bubbleFlag = false;
+    _TapInheritedWidget._stopPropagation(context);
+  }
+
+  void _reset() {
+    if (!_bubbleFlag) {
+      setTimeout(() {
+        _bubbleFlag = true;
+      }, 1);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final Map<Type, GestureRecognizerFactory> gestures =
+        <Type, GestureRecognizerFactory>{};
+
+    gestures[_ClickGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<_ClickGestureRecognizer>(
+      () => _ClickGestureRecognizer(),
+      (instance) {
+        instance
+          ..onTapDown = _onTapDown
+          ..onTap = _onTap
+          ..onTapUp = _onTapUp
+          ..onTapCancel = _onTapCancel;
+      },
+    );
+
     return _TapInheritedWidget(
-      isTap: isTap,
-      child: GestureDetector(
+      isTap: _isTap,
+      stopPropagation: _stopPropagation,
+      child: RawGestureDetector(
         behavior: widget.hitTestBehavior,
-        onTap: widget.disabled ? null : widget.onTap,
-        onTapDown: widget.disabled
-            ? null
-            : (e) {
-                _time = currentMilliseconds;
-                if (_timer != null) {
-                  _timer!.cancel();
-                  _timer = null;
-                  update(false);
-                  setTimeout(() {
-                    if (mounted) {
-                      if (widget.onTapDown != null) widget.onTapDown!(e);
-                      update(true);
-                    }
-                  }, 16);
-                } else {
-                  if (widget.onTapDown != null) widget.onTapDown!(e);
-                  update(true);
-                }
-              },
-        onTapUp: widget.disabled
-            ? null
-            : (e) {
-                _timer = setTimeout(() {
-                  _timer = null;
-                  if (mounted) {
-                    if (widget.onTapUp != null) widget.onTapUp!(e);
-                    update(false);
-                  }
-                }, max(widget.delay - (currentMilliseconds - _time!), 0));
-              },
-        onTapCancel: widget.disabled
-            ? null
-            : () {
-                _timer = setTimeout(() {
-                  _timer = null;
-                  if (mounted) {
-                    if (widget.onTapCancel != null) widget.onTapCancel!();
-                    update(false);
-                  }
-                }, widget.delay);
-              },
+        gestures: gestures,
         child: Builder(builder: (context) {
           return widget.builder(context);
         }),
@@ -111,11 +178,20 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void update(bool value) {
-    if (widget.triggerBuild && isTap != value) {
+    if (widget.triggerBuild && _isTap != value) {
       setState(() {
-        isTap = value;
+        _isTap = value;
       });
     }
+  }
+}
+
+class _ClickGestureRecognizer extends TapGestureRecognizer {
+  /// 重写点击拒绝事件，将拒绝变为允许
+  @override
+  void rejectGesture(int pointer) {
+    acceptGesture(pointer);
+    super.rejectGesture(pointer);
   }
 }
 
@@ -123,15 +199,24 @@ class _TapInheritedWidget extends InheritedWidget {
   const _TapInheritedWidget({
     required super.child,
     required this.isTap,
+    required this.stopPropagation,
   });
 
   final bool isTap;
+  final VoidCallback stopPropagation;
 
   static _TapInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
 
+  static void _stopPropagation(BuildContext context) {
+    final _TapInheritedWidget? result = maybeOf(context);
+    if (result != null) {
+      result.stopPropagation();
+    }
+  }
+
   @override
   bool updateShouldNotify(_TapInheritedWidget oldWidget) {
-    return true;
+    return isTap != oldWidget.isTap;
   }
 }

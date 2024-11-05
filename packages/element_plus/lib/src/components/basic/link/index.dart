@@ -151,10 +151,10 @@ class ElLink extends StatelessWidget {
           decoration: $decoration == ElLinkDecoration.underline
               ? TextDecoration.underline
               : $decoration == ElLinkDecoration.hoverUnderline
-              ? (ElHoverBuilder.of(context)
-              ? TextDecoration.underline
-              : TextDecoration.none)
-              : TextDecoration.none,
+                  ? (ElHoverBuilder.of(context)
+                      ? TextDecoration.underline
+                      : TextDecoration.none)
+                  : TextDecoration.none,
           decorationColor: ElHoverBuilder.of(context) ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
@@ -205,11 +205,12 @@ class ElLink extends StatelessWidget {
       ),
     );
     if (!disabledEvent) {
-      result = TapWidget(
+      return ElTapBuilder(
         onTap: () {
+          context.stopPropagation();
           _toLink();
         },
-        child: result,
+        builder: (context) => result,
       );
     }
     return result;

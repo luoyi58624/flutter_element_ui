@@ -33,12 +33,12 @@ class ElCloseButton extends StatelessWidget {
 
     final $size = $iconSize + 4;
 
-    return TapWidget(
+    return ElTapBuilder(
       onTapDown: (e) {
-        TapWidget.stopPropagation(context);
+        context.stopPropagation();
       },
       onTap: onTap,
-      child: ElHoverBuilder(
+      builder: (context) => ElHoverBuilder(
         cursor: cursor,
         builder: (context) {
           return Container(
