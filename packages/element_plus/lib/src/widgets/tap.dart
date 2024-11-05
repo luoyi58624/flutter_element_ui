@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
 import '../global.dart';
@@ -186,9 +185,15 @@ class _TapBuilderState extends State<ElTapBuilder> {
   }
 
   void _reset() {
-    setTimeout(() {
-      _TapInheritedWidget._resetPropagation(context);
-    }, 0);
+    if (mounted) {
+      final result =
+          context.dependOnInheritedWidgetOfExactType<_TapInheritedWidget>();
+      if (result != null) {
+        setTimeout(() {
+          result.resetPropagation();
+        }, 1);
+      }
+    }
   }
 
   void update(bool value) {

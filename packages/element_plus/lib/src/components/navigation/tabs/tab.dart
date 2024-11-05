@@ -28,7 +28,7 @@ class ElTab extends StatelessWidget {
         child: ElTag(
           title,
           height: $theme.size!,
-          // duration: 200.ms,
+          duration: 200.ms,
           borderRadius: BorderRadius.zero,
           closable: true,
           onClose: (){

@@ -38,9 +38,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   Widget buildScroll() {
     final itemGap = theme.itemGap ?? 0.0;
     final enabledDrag = theme.enabledDrag ?? false;
-    final delay = PlatformUtil.isDesktop
-        ? (theme.dragDelay ?? const Duration(milliseconds: 0))
-        : kLongPressTimeout;
     final builderScrollbar = theme.builderScrollbar ?? ElTabs.buildScrollbar();
 
     // 目前需要插入 Overlay 实例，防止拖拽的代理标签出现 context 作用域问题
@@ -59,13 +56,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     _autoScrollerVelocityScalar,
                 proxyDecorator:
                     theme.dragProxyDecorator ?? ElTabs.dragProxyDecorator(),
-                onReorderStart: (e) {
-                  // i('xx');
-                  // el.cursor.add(SystemMouseCursors.grabbing);
-                },
-                onReorderEnd: (e) {
-                  // el.cursor.remove();
-                },
                 onReorder: (int oldIndex, int newIndex) {
                   if (widget.onDragChanged != null) {
                     final tempList = List<ElTab>.from(widget.tabs);
@@ -99,28 +89,28 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     final SliverReorderableListState? list =
                         SliverReorderableList.maybeOf(context);
 
-                    return _DragListener(
+                    return ElTapBuilder(
                       key: key,
-                      enabled: modelValue == key.value,
-                      index: index,
-                      child: ElTapBuilder(
-                        onTapDown: (e) {
+                      onTapDown: (e) {
+                        onChanged(key.value);
+                        if (modelValue == key.value) {
+                          list?.startItemDragReorder(
+                            index: index,
+                            event: e,
+                            recognizer: DelayedMultiDragGestureRecognizer(
+                              debugOwner: this,
+                              delay: (PlatformUtil.isDesktop
+                                  ? Duration.zero
+                                  : kLongPressTimeout),
+                            )..gestureSettings = gestureSettings,
+                          );
+                        } else {
                           onChanged(key.value);
-                          // if (modelValue == key.value) {
-                          //   list?.startItemDragReorder(
-                          //     index: index,
-                          //     event: e,
-                          //     recognizer: createRecognizer()
-                          //       ..gestureSettings = gestureSettings,
-                          //   );
-                          // } else {
-                          //   onChanged(key.value);
-                          // }
-                        },
-                        builder: (context) {
-                          return result;
-                        },
-                      ),
+                        }
+                      },
+                      builder: (context) {
+                        return result;
+                      },
                     );
                   }
                   return Builder(
@@ -133,45 +123,6 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _DragListener extends StatelessWidget {
-  const _DragListener({
-    super.key,
-    required this.child,
-    required this.index,
-    this.enabled = true,
-  });
-
-  final Widget child;
-  final int index;
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    final DeviceGestureSettings? gestureSettings =
-        MediaQuery.maybeGestureSettingsOf(context);
-    final SliverReorderableListState? list =
-        SliverReorderableList.maybeOf(context);
-    return Listener(
-      onPointerDown: (event) {
-        list?.startItemDragReorder(
-          index: index,
-          event: event,
-          recognizer: createRecognizer()..gestureSettings = gestureSettings,
-        );
-      },
-      child: child,
-    );
-  }
-
-  @protected
-  MultiDragGestureRecognizer createRecognizer() {
-    return DelayedMultiDragGestureRecognizer(
-      debugOwner: this,
-      delay: (PlatformUtil.isDesktop ? Duration.zero : kLongPressTimeout),
     );
   }
 }
