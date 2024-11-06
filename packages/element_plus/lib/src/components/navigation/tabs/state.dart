@@ -88,9 +88,9 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     final SliverReorderableListState? list =
                         SliverReorderableList.maybeOf(context);
 
-                    return ElTapBuilder(
+                    return ElListener(
                       key: key,
-                      onTapDown: (e) {
+                      onPointerDown: (e) {
                         onChanged(key.value);
                         list?.startItemDragReorder(
                           index: index,
@@ -103,9 +103,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                           )..gestureSettings = gestureSettings,
                         );
                       },
-                      builder: (context) {
-                        return result;
-                      },
+                      child: result,
                     );
                   }
                   return Builder(

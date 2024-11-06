@@ -35,11 +35,11 @@ class _Example extends HookWidget {
               color: Colors.green,
               child: Center(
                 child: ElStopPropagation(
-                  child: ElListener(
-                    onPointerDown: (e) {
+                  child: ElTapBuilder(
+                    onTapDown: (e) {
                       i('child');
                     },
-                    child: Container(
+                    builder: (context) => Container(
                       width: 200,
                       height: 200,
                       color: Colors.red,
@@ -90,7 +90,7 @@ class _Example extends HookWidget {
           ),
           const Gap(8),
           GestureDetector(
-            onLongPress: () {
+            onTap: () {
               w('parent');
             },
             child: Container(

@@ -33,25 +33,27 @@ class ElCloseButton extends StatelessWidget {
     final $size = $iconSize + 4;
 
     return ElStopPropagation(
-      child: ElTapBuilder(
-        onTap: onTap,
-        builder: (context) => ElHoverBuilder(
-          cursor: cursor,
-          builder: (context) {
-            return Container(
-              width: $size,
-              height: $size,
-              decoration: BoxDecoration(
-                color: context.isHover ? $bgHoverColor : null,
-                borderRadius: BorderRadius.circular($size / 2),
-              ),
-              child: ElIcon(
-                ElIcons.close,
-                color: context.isHover ? $iconHoverColor : null,
-                size: $iconSize,
-              ),
-            );
-          },
+      child: ElListener(
+        child: ElTapBuilder(
+          onTap: onTap,
+          builder: (context) => ElHoverBuilder(
+            cursor: cursor,
+            builder: (context) {
+              return Container(
+                width: $size,
+                height: $size,
+                decoration: BoxDecoration(
+                  color: context.isHover ? $bgHoverColor : null,
+                  borderRadius: BorderRadius.circular($size / 2),
+                ),
+                child: ElIcon(
+                  ElIcons.close,
+                  color: context.isHover ? $iconHoverColor : null,
+                  size: $iconSize,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
