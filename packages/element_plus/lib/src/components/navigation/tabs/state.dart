@@ -104,7 +104,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                           recognizer: DelayedMultiDragGestureRecognizer(
                             debugOwner: this,
                             delay: (PlatformUtil.isDesktop
-                                ? Duration.zero
+                                ? const Duration(milliseconds: 0)
                                 : kLongPressTimeout),
                           )..gestureSettings = gestureSettings,
                         );

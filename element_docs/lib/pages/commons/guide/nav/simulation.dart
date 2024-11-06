@@ -1,3 +1,4 @@
+import 'package:element_docs/utils/global_ticker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
@@ -10,7 +11,7 @@ class MyCard extends StatefulWidget {
   State<MyCard> createState() => _MyCardState();
 }
 
-class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
+class _MyCardState extends State<MyCard> {
   late AnimationController controller;
   double direction = 0;
 
@@ -20,7 +21,7 @@ class _MyCardState extends State<MyCard> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = AnimationController.unbounded(vsync: this)
+    controller = AnimationController.unbounded(vsync: MyUtil.vsync)
       ..addListener(() {
         i(controller.value);
       });

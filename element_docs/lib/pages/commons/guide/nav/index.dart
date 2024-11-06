@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/utils/global_ticker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
@@ -15,18 +16,54 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       const Gap(50),
-      Center(
-        child: Container(
-          width: 300,
-          height: 300,
-          color: Colors.grey,
-          child: const Center(
-            child: MyCard(),
-          ),
-        ),
-      ),
+      const Test(),
+      const Gap(8),
+      const Test(),
+      // Center(
+      //   child: Container(
+      //     width: 300,
+      //     height: 300,
+      //     color: Colors.grey,
+      //     child: const Center(
+      //       child: MyCard(),
+      //     ),
+      //   ),
+      // ),
       // const _Example(),
     ];
+  }
+}
+
+class Test extends StatelessWidget {
+  const Test({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    MyUtil.controller.duration = const Duration(milliseconds: 5000);
+    final curveAnimate = CurvedAnimation(
+      parent: MyUtil.controller,
+      curve: Curves.easeOut,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElButton(
+          onPressed: () {
+            MyUtil.controller.toggle();
+          },
+          child: '启动动画',
+        ),
+        const Gap(8),
+        AnimatedBuilder(
+          animation: MyUtil.controller.view,
+          builder: (context, child) => Container(
+            width: 100 + curveAnimate.value * 50,
+            height: 100 + curveAnimate.value * 50,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
   }
 }
 

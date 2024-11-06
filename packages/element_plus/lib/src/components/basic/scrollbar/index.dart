@@ -160,8 +160,9 @@ class ElScrollBehavior extends CustomScrollBehavior {
         );
       }
     }
-    return Scrollbar(
+    return ElScrollbar(
       controller: details.controller,
+      mode: ElScrollbarMode.onlyScrolling,
       child: child,
     );
   }
