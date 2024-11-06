@@ -98,10 +98,7 @@ export 'src/themes/services/toast.dart';
 
 export 'src/utils/font.dart';
 
+export 'src/widgets/event/index.dart';
 export 'src/widgets/brightness.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/simple_widgets.dart';
-
-export 'src/widgets/event/event_bubble.dart';
-export 'src/widgets/event/hover.dart';
-export 'src/widgets/event/tap.dart';

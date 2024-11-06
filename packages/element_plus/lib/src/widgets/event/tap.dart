@@ -1,34 +1,8 @@
-import 'dart:async';
-import 'dart:math';
-
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
+part of 'index.dart';
 
 extension ElTapExtension on BuildContext {
   /// 通过当前上下文访问最近的 Tap 点击状态
   bool get isTap => ElTapBuilder.of(this);
-
-  /// 通过当前上下文阻止事件冒泡
-  void stopPropagation() => ElTapBuilder.stopPropagation(this);
-}
-
-extension ElPointerDownEventExtension on PointerDownEvent {
-  /// 将 tapDown 原始指针事件转成 [TapDownDetails]
-  TapDownDetails get toDetails => TapDownDetails(
-        globalPosition: position,
-        localPosition: localPosition,
-        kind: kind,
-      );
-}
-
-extension ElPointerUpEventExtension on PointerUpEvent {
-  /// 将 tapUp 原始指针事件转成 [TapUpDetails]
-  TapUpDetails get toDetails => TapUpDetails(
-        globalPosition: position,
-        localPosition: localPosition,
-        kind: kind,
-      );
 }
 
 class ElTapBuilder extends StatefulWidget {
@@ -139,9 +113,9 @@ class _TapBuilderState extends State<ElTapBuilder> {
 
   void _onTapDown(PointerDownEvent e) {
     if (!widget.disabled && _bubbleFlag) {
+      ElStopPropagation._of(context, ElTapBuilder.stopPropagation);
       _time = currentMilliseconds;
       _isCancel = false;
-      ElStopPropagation.of(context, ElTapBuilder.stopPropagation);
       if (_timer != null) {
         _timer!.cancel();
         _timer = null;

@@ -205,12 +205,13 @@ class ElLink extends StatelessWidget {
       ),
     );
     if (!disabledEvent) {
-      return ElTapBuilder(
-        onTap: () {
-          context.stopPropagation();
-          _toLink();
-        },
-        builder: (context) => result,
+      return ElStopPropagation(
+        child: ElTapBuilder(
+          onTap: () {
+            _toLink();
+          },
+          builder: (context) => result,
+        ),
       );
     }
     return result;

@@ -25,6 +25,37 @@ class _Example extends HookWidget {
     return Center(
       child: Column(
         children: [
+          ElListener(
+            onPointerDown: (e) {
+              w('parent');
+            },
+            child: Container(
+              width: 300,
+              height: 300,
+              color: Colors.green,
+              child: Center(
+                child: ElStopPropagation(
+                  child: ElListener(
+                    onPointerDown: (e) {
+                      i('child');
+                    },
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      color: Colors.red,
+                      child: const Center(
+                        child: ElText(
+                          'ElListener, ElListener',
+                          style: textStyle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Gap(8),
           ElTapBuilder(
             onTap: () {
               w('parent');
@@ -38,7 +69,6 @@ class _Example extends HookWidget {
                   return Center(
                     child: GestureDetector(
                       onTap: () {
-                        context.stopPropagation();
                         i('child');
                       },
                       child: Container(

@@ -22,9 +22,7 @@ export 'themes/components/basic/text.dart';
 
 export 'widgets/brightness.dart';
 
+export 'widgets/event/index.dart';
 export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';
 
-export 'widgets/event/event_bubble.dart';
-export 'widgets/event/hover.dart';
-export 'widgets/event/tap.dart';
