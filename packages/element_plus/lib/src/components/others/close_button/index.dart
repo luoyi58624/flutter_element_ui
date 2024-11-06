@@ -37,7 +37,7 @@ class ElCloseButton extends StatelessWidget {
         child: ElTapBuilder(
           onTap: onTap,
           builder: (context) => ElHoverBuilder(
-            cursor: cursor,
+            cursor: cursor ?? theme.cursor,
             builder: (context) {
               return Container(
                 width: $size,

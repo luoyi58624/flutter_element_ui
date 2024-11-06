@@ -26,15 +26,20 @@ class ElTab extends StatelessWidget {
                   ? $theme.hoverBgColor
                   : $theme.bgColor,
         ),
-        child: ElTag(
-          title,
-          height: $theme.size!,
-          duration: 200.ms,
-          borderRadius: BorderRadius.zero,
-          closable: true,
-          onClose: (){
-            el.message.show('关闭');
-          },
+        child: ElCloseButtonTheme(
+          data: const ElCloseButtonThemeData(
+            cursor: SystemMouseCursors.click,
+          ),
+          child: ElTag(
+            title,
+            height: $theme.size!,
+            duration: 200.ms,
+            borderRadius: BorderRadius.zero,
+            closable: true,
+            onClose: () {
+              el.message.show('关闭');
+            },
+          ),
         ),
       );
     });

@@ -29,3 +29,7 @@ typedef ElToastBuilder = Widget Function(
 
 /// 返回值为空函数回调，但接收一个 bool 值
 typedef ElBoolVoidCallback = void Function(bool value);
+
+typedef ElDragStartCallback = void Function();
+typedef ElDragUpdateCallback = void Function();
+typedef ElDragEndCallback = void Function();

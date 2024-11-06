@@ -66,6 +66,12 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     widget.onDragChanged!(tempList);
                   }
                 },
+                onReorderStart: (e){
+                  el.cursor.add();
+                },
+                onReorderEnd: (e){
+                  el.cursor.remove();
+                },
                 itemCount: widget.tabs.length,
                 itemBuilder: (context, index) {
                   final child = widget.tabs[index];

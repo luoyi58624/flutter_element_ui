@@ -19,14 +19,22 @@ extension ElPointerUpEventExtension on PointerUpEvent {
 }
 
 class ElListener extends _EventBubbleWidget {
-  /// 对 [Listener] 进行包装，支持事件冒泡
+  /// 如果你想要阻止祖先 [Listener] 事件的执行，那么请对上层、下层组件同时使用 [ElListener]，
+  /// 然后在中间插入 [ElStopPropagation] 小部件，当下层 [Listener] 事件触发时，
+  /// 会阻止上层所有监听的指针事件。
   const ElListener({
     super.key,
     required this.child,
     this.hitTestBehavior = HitTestBehavior.deferToChild,
     this.onPointerDown,
+    this.onPointerMove,
     this.onPointerUp,
+    this.onPointerHover,
     this.onPointerCancel,
+    this.onPointerPanZoomStart,
+    this.onPointerPanZoomUpdate,
+    this.onPointerPanZoomEnd,
+    this.onPointerSignal,
   });
 
   final Widget child;
@@ -37,11 +45,29 @@ class ElListener extends _EventBubbleWidget {
   /// 指针按下事件
   final PointerDownEventListener? onPointerDown;
 
+  /// 指针移动事件
+  final PointerMoveEventListener? onPointerMove;
+
   /// 指针释放事件
   final PointerUpEventListener? onPointerUp;
 
+  /// 指针悬停事件
+  final PointerHoverEventListener? onPointerHover;
+
   /// 取消事件
   final PointerCancelEventListener? onPointerCancel;
+
+  /// 平移、缩放开始事件
+  final PointerPanZoomStartEventListener? onPointerPanZoomStart;
+
+  /// 平移、缩放更新事件
+  final PointerPanZoomUpdateEventListener? onPointerPanZoomUpdate;
+
+  /// 平移、缩放结束事件
+  final PointerPanZoomEndEventListener? onPointerPanZoomEnd;
+
+  /// 当指针信号出现在当前小部件时触发，例如：鼠标齿轮滚动
+  final PointerSignalEventListener? onPointerSignal;
 
   @override
   State<ElListener> createState() => _ElListenerState();
@@ -49,23 +75,23 @@ class ElListener extends _EventBubbleWidget {
 
 class _ElListenerState extends _EventBubbleWidgetState<ElListener> {
   void _onPointerDown(PointerDownEvent e) {
-    ElStopPropagation._of(context, _EventBubbleWidget.stopPropagation);
     if (bubbleFlag) {
-      if (widget.onPointerDown != null) widget.onPointerDown!(e);
+      ElStopPropagation._of(context, _EventBubbleWidget.stopPropagation);
+      widget.onPointerDown?.call(e);
     }
   }
 
   void _onPointerUp(PointerUpEvent e) {
-    reset();
     if (bubbleFlag) {
-      if (widget.onPointerUp != null) widget.onPointerUp!(e);
+      reset();
+      widget.onPointerUp?.call(e);
     }
   }
 
   void _onPointerCancel(PointerCancelEvent e) {
-    reset();
     if (bubbleFlag) {
-      if (widget.onPointerCancel != null) widget.onPointerCancel!(e);
+      reset();
+      widget.onPointerCancel?.call(e);
     }
   }
 
@@ -76,6 +102,12 @@ class _ElListenerState extends _EventBubbleWidgetState<ElListener> {
       onPointerDown: _onPointerDown,
       onPointerUp: _onPointerUp,
       onPointerCancel: _onPointerCancel,
+      onPointerMove: widget.onPointerMove,
+      onPointerHover: widget.onPointerHover,
+      onPointerPanZoomStart: widget.onPointerPanZoomStart,
+      onPointerPanZoomUpdate: widget.onPointerPanZoomUpdate,
+      onPointerPanZoomEnd: widget.onPointerPanZoomEnd,
+      onPointerSignal: widget.onPointerSignal,
       child: widget.child,
     );
   }

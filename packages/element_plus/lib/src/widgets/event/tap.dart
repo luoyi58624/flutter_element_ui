@@ -8,9 +8,9 @@ extension ElTapExtension on BuildContext {
 class ElTapBuilder extends _EventBubbleWidget {
   /// 点击事件构建器，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
-  /// * 允许冒泡，如果 [ElTapBuilder] 存在嵌套，内部触发的事件会冒泡到上层
+  /// * 默认触发事件冒泡，如果 [ElTapBuilder] 存在嵌套，内部触发事件上层事件也会触发
   ///
-  /// 如果你要阻止事件冒泡，请在目标小部件上方添加 [ElStopPropagation] 小部件
+  /// 如果要阻止事件冒泡，请在嵌套小部件之间添加 [ElStopPropagation] 小部件
   const ElTapBuilder({
     super.key,
     required this.builder,
@@ -74,9 +74,17 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
     hasDepend = value;
   }
 
+  void update(bool value) {
+    if (hasDepend && _isTap != value) {
+      setState(() {
+        _isTap = value;
+      });
+    }
+  }
+
   void _onTap() {
     if (widget.disabled == false && bubbleFlag) {
-      if (widget.onTap != null) widget.onTap!();
+      widget.onTap?.call();
     }
   }
 
@@ -89,12 +97,12 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
         _timer = null;
         setTimeout(() {
           if (mounted) {
-            if (widget.onTapDown != null) widget.onTapDown!(e);
+            widget.onTapDown?.call(e);
             update(true);
           }
         }, 16);
       } else {
-        if (widget.onTapDown != null) widget.onTapDown!(e);
+        widget.onTapDown?.call(e);
         update(true);
       }
     }
@@ -110,7 +118,7 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {
-          if (widget.onTapUp != null) widget.onTapUp!(e);
+          widget.onTapUp?.call(e);
           update(false);
         }
       }, delay);
@@ -123,18 +131,10 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {
-          if (widget.onTapCancel != null) widget.onTapCancel!();
+          widget.onTapCancel?.call();
           update(false);
         }
       }, widget.delay);
-    }
-  }
-
-  void update(bool value) {
-    if (hasDepend && _isTap != value) {
-      setState(() {
-        _isTap = value;
-      });
     }
   }
 
@@ -170,7 +170,7 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
 }
 
 class _ClickGestureRecognizer extends TapGestureRecognizer {
-  /// 重写点击拒绝事件，将拒绝变为允许
+  /// 重写点击拒绝事件，将拒绝变为允许，这样将会触发事件冒泡
   @override
   void rejectGesture(int pointer) {
     acceptGesture(pointer);
