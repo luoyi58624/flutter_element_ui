@@ -11,9 +11,7 @@ class ObsBuilder extends StatefulWidget {
   /// 通过函数构建小部件，它会自动收集内部的响应式变量，你也可以手动指定：[watch]
   final WidgetBuilder builder;
 
-  /// 设置监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件，使用场景：
-  /// * ObsBuilder 依赖响应式变量触发变更，但 [builder] 函数中却不使用它
-  /// * ObsBuilder 内部依赖的响应式变量被各种 [Builder] 又进行了一次转发，导致自动收集不到
+  /// 手动绑定监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件
   final List<BaseObs> watch;
 
   @override
@@ -23,7 +21,7 @@ class ObsBuilder extends StatefulWidget {
 class _ObsBuilderState extends State<ObsBuilder> {
   /// 保存绑定的响应式变量集合，[Obs] 和 [ObsBuilder] 是多对多关系，
   /// [Obs] 保存的是多个 [ObsBuilder] 的刷新方法，而 [ObsBuilder] 可以引用多个 [Obs] 变量，
-  /// 当组件被销毁时，需要通知所有引用此 [ObsBuilder] 的响应式变量移除它的刷新方法。
+  /// 当组件被销毁时，需要通知所有引用此 [ObsBuilder] 的 [Obs] 变量移除它的刷新方法。
   final Set<Set<VoidCallback>> _builderObsList = {};
 
   /// 是否更新了 watch 依赖，此变量用于区分首次绑定的 watch

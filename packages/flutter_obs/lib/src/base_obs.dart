@@ -56,9 +56,9 @@ class BaseObs<T> extends ValueNotifier<T> {
     _value = value;
   }
 
-  /// 绑定刷新小部件，[ObsBuilder] 重写了 build 方法，在执行用户 builder 函数前，
-  /// 会将刷新页面函数设置到 [_tempBuilderNotifyFun]，执行 builder 函数时，
-  /// 如果代码中存在 .value 的响应式变量，则会进入 getter 函数体，这就是依赖自动收集的原理。
+  /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中，在执行用户 builder 函数前，
+  /// 会将刷新页面函数设置到 [_tempBuilderNotifyFun]，执行用户的 builder 函数时，
+  /// 如果代码中存在 .value 的响应式变量，则会触发 getter 函数，执行 [bindBuilders]。
   @protected
   void bindBuilders() {
     if (_tempBuilderNotifyFun != null) {

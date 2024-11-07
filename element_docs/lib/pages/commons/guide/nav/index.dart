@@ -40,7 +40,8 @@ class _Test2 extends StatefulWidget {
 class _Test2State extends State<_Test2> {
   final size = AnimateObs(
     100.0,
-    duration: const Duration(milliseconds: 5000),
+    curve: Curves.easeOut,
+    duration: const Duration(milliseconds: 2000),
   );
 
   @override
@@ -56,19 +57,17 @@ class _Test2State extends State<_Test2> {
       children: [
         ElButton(
           onPressed: () {
-            size.setAnimateValue(size.value == 100.0 ? 300 : 100);
+            size.value = (size.targetValue == 100.0 ? 300.0 : 100.0);
           },
           child: '切换动画',
         ),
         const Gap(8),
         ObsBuilder(
-          watch: [size],
           builder: (context) {
             return Container(
-              width: size.animation.value,
-              height: size.animation.value,
+              width: size.value,
+              height: size.value,
               color: Colors.grey,
-              child: ElText(size.controller.isAnimating),
             );
           },
         ),
