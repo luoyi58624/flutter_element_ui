@@ -1,8 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:element_extension/src/extensions/flutter.dart';
+import 'package:element_extension/element_extension.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 abstract class _ListBase extends StatelessWidget {
   const _ListBase({super.key});

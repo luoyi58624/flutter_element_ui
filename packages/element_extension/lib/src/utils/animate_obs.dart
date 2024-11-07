@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 
-import 'base_obs.dart';
+import 'animation.dart';
 
 class AnimateObs<T> extends BaseObs<T> {
   /// 支持对响应式变量进行线性插值，以实现动画效果
-  /// * vsync 动画帧同步信号指示器，在状态类中混入[TickerProviderStateMixin]，然后传递 this 即可
   /// * duration 动画默认持续时间
   /// * curve 动画曲线
   /// * tween 动画值区间，如果 value 不是 double 类型，你必须手动设置 Tween，例如：ColorTween
   AnimateObs(
     super.value, {
-    required TickerProvider vsync,
     this.duration = const Duration(milliseconds: 250),
     this.curve = Curves.linear,
     Tween<T>? tween,

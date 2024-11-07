@@ -1,10 +1,6 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/utils/global_ticker.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
-
-import 'simulation.dart';
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -16,9 +12,9 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       const Gap(50),
-      const Test(),
+      // const Test(),
       const Gap(8),
-      const Test(),
+      const _Test2(),
       // Center(
       //   child: Container(
       //     width: 300,
@@ -34,14 +30,57 @@ class NavPage extends ResponsivePage {
   }
 }
 
+class _Test2 extends StatefulWidget {
+  const _Test2();
+
+  @override
+  State<_Test2> createState() => _Test2State();
+}
+
+class _Test2State extends State<_Test2> {
+  final size = AnimateObs(100.0);
+
+  @override
+  void dispose() {
+    size.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElButton(
+          onPressed: () {
+            size.setAnimateValue(size.value == 100.0 ? 300 : 100);
+          },
+          child: '切换动画',
+        ),
+        const Gap(8),
+        ObsBuilder(builder: (context) {
+          return Container(
+            width: size.animation.value,
+            height: size.animation.value,
+            color: Colors.grey,
+          );
+        }),
+      ],
+    );
+  }
+}
+
 class Test extends StatelessWidget {
   const Test({super.key});
 
   @override
   Widget build(BuildContext context) {
-    MyUtil.controller.duration = const Duration(milliseconds: 5000);
+    final controller = AnimationController(
+      vsync: vsync,
+      duration: const Duration(milliseconds: 5000),
+    );
     final curveAnimate = CurvedAnimation(
-      parent: MyUtil.controller,
+      parent: controller,
       curve: Curves.easeOut,
     );
     return Column(
@@ -49,13 +88,27 @@ class Test extends StatelessWidget {
       children: [
         ElButton(
           onPressed: () {
-            MyUtil.controller.toggle();
+            controller.toggle();
+          },
+          child: '切换动画',
+        ),
+        const Gap(8),
+        ElButton(
+          onPressed: () {
+            controller.stop();
+          },
+          child: '暂停动画',
+        ),
+        const Gap(8),
+        ElButton(
+          onPressed: () {
+            controller.start();
           },
           child: '启动动画',
         ),
         const Gap(8),
         AnimatedBuilder(
-          animation: MyUtil.controller.view,
+          animation: controller.view,
           builder: (context, child) => Container(
             width: 100 + curveAnimate.value * 50,
             height: 100 + curveAnimate.value * 50,
@@ -68,7 +121,7 @@ class Test extends StatelessWidget {
 }
 
 class _Example extends StatefulHookWidget {
-  const _Example({super.key});
+  const _Example();
 
   @override
   State<_Example> createState() => _ExampleState();
