@@ -6,9 +6,9 @@ import 'animation.dart';
 
 class AnimateObs<T> extends BaseObs<T> {
   /// 动画响应式变量
-  /// * duration 动画默认持续时间
-  /// * curve 动画默认曲线
-  /// * tween 动画值区间，如果 value 不是 double 类型，你必须手动设置 Tween，例如：[ColorTween]
+  /// * duration 动画持续时间
+  /// * curve 动画曲线
+  /// * tween 动画值区间，如果 value 不是 double 类型，你必须手动设置 Tween，例如 [ColorTween]
   ///
   /// 注意：与普通 [Obs] 变量不同，如果是局部变量，你必须在 dispose 生命周期中销毁它，
   /// 因为内部创建的 [AnimationController] 必须释放。
@@ -21,14 +21,15 @@ class AnimateObs<T> extends BaseObs<T> {
     this._targetValue = value;
     this._controller = AnimationController(vsync: vsync)
       ..addListener(_animationListener);
-    _initTween(tween);
     this.duration = duration;
-    this.curve = curve;
+    this._curve = curve;
+    _setTween(tween);
+    _setAnimation();
   }
 
   late T _targetValue;
 
-  /// 每次更新 [value] 时的目标变量，而内部的 [value] 会在值更新时进行线性插值
+  /// 每次更新 [value] 时的目标值
   T get targetValue => _targetValue;
 
   /// 动画控制器
@@ -50,27 +51,15 @@ class AnimateObs<T> extends BaseObs<T> {
   /// 更新动画曲线
   set curve(Curve value) {
     _curve = value;
-    _animation = _tween.animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: _curve,
-      ),
-    );
+    _setAnimation();
   }
 
   late Tween<T> _tween;
 
-  /// 初始化动画值区间，一旦确定将不能更改
-  void _initTween(Tween<T>? tween) {
-    if (tween == null) {
-      assert(value is double,
-          'AnimateObs value is not double type, Please set custom Tween');
-      this._tween = Tween(begin: getValue(), end: getValue());
-    } else {
-      this._tween = tween;
-      this._tween.begin = getValue();
-      this._tween.end = getValue();
-    }
+  /// 更新动画值区间
+  set tween(Tween<T>? tween) {
+    _setTween(tween);
+    _setAnimation();
   }
 
   /// 更新响应式变量值，它会对旧值和新值进行线性插值，你可以在更新前设置 [duration]、[curve] 以调整接下来的过渡变化，
@@ -97,10 +86,25 @@ class AnimateObs<T> extends BaseObs<T> {
     super.notify();
   }
 
-  @protected
-  @override
-  void reset() {
-    super.reset();
+  void _setAnimation() {
+    _animation = _tween.animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: _curve,
+      ),
+    );
+  }
+
+  void _setTween(Tween<T>? tween) {
+    if (tween == null) {
+      assert(value is double,
+          'AnimateObs value is not double type, Please set custom Tween');
+      this._tween = Tween(begin: getValue(), end: getValue());
+    } else {
+      this._tween = tween;
+      this._tween.begin = getValue();
+      this._tween.end = getValue();
+    }
   }
 
   /// 当移除小部件时必须执行 dispose 回收动画控制器，执行 dispose 的时机必须在 super.dispose 之前

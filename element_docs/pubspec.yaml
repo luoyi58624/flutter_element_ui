@@ -44,6 +44,8 @@ dependency_overrides:
     path: ../packages/element_dart
   element_extension:
     path: ../packages/element_extension
+  flutter_obs:
+    path: ../packages/flutter_obs
 
 flutter:
   uses-material-design: true

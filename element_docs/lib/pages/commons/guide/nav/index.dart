@@ -2,6 +2,8 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
+import 'simulation.dart';
+
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -12,119 +14,24 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       const Gap(50),
-      // const Test(),
-      const Gap(8),
-      const _Test2(),
-      // Center(
-      //   child: Container(
-      //     width: 300,
-      //     height: 300,
-      //     color: Colors.grey,
-      //     child: const Center(
-      //       child: MyCard(),
-      //     ),
-      //   ),
-      // ),
+
+      // const _Test2(),
+      Center(
+        child: Container(
+          width: 300,
+          height: 300,
+          color: Colors.grey,
+          child: const Center(
+            child: MyCard(),
+          ),
+        ),
+      ),
       // const _Example(),
     ];
   }
 }
 
-class _Test2 extends StatefulWidget {
-  const _Test2();
 
-  @override
-  State<_Test2> createState() => _Test2State();
-}
-
-class _Test2State extends State<_Test2> {
-  final size = AnimateObs(
-    100.0,
-    curve: Curves.easeOut,
-    duration: const Duration(milliseconds: 2000),
-  );
-
-  @override
-  void dispose() {
-    size.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ElButton(
-          onPressed: () {
-            size.value = (size.targetValue == 100.0 ? 300.0 : 100.0);
-          },
-          child: '切换动画',
-        ),
-        const Gap(8),
-        ObsBuilder(
-          builder: (context) {
-            return Container(
-              width: size.value,
-              height: size.value,
-              color: Colors.grey,
-            );
-          },
-        ),
-      ],
-    );
-  }
-}
-
-class Test extends StatelessWidget {
-  const Test({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = AnimationController(
-      vsync: vsync,
-      duration: const Duration(milliseconds: 5000),
-    );
-    final curveAnimate = CurvedAnimation(
-      parent: controller,
-      curve: Curves.easeOut,
-    );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ElButton(
-          onPressed: () {
-            controller.toggle();
-          },
-          child: '切换动画',
-        ),
-        const Gap(8),
-        ElButton(
-          onPressed: () {
-            controller.stop();
-          },
-          child: '暂停动画',
-        ),
-        const Gap(8),
-        ElButton(
-          onPressed: () {
-            controller.start();
-          },
-          child: '启动动画',
-        ),
-        const Gap(8),
-        AnimatedBuilder(
-          animation: controller.view,
-          builder: (context, child) => Container(
-            width: 100 + curveAnimate.value * 50,
-            height: 100 + curveAnimate.value * 50,
-            color: Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class _Example extends StatefulHookWidget {
   const _Example();

@@ -12,12 +12,12 @@ Set<Set<VoidCallback>> _tempBuilderObsList = {};
 class BaseObs<T> extends ValueNotifier<T> {
   /// 提供最基础的响应式变量实现，它只负责与 [ObsBuilder] 建立联系
   BaseObs(this._value) : super(_value) {
-    this._initialValue = _value;
+    this.initialValue = _value;
     this.oldValue = _value;
   }
 
   /// [_value] 初始值，当执行 [reset] 重置方法时应用它
-  late T _initialValue;
+  late T initialValue;
 
   /// 记录上一次 [_value] 值
   late T oldValue;
@@ -85,11 +85,7 @@ class BaseObs<T> extends ValueNotifier<T> {
 
   /// 重置响应式变量到初始状态
   void reset() {
-    value = _initialValue;
-    // 在 dispose 生命周期中执行重置，如果不加延迟会导致 setState 异常
-    Future.delayed(const Duration(milliseconds: 1), () {
-      notify();
-    });
+    value = initialValue;
   }
 
   @override

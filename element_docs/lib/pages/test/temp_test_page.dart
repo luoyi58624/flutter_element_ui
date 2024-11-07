@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/test/friction_animate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,37 +23,7 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Container(
-            //   width: 100,
-            //   height: 100,
-            //   color: context.elTheme.primary,
-            // ),
-            ElHoverBuilder(builder: (context) {
-              return ElTagTheme(
-                data: ElTagThemeData(
-                  bgColor: context.isHover ? Colors.green : null,
-                ),
-                child: const ElTag(
-                  'Tag',
-                  closable: true,
-                  // duration: Duration(milliseconds: 200),
-                ),
-              );
-            }),
-            ElIconTheme(
-              data: ElIconThemeData(
-                size: 50,
-                color: context.elTheme.iconTheme.color,
-              ),
-              child: const ElIcon(ElIcons.house),
-            ),
-          ],
-        ),
-      ),
+      body: FrictionAnimateTest(),
       // body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,

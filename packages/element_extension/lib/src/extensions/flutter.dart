@@ -27,3 +27,24 @@ extension FlutterAnimationControllerExtension on AnimationController {
   }
 }
 
+extension FlutterOffsetExtension on Offset {
+  Offset clampConstraints(BoxConstraints constraints) {
+    double x = 0.0;
+    double y = 0.0;
+    if (dx < 0) {
+      x = 0;
+    } else if (dx > constraints.maxWidth) {
+      x = constraints.maxWidth;
+    } else {
+      x = dx;
+    }
+    if (dy < 0) {
+      y = 0;
+    } else if (dy > constraints.maxHeight) {
+      y = constraints.maxHeight;
+    } else {
+      y = dy;
+    }
+    return Offset(x, y);
+  }
+}

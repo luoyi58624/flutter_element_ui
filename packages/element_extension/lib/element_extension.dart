@@ -12,6 +12,7 @@ export 'src/extensions/num.dart';
 export 'src/extensions/responsive.dart';
 export 'src/extensions/flutter.dart';
 
+export 'src/hooks/animate_obs.dart';
 export 'src/hooks/id.dart';
 export 'src/hooks/interval.dart';
 export 'src/hooks/lifecycle.dart';

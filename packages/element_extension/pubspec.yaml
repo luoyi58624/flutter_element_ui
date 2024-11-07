@@ -17,9 +17,10 @@ dependencies:
     path: ../element_dart
   element_annotation:
     path: ../element_annotation
+  flutter_obs:
+    path: ../flutter_obs
   archive: ^3.4.10
   crypto: ^3.0.3
-  flutter_obs: ^1.6.3
   logger: ^2.4.0
   uuid: ^4.4.2
   collection: ^1.18.0
