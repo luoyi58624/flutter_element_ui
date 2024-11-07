@@ -38,7 +38,10 @@ class _Test2 extends StatefulWidget {
 }
 
 class _Test2State extends State<_Test2> {
-  final size = AnimateObs(100.0);
+  final size = AnimateObs(
+    100.0,
+    duration: const Duration(milliseconds: 5000),
+  );
 
   @override
   void dispose() {
@@ -58,13 +61,17 @@ class _Test2State extends State<_Test2> {
           child: '切换动画',
         ),
         const Gap(8),
-        ObsBuilder(builder: (context) {
-          return Container(
-            width: size.animation.value,
-            height: size.animation.value,
-            color: Colors.grey,
-          );
-        }),
+        ObsBuilder(
+          watch: [size],
+          builder: (context) {
+            return Container(
+              width: size.animation.value,
+              height: size.animation.value,
+              color: Colors.grey,
+              child: ElText(size.controller.isAnimating),
+            );
+          },
+        ),
       ],
     );
   }
