@@ -41,13 +41,13 @@ class _Text extends HookWidget {
   Widget build(BuildContext context) {
     return virtualScroll
         ? SuperListView.builder(
-            itemCount: 10000,
+            itemCount: 20000,
             itemBuilder: (context, index) => Text('Text - ${index + 1}'),
           )
         : ColumnWidget(
             scroll: true,
             children: List.generate(
-              1000,
+              20000,
               (index) => Text('Text - ${index + 1}'),
             ),
           );
@@ -63,13 +63,13 @@ class _ElText extends HookWidget {
   Widget build(BuildContext context) {
     return virtualScroll
         ? SuperListView.builder(
-            itemCount: 10000,
+            itemCount: 20000,
             itemBuilder: (context, index) => ElText('ElText - ${index + 1}'),
           )
         : ColumnWidget(
             scroll: true,
             children: List.generate(
-              1000,
+              20000,
               (index) => ElText('ElText - ${index + 1}'),
             ),
           );

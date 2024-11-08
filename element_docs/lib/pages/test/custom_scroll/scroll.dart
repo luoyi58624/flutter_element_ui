@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../commons/component/basic/button/index.dart';
+
 class ScrollRenderTestPage extends HookWidget {
   const ScrollRenderTestPage({super.key});
 
@@ -12,11 +14,8 @@ class ScrollRenderTestPage extends HookWidget {
   Widget build(BuildContext context) {
     return ObsBuilder(
       builder: (context) => TempTestPage.tempSwitch.value
-          ? const SizedBox(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: _Child(),
-              ),
+          ? const SingleChildScrollView(
+              child: _Child(),
             )
           : const _ScrollWidget(
               child: _Child(),
@@ -30,12 +29,16 @@ class _Child extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const buttonPage = ButtonPage();
+
     return RepaintBoundary(
       child: SizedBox(
-        width: 200,
+        width: MediaQuery.of(context).size.width,
         height: 820000,
         child: Column(
           children: [
+            // ...buttonPage.buildPage(context),
+            // Text('hihi' * 10000),
             ...List.generate(
               10000,
               (index) => Padding(
@@ -102,6 +105,7 @@ class _ScrollWidgetState extends State<_ScrollWidget> {
       },
       child: GestureDetector(
         onVerticalDragDown: (e) {
+          oldAnimateValue = null;
           if (controller.status != AnimationStatus.completed) {
             controller.stop();
           }
