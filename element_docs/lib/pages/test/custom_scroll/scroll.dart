@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/test/temp_test_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
@@ -9,13 +10,14 @@ class ScrollRenderTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('自定义滚动渲染'),
-      ),
-      body: const _ScrollWidget(
-        child: _Child(),
-      ),
+    return ObsBuilder(
+      builder: (context) => TempTestPage.tempSwitch.value
+          ? const SingleChildScrollView(
+              child: _Child(),
+            )
+          : const _ScrollWidget(
+              child: _Child(),
+            ),
     );
   }
 }
@@ -31,7 +33,7 @@ class _Child extends StatelessWidget {
       child: Column(
         children: [
           ...List.generate(
-            100,
+            1000,
             (index) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElButton(
@@ -94,6 +96,11 @@ class _ScrollWidgetState extends State<_ScrollWidget> {
         }
       },
       child: GestureDetector(
+        onVerticalDragDown: (e) {
+          if (controller.status != AnimationStatus.completed) {
+            controller.stop();
+          }
+        },
         onVerticalDragUpdate: (e) {
           setState(() {
             offset += e.delta.dy;

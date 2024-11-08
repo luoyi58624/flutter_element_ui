@@ -9,6 +9,8 @@ import 'custom_scroll/scroll.dart';
 class TempTestPage extends HookWidget {
   const TempTestPage({super.key});
 
+  static final tempSwitch = Obs(false);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +18,7 @@ class TempTestPage extends HookWidget {
         title: const Text('临时测试页面'),
         actions: [
           ObsBuilder(builder: (context) {
-            return ElSwitch(
-              GlobalState.isDark,
-              onChanged: (v) => GlobalState.isDark = v,
-            );
+            return ElSwitch(tempSwitch);
           }),
           const Gap(8),
         ],
@@ -139,9 +138,9 @@ class _Demo3State extends State<Demo3> {
 
 extension FlutterWidgetExtension on Widget {
   Widget get cupertinoScrollBehavior => ScrollConfiguration(
-    behavior: const CupertinoScrollBehavior(),
-    child: this,
-  );
+        behavior: const CupertinoScrollBehavior(),
+        child: this,
+      );
 }
 
 class CupertinoScrollBehavior extends CustomScrollBehavior {
