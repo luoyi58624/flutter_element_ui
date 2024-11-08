@@ -74,7 +74,7 @@ class Obs<T> extends BaseObs<T> {
   @override
   set value(T newValue) {
     if (getValue() != newValue) {
-      oldValue = getValue();
+      setOldValue(getValue());
       setValue(newValue);
       if (notifyMode.isNotEmpty) {
         if (notifyMode.contains(ObsNotifyMode.all)) {
@@ -126,7 +126,7 @@ class Obs<T> extends BaseObs<T> {
     }
   }
 
-  /// 暴露 [ChangeNotifier] 中的通知方法，允许用户可以触发 [ChangeNotifier] 中的监听函数
+  /// 暴露 [ChangeNotifier] 中的通知方法，允许用户可以手动触发 [ChangeNotifier] 中的监听函数
   @override
   notifyListeners() {
     super.notifyListeners();

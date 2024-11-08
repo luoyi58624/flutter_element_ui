@@ -10,17 +10,21 @@ VoidCallback? _tempBuilderNotifyFun;
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
 class BaseObs<T> extends ValueNotifier<T> {
-  /// 提供最基础的响应式变量实现，它只负责与 [ObsBuilder] 建立联系
+  /// 最基础的响应式变量实现，它只负责与 [ObsBuilder] 建立联系
   BaseObs(this._value) : super(_value) {
-    this.initialValue = _value;
-    this.oldValue = _value;
+    this._initialValue = _value;
+    this._oldValue = _value;
   }
 
-  /// [_value] 初始值，当执行 [reset] 重置方法时应用它
-  late T initialValue;
+  late T _initialValue;
 
-  /// 记录上一次 [_value] 值
-  late T oldValue;
+  /// [value] 初始值，当执行 [reset] 重置方法时应用它
+  T get initialValue => _initialValue;
+
+  late T _oldValue;
+
+  /// 记录上一次 [value] 值
+  T get oldValue => _oldValue;
 
   /// 响应式变量原始值
   T _value;
@@ -36,7 +40,7 @@ class BaseObs<T> extends ValueNotifier<T> {
   @override
   set value(T value) {
     if (_value != value) {
-      oldValue = _value;
+      _oldValue = _value;
       _value = value;
       notifyBuilders();
     }
@@ -56,9 +60,15 @@ class BaseObs<T> extends ValueNotifier<T> {
     _value = value;
   }
 
-  /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中，在执行用户 builder 函数前，
-  /// 会将刷新页面函数设置到 [_tempBuilderNotifyFun]，执行用户的 builder 函数时，
-  /// 如果代码中存在 .value 的响应式变量，则会触发 getter 函数，执行 [bindBuilders]。
+  /// 提供子类直接修改 [_oldValue] 的方法
+  @protected
+  void setOldValue(T value) {
+    _oldValue = value;
+  }
+
+  /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中执行用户 builder 函数前，
+  /// 会将 setState 函数设置到 [_tempBuilderNotifyFun]，然后执行 builder 函数时，
+  /// 如果代码中存在 .value 的响应式变量，则会触发 getter 函数，而 getter 函数将会执行 [bindBuilders] 建立绑定关系。
   @protected
   void bindBuilders() {
     if (_tempBuilderNotifyFun != null) {
@@ -85,7 +95,7 @@ class BaseObs<T> extends ValueNotifier<T> {
 
   /// 重置响应式变量到初始状态
   void reset() {
-    value = initialValue;
+    value = _initialValue;
   }
 
   @override

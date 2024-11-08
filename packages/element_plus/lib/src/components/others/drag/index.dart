@@ -9,12 +9,14 @@ class ElDrag extends StatefulWidget {
     super.key,
     required this.child,
     this.feedback,
-    this.triggerOffset = const Offset(10, 10),
+    this.rootOverlay = false,
     this.axis,
+    this.triggerOffset = const Offset(10, 10),
     this.delay,
     this.onDragStarted,
     this.onDragUpdate,
     this.onDragEnd,
+    this.onDragCancel,
   });
 
   /// 将一个小部件变为可拖拽
@@ -22,6 +24,9 @@ class ElDrag extends StatefulWidget {
 
   /// 拖动时显示的小部件，如果为 null，则不会创建 [Overlay] 浮层
   final Widget? feedback;
+
+  /// 拖拽的图像是否应用在最顶部的遮罩层，默认 false
+  final bool rootOverlay;
 
   /// 限制拖拽的方向
   final Axis? axis;
@@ -33,13 +38,16 @@ class ElDrag extends StatefulWidget {
   final Duration? delay;
 
   /// 拖拽开始事件
-  final VoidCallback? onDragStarted;
+  final GestureDragStartCallback? onDragStarted;
 
   /// 拖拽更新事件
-  final DragUpdateCallback? onDragUpdate;
+  final GestureDragUpdateCallback? onDragUpdate;
 
   /// 拖拽结束事件
-  final DragEndCallback? onDragEnd;
+  final GestureDragEndCallback? onDragEnd;
+
+  /// 拖拽取消事件
+  final GestureDragCancelCallback? onDragCancel;
 
   @override
   State<ElDrag> createState() => _ElDragState();

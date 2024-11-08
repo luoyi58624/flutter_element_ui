@@ -89,7 +89,11 @@ class SlideRouterConfig {
       'Basic 基础组件',
       [
         ('Button 按钮', '/${RootRoute.component.$2}/button', WorkStatus.finished),
-        ('ButtonGroup 按钮组', '/${RootRoute.component.$2}/button_group', WorkStatus.finished),
+        (
+          'ButtonGroup 按钮组',
+          '/${RootRoute.component.$2}/button_group',
+          WorkStatus.finished
+        ),
         ('Color 色彩', '/${RootRoute.component.$2}/color', WorkStatus.finished),
         ('Icon 图标', '/${RootRoute.component.$2}/icon', WorkStatus.finished),
         ('Layout 布局', '/${RootRoute.component.$2}/layout', WorkStatus.pending),
@@ -135,7 +139,11 @@ class SlideRouterConfig {
           WorkStatus.pending
         ),
         ('Form 表单', '/${RootRoute.component.$2}/form', WorkStatus.pending),
-        ('Input 输入框', '/${RootRoute.component.$2}/input', WorkStatus.processing),
+        (
+          'Input 输入框',
+          '/${RootRoute.component.$2}/input',
+          WorkStatus.processing
+        ),
         (
           'Input Number 数字输入框',
           '/${RootRoute.component.$2}/input-number',
@@ -339,6 +347,7 @@ class SlideRouterConfig {
           '/${RootRoute.component.$2}/context_menu',
           WorkStatus.pending
         ),
+        ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
       ],
     ),
   ];

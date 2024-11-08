@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/commons/component/other/drag/index.dart';
 
 import '../../pages/commons/component/basic/button/index.dart';
 import '../../pages/commons/component/basic/button_group/index.dart';
@@ -177,6 +178,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}context_menu',
       builder: (context, state) => const ContextMenuPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}drag',
+      builder: (context, state) => const DragPage(),
     ),
   ];
 }

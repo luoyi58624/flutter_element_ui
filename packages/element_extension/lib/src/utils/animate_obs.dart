@@ -10,8 +10,7 @@ class AnimateObs<T> extends BaseObs<T> {
   /// * curve 动画曲线
   /// * tween 动画值区间，如果 value 不是 double 类型，你必须手动设置 Tween，例如 [ColorTween]
   ///
-  /// 注意：与普通 [Obs] 变量不同，如果是局部变量，你必须在 dispose 生命周期中销毁它，
-  /// 因为内部创建的 [AnimationController] 必须释放。
+  /// 注意：如果是局部变量，你必须在 dispose 生命周期中销毁它，因为 [AnimationController] 必须释放。
   AnimateObs(
     super.value, {
     Duration duration = const Duration(milliseconds: 250),
@@ -72,7 +71,7 @@ class AnimateObs<T> extends BaseObs<T> {
   @override
   set value(T value) {
     if (_targetValue != value) {
-      oldValue = _targetValue;
+      setOldValue(_targetValue);
       _targetValue = value;
       _tween.begin = getValue();
       _tween.end = value;

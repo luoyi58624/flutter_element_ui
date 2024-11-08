@@ -94,11 +94,11 @@ class _ObsBuilderState extends State<ObsBuilder> {
   Widget build(BuildContext context) {
     // 1.设置刷新页面函数到临时变量
     _tempBuilderNotifyFun = _notify;
-    // 2.构建页面，触发响应式变量的 getter 方法，将 _notify 函数添加到监听器中
+    // 2.构建页面，如果触发响应式变量的 getter 方法，将 _notify 函数添加到监听器中
     var result = widget.builder(context);
     // 3.销毁临时变量
     _tempBuilderNotifyFun = null;
-    // 4.在构建器中保存依赖的响应式变量集合
+    // 4.builder 中可以有多个响应式变量，它们全都记录在临时集合中，这里将它们保存起来
     _builderObsList.addAll(_tempBuilderObsList);
     // 5.销毁依赖的响应式变量集合
     _tempBuilderObsList.clear();

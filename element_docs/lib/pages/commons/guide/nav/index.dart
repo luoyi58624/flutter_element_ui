@@ -16,17 +16,17 @@ class NavPage extends ResponsivePage {
       const Gap(50),
 
       // const _Test2(),
-      Center(
-        child: Container(
-          width: 300,
-          height: 300,
-          color: Colors.grey,
-          child: const Center(
-            child: MyCard(),
-          ),
-        ),
-      ),
-      // const _Example(),
+      // Center(
+      //   child: Container(
+      //     width: 300,
+      //     height: 300,
+      //     color: Colors.grey,
+      //     child: const Center(
+      //       child: MyCard(),
+      //     ),
+      //   ),
+      // ),
+      const _Example(),
     ];
   }
 }

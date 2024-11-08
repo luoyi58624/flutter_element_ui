@@ -26,9 +26,9 @@ class _FrictionAnimateTestState extends State<FrictionAnimateTest> {
                 width: constraints.maxWidth,
                 color: Colors.grey.shade300,
               ),
-              const Positioned(
-                child: _Demo(),
-              ),
+              // const Positioned(
+              //   child: _Demo(),
+              // ),
               _Demo2(
                 constraints: constraints,
               ),
@@ -40,51 +40,51 @@ class _FrictionAnimateTestState extends State<FrictionAnimateTest> {
   }
 }
 
-class _Demo extends StatefulWidget {
-  const _Demo();
-
-  @override
-  State<_Demo> createState() => _DemoState();
-}
-
-class _DemoState extends State<_Demo> {
-  Offset dragStartOffset = Offset.zero;
-  late Offset offset;
-  double direction = 1.0;
-  double distance = 100.0;
-
-  @override
-  Widget build(BuildContext context) {
-    double size = 50;
-    return Transform.translate(
-      offset: Offset.fromDirection(direction, distance),
-      child: GestureDetector(
-        onPanStart: (e) {
-          offset = Offset.fromDirection(direction, distance);
-          dragStartOffset = e.globalPosition;
-        },
-        onPanUpdate: (e) {
-          final dragOffset = e.globalPosition - dragStartOffset;
-          final targetOffset = offset + dragOffset;
-          i(targetOffset.direction);
-          setState(() {
-            direction = targetOffset.direction;
-            distance = targetOffset.distance;
-          });
-        },
-        child: Material(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(size / 2),
-          clipBehavior: Clip.hardEdge,
-          child: SizedBox(
-            width: size,
-            height: size,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class _Demo extends StatefulWidget {
+//   const _Demo();
+//
+//   @override
+//   State<_Demo> createState() => _DemoState();
+// }
+//
+// class _DemoState extends State<_Demo> {
+//   Offset dragStartOffset = Offset.zero;
+//   late Offset offset;
+//   double direction = 1.0;
+//   double distance = 100.0;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double size = 50;
+//     return Transform.translate(
+//       offset: Offset.fromDirection(direction, distance),
+//       child: GestureDetector(
+//         onPanStart: (e) {
+//           offset = Offset.fromDirection(direction, distance);
+//           dragStartOffset = e.globalPosition;
+//         },
+//         onPanUpdate: (e) {
+//           final dragOffset = e.globalPosition - dragStartOffset;
+//           final targetOffset = offset + dragOffset;
+//           i(targetOffset.direction);
+//           setState(() {
+//             direction = targetOffset.direction;
+//             distance = targetOffset.distance;
+//           });
+//         },
+//         child: Material(
+//           color: Colors.green,
+//           borderRadius: BorderRadius.circular(size / 2),
+//           clipBehavior: Clip.hardEdge,
+//           child: SizedBox(
+//             width: size,
+//             height: size,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _Demo2 extends StatefulWidget {
   const _Demo2({required this.constraints});
@@ -111,20 +111,13 @@ class _Demo2State extends State<_Demo2> {
     if (oldValue == null) {
       oldValue = controller.value;
       details = controller.value;
-      // distance += controller.value;
     } else {
       details = controller.value - oldValue!;
       oldValue = controller.value;
-      // distance += details;
     }
-    i(Offset.fromDirection(direction, details));
-    offset.value = (offset.value + Offset.fromDirection(direction, details))
-        .clampConstraints(widget.constraints);
-    // offset.value = Offset.fromDirection(
-    //   direction,
-    //   distance,
-    // ).clampConstraints(widget.constraints);
-    // direction = offset.value.direction;
+    final offsetDetails = Offset.fromDirection(direction, details);
+    offset.value =
+        (offset.value + offsetDetails).clampConstraints(widget.constraints);
   }
 
   @override
