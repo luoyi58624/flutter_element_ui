@@ -10,6 +10,7 @@ export 'src/components/basic/button/index.dart';
 export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
 export 'src/components/basic/container.dart';
+export 'src/components/basic/scroll/index.dart';
 export 'src/components/basic/scrollbar/index.dart';
 export 'src/components/basic/text/index.dart' hide TextInheritedWidget;
 
