@@ -28,20 +28,53 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final axisFlag = useState(0);
+    final isRootOverlay = useState(false);
+    final enabledTriggerOffset = useState(false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ElButtonTheme(
+          data: const ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup.single(
+            axisFlag,
+            mandatory: true,
+            children: const [
+              ElButton(child: '不限方向'),
+              ElButton(child: '固定横向'),
+              ElButton(child: '固定垂直'),
+            ],
+          ),
+        ),
+        const Gap(8),
         Row(
           children: [
-            ElSwitch(flag),
+            ElSwitch(isRootOverlay),
             const Gap(8),
-            ElText('rootOverlay: ${flag.value}'),
+            ElText('rootOverlay: ${isRootOverlay.value}'),
+          ],
+        ),
+        const Gap(8),
+        Row(
+          children: [
+            ElSwitch(enabledTriggerOffset),
+            const Gap(8),
+            ElText('开启触发拖拽偏移: ${enabledTriggerOffset.value}'),
           ],
         ),
         const Gap(8),
         ElDrag(
-          rootOverlay: flag.value,
+          rootOverlay: isRootOverlay.value,
+          triggerOffset:
+              enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
+          axis: axisFlag.value == 0
+              ? null
+              : axisFlag.value == 1
+                  ? Axis.horizontal
+                  : Axis.vertical,
           feedback: Container(
             width: 100,
             height: 100,
@@ -64,20 +97,53 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
+    final axisFlag = useState(0);
+    final isRootOverlay = useState(false);
+    final enabledTriggerOffset = useState(false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ElButtonTheme(
+          data: const ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup.single(
+            axisFlag,
+            mandatory: true,
+            children: const [
+              ElButton(child: '不限方向'),
+              ElButton(child: '固定横向'),
+              ElButton(child: '固定垂直'),
+            ],
+          ),
+        ),
+        const Gap(8),
         Row(
           children: [
-            ElSwitch(flag),
+            ElSwitch(isRootOverlay),
             const Gap(8),
-            ElText('rootOverlay: \${flag.value}'),
+            ElText('rootOverlay: \${isRootOverlay.value}'),
+          ],
+        ),
+        const Gap(8),
+        Row(
+          children: [
+            ElSwitch(enabledTriggerOffset),
+            const Gap(8),
+            ElText('开启拖拽偏移: \${enabledTriggerOffset.value}'),
           ],
         ),
         const Gap(8),
         ElDrag(
-          rootOverlay: flag.value,
+          rootOverlay: isRootOverlay.value,
+          triggerOffset:
+              enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
+          axis: axisFlag.value == 0
+              ? null
+              : axisFlag.value == 1
+                  ? Axis.horizontal
+                  : Axis.vertical,
           feedback: Container(
             width: 100,
             height: 100,

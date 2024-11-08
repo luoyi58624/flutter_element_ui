@@ -14,18 +14,6 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       const Gap(50),
-
-      // const _Test2(),
-      // Center(
-      //   child: Container(
-      //     width: 300,
-      //     height: 300,
-      //     color: Colors.grey,
-      //     child: const Center(
-      //       child: MyCard(),
-      //     ),
-      //   ),
-      // ),
       const _Example(),
     ];
   }
@@ -50,7 +38,6 @@ class _ExampleState extends State<_Example>
   void initState() {
     super.initState();
     controller.addListener(() {
-      i(controller.value);
       position.value = Offset(
         position.value.dx,
         position.value.dy + controller.value,
@@ -70,86 +57,11 @@ class _ExampleState extends State<_Example>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Gap(8),
-          Stack(
-            children: [
-              Container(
-                width: 300,
-                height: 300,
-                color: Colors.grey,
-              ),
-              Positioned(
-                left: position.value.dx,
-                top: position.value.dy,
-                child: ElDrag(
-                  axis: flag.value ? Axis.vertical : Axis.horizontal,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-            ],
+          Container(
+            height: 500,
           ),
-          const Gap(8),
-          Stack(
-            children: [
-              Container(
-                width: 300,
-                height: 300,
-                color: Colors.grey,
-              ),
-              Positioned(
-                left: position.value.dx,
-                top: position.value.dy,
-                child: Draggable(
-                  onDragUpdate: (e) {
-                    position.value += e.delta;
-                  },
-                  onDragEnd: (e) {
-                    // FrictionSimulation();
-                    controller.animateWith(FrictionSimulation(
-                      0.8,
-                      0,
-                      10,
-                    ));
-                    // i(e.velocity);
-                  },
-                  feedback: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.green,
-                  ),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const Gap(8),
-          ElSwitch(flag),
-          const Gap(8),
-          ElDrag(
-            axis: flag.value ? Axis.vertical : Axis.horizontal,
-            feedback: Container(
-              width: 100,
-              height: 100,
-              color: Colors.green,
-            ),
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.grey,
-            ),
-          ),
-          const Gap(8),
           Draggable(
             rootOverlay: true,
-            axis: flag.value ? Axis.vertical : Axis.horizontal,
             onDragUpdate: (e) {
               i(e.delta);
             },
@@ -163,6 +75,9 @@ class _ExampleState extends State<_Example>
               height: 100,
               color: Colors.grey,
             ),
+          ),
+          Container(
+            height: 500,
           ),
         ],
       );

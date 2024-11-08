@@ -24,84 +24,59 @@ class Example2 extends HookWidget {
   }
 }
 
-class _Example extends StatefulWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
-  State<_Example> createState() => _ExampleState();
-}
-
-class _ExampleState extends State<_Example>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController controller =
-      AnimationController.unbounded(vsync: this)..addListener(listener);
-
-  late BoxConstraints constraints;
-
-  /// 拖拽偏移值
-  Offset offset = Offset.zero;
-
-  /// 拖拽结束时的方向
-  double endDirection = 0.0;
-
-  void listener() {
-    // late double details;
-    // if (oldValue == null) {
-    //   oldValue = controller.value;
-    //   details = controller.value;
-    // } else {
-    //   details = controller.value - oldValue!;
-    //   oldValue = controller.value;
-    // }
-    // final offsetDetails = Offset.fromDirection(endDirection, details);
-    // offset = (offset + offsetDetails).clampConstraints(constraints);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    double size = 100;
-    return LayoutBuilder(builder: (context, $constraints) {
-      constraints = $constraints;
-      return Stack(
-        children: [
-          Container(
-            height: 300,
-            color: Colors.grey,
-          ),
-          Positioned(
-            left: clampDouble(
-              offset.dx,
-              0,
-              constraints.maxWidth - size,
-            ),
-            top: clampDouble(
-              offset.dy,
-              0,
-              constraints.maxHeight - size,
-            ),
-            child: ElDrag(
-              onDragStarted: (e){
+    final offset = useState(Offset.zero);
 
-              },
-              child: Container(
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.circular(size / 2),
+    double size = 100;
+    return SizedBox(
+      height: 300,
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Stack(
+          children: [
+            Container(
+              color: Colors.grey,
+            ),
+            Positioned(
+              left: clampDouble(
+                offset.value.dx,
+                0,
+                constraints.maxWidth - size,
+              ),
+              top: clampDouble(
+                offset.value.dy,
+                0,
+                constraints.maxHeight - size,
+              ),
+              child: ElDrag(
+                onDragDown: (e) {
+                  offset.value = offset.value.clampConstraints(BoxConstraints(
+                    maxWidth: constraints.maxWidth - size,
+                    maxHeight: constraints.maxHeight - size,
+                  ));
+                },
+                onChanged: (e) {
+                  offset.value += e.details;
+                },
+                enabledAnimate: true,
+                damping: 0.96,
+                child: Container(
+                  width: size,
+                  height: size,
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    // borderRadius: BorderRadius.circular(size / 2),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      );
-    });
+          ],
+        );
+      }),
+    );
   }
 }
 

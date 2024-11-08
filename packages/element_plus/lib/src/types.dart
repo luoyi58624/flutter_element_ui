@@ -1,3 +1,4 @@
+import 'package:element_plus/src/models/drag.dart';
 import 'package:flutter/widgets.dart';
 
 import 'services/message.dart';
@@ -30,6 +31,7 @@ typedef ElToastBuilder = Widget Function(
 /// 返回值为空函数回调，但接收一个 bool 值
 typedef ElBoolVoidCallback = void Function(bool value);
 
-typedef ElDragStartCallback = void Function();
-typedef ElDragUpdateCallback = void Function();
-typedef ElDragEndCallback = void Function();
+/// 当拖拽发生更新时，响应的事件
+typedef ElDragChanged = void Function(ElDragChangedData e);
+
+

@@ -47,9 +47,12 @@ enum ObsNotifyMode {
 /// ),
 /// ```
 class Obs<T> extends BaseObs<T> {
-  /// 创建一个响应式变量，[ObsBuilder] 会收集内部所有响应式变量，当发生变更时会自动重建小部件。
+  /// 创建一个响应式变量，[ObsBuilder] 会自动收集所有依赖的响应式变量，当发生变更时会自动重建小部件。
   /// * watch 设置监听回调函数，接收 newValue、oldValue 回调
   /// * immediate 是否立即执行一次监听函数，默认false
+  ///
+  /// 提示：当作为局部变量时，通常情况下你无需在 dispose 中手动销毁它，因为 [ObsBuilder] 被卸载时会自动移除依赖，
+  /// 除非你手动添加副作用监听函数。
   Obs(
     super.value, {
     this.notifyMode = const [ObsNotifyMode.all],

@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/test/friction_animate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'custom_scroll/scroll.dart';
 
 class TempTestPage extends HookWidget {
   const TempTestPage({super.key});
@@ -23,7 +24,7 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: FrictionAnimateTest(),
+      body: ScrollRenderTestPage(),
       // body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,

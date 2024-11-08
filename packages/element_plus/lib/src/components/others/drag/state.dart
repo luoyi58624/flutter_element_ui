@@ -1,82 +1,98 @@
 part of 'index.dart';
 
 class _ElDragState extends State<ElDrag> {
-  late Offset widgetPosition; // 当前小部件的全局位置坐标点
-  Offset? downPosition; // 指针按下的全局坐标点
-  Offset? downLocalPosition; // 指针按下的局部坐标点
+  /// 惯性移动动画控制器
+  late final AnimationController controller =
+      AnimationController.unbounded(vsync: vsync)..addListener(animateListener);
 
-  // 以 [downPosition] 为基点，判断移动幅度是否超出设置的 [widget.triggerOffset]
-  ({double l, double t, double r, double b})? triggerPosition;
+  /// 显示的浮层位置
+  final feedbackPosition = Obs(Offset.zero);
+  Offset widgetPosition = Offset.zero; // 当前小部件的全局位置坐标点
+  Offset downPosition = Offset.zero; // 指针按下的全局坐标点
+  Offset downLocalPosition = Offset.zero; // 指针按下的局部坐标点
 
-  bool isActiveDrag = false; // 是否开始拖拽
-  late OverlayState _overlay; // 遮罩层
+  Offset dragOffset = Offset.zero; // 以指针按下的坐标点为基点，计算指针移动的整体偏差值
+  Offset oldDragOffset = Offset.zero; // 上一次的拖拽偏移值，用于计算 delta 变量
+
+  late OverlayState _overlay; // 遮罩层实例
   late Offset _overlayOffset; // 遮罩层偏移位置
   OverlayEntry? _entry; // 拖拽浮层实例对象
-  Offset oldDragOffset = Offset.zero; // 上一次的拖拽偏移值，用于计算 delta 变量
-  final _dragOffset = Obs(Offset.zero); // 当前拖拽的位置
 
-  Offset get dragOffset => _dragOffset.value;
+  bool isActiveDrag = false; // 是否开始拖拽
 
-  set dragOffset(Offset offset) {
-    assert(downLocalPosition != null);
-    _dragOffset.value = switch (widget.axis) {
-      Axis.horizontal => Offset(
-          offset.dx - downLocalPosition!.dx - _overlayOffset.dx,
-          widgetPosition.dy,
-        ),
-      Axis.vertical => Offset(
-          widgetPosition.dx,
-          offset.dy - downLocalPosition!.dy - _overlayOffset.dy,
-        ),
-      null => Offset(
-          offset.dx - downLocalPosition!.dx - _overlayOffset.dx,
-          offset.dy - downLocalPosition!.dy - _overlayOffset.dy,
-        ),
+  double endDirection = 0.0; // 拖拽结束时的方向
+  double? oldAnimateValue; // 记录旧的动画值，用于计算惯性移动的偏移值
+
+  bool get _isTriggerOffset {
+    return dragOffset.dx < -widget.triggerOffset.dx ||
+        dragOffset.dx > widget.triggerOffset.dx ||
+        dragOffset.dy < -widget.triggerOffset.dy ||
+        dragOffset.dy > widget.triggerOffset.dy;
+  }
+
+  /// 计算拖拽偏移值，应用 Axis 方向限制
+  void _calcDragOffset(Offset offset) {
+    dragOffset = switch (widget.axis) {
+      Axis.horizontal => Offset(offset.dx, 0),
+      Axis.vertical => Offset(0, offset.dy),
+      null => offset,
     };
   }
 
-  void _onPointerDown(PointerDownEvent e) {
-    setState(() {
-      downPosition = e.position;
-      downLocalPosition = e.localPosition;
-      triggerPosition = (
-        l: downPosition!.dx - widget.triggerOffset.dx,
-        t: downPosition!.dy - widget.triggerOffset.dy,
-        r: downPosition!.dx + widget.triggerOffset.dx,
-        b: downPosition!.dy + widget.triggerOffset.dy
-      );
-    });
+  /// 计算浮层位置
+  void _calcFeedbackPosition() {
+    feedbackPosition.value =
+        downPosition - downLocalPosition - _overlayOffset + dragOffset;
   }
 
-  void _onPointerUp(PointerUpEvent e) {
-    if (_entry != null) {
-      _entry!.remove();
-      _entry = null;
+  void animateListener() {
+    late double details;
+    if (oldAnimateValue == null) {
+      oldAnimateValue = controller.value;
+      details = controller.value;
+    } else {
+      details = controller.value - oldAnimateValue!;
+      oldAnimateValue = controller.value;
     }
-    downPosition = null;
-    isActiveDrag = false;
-    setState(() {});
+    var offsetDetails = Offset.fromDirection(endDirection, details);
+    dragOffset += offsetDetails;
+    widget.onChanged?.call(ElDragChangedData(
+      dragOffset: dragOffset,
+      details: offsetDetails,
+    ));
   }
 
-  void _onPointerMove(PointerMoveEvent e) {
-    final movePosition = e.position;
-    if (isActiveDrag ||
-        movePosition.dx < triggerPosition!.l ||
-        movePosition.dx > triggerPosition!.r ||
-        movePosition.dy < triggerPosition!.t ||
-        movePosition.dy > triggerPosition!.b) {
-      dragOffset = movePosition;
+  void _onDragDown(DragDownDetails e) {
+    if (widget.enabledAnimate &&
+        controller.status != AnimationStatus.completed) {
+      controller.stop();
+    }
+    oldAnimateValue = null;
+    downPosition = e.globalPosition;
+    downLocalPosition = e.localPosition;
+    widget.onDragDown?.call(e);
+  }
+
+  void _onDragMove(DragUpdateDetails e) {
+    i('_onDragMove');
+    _calcDragOffset(e.globalPosition - downPosition);
+    if (isActiveDrag || _isTriggerOffset) {
+      widget.onDragUpdate?.call(e);
+      _calcFeedbackPosition();
+      widget.onChanged?.call(ElDragChangedData(
+        dragOffset: dragOffset,
+        details: dragOffset - oldDragOffset,
+      ));
+      oldDragOffset = dragOffset;
       if (isActiveDrag == false) {
         isActiveDrag = true;
         if (widget.feedback != null) {
           _entry = OverlayEntry(
             builder: (context) => ObsBuilder(builder: (context) {
               return Positioned(
-                left: dragOffset.dx,
-                top: dragOffset.dy,
-                child: IgnorePointer(
-                  child: UnconstrainedBox(child: widget.feedback),
-                ),
+                left: feedbackPosition.value.dx,
+                top: feedbackPosition.value.dy,
+                child: UnconstrainedBox(child: widget.feedback),
               );
             }),
           );
@@ -86,22 +102,69 @@ class _ElDragState extends State<ElDrag> {
     }
   }
 
+  void _onDragUp(DragEndDetails e) {
+    _dragEnd();
+    widget.onDragEnd?.call(e);
+    if (widget.enabledAnimate) {
+      endDirection = e.velocity.pixelsPerSecond.direction;
+      FrictionSimulation frictionSim = FrictionSimulation(
+        1.0 - widget.damping,
+        0.0,
+        e.velocity.pixelsPerSecond.distance,
+      );
+      controller.animateWith(frictionSim);
+    }
+  }
+
+  void _onDragCancel() {
+    _dragEnd();
+    widget.onDragCancel?.call();
+  }
+
+  void _dragEnd() {
+    if (_entry != null) {
+      _entry!.remove();
+      _entry = null;
+    }
+    isActiveDrag = false;
+    downPosition = Offset.zero;
+    downLocalPosition = Offset.zero;
+    dragOffset = Offset.zero;
+    oldDragOffset = Offset.zero;
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     nextTick(() {
-      if (mounted) {
-        widgetPosition = context.getPosition();
-        _overlayOffset = _overlay.context.getPosition();
-      }
+      widgetPosition = context.getPosition();
+      _overlayOffset = _overlay.context.getPosition();
     });
-    if (context.mounted) {
-      _overlay = Overlay.of(context, rootOverlay: widget.rootOverlay);
-    }
+    _overlay = Overlay.of(context, rootOverlay: widget.rootOverlay);
 
-    return ElListener(
-      onPointerDown: _onPointerDown,
-      onPointerUp: _onPointerUp,
-      onPointerMove: downPosition == null ? null : _onPointerMove,
+    final Map<Type, GestureRecognizerFactory> gestures =
+        <Type, GestureRecognizerFactory>{};
+    gestures[PanGestureRecognizer] =
+        GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
+      () => PanGestureRecognizer(debugOwner: this),
+      (PanGestureRecognizer instance) {
+        instance
+          ..onDown = _onDragDown
+          ..onStart = widget.onDragStarted
+          ..onUpdate = _onDragMove
+          ..onEnd = _onDragUp
+          ..onCancel = _onDragCancel
+          ..dragStartBehavior = DragStartBehavior.down;
+      },
+    );
+
+    return RawGestureDetector(
+      gestures: gestures,
       child: widget.child,
     );
   }
