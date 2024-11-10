@@ -1,7 +1,7 @@
 part of 'index.dart';
 
-class _Scroll extends SingleChildRenderObjectWidget {
-  const _Scroll({super.child, required this.offset});
+class _ScrollRenderWidget extends SingleChildRenderObjectWidget {
+  const _ScrollRenderWidget({super.child, required this.offset});
 
   final double offset;
 
@@ -29,17 +29,24 @@ class _RenderScroll extends RenderBox
 
   @override
   void performLayout() {
-    size = constraints.biggest;
-    child!.layout(const BoxConstraints());
+    final BoxConstraints constraints = this.constraints;
+    child!.layout(const BoxConstraints(), parentUsesSize: true);
+    size = constraints.constrain(child!.size);
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    context.paintChild(child as RenderObject, Offset(offset.dx, _offset));
+    context.paintChild(
+        child as RenderObject, Offset(offset.dx, offset.dy - _offset));
   }
 
   @override
-  bool hitTestSelf(Offset position) {
-    return true;
+  bool hitTestSelf(Offset position) => true;
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
+    return child?.hitTest(result,
+            position: Offset(position.dx, position.dy + _offset)) ??
+        false;
   }
 }

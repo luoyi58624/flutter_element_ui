@@ -39,7 +39,7 @@ class ButtonPage extends ResponsivePage {
       Example10(title: '分割按钮'),
     ];
     List<Widget> childrens = [];
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
       childrens.addAll(list);
     }
     return childrens;

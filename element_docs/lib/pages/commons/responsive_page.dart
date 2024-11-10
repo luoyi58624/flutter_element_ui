@@ -24,11 +24,15 @@ abstract class ResponsivePage extends HookWidget {
               appBar: AppBar(
                 title: Text(title),
               ),
-              body: SingleChildScrollView(
-                child: Padding(
+              body: SizedBox(
+                width: double.infinity,
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: buildPage(context),
+                  child: RepaintBoundary(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: buildPage(context),
+                    ),
                   ),
                 ),
               ),

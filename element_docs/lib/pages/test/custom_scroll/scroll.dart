@@ -12,10 +12,10 @@ class ScrollRenderTestPage extends HookWidget {
     return ObsBuilder(
       builder: (context) => TempTestPage.tempSwitch.value
           ? const SingleChildScrollView(
-              child: _Child(),
+              child: RepaintBoundary(child: _Child()),
             )
-          : const ElScroll(
-              child: _Child2(),
+          : const ScrollWidget(
+              child: RepaintBoundary(child: _Child2()),
             ),
     );
   }
@@ -31,7 +31,7 @@ class _Child extends StatelessWidget {
       child: Column(
         children: [
           ...List.generate(
-            1000,
+            3000,
             (index) => Text('列表 - ${index + 1}'),
           ),
         ],
@@ -49,13 +49,12 @@ class _Child2 extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 820000,
+      // height: 820000,
       child: Column(
         children: [
           ...buttonPage.buildPage(context),
-          // Text('hihi' * 10000),
           // ...List.generate(
-          //   10000,
+          //   3000,
           //   (index) => Text('列表 - ${index + 1}'),
           // ),
         ],
@@ -63,3 +62,4 @@ class _Child2 extends StatelessWidget {
     );
   }
 }
+

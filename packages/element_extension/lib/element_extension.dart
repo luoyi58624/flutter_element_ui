@@ -33,5 +33,6 @@ export 'src/widgets/html/typography.dart';
 export 'src/widgets/animated_widgets.dart';
 export 'src/widgets/custom_layout.dart';
 export 'src/widgets/nest_scroll_wrapper.dart';
+export 'src/widgets/scroll.dart';
 export 'src/widgets/scroll_behavior.dart';
 export 'src/widgets/simple_widgets.dart';

@@ -9,7 +9,7 @@ class CodeExample extends HookWidget {
     super.key,
     this.code,
     required this.children,
-    this.expanded = true,
+    this.expanded = false,
   });
 
   /// 示例代码字符串
@@ -25,44 +25,46 @@ class CodeExample extends HookWidget {
   Widget build(BuildContext context) {
     final isExpanded = useState(expanded);
 
-    return ElHoverBuilder(builder: (context) {
-      return Container(
-        decoration: BoxDecoration(
-          color: context.elTheme.bgColor,
-          borderRadius: context.elTheme.cardTheme.radius,
-          border: Border.all(
-            color: context.elTheme.borderColor,
-            width: 1,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: children,
-              ),
+    return RepaintBoundary(
+      child: ElHoverBuilder(builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: context.elTheme.bgColor,
+            borderRadius: context.elTheme.cardTheme.radius,
+            border: Border.all(
+              color: context.elTheme.borderColor,
+              width: 1,
             ),
-            if (code != null) const ElDivider(),
-            if (code != null) _PreviewButton(isExpanded),
-            if (code != null)
-              ElCollapseTransition(
-                isExpanded.value,
-                child: ElCodePreview(
-                  code: code!,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
-                    bottomRight: context.elTheme.cardTheme.radius.bottomRight,
-                  ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
                 ),
               ),
-          ],
-        ),
-      );
-    });
+              if (code != null) const ElDivider(),
+              if (code != null) _PreviewButton(isExpanded),
+              if (code != null)
+                ElCollapseTransition(
+                  isExpanded.value,
+                  child: ElCodePreview(
+                    code: code!,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                      bottomRight: context.elTheme.cardTheme.radius.bottomRight,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+      }),
+    );
   }
 }
 

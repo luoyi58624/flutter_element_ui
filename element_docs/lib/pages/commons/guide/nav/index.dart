@@ -1,8 +1,31 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/commons/guide/nav/render.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 
-import 'simulation.dart';
+import '../../component/basic/button/index.dart';
+
+class _Child2 extends StatelessWidget {
+  const _Child2();
+
+  @override
+  Widget build(BuildContext context) {
+    const buttonPage = ButtonPage();
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      // height: 820000,
+      child: Column(
+        children: [
+          ...buttonPage.buildPage(context),
+          // ...List.generate(
+          //   3000,
+          //   (index) => Text('列表 - ${index + 1}'),
+          // ),
+        ],
+      ),
+    );
+  }
+}
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -11,15 +34,74 @@ class NavPage extends ResponsivePage {
   String get title => '导航';
 
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: const ElScroll(
+        child: _Child2(),
+      ),
+    );
+  }
+
+  @override
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
-      const Gap(50),
-      const _Example(),
+      // const Gap(50),
+      // const _Demo(),
+      // ...List.generate(
+      //   400,
+      //   (index) => Text('列表 - ${index + 1}'),
+      // ),
+      // const _Example(),
     ];
   }
 }
 
+class _Demo extends StatefulWidget {
+  const _Demo({super.key});
 
+  @override
+  State<_Demo> createState() => _DemoState();
+}
+
+class _DemoState extends State<_Demo> {
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElButton(
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
+          child: 'count: $count',
+          type: El.primary,
+        ),
+        GestureDetector(
+          onTap: () {
+            el.message.show('hello');
+          },
+          child: MyRender(
+            child: GestureDetector(
+              onTap: () {
+                w('child');
+              },
+              child: const ElButton(
+                child: 'hello',
+                type: El.primary,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class _Example extends StatefulHookWidget {
   const _Example();
