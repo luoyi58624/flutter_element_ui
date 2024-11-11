@@ -252,7 +252,6 @@ class _MessageState extends State<_Message>
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
                   child: ElHoverBuilder(
-                    
                     onEnter: (e) {
                       if (_removeTimer != null) {
                         _removeTimer!.cancel();
@@ -352,11 +351,14 @@ class _DefaultMessage extends StatelessWidget {
             if (message.showClose)
               ElIconTheme(
                 data: ElIconThemeData(
-                    color: context.elTheme.iconTheme.color!.withAlpha(150)),
+                  color: context.elTheme.iconTheme.color!.withAlpha(150),
+                  size: 16,
+                ),
                 child: ElCloseButton(
                   onTap: message.removeMessage,
                   cursor: SystemMouseCursors.click,
                   iconHoverColor: themeColor,
+                  bgHoverColor: themeColor.elLight7(context),
                 ),
               ),
           ],

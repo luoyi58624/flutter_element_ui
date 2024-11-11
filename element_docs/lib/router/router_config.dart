@@ -348,6 +348,7 @@ class SlideRouterConfig {
           WorkStatus.pending
         ),
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
+        ('Event 事件', '/${RootRoute.component.$2}/event', WorkStatus.pending),
       ],
     ),
   ];

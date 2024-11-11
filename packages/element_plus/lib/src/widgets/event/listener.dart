@@ -18,7 +18,7 @@ extension ElPointerUpEventExtension on PointerUpEvent {
       );
 }
 
-class ElListener extends _EventBubbleWidget {
+class ElListener extends ElEvent {
   /// 如果你想要阻止祖先 [Listener] 事件的执行，那么请对上层、下层组件同时使用 [ElListener]，
   /// 然后在中间插入 [ElStopPropagation] 小部件，当下层 [Listener] 事件触发时，
   /// 会阻止上层所有监听的指针事件。
@@ -73,23 +73,23 @@ class ElListener extends _EventBubbleWidget {
   State<ElListener> createState() => _ElListenerState();
 }
 
-class _ElListenerState extends _EventBubbleWidgetState<ElListener> {
+class _ElListenerState extends ElEventState<ElListener> {
   void _onPointerDown(PointerDownEvent e) {
-    if (bubbleFlag) {
-      ElStopPropagation._of(context, _EventBubbleWidget.stopPropagation);
+    if (allowed) {
+      ElStopPropagation._of(context, ElEvent.stopPropagation);
       widget.onPointerDown?.call(e);
     }
   }
 
   void _onPointerUp(PointerUpEvent e) {
-    if (bubbleFlag) {
+    if (allowed) {
       reset();
       widget.onPointerUp?.call(e);
     }
   }
 
   void _onPointerCancel(PointerCancelEvent e) {
-    if (bubbleFlag) {
+    if (allowed) {
       reset();
       widget.onPointerCancel?.call(e);
     }

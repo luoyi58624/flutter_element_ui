@@ -1,11 +1,6 @@
 part of 'index.dart';
 
-extension ElTapExtension on BuildContext {
-  /// 通过当前上下文访问最近的 Tap 点击状态
-  bool get isTap => ElTapBuilder.of(this);
-}
-
-class ElTapBuilder extends _EventBubbleWidget {
+class ElTapBuilder extends ElEvent {
   /// 点击事件构建器，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
   /// * 默认触发事件冒泡，如果 [ElTapBuilder] 存在嵌套，内部触发事件上层事件也会触发
@@ -28,7 +23,7 @@ class ElTapBuilder extends _EventBubbleWidget {
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
   /// 它适用于依赖 tap 事件而改变状态的元素，防止轻点时 tapDown -> tapUp 之间极短的时间间隔导致看不出任何效果。
   ///
-  /// 提示：这个延迟属性只作用于 [onTapUp] 事件，[onTap] 事件逻辑不受影响，通常情况下保持默认值即可。
+  /// 提示：这个延迟属性只作用于 [onTapUp] 事件，[onTap] 事件不受影响。
   final int delay;
 
   /// 是否禁用
@@ -57,7 +52,7 @@ class ElTapBuilder extends _EventBubbleWidget {
   State<ElTapBuilder> createState() => _TapBuilderState();
 }
 
-class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
+class _TapBuilderState extends ElEventState<ElTapBuilder> {
   /// 是否触发点击
   bool _isTap = false;
 
@@ -83,14 +78,14 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
   }
 
   void _onTap() {
-    if (widget.disabled == false && bubbleFlag) {
+    if (widget.disabled == false && allowed) {
       widget.onTap?.call();
     }
   }
 
   void _onTapDown(TapDownDetails e) {
-    if (!widget.disabled && bubbleFlag) {
-      ElStopPropagation._of(context, _EventBubbleWidget.stopPropagation);
+    if (!widget.disabled && allowed) {
+      ElStopPropagation._of(context, ElEvent.stopPropagation);
       _time = currentMilliseconds;
       if (_timer != null) {
         _timer!.cancel();
@@ -109,7 +104,7 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
   }
 
   void _onTapUp(TapUpDetails e) {
-    if (!widget.disabled && bubbleFlag) {
+    if (!widget.disabled && allowed) {
       reset();
       int delay = widget.delay;
       if (_time != null) {
@@ -127,7 +122,7 @@ class _TapBuilderState extends _EventBubbleWidgetState<ElTapBuilder> {
 
   void _onTapCancel() {
     reset();
-    if (!widget.disabled && bubbleFlag) {
+    if (!widget.disabled && allowed) {
       _timer = setTimeout(() {
         _timer = null;
         if (mounted) {

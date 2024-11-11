@@ -4,29 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../component/basic/button/index.dart';
 
-class _Child2 extends StatelessWidget {
-  const _Child2();
-
-  @override
-  Widget build(BuildContext context) {
-    const buttonPage = ButtonPage();
-
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      // height: 820000,
-      child: Column(
-        children: [
-          ...buttonPage.buildPage(context),
-          // ...List.generate(
-          //   3000,
-          //   (index) => Text('列表 - ${index + 1}'),
-          // ),
-        ],
-      ),
-    );
-  }
-}
-
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -34,27 +11,17 @@ class NavPage extends ResponsivePage {
   String get title => '导航';
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: const ElScroll(
-        child: _Child2(),
-      ),
-    );
-  }
-
-  @override
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       // const Gap(50),
       // const _Demo(),
+
+      const _Demo(),
+      const _Example(),
       // ...List.generate(
-      //   400,
+      //   50,
       //   (index) => Text('列表 - ${index + 1}'),
       // ),
-      // const _Example(),
     ];
   }
 }
@@ -67,37 +34,40 @@ class _Demo extends StatefulWidget {
 }
 
 class _DemoState extends State<_Demo> {
-  int count = 0;
+  double _top = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElButton(
-          onPressed: () {
-            setState(() {
-              count++;
-            });
-          },
-          child: 'count: $count',
-          type: El.primary,
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: 300,
+          height: 300,
+          color: Colors.green,
         ),
-        GestureDetector(
-          onTap: () {
-            el.message.show('hello');
-          },
-          child: MyRender(
-            child: GestureDetector(
-              onTap: () {
-                w('child');
-              },
-              child: const ElButton(
-                child: 'hello',
-                type: El.primary,
-              ),
-            ),
+        Positioned(
+          left: 150,
+          top: _top,
+          child: GestureDetector(
+            child: const CircleAvatar(child: Text("A")),
+            //要拖动和点击的widget
+            onPanUpdate: (DragUpdateDetails details) {
+              setState(() {
+                _top += details.delta.dy;
+              });
+            },
+            // onVerticalDragUpdate: (e) {},
+            onHorizontalDragEnd: (details) {
+              print("onHorizontalDragEnd");
+            },
+            onTapDown: (details) {
+              print("down");
+            },
+            onTapUp: (details) {
+              print("up");
+            },
           ),
-        ),
+        )
       ],
     );
   }

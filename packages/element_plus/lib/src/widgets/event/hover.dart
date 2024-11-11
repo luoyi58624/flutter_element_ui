@@ -1,10 +1,5 @@
 part of 'index.dart';
 
-extension ElHoverExtension on BuildContext {
-  /// 通过上下文访问最近的 Hover 悬停状态
-  bool get isHover => ElHoverBuilder.of(this);
-}
-
 class ElHoverBuilder extends StatefulWidget {
   /// Hover 悬停事件构建器
   const ElHoverBuilder({
