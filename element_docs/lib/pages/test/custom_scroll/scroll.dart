@@ -49,14 +49,13 @@ class _Child2 extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      // height: 820000,
       child: Column(
         children: [
-          ...buttonPage.buildPage(context),
-          // ...List.generate(
-          //   3000,
-          //   (index) => Text('列表 - ${index + 1}'),
-          // ),
+          // ...buttonPage.buildPage(context),
+          ...List.generate(
+            100,
+            (index) => Text('列表 - ${index + 1}'),
+          ),
         ],
       ),
     );

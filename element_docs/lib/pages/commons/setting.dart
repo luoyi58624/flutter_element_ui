@@ -66,6 +66,15 @@ class GlobalSetting extends StatelessWidget {
                 },
               );
             }),
+          ObsBuilder(builder: (context) {
+            return CellWidget(
+              title: '监控 FPS 帧率',
+              value: GlobalState.fps.value,
+              onChanged: (v) {
+                GlobalState.fps.value = v;
+              },
+            );
+          }),
         ],
       ),
     );

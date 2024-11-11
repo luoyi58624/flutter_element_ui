@@ -40,29 +40,37 @@ class MainApp extends StatelessWidget {
         theme: buildElementTheme(),
         darkTheme: buildElementTheme(brightness: Brightness.dark),
         child: ObsBuilder(builder: (context) {
-          return MaterialApp.router(
-            routerConfig: router,
-            debugShowCheckedModeBanner: false,
-            showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-            showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-            themeAnimationDuration: Duration.zero,
-            theme: ElThemeUtil.buildMaterialTheme(
-              context,
-              brightness: GlobalState.brightness,
+          return FpsWidget(
+            enabled: GlobalState.fps.value,
+            positionedBuilder: (context, child) => Positioned(
+              top: MediaQuery.of(context).viewPadding.top + 64,
+              right: 24,
+              child: child,
             ),
-            darkTheme: ElThemeUtil.buildMaterialTheme(
-              context,
-              brightness: Brightness.dark,
-            ),
-            builder: ElApp.builder(
-              builder: (context, child) => CupertinoTheme(
-                data: ElThemeUtil.buildCupertinoThemeData(
-                  context,
-                  brightness: GlobalState.brightness,
-                ),
-                child: child!,
+            child: MaterialApp.router(
+              routerConfig: router,
+              debugShowCheckedModeBanner: false,
+              showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+              showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
+              themeAnimationDuration: Duration.zero,
+              theme: ElThemeUtil.buildMaterialTheme(
+                context,
+                brightness: GlobalState.brightness,
               ),
-              scrollBehavior: const ElScrollBehavior(showTrack: true),
+              darkTheme: ElThemeUtil.buildMaterialTheme(
+                context,
+                brightness: Brightness.dark,
+              ),
+              builder: ElApp.builder(
+                builder: (context, child) => CupertinoTheme(
+                  data: ElThemeUtil.buildCupertinoThemeData(
+                    context,
+                    brightness: GlobalState.brightness,
+                  ),
+                  child: child!,
+                ),
+                scrollBehavior: const ElScrollBehavior(showTrack: true),
+              ),
             ),
           );
         }),

@@ -39,7 +39,7 @@ class _ElScrollState extends State<ElScroll> {
   }
 
   void animateStatusListener(AnimationStatus status) {
-    i(status);
+    // i(status);
   }
 
   @override

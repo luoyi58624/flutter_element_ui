@@ -7,6 +7,8 @@ import '../../router/router_config.dart';
 class LayoutHeader extends StatelessWidget {
   const LayoutHeader({super.key});
 
+  static final enabledSlivers = Obs(false);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,6 +33,7 @@ class LayoutHeader extends StatelessWidget {
             children: [
               if (!context.sm) buildDesktopNav(context),
               const Gap(16),
+              // ElSwitch(enabledSlivers),
               if (!isRelease)
                 IconButton(
                   tooltip: '刷新路由配置',

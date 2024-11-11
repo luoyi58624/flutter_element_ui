@@ -38,10 +38,10 @@ class ButtonPage extends ResponsivePage {
       Example9(title: '自定义尺寸'),
       Example10(title: '分割按钮'),
     ];
-    List<Widget> childrens = [];
-    for (int i = 0; i < 5; i++) {
-      childrens.addAll(list);
+    List<Widget> newList = [];
+    for (int i = 0; i < 10; i++) {
+      newList.addAll(list);
     }
-    return childrens;
+    return newList;
   }
 }

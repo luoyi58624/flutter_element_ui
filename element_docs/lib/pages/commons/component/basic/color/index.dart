@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
 import 'examples/example2.dart';
+// import 'examples/example3.dart';
 
 class ColorPage extends ResponsivePage {
   const ColorPage({super.key});

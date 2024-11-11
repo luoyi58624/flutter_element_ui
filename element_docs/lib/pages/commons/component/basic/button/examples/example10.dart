@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 
 class Example10 extends StatelessWidget {
   const Example10({super.key, required this.title});
+
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,34 +19,27 @@ class Example10 extends StatelessWidget {
         textGap,
         CodeExample(
           code: code,
-          children: [
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                const ElButton(
-                  height: 20,
-                  type: 'primary',
-                  child: ElText('按钮', style: TextStyle(fontSize: 12)),
-                ),
-                const ElButton(
-                  width: 160,
-                  height: 48,
-                  type: 'primary',
-                  child: ElText('按钮', style: TextStyle(fontSize: 20)),
-                ),
-                ElButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-                  borderRadius: BorderRadius.circular(16),
-                  type: 'primary',
-                  child: const ElText('按钮', style: TextStyle(fontSize: 24)),
-                ),
-              ],
-            ),
+          children: const [
+            _Example(),
           ],
         ),
       ],
+    );
+  }
+}
+
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final count = useState(0);
+    return ElButton(
+      onPressed: () {
+        count.value++;
+      },
+      type: 'primary',
+      child: ElText('count: ${count.value}'),
     );
   }
 }

@@ -60,6 +60,6 @@ class GlobalState {
   /// 显示语义调式器
   static final showSemanticsDebugger = Obs(false);
 
-  /// 滚动组件下方是否插入[RepaintBoundary]
-  static final scrollRepaintBoundary = Obs(true);
+  /// 监控 fps 帧率
+  static final fps = Obs(false);
 }

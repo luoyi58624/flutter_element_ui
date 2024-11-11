@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/commons/layout_header.dart';
 import 'package:flutter/material.dart';
 
 /// 响应式页面抽象类
@@ -27,42 +28,77 @@ abstract class ResponsivePage extends HookWidget {
               body: SizedBox(
                 width: double.infinity,
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(8.0),
-                  child: RepaintBoundary(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: buildPage(context),
-                    ),
+                  padding: EdgeInsets.all(PlatformUtil.isDesktop ? 16.0 : 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: buildPage(context),
                   ),
                 ),
               ),
             )
           : NestScrollWrapper(
               controller: controller,
-              child: SingleChildScrollView(
-                controller: controller,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 50,
-                  vertical: 50,
-                ),
-                child: RepaintBoundary(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ElAnimatedDefaultTextStyle(
-                        style: TextStyle(
-                          color: context.isDark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade800,
-                        ),
-                        child: H1(title),
-                      ),
-                      ...buildPage(context),
-                    ],
+              child: _buildDesktopBuild(controller),
+            ),
+    );
+  }
+
+  Widget _buildDesktopBuild(ScrollController controller) {
+    return ObsBuilder(
+      builder: (context) {
+        if (LayoutHeader.enabledSlivers.value) {
+          return CustomScrollView(
+            controller: controller,
+            slivers: [
+              const SliverGap(50),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 50, right: 50),
+                  child: ElAnimatedDefaultTextStyle(
+                    style: TextStyle(
+                      color: context.isDark
+                          ? Colors.grey.shade300
+                          : Colors.grey.shade800,
+                    ),
+                    child: H1(title),
                   ),
                 ),
               ),
+              ...buildPage(context).map(
+                (e) => SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 50, right: 50),
+                    child: e,
+                  ),
+                ),
+              ),
+              const SliverGap(50),
+            ],
+          );
+        } else {
+          return SingleChildScrollView(
+            controller: controller,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 50,
+              vertical: 50,
             ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ElAnimatedDefaultTextStyle(
+                  style: TextStyle(
+                    color: context.isDark
+                        ? Colors.grey.shade300
+                        : Colors.grey.shade800,
+                  ),
+                  child: H1(title),
+                ),
+                ...buildPage(context),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 }
