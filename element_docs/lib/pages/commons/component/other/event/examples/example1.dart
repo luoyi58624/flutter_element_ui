@@ -70,7 +70,7 @@ class _Example extends HookWidget {
                     if (flag.value) {
                       // 阻止冒泡事件
                       context.stopPropagation();
-                      // 你需要在合适的时机手动恢复它，这里是在下一毫秒后重置冒泡标识符
+                      // 你需要在合适的时机手动恢复它
                       setTimeout(() {
                         context.resetPropagation();
                       }, 1);

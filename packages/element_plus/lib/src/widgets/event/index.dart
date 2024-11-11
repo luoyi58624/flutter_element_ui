@@ -19,6 +19,9 @@ part 'stop_propagation.dart';
 
 /// 事件冒泡支持的类型，你可以精准控制需要阻止哪些事件
 enum ElEventType {
+  /// 悬停事件
+  hover,
+
   /// 点击事件
   tap,
 
@@ -30,6 +33,8 @@ enum ElEventType {
 
   /// 长按事件
   longPress,
+
+
 }
 
 abstract class ElEvent extends StatefulWidget {

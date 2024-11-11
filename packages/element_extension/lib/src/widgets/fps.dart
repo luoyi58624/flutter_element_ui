@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
-/// 初始 fps 帧率，[Ticker] 在安卓上会多一次执行，所以需要将它的初始帧率设置为 -1
-final _initialFps = PlatformUtil.isAndroid ? -1 : 0;
+/// 初始 fps 帧率，除了 ios、mac 等平台，其他平台的初始帧率需要设置为 -1，因为 [Ticker] 似乎会多执行一帧
+final _initialFps = PlatformUtil.isApple ? 0 : -1;
 
 class FpsWidget extends StatefulWidget {
   /// 显示当前帧率小部件，内部通过 [Ticker] 做计算

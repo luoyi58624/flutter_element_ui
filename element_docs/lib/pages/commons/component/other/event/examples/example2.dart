@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Example2 extends HookWidget {
@@ -29,53 +28,49 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final offset = useState(Offset.zero);
+    final flag = useState(false);
 
-    double size = 100;
-    return SizedBox(
-      height: 300,
-      child: LayoutBuilder(builder: (context, constraints) {
-        return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
           children: [
-            Container(
-              color: Colors.grey,
-            ),
-            Positioned(
-              left: clampDouble(
-                offset.value.dx,
-                0,
-                constraints.maxWidth - size,
-              ),
-              top: clampDouble(
-                offset.value.dy,
-                0,
-                constraints.maxHeight - size,
-              ),
-              child: ElDrag(
-                onDragDown: (e) {
-                  offset.value = offset.value.clampConstraints(BoxConstraints(
-                    maxWidth: constraints.maxWidth - size,
-                    maxHeight: constraints.maxHeight - size,
-                  ));
-                },
-                onChanged: (e) {
-                  offset.value += e.details;
-                },
-                enabledAnimate: true,
-                damping: 0.96,
-                child: Container(
-                  width: size,
-                  height: size,
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    // borderRadius: BorderRadius.circular(size / 2),
-                  ),
-                ),
-              ),
-            ),
+            ElSwitch(flag),
+            const Gap(8),
+            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
           ],
-        );
-      }),
+        ),
+        const Gap(8),
+        GestureDetector(
+          onTap: () {
+            el.message.show('点击 blue 方块', type: El.primary);
+          },
+          child: Container(
+            width: 300,
+            height: 300,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: ElTapBuilder(
+              onTap: () {
+                el.message.show('点击 red 方块', type: El.success);
+              },
+              onDoubleTap: () {
+                el.message.show('双击了 red 方块', type: El.warning);
+              },
+              onLongPress: () {
+                el.message.show('长按 red 方块', type: El.error);
+              },
+              builder: (context) {
+                return Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.red,
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -87,6 +82,7 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final flag = useState(false);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -94,21 +90,48 @@ class _Example extends HookWidget {
           children: [
             ElSwitch(flag),
             const Gap(8),
-            ElText('rootOverlay: \${flag.value}'),
+            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
           ],
         ),
         const Gap(8),
-        ElDrag(
-          rootOverlay: flag.value,
-          feedback: Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-          ),
+        GestureDetector(
+          onTap: () {
+            el.message.show('点击 blue 方块', type: El.primary);
+          },
           child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.grey,
+            width: 300,
+            height: 300,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: ElTapBuilder(
+              onTap: () {
+                el.message.show('点击 green 方块', type: El.success);
+              },
+              builder: (context) => Container(
+                width: 200,
+                height: 200,
+                color: Colors.green,
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  onTap: () {
+                    el.message.show('点击 red 方块', type: El.error);
+                    if (flag.value) {
+                      // 阻止冒泡事件
+                      context.stopPropagation();
+                      // 你需要在合适的时机手动恢复它
+                      setTimeout(() {
+                        context.resetPropagation();
+                      }, 1);
+                    }
+                  },
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ],

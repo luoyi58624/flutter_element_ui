@@ -16,6 +16,8 @@ class ElTapBuilder extends ElEvent {
     this.onTapDown,
     this.onTapUp,
     this.onTapCancel,
+    this.onDoubleTap,
+    this.onLongPress,
   }) : assert(delay == 0 || delay >= 50);
 
   final WidgetBuilder builder;
@@ -44,6 +46,12 @@ class ElTapBuilder extends ElEvent {
   /// 取消事件
   final GestureTapCancelCallback? onTapCancel;
 
+  /// 双击事件，如果注册那么 [onTap] 会存在 300 毫秒延迟，这是 flutter 手势竞技场的机制
+  final GestureTapCallback? onDoubleTap;
+
+  /// 长按事件
+  final GestureLongPressCallback? onLongPress;
+
   /// 根据上下文获取最近的点击状态
   static bool of(BuildContext context) =>
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
@@ -65,6 +73,9 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
   /// 延迟释放计时器
   Timer? _timer;
 
+  /// 双击计时器，如果启用了双击，如果在 [kDoubleTapTimeout] 延迟下再次点击，将不会触发 onTap 事件
+  int? _doubleTapTime;
+
   void setDependFlag(bool value) {
     hasDepend = value;
   }
@@ -79,13 +90,24 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
 
   void _onTap() {
     if (widget.disabled == false && allowed) {
-      widget.onTap?.call();
+      if (widget.onDoubleTap == null) {
+        widget.onTap?.call();
+      } else {
+        if (currentMilliseconds - _doubleTapTime! >
+            kDoubleTapTimeout.inMilliseconds) {
+          widget.onTap?.call();
+          _doubleTapTime = null;
+        }
+      }
     }
   }
 
   void _onTapDown(TapDownDetails e) {
     if (!widget.disabled && allowed) {
       ElStopPropagation._of(context, ElEvent.stopPropagation);
+      if (widget.onDoubleTap != null && _doubleTapTime == null) {
+        _doubleTapTime = currentMilliseconds;
+      }
       _time = currentMilliseconds;
       if (_timer != null) {
         _timer!.cancel();
@@ -133,6 +155,19 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
     }
   }
 
+  void _onDoubleTap() {
+    if (!widget.disabled && allowed) {
+      _doubleTapTime = null;
+      widget.onDoubleTap!();
+    }
+  }
+
+  void _onLongPress() {
+    if (!widget.disabled && allowed) {
+      widget.onLongPress!();
+    }
+  }
+
   @override
   Widget builder(BuildContext context) {
     final Map<Type, GestureRecognizerFactory> gestures =
@@ -149,6 +184,26 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
           ..onTapCancel = _onTapCancel;
       },
     );
+
+    if (widget.onDoubleTap != null) {
+      gestures[DoubleTapGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<DoubleTapGestureRecognizer>(
+        () => DoubleTapGestureRecognizer(),
+        (instance) {
+          instance.onDoubleTap = _onDoubleTap;
+        },
+      );
+    }
+
+    if (widget.onLongPress != null) {
+      gestures[LongPressGestureRecognizer] =
+          GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
+        () => LongPressGestureRecognizer(),
+        (instance) {
+          instance.onLongPress = _onLongPress;
+        },
+      );
+    }
 
     return _TapInheritedWidget(
       isTap: _isTap,
