@@ -45,7 +45,7 @@ class MainApp extends StatelessWidget {
         theme: buildElementTheme(),
         darkTheme: buildElementTheme(brightness: Brightness.dark),
         child: ObsBuilder(builder: (context) {
-          return FpsWidget(
+          return ElFps(
             enabled: GlobalState.fps.value,
             child: MaterialApp.router(
               routerConfig: router,

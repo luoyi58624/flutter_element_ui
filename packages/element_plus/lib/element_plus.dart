@@ -58,6 +58,7 @@ export 'src/components/others/code_preview/index.dart';
 export 'src/components/others/drag/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
+export 'src/components/others/fps.dart';
 export 'src/components/others/triangle/triangle.dart';
 export 'src/components/others/split/split.dart';
 

@@ -126,6 +126,7 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
   }
 
   void _onTapUp(TapUpDetails e) {
+    2.ms.delay();
     if (!widget.disabled && allowed) {
       reset();
       int delay = widget.delay;

@@ -7,31 +7,38 @@ import 'package:flutter_obs/flutter_obs.dart';
 /// 初始 fps 帧率，除了 ios、mac 等平台，其他平台的初始帧率需要设置为 -1，因为 [Ticker] 似乎会多执行一帧
 final _initialFps = PlatformUtil.isApple ? 0 : -1;
 
-class FpsWidget extends StatefulWidget {
-  /// 显示当前帧率小部件，内部通过 [Ticker] 做计算
-  const FpsWidget({
+class ElFps extends StatefulWidget {
+  /// 显示当前帧率小部件
+  const ElFps({
     super.key,
     this.enabled = true,
     required this.child,
     this.positionedBuilder,
   });
 
-  final bool enabled;
   final Widget child;
 
-  /// 帧率显示位置构建
+  /// 是否开启帧率监控
+  final bool enabled;
+
+  /// 自定义构建帧率显示位置，你必须通过 [Positioned] 小部件设置定位
   final ElWidgetBuilder? positionedBuilder;
 
   @override
-  State<FpsWidget> createState() => _FpsWidgetState();
+  State<ElFps> createState() => _ElFpsState();
 }
 
-class _FpsWidgetState extends State<FpsWidget>
-    with SingleTickerProviderStateMixin {
+class _ElFpsState extends State<ElFps> with SingleTickerProviderStateMixin {
+  /// 帧率显示值
   final fps = Obs(0);
 
+  /// 记录 1 秒内 [_ticker] 的回调次数
   int fpsTime = _initialFps;
+
+  /// 帧率监控计时时间（微秒），每过 1 秒将刷新一次
   late int currentTime;
+
+  /// Ticker 计时器，它内部会根据屏幕刷新信号触发帧回调
   late final Ticker _ticker = createTicker(_timerHandler);
 
   void _timerHandler(Duration time) {
@@ -46,6 +53,7 @@ class _FpsWidgetState extends State<FpsWidget>
   void _startTicker() {
     if (_ticker.isActive == false) {
       currentTime = 0;
+      fpsTime = _initialFps;
       _ticker.start();
     }
   }
@@ -63,7 +71,7 @@ class _FpsWidgetState extends State<FpsWidget>
   }
 
   @override
-  void didUpdateWidget(covariant FpsWidget oldWidget) {
+  void didUpdateWidget(covariant ElFps oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.enabled != oldWidget.enabled) {
       if (widget.enabled) {
@@ -102,7 +110,7 @@ class _FpsWidgetState extends State<FpsWidget>
       }),
     );
     return Directionality(
-      textDirection: TextDirection.ltr,
+      textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,
       child: Stack(
         children: [
           widget.child,
