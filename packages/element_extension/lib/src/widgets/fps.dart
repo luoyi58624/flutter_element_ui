@@ -1,8 +1,14 @@
+import 'package:element_extension/element_extension.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_obs/flutter_obs.dart';
+
+/// 初始 fps 帧率，[Ticker] 在安卓上会多一次执行，所以需要将它的初始帧率设置为 -1
+final _initialFps = PlatformUtil.isAndroid ? -1 : 0;
 
 class FpsWidget extends StatefulWidget {
+  /// 显示当前帧率小部件，内部通过 [Ticker] 做计算
   const FpsWidget({
     super.key,
     this.enabled = true,
@@ -22,30 +28,24 @@ class FpsWidget extends StatefulWidget {
 
 class _FpsWidgetState extends State<FpsWidget>
     with SingleTickerProviderStateMixin {
-  int fps = 0;
-  int fpsTime = 0;
-  int? currentTime;
+  final fps = Obs(0);
+
+  int fpsTime = _initialFps;
+  late int currentTime;
   late final Ticker _ticker = createTicker(_timerHandler);
 
   void _timerHandler(Duration time) {
-    if (currentTime == null) {
-      currentTime = time.inMilliseconds;
-      fpsTime++;
-      return;
+    if (time.inMicroseconds - currentTime >= 1000000) {
+      fps.value = fpsTime;
+      fpsTime = _initialFps;
+      currentTime = time.inMicroseconds;
     }
-    if (time.inMilliseconds - currentTime! >= 1000) {
-      bool requiredRefresh = fps != fpsTime;
-      fps = fpsTime;
-      fpsTime = 1;
-      currentTime = time.inMilliseconds;
-      if (requiredRefresh) setState(() {});
-    } else {
-      fpsTime++;
-    }
+    fpsTime++;
   }
 
   void _startTicker() {
     if (_ticker.isActive == false) {
+      currentTime = 0;
       _ticker.start();
     }
   }
@@ -89,24 +89,24 @@ class _FpsWidgetState extends State<FpsWidget>
               child: child,
             );
 
-    final fpsWidget = widget.enabled
-        ? IgnorePointer(
-            child: ElText(
-              fps,
-              style: const TextStyle(
-                color: Colors.green,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
-        : const SizedBox();
+    final fpsWidget = IgnorePointer(
+      child: ObsBuilder(builder: (context) {
+        return ElText(
+          '$fps',
+          style: const TextStyle(
+            color: Colors.green,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      }),
+    );
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Stack(
         children: [
           widget.child,
-          fpsBuilder(context, fpsWidget),
+          if (widget.enabled) fpsBuilder(context, fpsWidget),
         ],
       ),
     );

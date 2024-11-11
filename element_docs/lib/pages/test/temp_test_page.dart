@@ -4,6 +4,7 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'animate_value_generate.dart';
 import 'custom_scroll/scroll.dart';
 
 class TempTestPage extends HookWidget {
@@ -23,7 +24,7 @@ class TempTestPage extends HookWidget {
           const Gap(8),
         ],
       ),
-      body: const ScrollRenderTestPage(),
+      body: AnimateValueGeneratePage(),
       // body: const Demo3(),
       // body: Demo(
       //   flag: flag.value,
