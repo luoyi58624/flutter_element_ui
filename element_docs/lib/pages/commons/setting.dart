@@ -47,15 +47,16 @@ class GlobalSetting extends StatelessWidget {
               },
             );
           }),
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '开启重采用',
-              value: GlobalState.enableResampling.value,
-              onChanged: (v) {
-                GlobalState.enableResampling.value = v;
-              },
-            );
-          }),
+          if (PlatformUtil.isMobile)
+            ObsBuilder(builder: (context) {
+              return CellWidget(
+                title: '开启重采用',
+                value: GlobalState.enableResampling.value,
+                onChanged: (v) {
+                  GlobalState.enableResampling.value = v;
+                },
+              );
+            }),
           if (kIsWeb == false)
             ObsBuilder(builder: (context) {
               return CellWidget(

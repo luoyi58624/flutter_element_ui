@@ -36,7 +36,7 @@ class _FpsWidgetState extends State<FpsWidget>
     if (time.inMilliseconds - currentTime! >= 1000) {
       bool requiredRefresh = fps != fpsTime;
       fps = fpsTime;
-      fpsTime = 0;
+      fpsTime = 1;
       currentTime = time.inMilliseconds;
       if (requiredRefresh) setState(() {});
     } else {
@@ -84,13 +84,13 @@ class _FpsWidgetState extends State<FpsWidget>
   Widget build(BuildContext context) {
     final fpsBuilder = widget.positionedBuilder ??
         (context, child) => Positioned(
-              top: MediaQuery.of(context).viewPadding.top + 8,
-              left: 16,
+              top: MediaQuery.of(context).viewPadding.top + 64,
+              right: 20,
               child: child,
             );
 
     final fpsWidget = widget.enabled
-        ? AbsorbPointer(
+        ? IgnorePointer(
             child: ElText(
               fps,
               style: const TextStyle(

@@ -42,11 +42,6 @@ class MainApp extends StatelessWidget {
         child: ObsBuilder(builder: (context) {
           return FpsWidget(
             enabled: GlobalState.fps.value,
-            positionedBuilder: (context, child) => Positioned(
-              top: MediaQuery.of(context).viewPadding.top + 64,
-              right: 24,
-              child: child,
-            ),
             child: MaterialApp.router(
               routerConfig: router,
               debugShowCheckedModeBanner: false,
