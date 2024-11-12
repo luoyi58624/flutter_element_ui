@@ -17,7 +17,7 @@ class ElTab extends StatelessWidget {
     final $theme = ElTabsTheme.of(context);
     final $data = ElTabs.of(context);
 
-    return ElHoverBuilder(builder: (context) {
+    return ElHover(builder: (context) {
       return ElTagTheme(
         data: ElTagThemeData(
           bgColor: $key.value == $data.activeIndex

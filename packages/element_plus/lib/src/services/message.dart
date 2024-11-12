@@ -251,7 +251,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: ElHoverBuilder(
+                  child: ElHover(
                     onEnter: (e) {
                       if (_removeTimer != null) {
                         _removeTimer!.cancel();

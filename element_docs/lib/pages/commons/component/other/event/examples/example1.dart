@@ -14,7 +14,7 @@ class Example1 extends HookWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          content: ['绿色方块使用 ElTapBuilder 小部件，当点击红色方块时，绿色方块也会触发事件'],
+          content: ['绿色方块使用 ElTap 小部件，当点击红色方块时，绿色方块也会触发事件'],
         ),
         textGap,
         CodeExample(
@@ -55,7 +55,7 @@ class _Example extends HookWidget {
             height: 300,
             color: Colors.blue,
             alignment: Alignment.center,
-            child: ElTapBuilder(
+            child: ElTap(
               onTap: () {
                 el.message.show('点击 green 方块', type: El.success);
               },
@@ -119,7 +119,7 @@ class _Example extends HookWidget {
             height: 300,
             color: Colors.blue,
             alignment: Alignment.center,
-            child: ElTapBuilder(
+            child: ElTap(
               onTap: () {
                 el.message.show('点击 green 方块', type: El.success);
               },

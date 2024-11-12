@@ -17,7 +17,7 @@
 //               color: Colors.green,
 //               child: Center(
 //                 child: ElStopPropagation(
-//                   child: ElTapBuilder(
+//                   child: ElTap(
 //                     onTapDown: (e) {
 //                       i('child');
 //                     },
@@ -38,7 +38,7 @@
 //             ),
 //           ),
 //           const Gap(8),
-//           ElTapBuilder(
+//           ElTap(
 //             onTap: () {
 //               w('parent');
 //             },
@@ -59,7 +59,7 @@
 //                         color: Colors.red,
 //                         child: const Center(
 //                           child: ElText(
-//                             'ElTapBuilder, GestureDetector',
+//                             'ElTap, GestureDetector',
 //                             style: textStyle,
 //                           ),
 //                         ),
@@ -80,7 +80,7 @@
 //               height: 300,
 //               color: Colors.green,
 //               child: Center(
-//                 child: ElTapBuilder(
+//                 child: ElTap(
 //                   onTap: () {
 //                     i('child');
 //                   },
@@ -90,7 +90,7 @@
 //                     color: Colors.red,
 //                     child: const Center(
 //                       child: ElText(
-//                         'GestureDetector, ElTapBuilder',
+//                         'GestureDetector, ElTap',
 //                         style: textStyle,
 //                       ),
 //                     ),
@@ -208,7 +208,7 @@
 //                 ),
 //               ),
 //               IgnorePointer(
-//                 child: ElTapBuilder(
+//                 child: ElTap(
 //                   onTap: () {
 //                     i('child');
 //                   },

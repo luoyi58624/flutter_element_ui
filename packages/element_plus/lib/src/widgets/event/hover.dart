@@ -1,19 +1,27 @@
 part of 'index.dart';
 
-class ElHoverBuilder extends StatefulWidget {
+class ElHover extends StatefulWidget {
   /// Hover 悬停事件构建器
-  const ElHoverBuilder({
+  const ElHover({
     super.key,
-    required this.builder,
+    this.child,
+    this.builder,
     this.cursor,
     this.hitTestBehavior,
     this.disabled = false,
     this.onEnter,
     this.onExit,
     this.onHover,
-  });
+  }) : assert(
+            (child != null && builder == null) ||
+                (child == null && builder != null),
+            'ElHover child、builder 参数只能二选一');
 
-  final WidgetBuilder builder;
+  /// 子组件
+  final Widget? child;
+
+  /// 功能和 [child] 一样，只不过它会转发 context 对象，允许你通过 [of] 方法访问事件状态
+  final WidgetBuilder? builder;
 
   /// 鼠标悬停光标样式
   final MouseCursor? cursor;
@@ -38,10 +46,10 @@ class ElHoverBuilder extends StatefulWidget {
       _HoverInheritedWidget.maybeOf(context)?.isHover ?? false;
 
   @override
-  State<ElHoverBuilder> createState() => _HoverBuilderState();
+  State<ElHover> createState() => _ElHoverState();
 }
 
-class _HoverBuilderState extends State<ElHoverBuilder> {
+class _ElHoverState extends State<ElHover> {
   bool isHover = false;
 
   /// 是否存在依赖，如果有那么会自动触发 setState
@@ -53,6 +61,15 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
 
   @override
   Widget build(BuildContext context) {
+    Widget result;
+    if (widget.child != null) {
+      result = widget.child!;
+    } else {
+      result = Builder(builder: (context) {
+        return widget.builder!(context);
+      });
+    }
+
     // 仅限桌面端，移动端不存在hover
     if (PlatformUtil.isDesktop) {
       final cursor = widget.cursor ?? MouseCursor.defer;
@@ -66,13 +83,11 @@ class _HoverBuilderState extends State<ElHoverBuilder> {
           onHover: widget.disabled ? null : widget.onHover,
           onEnter: widget.disabled ? null : _onEnter,
           onExit: widget.disabled ? null : _onExit,
-          child: Builder(builder: (context) {
-            return widget.builder(context);
-          }),
+          child: result,
         ),
       );
     }
-    return widget.builder(context);
+    return result;
   }
 
   void _onEnter(PointerEnterEvent event) {

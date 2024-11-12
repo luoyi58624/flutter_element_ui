@@ -34,9 +34,9 @@ class ElCloseButton extends StatelessWidget {
 
     return ElStopPropagation(
       child: ElListener(
-        child: ElTapBuilder(
+        child: ElTap(
           onTap: onTap,
-          builder: (context) => ElHoverBuilder(
+          builder: (context) => ElHover(
             cursor: cursor ?? theme.cursor,
             builder: (context) {
               return Container(

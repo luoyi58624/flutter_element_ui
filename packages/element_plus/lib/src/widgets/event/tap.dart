@@ -1,14 +1,15 @@
 part of 'index.dart';
 
-class ElTapBuilder extends ElEvent {
+class ElTap extends ElEvent {
   /// 点击事件构建器，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
-  /// * 默认触发事件冒泡，如果 [ElTapBuilder] 存在嵌套，内部触发事件上层事件也会触发
+  /// * 默认触发事件冒泡，如果 [ElTap] 存在嵌套，内部触发事件上层事件也会触发
   ///
   /// 如果要阻止事件冒泡，请在嵌套小部件之间添加 [ElStopPropagation] 小部件
-  const ElTapBuilder({
+  const ElTap({
     super.key,
-    required this.builder,
+    this.child,
+    this.builder,
     this.delay = 100,
     this.disabled = false,
     this.hitTestBehavior = HitTestBehavior.deferToChild,
@@ -18,9 +19,17 @@ class ElTapBuilder extends ElEvent {
     this.onTapCancel,
     this.onDoubleTap,
     this.onLongPress,
-  }) : assert(delay == 0 || delay >= 50);
+  })  : assert(delay == 0 || delay >= 50),
+        assert(
+            (child != null && builder == null) ||
+                (child == null && builder != null),
+            'ElTap child、builder 参数只能二选一');
 
-  final WidgetBuilder builder;
+  /// 子组件
+  final Widget? child;
+
+  /// 功能和 [child] 一样，只不过它会转发 context 对象，允许你通过 [of] 方法访问事件状态
+  final WidgetBuilder? builder;
 
   /// 延迟多少毫秒更新点击状态，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显，
   /// 它适用于依赖 tap 事件而改变状态的元素，防止轻点时 tapDown -> tapUp 之间极短的时间间隔导致看不出任何效果。
@@ -57,10 +66,10 @@ class ElTapBuilder extends ElEvent {
       _TapInheritedWidget.maybeOf(context)?.isTap ?? false;
 
   @override
-  State<ElTapBuilder> createState() => _TapBuilderState();
+  State<ElTap> createState() => _ElTapState();
 }
 
-class _TapBuilderState extends ElEventState<ElTapBuilder> {
+class _ElTapState extends ElEventState<ElTap> {
   /// 是否触发点击
   bool _isTap = false;
 
@@ -206,15 +215,22 @@ class _TapBuilderState extends ElEventState<ElTapBuilder> {
       );
     }
 
+    Widget result;
+    if (widget.child != null) {
+      result = widget.child!;
+    } else {
+      result = Builder(builder: (context) {
+        return widget.builder!(context);
+      });
+    }
+
     return _TapInheritedWidget(
       isTap: _isTap,
       setDependFlag: setDependFlag,
       child: RawGestureDetector(
         behavior: widget.hitTestBehavior,
         gestures: gestures,
-        child: Builder(builder: (context) {
-          return widget.builder(context);
-        }),
+        child: result,
       ),
     );
   }

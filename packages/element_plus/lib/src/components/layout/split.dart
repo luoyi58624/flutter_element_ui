@@ -146,7 +146,7 @@ class _SplitWidget extends HookWidget {
           onHorizontalDragCancel: () {
             isStartDrag.value = false;
           },
-          child: ElHoverBuilder(
+          child: ElHover(
             cursor: SystemMouseCursors.resizeColumn,
             
             builder: (context) {
@@ -209,7 +209,7 @@ class _SplitWidget extends HookWidget {
           onVerticalDragCancel: () {
             isStartDrag.value = false;
           },
-          child: ElHoverBuilder(
+          child: ElHover(
             cursor: SystemMouseCursors.resizeRow,
             
             builder: (context) {
@@ -277,7 +277,7 @@ class _SplitWidget extends HookWidget {
           onHorizontalDragCancel: () {
             isStartDrag.value = false;
           },
-          child: ElHoverBuilder(
+          child: ElHover(
             cursor: SystemMouseCursors.resizeColumn,
             
             builder: (context) {

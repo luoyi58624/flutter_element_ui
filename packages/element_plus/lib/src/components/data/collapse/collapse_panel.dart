@@ -125,7 +125,7 @@ class ElCollapseItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElHoverBuilder(
+          ElHover(
             
             cursor: SystemMouseCursors.click,
             builder: (context) {

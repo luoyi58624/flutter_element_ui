@@ -131,7 +131,7 @@ class Example1 extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ElHoverBuilder(builder: (context) {
+            ElHover(builder: (context) {
               return AnimatedContainer(
                 duration: context.elDuration(200.ms),
                 curve: Curves.easeInOut,
@@ -187,7 +187,7 @@ class Example1 extends StatelessWidget {
                           onTap: () async {
                             CommonUtil.copy(e.toHex(), '复制成功：${e.toHex()}');
                           },
-                          child: ElHoverBuilder(
+                          child: ElHover(
                               cursor: SystemMouseCursors.click,
                               builder: (context) {
                                 return AnimatedContainer(
@@ -229,7 +229,7 @@ Row(
           await Clipboard.setData(ClipboardData(text: colorText));
           el.message.success('复制成功: \$colorText');
         },
-        child: ElHoverBuilder(
+        child: ElHover(
           cursor: SystemMouseCursors.click,
           builder: (context) {
             return AnimatedContainer(

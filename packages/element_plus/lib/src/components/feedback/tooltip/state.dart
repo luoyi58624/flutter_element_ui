@@ -128,7 +128,7 @@ class _ElTooltipState extends State<ElTooltip> {
     nextTick(() {
       buildCount.value++;
     });
-    return ElHoverBuilder(
+    return ElHover(
       
       onEnter: (e) {
         if (delayHideOverlay == null) {

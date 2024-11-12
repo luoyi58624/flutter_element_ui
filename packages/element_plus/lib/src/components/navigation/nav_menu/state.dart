@@ -227,7 +227,7 @@ class _MenuItemState extends State<_MenuItem> {
         return AnimatedColoredBox(
           duration: context.elDuration(const Duration(milliseconds: 100)),
           curve: Curves.easeOut,
-          color: bgColor.on(ElHoverBuilder.of(context),
+          color: bgColor.on(ElHover.of(context),
               scale: bgColor.isDark ? 16 : 10),
           child: SizedBox(
             height: 56,
@@ -289,7 +289,7 @@ class _MenuItemState extends State<_MenuItem> {
         child: result,
       );
     } else {
-      return ElHoverBuilder(
+      return ElHover(
         cursor: SystemMouseCursors.click,
         builder: (context) => result,
       );

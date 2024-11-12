@@ -69,7 +69,7 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget _buildButtonEvent() {
-    return ElTapBuilder(
+    return ElTap(
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
         if (_hasGroup) {
@@ -114,7 +114,7 @@ class _ElButtonState extends State<ElButton> {
             });
           }
         }
-        return ElHoverBuilder(
+        return ElHover(
           cursor: _cursor,
           disabled: _prop.disabled,
           hitTestBehavior: HitTestBehavior.deferToChild,

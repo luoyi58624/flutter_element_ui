@@ -239,7 +239,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   Widget buildCopyButton() {
-    return ElHoverBuilder(
+    return ElHover(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         return GestureDetector(

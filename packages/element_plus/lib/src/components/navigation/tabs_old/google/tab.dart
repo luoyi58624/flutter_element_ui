@@ -20,9 +20,9 @@ class ElGoogleTab extends ElBaseTab {
       onTapDown: (e) {
         $tabsData.modelValue.value = $indexData.index;
       },
-      child: ElHoverBuilder(builder: (context) {
+      child: ElHover(builder: (context) {
         return ColoredBox(
-          color: ElHoverBuilder.of(context)
+          color: ElHover.of(context)
               ? context.isDark
                   ? context.elTheme.primary.elLight1(context)
                   : Colors.grey.shade100
@@ -103,12 +103,12 @@ class _TabContent extends ElBaseTab {
                   tabList.removeAt(index);
                   $tabsData.children.value = tabList;
                 },
-                child: ElHoverBuilder(builder: (context) {
+                child: ElHover(builder: (context) {
                   return Container(
                     width: 16,
                     height: 16,
                     decoration: BoxDecoration(
-                      color: ElHoverBuilder.of(context)
+                      color: ElHover.of(context)
                           ? Colors.grey.shade400
                           : null,
                       borderRadius: BorderRadius.circular(8),
