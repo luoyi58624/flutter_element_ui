@@ -55,6 +55,12 @@ class Example9 extends HookWidget {
                 ),
                 ElHover(builder: (context) {
                   return ElButton(
+                    onPressed: () {
+                      el.message.show('点击了按钮', type: El.success);
+                    },
+                    onTapCancel: () {
+                      el.message.show('取消了点击', type: El.error);
+                    },
                     width: 80,
                     height: 80,
                     padding: EdgeInsets.zero,

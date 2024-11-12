@@ -7,6 +7,7 @@ export 'src/types.dart';
 
 export 'src/components/basic/app/index.dart';
 export 'src/components/basic/button/index.dart';
+export 'src/components/basic/event/index.dart';
 export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
 export 'src/components/basic/container.dart';

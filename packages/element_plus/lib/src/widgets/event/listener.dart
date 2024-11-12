@@ -1,23 +1,5 @@
 part of 'index.dart';
 
-extension ElPointerDownEventExtension on PointerDownEvent {
-  /// 将 tapDown 原始指针事件转成 [TapDownDetails]
-  TapDownDetails get toDetails => TapDownDetails(
-        globalPosition: position,
-        localPosition: localPosition,
-        kind: kind,
-      );
-}
-
-extension ElPointerUpEventExtension on PointerUpEvent {
-  /// 将 tapUp 原始指针事件转成 [TapUpDetails]
-  TapUpDetails get toDetails => TapUpDetails(
-        globalPosition: position,
-        localPosition: localPosition,
-        kind: kind,
-      );
-}
-
 class ElListener extends _Event {
   /// 如果你想要阻止祖先 [Listener] 事件的执行，那么请对上层、下层组件同时使用 [ElListener]，
   /// 然后在中间插入 [ElStopPropagation] 小部件，当下层 [Listener] 事件触发时，

@@ -28,6 +28,7 @@ class Example1 extends StatelessWidget {
         // const Gap(8),
         CodeExample(
           code: code,
+          expanded: true,
           children: [
             Wrap(
               spacing: 8,
@@ -123,12 +124,6 @@ String get code => '''
 ElButton(child: 'Hello'),
 ElButton(child: 'Hello', type: El.primary),
 ElButton(child: 'Hello', type: El.primary, plain: true),
-ElButton(
-  child: 'Hello',
-  plain: true,
-  borderWidth: 0.1,
-  borderActiveWidth: 1.5,
-),
 ElButton(child: 'Hello', round: true),
 ElButton(child: ElIcon(ElIcons.aim)),
 ElButton(child: ElIcon(ElIcons.aim), circle: true)''';
