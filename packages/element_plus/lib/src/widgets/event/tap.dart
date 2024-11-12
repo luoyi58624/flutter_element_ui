@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class ElTap extends ElEvent {
+class ElTap extends _Event {
   /// 点击事件构建器，主要有两个功能：
   /// * 延迟更新点击状态，让依赖 tap 事件的元素状态更加明显
   /// * 默认触发事件冒泡，如果 [ElTap] 存在嵌套，内部触发事件上层事件也会触发
@@ -69,7 +69,7 @@ class ElTap extends ElEvent {
   State<ElTap> createState() => _ElTapState();
 }
 
-class _ElTapState extends ElEventState<ElTap> {
+class _ElTapState extends _EventState<ElTap> {
   /// 是否触发点击
   bool _isTap = false;
 
@@ -113,7 +113,7 @@ class _ElTapState extends ElEventState<ElTap> {
 
   void _onTapDown(TapDownDetails e) {
     if (!widget.disabled && allowed) {
-      ElStopPropagation._of(context, ElEvent.stopPropagation);
+      ElStopPropagation._of(context, _Event.stopPropagation);
       if (widget.onDoubleTap != null && _doubleTapTime == null) {
         _doubleTapTime = currentMilliseconds;
       }
@@ -135,7 +135,6 @@ class _ElTapState extends ElEventState<ElTap> {
   }
 
   void _onTapUp(TapUpDetails e) {
-    2.ms.delay();
     if (!widget.disabled && allowed) {
       reset();
       int delay = widget.delay;

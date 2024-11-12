@@ -9,11 +9,11 @@ extension ElEventExtension on BuildContext {
 
   /// 阻止事件冒泡，从当前上下文所在的节点开始，阻止上层所有目标事件执行
   void stopPropagation() {
-    ElEvent.stopPropagation(this);
+    _Event.stopPropagation(this);
   }
 
   /// 重置事件冒泡
   void resetPropagation() {
-    ElEvent.resetPropagation(this);
+    _Event.resetPropagation(this);
   }
 }

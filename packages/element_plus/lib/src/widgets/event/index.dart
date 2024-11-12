@@ -33,29 +33,27 @@ enum ElEventType {
 
   /// 长按事件
   longPress,
-
-
 }
 
-abstract class ElEvent extends StatefulWidget {
+abstract class _Event extends StatefulWidget {
   /// 控制事件触发小部件抽象类
-  const ElEvent({super.key});
+  const _Event({super.key});
 
   /// 阻止事件冒泡，执行此函数会从当前持有的 context 开始，一层一层阻止所有祖先注册的事件。
   ///
-  /// 提示：此函数不会引起 UI 重建，它只是更新一个 bool 标识，而且它是通过 [InheritedWidget] 查找上层目标小部件，
+  /// 提示：此函数不会引起 UI 重建，它只是更新一个 bool 标识，同时它是通过 [InheritedWidget] 查找祖先小部件，
   /// 查找效率为 O(1)，所以它不会造成性能问题。
   static void stopPropagation(BuildContext context) {
-    _ElEventInheritedWidget._stopPropagation(context);
+    _EventInheritedWidget._stopPropagation(context);
   }
 
   /// 重置事件冒泡
   static void resetPropagation(BuildContext context) {
-    _ElEventInheritedWidget._resetPropagation(context);
+    _EventInheritedWidget._resetPropagation(context);
   }
 }
 
-abstract class ElEventState<T extends ElEvent> extends State<T> {
+abstract class _EventState<T extends _Event> extends State<T> {
   /// 一个标识，表示是否允许触发事件执行
   bool allowed = true;
 
@@ -63,21 +61,21 @@ abstract class ElEventState<T extends ElEvent> extends State<T> {
     if (allowed) {
       allowed = false;
       // 继续通过当前 context 查找上一层注册的事件，如果没找到就意味着流程结束
-      _ElEventInheritedWidget._stopPropagation(context);
+      _EventInheritedWidget._stopPropagation(context);
     }
   }
 
   void _resetPropagation() {
     if (!allowed) {
       allowed = true;
-      _ElEventInheritedWidget._resetPropagation(context);
+      _EventInheritedWidget._resetPropagation(context);
     }
   }
 
   void reset() {
     if (mounted) {
       final result =
-          context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
+          context.getInheritedWidgetOfExactType<_EventInheritedWidget>();
       if (result != null) {
         setTimeout(() {
           result.resetPropagation();
@@ -90,7 +88,7 @@ abstract class ElEventState<T extends ElEvent> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    return _ElEventInheritedWidget(
+    return _EventInheritedWidget(
       stopPropagation: _stopPropagation,
       resetPropagation: _resetPropagation,
       child: builder(context),
@@ -98,8 +96,8 @@ abstract class ElEventState<T extends ElEvent> extends State<T> {
   }
 }
 
-class _ElEventInheritedWidget extends InheritedWidget {
-  const _ElEventInheritedWidget({
+class _EventInheritedWidget extends InheritedWidget {
+  const _EventInheritedWidget({
     required super.child,
     required this.stopPropagation,
     required this.resetPropagation,
@@ -110,20 +108,16 @@ class _ElEventInheritedWidget extends InheritedWidget {
 
   static void _stopPropagation(BuildContext context) {
     final result =
-        context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
-    if (result != null) {
-      result.stopPropagation();
-    }
+        context.getInheritedWidgetOfExactType<_EventInheritedWidget>();
+    if (result != null) result.stopPropagation();
   }
 
   static void _resetPropagation(BuildContext context) {
     final result =
-        context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
-    if (result != null) {
-      result.resetPropagation();
-    }
+        context.getInheritedWidgetOfExactType<_EventInheritedWidget>();
+    if (result != null) result.resetPropagation();
   }
 
   @override
-  bool updateShouldNotify(_ElEventInheritedWidget oldWidget) => false;
+  bool updateShouldNotify(_EventInheritedWidget oldWidget) => false;
 }
