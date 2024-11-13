@@ -3,6 +3,7 @@ part of 'index.dart';
 /// 按钮最终 prop 配置
 class _ButtonProp {
   final dynamic child;
+  final Duration duration;
   final double? width;
   final double height;
   final Color? bgColor;
@@ -28,6 +29,7 @@ class _ButtonProp {
 
   _ButtonProp({
     required this.child,
+    required this.duration,
     required this.width,
     required this.height,
     required this.bgColor,
@@ -122,6 +124,7 @@ class _ButtonProp {
 
     return _ButtonProp(
       child: widget.child ?? $data.child,
+      duration: widget.duration ?? $data.duration ?? _duration,
       width: widget.width ?? $data.width,
       height: $height,
       bgColor: $bgColor,

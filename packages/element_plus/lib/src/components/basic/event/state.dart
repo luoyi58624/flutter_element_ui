@@ -11,8 +11,8 @@ class _ElEventState extends State<ElEvent> {
   bool isActiveDoubleTap = false; // 是否激活了双击
   bool isActiveLongPress = false; // 是否激活了长按
 
-  final _isHover = Obs(false); // 悬停状态，此属性会注入到 InheritedWidget 小部件
-  final _isTap = Obs(false); // 点击状态，此属性会注入到 InheritedWidget 小部件
+  final _isHover = Obs(false); // 悬停状态响应式变量，此属性会注入到 InheritedWidget 小部件
+  final _isTap = Obs(false); // 点击状态响应式变量，此属性会注入到 InheritedWidget 小部件
   bool hasHoverDepend = false; // 是否存在悬停状态依赖
   bool hasTapDepend = false; // 是否存在点击状态依赖
 
@@ -56,13 +56,18 @@ class _ElEventState extends State<ElEvent> {
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
     isCancel = false;
-    if (widget.onLongPress != null && pointType == kPrimaryButton) {
-      longPressHandler();
-    }
+
+    // 取消指针抬起延迟计时器
     if (_tapUpTimer != null) {
       _tapUpTimer!.cancel();
       _tapUpTimer = null;
     }
+
+    // 尝试注册长按事件计时器，需要限制鼠标指针，只能长按鼠标左键
+    if (widget.onLongPress != null && pointType == kPrimaryButton) {
+      longPressHandler();
+    }
+
     widget.onTapDown?.call(e);
     isTap = true;
   }
@@ -112,7 +117,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针移动事件
   void onPointMove(PointerMoveEvent e) {
-    if (isCancel == false) {
+    if (isCancel == false && isActiveLongPress == false) {
       // 如果指针离开元素，则立即取消
       if (!childSize.contains(e.localPosition)) {
         onTapCancel();
@@ -124,15 +129,16 @@ class _ElEventState extends State<ElEvent> {
     }
   }
 
-  /// 单击事件处理
+  /// 单击事件处理，此函数会在 [onPointUp] 指针抬起时执行
   void tapHandler() {
-    // 如果设置了等待双击延迟，并且双击计时器开始计时，那么直接返回
+    // 如果设置了等待双击延迟，需要判断双击计时器是否开始、或者是否已经触发了双击，若为 true 那么禁止执行单击事件
     if (widget.delayTapForDouble &&
         (_doubleTapTimer != null || isActiveDoubleTap)) return;
+    // 如果没有注册长按事件，那么直接触发单击事件
     if (widget.onLongPress == null) {
       widget.onTap?.call();
     } else {
-      // 如果长按没有激活，那么依旧触发点击事件，同时还需要取消长按计时器
+      // 如果指针抬起时没有达到长按阈值时间，那么也将触发点击事件，同时还需要取消长按计时器
       if (isActiveLongPress == false) {
         widget.onTap?.call();
         _cancelLongPressTimer();
@@ -142,7 +148,7 @@ class _ElEventState extends State<ElEvent> {
 
   Timer? _doubleTapTimer;
 
-  /// 双击事件处理
+  /// 双击事件处理，此函数会在 [onPointUp] 指针抬起时执行
   void doubleTapHandler() {
     // 若触发了长按则直接返回
     if (isActiveLongPress) return;
@@ -164,7 +170,7 @@ class _ElEventState extends State<ElEvent> {
 
   Timer? _longPressTimer;
 
-  /// 长按事件处理
+  /// 长按事件处理，此函数会在 [onPointDown] 指针按下时执行
   void longPressHandler() {
     _longPressTimer = setTimeout(() {
       _longPressTimer = null;
@@ -183,7 +189,7 @@ class _ElEventState extends State<ElEvent> {
 
   Timer? _preventTimer;
 
-  /// 右键处理
+  /// 右键处理，此函数会在 [onPointUp] 指针抬起时执行
   void contextMenuHandler() {
     if (widget.prevent) {
       if (kIsWeb) {

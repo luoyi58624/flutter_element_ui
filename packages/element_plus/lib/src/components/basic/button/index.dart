@@ -19,6 +19,7 @@ class ElButton extends StatefulWidget {
   const ElButton({
     super.key,
     required this.child,
+    this.duration,
     this.width,
     this.height,
     this.bgColor,
@@ -52,6 +53,9 @@ class ElButton extends StatefulWidget {
 
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
   final dynamic child;
+
+  /// 过渡时间，默认 100 毫秒，因为按钮存在快速点击，所以建议不要超过 100 毫秒，防止动画呆滞
+  final Duration? duration;
 
   /// 按钮最小宽度，按钮的宽度受多种因素影响，具体表现有以下几种情况（按优先级排序）：
   /// * [block]，它会解除按钮约束，通常情况下按钮将充满整个空间，这取决于父级约束条件

@@ -13,6 +13,7 @@ class ElButtonThemeData {
 
   const ElButtonThemeData({
     this.child,
+    this.duration,
     this.width,
     this.height,
     this.bgColor,
@@ -38,6 +39,9 @@ class ElButtonThemeData {
 
   /// 按钮默认内容
   final dynamic child;
+
+  /// 过渡时间，默认 100 毫秒，因为按钮存在快速点击，所以建议不要超过 100 毫秒，防止动画呆滞
+  final Duration? duration;
 
   /// 按钮默认宽度，如果是按钮组，[ElButton] 的 block、link、circle 等属性将不会影响指定的宽度
   final double? width;

@@ -104,7 +104,7 @@ class _ElButtonState extends State<ElButton> {
         }
       },
       disabled: _prop.disabled,
-      tapUpDelay: _duration.inMilliseconds,
+      tapUpDelay: max(_duration.inMilliseconds, 100),
       child: Builder(
         builder: (context) {
           if (_prop.disabled) {
@@ -207,12 +207,12 @@ class _ElButtonState extends State<ElButton> {
     }
 
     result = ElAnimatedDefaultTextStyle(
-      duration: context.elDuration(_duration),
+      duration: context.elDuration(_prop.duration),
       style: _defaultTextStyle.copyWith(
         color: _colorStyle.textColor,
       ),
       child: AnimatedDecoratedBox(
-        duration: context.elDuration(_duration),
+        duration: context.elDuration(_prop.duration),
         decoration: BoxDecoration(
           color: _colorStyle.bgColor,
           border: _calcBorder(context, _colorStyle.borderColor),

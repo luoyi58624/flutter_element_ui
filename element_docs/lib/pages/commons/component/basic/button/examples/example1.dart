@@ -37,6 +37,7 @@ class Example1 extends StatelessWidget {
                   .map(
                     (type) => ElButton(
                       type: type,
+                      duration: Duration.zero,
                       child: (type ?? 'Default').firstUpperCase,
                     ),
                   )
@@ -56,22 +57,22 @@ class Example1 extends StatelessWidget {
                   )
                   .toList(),
             ),
-            const Gap(8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: ButtonPage.buttonTypes
-                  .map(
-                    (type) => ElButton(
-                      type: type,
-                      child: (type ?? 'Default').firstUpperCase,
-                      plain: true,
-                      borderWidth: 0.1,
-                      borderActiveWidth: 1.5,
-                    ),
-                  )
-                  .toList(),
-            ),
+            // const Gap(8),
+            // Wrap(
+            //   spacing: 8,
+            //   runSpacing: 8,
+            //   children: ButtonPage.buttonTypes
+            //       .map(
+            //         (type) => ElButton(
+            //           type: type,
+            //           child: (type ?? 'Default').firstUpperCase,
+            //           plain: true,
+            //           borderWidth: 0.1,
+            //           borderActiveWidth: 1.5,
+            //         ),
+            //       )
+            //       .toList(),
+            // ),
             const Gap(8),
             Wrap(
               spacing: 8,
