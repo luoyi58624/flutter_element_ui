@@ -24,7 +24,8 @@ class ElEvent extends StatefulWidget {
   /// * 添加 [ElStopPropagation] 小部件
   const ElEvent({
     super.key,
-    required this.child,
+    this.child,
+    this.builder,
     this.disabled = false,
     this.hitTestBehavior = HitTestBehavior.deferToChild,
     this.cursor,
@@ -45,9 +46,16 @@ class ElEvent extends StatefulWidget {
     this.onLongPress,
     this.longPressTimeout = 500,
     this.feedback = true,
-  }) : assert(tapUpDelay >= 0);
+  })  : assert(tapUpDelay >= 0),
+        assert(
+            (child != null && builder == null) ||
+                (child == null && builder != null),
+            'ElTap child、builder 参数只能二选一');
 
-  final Widget child;
+  final Widget? child;
+
+  /// 功能和 [child] 一样，只不过它会转发 context 对象，允许你通过 [of] 方法访问事件状态
+  final WidgetBuilder? builder;
 
   /// 是否禁用，默认 false
   final bool disabled;

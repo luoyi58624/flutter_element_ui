@@ -216,14 +216,18 @@ class _ElEventState extends State<ElEvent> {
     });
 
     Widget result = ObsBuilder(
-      key: childKey,
       builder: (context) {
         return _ElEventInheritedWidget(
           isHover: isHover,
           setHoverDepend: setHoverDepend,
           isTap: isTap,
           setTapDepend: setTapDepend,
-          child: widget.child,
+          child: Builder(
+            key: childKey,
+            builder: (context) {
+              return widget.child ?? widget.builder!(context);
+            },
+          ),
         );
       },
     );
