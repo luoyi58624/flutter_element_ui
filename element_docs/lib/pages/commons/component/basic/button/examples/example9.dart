@@ -9,7 +9,6 @@ class Example9 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loading = useState(false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,65 +22,8 @@ class Example9 extends HookWidget {
         textGap,
         CodeExample(
           code: code,
-          children: [
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                const ElButton(
-                  height: 20,
-                  type: 'primary',
-                  child: ElText('小型按钮', style: TextStyle(fontSize: 12)),
-                ),
-                ElButton(
-                  onPressed: () {
-                    loading.value = true;
-                    setTimeout(() {
-                      loading.value = false;
-                    }, 1000);
-                  },
-                  height: 20,
-                  type: 'success',
-                  loading: loading.value,
-                  leftIcon: const ElIcon(ElIcons.delete),
-                  loadingBuilder: loadingBuilder,
-                  child: const ElText('删除', style: TextStyle(fontSize: 12)),
-                ),
-                const ElButton(
-                  height: 48,
-                  block: true,
-                  type: 'primary',
-                  child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
-                ),
-                ElEvent(builder: (context) {
-                  return ElButton(
-                    onPressed: () {
-                      el.message.show('点击了按钮', type: El.success);
-                    },
-                    onTapCancel: () {
-                      el.message.show('取消了点击', type: El.error);
-                    },
-                    width: 80,
-                    height: 80,
-                    padding: EdgeInsets.zero,
-                    borderRadius:
-                        BorderRadius.circular(context.isHover ? 40 : 16),
-                    type: 'primary',
-                    child: const ElText(
-                      '按钮',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  );
-                }),
-                ElButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 80, vertical: 26),
-                  borderRadius: BorderRadius.circular(16),
-                  type: 'primary',
-                  child: const ElText('按钮', style: TextStyle(fontSize: 20)),
-                ),
-              ],
-            ),
+          children: const [
+            _Example(),
           ],
         ),
       ],
@@ -89,46 +31,117 @@ class Example9 extends HookWidget {
   }
 }
 
-String get code => '''
-Wrap(
-  spacing: 8,
-  runSpacing: 8,
-  children: [
-    ElButton(
-      height: 20,
-      type: 'primary',
-      child: ElText('小型按钮', style: TextStyle(fontSize: 12)),
-    ),
-    const ElButton(
-      height: 20,
-      type: 'success',
-      leftIcon: ElIcon(ElIcons.delete),
-      child: ElText('删除', style: TextStyle(fontSize: 12)),
-    ),
-    const ElButton(
-      height: 48,
-      block: true,
-      type: 'primary',
-      child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
-    ),
-    ElHover(builder: (context) {
-      return ElButton(
-        width: 80,
-        height: 80,
-        padding: EdgeInsets.zero,
-        borderRadius: BorderRadius.circular(context.isHover ? 40 : 16),
-        type: 'primary',
-        child: const ElText(
-          '按钮',
-          style: TextStyle(fontSize: 20),
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        const ElButton(
+          height: 20,
+          type: 'primary',
+          child: ElText('小型按钮', style: TextStyle(fontSize: 12)),
         ),
-      );
-    }),
-    ElButton(
-      padding: EdgeInsets.symmetric(horizontal: 80, vertical: 26),
-      borderRadius: BorderRadius.circular(16),
-      type: 'primary',
-      child: ElText('按钮', style: TextStyle(fontSize: 20)),
-    ),
-  ],
-),''';
+        ElButton(
+          onPressed: () {
+            loading.value = true;
+            setTimeout(() {
+              loading.value = false;
+            }, 1000);
+          },
+          height: 20,
+          type: 'success',
+          loading: loading.value,
+          leftIcon: const ElIcon(ElIcons.delete),
+          loadingBuilder: loadingBuilder,
+          child: const ElText('删除', style: TextStyle(fontSize: 12)),
+        ),
+        const ElButton(
+          height: 48,
+          block: true,
+          type: 'primary',
+          child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
+        ),
+        ElButton(
+          width: 80,
+          height: 80,
+          padding: EdgeInsets.zero,
+          borderRadius: BorderRadius.circular(16),
+          type: 'primary',
+          child: const ElText(
+            '按钮',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        ElButton(
+          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 26),
+          borderRadius: BorderRadius.circular(16),
+          type: 'primary',
+          child: const ElText('按钮', style: TextStyle(fontSize: 20)),
+        ),
+      ],
+    );
+  }
+}
+
+String get code => '''
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    final loading = useState(false);
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        const ElButton(
+          height: 20,
+          type: 'primary',
+          child: ElText('小型按钮', style: TextStyle(fontSize: 12)),
+        ),
+        ElButton(
+          onPressed: () {
+            loading.value = true;
+            setTimeout(() {
+              loading.value = false;
+            }, 1000);
+          },
+          height: 20,
+          type: 'success',
+          loading: loading.value,
+          leftIcon: const ElIcon(ElIcons.delete),
+          loadingBuilder: loadingBuilder,
+          child: const ElText('删除', style: TextStyle(fontSize: 12)),
+        ),
+        const ElButton(
+          height: 48,
+          block: true,
+          type: 'primary',
+          child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
+        ),
+        ElButton(
+          width: 80,
+          height: 80,
+          padding: EdgeInsets.zero,
+          borderRadius: BorderRadius.circular(16),
+          type: 'primary',
+          child: const ElText(
+            '按钮',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        ElButton(
+          padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 26),
+          borderRadius: BorderRadius.circular(16),
+          type: 'primary',
+          child: const ElText('按钮', style: TextStyle(fontSize: 20)),
+        ),
+      ],
+    );
+  }
+}''';

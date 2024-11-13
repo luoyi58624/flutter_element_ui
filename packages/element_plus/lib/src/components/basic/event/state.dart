@@ -202,14 +202,14 @@ class _ElEventState extends State<ElEvent> {
   Timer? _preventTimer;
 
   /// 右键处理，此函数会在 [onPointUp] 指针抬起时执行
-  void contextMenuHandler() {
+  void contextMenuHandler() async {
     if (_prop.prevent) {
       if (kIsWeb) {
         if (_preventTimer != null) {
           _preventTimer!.cancel();
           _preventTimer = null;
         }
-        BrowserContextMenu.disableContextMenu();
+        await BrowserContextMenu.disableContextMenu();
         _preventTimer = setTimeout(() {
           _preventTimer = null;
           BrowserContextMenu.enableContextMenu();

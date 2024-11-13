@@ -37,7 +37,6 @@ class Example1 extends StatelessWidget {
                   .map(
                     (type) => ElButton(
                       type: type,
-                      duration: Duration.zero,
                       child: (type ?? 'Default').firstUpperCase,
                     ),
                   )
