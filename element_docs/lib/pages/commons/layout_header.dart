@@ -95,7 +95,7 @@ class LayoutHeader extends StatelessWidget {
                       onTapDown: (e) {
                         ElLink.to(context);
                       },
-                      child: ElHover(
+                      child: ElEvent(
                         cursor: SystemMouseCursors.click,
                         builder: (context) {
                           final isActive = RouterState.currentPath.value
@@ -112,7 +112,7 @@ class LayoutHeader extends StatelessWidget {
                                     e.$1,
                                     style: TextStyle(
                                         fontSize: 14,
-                                        color: ElHover.of(context)
+                                        color: context.isHover
                                             ? context.elTheme.primary
                                             : context.elTheme.textTheme
                                                 .textStyle.color),

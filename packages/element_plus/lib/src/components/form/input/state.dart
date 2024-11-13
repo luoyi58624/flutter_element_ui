@@ -55,7 +55,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
             selectionHandleColor: context.elTheme.primary,
           ),
         ),
-        child: ElHover(
+        child: ElEvent(
           builder: (context) => buildTextField(context),
         ),
       ),

@@ -26,7 +26,7 @@ class CodeExample extends HookWidget {
     final isExpanded = useState(expanded);
 
     return RepaintBoundary(
-      child: ElHover(builder: (context) {
+      child: ElEvent(builder: (context) {
         return Container(
           decoration: BoxDecoration(
             color: context.elTheme.bgColor,
@@ -95,7 +95,7 @@ class _PreviewButton extends HookWidget {
       end: 0.0,
     ).animate(curve);
 
-    return ElHover(
+    return ElEvent(
       cursor: SystemMouseCursors.click,
       builder: (context) {
         if (context.isHover) {

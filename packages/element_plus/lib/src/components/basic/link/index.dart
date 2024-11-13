@@ -147,15 +147,15 @@ class ElLink extends StatelessWidget {
       toLink,
       child: ElDefaultTextStyle(
         style: TextStyle(
-          color: ElHover.of(context) ? $activeColor : $color,
+          color: context.isHover ? $activeColor : $color,
           decoration: $decoration == ElLinkDecoration.underline
               ? TextDecoration.underline
               : $decoration == ElLinkDecoration.hoverUnderline
-                  ? (ElHover.of(context)
+                  ? (context.isHover
                       ? TextDecoration.underline
                       : TextDecoration.none)
                   : TextDecoration.none,
-          decorationColor: ElHover.of(context) ? $activeColor : $color,
+          decorationColor: context.isHover ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
       ),
@@ -165,9 +165,9 @@ class ElLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final previewLink = getPreviewLink(href);
-    Widget result = DefaultSelectionStyle(
+    return DefaultSelectionStyle(
       mouseCursor: cursor,
-      child: ElHover(
+      child: ElEvent(
         cursor: cursor,
         onEnter: previewLink == null
             ? null
@@ -201,20 +201,14 @@ class ElLink extends StatelessWidget {
                   _delayHideOverlay = setTimeout(_hide, _delayTime);
                 }
               },
+        onTap: disabledEvent
+            ? null
+            : () {
+                _toLink();
+              },
         builder: (context) => buildTextTheme(context, _toLink),
       ),
     );
-    if (!disabledEvent) {
-      return ElStopPropagation(
-        child: ElTap(
-          onTap: () {
-            _toLink();
-          },
-          builder: (context) => result,
-        ),
-      );
-    }
-    return result;
   }
 }
 

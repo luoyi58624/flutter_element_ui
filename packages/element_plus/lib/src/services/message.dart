@@ -1,12 +1,8 @@
 import 'dart:async';
 
-import 'package:element_plus/src/components/others/close_button/index.dart';
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
-
-import '../components/data/badge/index.dart';
-import '../themes/components/basic/icon.dart';
-import '../utils/font.dart';
 
 /// 消息默认高度
 const double _messageHeight = 40;
@@ -251,7 +247,7 @@ class _MessageState extends State<_Message>
               child: Opacity(
                 opacity: opacityAnimation.value,
                 child: UnconstrainedBox(
-                  child: ElHover(
+                  child: ElEvent(
                     onEnter: (e) {
                       if (_removeTimer != null) {
                         _removeTimer!.cancel();

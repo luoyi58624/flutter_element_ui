@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
+import '../basic/event/index.dart';
+
 part 'radio_group.dart';
 
 class ElRadio<T> extends StatelessWidget {
@@ -38,7 +40,7 @@ class ElRadio<T> extends StatelessWidget {
     final $value = value ?? (label as T);
     final elTheme = context.elTheme;
     final double disabledColorOpacity = disabled ? 0.5 : 1.0;
-    return ElHover(
+    return ElEvent(
       disabled: disabled,
       builder: (context) {
         return Padding(

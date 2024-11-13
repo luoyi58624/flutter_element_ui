@@ -70,6 +70,25 @@ class _ElButtonState extends State<ElButton> {
   /// 构建按钮事件
   Widget _buildButtonEvent() {
     return ElEvent(
+      cursor: _cursor,
+      hitTestBehavior: HitTestBehavior.deferToChild,
+      onHover: widget.onHover,
+      onEnter: (e) {
+        setState(() {
+          _isHover = true;
+        });
+        if (_hasGroup) {
+          _groupData!.hoverIndex.value = _indexData!.index;
+        }
+      },
+      onExit: (e) {
+        setState(() {
+          _isHover = false;
+        });
+        if (_hasGroup) {
+          _groupData!.hoverIndex.value = -1;
+        }
+      },
       onTap: () {
         if (widget.onPressed != null) widget.onPressed!();
         if (_hasGroup) {
@@ -115,66 +134,42 @@ class _ElButtonState extends State<ElButton> {
               });
             }
           }
-          return ElHover(
-            cursor: _cursor,
-            disabled: _prop.disabled,
-            hitTestBehavior: HitTestBehavior.deferToChild,
-            onHover: widget.onHover,
-            onEnter: (e) {
-              setState(() {
-                _isHover = true;
-              });
-              if (_hasGroup) {
-                _groupData!.hoverIndex.value = _indexData!.index;
-              }
-            },
-            onExit: (e) {
-              setState(() {
-                _isHover = false;
-              });
-              if (_hasGroup) {
-                _groupData!.hoverIndex.value = -1;
-              }
-            },
-            builder: (context) {
-              if (_prop.loading && _prop.loadingBuilder != null) {
-                _colorStyle = _ButtonColors.loadingButton(
-                  context,
-                  bgColor: _prop.bgColor,
-                  link: _prop.link,
-                  text: _prop.text,
-                  plain: _prop.plain,
-                );
-              } else {
-                final $colorStyleProp = (
-                  bgColor: _prop.bgColor,
-                  plain: _prop.plain,
-                  text: _prop.text,
-                  bg: _prop.bg,
-                  link: _prop.link,
-                  disabled: _prop.disabled,
-                );
-                if (_groupData == null ||
-                    _groupData!.type == _ButtonGroupType.none) {
-                  _colorStyle = _ButtonColors.calcColorStyle(
-                    context,
-                    prop: $colorStyleProp,
-                    isHover: _isHover,
-                    isTap: _isTap,
-                  );
-                } else {
-                  _colorStyle = _ButtonColors.calcGroupColorStyle(
-                    context,
-                    prop: $colorStyleProp,
-                    isHover: _isHover,
-                    isTap: _isTap,
-                    isSelected: _isSelected,
-                  );
-                }
-              }
-              return _buildButtonWrapper(context);
-            },
-          );
+          if (_prop.loading && _prop.loadingBuilder != null) {
+            _colorStyle = _ButtonColors.loadingButton(
+              context,
+              bgColor: _prop.bgColor,
+              link: _prop.link,
+              text: _prop.text,
+              plain: _prop.plain,
+            );
+          } else {
+            final $colorStyleProp = (
+              bgColor: _prop.bgColor,
+              plain: _prop.plain,
+              text: _prop.text,
+              bg: _prop.bg,
+              link: _prop.link,
+              disabled: _prop.disabled,
+            );
+            if (_groupData == null ||
+                _groupData!.type == _ButtonGroupType.none) {
+              _colorStyle = _ButtonColors.calcColorStyle(
+                context,
+                prop: $colorStyleProp,
+                isHover: _isHover,
+                isTap: _isTap,
+              );
+            } else {
+              _colorStyle = _ButtonColors.calcGroupColorStyle(
+                context,
+                prop: $colorStyleProp,
+                isHover: _isHover,
+                isTap: _isTap,
+                isSelected: _isSelected,
+              );
+            }
+          }
+          return _buildButtonWrapper(context);
         },
       ),
     );

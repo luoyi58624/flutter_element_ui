@@ -54,7 +54,7 @@ class SlideWidget extends StatelessWidget {
                                     child: ObsBuilder(builder: (context) {
                                       final isActive =
                                           RouterState.currentPath.value == e.$2;
-                                      return ElHover(builder: (context) {
+                                      return ElEvent(builder: (context) {
                                         return AnimatedContainer(
                                           duration: context.elDuration(),
                                           width: double.infinity,

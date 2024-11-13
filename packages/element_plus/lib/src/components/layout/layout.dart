@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:element_plus/src/global.dart';
 
+import '../basic/event/index.dart';
 import 'nav_tab.dart';
 
 part 'aside.dart';

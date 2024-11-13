@@ -55,7 +55,7 @@ class _Example extends HookWidget {
             height: 300,
             color: Colors.blue,
             alignment: Alignment.center,
-            child: ElTap(
+            child: ElEvent(
               onTap: () {
                 el.message.show('点击 green 方块', type: El.success);
               },

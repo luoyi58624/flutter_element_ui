@@ -7,12 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-part 'extension.dart';
-
-part 'hover.dart';
-
-part 'tap.dart';
-
 part 'listener.dart';
 
 part 'stop_propagation.dart';

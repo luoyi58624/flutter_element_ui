@@ -125,8 +125,7 @@ class ElCollapseItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElHover(
-            
+          ElEvent(
             cursor: SystemMouseCursors.click,
             builder: (context) {
               return GestureDetector(
@@ -187,7 +186,8 @@ class ElCollapseItem extends StatelessWidget {
                               color: context.isDark
                                   ? context.elTheme.textTheme.textStyle.color
                                   : isActive
-                                      ? context.darkTheme.textTheme.textStyle.color
+                                      ? context
+                                          .darkTheme.textTheme.textStyle.color
                                       : context
                                           .lightTheme.textTheme.textStyle.color,
                             ),

@@ -224,7 +224,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
             : () {
                 cancelDrag();
               },
-        child: ElHover(
+        child: ElEvent(
             cursor: widget.sliderWidget.cursor ?? CursorUtil.grab,
             builder: (context) {
               return ObsBuilder(builder: (context) {
@@ -266,7 +266,7 @@ class _ElSliderState extends ElModelValueState<ElSlider, double>
           : () {
               cancelDrag();
             },
-      child: ElHover(
+      child: ElEvent(
           cursor: SystemMouseCursors.click,
           builder: (context) {
             nextTick(() {

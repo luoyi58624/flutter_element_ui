@@ -53,7 +53,7 @@ class Example9 extends HookWidget {
                   type: 'primary',
                   child: ElText('块级按钮', style: TextStyle(fontSize: 20)),
                 ),
-                ElHover(builder: (context) {
+                ElEvent(builder: (context) {
                   return ElButton(
                     onPressed: () {
                       el.message.show('点击了按钮', type: El.success);

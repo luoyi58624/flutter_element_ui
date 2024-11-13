@@ -55,7 +55,7 @@ class Example2 extends StatelessWidget {
                   'ElIcon(ElIcons.${keys[index]})',
                 );
               },
-              child: ElHover(
+              child: ElEvent(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {
                   return Center(

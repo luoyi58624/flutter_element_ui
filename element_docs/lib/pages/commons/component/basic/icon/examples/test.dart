@@ -30,7 +30,7 @@ class IconTestPage extends HookWidget {
               onTap: () {
                 CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');
               },
-              child: ElHover(
+              child: ElEvent(
                 cursor: SystemMouseCursors.click,
                 builder: (context) {
                   return Center(
