@@ -71,9 +71,6 @@ export 'src/components/others/split/split.dart';
 export 'src/extensions/color.dart';
 export 'src/extensions/widget.dart';
 
-export 'src/models/menu.dart';
-export 'src/models/tab.dart';
-
 export 'src/utils/font.dart';
 
 export 'src/widgets/event/index.dart';

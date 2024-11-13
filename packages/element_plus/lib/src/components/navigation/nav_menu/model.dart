@@ -1,3 +1,5 @@
+part of 'index.dart';
+
 class ElMenuModel {
   /// 菜单唯一标识，如果是路由菜单，key将为跳转地址
   final String key;

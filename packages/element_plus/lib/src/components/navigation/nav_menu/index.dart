@@ -4,6 +4,8 @@ import 'package:element_plus/src/global.dart';
 
 part 'state.dart';
 
+part 'model.dart';
+
 part 'theme.dart';
 
 part '../../../generates/components/navigation/nav_menu/index.g.dart';

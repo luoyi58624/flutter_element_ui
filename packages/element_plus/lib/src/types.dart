@@ -1,8 +1,6 @@
-import 'package:element_plus/src/models/drag.dart';
 import 'package:flutter/widgets.dart';
 
-import 'components/feedback/message/index.dart';
-
+import '../element_plus.dart';
 
 /// 小部件构建器
 typedef ElWidgetBuilder = Widget Function(
@@ -34,5 +32,3 @@ typedef ElBoolVoidCallback = void Function(bool value);
 
 /// 当拖拽发生更新时，响应的事件
 typedef ElDragChanged = void Function(ElDragChangedData e);
-
-

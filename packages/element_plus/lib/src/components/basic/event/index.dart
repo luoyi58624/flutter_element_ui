@@ -27,7 +27,7 @@ class ElEvent extends StatefulWidget {
   /// 那么将会触发事件冒泡，即子组件和父组件都会触发事件。
   ///
   /// 所以，你只能使用 [ElEvent] 去嵌套 [ElEvent]，Element UI 提供了 2 种方式阻止 [ElEvent] 之间的事件冒泡：
-  /// * 在 [onTapDown] 事件中执行 context.stopPropagation() 方法
+  /// * 在事件中执行 context.stopPropagation() 方法
   /// * 添加 [ElStopPropagation] 小部件
   const ElEvent({
     super.key,

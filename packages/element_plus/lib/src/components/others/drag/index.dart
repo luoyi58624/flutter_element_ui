@@ -1,11 +1,12 @@
 import 'package:element_plus/src/global.dart';
-import 'package:element_plus/src/models/drag.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/widgets.dart';
 
 part 'state.dart';
+
+part 'model.dart';
 
 class ElDrag extends StatefulWidget {
   const ElDrag({

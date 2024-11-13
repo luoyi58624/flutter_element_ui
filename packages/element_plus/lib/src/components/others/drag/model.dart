@@ -1,4 +1,4 @@
-import 'package:flutter/gestures.dart';
+part of 'index.dart';
 
 class ElDragChangedData {
   /// 当前拖拽的偏移值
