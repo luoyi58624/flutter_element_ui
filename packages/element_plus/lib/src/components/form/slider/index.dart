@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:element_plus/element_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,6 +10,10 @@ part 'state.dart';
 part 'thumbs/default_thumb.dart';
 
 part 'thumbs/progress_thumb.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/form/slider/index.g.dart';
 
 class ElSlider extends ElModelValue<double> {
   const ElSlider(

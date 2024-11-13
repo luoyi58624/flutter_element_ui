@@ -14,6 +14,10 @@ part 'button_group.dart';
 
 part 'button_colors.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/basic/button/index.g.dart';
+
 class ElButton extends StatefulWidget {
   /// Element UI 按钮小部件
   const ElButton({

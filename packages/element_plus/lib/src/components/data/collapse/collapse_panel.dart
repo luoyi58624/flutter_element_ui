@@ -1,7 +1,6 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../themes/components/basic/icon.dart';
 import '../../others/divider.dart';
 
 class _CollapseData extends InheritedWidget {

@@ -1,13 +1,12 @@
 import 'package:element_plus/element_plus.dart';
-import 'package:element_plus/src/components/basic/button/index.dart';
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
-import '../../../models/menu.dart';
-import '../../../utils/font.dart';
-import '../../basic/link/index.dart';
-
 part 'state.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/navigation/nav_menu/index.g.dart';
 
 class ElNavMenu extends StatefulWidget {
   /// 创建普通菜单导航

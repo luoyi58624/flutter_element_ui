@@ -6,6 +6,10 @@ import '../../others/triangle/triangle.dart';
 
 part 'state.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/feedback/tooltip/index.g.dart';
+
 class ElTooltip extends StatefulWidget {
   const ElTooltip({
     super.key,

@@ -2,6 +2,10 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/data/tag/index.g.dart';
+
 const _minWidth = 56.0;
 const _height = 28.0;
 const _fontSize = 12.0;

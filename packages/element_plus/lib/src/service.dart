@@ -1,21 +1,19 @@
+import 'package:flutter/widgets.dart';
+
 import './services/anchor.dart';
 import './services/cursor.dart';
-import './services/message.dart';
 import './services/router.dart';
-import './services/toast.dart';
+import 'components/feedback/message/index.dart';
+import 'components/feedback/toast/index.dart';
 
 /// Element UI 全局服务对象实例
-const el = El._();
+final el = El._();
+
+final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
 /// Element UI 全局服务
-class El
-    with
-        AnchorService,
-        RouterService,
-        CursorService,
-        MessageService,
-        ToastService {
-  const El._();
+class El with AnchorService, RouterService, CursorService {
+  El._();
 
   static const String primary = 'primary';
   static const String success = 'success';
@@ -28,4 +26,10 @@ class El
 
   /// Element UI 颜色主题类型集合
   static const List<String> themeTypes = [primary, ...themeStatusTypes];
+
+  /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
+  ElMessageService message = ElMessageService();
+
+  /// Element UI 轻提示实例对象，在屏幕上显示一段简单的文本提示，每次只能显示一条消息
+  ElToastService toast = ElToastService();
 }

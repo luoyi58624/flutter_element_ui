@@ -7,17 +7,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-part '../../../generates/components/basic/event/index.g.dart';
-
 part 'state.dart';
 
 part 'prop.dart';
 
-part 'theme.dart';
-
 part 'inherited_widget.dart';
 
 part 'extension.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/basic/event/index.g.dart';
 
 class ElEvent extends StatefulWidget {
   /// Element UI 事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽、焦点、快捷键等众多功能

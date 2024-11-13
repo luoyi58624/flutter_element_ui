@@ -10,6 +10,10 @@ part 'tab.dart';
 
 part 'default_wrapper.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/navigation/tabs/index.g.dart';
+
 class ElTabs extends ElModelValue<int> {
   /// Element UI 标签导航，此组件目前只适用于桌面端，移动端建议使用官方提供的 [TabBar] 小部件
   const ElTabs(

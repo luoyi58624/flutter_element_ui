@@ -1,7 +1,8 @@
 import 'package:element_plus/src/models/drag.dart';
 import 'package:flutter/widgets.dart';
 
-import 'services/message.dart';
+import 'components/feedback/message/index.dart';
+
 
 /// 小部件构建器
 typedef ElWidgetBuilder = Widget Function(

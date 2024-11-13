@@ -4,6 +4,10 @@ import 'package:flutter/widgets.dart';
 
 part 'default_text_style.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/basic/text/index.g.dart';
+
 class ElText extends StatelessWidget {
   /// Element UI 文本小部件，内部直接基于 [RichText] 进行封装，同时简化了富文本的写法
   const ElText(

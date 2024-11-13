@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
 import 'package:element_plus/src/global.dart';
 
-import '../../basic/event/index.dart';
-
 part 'state.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/others/code_preview/index.g.dart';
 
 /// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
 bool _initialize = false;

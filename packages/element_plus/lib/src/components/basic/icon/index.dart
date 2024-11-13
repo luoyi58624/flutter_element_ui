@@ -1,9 +1,11 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../themes/components/basic/icon.dart';
-
 part 'icons.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/basic/icon/index.g.dart';
 
 /// Element UI 图标
 class ElIcon extends StatelessWidget {

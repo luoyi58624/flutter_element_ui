@@ -7,7 +7,6 @@ class _ElEventState extends State<ElEvent> {
   int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2
   Offset tapDownOffset = Offset.zero; // 指针按下位置（全局坐标系）
   int? tapDownTime; // 记录当前的按下时间
-  late bool disabled; // 是否禁用
   bool isCancel = false; // 是否触发了取消事件
   bool isActiveDoubleTap = false; // 是否激活了双击
   bool isActiveLongPress = false; // 是否激活了长按
@@ -235,23 +234,23 @@ class _ElEventState extends State<ElEvent> {
 
     // 只有在桌面端才渲染鼠标悬停小部件
     if (PlatformUtil.isDesktop) {
-      if (disabled) isHover = false;
+      if (_prop.disabled) isHover = false;
       result = MouseRegion(
         cursor: _prop.cursor,
         hitTestBehavior: _prop.hitTestBehavior,
-        onHover: disabled ? null : _prop.onHover,
-        onEnter: disabled ? null : onEnter,
-        onExit: disabled ? null : onExit,
+        onHover: _prop.disabled ? null : _prop.onHover,
+        onEnter: _prop.disabled ? null : onEnter,
+        onExit: _prop.disabled ? null : onExit,
         child: result,
       );
     }
 
     return Listener(
       behavior: _prop.hitTestBehavior,
-      onPointerDown: disabled ? null : onPointDown,
-      onPointerUp: disabled ? null : onPointUp,
-      onPointerCancel: disabled ? null : (e) => onTapCancel(),
-      onPointerMove: disabled ? null : onPointMove,
+      onPointerDown: _prop.disabled ? null : onPointDown,
+      onPointerUp: _prop.disabled ? null : onPointUp,
+      onPointerCancel: _prop.disabled ? null : (e) => onTapCancel(),
+      onPointerMove: _prop.disabled ? null : onPointMove,
       child: result,
     );
   }

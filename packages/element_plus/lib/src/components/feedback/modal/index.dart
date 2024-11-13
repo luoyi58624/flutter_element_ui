@@ -1,6 +1,11 @@
+import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 part 'state.dart';
+
+part 'theme.dart';
+
+part '../../../generates/components/feedback/modal/index.g.dart';
 
 class ElModal extends StatelessWidget {
   const ElModal({super.key});

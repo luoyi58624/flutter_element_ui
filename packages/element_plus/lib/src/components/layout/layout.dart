@@ -3,13 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:element_plus/src/global.dart';
-
-import '../basic/event/index.dart';
+import 'aside/index.dart';
+import 'header/index.dart';
 import 'nav_tab.dart';
-
-part 'aside.dart';
-
-part 'header.dart';
 
 part 'main.dart';
 

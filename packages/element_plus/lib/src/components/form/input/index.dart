@@ -6,6 +6,10 @@ import '../form_item.dart';
 
 part 'state.dart';
 
+part 'theme.dart';
+
+part '../../../generates/components/form/input/index.g.dart';
+
 typedef _InputStyleProp = ({
   double height,
   BorderRadius borderRadius,

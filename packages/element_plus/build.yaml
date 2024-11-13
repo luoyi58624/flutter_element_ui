@@ -14,15 +14,15 @@ targets:
       # 指定 element model 实体类生成器，注意：如果名字配置错了 build_runner 将使用默认配置
       element_generator|model:
         generate_for:
-          - lib/src/themes/**.dart
+          - lib/src/app/index.dart
           - lib/src/components/**.dart
         options:
           # 配置生成的默认模型对象名字，默认：${{}}
           model_name_template: '${{}}'
       element_generator|themeModel:
         generate_for:
-          - lib/src/themes/**.dart
+          - lib/src/app/index.dart
           - lib/src/components/**.dart
       element_generator|globalThemeModel:
         generate_for:
-          - lib/src/themes/**.dart
+          - lib/src/app/index.dart

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../components/basic/app/index.dart';
+import '../app/index.dart';
 
 class ElBrightness extends InheritedWidget {
   /// Element UI 主题模式小部件
