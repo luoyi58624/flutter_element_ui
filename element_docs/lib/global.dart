@@ -13,6 +13,7 @@ export 'router/router_state.dart';
 
 export 'utils/commons.dart';
 export 'utils/font.dart';
+export 'widgets/link_widgets.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/code_example/code_example.dart';
 export 'widgets/code_example/flat_code_example.dart';

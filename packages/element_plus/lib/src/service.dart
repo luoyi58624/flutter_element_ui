@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-
 import './services/anchor.dart';
 import './services/cursor.dart';
 import './services/router.dart';
@@ -8,8 +6,6 @@ import 'components/feedback/toast/index.dart';
 
 /// Element UI 全局服务对象实例
 final el = El._();
-
-final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
 /// Element UI 全局服务
 class El with AnchorService, RouterService, CursorService {

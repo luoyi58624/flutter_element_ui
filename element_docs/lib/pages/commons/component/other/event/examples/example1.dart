@@ -12,11 +12,6 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: ['绿色方块使用 ElTap 小部件，当点击红色方块时，绿色方块也会触发事件'],
-        ),
-        textGap,
         CodeExample(
           code: code,
           children: const [
@@ -33,53 +28,102 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        Row(
-          children: [
-            ElSwitch(flag),
-            const Gap(8),
-            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
-          ],
-        ),
-        const Gap(8),
-        GestureDetector(
+        ElEvent(
           onTap: () {
-            el.message.show('点击 blue 方块', type: El.primary);
+            el.message.show('单击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
           },
           child: Container(
-            width: 300,
-            height: 300,
-            color: Colors.blue,
+            width: 100,
+            height: 50,
+            color: Colors.grey,
             alignment: Alignment.center,
-            child: ElEvent(
-              onTap: () {
-                el.message.show('点击 green 方块', type: El.success);
-              },
-              builder: (context) => Container(
-                width: 200,
-                height: 200,
-                color: Colors.green,
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    el.message.show('点击 red 方块', type: El.error);
-                    if (flag.value) {
-                      // 阻止冒泡事件
-                      context.stopPropagation();
-                    }
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ),
+            child: const ElText('单击'),
+          ),
+        ),
+        ElEvent(
+          onContextMenu: () {
+            el.message.show('右键单击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('右键'),
+          ),
+        ),
+        ElEvent(
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          child: Container(
+            width: 120,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('单击 + 双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
+          },
+          delayTapForDouble: true,
+          child: Container(
+            width: 160,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('延迟单击 + 双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onLongPress: () {
+            el.message.show('长按');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('长按'),
           ),
         ),
       ],
@@ -93,57 +137,99 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        Row(
-          children: [
-            ElSwitch(flag),
-            const Gap(8),
-            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
-          ],
-        ),
-        const Gap(8),
-        GestureDetector(
+        ElEvent(
           onTap: () {
-            el.message.show('点击 blue 方块', type: El.primary);
+            el.message.show('单击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
           },
           child: Container(
-            width: 300,
-            height: 300,
-            color: Colors.blue,
+            width: 100,
+            height: 50,
+            color: Colors.grey,
             alignment: Alignment.center,
-            child: ElTap(
-              onTap: () {
-                el.message.show('点击 green 方块', type: El.success);
-              },
-              builder: (context) => Container(
-                width: 200,
-                height: 200,
-                color: Colors.green,
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    el.message.show('点击 red 方块', type: El.error);
-                    if (flag.value) {
-                      // 阻止冒泡事件
-                      context.stopPropagation();
-                      // 你需要在合适的时机手动恢复它
-                      setTimeout(() {
-                        context.resetPropagation();
-                      }, 1);
-                    }
-                  },
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            ),
+            child: const ElText('单击'),
+          ),
+        ),
+        ElEvent(
+          onContextMenu: () {
+            el.message.show('右键单击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('右键'),
+          ),
+        ),
+        ElEvent(
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          child: Container(
+            width: 120,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('单击 + 双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onDoubleTap: () {
+            el.message.show('双击');
+          },
+          onTapCancel: () {
+            el.message.show('取消', type: El.error);
+          },
+          delayTapForDouble: true,
+          child: Container(
+            width: 160,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('延迟单击 + 双击'),
+          ),
+        ),
+        ElEvent(
+          onTap: () {
+            el.message.show('单击');
+          },
+          onLongPress: () {
+            el.message.show('长按');
+          },
+          child: Container(
+            width: 100,
+            height: 50,
+            color: Colors.grey,
+            alignment: Alignment.center,
+            child: const ElText('长按'),
           ),
         ),
       ],

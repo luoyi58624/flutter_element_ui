@@ -33,33 +33,42 @@ class _Example extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElEvent(
+        Row(
+          children: [
+            ElSwitch(flag),
+            const Gap(8),
+            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
+          ],
+        ),
+        const Gap(8),
+        GestureDetector(
           onTap: () {
-            el.message.show('点击');
+            el.message.show('点击 blue 方块', type: El.primary);
           },
-          onContextMenu: () {
-            el.message.show('右键单击', type: El.warning);
-          },
-          onDoubleTap: (){
-            el.message.show('双击', type: El.success);
-          },
-          child: Builder(builder: (context) {
-            return Container(
-              width: 300,
-              height: 300,
-              color: Colors.blue,
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {},
-                onSecondaryTap: () {},
-                child: Container(
+          child: Container(
+            width: 300,
+            height: 300,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: ElEvent(
+              onTap: () {
+                el.message.show('点击 red 方块', type: El.success);
+              },
+              onDoubleTap: () {
+                el.message.show('双击了 red 方块', type: El.warning);
+              },
+              onLongPress: () {
+                el.message.show('长按 red 方块', type: El.error);
+              },
+              builder: (context) {
+                return Container(
                   width: 100,
                   height: 100,
                   color: Colors.red,
-                ),
-              ),
-            );
-          }),
+                );
+              },
+            ),
+          ),
         ),
       ],
     );

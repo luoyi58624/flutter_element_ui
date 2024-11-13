@@ -87,7 +87,8 @@ class SectionCard extends StatelessWidget {
         ElDefaultTextStyle(
           style: const TextStyle(
             fontFamily: MyFonts.consolas,
-            fontSize: 14,
+            fontSize: 15,
+            height: 1.8,
           ),
           child: AnimatedContainer(
             duration: context.elDuration(),
@@ -147,22 +148,10 @@ class FlutterHookTip extends StatelessWidget {
       content: [
         ElText([
           '$name 支持双向绑定，推荐你使用 ',
-          const FlutterHookLink(),
+          LinkWidgets.flutterHook,
           ' 代替 StatefulWidget',
         ]),
       ],
-    );
-  }
-}
-
-class FlutterHookLink extends StatelessWidget {
-  const FlutterHookLink({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ElLink(
-      href: 'https://pub.dev/packages/flutter_hooks',
-      child: 'flutter_hooks',
     );
   }
 }
