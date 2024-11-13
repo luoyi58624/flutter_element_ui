@@ -19,17 +19,15 @@ class _ElEventInheritedWidget extends InheritedWidget {
 
   static bool getHoverStatus(BuildContext context) {
     final result = maybeOf(context);
-    if (result != null) {
-      result.setHoverDepend(true);
-    }
+    // 绑定依赖，当悬停时会自动重建小部件
+    if (result != null) result.setHoverDepend(true);
     return result?.isHover ?? false;
   }
 
   static bool getTapStatus(BuildContext context) {
     final result = maybeOf(context);
-    if (result != null) {
-      result.setTapDepend(true);
-    }
+    // 绑定依赖，当点击时会自动重建小部件
+    if (result != null) result.setTapDepend(true);
     return result?.isTap ?? false;
   }
 

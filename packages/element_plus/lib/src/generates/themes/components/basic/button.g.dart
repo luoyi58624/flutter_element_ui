@@ -10,6 +10,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
   /// 接收一组可选参数，返回新的对象
   ElButtonThemeData copyWith({
     dynamic child,
+    Duration? duration,
     double? width,
     double? height,
     Color? bgColor,
@@ -34,6 +35,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
   }) {
     return ElButtonThemeData(
       child: child ?? this.child,
+      duration: duration ?? this.duration,
       width: width ?? this.width,
       height: height ?? this.height,
       bgColor: bgColor ?? this.bgColor,
@@ -63,6 +65,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
     if (other == null) return this;
     return copyWith(
       child: other.child,
+      duration: other.duration,
       width: other.width,
       height: other.height,
       bgColor: other.bgColor,

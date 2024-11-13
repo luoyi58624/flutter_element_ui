@@ -1,38 +1,12 @@
-import 'dart:async';
-import 'dart:math';
+part of 'index.dart';
 
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+@ElModel.copy()
+@ElThemeModel(desc: '事件默认配置')
+class ElEventThemeData {
+  static const theme = ElEventThemeData();
+  static const darkTheme = ElEventThemeData();
 
-part '../../../generates/components/basic/event/index.g.dart';
-
-part 'state.dart';
-
-part 'prop.dart';
-
-part 'theme.dart';
-
-part 'inherited_widget.dart';
-
-part 'extension.dart';
-
-class ElEvent extends StatefulWidget {
-  /// Element UI 事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽、焦点、快捷键等众多功能
-  ///
-  /// 注意：此小部件直接基于 [Listener] 实现，[Listener] 小部件是 [GestureDetector] 最底层实现，
-  /// 这意味着 [ElEvent] 不参与手势竞技场的竞争，如果 [GestureDetector] 嵌套 [ElEvent]，
-  /// 那么将会触发事件冒泡，即子组件和父组件都会触发事件。
-  ///
-  /// 所以，你只能使用 [ElEvent] 去嵌套 [ElEvent]，Element UI 提供了 2 种方式阻止 [ElEvent] 之间的事件冒泡：
-  /// * 在 [onTapDown] 事件中执行 context.stopPropagation() 方法
-  /// * 添加 [ElStopPropagation] 小部件
-  const ElEvent({
-    super.key,
-    this.child,
-    this.builder,
+  const ElEventThemeData({
     this.disabled,
     this.hitTestBehavior,
     this.cursor,
@@ -52,16 +26,8 @@ class ElEvent extends StatefulWidget {
     this.delayTapForDouble,
     this.onLongPress,
     this.longPressTimeout,
-    this.feedback = true,
-  }) : assert(
-            (child != null && builder == null) ||
-                (child == null && builder != null),
-            'ElTap child、builder 参数只能二选一');
-
-  final Widget? child;
-
-  /// 功能和 [child] 一样，只是帮你省略嵌套 [Builder] 小部件，目的是让你正确访问 [isHover]、[isTap] 事件状态
-  final WidgetBuilder? builder;
+    this.feedback,
+  });
 
   /// 是否禁用，默认 false
   final bool? disabled;
@@ -123,15 +89,4 @@ class ElEvent extends StatefulWidget {
 
   /// 是否启用长按反馈，在移动端将会触发轻微震动提示，默认 true
   final bool? feedback;
-
-  /// 通过上下文获取最近的悬停状态
-  static bool isHover(BuildContext context) =>
-      _ElEventInheritedWidget.getHoverStatus(context);
-
-  /// 通过上下文获取最近的点击状态
-  static bool isTap(BuildContext context) =>
-      _ElEventInheritedWidget.getTapStatus(context);
-
-  @override
-  State<ElEvent> createState() => _ElEventState();
 }

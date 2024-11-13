@@ -1,13 +1,14 @@
 part of 'index.dart';
 
 class _ElEventState extends State<ElEvent> {
+  late _Prop _prop;
   GlobalKey childKey = GlobalKey();
   Size childSize = Size.zero; // 子组件的尺寸
   int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2
   Offset tapDownOffset = Offset.zero; // 指针按下位置（全局坐标系）
   int? tapDownTime; // 记录当前的按下时间
   late bool disabled; // 是否禁用
-  bool isCancel = false; // 当指针在当前小部件按下时，如果指针移动超出小部件的范围，则触发取消事件
+  bool isCancel = false; // 是否触发了取消事件
   bool isActiveDoubleTap = false; // 是否激活了双击
   bool isActiveLongPress = false; // 是否激活了长按
 
@@ -41,17 +42,18 @@ class _ElEventState extends State<ElEvent> {
   /// 鼠标进入目标区域事件
   void onEnter(PointerEnterEvent e) {
     isHover = true;
-    widget.onEnter?.call(e);
+    _prop.onEnter?.call(e);
   }
 
   /// 鼠标离开目标区域事件
   void onExit(PointerExitEvent e) {
     isHover = false;
-    widget.onExit?.call(e);
+    _prop.onExit?.call(e);
   }
 
   /// 指针按下事件
   void onPointDown(PointerDownEvent e) {
+    _prop.onTapDown?.call(e);
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
@@ -64,11 +66,10 @@ class _ElEventState extends State<ElEvent> {
     }
 
     // 尝试注册长按事件计时器，需要限制鼠标指针，只能长按鼠标左键
-    if (widget.onLongPress != null && pointType == kPrimaryButton) {
+    if (_prop.onLongPress != null && pointType == kPrimaryButton) {
       longPressHandler();
     }
 
-    widget.onTapDown?.call(e);
     isTap = true;
   }
 
@@ -76,7 +77,7 @@ class _ElEventState extends State<ElEvent> {
   void onPointUp(PointerUpEvent e) {
     if (isCancel == false) {
       if (pointType == kPrimaryButton) {
-        if (widget.onDoubleTap != null) {
+        if (_prop.onDoubleTap != null) {
           doubleTapHandler();
         }
         tapHandler();
@@ -86,7 +87,7 @@ class _ElEventState extends State<ElEvent> {
         contextMenuHandler();
       }
     }
-    int delay = widget.tapUpDelay;
+    int delay = _prop.tapUpDelay;
     if (tapDownTime != null) {
       delay = max(delay - (currentMilliseconds - tapDownTime!), 0);
     }
@@ -94,7 +95,7 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        widget.onTapUp?.call(e);
+        _prop.onTapUp?.call(e);
         isTap = false;
       }
     }, delay);
@@ -109,10 +110,10 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        widget.onTapCancel?.call();
+        _prop.onTapCancel?.call();
         isTap = false;
       }
-    }, widget.tapUpDelay);
+    }, _prop.tapUpDelay);
   }
 
   /// 指针移动事件
@@ -123,7 +124,7 @@ class _ElEventState extends State<ElEvent> {
         onTapCancel();
       }
       // 如果指针移动偏移大于预定值，则取消
-      else if ((e.position - tapDownOffset).distance > widget.cancelScope) {
+      else if ((e.position - tapDownOffset).distance > _prop.cancelScope) {
         onTapCancel();
       }
     }
@@ -132,15 +133,15 @@ class _ElEventState extends State<ElEvent> {
   /// 单击事件处理，此函数会在 [onPointUp] 指针抬起时执行
   void tapHandler() {
     // 如果设置了等待双击延迟，需要判断双击计时器是否开始、或者是否已经触发了双击，若为 true 那么禁止执行单击事件
-    if (widget.delayTapForDouble &&
+    if (_prop.delayTapForDouble &&
         (_doubleTapTimer != null || isActiveDoubleTap)) return;
     // 如果没有注册长按事件，那么直接触发单击事件
-    if (widget.onLongPress == null) {
-      widget.onTap?.call();
+    if (_prop.onLongPress == null) {
+      _prop.onTap?.call();
     } else {
       // 如果指针抬起时没有达到长按阈值时间，那么也将触发点击事件，同时还需要取消长按计时器
       if (isActiveLongPress == false) {
-        widget.onTap?.call();
+        _prop.onTap?.call();
         _cancelLongPressTimer();
       }
     }
@@ -156,15 +157,15 @@ class _ElEventState extends State<ElEvent> {
       _doubleTapTimer!.cancel();
       _doubleTapTimer = null;
       isActiveDoubleTap = true;
-      widget.onDoubleTap!();
+      _prop.onDoubleTap!();
     } else {
       _doubleTapTimer = setTimeout(() {
         _doubleTapTimer = null;
         // 双击计时器到了销毁时间，如果设置了等待双击延迟，那么触发点击事件
-        if (widget.delayTapForDouble) {
-          widget.onTap?.call();
+        if (_prop.delayTapForDouble) {
+          _prop.onTap?.call();
         }
-      }, widget.doubleTapTimeout);
+      }, _prop.doubleTapTimeout);
     }
   }
 
@@ -175,9 +176,9 @@ class _ElEventState extends State<ElEvent> {
     _longPressTimer = setTimeout(() {
       _longPressTimer = null;
       isActiveLongPress = true;
-      if (widget.feedback) HapticFeedback.mediumImpact();
-      widget.onLongPress!();
-    }, widget.longPressTimeout);
+      if (_prop.feedback) HapticFeedback.mediumImpact();
+      _prop.onLongPress!();
+    }, _prop.longPressTimeout);
   }
 
   void _cancelLongPressTimer() {
@@ -191,7 +192,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 右键处理，此函数会在 [onPointUp] 指针抬起时执行
   void contextMenuHandler() {
-    if (widget.prevent) {
+    if (_prop.prevent) {
       if (kIsWeb) {
         if (_preventTimer != null) {
           _preventTimer!.cancel();
@@ -204,12 +205,12 @@ class _ElEventState extends State<ElEvent> {
         }, 500);
       }
     }
-    widget.onContextMenu?.call();
+    _prop.onContextMenu?.call();
   }
 
   @override
   Widget build(BuildContext context) {
-    disabled = widget.disabled;
+    _prop = _Prop.create(context, widget);
 
     nextTick(() {
       childSize = childKey.currentContext?.size ?? Size.zero;
@@ -236,9 +237,9 @@ class _ElEventState extends State<ElEvent> {
     if (PlatformUtil.isDesktop) {
       if (disabled) isHover = false;
       result = MouseRegion(
-        cursor: widget.cursor ?? MouseCursor.defer,
-        hitTestBehavior: widget.hitTestBehavior,
-        onHover: disabled ? null : widget.onHover,
+        cursor: _prop.cursor,
+        hitTestBehavior: _prop.hitTestBehavior,
+        onHover: disabled ? null : _prop.onHover,
         onEnter: disabled ? null : onEnter,
         onExit: disabled ? null : onExit,
         child: result,
@@ -246,7 +247,7 @@ class _ElEventState extends State<ElEvent> {
     }
 
     return Listener(
-      behavior: widget.hitTestBehavior,
+      behavior: _prop.hitTestBehavior,
       onPointerDown: disabled ? null : onPointDown,
       onPointerUp: disabled ? null : onPointUp,
       onPointerCancel: disabled ? null : (e) => onTapCancel(),

@@ -15,12 +15,14 @@ targets:
       element_generator|model:
         generate_for:
           - lib/src/themes/**.dart
+          - lib/src/components/**.dart
         options:
           # 配置生成的默认模型对象名字，默认：${{}}
           model_name_template: '${{}}'
       element_generator|themeModel:
         generate_for:
           - lib/src/themes/**.dart
+          - lib/src/components/**.dart
       element_generator|globalThemeModel:
         generate_for:
           - lib/src/themes/**.dart

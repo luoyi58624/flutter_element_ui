@@ -57,6 +57,7 @@ class Example2 extends StatelessWidget {
               },
               child: ElEvent(
                 cursor: SystemMouseCursors.click,
+                hitTestBehavior: HitTestBehavior.opaque,
                 builder: (context) {
                   return Center(
                     child: Column(
