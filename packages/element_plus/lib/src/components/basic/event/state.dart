@@ -2,6 +2,7 @@ part of 'index.dart';
 
 class _ElEventState extends State<ElEvent> {
   late _Prop _prop;
+  bool bubbleFlag = true; // 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡
   GlobalKey childKey = GlobalKey();
   Size childSize = Size.zero; // 子组件的尺寸
   int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2
@@ -52,6 +53,8 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针按下事件
   void onPointDown(PointerDownEvent e) {
+    if (!bubbleFlag) return;
+    checkBubbleWidget();
     _prop.onTapDown?.call(e);
     pointType = e.buttons;
     tapDownOffset = e.position;
@@ -74,6 +77,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针抬起事件
   void onPointUp(PointerUpEvent e) {
+    if (!bubbleFlag) return;
     if (isCancel == false) {
       if (pointType == kPrimaryButton) {
         if (_prop.onDoubleTap != null) {
@@ -102,6 +106,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针取消事件
   void onTapCancel() {
+    if (!bubbleFlag) return;
     if (isCancel) return;
     isCancel = true;
     _cancelLongPressTimer();
@@ -117,6 +122,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针移动事件
   void onPointMove(PointerMoveEvent e) {
+    if (!bubbleFlag) return;
     if (isCancel == false && isActiveLongPress == false) {
       // 如果指针离开元素，则立即取消
       if (!childSize.contains(e.localPosition)) {
@@ -207,6 +213,27 @@ class _ElEventState extends State<ElEvent> {
     _prop.onContextMenu?.call();
   }
 
+  /// 阻止事件冒泡，此函数会从当前 Element Tree 的位置开始，一层一层向上查找所有 [ElEvent] 实例，
+  /// 将它们的 [bubbleFlag] 冒泡标识设置为 false。
+  ///
+  /// 提示：无需担心性能问题，因为它是通过 [InheritedWidget] 进行查找，它的查找性能为 O(1)，
+  /// 同时，修改 [bubbleFlag] 标识不会触发 UI 重建，因为本质上嵌套的 [ElEvent] 事件依然全部触发，
+  /// 只不过由于 [bubbleFlag] 变成了 false 阻止了后续逻辑的执行。
+  void stopPropagation() {
+    if (bubbleFlag) {
+      bubbleFlag = false;
+      _ElEventInheritedWidget._stopPropagation(context);
+    }
+  }
+
+  /// 检查当前上下文是否存在阻止事件冒泡小部件，即：[ElStopPropagation]，如果有，
+  /// 那么以 [ElStopPropagation] 小部件所在 Element Tree 的位置执行阻止冒泡函数
+  void checkBubbleWidget() {
+    final result =
+        context.getElementForInheritedWidgetOfExactType<ElStopPropagation>();
+    if (result != null) result.stopPropagation();
+  }
+
   @override
   Widget build(BuildContext context) {
     _prop = _Prop.create(context, widget);
@@ -222,6 +249,7 @@ class _ElEventState extends State<ElEvent> {
           setHoverDepend: setHoverDepend,
           isTap: isTap,
           setTapDepend: setTapDepend,
+          stopPropagation: stopPropagation,
           child: Builder(
             key: childKey,
             builder: (context) {

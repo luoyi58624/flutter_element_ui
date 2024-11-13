@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 
 part 'state.dart';
 
-part 'button_prop.dart';
+part 'prop.dart';
 
 part 'button_group.dart';
 

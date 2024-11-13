@@ -15,6 +15,8 @@ part 'inherited_widget.dart';
 
 part 'extension.dart';
 
+part 'stop_propagation.dart';
+
 part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
@@ -131,6 +133,10 @@ class ElEvent extends StatefulWidget {
   /// 通过上下文获取最近的点击状态
   static bool isTap(BuildContext context) =>
       _ElEventInheritedWidget.getTapStatus(context);
+
+  /// 阻止事件冒泡
+  static void stopPropagation(BuildContext context) =>
+      _ElEventInheritedWidget._stopPropagation(context);
 
   @override
   State<ElEvent> createState() => _ElEventState();

@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 part 'listener.dart';
-
-part 'stop_propagation.dart';
 
 /// 事件冒泡支持的类型，你可以精准控制需要阻止哪些事件
 enum ElEventType {
