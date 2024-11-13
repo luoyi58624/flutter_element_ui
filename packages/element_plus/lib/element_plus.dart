@@ -73,7 +73,6 @@ export 'src/extensions/widget.dart';
 
 export 'src/utils/font.dart';
 
-export 'src/widgets/event/index.dart';
 export 'src/widgets/brightness.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/simple_widgets.dart';

@@ -27,9 +27,4 @@ extension ElEventExtension on BuildContext {
 
   /// 阻止事件冒泡
   void stopPropagation() => ElEvent.stopPropagation(this);
-
-  /// 重置事件冒泡
-  void resetPropagation() {
-    // _Event.resetPropagation(this);
-  }
 }

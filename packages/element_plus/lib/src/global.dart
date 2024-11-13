@@ -18,6 +18,5 @@ export 'extensions/widget.dart';
 
 export 'widgets/brightness.dart';
 
-export 'widgets/event/index.dart';
 export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';

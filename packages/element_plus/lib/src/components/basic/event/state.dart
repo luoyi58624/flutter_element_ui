@@ -101,6 +101,7 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
+        _ElEventInheritedWidget._resetPropagation(context);
         _prop.onTapUp?.call(e);
         isTap = false;
       }
@@ -110,6 +111,7 @@ class _ElEventState extends State<ElEvent> {
   /// 指针取消事件
   void onTapCancel() {
     if (!bubbleFlag) return;
+
     if (isCancel) return;
     isCancel = true;
     _cancelLongPressTimer();
@@ -117,6 +119,7 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
+        _ElEventInheritedWidget._resetPropagation(context);
         _prop.onTapCancel?.call();
         isTap = false;
       }
@@ -229,6 +232,14 @@ class _ElEventState extends State<ElEvent> {
     }
   }
 
+  /// 重置事件冒泡
+  void resetPropagation() {
+    if (!bubbleFlag) {
+      bubbleFlag = true;
+      _ElEventInheritedWidget._resetPropagation(context);
+    }
+  }
+
   /// 检查当前上下文是否存在阻止事件冒泡小部件，即：[ElStopPropagation]，如果有，
   /// 那么以 [ElStopPropagation] 小部件所在 Element Tree 的位置执行阻止冒泡函数
   void checkBubbleWidget() {
@@ -253,6 +264,7 @@ class _ElEventState extends State<ElEvent> {
           isTap: isTap,
           setTapDepend: setTapDepend,
           stopPropagation: stopPropagation,
+          resetPropagation: resetPropagation,
           child: Builder(
             key: childKey,
             builder: (context) {

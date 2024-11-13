@@ -66,10 +66,10 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     widget.onDragChanged!(tempList);
                   }
                 },
-                onReorderStart: (e){
+                onReorderStart: (e) {
                   el.cursor.add();
                 },
-                onReorderEnd: (e){
+                onReorderEnd: (e) {
                   el.cursor.remove();
                 },
                 itemCount: widget.tabs.length,
@@ -94,9 +94,9 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                     final SliverReorderableListState? list =
                         SliverReorderableList.maybeOf(context);
 
-                    return ElListener(
+                    return ElEvent(
                       key: key,
-                      onPointerDown: (e) {
+                      onTapDown: (e) {
                         onChanged(key.value);
                         list?.startItemDragReorder(
                           index: index,

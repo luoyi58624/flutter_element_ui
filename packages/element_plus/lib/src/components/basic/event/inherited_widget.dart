@@ -19,6 +19,7 @@ class _ElEventInheritedWidget extends InheritedWidget {
     required this.isTap,
     required this.setTapDepend,
     required this.stopPropagation,
+    required this.resetPropagation,
   });
 
   final bool isHover;
@@ -26,6 +27,7 @@ class _ElEventInheritedWidget extends InheritedWidget {
   final bool isTap;
   final ElBoolVoidCallback setTapDepend;
   final VoidCallback stopPropagation;
+  final VoidCallback resetPropagation;
 
   static _ElEventInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_ElEventInheritedWidget>();
@@ -46,6 +48,12 @@ class _ElEventInheritedWidget extends InheritedWidget {
     final result =
         context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
     if (result != null) result.stopPropagation();
+  }
+
+  static void _resetPropagation(BuildContext context) {
+    final result =
+        context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
+    if (result != null) result.resetPropagation();
   }
 
   @override
