@@ -9,7 +9,6 @@ class _Prop {
   final PointerHoverEventListener? onHover;
   final PointerDownEventListener? onTapDown;
   final PointerUpEventListener? onTapUp;
-  final int tapUpDelay;
   final VoidCallback? onTapCancel;
   final int cancelScope;
   final VoidCallback? onTap;
@@ -31,7 +30,6 @@ class _Prop {
     required this.onHover,
     required this.onTapDown,
     required this.onTapUp,
-    required this.tapUpDelay,
     required this.onTapCancel,
     required this.cancelScope,
     required this.onTap,
@@ -60,7 +58,6 @@ class _Prop {
       onHover: widget.onHover ?? $data.onHover,
       onTapDown: widget.onTapDown ?? $data.onTapDown,
       onTapUp: widget.onTapUp ?? $data.onTapUp,
-      tapUpDelay: widget.tapUpDelay ?? $data.tapUpDelay ?? 100,
       onTapCancel: widget.onTapCancel ?? $data.onTapCancel,
       cancelScope: widget.cancelScope ?? $data.cancelScope ?? 10,
       onTap: widget.onTap ?? $data.onTap,

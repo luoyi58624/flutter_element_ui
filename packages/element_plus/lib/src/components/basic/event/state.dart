@@ -1,5 +1,8 @@
 part of 'index.dart';
 
+/// onTapUp 延迟触发时间，设置一定的延迟时间可以让点击效果更加明显
+const int _tapUpDelay = 100;
+
 class _ElEventState extends State<ElEvent> {
   late _Prop _prop;
   bool bubbleFlag = true; // 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡
@@ -90,7 +93,7 @@ class _ElEventState extends State<ElEvent> {
         contextMenuHandler();
       }
     }
-    int delay = _prop.tapUpDelay;
+    int delay = _tapUpDelay;
     if (tapDownTime != null) {
       delay = max(delay - (currentMilliseconds - tapDownTime!), 0);
     }
@@ -117,7 +120,7 @@ class _ElEventState extends State<ElEvent> {
         _prop.onTapCancel?.call();
         isTap = false;
       }
-    }, _prop.tapUpDelay);
+    }, _tapUpDelay);
   }
 
   /// 指针移动事件

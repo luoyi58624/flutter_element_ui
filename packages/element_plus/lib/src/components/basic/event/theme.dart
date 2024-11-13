@@ -15,7 +15,6 @@ class ElEventThemeData {
     this.onHover,
     this.onTapDown,
     this.onTapUp,
-    this.tapUpDelay,
     this.onTapCancel,
     this.cancelScope,
     this.onTap,
@@ -52,9 +51,6 @@ class ElEventThemeData {
 
   /// 抬起事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapUpDetails]
   final PointerUpEventListener? onTapUp;
-
-  /// [onTapUp] 延迟时间，默认100毫秒，设置一定的延迟时间可以让点击效果更加明显
-  final int? tapUpDelay;
 
   /// 按下取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调
   final VoidCallback? onTapCancel;
