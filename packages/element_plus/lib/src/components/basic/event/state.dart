@@ -20,7 +20,11 @@ class _ElEventState extends State<ElEvent> {
   bool hasHoverDepend = false; // 是否存在悬停状态依赖
   bool hasTapDepend = false; // 是否存在点击状态依赖
 
+  // 拖拽事件，当用户注册了 onMoveEnd、onVerticalMoveEnd、onHorizontalMoveEnd 时将会初始化，
+  // 这个类主要就是计算用户停止触摸时的力度，通过这个力度值可以执行惯性滚动动画
   _DragEvent? _drag;
+  late bool hasMoveEvent;
+  late bool hasMoveEndEvent;
 
   Timer? _tapUpTimer; // 指针抬起延迟释放计时器
 
@@ -62,6 +66,10 @@ class _ElEventState extends State<ElEvent> {
     if (!bubbleFlag) return;
     stopPropagationByWidget();
 
+    isTap = true;
+    _prop.onPointerDown?.call(e);
+    _drag?.onStart(e);
+
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
@@ -84,10 +92,6 @@ class _ElEventState extends State<ElEvent> {
     if (_prop.onLongPress != null && pointType == kPrimaryButton) {
       longPressHandler();
     }
-
-    _drag?.onStart(e);
-    _prop.onPointerDown?.call(e);
-    isTap = true;
   }
 
   /// 指针抬起事件
@@ -129,7 +133,6 @@ class _ElEventState extends State<ElEvent> {
       bubbleFlag = true;
       return;
     }
-
     if (isCancel) return;
     isCancel = true;
     _cancelLongPressTimer();
@@ -147,7 +150,9 @@ class _ElEventState extends State<ElEvent> {
   void onPointerMove(PointerMoveEvent e) {
     if (!bubbleFlag) return;
     _drag?.onMove(e);
-    if (isCancel == false && isActiveLongPress == false) {
+    if (isCancel == false &&
+        isActiveLongPress == false &&
+        hasMoveEvent == false) {
       // 如果指针离开元素，则立即取消
       if (!childSize.contains(e.localPosition)) {
         onPointerCancel();
@@ -236,7 +241,7 @@ class _ElEventState extends State<ElEvent> {
   /// 阻止事件冒泡，此函数会从当前 Element Tree 的位置开始，一层一层向上查找所有 [ElEvent] 实例，
   /// 将它们的 [bubbleFlag] 冒泡标识设置为 false。
   ///
-  /// 提示：修改 [bubbleFlag] 标识不会触发 UI 重建，而且向上层层查找时间复杂度为 O(1)，
+  /// 提示：修改 [bubbleFlag] 标识不会触发 UI 重建，而且向上查找时间复杂度为 O(1)，
   /// 所以无需担心性能问题。
   void stopPropagation() {
     if (bubbleFlag) {
@@ -274,13 +279,20 @@ class _ElEventState extends State<ElEvent> {
       'onMoveEnd、onVerticalMoveEnd、onHorizontalMoveEnd 只能存在一个',
     );
 
-    // 注册拖拽事件
-    if (_prop.onMoveEnd != null ||
+    hasMoveEndEvent = _prop.onMoveEnd != null ||
         _prop.onVerticalMoveEnd != null ||
-        _prop.onHorizontalMoveEnd != null) {
-      _drag = _DragEvent(_prop);
+        _prop.onHorizontalMoveEnd != null;
+
+    hasMoveEvent = _prop.onMove != null ||
+        _prop.onVerticalMove != null ||
+        _prop.onHorizontalMove != null ||
+        hasMoveEndEvent;
+
+    // 注册拖拽事件
+    if (hasMoveEndEvent) {
+      _drag ??= _DragEvent(_prop);
     } else {
-      _drag = null;
+      if (_drag != null) _drag = null;
     }
 
     nextTick(() {

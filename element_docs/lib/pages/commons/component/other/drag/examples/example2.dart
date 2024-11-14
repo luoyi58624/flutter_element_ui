@@ -62,7 +62,7 @@ class _Example extends HookWidget {
                   offset.value += e.details;
                 },
                 enabledAnimate: true,
-                damping: 0.96,
+                damping: 0.975,
                 child: Container(
                   width: size,
                   height: size,

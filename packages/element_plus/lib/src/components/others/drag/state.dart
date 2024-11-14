@@ -62,19 +62,21 @@ class _ElDragState extends State<ElDrag> {
     ));
   }
 
-  void _onDragDown(DragDownDetails e) {
+  void _onDragDown(PointerDownEvent e) {
     if (widget.enabledAnimate &&
         controller.status != AnimationStatus.completed) {
       controller.stop();
     }
     oldAnimateValue = null;
-    downPosition = e.globalPosition;
+    downPosition = e.position;
     downLocalPosition = e.localPosition;
-    widget.onDragDown?.call(e);
+    widget.onDragDown?.call(DragDownDetails(
+      globalPosition: e.position,
+      localPosition: e.localPosition,
+    ));
   }
 
   void _onDragMove(DragUpdateDetails e) {
-    i('_onDragMove');
     _calcDragOffset(e.globalPosition - downPosition);
     if (isActiveDrag || _isTriggerOffset) {
       widget.onDragUpdate?.call(e);
@@ -92,7 +94,9 @@ class _ElDragState extends State<ElDrag> {
               return Positioned(
                 left: feedbackPosition.value.dx,
                 top: feedbackPosition.value.dy,
-                child: UnconstrainedBox(child: widget.feedback),
+                child: IgnorePointer(
+                  child: UnconstrainedBox(child: widget.feedback),
+                ),
               );
             }),
           );
@@ -147,25 +151,33 @@ class _ElDragState extends State<ElDrag> {
     });
     _overlay = Overlay.of(context, rootOverlay: widget.rootOverlay);
 
-    final Map<Type, GestureRecognizerFactory> gestures =
-        <Type, GestureRecognizerFactory>{};
-    gestures[PanGestureRecognizer] =
-        GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
-      () => PanGestureRecognizer(debugOwner: this),
-      (PanGestureRecognizer instance) {
-        instance
-          ..onDown = _onDragDown
-          ..onStart = widget.onDragStarted
-          ..onUpdate = _onDragMove
-          ..onEnd = _onDragUp
-          ..onCancel = _onDragCancel
-          ..dragStartBehavior = DragStartBehavior.down;
-      },
-    );
-
-    return RawGestureDetector(
-      gestures: gestures,
+    return ElEvent(
+      onPointerDown: _onDragDown,
+      onMove: _onDragMove,
+      onMoveEnd: _onDragUp,
+      onPointerCancel: _onDragCancel,
       child: widget.child,
     );
+
+    // final Map<Type, GestureRecognizerFactory> gestures =
+    //     <Type, GestureRecognizerFactory>{};
+    // gestures[PanGestureRecognizer] =
+    //     GestureRecognizerFactoryWithHandlers<PanGestureRecognizer>(
+    //   () => PanGestureRecognizer(debugOwner: this),
+    //   (PanGestureRecognizer instance) {
+    //     instance
+    //       ..onDown = _onDragDown
+    //       ..onStart = widget.onDragStarted
+    //       ..onUpdate = _onDragMove
+    //       ..onEnd = _onDragUp
+    //       ..onCancel = _onDragCancel
+    //       ..dragStartBehavior = DragStartBehavior.down;
+    //   },
+    // );
+    //
+    // return RawGestureDetector(
+    //   gestures: gestures,
+    //   child: widget.child,
+    // );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/widgets.dart';
@@ -18,7 +17,7 @@ class ElDrag extends StatefulWidget {
     this.triggerOffset = Offset.zero,
     this.delay,
     this.enabledAnimate = false,
-    this.damping = 0.999,
+    this.damping = 0.99,
     this.onDragDown,
     this.onDragStarted,
     this.onDragUpdate,
