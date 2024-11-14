@@ -56,19 +56,23 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针按下事件
   void onPointDown(PointerDownEvent e) async {
+    // 阻止冒泡
     if (!bubbleFlag) return;
-    checkBubbleWidget();
-    if (kIsWeb) {
-      if (_prop.prevent) {
-        await BrowserContextMenu.disableContextMenu();
-      }
-    }
-    _prop.onTapDown?.call(e);
-    childSize = childKey.currentContext?.size ?? Size.zero;
+    stopPropagationByWidget();
+
+    //
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
+    childSize = childKey.currentContext?.size ?? Size.zero;
     isCancel = false;
+
+    // 在 web 平台上，如果设置了 prevent 属性，鼠标右键按下时将阻止浏览器默认菜单
+    if (kIsWeb) {
+      if (_prop.prevent && pointType == kSecondaryButton) {
+        await BrowserContextMenu.disableContextMenu();
+      }
+    }
 
     // 取消指针抬起延迟计时器
     if (_tapUpTimer != null) {
@@ -81,12 +85,16 @@ class _ElEventState extends State<ElEvent> {
       longPressHandler();
     }
 
+    _prop.onTapDown?.call(e);
     isTap = true;
   }
 
   /// 指针抬起事件
   void onPointUp(PointerUpEvent e) {
-    if (!bubbleFlag) return;
+    if (!bubbleFlag) {
+      bubbleFlag = true;
+      return;
+    }
     if (isCancel == false) {
       if (pointType == kPrimaryButton) {
         if (_prop.onDoubleTap != null) {
@@ -107,7 +115,6 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _ElEventInheritedWidget._resetPropagation(context);
         _prop.onTapUp?.call(e);
         isTap = false;
       }
@@ -116,7 +123,10 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针取消事件
   void onTapCancel() {
-    if (!bubbleFlag) return;
+    if (!bubbleFlag) {
+      bubbleFlag = true;
+      return;
+    }
 
     if (isCancel) return;
     isCancel = true;
@@ -125,7 +135,6 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _ElEventInheritedWidget._resetPropagation(context);
         _prop.onTapCancel?.call();
         isTap = false;
       }
@@ -218,9 +227,8 @@ class _ElEventState extends State<ElEvent> {
   /// 阻止事件冒泡，此函数会从当前 Element Tree 的位置开始，一层一层向上查找所有 [ElEvent] 实例，
   /// 将它们的 [bubbleFlag] 冒泡标识设置为 false。
   ///
-  /// 提示：无需担心性能问题，因为它是通过 [InheritedWidget] 进行查找，它的查找性能为 O(1)，
-  /// 同时，修改 [bubbleFlag] 标识不会触发 UI 重建，因为本质上嵌套的 [ElEvent] 事件依然全部触发，
-  /// 只不过由于 [bubbleFlag] 变成了 false 阻止了后续逻辑的执行。
+  /// 提示：修改 [bubbleFlag] 标识不会触发 UI 重建，而且向上层层查找时间复杂度为 O(1)，
+  /// 所以无需担心性能问题。
   void stopPropagation() {
     if (bubbleFlag) {
       bubbleFlag = false;
@@ -228,20 +236,12 @@ class _ElEventState extends State<ElEvent> {
     }
   }
 
-  /// 重置事件冒泡
-  void resetPropagation() {
-    if (!bubbleFlag) {
-      bubbleFlag = true;
-      _ElEventInheritedWidget._resetPropagation(context);
-    }
-  }
-
-  /// 检查当前上下文是否存在阻止事件冒泡小部件，即：[ElStopPropagation]，如果有，
-  /// 那么以 [ElStopPropagation] 小部件所在 Element Tree 的位置执行阻止冒泡函数
-  void checkBubbleWidget() {
-    final result =
-        context.getElementForInheritedWidgetOfExactType<ElStopPropagation>();
-    if (result != null) result.stopPropagation();
+  /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
+  /// 所在 Element Tree 的位置开始，向上查找 [ElEvent] 小部件并执行阻止冒泡函数
+  void stopPropagationByWidget() {
+    context
+        .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
+        ?.stopPropagation();
   }
 
   @override
@@ -256,7 +256,6 @@ class _ElEventState extends State<ElEvent> {
           isTap: isTap,
           setTapDepend: setTapDepend,
           stopPropagation: stopPropagation,
-          resetPropagation: resetPropagation,
           child: Builder(
             key: childKey,
             builder: (context) {
