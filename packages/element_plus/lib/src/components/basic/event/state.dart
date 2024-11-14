@@ -60,11 +60,9 @@ class _ElEventState extends State<ElEvent> {
     if (!bubbleFlag) return;
     stopPropagationByWidget();
 
-    //
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
-    childSize = childKey.currentContext?.size ?? Size.zero;
     isCancel = false;
 
     // 在 web 平台上，如果设置了 prevent 属性，鼠标右键按下时将阻止浏览器默认菜单
@@ -85,7 +83,7 @@ class _ElEventState extends State<ElEvent> {
       longPressHandler();
     }
 
-    _prop.onTapDown?.call(e);
+    _prop.onDown?.call(e);
     isTap = true;
   }
 
@@ -115,14 +113,14 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _prop.onTapUp?.call(e);
+        _prop.onUp?.call(e);
         isTap = false;
       }
     }, delay);
   }
 
   /// 指针取消事件
-  void onTapCancel() {
+  void onPointCancel() {
     if (!bubbleFlag) {
       bubbleFlag = true;
       return;
@@ -135,7 +133,7 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _prop.onTapCancel?.call();
+        _prop.onCancel?.call();
         isTap = false;
       }
     }, _tapUpDelay);
@@ -147,12 +145,23 @@ class _ElEventState extends State<ElEvent> {
     if (isCancel == false && isActiveLongPress == false) {
       // 如果指针离开元素，则立即取消
       if (!childSize.contains(e.localPosition)) {
-        onTapCancel();
+        onPointCancel();
       }
       // 如果指针移动偏移大于预定值，则取消
       else if ((e.position - tapDownOffset).distance > _prop.cancelScope) {
-        onTapCancel();
+        onPointCancel();
       }
+    }
+    if (_prop.onMove != null) _prop.onMove!(e);
+    if (_prop.onVerticalMove != null) {
+      _prop.onVerticalMove!(e.copyWith(
+        delta: Offset(0, e.delta.dy),
+      ));
+    }
+    if (_prop.onHorizontalMove != null) {
+      _prop.onHorizontalMove!(e.copyWith(
+        delta: Offset(e.delta.dx, 0),
+      ));
     }
   }
 
@@ -248,6 +257,10 @@ class _ElEventState extends State<ElEvent> {
   Widget build(BuildContext context) {
     _prop = _Prop.create(context, widget);
 
+    nextTick(() {
+      childSize = childKey.currentContext?.size ?? Size.zero;
+    });
+
     Widget result = ObsBuilder(
       builder: (context) {
         return _ElEventInheritedWidget(
@@ -283,7 +296,7 @@ class _ElEventState extends State<ElEvent> {
       behavior: _prop.hitTestBehavior,
       onPointerDown: _prop.disabled ? null : onPointDown,
       onPointerUp: _prop.disabled ? null : onPointUp,
-      onPointerCancel: _prop.disabled ? null : (e) => onTapCancel(),
+      onPointerCancel: _prop.disabled ? null : (e) => onPointCancel(),
       onPointerMove: _prop.disabled ? null : onPointMove,
       child: result,
     );

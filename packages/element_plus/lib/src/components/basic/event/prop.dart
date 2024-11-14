@@ -7,9 +7,9 @@ class _Prop {
   final PointerEnterEventListener? onEnter;
   final PointerExitEventListener? onExit;
   final PointerHoverEventListener? onHover;
-  final PointerDownEventListener? onTapDown;
-  final PointerUpEventListener? onTapUp;
-  final VoidCallback? onTapCancel;
+  final PointerDownEventListener? onDown;
+  final PointerUpEventListener? onUp;
+  final VoidCallback? onCancel;
   final int cancelScope;
   final VoidCallback? onTap;
   final VoidCallback? onContextMenu;
@@ -20,6 +20,12 @@ class _Prop {
   final VoidCallback? onLongPress;
   final int longPressTimeout;
   final bool feedback;
+  final PointerMoveEventListener? onMove;
+  final PointerMoveEventListener? onMoveEnd;
+  final PointerMoveEventListener? onVerticalMove;
+  final PointerMoveEventListener? onVerticalMoveEnd;
+  final PointerMoveEventListener? onHorizontalMove;
+  final PointerMoveEventListener? onHorizontalMoveEnd;
 
   _Prop({
     required this.disabled,
@@ -28,9 +34,9 @@ class _Prop {
     required this.onEnter,
     required this.onExit,
     required this.onHover,
-    required this.onTapDown,
-    required this.onTapUp,
-    required this.onTapCancel,
+    required this.onDown,
+    required this.onUp,
+    required this.onCancel,
     required this.cancelScope,
     required this.onTap,
     required this.onContextMenu,
@@ -41,6 +47,12 @@ class _Prop {
     required this.onLongPress,
     required this.longPressTimeout,
     required this.feedback,
+    required this.onMove,
+    required this.onMoveEnd,
+    required this.onVerticalMove,
+    required this.onVerticalMoveEnd,
+    required this.onHorizontalMove,
+    required this.onHorizontalMoveEnd,
   });
 
   /// 通过工厂函数创建按钮最终 prop 配置
@@ -56,9 +68,9 @@ class _Prop {
       onEnter: widget.onEnter ?? $data.onEnter,
       onExit: widget.onExit ?? $data.onExit,
       onHover: widget.onHover ?? $data.onHover,
-      onTapDown: widget.onTapDown ?? $data.onTapDown,
-      onTapUp: widget.onTapUp ?? $data.onTapUp,
-      onTapCancel: widget.onTapCancel ?? $data.onTapCancel,
+      onDown: widget.onDown ?? $data.onDown,
+      onUp: widget.onUp ?? $data.onUp,
+      onCancel: widget.onCancel ?? $data.onCancel,
       cancelScope: widget.cancelScope ?? $data.cancelScope ?? 10,
       onTap: widget.onTap ?? $data.onTap,
       onContextMenu: widget.onContextMenu ?? $data.onContextMenu,
@@ -72,6 +84,13 @@ class _Prop {
       longPressTimeout:
           widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
       feedback: widget.feedback ?? $data.feedback ?? true,
+      onMove: widget.onMove ?? $data.onMove,
+      onMoveEnd: widget.onMoveEnd ?? $data.onMoveEnd,
+      onVerticalMove: widget.onVerticalMove ?? $data.onVerticalMove,
+      onVerticalMoveEnd: widget.onVerticalMoveEnd ?? $data.onVerticalMoveEnd,
+      onHorizontalMove: widget.onHorizontalMove ?? $data.onHorizontalMove,
+      onHorizontalMoveEnd:
+          widget.onHorizontalMoveEnd ?? $data.onHorizontalMoveEnd,
     );
   }
 }

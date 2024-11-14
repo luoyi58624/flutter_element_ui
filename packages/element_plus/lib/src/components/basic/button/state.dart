@@ -95,7 +95,7 @@ class _ElButtonState extends State<ElButton> {
           _groupData!.onChanged(_indexData!.index);
         }
       },
-      onTapDown: (e) {
+      onDown: (e) {
         setState(() {
           _isTap = true;
         });
@@ -104,7 +104,7 @@ class _ElButtonState extends State<ElButton> {
           _groupData!.tapIndex.value = _indexData!.index;
         }
       },
-      onTapUp: (e) {
+      onUp: (e) {
         setState(() {
           _isTap = false;
         });
@@ -113,7 +113,7 @@ class _ElButtonState extends State<ElButton> {
           _groupData!.tapIndex.value = -1;
         }
       },
-      onTapCancel: () {
+      onCancel: () {
         setState(() {
           _isTap = false;
         });

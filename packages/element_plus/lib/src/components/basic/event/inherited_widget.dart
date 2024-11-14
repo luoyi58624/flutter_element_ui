@@ -1,7 +1,8 @@
 part of 'index.dart';
 
 class ElStopPropagation extends InheritedWidget {
-  /// 阻止事件冒泡小部件
+  /// 阻止事件冒泡小部件，它会在指针按下时立即触发，如果你希望在其他时间点阻止事件冒泡（例如只阻止 onTap 但不阻止 onTapDown），
+  /// 你可以在 onTap 事件中执行 context.stopPropagation() 函数。
   const ElStopPropagation({
     super.key,
     required super.child,
@@ -43,9 +44,9 @@ class _ElEventInheritedWidget extends InheritedWidget {
   }
 
   static void _stopPropagation(BuildContext context) {
-    final result =
-        context.getInheritedWidgetOfExactType<_ElEventInheritedWidget>();
-    if (result != null) result.stopPropagation();
+    context
+        .getInheritedWidgetOfExactType<_ElEventInheritedWidget>()
+        ?.stopPropagation();
   }
 
   @override

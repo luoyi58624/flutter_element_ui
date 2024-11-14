@@ -18,6 +18,16 @@ extension ElPointerUpEventExtension on PointerUpEvent {
       );
 }
 
+extension ElPointerMoveEventExtension on PointerMoveEvent {
+  /// 将 pointUp 原始指针事件转成 [TapUpDetails]
+  DragUpdateDetails get toDetails => DragUpdateDetails(
+        sourceTimeStamp: timeStamp,
+        delta: delta,
+        globalPosition: position,
+        localPosition: localPosition,
+      );
+}
+
 extension ElEventExtension on BuildContext {
   /// 通过当前上下文访问最近的 Tap 点击状态，如果引用此变量，[ElEvent] 获得点击事件时将会重建子组件
   bool get isTap => ElEvent.isTap(this);

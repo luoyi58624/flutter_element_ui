@@ -36,9 +36,6 @@ class _Example extends HookWidget {
           onTap: () {
             el.message.show('单击');
           },
-          onTapCancel: () {
-            el.message.show('取消', type: El.error);
-          },
           child: Container(
             width: 100,
             height: 50,
@@ -50,9 +47,6 @@ class _Example extends HookWidget {
         ElEvent(
           onContextMenu: () {
             el.message.show('右键单击');
-          },
-          onTapCancel: () {
-            el.message.show('取消', type: El.error);
           },
           child: Container(
             width: 100,
@@ -96,7 +90,7 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.show('双击');
           },
-          onTapCancel: () {
+          onCancel: () {
             el.message.show('取消', type: El.error);
           },
           delayTapForDouble: true,
@@ -114,9 +108,6 @@ class _Example extends HookWidget {
           },
           onLongPress: () {
             el.message.show('长按');
-          },
-          onTapCancel: () {
-            el.message.show('取消', type: El.error);
           },
           child: Container(
             width: 100,
@@ -145,9 +136,6 @@ class _Example extends HookWidget {
           onTap: () {
             el.message.show('单击');
           },
-          onTapCancel: () {
-            el.message.show('取消', type: El.error);
-          },
           child: Container(
             width: 100,
             height: 50,
@@ -159,9 +147,6 @@ class _Example extends HookWidget {
         ElEvent(
           onContextMenu: () {
             el.message.show('右键单击');
-          },
-          onTapCancel: () {
-            el.message.show('取消', type: El.error);
           },
           child: Container(
             width: 100,
@@ -205,7 +190,7 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.show('双击');
           },
-          onTapCancel: () {
+          onCancel: () {
             el.message.show('取消', type: El.error);
           },
           delayTapForDouble: true,

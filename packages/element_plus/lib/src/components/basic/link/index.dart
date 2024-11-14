@@ -244,43 +244,45 @@ class _LinkOverlayState extends State<_LinkOverlay>
     return Positioned(
       left: 0,
       bottom: 0,
-      child: AnimatedBuilder(
-          animation: _controller!,
-          builder: (context, child) {
-            return Opacity(
-              opacity: _controller!.value,
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width - 50,
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: const BoxDecoration(
-                  color: Color.fromRGBO(227, 227, 227, 1),
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
-                  border: Border(
-                    top: _linkBorderSide,
-                    right: _linkBorderSide,
+      child: IgnorePointer(
+        child: AnimatedBuilder(
+            animation: _controller!,
+            builder: (context, child) {
+              return Opacity(
+                opacity: _controller!.value,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 50,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 0),
-                      blurRadius: 12,
-                      spreadRadius: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(227, 227, 227, 1),
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
+                    border: Border(
+                      top: _linkBorderSide,
+                      right: _linkBorderSide,
                     ),
-                  ],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(0, 0),
+                        blurRadius: 12,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: ObsBuilder(builder: (context) {
+                    return ElText(
+                      _href.value,
+                      style: const TextStyle(
+                          fontSize: 12, color: Color.fromRGBO(71, 71, 71, 1)),
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
                 ),
-                child: ObsBuilder(builder: (context) {
-                  return ElText(
-                    _href.value,
-                    style: const TextStyle(
-                        fontSize: 12, color: Color.fromRGBO(71, 71, 71, 1)),
-                    overflow: TextOverflow.ellipsis,
-                  );
-                }),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
