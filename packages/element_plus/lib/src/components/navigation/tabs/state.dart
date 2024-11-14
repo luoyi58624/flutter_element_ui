@@ -96,7 +96,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
 
                     return ElEvent(
                       key: key,
-                      onDown: (e) {
+                      onPointerDown: (e) {
                         onChanged(key.value);
                         list?.startItemDragReorder(
                           index: index,

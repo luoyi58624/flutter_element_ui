@@ -9,15 +9,15 @@ class ScrollRenderTestPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ObsBuilder(
-      builder: (context) => TempTestPage.tempSwitch.value
+    return ObsBuilder(builder: (context) {
+      return TempTestPage.tempSwitch.value
           ? const SingleChildScrollView(
               child: RepaintBoundary(child: _Child()),
             )
-          : const ScrollWidget(
+          : const ElScroll(
               child: RepaintBoundary(child: _Child2()),
-            ),
-    );
+            );
+    });
   }
 }
 
@@ -26,12 +26,15 @@ class _Child extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const buttonPage = ButtonPage();
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
+          ...buttonPage.buildPage(context) * 10,
           ...List.generate(
-            3000,
+            1000,
             (index) => Text('列表 - ${index + 1}'),
           ),
         ],
@@ -51,9 +54,9 @@ class _Child2 extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          // ...buttonPage.buildPage(context),
+          ...buttonPage.buildPage(context) * 10,
           ...List.generate(
-            100,
+            1000,
             (index) => Text('列表 - ${index + 1}'),
           ),
         ],
@@ -61,4 +64,3 @@ class _Child2 extends StatelessWidget {
     );
   }
 }
-

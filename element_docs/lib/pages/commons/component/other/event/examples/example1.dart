@@ -90,9 +90,6 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.show('双击');
           },
-          onCancel: () {
-            el.message.show('取消', type: El.error);
-          },
           delayTapForDouble: true,
           child: Container(
             width: 160,
@@ -189,9 +186,6 @@ class _Example extends HookWidget {
           },
           onDoubleTap: () {
             el.message.show('双击');
-          },
-          onCancel: () {
-            el.message.show('取消', type: El.error);
           },
           delayTapForDouble: true,
           child: Container(

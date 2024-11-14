@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -14,6 +15,8 @@ part 'prop.dart';
 part 'inherited_widget.dart';
 
 part 'extension.dart';
+
+part 'drag.dart';
 
 part 'theme.dart';
 
@@ -49,15 +52,16 @@ class ElEvent extends StatefulWidget {
     this.onContextMenu,
     this.onDoubleTap,
     this.onLongPress,
-    this.onDown,
-    this.onUp,
-    this.onCancel,
+    this.onPointerDown,
+    this.onPointerUp,
+    this.onPointerCancel,
     this.onMove,
     this.onMoveEnd,
     this.onVerticalMove,
     this.onVerticalMoveEnd,
     this.onHorizontalMove,
     this.onHorizontalMoveEnd,
+    this.onPointerSignal,
   }) : assert(
             (child != null && builder == null) ||
                 (child == null && builder != null),
@@ -118,31 +122,34 @@ class ElEvent extends StatefulWidget {
   final VoidCallback? onLongPress;
 
   /// 指针按下事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapDownDetails]
-  final PointerDownEventListener? onDown;
+  final PointerDownEventListener? onPointerDown;
 
   /// 指针抬起事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapUpDetails]
-  final PointerUpEventListener? onUp;
+  final PointerUpEventListener? onPointerUp;
 
   /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调
-  final VoidCallback? onCancel;
+  final VoidCallback? onPointerCancel;
 
-  /// 指针移动事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [DragUpdateDetails]
-  final PointerMoveEventListener? onMove;
+  /// 指针移动事件
+  final GestureDragUpdateCallback? onMove;
 
   /// 指针结束移动事件
-  final PointerMoveEventListener? onMoveEnd;
+  final GestureDragEndCallback? onMoveEnd;
 
-  /// 指针垂直移动事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [DragUpdateDetails]
-  final PointerMoveEventListener? onVerticalMove;
+  /// 指针垂直移动事件
+  final GestureDragUpdateCallback? onVerticalMove;
 
   /// 指针结束垂直移动事件
-  final PointerMoveEventListener? onVerticalMoveEnd;
+  final GestureDragEndCallback? onVerticalMoveEnd;
 
-  /// 指针水平移动事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [DragUpdateDetails]
-  final PointerMoveEventListener? onHorizontalMove;
+  /// 指针水平移动事件
+  final GestureDragUpdateCallback? onHorizontalMove;
 
   /// 指针结束水平移动事件
-  final PointerMoveEventListener? onHorizontalMoveEnd;
+  final GestureDragEndCallback? onHorizontalMoveEnd;
+
+  /// 指针信号事件，例如：鼠标滚轮滚动
+  final PointerSignalEventListener? onPointerSignal;
 
   /// 通过上下文获取最近的悬停状态
   static bool isHover(BuildContext context) =>

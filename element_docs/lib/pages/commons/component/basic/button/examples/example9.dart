@@ -70,7 +70,7 @@ class _Example extends HookWidget {
           width: 80,
           height: 80,
           padding: EdgeInsets.zero,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(40),
           type: 'primary',
           child: const ElText(
             '按钮',
@@ -128,7 +128,7 @@ class _Example extends HookWidget {
           width: 80,
           height: 80,
           padding: EdgeInsets.zero,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(40),
           type: 'primary',
           child: const ElText(
             '按钮',

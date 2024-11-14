@@ -376,11 +376,8 @@ class DartUtil {
     return hasMatch(s, r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$');
   }
 
+  /// 是否是 http 地址
   static bool isHttp(String url) => url.startsWith('http');
-
-  /// Checks if string is DateTime (UTC or Iso8601).
-  static bool isDateTime(String s) =>
-      hasMatch(s, r'^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}.\d{3}Z?$');
 
   static bool hasMatch(String? value, String pattern) {
     return (value == null) ? false : RegExp(pattern).hasMatch(value);
@@ -441,10 +438,10 @@ class DartUtil {
   }
 
   /// 给定一个包含任意类型的变量数组，判断内部变量是否仅有一个元素不为null
-  /// * allowAllNull 允许所有变量均为null
-  static bool onlyOneNotNull(
+  /// * allowAllNull 允许所有变量均为null，默认 true
+  static bool listOnlyOne(
     List values, {
-    bool allowAllNull = false,
+    bool allowAllNull = true,
   }) {
     final l = values.where((e) => e != null).length;
     return allowAllNull ? l == 0 || l == 1 : l == 1;

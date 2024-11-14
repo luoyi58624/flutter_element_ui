@@ -66,41 +66,35 @@ class _ElScrollState extends State<ElScroll> {
       );
     });
 
-    if (PlatformUtil.isDesktop) {
-      result = Listener(
-        onPointerSignal: (e) {
-          if (e is PointerScrollEvent) {
-            offset += e.scrollDelta.dy;
-          }
-        },
-        child: result,
-      );
-    } else {
-      result = GestureDetector(
-        onVerticalDragDown: (e) {
-          oldAnimateValue = 0.0;
-          if (controller.status != AnimationStatus.completed) {
-            controller.stop();
-          }
-        },
-        onVerticalDragUpdate: (e) {
-          offset -= e.delta.dy;
-        },
-        onVerticalDragEnd: (e) {
-          if (e.velocity.pixelsPerSecond.dy.abs() > 0.0 &&
-              offset > 0 &&
-              offset < maxScrollPixels) {
-            FrictionSimulation frictionSim = FrictionSimulation(
-              0.135,
-              0.0,
-              e.velocity.pixelsPerSecond.dy,
-            );
-            controller.animateWith(frictionSim);
-          }
-        },
-        child: result,
-      );
-    }
+    result = ElEvent(
+      onPointerSignal: (e) {
+        if (e is PointerScrollEvent) {
+          offset += e.scrollDelta.dy;
+        }
+      },
+      onPointerDown: (e) {
+        oldAnimateValue = 0.0;
+        if (controller.status != AnimationStatus.completed) {
+          controller.stop();
+        }
+      },
+      onVerticalMove: (e) {
+        offset -= e.delta.dy;
+      },
+      onVerticalMoveEnd: (e) {
+        if (e.velocity.pixelsPerSecond.dy.abs() > 0.0 &&
+            offset > 0 &&
+            offset < maxScrollPixels) {
+          FrictionSimulation frictionSim = FrictionSimulation(
+            0.135,
+            0.0,
+            e.velocity.pixelsPerSecond.dy,
+          );
+          controller.animateWith(frictionSim);
+        }
+      },
+      child: result,
+    );
 
     return Builder(
       key: _scrollKey,

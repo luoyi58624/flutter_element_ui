@@ -26,7 +26,7 @@ class ButtonPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    const list = [
+    return const [
       Example1(title: '基础用法'),
       Example2(title: '禁用状态'),
       Example3(title: '链接按钮'),
@@ -38,10 +38,5 @@ class ButtonPage extends ResponsivePage {
       Example9(title: '自定义尺寸'),
       Example10(title: '分割按钮'),
     ];
-    List<Widget> newList = [];
-    for (int i = 0; i < 1; i++) {
-      newList.addAll(list);
-    }
-    return newList;
   }
 }

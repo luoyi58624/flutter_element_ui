@@ -27,7 +27,7 @@ class _ButtonColorStyle {
 extension _ButtonColorExtension on Color {
   /// 悬停状态颜色，颜色会变得更浅
   Color hover(BuildContext context, [bool? reverse]) =>
-      elLight2(context, reverse: reverse ?? false);
+      elLight3(context, reverse: reverse ?? false);
 
   /// 按下状态颜色，颜色会变得更深
   Color tap(BuildContext context, [bool? reverse]) =>

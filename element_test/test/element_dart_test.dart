@@ -6,12 +6,12 @@ import 'element_dart/reg/html.dart';
 void elementDartTest() {
   group('DartUtil', () {
     test('onlyOneNotNull', () {
-      expect(DartUtil.onlyOneNotNull(['x', null]), isTrue);
-      expect(DartUtil.onlyOneNotNull(['x', null, 1]), isFalse);
-      expect(DartUtil.onlyOneNotNull([null, null]), isFalse);
-      expect(DartUtil.onlyOneNotNull([null, null, 1]), isTrue);
-      expect(DartUtil.onlyOneNotNull([null, null, null]), isFalse);
-      expect(DartUtil.onlyOneNotNull([null, null, null], allowAllNull: true),
+      expect(DartUtil.listOnlyOne(['x', null]), isTrue);
+      expect(DartUtil.listOnlyOne(['x', null, 1]), isFalse);
+      expect(DartUtil.listOnlyOne([null, null]), isFalse);
+      expect(DartUtil.listOnlyOne([null, null, 1]), isTrue);
+      expect(DartUtil.listOnlyOne([null, null, null]), isFalse);
+      expect(DartUtil.listOnlyOne([null, null, null], allowAllNull: true),
           isTrue);
     });
   });

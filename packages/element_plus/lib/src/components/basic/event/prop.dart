@@ -7,9 +7,9 @@ class _Prop {
   final PointerEnterEventListener? onEnter;
   final PointerExitEventListener? onExit;
   final PointerHoverEventListener? onHover;
-  final PointerDownEventListener? onDown;
-  final PointerUpEventListener? onUp;
-  final VoidCallback? onCancel;
+  final PointerDownEventListener? onPointerDown;
+  final PointerUpEventListener? onPointerUp;
+  final VoidCallback? onPointerCancel;
   final int cancelScope;
   final VoidCallback? onTap;
   final VoidCallback? onContextMenu;
@@ -20,12 +20,18 @@ class _Prop {
   final VoidCallback? onLongPress;
   final int longPressTimeout;
   final bool feedback;
-  final PointerMoveEventListener? onMove;
-  final PointerMoveEventListener? onMoveEnd;
-  final PointerMoveEventListener? onVerticalMove;
-  final PointerMoveEventListener? onVerticalMoveEnd;
-  final PointerMoveEventListener? onHorizontalMove;
-  final PointerMoveEventListener? onHorizontalMoveEnd;
+  final GestureDragUpdateCallback? onMove;
+  final GestureDragEndCallback? onMoveEnd;
+
+  final GestureDragUpdateCallback? onVerticalMove;
+  final GestureDragEndCallback? onVerticalMoveEnd;
+
+  /// 指针水平移动事件
+  final GestureDragUpdateCallback? onHorizontalMove;
+
+  /// 指针结束水平移动事件
+  final GestureDragEndCallback? onHorizontalMoveEnd;
+  final PointerSignalEventListener? onPointerSignal;
 
   _Prop({
     required this.disabled,
@@ -34,9 +40,9 @@ class _Prop {
     required this.onEnter,
     required this.onExit,
     required this.onHover,
-    required this.onDown,
-    required this.onUp,
-    required this.onCancel,
+    required this.onPointerDown,
+    required this.onPointerUp,
+    required this.onPointerCancel,
     required this.cancelScope,
     required this.onTap,
     required this.onContextMenu,
@@ -53,6 +59,7 @@ class _Prop {
     required this.onVerticalMoveEnd,
     required this.onHorizontalMove,
     required this.onHorizontalMoveEnd,
+    required this.onPointerSignal,
   });
 
   /// 通过工厂函数创建按钮最终 prop 配置
@@ -68,9 +75,9 @@ class _Prop {
       onEnter: widget.onEnter ?? $data.onEnter,
       onExit: widget.onExit ?? $data.onExit,
       onHover: widget.onHover ?? $data.onHover,
-      onDown: widget.onDown ?? $data.onDown,
-      onUp: widget.onUp ?? $data.onUp,
-      onCancel: widget.onCancel ?? $data.onCancel,
+      onPointerDown: widget.onPointerDown ?? $data.onPointerDown,
+      onPointerUp: widget.onPointerUp ?? $data.onPointerUp,
+      onPointerCancel: widget.onPointerCancel ?? $data.onPointerCancel,
       cancelScope: widget.cancelScope ?? $data.cancelScope ?? 10,
       onTap: widget.onTap ?? $data.onTap,
       onContextMenu: widget.onContextMenu ?? $data.onContextMenu,
@@ -91,6 +98,7 @@ class _Prop {
       onHorizontalMove: widget.onHorizontalMove ?? $data.onHorizontalMove,
       onHorizontalMoveEnd:
           widget.onHorizontalMoveEnd ?? $data.onHorizontalMoveEnd,
+      onPointerSignal: widget.onPointerSignal ?? $data.onPointerSignal,
     );
   }
 }

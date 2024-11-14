@@ -28,46 +28,26 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final flag = useState(false);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            ElSwitch(flag),
-            const Gap(8),
-            ElText(flag.value ? '阻止事件冒泡' : '允许事件冒泡'),
-          ],
-        ),
-        const Gap(8),
         GestureDetector(
-          onTap: () {
-            el.message.show('点击 blue 方块', type: El.primary);
+          onPanEnd: (e) {
+            i(e.velocity);
           },
           child: Container(
-            width: 300,
-            height: 300,
-            color: Colors.blue,
-            alignment: Alignment.center,
-            child: ElEvent(
-              onTap: () {
-                el.message.show('点击 red 方块', type: El.success);
-              },
-              onDoubleTap: () {
-                el.message.show('双击了 red 方块', type: El.warning);
-              },
-              onLongPress: () {
-                el.message.show('长按 red 方块', type: El.error);
-              },
-              builder: (context) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                );
-              },
-            ),
+            width: 100,
+            height: 100,
+            color: Colors.green,
+          ),
+        ),
+        const Gap(8),
+        ElEvent(
+          onMoveEnd: (e) {},
+          child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.red,
           ),
         ),
       ],

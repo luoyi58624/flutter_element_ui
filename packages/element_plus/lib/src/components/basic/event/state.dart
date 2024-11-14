@@ -20,6 +20,8 @@ class _ElEventState extends State<ElEvent> {
   bool hasHoverDepend = false; // 是否存在悬停状态依赖
   bool hasTapDepend = false; // 是否存在点击状态依赖
 
+  _DragEvent? _drag;
+
   Timer? _tapUpTimer; // 指针抬起延迟释放计时器
 
   bool get isHover => _isHover.value;
@@ -55,7 +57,7 @@ class _ElEventState extends State<ElEvent> {
   }
 
   /// 指针按下事件
-  void onPointDown(PointerDownEvent e) async {
+  void onPointerDown(PointerDownEvent e) async {
     // 阻止冒泡
     if (!bubbleFlag) return;
     stopPropagationByWidget();
@@ -83,16 +85,18 @@ class _ElEventState extends State<ElEvent> {
       longPressHandler();
     }
 
-    _prop.onDown?.call(e);
+    _drag?.onStart(e);
+    _prop.onPointerDown?.call(e);
     isTap = true;
   }
 
   /// 指针抬起事件
-  void onPointUp(PointerUpEvent e) {
+  void onPointerUp(PointerUpEvent e) {
     if (!bubbleFlag) {
       bubbleFlag = true;
       return;
     }
+    _drag?.onEnd(e);
     if (isCancel == false) {
       if (pointType == kPrimaryButton) {
         if (_prop.onDoubleTap != null) {
@@ -113,14 +117,14 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _prop.onUp?.call(e);
+        _prop.onPointerUp?.call(e);
         isTap = false;
       }
     }, delay);
   }
 
   /// 指针取消事件
-  void onPointCancel() {
+  void onPointerCancel() {
     if (!bubbleFlag) {
       bubbleFlag = true;
       return;
@@ -133,39 +137,35 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer = null;
       tapDownTime = null;
       if (mounted) {
-        _prop.onCancel?.call();
+        _prop.onPointerCancel?.call();
         isTap = false;
       }
     }, _tapUpDelay);
   }
 
   /// 指针移动事件
-  void onPointMove(PointerMoveEvent e) {
+  void onPointerMove(PointerMoveEvent e) {
     if (!bubbleFlag) return;
+    _drag?.onMove(e);
     if (isCancel == false && isActiveLongPress == false) {
       // 如果指针离开元素，则立即取消
       if (!childSize.contains(e.localPosition)) {
-        onPointCancel();
+        onPointerCancel();
       }
       // 如果指针移动偏移大于预定值，则取消
       else if ((e.position - tapDownOffset).distance > _prop.cancelScope) {
-        onPointCancel();
+        onPointerCancel();
       }
-    }
-    if (_prop.onMove != null) _prop.onMove!(e);
-    if (_prop.onVerticalMove != null) {
-      _prop.onVerticalMove!(e.copyWith(
-        delta: Offset(0, e.delta.dy),
-      ));
-    }
-    if (_prop.onHorizontalMove != null) {
-      _prop.onHorizontalMove!(e.copyWith(
-        delta: Offset(e.delta.dx, 0),
-      ));
     }
   }
 
-  /// 单击事件处理，此函数会在 [onPointUp] 指针抬起时执行
+  /// 指针信号事件
+  void onPointerSignal(PointerSignalEvent e) {
+    if (!bubbleFlag) return;
+    _prop.onPointerSignal?.call(e);
+  }
+
+  /// 单击事件处理，此函数会在 [onPointerUp] 指针抬起时执行
   void tapHandler() {
     // 如果设置了等待双击延迟，需要判断双击计时器是否开始、或者是否已经触发了双击，若为 true 那么禁止执行单击事件
     if (_prop.delayTapForDouble &&
@@ -184,7 +184,7 @@ class _ElEventState extends State<ElEvent> {
 
   Timer? _doubleTapTimer;
 
-  /// 双击事件处理，此函数会在 [onPointUp] 指针抬起时执行
+  /// 双击事件处理，此函数会在 [onPointerUp] 指针抬起时执行
   void doubleTapHandler() {
     // 若触发了长按则直接返回
     if (isActiveLongPress) return;
@@ -206,7 +206,7 @@ class _ElEventState extends State<ElEvent> {
 
   Timer? _longPressTimer;
 
-  /// 长按事件处理，此函数会在 [onPointDown] 指针按下时执行
+  /// 长按事件处理，此函数会在 [onPointerDown] 指针按下时执行
   void longPressHandler() {
     _longPressTimer = setTimeout(() {
       _longPressTimer = null;
@@ -223,7 +223,7 @@ class _ElEventState extends State<ElEvent> {
     }
   }
 
-  /// 右键处理，此函数会在 [onPointUp] 指针抬起时执行
+  /// 右键处理，此函数会在 [onPointerUp] 指针抬起时执行
   void contextMenuHandler() async {
     if (kIsWeb) {
       if (_prop.prevent) {
@@ -256,6 +256,32 @@ class _ElEventState extends State<ElEvent> {
   @override
   Widget build(BuildContext context) {
     _prop = _Prop.create(context, widget);
+
+    assert(
+      DartUtil.listOnlyOne([
+        _prop.onMove,
+        _prop.onVerticalMove,
+        _prop.onHorizontalMove,
+      ]),
+      'onMove、onVerticalMove、onHorizontalMove 只能存在一个',
+    );
+    assert(
+      DartUtil.listOnlyOne([
+        _prop.onMoveEnd,
+        _prop.onVerticalMoveEnd,
+        _prop.onHorizontalMoveEnd
+      ]),
+      'onMoveEnd、onVerticalMoveEnd、onHorizontalMoveEnd 只能存在一个',
+    );
+
+    // 注册拖拽事件
+    if (_prop.onMoveEnd != null ||
+        _prop.onVerticalMoveEnd != null ||
+        _prop.onHorizontalMoveEnd != null) {
+      _drag = _DragEvent(_prop);
+    } else {
+      _drag = null;
+    }
 
     nextTick(() {
       childSize = childKey.currentContext?.size ?? Size.zero;
@@ -294,10 +320,11 @@ class _ElEventState extends State<ElEvent> {
 
     return Listener(
       behavior: _prop.hitTestBehavior,
-      onPointerDown: _prop.disabled ? null : onPointDown,
-      onPointerUp: _prop.disabled ? null : onPointUp,
-      onPointerCancel: _prop.disabled ? null : (e) => onPointCancel(),
-      onPointerMove: _prop.disabled ? null : onPointMove,
+      onPointerDown: _prop.disabled ? null : onPointerDown,
+      onPointerUp: _prop.disabled ? null : onPointerUp,
+      onPointerCancel: _prop.disabled ? null : (e) => onPointerCancel(),
+      onPointerMove: _prop.disabled ? null : onPointerMove,
+      onPointerSignal: _prop.disabled ? null : onPointerSignal,
       child: result,
     );
   }
