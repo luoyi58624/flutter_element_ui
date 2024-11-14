@@ -16,7 +16,7 @@ class NavPage extends ResponsivePage {
       // const Gap(50),
       // const _Demo(),
 
-      const _Demo(),
+      // const _Demo(),
       const _Example(),
       // ...List.generate(
       //   50,
@@ -114,9 +114,6 @@ class _ExampleState extends State<_Example>
           ),
           Draggable(
             rootOverlay: true,
-            onDragUpdate: (e) {
-              i(e.delta);
-            },
             feedback: Container(
               width: 100,
               height: 100,

@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class _ElScrollState extends State<ElScroll> {
+class _ElScrollState extends State<CustomScrollWidget> {
   /// 惯性移动动画控制器
   late final AnimationController controller =
       AnimationController.unbounded(vsync: vsync)
