@@ -16,8 +16,9 @@ class Example2 extends HookWidget {
           title: 'Tip',
           content: [
             '第一个盒子是嵌套事件的默认行为，默认情况下子容器的事件会冒泡到外层，所以点击 green 方块会同时触发 blue 方块。',
-            '第二个则在中间插入一个 ElStopPropagation 小部件，这个小部件可以阻止事件冒泡，遗憾的是它只作用于 ElEvent 之间的嵌套。',
-            '第三个盒子在第二个盒子基础上再嵌套了一个 red 盒子，blue 方块和 red 方块之间没有插入 ElStopPropagation，所以它们会同时触发事件。'
+            '要解决事件冒泡只需在中间插入一个 ElStopPropagation 小部件，以下示例便是此解决方案。',
+            '第三个盒子在第二个盒子基础上再嵌套了一个 red 盒子，blue 方块和 red 方块之间没有插入 ElStopPropagation，所以它们会同时触发事件。',
+            '第四个盒子则在 red 和 blue 之间也插入 ElStopPropagation，这样便可以解决它们之间的事件冒泡。'
           ],
         ),
         textGap,
@@ -32,6 +33,8 @@ class Example2 extends HookWidget {
                 _Example2(),
                 Gap(10),
                 _Example3(),
+                Gap(10),
+                _Example4(),
               ],
             ),
           ],
@@ -92,8 +95,7 @@ class _Example2 extends HookWidget {
             height: 150,
             color: Colors.blue,
             alignment: Alignment.center,
-            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，你也可以在事件中执行 context.stopPropagation() 方法阻止事件冒泡，
-            // 但是你需要注意 context 作用域问题。
+            // 添加 ElStopPropagation 小部件即可阻止事件冒泡
             child: ElStopPropagation(
               child: ElEvent(
                 onTap: () {
@@ -139,8 +141,6 @@ class _Example3 extends HookWidget {
                 height: 100,
                 color: Colors.blue,
                 alignment: Alignment.center,
-                // 添加 ElStopPropagation 小部件即可阻止事件冒泡，你也可以在事件中执行 context.stopPropagation() 方法阻止事件冒泡，
-                // 但是你需要注意 context 作用域问题。
                 child: ElStopPropagation(
                   child: ElEvent(
                     onTap: () {
@@ -150,6 +150,55 @@ class _Example3 extends HookWidget {
                       width: 50,
                       height: 50,
                       color: Colors.green,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Example4 extends HookWidget {
+  const _Example4();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElEvent(
+          onTap: () {
+            el.message.show('点击 red 方块', type: El.error);
+          },
+          child: Container(
+            width: 150,
+            height: 150,
+            color: Colors.red,
+            alignment: Alignment.center,
+            child: ElStopPropagation(
+              child: ElEvent(
+                onTap: () {
+                  el.message.show('点击 blue 方块', type: El.primary);
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.blue,
+                  alignment: Alignment.center,
+                  child: ElStopPropagation(
+                    child: ElEvent(
+                      onTap: () {
+                        el.message.show('点击 green 方块', type: El.success);
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        color: Colors.green,
+                      ),
                     ),
                   ),
                 ),
@@ -180,8 +229,7 @@ class _Example2 extends HookWidget {
             height: 150,
             color: Colors.blue,
             alignment: Alignment.center,
-            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，你也可以在事件中执行 context.stopPropagation() 方法阻止事件冒泡，
-            // 但是你需要注意 context 作用域问题。
+            // 添加 ElStopPropagation 小部件即可阻止事件冒泡
             child: ElStopPropagation(
               child: ElEvent(
                 onTap: () {

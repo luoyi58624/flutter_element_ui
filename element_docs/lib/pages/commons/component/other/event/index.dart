@@ -19,11 +19,13 @@ class EventPage extends ResponsivePage {
         type: El.warning,
         content: [
           ElText([
-            'ElEvent 直接基于 ',
+            'ElEvent 是 Element UI 所有小部件的事件监听类，它直接基于 ',
             LinkWidgets.listener,
-            ' 小部件实现，这意味着它不参与手势竞技场的竞争，所以，你不能将它与 ',
+            ' 小部件实现，这意味着它不参与手势竞技场的竞争，你可以直接将它当作 ',
+            LinkWidgets.listener,
+            ' 小部件的加强版，所以，如果你使用 ',
             LinkWidgets.gestureDetector,
-            ' 小部件进行嵌套，否则会出现事件冒泡。'
+            ' 小部件进行嵌套，将会出现事件冒泡。'
           ]),
         ],
       ),

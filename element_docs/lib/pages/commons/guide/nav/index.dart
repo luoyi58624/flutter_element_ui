@@ -109,9 +109,7 @@ class _ExampleState extends State<_Example>
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 500,
-          ),
+          const Gap(50),
           Draggable(
             rootOverlay: true,
             feedback: Container(
@@ -126,7 +124,15 @@ class _ExampleState extends State<_Example>
             ),
           ),
           Container(
-            height: 500,
+            height: 50,
+          ),
+          DragTarget(
+            // onWillAcceptWithDetails: (e)
+            builder: (context, _, __) =>
+                Container(
+                  height: 100,
+                  color: Colors.grey.shade200,
+                ),
           ),
         ],
       );

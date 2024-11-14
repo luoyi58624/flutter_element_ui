@@ -97,6 +97,7 @@ class LayoutHeader extends StatelessWidget {
                       },
                       child: ElEvent(
                         cursor: SystemMouseCursors.click,
+                        hitTestBehavior: HitTestBehavior.opaque,
                         builder: (context) {
                           final isActive = RouterState.currentPath.value
                               .startsWith('/${e.$2}');

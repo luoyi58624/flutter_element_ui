@@ -11,6 +11,7 @@ class _ElEventState extends State<ElEvent> {
   int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2
   Offset tapDownOffset = Offset.zero; // 指针按下位置（全局坐标系）
   int? tapDownTime; // 记录当前的按下时间
+  bool isPrimaryPoint = false; // 鼠标按下的是否是主指针
   bool isCancel = false; // 是否触发了取消事件
   bool isActiveDoubleTap = false; // 是否激活了双击
   bool isActiveLongPress = false; // 是否激活了长按
@@ -65,15 +66,20 @@ class _ElEventState extends State<ElEvent> {
     // 阻止冒泡
     if (!bubbleFlag) return;
     stopPropagationByWidget();
-
-    isTap = true;
-    _prop.onPointerDown?.call(e);
-    _drag?.onStart(e);
-
     pointType = e.buttons;
+    isPrimaryPoint = pointType == kPrimaryButton;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
     isCancel = false;
+    isTap = true;
+
+    if (isPrimaryPoint) {
+      _prop.onPointerDown?.call(e);
+      _drag?.onStart(e);
+
+      // 尝试注册长按事件计时器，需要限制鼠标指针，只能长按鼠标左键
+      if (_prop.onLongPress != null) longPressHandler();
+    }
 
     // 在 web 平台上，如果设置了 prevent 属性，鼠标右键按下时将阻止浏览器默认菜单
     if (kIsWeb) {
@@ -87,11 +93,6 @@ class _ElEventState extends State<ElEvent> {
       _tapUpTimer!.cancel();
       _tapUpTimer = null;
     }
-
-    // 尝试注册长按事件计时器，需要限制鼠标指针，只能长按鼠标左键
-    if (_prop.onLongPress != null && pointType == kPrimaryButton) {
-      longPressHandler();
-    }
   }
 
   /// 指针抬起事件
@@ -100,9 +101,9 @@ class _ElEventState extends State<ElEvent> {
       bubbleFlag = true;
       return;
     }
-    _drag?.onEnd(e);
+    if (isPrimaryPoint) _drag?.onEnd(e);
     if (isCancel == false) {
-      if (pointType == kPrimaryButton) {
+      if (isPrimaryPoint) {
         if (_prop.onDoubleTap != null) {
           doubleTapHandler();
         }
@@ -149,7 +150,7 @@ class _ElEventState extends State<ElEvent> {
   /// 指针移动事件
   void onPointerMove(PointerMoveEvent e) {
     if (!bubbleFlag) return;
-    _drag?.onMove(e);
+    if (isPrimaryPoint) _drag?.onMove(e);
     if (isCancel == false &&
         isActiveLongPress == false &&
         hasMoveEvent == false) {
