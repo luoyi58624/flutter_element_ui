@@ -32,9 +32,14 @@ extension ElColorExtension on Color {
       _elLight(context, 9, reverse);
 
   /// 如果当前颜色是暗色，则应用暗色主题文字颜色，否则应用亮色主题文字颜色
-  Color elTextColor(BuildContext context) => isDark
-      ? context.darkTheme.textTheme.textStyle.color!
-      : context.lightTheme.textTheme.textStyle.color!;
+  Color elTextColor(BuildContext context) {
+    assert(context.lightTheme.textTheme.textStyle.color != null, '亮色文本颜色不能为空');
+    assert(context.darkTheme.textTheme.textStyle.color != null, '暗色文本颜色不能为空');
+
+    return isDark
+        ? context.darkTheme.textTheme.textStyle.color!
+        : context.lightTheme.textTheme.textStyle.color!;
+  }
 
   /// 根据当前颜色生成 Element UI 9 种级别的渐变颜色
   List<Color> elLights(BuildContext context) {

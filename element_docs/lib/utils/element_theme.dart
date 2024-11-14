@@ -11,7 +11,6 @@ ElThemeData buildElementTheme({
     primary: brightness.isDark ? Colors.cyanAccent : GlobalState.primaryColor.value,
     textTheme: data.textTheme.copyWith(
       textStyle: ElFont.defaultTextStyle.copyWith(
-        fontFamily: FontUtil.fontFamily,
         fontSize: GlobalState.globalFontSize,
       ),
     ),

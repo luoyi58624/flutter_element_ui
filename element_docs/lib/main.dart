@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'global.dart';
+import 'utils/app_theme.dart';
 import 'utils/element_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // setPathUrlStrategy();
   // await initFont(
   //   windows: true,

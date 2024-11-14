@@ -55,10 +55,16 @@ class _ElEventState extends State<ElEvent> {
   }
 
   /// 指针按下事件
-  void onPointDown(PointerDownEvent e) {
+  void onPointDown(PointerDownEvent e) async {
     if (!bubbleFlag) return;
     checkBubbleWidget();
+    if (kIsWeb) {
+      if (_prop.prevent) {
+        await BrowserContextMenu.disableContextMenu();
+      }
+    }
     _prop.onTapDown?.call(e);
+    childSize = childKey.currentContext?.size ?? Size.zero;
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
@@ -199,21 +205,11 @@ class _ElEventState extends State<ElEvent> {
     }
   }
 
-  Timer? _preventTimer;
-
   /// 右键处理，此函数会在 [onPointUp] 指针抬起时执行
   void contextMenuHandler() async {
-    if (_prop.prevent) {
-      if (kIsWeb) {
-        if (_preventTimer != null) {
-          _preventTimer!.cancel();
-          _preventTimer = null;
-        }
-        await BrowserContextMenu.disableContextMenu();
-        _preventTimer = setTimeout(() {
-          _preventTimer = null;
-          BrowserContextMenu.enableContextMenu();
-        }, 500);
+    if (kIsWeb) {
+      if (_prop.prevent) {
+        await BrowserContextMenu.enableContextMenu();
       }
     }
     _prop.onContextMenu?.call();
@@ -251,10 +247,6 @@ class _ElEventState extends State<ElEvent> {
   @override
   Widget build(BuildContext context) {
     _prop = _Prop.create(context, widget);
-
-    nextTick(() {
-      childSize = childKey.currentContext?.size ?? Size.zero;
-    });
 
     Widget result = ObsBuilder(
       builder: (context) {

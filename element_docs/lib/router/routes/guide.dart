@@ -1,4 +1,4 @@
-import 'package:element_docs/global.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../pages/commons/guide/design/index.dart';
 import '../../pages/commons/guide/install/index.dart';
