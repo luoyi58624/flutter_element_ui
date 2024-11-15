@@ -63,7 +63,6 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针按下事件
   void onPointerDown(PointerDownEvent e) async {
-    // 阻止冒泡
     if (!bubbleFlag) return;
     stopPropagationByWidget();
     pointType = e.buttons;
@@ -97,6 +96,7 @@ class _ElEventState extends State<ElEvent> {
 
   /// 指针抬起事件
   void onPointerUp(PointerUpEvent e) {
+    resetBubbleBuilderWidget();
     if (!bubbleFlag) {
       bubbleFlag = true;
       return;
@@ -126,14 +126,11 @@ class _ElEventState extends State<ElEvent> {
         isTap = false;
       }
     }, delay);
-    if (_ElBubbleInheritedWidget.triggerFlag) {
-      _ElBubbleInheritedWidget.triggerFlag = false;
-      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
-    }
   }
 
   /// 指针取消事件
   void onPointerCancel() {
+    resetBubbleBuilderWidget();
     if (!bubbleFlag) {
       bubbleFlag = true;
       return;
@@ -149,10 +146,6 @@ class _ElEventState extends State<ElEvent> {
         isTap = false;
       }
     }, _tapUpDelay);
-    if (_ElBubbleInheritedWidget.triggerFlag) {
-      _ElBubbleInheritedWidget.triggerFlag = false;
-      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
-    }
   }
 
   /// 指针移动事件
@@ -265,6 +258,14 @@ class _ElEventState extends State<ElEvent> {
     context
         .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
         ?.stopPropagation();
+  }
+
+  /// 重置 [ElBubbleBuilder] 小部件的状态
+  void resetBubbleBuilderWidget() {
+    if (_ElBubbleInheritedWidget.triggerFlag) {
+      _ElBubbleInheritedWidget.triggerFlag = false;
+      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
+    }
   }
 
   @override

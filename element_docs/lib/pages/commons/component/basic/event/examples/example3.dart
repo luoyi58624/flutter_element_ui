@@ -16,19 +16,35 @@ class Example3 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            '左侧为 ElEvent 嵌套 GestureDetector，右侧为 GestureDetector 嵌套 ElEvent。',
+            ElText([
+              '上面的示例仅限于 ElEvent 嵌套 ElEvent，这个示例是处理 ',
+              LinkWidgets.gestureDetector,
+              ' 小部件的事件冲突，它稍微麻烦一点。'
+            ]),
           ],
         ),
         textGap,
         CodeExample(
           code: code,
           children: const [
-            Row(
-              children: [
-                _Example(),
-                Gap(8),
-                _Example2(),
-              ],
+            ElDefaultTextStyle(
+              style: TextStyle(
+                fontSize: 12,
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _Example(),
+                    Gap(10),
+                    _Example2(),
+                    Gap(10),
+                    _Example3(),
+                    Gap(10),
+                    _Example4(),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -42,35 +58,43 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+    return Column(
       children: [
-        ElEvent(
-          onTap: () {
-            el.message.show('ElEvent');
-          },
-          builder: (context) => Container(
-            width: 150,
-            height: 150,
-            color: Colors.grey,
-            alignment: Alignment.center,
-            child: Listener(
-              onPointerDown: (e) {
-                context.stopPropagation();
+        const ElText('ElEvent -> GestureDetector'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ElEvent(
+              onTap: () {
+                el.message.show('ElEvent');
               },
-              child: GestureDetector(
-                onTap: () {
-                  el.message.success('GestureDetector');
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: Colors.green,
+              builder: (context) => Container(
+                width: 150,
+                height: 150,
+                color: Colors.grey,
+                alignment: Alignment.center,
+                // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部包含大量的逻辑，
+                // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
+                child: Listener(
+                  onPointerDown: (e) {
+                    context.stopPropagation();
+                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      el.message.success('GestureDetector');
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.green,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
@@ -82,36 +106,143 @@ class _Example2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+    return Column(
       children: [
-        ElBubbleBuilder(
-          builder: (stopBubble) => GestureDetector(
-            onTap: stopBubble
-                ? null
-                : () {
-                    el.message.show('GestureDetector');
-                  },
-            child: Container(
-              width: 150,
-              height: 150,
-              color: Colors.grey,
-              alignment: Alignment.center,
-              child: ElStopPropagation(
-                child: ElEvent(
-                  onTap: () {
-                    el.message.success('ElEvent');
-                  },
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.green,
+        const ElText('GestureDetector -> ElEvent'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ElBubbleBuilder(
+              builder: (stopBubble) => GestureDetector(
+                onTap: stopBubble
+                    ? null
+                    : () {
+                        el.message.show('GestureDetector');
+                      },
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  color: Colors.grey,
+                  alignment: Alignment.center,
+                  child: ElStopPropagation(
+                    child: ElEvent(
+                      onTap: () {
+                        el.message.success('ElEvent');
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        color: Colors.green,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _Example3 extends HookWidget {
+  const _Example3();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const ElText('InkWell -> GestureDetector'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ElBubbleBuilder(
+              builder: (stopBubble) => Card(
+                clipBehavior: Clip.hardEdge,
+                margin: EdgeInsets.zero,
+                child: InkWell(
+                  onTap: stopBubble
+                      ? null
+                      : () {
+                          el.message.show('InkWell');
+                        },
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          el.message.success('GestureDetector');
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _Example4 extends HookWidget {
+  const _Example4();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const ElText('InkWell -> ElEvent'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ElBubbleBuilder(
+              builder: (stopBubble) => Card(
+                clipBehavior: Clip.hardEdge,
+                margin: EdgeInsets.zero,
+                child: InkWell(
+                  mouseCursor: MouseCursor.defer,
+                  onTap: stopBubble
+                      ? null
+                      : () {
+                          el.message.show('InkWell');
+                        },
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Center(
+                      child: ElStopPropagation(
+                        child: ElEvent(
+                          onTap: () {
+                            el.message.success('ElEvent');
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -137,6 +268,8 @@ class _Example extends HookWidget {
             height: 150,
             color: Colors.grey,
             alignment: Alignment.center,
+            // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部包含大量的逻辑，
+            // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
             child: Listener(
               onPointerDown: (e) {
                 context.stopPropagation();
