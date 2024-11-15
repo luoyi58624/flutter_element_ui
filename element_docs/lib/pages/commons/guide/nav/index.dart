@@ -26,53 +26,6 @@ class NavPage extends ResponsivePage {
   }
 }
 
-class _Demo extends StatefulWidget {
-  const _Demo({super.key});
-
-  @override
-  State<_Demo> createState() => _DemoState();
-}
-
-class _DemoState extends State<_Demo> {
-  double _top = 0.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: 300,
-          height: 300,
-          color: Colors.green,
-        ),
-        Positioned(
-          left: 150,
-          top: _top,
-          child: GestureDetector(
-            child: const CircleAvatar(child: Text("A")),
-            //要拖动和点击的widget
-            onPanUpdate: (DragUpdateDetails details) {
-              setState(() {
-                _top += details.delta.dy;
-              });
-            },
-            // onVerticalDragUpdate: (e) {},
-            onHorizontalDragEnd: (details) {
-              print("onHorizontalDragEnd");
-            },
-            onTapDown: (details) {
-              print("down");
-            },
-            onTapUp: (details) {
-              print("up");
-            },
-          ),
-        )
-      ],
-    );
-  }
-}
-
 class _Example extends StatefulHookWidget {
   const _Example();
 

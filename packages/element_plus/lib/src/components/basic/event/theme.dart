@@ -14,6 +14,7 @@ class ElEventThemeData {
     this.delayTapForDouble,
     this.longPressTimeout,
     this.feedback,
+    this.triggerDragScope,
     this.hitTestBehavior,
     this.cursor,
     this.onEnter,
@@ -26,12 +27,15 @@ class ElEventThemeData {
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerCancel,
-    this.onMove,
-    this.onMoveEnd,
-    this.onVerticalMove,
-    this.onVerticalMoveEnd,
-    this.onHorizontalMove,
-    this.onHorizontalMoveEnd,
+    this.onDragStart,
+    this.onDragUpdate,
+    this.onDragEnd,
+    this.onVerticalDragStart,
+    this.onVerticalDragUpdate,
+    this.onVerticalDragEnd,
+    this.onHorizontalDragStart,
+    this.onHorizontalDragUpdate,
+    this.onHorizontalDragEnd,
     this.onPointerSignal,
   });
 
@@ -55,6 +59,9 @@ class ElEventThemeData {
 
   /// 是否启用长按反馈，在移动端将会触发轻微震动提示，默认 true
   final bool? feedback;
+
+  /// 触发拖拽事件的偏移幅度，在桌面端设置一定的偏移幅度可以防止意外地触发拖拽行为，默认 0
+  final int? triggerDragScope;
 
   /// 命中测试行为，默认：[HitTestBehavior.deferToChild]
   final HitTestBehavior? hitTestBehavior;
@@ -92,23 +99,32 @@ class ElEventThemeData {
   /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调
   final VoidCallback? onPointerCancel;
 
-  /// 指针移动事件
-  final GestureDragUpdateCallback? onMove;
+  /// 拖拽开始事件，它受 [triggerDragScope] 属性影响
+  final GestureDragStartCallback? onDragStart;
 
-  /// 指针结束移动事件
-  final GestureDragEndCallback? onMoveEnd;
+  /// 拖拽更新事件
+  final GestureDragUpdateCallback? onDragUpdate;
 
-  /// 指针垂直移动事件
-  final GestureDragUpdateCallback? onVerticalMove;
+  /// 拖拽结束事件
+  final GestureDragEndCallback? onDragEnd;
 
-  /// 指针结束垂直移动事件
-  final GestureDragEndCallback? onVerticalMoveEnd;
+  /// 垂直拖拽开始事件，它受 [triggerDragScope] 属性影响
+  final GestureDragStartCallback? onVerticalDragStart;
 
-  /// 指针水平移动事件
-  final GestureDragUpdateCallback? onHorizontalMove;
+  /// 垂直拖拽更新事件
+  final GestureDragUpdateCallback? onVerticalDragUpdate;
 
-  /// 指针结束水平移动事件
-  final GestureDragEndCallback? onHorizontalMoveEnd;
+  /// 垂直拖拽结束事件
+  final GestureDragEndCallback? onVerticalDragEnd;
+
+  /// 水平拖拽开始事件，它受 [triggerDragScope] 属性影响
+  final GestureDragStartCallback? onHorizontalDragStart;
+
+  /// 水平拖拽更新事件
+  final GestureDragUpdateCallback? onHorizontalDragUpdate;
+
+  /// 水平拖拽结束事件
+  final GestureDragEndCallback? onHorizontalDragEnd;
 
   /// 指针信号事件，例如：鼠标滚轮滚动
   final PointerSignalEventListener? onPointerSignal;

@@ -24,22 +24,22 @@ class _DragEvent {
   void onMove(PointerMoveEvent e) {
     // 添加触摸的数据，当触摸结束后会计算最终的速度
     velocityTracker?.addPosition(e.timeStamp, e.position);
-    if (_prop.onMove != null) {
-      _prop.onMove!(DragUpdateDetails(
+    if (_prop.onDragUpdate != null) {
+      _prop.onDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
         delta: e.delta,
       ));
-    } else if (_prop.onVerticalMove != null) {
-      _prop.onVerticalMove!(DragUpdateDetails(
+    } else if (_prop.onVerticalDragUpdate != null) {
+      _prop.onVerticalDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
         delta: Offset(0, e.delta.dy),
       ));
-    } else if (_prop.onHorizontalMove != null) {
-      _prop.onHorizontalMove!(DragUpdateDetails(
+    } else if (_prop.onHorizontalDragUpdate != null) {
+      _prop.onHorizontalDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
@@ -54,10 +54,10 @@ class _DragEvent {
     Velocity velocity = Velocity.zero;
     if (estimate != null) {
       if (isFlingGesture(estimate, e.kind)) {
-        if (_prop.onMoveEnd != null) {
+        if (_prop.onDragEnd != null) {
           velocity = Velocity(pixelsPerSecond: estimate.pixelsPerSecond)
               .clampMagnitude(minVelocity, maxVelocity);
-        } else if (_prop.onVerticalMoveEnd != null) {
+        } else if (_prop.onVerticalDragEnd != null) {
           velocity = Velocity(
             pixelsPerSecond: Offset(
               0,
@@ -68,7 +68,7 @@ class _DragEvent {
               ),
             ),
           );
-        } else if (_prop.onHorizontalMoveEnd != null) {
+        } else if (_prop.onHorizontalDragEnd != null) {
           velocity = Velocity(
             pixelsPerSecond: Offset(
               clampDouble(
@@ -88,12 +88,12 @@ class _DragEvent {
       globalPosition: e.position,
       localPosition: e.localPosition,
     );
-    if (_prop.onMoveEnd != null) {
-      _prop.onMoveEnd!(detail);
-    } else if (_prop.onVerticalMoveEnd != null) {
-      _prop.onVerticalMoveEnd!(detail);
-    } else if (_prop.onHorizontalMoveEnd != null) {
-      _prop.onHorizontalMoveEnd!(detail);
+    if (_prop.onDragEnd != null) {
+      _prop.onDragEnd!(detail);
+    } else if (_prop.onVerticalDragEnd != null) {
+      _prop.onVerticalDragEnd!(detail);
+    } else if (_prop.onHorizontalDragEnd != null) {
+      _prop.onHorizontalDragEnd!(detail);
     }
   }
 

@@ -167,8 +167,8 @@ class _ElDragState extends State<ElDrag> {
 
     return ElEvent(
       onPointerDown: _onDragDown,
-      onMove: _onDragMove,
-      onMoveEnd: _onDragUp,
+      onDragUpdate: _onDragMove,
+      onDragEnd: _onDragUp,
       onPointerCancel: _onDragCancel,
       child: widget.child,
     );

@@ -20,12 +20,16 @@ class _Prop {
   final VoidCallback? onLongPress;
   final int longPressTimeout;
   final bool feedback;
-  final GestureDragUpdateCallback? onMove;
-  final GestureDragEndCallback? onMoveEnd;
-  final GestureDragUpdateCallback? onVerticalMove;
-  final GestureDragEndCallback? onVerticalMoveEnd;
-  final GestureDragUpdateCallback? onHorizontalMove;
-  final GestureDragEndCallback? onHorizontalMoveEnd;
+  final int triggerDragScope;
+  final GestureDragStartCallback? onDragStart;
+  final GestureDragUpdateCallback? onDragUpdate;
+  final GestureDragEndCallback? onDragEnd;
+  final GestureDragStartCallback? onVerticalDragStart;
+  final GestureDragUpdateCallback? onVerticalDragUpdate;
+  final GestureDragEndCallback? onVerticalDragEnd;
+  final GestureDragStartCallback? onHorizontalDragStart;
+  final GestureDragUpdateCallback? onHorizontalDragUpdate;
+  final GestureDragEndCallback? onHorizontalDragEnd;
   final PointerSignalEventListener? onPointerSignal;
 
   _Prop(
@@ -48,12 +52,16 @@ class _Prop {
     this.onLongPress,
     this.longPressTimeout,
     this.feedback,
-    this.onMove,
-    this.onMoveEnd,
-    this.onVerticalMove,
-    this.onVerticalMoveEnd,
-    this.onHorizontalMove,
-    this.onHorizontalMoveEnd,
+    this.triggerDragScope,
+    this.onDragStart,
+    this.onDragUpdate,
+    this.onDragEnd,
+    this.onVerticalDragStart,
+    this.onVerticalDragUpdate,
+    this.onVerticalDragEnd,
+    this.onHorizontalDragStart,
+    this.onHorizontalDragUpdate,
+    this.onHorizontalDragEnd,
     this.onPointerSignal,
   );
 
@@ -82,12 +90,16 @@ class _Prop {
       widget.onLongPress ?? $data.onLongPress,
       widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
       widget.feedback ?? $data.feedback ?? true,
-      widget.onMove ?? $data.onMove,
-      widget.onMoveEnd ?? $data.onMoveEnd,
-      widget.onVerticalMove ?? $data.onVerticalMove,
-      widget.onVerticalMoveEnd ?? $data.onVerticalMoveEnd,
-      widget.onHorizontalMove ?? $data.onHorizontalMove,
-      widget.onHorizontalMoveEnd ?? $data.onHorizontalMoveEnd,
+      widget.triggerDragScope ?? $data.triggerDragScope ?? 0,
+      widget.onDragStart ?? $data.onDragStart,
+      widget.onDragUpdate ?? $data.onDragUpdate,
+      widget.onDragEnd ?? $data.onDragEnd,
+      widget.onVerticalDragStart ?? $data.onVerticalDragStart,
+      widget.onVerticalDragUpdate ?? $data.onVerticalDragUpdate,
+      widget.onVerticalDragEnd ?? $data.onVerticalDragEnd,
+      widget.onHorizontalDragStart ?? $data.onHorizontalDragStart,
+      widget.onHorizontalDragUpdate ?? $data.onHorizontalDragUpdate,
+      widget.onHorizontalDragEnd ?? $data.onHorizontalDragEnd,
       widget.onPointerSignal ?? $data.onPointerSignal,
     );
   }

@@ -8,7 +8,7 @@ class _ElEventState extends State<ElEvent> {
   bool bubbleFlag = true; // 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡
   GlobalKey childKey = GlobalKey();
   Size childSize = Size.zero; // 子组件的尺寸
-  int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2
+  int pointType = kPrimaryButton; // 指针按下时的类型，例如：鼠标左键 = 1，右键 = 2，中键 = 3（这里不支持）
   Offset tapDownOffset = Offset.zero; // 指针按下位置（全局坐标系）
   int? tapDownTime; // 记录当前的按下时间
   bool isPrimaryPoint = false; // 鼠标按下的是否是主指针
@@ -274,28 +274,28 @@ class _ElEventState extends State<ElEvent> {
 
     assert(
       DartUtil.listOnlyOne([
-        _prop.onMove,
-        _prop.onVerticalMove,
-        _prop.onHorizontalMove,
+        _prop.onDragUpdate,
+        _prop.onVerticalDragUpdate,
+        _prop.onHorizontalDragUpdate,
       ]),
-      'onMove、onVerticalMove、onHorizontalMove 只能存在一个',
+      'onDragUpdate、onVerticalDragUpdate、onHorizontalDragUpdate 只能存在一个',
     );
     assert(
       DartUtil.listOnlyOne([
-        _prop.onMoveEnd,
-        _prop.onVerticalMoveEnd,
-        _prop.onHorizontalMoveEnd
+        _prop.onDragEnd,
+        _prop.onVerticalDragEnd,
+        _prop.onHorizontalDragEnd
       ]),
-      'onMoveEnd、onVerticalMoveEnd、onHorizontalMoveEnd 只能存在一个',
+      'onDragEnd、onVerticalDragEnd、onHorizontalDragEnd 只能存在一个',
     );
 
-    hasMoveEndEvent = _prop.onMoveEnd != null ||
-        _prop.onVerticalMoveEnd != null ||
-        _prop.onHorizontalMoveEnd != null;
+    hasMoveEndEvent = _prop.onDragEnd != null ||
+        _prop.onVerticalDragEnd != null ||
+        _prop.onHorizontalDragEnd != null;
 
-    hasMoveEvent = _prop.onMove != null ||
-        _prop.onVerticalMove != null ||
-        _prop.onHorizontalMove != null ||
+    hasMoveEvent = _prop.onDragUpdate != null ||
+        _prop.onVerticalDragUpdate != null ||
+        _prop.onHorizontalDragUpdate != null ||
         hasMoveEndEvent;
 
     // 注册拖拽事件

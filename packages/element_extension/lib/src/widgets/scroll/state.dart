@@ -78,10 +78,10 @@ class _ElScrollState extends State<CustomScrollWidget> {
           controller.stop();
         }
       },
-      onVerticalMove: (e) {
+      onVerticalDragUpdate: (e) {
         offset -= e.delta.dy;
       },
-      onVerticalMoveEnd: (e) {
+      onVerticalDragEnd: (e) {
         if (e.velocity.pixelsPerSecond.dy.abs() > 0.0 &&
             offset > 0 &&
             offset < maxScrollPixels) {
