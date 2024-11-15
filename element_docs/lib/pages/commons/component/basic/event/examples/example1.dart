@@ -46,7 +46,7 @@ class _Example extends HookWidget {
         ),
         ElEvent(
           onContextMenu: () {
-            el.message.show('右键单击');
+            el.message.primary('右键');
           },
           child: Container(
             width: 100,
@@ -58,7 +58,7 @@ class _Example extends HookWidget {
         ),
         ElEvent(
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           child: Container(
             width: 100,
@@ -73,7 +73,7 @@ class _Example extends HookWidget {
             el.message.show('单击');
           },
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           child: Container(
             width: 120,
@@ -88,7 +88,7 @@ class _Example extends HookWidget {
             el.message.show('单击');
           },
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           delayTapForDouble: true,
           child: Container(
@@ -100,11 +100,8 @@ class _Example extends HookWidget {
           ),
         ),
         ElEvent(
-          onTap: () {
-            el.message.show('单击');
-          },
           onLongPress: () {
-            el.message.show('长按');
+            el.message.warning('长按');
           },
           child: Container(
             width: 100,
@@ -143,7 +140,7 @@ class _Example extends HookWidget {
         ),
         ElEvent(
           onContextMenu: () {
-            el.message.show('右键单击');
+            el.message.primary('右键');
           },
           child: Container(
             width: 100,
@@ -155,7 +152,7 @@ class _Example extends HookWidget {
         ),
         ElEvent(
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           child: Container(
             width: 100,
@@ -170,7 +167,7 @@ class _Example extends HookWidget {
             el.message.show('单击');
           },
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           child: Container(
             width: 120,
@@ -185,7 +182,7 @@ class _Example extends HookWidget {
             el.message.show('单击');
           },
           onDoubleTap: () {
-            el.message.show('双击');
+            el.message.success('双击');
           },
           delayTapForDouble: true,
           child: Container(
@@ -197,11 +194,8 @@ class _Example extends HookWidget {
           ),
         ),
         ElEvent(
-          onTap: () {
-            el.message.show('单击');
-          },
           onLongPress: () {
-            el.message.show('长按');
+            el.message.warning('长按');
           },
           child: Container(
             width: 100,

@@ -66,24 +66,26 @@ class _Example extends HookWidget {
           ],
         ),
         const Gap(8),
-        ElDrag(
-          rootOverlay: isRootOverlay.value,
-          triggerOffset:
-              enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
-          axis: axisFlag.value == 0
-              ? null
-              : axisFlag.value == 1
-                  ? Axis.horizontal
-                  : Axis.vertical,
-          feedback: Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-          ),
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.grey,
+        ElStopPropagation(
+          child: ElDrag(
+            rootOverlay: isRootOverlay.value,
+            triggerOffset:
+                enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
+            axis: axisFlag.value == 0
+                ? null
+                : axisFlag.value == 1
+                    ? Axis.horizontal
+                    : Axis.vertical,
+            feedback: Container(
+              width: 100,
+              height: 100,
+              color: Colors.green,
+            ),
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.grey,
+            ),
           ),
         ),
       ],

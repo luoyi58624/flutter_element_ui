@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
 import 'examples/example2.dart';
+import 'examples/example3.dart';
 
 class EventPage extends ResponsivePage {
   const EventPage({super.key});
@@ -21,16 +22,14 @@ class EventPage extends ResponsivePage {
           ElText([
             'ElEvent 是 Element UI 所有小部件的事件监听类，它直接基于 ',
             LinkWidgets.listener,
-            ' 小部件实现，这意味着它不参与手势竞技场的竞争，你可以直接将它当作 ',
-            LinkWidgets.listener,
-            ' 小部件的加强版，所以，如果你使用 ',
-            LinkWidgets.gestureDetector,
-            ' 小部件进行嵌套，将会出现事件冒泡。'
+            ' 小部件实现，这意味着它不参与手势竞技场的竞争，',
+            '所以，你很容易遇到事件冒泡的情况，它的运行逻辑与 Web 上的事件冒泡机制十分相似。',
           ]),
         ],
       ),
       const Example1(title: '基础使用'),
       const Example2(title: '事件冒泡'),
+      const Example3(title: '解决 GestureDetector 事件冲突'),
     ];
   }
 }

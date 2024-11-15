@@ -76,6 +76,20 @@ class _ElDragState extends State<ElDrag> {
     ));
   }
 
+  void _onDragDown2(DragDownDetails e) {
+    if (widget.enabledAnimate &&
+        controller.status != AnimationStatus.completed) {
+      controller.stop();
+    }
+    oldAnimateValue = null;
+    downPosition = e.globalPosition;
+    downLocalPosition = e.localPosition;
+    widget.onDragDown?.call(DragDownDetails(
+      globalPosition: e.globalPosition,
+      localPosition: e.localPosition,
+    ));
+  }
+
   void _onDragMove(DragUpdateDetails e) {
     _calcDragOffset(e.globalPosition - downPosition);
     if (isActiveDrag || _isTriggerOffset) {
@@ -166,7 +180,7 @@ class _ElDragState extends State<ElDrag> {
     //   () => PanGestureRecognizer(debugOwner: this),
     //   (PanGestureRecognizer instance) {
     //     instance
-    //       ..onDown = _onDragDown
+    //       ..onDown = _onDragDown2
     //       ..onStart = widget.onDragStarted
     //       ..onUpdate = _onDragMove
     //       ..onEnd = _onDragUp
@@ -175,6 +189,12 @@ class _ElDragState extends State<ElDrag> {
     //   },
     // );
     //
+    // gestures[EagerGestureRecognizer] =
+    //     GestureRecognizerFactoryWithHandlers<EagerGestureRecognizer>(
+    //   () => EagerGestureRecognizer(),
+    //   (EagerGestureRecognizer instance) {},
+    // );
+
     // return RawGestureDetector(
     //   gestures: gestures,
     //   child: widget.child,

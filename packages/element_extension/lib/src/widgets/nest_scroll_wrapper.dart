@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../../element_extension.dart';
 
 /// 嵌套滚动激活延迟
-const int _activeDelay = 150;
+const int _activeDelay = 200;
 
 /// 鼠标悬停的嵌套滚动条集合
 List<int> _hoverNestScrollList = [];

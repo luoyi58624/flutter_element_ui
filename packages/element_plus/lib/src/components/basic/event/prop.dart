@@ -22,83 +22,73 @@ class _Prop {
   final bool feedback;
   final GestureDragUpdateCallback? onMove;
   final GestureDragEndCallback? onMoveEnd;
-
   final GestureDragUpdateCallback? onVerticalMove;
   final GestureDragEndCallback? onVerticalMoveEnd;
-
-  /// 指针水平移动事件
   final GestureDragUpdateCallback? onHorizontalMove;
-
-  /// 指针结束水平移动事件
   final GestureDragEndCallback? onHorizontalMoveEnd;
   final PointerSignalEventListener? onPointerSignal;
 
-  _Prop({
-    required this.disabled,
-    required this.hitTestBehavior,
-    required this.cursor,
-    required this.onEnter,
-    required this.onExit,
-    required this.onHover,
-    required this.onPointerDown,
-    required this.onPointerUp,
-    required this.onPointerCancel,
-    required this.cancelScope,
-    required this.onTap,
-    required this.onContextMenu,
-    required this.prevent,
-    required this.onDoubleTap,
-    required this.doubleTapTimeout,
-    required this.delayTapForDouble,
-    required this.onLongPress,
-    required this.longPressTimeout,
-    required this.feedback,
-    required this.onMove,
-    required this.onMoveEnd,
-    required this.onVerticalMove,
-    required this.onVerticalMoveEnd,
-    required this.onHorizontalMove,
-    required this.onHorizontalMoveEnd,
-    required this.onPointerSignal,
-  });
+  _Prop(
+    this.disabled,
+    this.hitTestBehavior,
+    this.cursor,
+    this.onEnter,
+    this.onExit,
+    this.onHover,
+    this.onPointerDown,
+    this.onPointerUp,
+    this.onPointerCancel,
+    this.cancelScope,
+    this.onTap,
+    this.onContextMenu,
+    this.prevent,
+    this.onDoubleTap,
+    this.doubleTapTimeout,
+    this.delayTapForDouble,
+    this.onLongPress,
+    this.longPressTimeout,
+    this.feedback,
+    this.onMove,
+    this.onMoveEnd,
+    this.onVerticalMove,
+    this.onVerticalMoveEnd,
+    this.onHorizontalMove,
+    this.onHorizontalMoveEnd,
+    this.onPointerSignal,
+  );
 
-  /// 通过工厂函数创建按钮最终 prop 配置
   factory _Prop.create(BuildContext context, ElEvent widget) {
     final $data = ElEventTheme.of(context);
 
     return _Prop(
-      disabled: widget.disabled ?? $data.disabled ?? false,
-      hitTestBehavior: widget.hitTestBehavior ??
+      widget.disabled ?? $data.disabled ?? false,
+      widget.hitTestBehavior ??
           $data.hitTestBehavior ??
           HitTestBehavior.deferToChild,
-      cursor: widget.cursor ?? $data.cursor ?? MouseCursor.defer,
-      onEnter: widget.onEnter ?? $data.onEnter,
-      onExit: widget.onExit ?? $data.onExit,
-      onHover: widget.onHover ?? $data.onHover,
-      onPointerDown: widget.onPointerDown ?? $data.onPointerDown,
-      onPointerUp: widget.onPointerUp ?? $data.onPointerUp,
-      onPointerCancel: widget.onPointerCancel ?? $data.onPointerCancel,
-      cancelScope: widget.cancelScope ?? $data.cancelScope ?? 10,
-      onTap: widget.onTap ?? $data.onTap,
-      onContextMenu: widget.onContextMenu ?? $data.onContextMenu,
-      prevent: widget.prevent ?? $data.prevent ?? true,
-      onDoubleTap: widget.onDoubleTap ?? $data.onDoubleTap,
-      doubleTapTimeout:
-          widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,
-      delayTapForDouble:
-          widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,
-      onLongPress: widget.onLongPress ?? $data.onLongPress,
-      longPressTimeout:
-          widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
-      feedback: widget.feedback ?? $data.feedback ?? true,
-      onMove: widget.onMove ?? $data.onMove,
-      onMoveEnd: widget.onMoveEnd ?? $data.onMoveEnd,
-      onVerticalMove: widget.onVerticalMove ?? $data.onVerticalMove,
-      onVerticalMoveEnd: widget.onVerticalMoveEnd ?? $data.onVerticalMoveEnd,
-      onHorizontalMove: widget.onHorizontalMove ?? $data.onHorizontalMove,
-      onHorizontalMoveEnd:
-          widget.onHorizontalMoveEnd ?? $data.onHorizontalMoveEnd,
-      onPointerSignal: widget.onPointerSignal ?? $data.onPointerSignal,
+      widget.cursor ?? $data.cursor ?? MouseCursor.defer,
+      widget.onEnter ?? $data.onEnter,
+      widget.onExit ?? $data.onExit,
+      widget.onHover ?? $data.onHover,
+      widget.onPointerDown ?? $data.onPointerDown,
+      widget.onPointerUp ?? $data.onPointerUp,
+      widget.onPointerCancel ?? $data.onPointerCancel,
+      widget.cancelScope ?? $data.cancelScope ?? 10,
+      widget.onTap ?? $data.onTap,
+      widget.onContextMenu ?? $data.onContextMenu,
+      widget.prevent ?? $data.prevent ?? true,
+      widget.onDoubleTap ?? $data.onDoubleTap,
+      widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,
+      widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,
+      widget.onLongPress ?? $data.onLongPress,
+      widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
+      widget.feedback ?? $data.feedback ?? true,
+      widget.onMove ?? $data.onMove,
+      widget.onMoveEnd ?? $data.onMoveEnd,
+      widget.onVerticalMove ?? $data.onVerticalMove,
+      widget.onVerticalMoveEnd ?? $data.onVerticalMoveEnd,
+      widget.onHorizontalMove ?? $data.onHorizontalMove,
+      widget.onHorizontalMoveEnd ?? $data.onHorizontalMoveEnd,
+      widget.onPointerSignal ?? $data.onPointerSignal,
     );
   }
 }

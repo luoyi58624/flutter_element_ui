@@ -18,7 +18,7 @@ import '../../pages/commons/component/navigation/nav_menu/index.dart';
 import '../../pages/commons/component/navigation/tabs/index.dart';
 import '../../pages/commons/component/other/animated_size/index.dart';
 import '../../pages/commons/component/other/context_menu/index.dart';
-import '../../pages/commons/component/other/event/index.dart';
+import '../../pages/commons/component/basic/event/index.dart';
 import '../../pages/commons/not_found.dart';
 import '../../pages/commons/overview/cupertino/index.dart';
 import '../../pages/commons/overview/element/index.dart';
@@ -39,6 +39,10 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}cupertino',
       builder: (context, state) => const CupertinoOverviewPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}event',
+      builder: (context, state) => const EventPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}button',
@@ -183,10 +187,6 @@ List<RouteBase> buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}drag',
       builder: (context, state) => const DragPage(),
-    ),
-    RouterUtil.buildRoute(
-      path: '${path}event',
-      builder: (context, state) => const EventPage(),
     ),
   ];
 }

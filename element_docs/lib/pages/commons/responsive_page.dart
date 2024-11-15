@@ -18,37 +18,44 @@ abstract class ResponsivePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return ResponsivePageData(
-      path,
-      child: context.sm
-          ? Scaffold(
-              appBar: AppBar(
-                title: Text(title),
-              ),
-              body: SizedBox(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(PlatformUtil.isDesktop ? 16.0 : 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: buildPage(context),
+    return ElBubbleBuilder(builder: (stopBubble) {
+      return ResponsivePageData(
+        path,
+        child: context.sm
+            ? Scaffold(
+                appBar: AppBar(
+                  title: Text(title),
+                ),
+                body: SizedBox(
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    physics: stopBubble
+                        ? const NeverScrollableScrollPhysics()
+                        : null,
+                    padding:
+                        EdgeInsets.all(PlatformUtil.isDesktop ? 16.0 : 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: buildPage(context),
+                    ),
                   ),
                 ),
+              )
+            : NestScrollWrapper(
+                controller: controller,
+                child: _buildDesktopBuild(controller, stopBubble),
               ),
-            )
-          : NestScrollWrapper(
-              controller: controller,
-              child: _buildDesktopBuild(controller),
-            ),
-    );
+      );
+    });
   }
 
-  Widget _buildDesktopBuild(ScrollController controller) {
+  Widget _buildDesktopBuild(ScrollController controller, bool stopBubble) {
     return ObsBuilder(
       builder: (context) {
         if (LayoutHeader.enabledSlivers.value) {
           return CustomScrollView(
             controller: controller,
+            physics: stopBubble ? const NeverScrollableScrollPhysics() : null,
             slivers: [
               const SliverGap(50),
               SliverToBoxAdapter(
@@ -78,6 +85,7 @@ abstract class ResponsivePage extends HookWidget {
         } else {
           return SingleChildScrollView(
             controller: controller,
+            physics: stopBubble ? const NeverScrollableScrollPhysics() : null,
             padding: const EdgeInsets.symmetric(
               horizontal: 50,
               vertical: 50,

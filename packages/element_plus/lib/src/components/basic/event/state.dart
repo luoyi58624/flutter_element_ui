@@ -101,7 +101,7 @@ class _ElEventState extends State<ElEvent> {
       bubbleFlag = true;
       return;
     }
-    if (isPrimaryPoint) _drag?.onEnd(e);
+    if (hasMoveEndEvent && isPrimaryPoint) _drag!.onEnd(e);
     if (isCancel == false) {
       if (isPrimaryPoint) {
         if (_prop.onDoubleTap != null) {
@@ -126,6 +126,10 @@ class _ElEventState extends State<ElEvent> {
         isTap = false;
       }
     }, delay);
+    if (_ElBubbleInheritedWidget.triggerFlag) {
+      _ElBubbleInheritedWidget.triggerFlag = false;
+      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
+    }
   }
 
   /// 指针取消事件
@@ -145,6 +149,10 @@ class _ElEventState extends State<ElEvent> {
         isTap = false;
       }
     }, _tapUpDelay);
+    if (_ElBubbleInheritedWidget.triggerFlag) {
+      _ElBubbleInheritedWidget.triggerFlag = false;
+      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
+    }
   }
 
   /// 指针移动事件
@@ -290,7 +298,7 @@ class _ElEventState extends State<ElEvent> {
         hasMoveEndEvent;
 
     // 注册拖拽事件
-    if (hasMoveEndEvent) {
+    if (hasMoveEvent) {
       _drag ??= _DragEvent(_prop);
     } else {
       if (_drag != null) _drag = null;
@@ -340,5 +348,48 @@ class _ElEventState extends State<ElEvent> {
       onPointerSignal: _prop.disabled ? null : onPointerSignal,
       child: result,
     );
+  }
+}
+
+class _ElEventInheritedWidget extends InheritedWidget {
+  const _ElEventInheritedWidget({
+    required super.child,
+    required this.isHover,
+    required this.setHoverDepend,
+    required this.isTap,
+    required this.setTapDepend,
+    required this.stopPropagation,
+  });
+
+  final bool isHover;
+  final ElBoolVoidCallback setHoverDepend;
+  final bool isTap;
+  final ElBoolVoidCallback setTapDepend;
+  final VoidCallback stopPropagation;
+
+  static _ElEventInheritedWidget? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElEventInheritedWidget>();
+
+  static bool getHoverStatus(BuildContext context) {
+    final result = maybeOf(context);
+    if (result != null) result.setHoverDepend(true);
+    return result?.isHover ?? false;
+  }
+
+  static bool getTapStatus(BuildContext context) {
+    final result = maybeOf(context);
+    if (result != null) result.setTapDepend(true);
+    return result?.isTap ?? false;
+  }
+
+  static void _stopPropagation(BuildContext context) {
+    context
+        .getInheritedWidgetOfExactType<_ElEventInheritedWidget>()
+        ?.stopPropagation();
+  }
+
+  @override
+  bool updateShouldNotify(_ElEventInheritedWidget oldWidget) {
+    return isHover != oldWidget.isHover || isTap != oldWidget.isTap;
   }
 }

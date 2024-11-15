@@ -51,24 +51,26 @@ class _Example extends HookWidget {
                 0,
                 constraints.maxHeight - size,
               ),
-              child: ElDrag(
-                onDragDown: (e) {
-                  offset.value = offset.value.clampConstraints(BoxConstraints(
-                    maxWidth: constraints.maxWidth - size,
-                    maxHeight: constraints.maxHeight - size,
-                  ));
-                },
-                onChanged: (e) {
-                  offset.value += e.details;
-                },
-                enabledAnimate: true,
-                damping: 0.975,
-                child: Container(
-                  width: size,
-                  height: size,
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    // borderRadius: BorderRadius.circular(size / 2),
+              child: ElStopPropagation(
+                child: ElDrag(
+                  onDragDown: (e) {
+                    offset.value = offset.value.clampConstraints(BoxConstraints(
+                      maxWidth: constraints.maxWidth - size,
+                      maxHeight: constraints.maxHeight - size,
+                    ));
+                  },
+                  onChanged: (e) {
+                    offset.value += e.details;
+                  },
+                  enabledAnimate: true,
+                  damping: 0.975,
+                  child: Container(
+                    width: size,
+                    height: size,
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      // borderRadius: BorderRadius.circular(size / 2),
+                    ),
                   ),
                 ),
               ),

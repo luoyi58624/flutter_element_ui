@@ -84,8 +84,9 @@ class ElThemeUtil {
       textTheme: _textTheme(textStyle, elTheme),
       fontFamilyFallback: textStyle.fontFamilyFallback,
       // 是否禁用波纹
-      splashFactory:
-          data.enableRipple ? InkRipple.splashFactory : noRipperFactory,
+      splashFactory: data.enableRipple ? null : noRipperFactory,
+      // splashFactory:
+      // data.enableRipple ? InkRipple.splashFactory : noRipperFactory,
       // 解决web上material按钮外边距为0问题，与移动端的效果保持一致
       materialTapTargetSize: MaterialTapTargetSize.padded,
       // 标准显示密度
