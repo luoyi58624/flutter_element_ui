@@ -22,35 +22,40 @@ part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
 
-/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能，几乎所有的组件都基于 [ElEvent] 实现交互。
+/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能，更重要的是，
+/// Element UI 所有的组件都基于 [ElEvent] 实现交互，这也意味着，通过 [ElEventTheme] 小部件，
+/// 你可以轻松地为任意小部件绑定各种事件，例如给按钮绑定长按事件：
+/// ```dart
+/// ElEventTheme(
+///   data: ElEventThemeData(
+///     onLongPress: () {},
+///   ),
+///   child: const ElButton(child: 'Hello'),
+/// ),
+/// ```
 ///
-/// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
-/// 而 [Listener] 默认自带事件冒泡机制，如果你不做任何处理那么将会触发事件冒泡。
+/// 但是请注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
+/// 如果你不做任何处理那么将会触发事件冒泡。
 ///
-/// 因为 [ElEvent] 脱离了 [GestureDetector] 手势竞技场机制，所以解决事件冒泡需要分 3 种情况：
+/// 解决事件冒泡需要分 3 种情况：
 /// 1. [ElEvent] 嵌套 [ElEvent]
 /// 2. [ElEvent] 嵌套 [GestureDetector]
 /// 3. [GestureDetector] 嵌套 [ElEvent]
 ///
 /// 第一种情况你可以使用以下方案解决事件冒泡：
-/// * 在中间插入 [ElStopPropagation] 小部件（最简单）
+/// * 在中间插入 [ElStopPropagation] 小部件
 /// * 在事件中手动执行 context.stopPropagation() 方法
 ///
 /// 对于第二种情况：
-/// * [GestureDetector] 底层也是基于 [Listener]，但它注册的事件需要经过一些逻辑计算才会最终响应，
-/// 如果你的手指只是轻触，那么 [ElEvent] 的 onTap 事件可能在 [GestureDetector] onTapDown 事件之前触发，
-/// 所以你必须使用 [Listener] 包裹子组件，然后在 onPointerDown 事件中执行 context.stopPropagation() 方法。
+/// * 你必须在 [GestureDetector] 上方插入 [Listener] 小部件，然后在 [Listener] 小部件的事件中执行 context.stopPropagation() 方法，
+/// 这是因为 [GestureDetector] 内部执行的逻辑比较多，手指轻触屏幕时，onTapDown 的触发时机可能比 [ElEvent] 的 [onTap] 还要慢。
 ///
 /// 对于第三种情况：
-/// * 使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止冒泡信号，
+/// * 使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 参数，你需要根据这个 bool 值手动控制函数逻辑的执行。
-
-// 至于为什么不直接基于 GestureDetector 小部件进行封装，为什么要和 Flutter 已有的手势竞技场进行割裂？
-// 1. 我可以认真地告诉你，即便我以 GestureDetector 为基础进行封装，它的复杂性也不会变低，对我而言，
-// 实现的难度会更大，而你所得到的只是自动帮你处理事件冒泡，这样做也一定会引入其他问题，因为我设计
-// 这个小部件的初衷之一就是要手动控制事件冒泡。
-// 2. Flutter 的事件系统十分复杂，我对它整个事件体系的理解也仅仅是皮毛，如果 ElEvent 的行为让你很难理解，
-// 那么你只需要知道: ElEvent == Listener，所有的一切都是基于 Listener 实现的，仅此而已。
+///
+/// 如果上面描述的问题让你难以理解，那就将 [ElEvent] 想象成 [Listener] 小部件，
+/// 上面所描述的问题就是告诉你如何解决 [GestureDetector] 和 [Listener] 之间的冲突。
 class ElEvent extends StatefulWidget {
   const ElEvent({
     super.key,
@@ -148,10 +153,10 @@ class ElEvent extends StatefulWidget {
   /// 长按事件
   final VoidCallback? onLongPress;
 
-  /// 指针按下事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapDownDetails]
+  /// 指针按下事件，[Listener] 原始对象
   final PointerDownEventListener? onPointerDown;
 
-  /// 指针抬起事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapUpDetails]
+  /// 指针抬起事件，[Listener] 原始对象
   final PointerUpEventListener? onPointerUp;
 
   /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调
@@ -198,6 +203,8 @@ class ElEvent extends StatefulWidget {
   /// 阻止事件冒泡
   static void stopPropagation(BuildContext context) {
     _ElEventInheritedWidget._stopPropagation(context);
+
+    // 查找是否存在 ElBubbleBuilder 小部件，如果有那么需要通知它的回调
     final result = _ElBubbleInheritedWidget.getWidget(context);
     if (result != null) {
       _ElBubbleInheritedWidget.triggerFlag = true;

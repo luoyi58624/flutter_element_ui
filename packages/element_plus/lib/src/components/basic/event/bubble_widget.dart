@@ -1,8 +1,7 @@
 part of 'index.dart';
 
-/// 阻止事件冒泡小部件，它会在指针按下时立即触发，如果你希望在其他时间点阻止事件冒泡（例如只阻止 onTap 但不阻止 onTapDown），
-/// 你可以在 onTap 事件中执行 context.stopPropagation() 函数。
 class ElStopPropagation extends InheritedWidget {
+  /// 阻止事件冒泡小部件，它会在指针按下时立即触发，另一种方式是手动执行 context.stopPropagation()
   const ElStopPropagation({
     super.key,
     required super.child,
@@ -12,7 +11,10 @@ class ElStopPropagation extends InheritedWidget {
   bool updateShouldNotify(ElStopPropagation oldWidget) => false;
 }
 
-/// 捕获 [ElEvent] 事件冒泡小部件，这通常用于 [GestureDetector] 嵌套 [ElEvent] 时引发事件冒泡的场景
+/// 捕获 [ElEvent] 事件冒泡小部件，这通常用于 [GestureDetector] 嵌套 [ElEvent] 时引发事件冒泡的场景。
+///
+/// 提示：这个小部件会引发 UI 重建（指针按下、指针抬起），不过绝大多数情况下你可以忽视这个问题，
+/// 因为如果因为这个小部件造成卡顿，那么你应当考虑优化这个页面。
 class ElBubbleBuilder extends StatefulWidget {
   const ElBubbleBuilder({super.key, required this.builder});
 

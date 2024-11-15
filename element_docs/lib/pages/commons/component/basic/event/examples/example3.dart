@@ -75,7 +75,7 @@ class _Example extends HookWidget {
                 height: 150,
                 color: Colors.grey,
                 alignment: Alignment.center,
-                // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部包含大量的逻辑，
+                // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部执行的逻辑比较多，
                 // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
                 child: Listener(
                   onPointerDown: (e) {
@@ -268,7 +268,7 @@ class _Example extends HookWidget {
             height: 150,
             color: Colors.grey,
             alignment: Alignment.center,
-            // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部包含大量的逻辑，
+            // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部执行的逻辑比较多，
             // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
             child: Listener(
               onPointerDown: (e) {

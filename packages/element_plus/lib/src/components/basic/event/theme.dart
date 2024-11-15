@@ -90,10 +90,10 @@ class ElEventThemeData {
   /// 长按事件
   final VoidCallback? onLongPress;
 
-  /// 指针按下事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapDownDetails]
+  /// 指针按下事件，[Listener] 原始对象
   final PointerDownEventListener? onPointerDown;
 
-  /// 指针抬起事件，回调参数是原始指针对象，你可以通过 e.toDetails 转成 [TapUpDetails]
+  /// 指针抬起事件，[Listener] 原始对象
   final PointerUpEventListener? onPointerUp;
 
   /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调

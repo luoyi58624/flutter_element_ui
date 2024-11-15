@@ -15,15 +15,12 @@ class _DragEvent {
   /// 惯性滚动的最大力度
   double maxVelocity = kMaxFlingVelocity;
 
-  /// 指针开始触摸，初始化速度追踪器
-  void onStart(PointerDownEvent e) {
-    velocityTracker = VelocityTracker.withKind(e.kind);
-  }
-
   /// 指针移动处理
   void onMove(PointerMoveEvent e) {
     // 添加触摸的数据，当触摸结束后会计算最终的速度
-    velocityTracker?.addPosition(e.timeStamp, e.position);
+    if (velocityTracker != null) {
+      velocityTracker!.addPosition(e.timeStamp, e.position);
+    }
     if (_prop.onDragUpdate != null) {
       _prop.onDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,

@@ -21,9 +21,7 @@ class _ElEventState extends State<ElEvent> {
   bool hasHoverDepend = false; // 是否存在悬停状态依赖
   bool hasTapDepend = false; // 是否存在点击状态依赖
 
-  // 拖拽事件，当用户注册了 onMoveEnd、onVerticalMoveEnd、onHorizontalMoveEnd 时将会初始化，
-  // 这个类主要就是计算用户停止触摸时的力度，通过这个力度值可以执行惯性滚动动画
-  _DragEvent? _drag;
+  _DragEvent? _drag; // 拖拽事件
   late bool hasMoveEvent;
   late bool hasMoveEndEvent;
 
@@ -74,7 +72,9 @@ class _ElEventState extends State<ElEvent> {
 
     if (isPrimaryPoint) {
       _prop.onPointerDown?.call(e);
-      _drag?.onStart(e);
+      if (hasMoveEndEvent) {
+        _drag!.velocityTracker = VelocityTracker.withKind(e.kind);
+      }
 
       // 尝试注册长按事件计时器，需要限制鼠标指针，只能长按鼠标左键
       if (_prop.onLongPress != null) longPressHandler();
@@ -293,7 +293,10 @@ class _ElEventState extends State<ElEvent> {
         _prop.onVerticalDragEnd != null ||
         _prop.onHorizontalDragEnd != null;
 
-    hasMoveEvent = _prop.onDragUpdate != null ||
+    hasMoveEvent = _prop.onDragStart != null ||
+        _prop.onVerticalDragStart != null ||
+        _prop.onHorizontalDragStart != null ||
+        _prop.onDragUpdate != null ||
         _prop.onVerticalDragUpdate != null ||
         _prop.onHorizontalDragUpdate != null ||
         hasMoveEndEvent;
