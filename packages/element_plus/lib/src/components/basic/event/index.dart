@@ -1,40 +1,31 @@
-import 'dart:async';
-import 'dart:math';
-
+import 'package:element_plus/src/components/basic/event/prop.dart';
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-part 'state.dart';
+import 'inherited_widget.dart';
+import 'mixins/common.dart';
+import 'mixins/double_tap.dart';
+import 'mixins/drag.dart';
+import 'mixins/hover.dart';
+import 'mixins/long_press.dart';
+import 'mixins/tap.dart';
 
-part 'prop.dart';
+part 'state.dart';
 
 part 'bubble_widget.dart';
 
 part 'extension.dart';
 
-part 'drag.dart';
-
 part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
 
-/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能，更重要的是，
-/// Element UI 所有的组件都基于 [ElEvent] 实现交互，这也意味着，通过 [ElEventTheme] 小部件，
-/// 你可以轻松地为任意小部件绑定各种事件，例如给按钮绑定长按事件：
-/// ```dart
-/// ElEventTheme(
-///   data: ElEventThemeData(
-///     onLongPress: () {},
-///   ),
-///   child: const ElButton(child: 'Hello'),
-/// ),
-/// ```
+/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能。
 ///
-/// 但是请注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
+/// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
 /// 如果你不做任何处理那么将会触发事件冒泡。
 ///
 /// 解决事件冒泡需要分 3 种情况：
@@ -53,9 +44,6 @@ part '../../../generates/components/basic/event/index.g.dart';
 /// 对于第三种情况：
 /// * 使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 参数，你需要根据这个 bool 值手动控制函数逻辑的执行。
-///
-/// 如果上面描述的问题让你难以理解，那就将 [ElEvent] 想象成 [Listener] 小部件，
-/// 上面所描述的问题就是告诉你如何解决 [GestureDetector] 和 [Listener] 之间的冲突。
 class ElEvent extends StatefulWidget {
   const ElEvent({
     super.key,
@@ -64,23 +52,30 @@ class ElEvent extends StatefulWidget {
     this.disabled,
     this.cancelScope,
     this.prevent,
+    this.tapUpDelay,
     this.doubleTapTimeout,
     this.delayTapForDouble,
     this.longPressTimeout,
     this.feedback,
     this.triggerDragScope,
+    this.minVelocity,
+    this.maxVelocity,
     this.hitTestBehavior,
     this.cursor,
     this.onEnter,
     this.onExit,
     this.onHover,
     this.onTap,
-    this.onContextMenu,
+    this.onTapDown,
+    this.onTapUp,
+    this.onSecondaryTap,
+    this.onSecondaryTapDown,
+    this.onSecondaryTapUp,
+    this.onTertiaryTap,
+    this.onTertiaryTapDown,
+    this.onTertiaryTapUp,
     this.onDoubleTap,
     this.onLongPress,
-    this.onPointerDown,
-    this.onPointerUp,
-    this.onPointerCancel,
     this.onDragStart,
     this.onDragUpdate,
     this.onDragEnd,
@@ -90,7 +85,14 @@ class ElEvent extends StatefulWidget {
     this.onHorizontalDragStart,
     this.onHorizontalDragUpdate,
     this.onHorizontalDragEnd,
+    this.onPointerDown,
+    this.onPointerUp,
+    this.onPointerMove,
+    this.onPointerPanZoomStart,
+    this.onPointerPanZoomUpdate,
+    this.onPointerPanZoomEnd,
     this.onPointerSignal,
+    this.onCancel,
   }) : assert(
             (child != null && builder == null) ||
                 (child == null && builder != null),
@@ -108,8 +110,11 @@ class ElEvent extends StatefulWidget {
   /// 触发取消事件偏移范围，默认 10 像素
   final int? cancelScope;
 
-  /// 如果 [onContextMenu] 不为空，是否阻止浏览器右键默认行为，默认 true
+  /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true
   final bool? prevent;
+
+  /// 指针抬起延迟时间，作用是让 [isTap] 状态效果更好，默认 100 毫秒
+  final int? tapUpDelay;
 
   /// 双击触发时间，默认 300 毫秒
   final int? doubleTapTimeout;
@@ -126,6 +131,12 @@ class ElEvent extends StatefulWidget {
   /// 触发拖拽事件的偏移幅度，在桌面端设置一定的偏移幅度可以防止意外地触发拖拽行为，默认 0
   final int? triggerDragScope;
 
+  /// 拖拽结束时触发惯性速度的最小力度，当滑动力度小于该值，其返回的速度将为 0，默认 [kMinFlingVelocity]
+  final double? minVelocity;
+
+  /// 拖拽结束时触发惯性速度的最大值，默认 [kMaxFlingVelocity]
+  final double? maxVelocity;
+
   /// 命中测试行为，默认：[HitTestBehavior.deferToChild]
   final HitTestBehavior? hitTestBehavior;
 
@@ -141,26 +152,30 @@ class ElEvent extends StatefulWidget {
   /// 鼠标悬停事件
   final PointerHoverEventListener? onHover;
 
-  /// 点击事件
-  final VoidCallback? onTap;
+  /// 主指针点击事件
+  final GestureTapCallback? onTap;
 
-  /// 右键事件
-  final VoidCallback? onContextMenu;
+  /// 主指针按下事件
+  final GestureTapDownCallback? onTapDown;
+
+  /// 主指针抬起事件，为了更好的点击效果，它存在一点延迟：[tapUpDelay]
+  final GestureTapUpCallback? onTapUp;
+
+  /// 次要按钮点击事件，例如：鼠标右键
+  final GestureTapCallback? onSecondaryTap;
+  final GestureTapDownCallback? onSecondaryTapDown;
+  final GestureTapUpCallback? onSecondaryTapUp;
+
+  /// 第三级按钮的指针回调，例如：鼠标中键
+  final GestureTapCallback? onTertiaryTap;
+  final GestureTapDownCallback? onTertiaryTapDown;
+  final GestureTapUpCallback? onTertiaryTapUp;
 
   /// 双击事件
   final VoidCallback? onDoubleTap;
 
   /// 长按事件
   final VoidCallback? onLongPress;
-
-  /// 指针按下事件，[Listener] 原始对象
-  final PointerDownEventListener? onPointerDown;
-
-  /// 指针抬起事件，[Listener] 原始对象
-  final PointerUpEventListener? onPointerUp;
-
-  /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调
-  final VoidCallback? onPointerCancel;
 
   /// 拖拽开始事件，它受 [triggerDragScope] 属性影响
   final GestureDragStartCallback? onDragStart;
@@ -189,20 +204,39 @@ class ElEvent extends StatefulWidget {
   /// 水平拖拽结束事件
   final GestureDragEndCallback? onHorizontalDragEnd;
 
-  /// 指针信号事件，例如：鼠标滚轮滚动
+  /// [Listener] 指针按下事件
+  final PointerDownEventListener? onPointerDown;
+
+  /// [Listener] 指针抬起事件
+  final PointerUpEventListener? onPointerUp;
+
+  /// [Listener] 指针移动事件
+  final PointerMoveEventListener? onPointerMove;
+
+  final PointerPanZoomStartEventListener? onPointerPanZoomStart;
+
+  final PointerPanZoomUpdateEventListener? onPointerPanZoomUpdate;
+
+  final PointerPanZoomEndEventListener? onPointerPanZoomEnd;
+
+  /// [Listener] 指针信号事件，作用：监听鼠标滚轮滚动
   final PointerSignalEventListener? onPointerSignal;
+
+  /// 针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调，
+  /// 但是，如果已经触发了长按事件、或者监听了指针移动事件（包括拖拽），那么此回调不会触发。
+  final VoidCallback? onCancel;
 
   /// 通过上下文获取最近的悬停状态
   static bool isHover(BuildContext context) =>
-      _ElEventInheritedWidget.getHoverStatus(context);
+      EventInheritedWidget.getHoverStatus(context);
 
   /// 通过上下文获取最近的点击状态
   static bool isTap(BuildContext context) =>
-      _ElEventInheritedWidget.getTapStatus(context);
+      EventInheritedWidget.getTapStatus(context);
 
   /// 阻止事件冒泡
   static void stopPropagation(BuildContext context) {
-    _ElEventInheritedWidget._stopPropagation(context);
+    EventInheritedWidget.stopPropagation(context);
 
     // 查找是否存在 ElBubbleBuilder 小部件，如果有那么需要通知它的回调
     final result = _ElBubbleInheritedWidget.getWidget(context);

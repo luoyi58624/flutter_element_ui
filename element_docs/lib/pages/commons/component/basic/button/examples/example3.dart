@@ -27,6 +27,20 @@ class Example3 extends StatelessWidget {
               runSpacing: 8,
               children: ButtonPage.buttonTypes
                   .map(
+                    (type) => ElButton(
+                      type: type,
+                      link: true,
+                      child: (type ?? 'Default').firstUpperCase,
+                    ),
+                  )
+                  .toList(),
+            ),
+            const Gap(12),
+            Wrap(
+              spacing: 16,
+              runSpacing: 8,
+              children: ButtonPage.buttonTypes
+                  .map(
                     (type) => ElLink(
                       href: githubLink,
                       child: ElButton(

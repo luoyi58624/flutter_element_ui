@@ -40,6 +40,6 @@ extension ElEventExtension on BuildContext {
   /// 原理就是运用 [InheritedWidget] 小部件，通过 context 不断向上查找，然后依次更新它们的冒泡标识（bool），
   /// 当上层事件执行时，由于冒泡标识被更改从而阻止逻辑执行，当指针抬起或者指针被取消，再重置冒泡标识。
   ///
-  /// 更新冒泡标识不会引起 UI 重建，同时，[InheritedWidget] 的查找时间为 O(1)，对性能没有任何影响。
+  /// 提示：更改标识不会引起 UI 重建，[InheritedWidget] 小部件查找实例很便宜，时间复杂度为 O(1)。
   void stopPropagation() => ElEvent.stopPropagation(this);
 }

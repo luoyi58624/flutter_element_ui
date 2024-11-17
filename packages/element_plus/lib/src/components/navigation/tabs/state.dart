@@ -6,6 +6,7 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
   final scrollController = ScrollController();
   late ElTabsThemeData theme;
   late Axis axis;
+  PointerDownEvent? pointerDownEvent;
 
   void onChanged(int index) {
     modelValue = index;
@@ -98,9 +99,13 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                       key: key,
                       onPointerDown: (e) {
                         onChanged(key.value);
+                        pointerDownEvent = e;
+                      },
+                      onDragStart: (e) {
+                        assert(pointerDownEvent != null);
                         list?.startItemDragReorder(
                           index: index,
-                          event: e,
+                          event: pointerDownEvent!,
                           recognizer: DelayedMultiDragGestureRecognizer(
                             debugOwner: this,
                             delay: (PlatformUtil.isDesktop

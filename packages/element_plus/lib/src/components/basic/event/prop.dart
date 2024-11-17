@@ -1,26 +1,38 @@
-part of 'index.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
-class _Prop {
+import 'index.dart';
+
+class EventProp {
   final bool disabled;
+  final int cancelScope;
+  final bool prevent;
+  final int tapUpDelay;
+  final int doubleTapTimeout;
+  final bool delayTapForDouble;
+  final int longPressTimeout;
+  final bool feedback;
+  final int triggerDragScope;
+  final double minVelocity;
+  final double maxVelocity;
   final HitTestBehavior hitTestBehavior;
   final MouseCursor cursor;
   final PointerEnterEventListener? onEnter;
   final PointerExitEventListener? onExit;
   final PointerHoverEventListener? onHover;
-  final PointerDownEventListener? onPointerDown;
-  final PointerUpEventListener? onPointerUp;
-  final VoidCallback? onPointerCancel;
-  final int cancelScope;
-  final VoidCallback? onTap;
-  final VoidCallback? onContextMenu;
-  final bool prevent;
+  final GestureTapCallback? onTap;
+  final GestureTapDownCallback? onTapDown;
+  final GestureTapUpCallback? onTapUp;
+  final GestureTapCallback? onSecondaryTap;
+  final GestureTapDownCallback? onSecondaryTapDown;
+  final GestureTapUpCallback? onSecondaryTapUp;
+  final GestureTapCallback? onTertiaryTap;
+  final GestureTapDownCallback? onTertiaryTapDown;
+  final GestureTapUpCallback? onTertiaryTapUp;
   final VoidCallback? onDoubleTap;
-  final int doubleTapTimeout;
-  final bool delayTapForDouble;
   final VoidCallback? onLongPress;
-  final int longPressTimeout;
-  final bool feedback;
-  final int triggerDragScope;
   final GestureDragStartCallback? onDragStart;
   final GestureDragUpdateCallback? onDragUpdate;
   final GestureDragEndCallback? onDragEnd;
@@ -30,29 +42,43 @@ class _Prop {
   final GestureDragStartCallback? onHorizontalDragStart;
   final GestureDragUpdateCallback? onHorizontalDragUpdate;
   final GestureDragEndCallback? onHorizontalDragEnd;
+  final PointerDownEventListener? onPointerDown;
+  final PointerUpEventListener? onPointerUp;
+  final PointerMoveEventListener? onPointerMove;
+  final PointerPanZoomStartEventListener? onPointerPanZoomStart;
+  final PointerPanZoomUpdateEventListener? onPointerPanZoomUpdate;
+  final PointerPanZoomEndEventListener? onPointerPanZoomEnd;
   final PointerSignalEventListener? onPointerSignal;
+  final VoidCallback? onCancel;
 
-  _Prop(
+  EventProp(
     this.disabled,
+    this.cancelScope,
+    this.prevent,
+    this.tapUpDelay,
+    this.doubleTapTimeout,
+    this.delayTapForDouble,
+    this.longPressTimeout,
+    this.feedback,
+    this.triggerDragScope,
+    this.minVelocity,
+    this.maxVelocity,
     this.hitTestBehavior,
     this.cursor,
     this.onEnter,
     this.onExit,
     this.onHover,
-    this.onPointerDown,
-    this.onPointerUp,
-    this.onPointerCancel,
-    this.cancelScope,
     this.onTap,
-    this.onContextMenu,
-    this.prevent,
+    this.onTapDown,
+    this.onTapUp,
+    this.onSecondaryTap,
+    this.onSecondaryTapDown,
+    this.onSecondaryTapUp,
+    this.onTertiaryTap,
+    this.onTertiaryTapDown,
+    this.onTertiaryTapUp,
     this.onDoubleTap,
-    this.doubleTapTimeout,
-    this.delayTapForDouble,
     this.onLongPress,
-    this.longPressTimeout,
-    this.feedback,
-    this.triggerDragScope,
     this.onDragStart,
     this.onDragUpdate,
     this.onDragEnd,
@@ -62,14 +88,31 @@ class _Prop {
     this.onHorizontalDragStart,
     this.onHorizontalDragUpdate,
     this.onHorizontalDragEnd,
+    this.onPointerDown,
+    this.onPointerUp,
+    this.onPointerMove,
+    this.onPointerPanZoomStart,
+    this.onPointerPanZoomUpdate,
+    this.onPointerPanZoomEnd,
     this.onPointerSignal,
+    this.onCancel,
   );
 
-  factory _Prop.create(BuildContext context, ElEvent widget) {
+  factory EventProp.create(BuildContext context, ElEvent widget) {
     final $data = ElEventTheme.of(context);
 
-    return _Prop(
+    return EventProp(
       widget.disabled ?? $data.disabled ?? false,
+      widget.cancelScope ?? $data.cancelScope ?? 10,
+      widget.prevent ?? $data.prevent ?? true,
+      widget.tapUpDelay ?? $data.tapUpDelay ?? 100,
+      widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,
+      widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,
+      widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
+      widget.feedback ?? $data.feedback ?? true,
+      widget.triggerDragScope ?? $data.triggerDragScope ?? 0,
+      widget.minVelocity ?? $data.minVelocity ?? kMinFlingVelocity,
+      widget.maxVelocity ?? $data.maxVelocity ?? kMaxFlingVelocity,
       widget.hitTestBehavior ??
           $data.hitTestBehavior ??
           HitTestBehavior.deferToChild,
@@ -77,20 +120,17 @@ class _Prop {
       widget.onEnter ?? $data.onEnter,
       widget.onExit ?? $data.onExit,
       widget.onHover ?? $data.onHover,
-      widget.onPointerDown ?? $data.onPointerDown,
-      widget.onPointerUp ?? $data.onPointerUp,
-      widget.onPointerCancel ?? $data.onPointerCancel,
-      widget.cancelScope ?? $data.cancelScope ?? 10,
       widget.onTap ?? $data.onTap,
-      widget.onContextMenu ?? $data.onContextMenu,
-      widget.prevent ?? $data.prevent ?? true,
+      widget.onTapDown ?? $data.onTapDown,
+      widget.onTapUp ?? $data.onTapUp,
+      widget.onSecondaryTap ?? $data.onSecondaryTap,
+      widget.onSecondaryTapDown ?? $data.onSecondaryTapDown,
+      widget.onSecondaryTapUp ?? $data.onSecondaryTapUp,
+      widget.onTertiaryTap ?? $data.onTertiaryTap,
+      widget.onTertiaryTapDown ?? $data.onTertiaryTapDown,
+      widget.onTertiaryTapUp ?? $data.onTertiaryTapUp,
       widget.onDoubleTap ?? $data.onDoubleTap,
-      widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,
-      widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,
       widget.onLongPress ?? $data.onLongPress,
-      widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
-      widget.feedback ?? $data.feedback ?? true,
-      widget.triggerDragScope ?? $data.triggerDragScope ?? 0,
       widget.onDragStart ?? $data.onDragStart,
       widget.onDragUpdate ?? $data.onDragUpdate,
       widget.onDragEnd ?? $data.onDragEnd,
@@ -100,7 +140,14 @@ class _Prop {
       widget.onHorizontalDragStart ?? $data.onHorizontalDragStart,
       widget.onHorizontalDragUpdate ?? $data.onHorizontalDragUpdate,
       widget.onHorizontalDragEnd ?? $data.onHorizontalDragEnd,
+      widget.onPointerDown ?? $data.onPointerDown,
+      widget.onPointerUp ?? $data.onPointerUp,
+      widget.onPointerMove ?? $data.onPointerMove,
+      widget.onPointerPanZoomStart ?? $data.onPointerPanZoomStart,
+      widget.onPointerPanZoomUpdate ?? $data.onPointerPanZoomUpdate,
+      widget.onPointerPanZoomEnd ?? $data.onPointerPanZoomEnd,
       widget.onPointerSignal ?? $data.onPointerSignal,
+      widget.onCancel ?? $data.onCancel,
     );
   }
 }

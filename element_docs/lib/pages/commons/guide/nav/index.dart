@@ -17,6 +17,27 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
+      Listener(
+        onPointerUp: (e) {
+          el.message.show('鼠标抬起');
+        },
+        child: Container(
+          width: 100,
+          height: 100,
+          color: Colors.green,
+        ),
+      ),
+      const Gap(8),
+      GestureDetector(
+        onSecondaryTap: () {
+          el.message.show('右键');
+        },
+        child: Container(
+          width: 100,
+          height: 100,
+          color: Colors.red,
+        ),
+      ),
       const _Example(),
       // ...List.generate(
       //   50,
@@ -81,11 +102,10 @@ class _ExampleState extends State<_Example>
           ),
           DragTarget(
             // onWillAcceptWithDetails: (e)
-            builder: (context, _, __) =>
-                Container(
-                  height: 100,
-                  color: Colors.grey.shade200,
-                ),
+            builder: (context, _, __) => Container(
+              height: 100,
+              color: Colors.grey.shade200,
+            ),
           ),
         ],
       );

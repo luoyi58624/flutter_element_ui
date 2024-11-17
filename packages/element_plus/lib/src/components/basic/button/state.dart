@@ -95,25 +95,25 @@ class _ElButtonState extends State<ElButton> {
           _groupData!.onChanged(_indexData!.index);
         }
       },
-      onPointerDown: (e) {
+      onTapDown: (e) {
         setState(() {
           _isTap = true;
         });
-        if (widget.onTapDown != null) widget.onTapDown!(e.toDetails);
+        if (widget.onTapDown != null) widget.onTapDown!(e);
         if (_hasGroup) {
           _groupData!.tapIndex.value = _indexData!.index;
         }
       },
-      onPointerUp: (e) {
+      onTapUp: (e) {
         setState(() {
           _isTap = false;
         });
-        if (widget.onTapUp != null) widget.onTapUp!(e.toDetails);
+        if (widget.onTapUp != null) widget.onTapUp!(e);
         if (_hasGroup) {
           _groupData!.tapIndex.value = -1;
         }
       },
-      onPointerCancel: () {
+      onCancel: () {
         setState(() {
           _isTap = false;
         });

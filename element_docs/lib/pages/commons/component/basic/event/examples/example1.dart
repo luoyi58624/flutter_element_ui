@@ -36,6 +36,9 @@ class _Example extends HookWidget {
           onTap: () {
             el.message.show('单击');
           },
+          onCancel: (){
+            el.message.error('取消');
+          },
           child: Container(
             width: 100,
             height: 50,
@@ -45,8 +48,11 @@ class _Example extends HookWidget {
           ),
         ),
         ElEvent(
-          onContextMenu: () {
+          onSecondaryTap: () {
             el.message.primary('右键');
+          },
+          onCancel: (){
+            el.message.error('取消');
           },
           child: Container(
             width: 100,
@@ -59,6 +65,9 @@ class _Example extends HookWidget {
         ElEvent(
           onDoubleTap: () {
             el.message.success('双击');
+          },
+          onCancel: (){
+            el.message.error('取消');
           },
           child: Container(
             width: 100,
@@ -75,6 +84,9 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
+          onCancel: (){
+            el.message.error('取消');
+          },
           child: Container(
             width: 120,
             height: 50,
@@ -90,6 +102,9 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
+          onCancel: (){
+            el.message.error('取消');
+          },
           delayTapForDouble: true,
           child: Container(
             width: 160,
@@ -102,6 +117,9 @@ class _Example extends HookWidget {
         ElEvent(
           onLongPress: () {
             el.message.warning('长按');
+          },
+          onCancel: (){
+            el.message.error('取消');
           },
           child: Container(
             width: 100,
@@ -139,7 +157,7 @@ class _Example extends HookWidget {
           ),
         ),
         ElEvent(
-          onContextMenu: () {
+          onSecondaryTap: () {
             el.message.primary('右键');
           },
           child: Container(
