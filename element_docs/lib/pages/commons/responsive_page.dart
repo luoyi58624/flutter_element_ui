@@ -43,71 +43,32 @@ abstract class ResponsivePage extends HookWidget {
               )
             : NestScrollWrapper(
                 controller: controller,
-                child: _buildDesktopBuild(controller, stopBubble),
+                child: SingleChildScrollView(
+                  controller: controller,
+                  physics:
+                      stopBubble ? const NeverScrollableScrollPhysics() : null,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 50,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElAnimatedDefaultTextStyle(
+                        style: TextStyle(
+                          color: context.isDark
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade800,
+                        ),
+                        child: H1(title),
+                      ),
+                      ...buildPage(context),
+                    ],
+                  ),
+                ),
               ),
       );
     });
-  }
-
-  Widget _buildDesktopBuild(ScrollController controller, bool stopBubble) {
-    return ObsBuilder(
-      builder: (context) {
-        if (LayoutHeader.enabledSlivers.value) {
-          return CustomScrollView(
-            controller: controller,
-            physics: stopBubble ? const NeverScrollableScrollPhysics() : null,
-            slivers: [
-              const SliverGap(50),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: ElAnimatedDefaultTextStyle(
-                    style: TextStyle(
-                      color: context.isDark
-                          ? Colors.grey.shade300
-                          : Colors.grey.shade800,
-                    ),
-                    child: H1(title),
-                  ),
-                ),
-              ),
-              ...buildPage(context).map(
-                (e) => SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 50, right: 50),
-                    child: e,
-                  ),
-                ),
-              ),
-              const SliverGap(50),
-            ],
-          );
-        } else {
-          return SingleChildScrollView(
-            controller: controller,
-            physics: stopBubble ? const NeverScrollableScrollPhysics() : null,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 50,
-              vertical: 50,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ElAnimatedDefaultTextStyle(
-                  style: TextStyle(
-                    color: context.isDark
-                        ? Colors.grey.shade300
-                        : Colors.grey.shade800,
-                  ),
-                  child: H1(title),
-                ),
-                ...buildPage(context),
-              ],
-            ),
-          );
-        }
-      },
-    );
   }
 }
 

@@ -12,42 +12,42 @@ class CollapsePage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    final expanded1 = useState([]);
-    final expanded2 = useState([]);
-
-    final children = [
-      ElCollapseItem(
-        id: '1',
-        title: '菜单一',
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Wrap(
-            children: [SelectableText('测试文字' * 20)],
-          ),
-        ),
-      ),
-      const ElCollapseItem(
-        id: '2',
-        title: '菜单二',
-        child: TextSelectionTheme(
-          data: TextSelectionThemeData(
-            selectionColor: Color.fromRGBO(42, 65, 130, 1),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('内容二'),
-          ),
-        ),
-      ),
-      const ElCollapseItem(
-        id: '3',
-        title: '菜单三',
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text('内容三'),
-        ),
-      ),
-    ];
+    // final expanded1 = useState([]);
+    // final expanded2 = useState([]);
+    //
+    // final children = [
+    //   ElCollapseItem(
+    //     id: '1',
+    //     title: '菜单一',
+    //     child: Padding(
+    //       padding: const EdgeInsets.all(8.0),
+    //       child: Wrap(
+    //         children: [SelectableText('测试文字' * 20)],
+    //       ),
+    //     ),
+    //   ),
+    //   const ElCollapseItem(
+    //     id: '2',
+    //     title: '菜单二',
+    //     child: TextSelectionTheme(
+    //       data: TextSelectionThemeData(
+    //         selectionColor: Color.fromRGBO(42, 65, 130, 1),
+    //       ),
+    //       child: Padding(
+    //         padding: EdgeInsets.all(8.0),
+    //         child: Text('内容二'),
+    //       ),
+    //     ),
+    //   ),
+    //   const ElCollapseItem(
+    //     id: '3',
+    //     title: '菜单三',
+    //     child: Padding(
+    //       padding: EdgeInsets.all(8.0),
+    //       child: Text('内容三'),
+    //     ),
+    //   ),
+    // ];
 
     return [
       const Example1(title: '折叠动画'),
