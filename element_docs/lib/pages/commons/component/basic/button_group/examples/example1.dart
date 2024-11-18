@@ -39,6 +39,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loadingGroupIndex = useState(0);
     final loading = useState(false);
     void openLoading() {
       loading.value = true;
@@ -47,14 +48,31 @@ class _Example extends HookWidget {
       }, 1000);
     }
 
+    useEffect(() {
+      loading.value = loadingGroupIndex.value != 0;
+      return null;
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        ElButtonTheme(
+          data: const ElButtonThemeData(
+            type: El.primary,
+          ),
+          child: ElButtonGroup.single(
+            loadingGroupIndex,
+            children: const [
+              ElButton(child: '关闭 loading'),
+              ElButton(child: '开启 loading'),
+            ],
+          ),
+        ),
+        const Gap(8),
         ElButtonGroup(
           children: [
             const ElButton(child: '选项一'),
             ElButton(
-              onPressed: openLoading,
               loading: loading.value,
               child: '选项二',
             ),
@@ -71,7 +89,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -88,7 +105,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -107,7 +123,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -124,7 +139,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -143,7 +157,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -160,7 +173,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: ElIcon(ElIcons.edit)),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: const ElIcon(ElIcons.share),
               ),
@@ -179,7 +191,6 @@ class _Example extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
                 block: false,
@@ -217,7 +228,6 @@ class _Example2 extends HookWidget {
             children: [
               const ElButton(child: '选项一'),
               ElButton(
-                onPressed: openLoading,
                 loading: loading.value,
                 child: '选项二',
               ),
@@ -234,7 +244,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: '选项一'),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: '选项二',
                 ),
@@ -252,7 +261,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: '选项一'),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: '选项二',
                 ),
@@ -272,7 +280,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: '选项一'),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: '选项二',
                 ),
@@ -290,7 +297,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: '选项一'),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: '选项二',
                 ),
@@ -310,7 +316,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: '选项一'),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: '选项二',
                 ),
@@ -328,7 +333,6 @@ class _Example2 extends HookWidget {
               children: [
                 const ElButton(child: ElIcon(ElIcons.edit)),
                 ElButton(
-                  onPressed: openLoading,
                   loading: loading.value,
                   child: const ElIcon(ElIcons.share),
                 ),

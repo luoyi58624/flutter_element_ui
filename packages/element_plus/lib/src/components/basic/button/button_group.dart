@@ -432,9 +432,10 @@ class _GroupDivide extends StatelessWidget {
           context.elConfig.borderSize;
 
       return Positioned(
-        left: isHorizontal ? $dividePositionList[index] : 0,
+        // -1 是为了遮盖 Flutter 元素重叠bug，两个相同颜色的 Widget 之间会有 1px 的空白间距
+        left: isHorizontal ? $dividePositionList[index] - 1 : 0,
         right: !isHorizontal ? 0 : null,
-        top: !isHorizontal ? $dividePositionList[index] : 0,
+        top: !isHorizontal ? $dividePositionList[index] - 1 : 0,
         bottom: isHorizontal ? 0 : null,
         child: IgnorePointer(
           child: AnimatedColoredBox(

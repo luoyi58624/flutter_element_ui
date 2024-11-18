@@ -34,12 +34,22 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final count = useState(0);
-    return ElButton(
-      onPressed: () {
-        count.value++;
-      },
-      type: 'primary',
-      child: ElText('count: ${count.value}'),
+    return ElEventTheme(
+      data: ElEventThemeData(
+        onTapDown: (e) {
+          el.message.primary('点击按钮');
+        },
+        onCancel: () {
+          el.message.error('取消点击');
+        },
+      ),
+      child: ElButton(
+        onPressed: () {
+          count.value++;
+        },
+        type: 'primary',
+        child: ElText('count: ${count.value}'),
+      ),
     );
   }
 }

@@ -103,7 +103,7 @@ class EventProp {
 
     return EventProp(
       widget.disabled ?? $data.disabled ?? false,
-      widget.cancelScope ?? $data.cancelScope ?? 10,
+      widget.cancelScope ?? $data.cancelScope ?? 20,
       widget.prevent ?? $data.prevent ?? true,
       widget.tapUpDelay ?? $data.tapUpDelay ?? 100,
       widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,

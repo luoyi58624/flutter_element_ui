@@ -27,6 +27,7 @@ class _ElButtonState extends State<ElButton> {
 
   late MouseCursor _cursor;
 
+  // ElEvent 后来自带了悬停、点击状态，这两个属性是早期的写法，不过已经没必要去改动它了
   bool _isTap = false;
   bool _isHover = false;
 
@@ -72,11 +73,11 @@ class _ElButtonState extends State<ElButton> {
     return ElEvent(
       cursor: _cursor,
       hitTestBehavior: HitTestBehavior.deferToChild,
-      onHover: widget.onHover,
       onEnter: (e) {
         setState(() {
           _isHover = true;
         });
+        ElEventTheme.maybeOf(context)?.onEnter?.call(e);
         if (_hasGroup) {
           _groupData!.hoverIndex.value = _indexData!.index;
         }
@@ -85,12 +86,18 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isHover = false;
         });
+        ElEventTheme.maybeOf(context)?.onExit?.call(e);
         if (_hasGroup) {
           _groupData!.hoverIndex.value = -1;
         }
       },
       onTap: () {
-        if (widget.onPressed != null) widget.onPressed!();
+        // onPressed 完全相当于 onTap，如果它不为空，那么不应当执行默认的点击事件
+        if (widget.onPressed != null) {
+          widget.onPressed!();
+        } else {
+          ElEventTheme.maybeOf(context)?.onTap?.call();
+        }
         if (_hasGroup) {
           _groupData!.onChanged(_indexData!.index);
         }
@@ -99,7 +106,7 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isTap = true;
         });
-        if (widget.onTapDown != null) widget.onTapDown!(e);
+        ElEventTheme.maybeOf(context)?.onTapDown?.call(e);
         if (_hasGroup) {
           _groupData!.tapIndex.value = _indexData!.index;
         }
@@ -108,7 +115,7 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isTap = false;
         });
-        if (widget.onTapUp != null) widget.onTapUp!(e);
+        ElEventTheme.maybeOf(context)?.onTapUp?.call(e);
         if (_hasGroup) {
           _groupData!.tapIndex.value = -1;
         }
@@ -117,7 +124,7 @@ class _ElButtonState extends State<ElButton> {
         setState(() {
           _isTap = false;
         });
-        if (widget.onTapCancel != null) widget.onTapCancel!();
+        ElEventTheme.maybeOf(context)?.onCancel?.call();
         if (_hasGroup) {
           _groupData!.tapIndex.value = -1;
         }

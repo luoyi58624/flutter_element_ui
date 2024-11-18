@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:element_dart/element_dart.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 
 import '../index.dart';
 import 'common.dart';
@@ -16,6 +17,22 @@ mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
 
   /// 计算指针拖动结束时的速度，只有当监听了滑动结束事件才会初始化它
   VelocityTracker? velocityTracker;
+
+  /// 是否存在点击状态依赖
+  bool hasDragDepend = false;
+
+  final _isDrag = BaseObs(false);
+
+  /// 拖拽状态响应式变量，此属性会注入到 InheritedWidget 小部件
+  bool get isDrag => _isDrag.value;
+
+  set isDrag(bool value) {
+    if (hasDragDepend) _isDrag.value = value;
+  }
+
+  void setDragDepend() {
+    hasDragDepend = true;
+  }
 
   /// 每当 build 时，会校验、并初始化拖拽相关的内容
   void buildDragEvent() {
@@ -47,15 +64,36 @@ mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
   }
 
   /// 拖拽开始处理
-  void dragStartHander(PointerDownEvent e) async {
+  void dragStartHandler(PointerDownEvent e) async {
     if (hasMoveEndEvent) {
       velocityTracker = VelocityTracker.withKind(e.kind);
     }
   }
 
   /// 拖拽更新处理
-  void dragUpdateHander(PointerMoveEvent e) {
+  void dragUpdateHandler(PointerMoveEvent e) {
     if (hasMoveEvent == false) return;
+
+    if (isStartDrag == false) {
+      if ((e.position - tapDownOffset).distance > prop.triggerDragScope) {
+        isStartDrag = true;
+        final details = DragStartDetails(
+          sourceTimeStamp: e.timeStamp,
+          globalPosition: e.position,
+          localPosition: e.localPosition,
+          kind: e.kind,
+        );
+        if (prop.onDragStart != null) {
+          prop.onDragStart!(details);
+        } else if (prop.onVerticalDragStart != null) {
+          prop.onVerticalDragStart!(details);
+        } else if (prop.onHorizontalDragStart != null) {
+          prop.onHorizontalDragStart!(details);
+        }
+      } else {
+        return;
+      }
+    }
 
     // 添加触摸的数据，当触摸结束后会计算最终的速度
     velocityTracker?.addPosition(e.timeStamp, e.position);
@@ -86,6 +124,7 @@ mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
 
   /// 指针结束移动处理
   void dragEndHandler(PointerUpEvent e) {
+    isStartDrag = false;
     if (hasMoveEndEvent == false || pointType != kPrimaryButton) {
       return;
     }

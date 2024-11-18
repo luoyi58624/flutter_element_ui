@@ -21,9 +21,9 @@ class _ElEventState extends State<ElEvent>
     isCancel = false;
 
     if (pointType == kPrimaryButton) {
-      tapDownHander(e);
-      longPressStartHander(e);
-      dragStartHander(e);
+      tapDownHandler(e);
+      longPressStartHandler(e);
+      dragStartHandler(e);
     } else if (pointType == kSecondaryButton) {
       prop.onSecondaryTapDown?.call(e.toDetails);
     } else if (pointType == kTertiaryButton) {
@@ -42,7 +42,7 @@ class _ElEventState extends State<ElEvent>
     prop.onPointerUp?.call(e);
     if (pointType == kPrimaryButton) {
       doubleTapHandler(e); // doubleTap 要放 tap 前面，因为需要注册计时器
-      tapUpHander(e);
+      tapUpHandler(e);
       dragEndHandler(e);
     } else if (pointType == kSecondaryButton) {
       prop.onSecondaryTapUp?.call(e.toDetails);
@@ -58,7 +58,10 @@ class _ElEventState extends State<ElEvent>
     }
   }
 
-  /// 指针取消事件
+  /// 指针取消事件，有三个触发点：
+  /// 1. 当 [Listener] 的 onPointerCancel 触发
+  /// 2. 指针移动到元素外部
+  /// 3. 指针在元素内部移动偏移幅度太大
   void onPointerCancel() {
     resetBubbleBuilderWidget();
     if (!bubbleFlag) {
@@ -67,17 +70,18 @@ class _ElEventState extends State<ElEvent>
     }
     if (isCancel) return;
     isCancel = true;
-    cancelLongPressTimer();
     isTap = false;
+    isActiveDoubleTap = false;
+    isActiveLongPress = false;
+    cancelLongPressTimer();
     prop.onCancel?.call();
   }
 
   /// 指针移动事件
   void onPointerMove(PointerMoveEvent e) {
     if (!bubbleFlag) return;
-
-    if (pointType == kPrimaryButton) dragUpdateHander(e);
-
+    prop.onPointerMove?.call(e);
+    if (pointType == kPrimaryButton) dragUpdateHandler(e);
     if (isCancel == false &&
         isActiveLongPress == false &&
         hasMoveEvent == false) {
@@ -92,7 +96,25 @@ class _ElEventState extends State<ElEvent>
     }
   }
 
-  /// 指针信号事件
+  /// 指针平移缩放开始事件
+  void onPointerPanZoomStart(PointerPanZoomStartEvent e) {
+    if (!bubbleFlag) return;
+    prop.onPointerPanZoomStart?.call(e);
+  }
+
+  /// 指针平移缩放更新事件
+  void onPointerPanZoomUpdate(PointerPanZoomUpdateEvent e) {
+    if (!bubbleFlag) return;
+    prop.onPointerPanZoomUpdate?.call(e);
+  }
+
+  /// 指针平移缩放结束事件
+  void onPointerPanZoomEnd(PointerPanZoomEndEvent e) {
+    if (!bubbleFlag) return;
+    prop.onPointerPanZoomEnd?.call(e);
+  }
+
+  /// 指针信号事件，例如：鼠标滚动滚动
   void onPointerSignal(PointerSignalEvent e) {
     if (!bubbleFlag) return;
     prop.onPointerSignal?.call(e);
@@ -169,6 +191,9 @@ class _ElEventState extends State<ElEvent>
       onPointerUp: prop.disabled ? null : onPointerUp,
       onPointerCancel: prop.disabled ? null : (e) => onPointerCancel(),
       onPointerMove: prop.disabled ? null : onPointerMove,
+      onPointerPanZoomStart: prop.disabled ? null : onPointerPanZoomStart,
+      onPointerPanZoomUpdate: prop.disabled ? null : onPointerPanZoomUpdate,
+      onPointerPanZoomEnd: prop.disabled ? null : onPointerPanZoomEnd,
       onPointerSignal: prop.disabled ? null : onPointerSignal,
       child: result,
     );

@@ -6,6 +6,16 @@ class ElEventThemeData {
   static const theme = ElEventThemeData();
   static const darkTheme = ElEventThemeData();
 
+  /// 在 Element UI 中，事件也拥有主题数据，你不仅可以配置事件的全局属性（取消偏移范围、开启长按反馈、拖拽偏移幅度...），
+  /// 还可以为任意一个组件提供局部默认事件（悬停、双击、长按、右键、拖拽...），这样的机制大大提高了组件声明事件的灵活性，
+  /// 当然，事件主题与其他主题数据一样，都遵循 Component -> LocalTheme -> GlobalTheme 这样主题合并机制。
+  ///
+  /// 对于组件开发者来说，如果你实现的组件占用了某些事件，若你希望用户可以通过 [ElEventTheme] 注入默认事件，
+  /// 只需在组件事件中调用默认事件即可，例如 [ElButton] 占用了 onTapDown、onTapUp 等事件：
+  /// ```dart
+  /// ElEventTheme.maybeOf(context)?.onTapDown?.call(e);
+  /// ElEventTheme.maybeOf(context)?.onTapUp?.call(e);
+  /// ```
   const ElEventThemeData({
     this.disabled,
     this.cancelScope,

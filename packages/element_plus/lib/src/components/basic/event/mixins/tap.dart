@@ -34,15 +34,15 @@ mixin TapMixin<T extends ElEvent> on CommonMixin<T> {
     }
   }
 
-  void tapDownHander(PointerDownEvent e) {
+  void tapDownHandler(PointerDownEvent e) {
     if (pointType == kPrimaryButton) {
+      _cancelTapUpTimer();
       isTap = true;
       prop.onTapDown?.call(e.toDetails);
-      _cancelTapUpTimer();
     }
   }
 
-  void tapUpHander(PointerUpEvent e) {
+  void tapUpHandler(PointerUpEvent e) {
     if (pointType == kPrimaryButton) {
       _tapHandler();
 

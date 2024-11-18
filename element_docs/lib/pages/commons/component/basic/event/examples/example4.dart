@@ -2,8 +2,8 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Example2 extends HookWidget {
-  const Example2({super.key, required this.title});
+class Example4 extends HookWidget {
+  const Example4({super.key, required this.title});
 
   final String title;
 
@@ -52,19 +52,19 @@ class _Example extends HookWidget {
                 constraints.maxHeight - size,
               ),
               child: ElStopPropagation(
-                child: ElDrag(
-                  onDragDown: (e) {
+                child: ElEvent(
+                  onDragStart: (e) {
                     offset.value = offset.value.clampConstraints(BoxConstraints(
                       maxWidth: constraints.maxWidth - size,
                       maxHeight: constraints.maxHeight - size,
                     ));
                   },
-                  onChanged: (e) {
-                    offset.value += e.details;
+                  onDragUpdate: (e) {
+                    offset.value += e.delta;
                   },
-                  enabledAnimate: true,
-                  damping: 0.975,
-                  triggerOffset: const Offset(30, 30),
+                  // enabledAnimate: true,
+                  // damping: 0.975,
+                  triggerDragScope: 20,
                   child: Container(
                     width: size,
                     height: size,

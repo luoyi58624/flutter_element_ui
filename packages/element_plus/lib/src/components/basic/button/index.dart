@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 part 'state.dart';
 
@@ -49,10 +48,6 @@ class ElButton extends StatefulWidget {
     this.loadingWidget,
     this.loadingBuilder,
     this.onPressed,
-    this.onTapDown,
-    this.onTapUp,
-    this.onTapCancel,
-    this.onHover,
   });
 
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
@@ -139,20 +134,8 @@ class ElButton extends StatefulWidget {
   /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
   final Widget Function(ElButtonLoadingState state)? loadingBuilder;
 
-  /// 点击事件
+  /// 点击事件，更多事件请通过 [ElEventTheme] 注入
   final VoidCallback? onPressed;
-
-  /// 按下事件
-  final GestureTapDownCallback? onTapDown;
-
-  /// 松开按下事件
-  final GestureTapUpCallback? onTapUp;
-
-  /// 取消点击事件
-  final GestureTapCancelCallback? onTapCancel;
-
-  /// 悬停事件
-  final PointerHoverEventListener? onHover;
 
   @override
   State<ElButton> createState() => _ElButtonState();

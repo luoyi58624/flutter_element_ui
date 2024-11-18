@@ -29,6 +29,7 @@ class _ElBubbleBuilderState extends State<ElBubbleBuilder> {
   bool? flag;
 
   void updateBubbleFlag(bool value) {
+    // 找到最上层 ElBubbleBuilder 所在的位置，让从那个位置触发重建，确保只执行一次 setState
     if (_ElBubbleInheritedWidget.getWidget(context) != null) {
       _ElBubbleInheritedWidget._updateBubbleFlag(context, value);
     } else {

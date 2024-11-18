@@ -1,3 +1,4 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/components/basic/event/prop.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
@@ -39,12 +40,14 @@ part '../../../generates/components/basic/event/index.g.dart';
 ///
 /// 对于第二种情况：
 /// * 你必须在 [GestureDetector] 上方插入 [Listener] 小部件，然后在 [Listener] 小部件的事件中执行 context.stopPropagation() 方法，
-/// 这是因为 [GestureDetector] 内部执行的逻辑比较多，手指轻触屏幕时，onTapDown 的触发时机可能比 [ElEvent] 的 [onTap] 还要慢。
+/// 这是因为当手指轻触屏幕时，onTapDown 的触发时机可能比 [ElEvent] 的 [onTap] 还要慢。
 ///
 /// 对于第三种情况：
-/// * 使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
-/// builder 回调会传递一个 bool 参数，你需要根据这个 bool 值手动控制函数逻辑的执行。
+/// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
+/// builder 回调会传递一个 bool 参数，你要根据这个 bool 值手动控制函数逻辑的执行，
+/// 注意这个方案会引发 UI 重建。
 class ElEvent extends StatefulWidget {
+  /// Element UI 事件交互构造器
   const ElEvent({
     super.key,
     this.child,
@@ -100,14 +103,13 @@ class ElEvent extends StatefulWidget {
 
   final Widget? child;
 
-  /// 功能和 [child] 一样，只是帮你省略嵌套 [Builder] 小部件，目的是让你正确地通过
-  /// context 访问 [isHover]、[isTap] 事件状态
+  /// 功能和 [child] 一样，只是帮你省略嵌套 [Builder] 小部件，添加这个属性主要是为了兼容以前 ElTap、ElHover 的旧写法（现在这两个小部件合并为 ElEvent）
   final WidgetBuilder? builder;
 
   /// 是否禁用，默认 false
   final bool? disabled;
 
-  /// 触发取消事件偏移范围，默认 10 像素
+  /// 触发取消事件偏移范围，默认 20 像素
   final int? cancelScope;
 
   /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true
@@ -222,7 +224,7 @@ class ElEvent extends StatefulWidget {
   /// [Listener] 指针信号事件，作用：监听鼠标滚轮滚动
   final PointerSignalEventListener? onPointerSignal;
 
-  /// 针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调，
+  /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调，
   /// 但是，如果已经触发了长按事件、或者监听了指针移动事件（包括拖拽），那么此回调不会触发。
   final VoidCallback? onCancel;
 

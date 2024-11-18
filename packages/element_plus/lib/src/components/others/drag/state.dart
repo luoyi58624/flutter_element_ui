@@ -62,21 +62,7 @@ class _ElDragState extends State<ElDrag> {
     ));
   }
 
-  void _onDragDown(PointerDownEvent e) {
-    if (widget.enabledAnimate &&
-        controller.status != AnimationStatus.completed) {
-      controller.stop();
-    }
-    oldAnimateValue = null;
-    downPosition = e.position;
-    downLocalPosition = e.localPosition;
-    widget.onDragDown?.call(DragDownDetails(
-      globalPosition: e.position,
-      localPosition: e.localPosition,
-    ));
-  }
-
-  void _onDragDown2(DragDownDetails e) {
+  void _onDragStart(DragStartDetails e) {
     if (widget.enabledAnimate &&
         controller.status != AnimationStatus.completed) {
       controller.stop();
@@ -166,7 +152,7 @@ class _ElDragState extends State<ElDrag> {
     _overlay = Overlay.of(context, rootOverlay: widget.rootOverlay);
 
     return ElEvent(
-      onPointerDown: _onDragDown,
+      onDragStart: _onDragStart,
       onDragUpdate: _onDragMove,
       onDragEnd: _onDragUp,
       onCancel: _onDragCancel,
