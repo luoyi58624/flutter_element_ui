@@ -164,7 +164,7 @@ class _CustomLoading1 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: (color) => const ElText('加载中...'),
+      loadingBuilder: (data) => const ElText('加载中...'),
       type: 'primary',
       child: '自定义加载内容',
     );
@@ -265,12 +265,12 @@ class _CustomLoading5 extends HookWidget {
   }
 }
 
-var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
-      width: state.size,
-      height: state.size,
+var loadingBuilder = (ElButtonLoadingData data) => SizedBox(
+      width: data.size,
+      height: data.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: state.color,
+        color: data.color,
       ),
     );
 
@@ -290,7 +290,7 @@ ElButton(loading: true, loadingWidget: const ElLoading(ElIcons.eleme), child: '�
 // loadingBuilder 会替换按钮原有内容
 ElButton(
   loading: true,
-  loadingBuilder: (state) => const ElText('加载中...'), 
+  loadingBuilder: (data) => const ElText('加载中...'), 
   child: '自定义加载内容',
 ),
 
@@ -302,12 +302,12 @@ ElButton(
 ),
 
 // 你可以将 loadingBuilder 封装成一个函数，或者在 ElButtonTheme 小部件中注入默认的加载器
-var loadingBuilder = (ElButtonLoadingState state) => SizedBox(
-      width: state.size,
-      height: state.size,
+var loadingBuilder = (ElButtonLoadingData data) => SizedBox(
+      width: data.size,
+      height: data.size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        color: state.color,
+        color: data.color,
       ),
     );
 ''';

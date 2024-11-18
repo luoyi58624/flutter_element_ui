@@ -25,7 +25,7 @@ class _ButtonProp {
   final bool disabled;
   final bool loading;
   final Widget loadingWidget;
-  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
+  final Widget Function(ElButtonLoadingData data)? loadingBuilder;
 
   _ButtonProp({
     required this.child,

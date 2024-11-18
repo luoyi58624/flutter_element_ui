@@ -97,17 +97,19 @@ class _ElFpsState extends State<ElFps> with SingleTickerProviderStateMixin {
               child: child,
             );
 
-    final fpsWidget = IgnorePointer(
-      child: ObsBuilder(builder: (context) {
-        return ElText(
-          '$fps',
-          style: const TextStyle(
-            color: Colors.green,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-      }),
+    final fpsWidget = RepaintBoundary(
+      child: IgnorePointer(
+        child: ObsBuilder(builder: (context) {
+          return ElText(
+            '$fps',
+            style: const TextStyle(
+              color: Colors.green,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        }),
+      ),
     );
     return Directionality(
       textDirection: Directionality.maybeOf(context) ?? TextDirection.ltr,

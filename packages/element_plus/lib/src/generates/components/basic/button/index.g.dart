@@ -31,7 +31,7 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
     Widget? rightIcon,
     bool? circle,
     Widget? loadingWidget,
-    Widget Function(ElButtonLoadingState)? loadingBuilder,
+    Widget Function(ElButtonLoadingData)? loadingBuilder,
   }) {
     return ElButtonThemeData(
       child: child ?? this.child,

@@ -238,7 +238,7 @@ class _ElButtonState extends State<ElButton> {
                 child: _buildIconTheme(
                   color: _colorStyle.loadingTextColor,
                   child: _prop.loadingBuilder!(
-                    ElButtonLoadingState(
+                    ElButtonLoadingData(
                       color: _colorStyle.loadingTextColor!,
                       size: _prop.iconSize,
                     ),

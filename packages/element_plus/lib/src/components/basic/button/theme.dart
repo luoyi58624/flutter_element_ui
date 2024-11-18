@@ -100,17 +100,17 @@ class ElButtonThemeData {
   final Widget? loadingWidget;
 
   /// loading 构建器，它会替代 [loadingWidget]，其特点是背景颜色固定为灰色、同时隐藏原有内容，只展示用户构建的 Widget
-  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
+  final Widget Function(ElButtonLoadingData data)? loadingBuilder;
 }
 
-class ElButtonLoadingState {
+class ElButtonLoadingData {
   /// 按钮 loading 颜色，它的颜色跟随图标的文字颜色
   final Color color;
 
   /// 按钮 loading 尺寸，它的大小和图标一致
   final double size;
 
-  ElButtonLoadingState({
+  ElButtonLoadingData({
     required this.color,
     required this.size,
   });

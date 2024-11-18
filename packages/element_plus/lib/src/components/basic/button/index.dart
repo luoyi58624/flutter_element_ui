@@ -132,7 +132,7 @@ class ElButton extends StatefulWidget {
   final Widget? loadingWidget;
 
   /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
-  final Widget Function(ElButtonLoadingState state)? loadingBuilder;
+  final Widget Function(ElButtonLoadingData data)? loadingBuilder;
 
   /// 点击事件，更多事件请通过 [ElEventTheme] 注入
   final VoidCallback? onPressed;

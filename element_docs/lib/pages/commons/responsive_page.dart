@@ -34,9 +34,11 @@ abstract class ResponsivePage extends HookWidget {
                         : null,
                     padding:
                         EdgeInsets.all(PlatformUtil.isDesktop ? 16.0 : 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: buildPage(context),
+                    child: RepaintBoundary(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: buildPage(context),
+                      ),
                     ),
                   ),
                 ),
@@ -51,19 +53,21 @@ abstract class ResponsivePage extends HookWidget {
                     horizontal: 50,
                     vertical: 50,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ElAnimatedDefaultTextStyle(
-                        style: TextStyle(
-                          color: context.isDark
-                              ? Colors.grey.shade300
-                              : Colors.grey.shade800,
+                  child: RepaintBoundary(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ElAnimatedDefaultTextStyle(
+                          style: TextStyle(
+                            color: context.isDark
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade800,
+                          ),
+                          child: H1(title),
                         ),
-                        child: H1(title),
-                      ),
-                      ...buildPage(context),
-                    ],
+                        ...buildPage(context),
+                      ],
+                    ),
                   ),
                 ),
               ),
