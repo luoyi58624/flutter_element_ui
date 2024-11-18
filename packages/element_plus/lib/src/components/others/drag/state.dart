@@ -95,6 +95,7 @@ class _ElDragState extends State<ElDrag> {
                 left: feedbackPosition.value.dx,
                 top: feedbackPosition.value.dy,
                 child: IgnorePointer(
+                  // ignoring: false,
                   child: UnconstrainedBox(child: widget.feedback),
                 ),
               );
@@ -156,6 +157,7 @@ class _ElDragState extends State<ElDrag> {
       onDragUpdate: _onDragMove,
       onDragEnd: _onDragUp,
       onCancel: _onDragCancel,
+      // triggerDragScope: 20,
       child: widget.child,
     );
 

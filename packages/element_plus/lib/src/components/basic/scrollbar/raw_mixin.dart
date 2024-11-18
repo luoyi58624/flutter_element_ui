@@ -648,7 +648,6 @@ class _VerticalThumbDragGestureRecognizer
 
   @override
   bool isPointerAllowed(PointerEvent event) {
-    // i(_isThumbEvent(_customPaintKey, event));
     return _isThumbEvent(_customPaintKey, event) &&
         super.isPointerAllowed(event);
   }

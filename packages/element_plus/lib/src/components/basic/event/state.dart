@@ -131,9 +131,12 @@ class _ElEventState extends State<ElEvent>
   /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
   /// 所在 Element Tree 的位置开始，向上查找 [ElEvent] 小部件并执行阻止冒泡函数
   void stopPropagationByWidget() {
-    context
-        .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
-        ?.stopPropagation();
+    final result = context.getInheritedWidgetOfExactType<ElStopPropagation>();
+    if (result != null && result.enabled == true) {
+      context
+          .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
+          ?.stopPropagation();
+    }
   }
 
   /// 重置 [ElBubbleBuilder] 小部件的状态，当 [onPointerUp]、[onPointerCancel] 时触发
@@ -185,6 +188,13 @@ class _ElEventState extends State<ElEvent>
       );
     }
 
+    if (widget.onTapOutside != null) {
+      result = TapRegion(
+        onTapOutside: widget.onTapOutside,
+        child: result,
+      );
+    }
+
     return Listener(
       behavior: prop.hitTestBehavior,
       onPointerDown: prop.disabled ? null : onPointerDown,
@@ -195,7 +205,9 @@ class _ElEventState extends State<ElEvent>
       onPointerPanZoomUpdate: prop.disabled ? null : onPointerPanZoomUpdate,
       onPointerPanZoomEnd: prop.disabled ? null : onPointerPanZoomEnd,
       onPointerSignal: prop.disabled ? null : onPointerSignal,
-      child: result,
+      child: Focus(
+        child: result,
+      ),
     );
   }
 }

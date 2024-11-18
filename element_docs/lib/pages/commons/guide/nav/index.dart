@@ -1,8 +1,18 @@
 import 'package:element_docs/global.dart';
 import 'package:element_docs/pages/commons/guide/nav/render.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../component/basic/button/index.dart';
+
+class _ClickGestureRecognizer extends TapGestureRecognizer {
+  /// 重写点击拒绝事件，将拒绝变为允许，这样将会触发事件冒泡
+  @override
+  void rejectGesture(int pointer) {
+    acceptGesture(pointer);
+    super.rejectGesture(pointer);
+  }
+}
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -17,25 +27,33 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      Listener(
-        onPointerUp: (e) {
-          el.message.show('鼠标抬起');
-        },
-        child: Container(
-          width: 100,
-          height: 100,
-          color: Colors.green,
-        ),
-      ),
-      const Gap(8),
       GestureDetector(
-        onSecondaryTap: () {
-          el.message.show('右键');
+        onTap: () {
+          el.message.show('点击');
         },
         child: Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
+          width: 200,
+          height: 200,
+          color: Colors.green,
+          alignment: Alignment.center,
+          child: RawGestureDetector(
+            gestures: {
+              _ClickGestureRecognizer:
+                  GestureRecognizerFactoryWithHandlers<_ClickGestureRecognizer>(
+                () => _ClickGestureRecognizer(),
+                (instance) {
+                  instance.onTap = () {
+                    el.message.success('点击 Child');
+                  };
+                },
+              ),
+            },
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.red,
+            ),
+          ),
         ),
       ),
       const _Example(),

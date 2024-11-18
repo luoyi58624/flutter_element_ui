@@ -5,7 +5,11 @@ class ElStopPropagation extends InheritedWidget {
   const ElStopPropagation({
     super.key,
     required super.child,
+    this.enabled = true,
   });
+
+  /// 是否启用阻止冒泡，默认 true
+  final bool enabled;
 
   @override
   bool updateShouldNotify(ElStopPropagation oldWidget) => false;

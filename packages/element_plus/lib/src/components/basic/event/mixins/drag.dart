@@ -74,9 +74,14 @@ mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
   void dragUpdateHandler(PointerMoveEvent e) {
     if (hasMoveEvent == false) return;
 
+    // 当拖拽开始时，计算指针移动距离指针按下时已经偏移的位置
+    Offset triggerDragOffset = Offset.zero;
+
     if (isStartDrag == false) {
+      // 如果指针偏移大于设置的阈值，那么将开始触发拖拽
       if ((e.position - tapDownOffset).distance > prop.triggerDragScope) {
         isStartDrag = true;
+        triggerDragOffset = e.position - tapDownOffset;
         final details = DragStartDetails(
           sourceTimeStamp: e.timeStamp,
           globalPosition: e.position,
@@ -103,21 +108,21 @@ mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
-        delta: e.delta,
+        delta: e.delta + triggerDragOffset,
       ));
     } else if (prop.onVerticalDragUpdate != null) {
       prop.onVerticalDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
-        delta: Offset(0, e.delta.dy),
+        delta: Offset(0, e.delta.dy) + Offset(0, triggerDragOffset.dy),
       ));
     } else if (prop.onHorizontalDragUpdate != null) {
       prop.onHorizontalDragUpdate!(DragUpdateDetails(
         sourceTimeStamp: e.timeStamp,
         globalPosition: e.position,
         localPosition: e.localPosition,
-        delta: Offset(e.delta.dx, 0),
+        delta: Offset(e.delta.dx, 0) + Offset(triggerDragOffset.dx, 0),
       ));
     }
   }

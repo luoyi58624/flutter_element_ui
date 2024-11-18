@@ -46,6 +46,17 @@ part '../../../generates/components/basic/event/index.g.dart';
 /// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 参数，你要根据这个 bool 值手动控制函数逻辑的执行，
 /// 注意这个方案会引发 UI 重建。
+///
+///
+/// 为什么不直接基于 [GestureDetector] 小部件，而要重新实现已有事件？
+///
+/// 1. 我就是奔着允许事件冒泡去设计的，因为有些场景需要允许事件冒泡，例如：ElLink 嵌套 ElButton，
+/// 没有事件冒泡那只能让用户手动跳转链接了，当然你可以自定义 [TapGestureRecognizer] 解决这个问题。
+///
+/// 2. ElLink 属于 [GestureDetector] 嵌套 [GestureDetector]，那 [GestureDetector] 如何阻止 [Listener]？
+/// 不要觉得没有这样场景，没这个场景我就不会提出来了。
+///
+/// 3. 最后，实现双击、右键、长按、拖拽等事件并不复杂，真正让我感觉复杂的还是手势竞技场的这套机制。
 class ElEvent extends StatefulWidget {
   /// Element UI 事件交互构造器
   const ElEvent({
@@ -95,6 +106,7 @@ class ElEvent extends StatefulWidget {
     this.onPointerPanZoomUpdate,
     this.onPointerPanZoomEnd,
     this.onPointerSignal,
+    this.onTapOutside,
     this.onCancel,
   }) : assert(
             (child != null && builder == null) ||
@@ -172,6 +184,10 @@ class ElEvent extends StatefulWidget {
   final GestureTapCallback? onTertiaryTap;
   final GestureTapDownCallback? onTertiaryTapDown;
   final GestureTapUpCallback? onTertiaryTapUp;
+
+  /// 在元素外进行了点击，如果你监听了 Outside 系列事件，那么 Widget 将会包裹 [TapRegion] 小部件，
+  /// 这个小部件会定义一个区域，该区域会检查内部、外部的点击，而且它不参与手势消歧系统，
+  final TapRegionCallback? onTapOutside;
 
   /// 双击事件
   final VoidCallback? onDoubleTap;

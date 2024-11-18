@@ -74,7 +74,7 @@ class ElLink extends StatelessWidget {
     this.color,
     this.activeColor,
     this.decoration,
-    this.cursor = SystemMouseCursors.click,
+    this.cursor = MouseCursor.defer,
     this.target = LinkTarget.blank,
     this.disabledEvent = false,
   });

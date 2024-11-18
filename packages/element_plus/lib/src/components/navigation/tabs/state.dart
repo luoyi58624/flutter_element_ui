@@ -100,17 +100,11 @@ class _ElTabsState extends ElModelValueState<ElTabs, int> {
                       onPointerDown: (e) {
                         onChanged(key.value);
                         pointerDownEvent = e;
-                      },
-                      onDragStart: (e) {
-                        assert(pointerDownEvent != null);
                         list?.startItemDragReorder(
                           index: index,
                           event: pointerDownEvent!,
                           recognizer: DelayedMultiDragGestureRecognizer(
-                            debugOwner: this,
-                            delay: (PlatformUtil.isDesktop
-                                ? const Duration(milliseconds: 0)
-                                : kLongPressTimeout),
+                            delay: Duration.zero,
                           )..gestureSettings = gestureSettings,
                         );
                       },

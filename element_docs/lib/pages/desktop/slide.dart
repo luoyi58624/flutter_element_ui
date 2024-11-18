@@ -45,6 +45,7 @@ class SlideWidget extends StatelessWidget {
                             .map(
                               (e) => ElLink(
                                 href: e.$2,
+                                cursor: SystemMouseCursors.click,
                                 disabledEvent: true,
                                 child: Builder(builder: (context) {
                                   return GestureDetector(
