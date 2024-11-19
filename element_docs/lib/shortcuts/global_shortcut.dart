@@ -1,3 +1,4 @@
+import 'package:element_docs/global.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -6,7 +7,7 @@ Map<ShortcutActivator, Intent> globalShortcuts() => {
           const DebugIntent(),
       LogicalKeySet(LogicalKeyboardKey.keyA, LogicalKeyboardKey.keyS):
           const DebugIntent(),
-      LogicalKeySet(LogicalKeyboardKey.escape): const QuitIntent(),
+      const SingleActivator(LogicalKeyboardKey.escape): const QuitIntent(),
     };
 
 class DebugIntent extends Intent {
@@ -15,4 +16,14 @@ class DebugIntent extends Intent {
 
 class QuitIntent extends Intent {
   const QuitIntent();
+}
+
+class QuitAction extends Action<QuitIntent> {
+  @override
+  Object? invoke(QuitIntent intent) {
+    if (el.context.canPop()) {
+      el.context.pop();
+    }
+    return null;
+  }
 }

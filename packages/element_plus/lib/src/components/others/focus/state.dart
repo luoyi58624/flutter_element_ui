@@ -2,16 +2,9 @@ part of 'index.dart';
 
 class _ElFocusState extends State<ElFocus> {
   final FocusNode focusNode = FocusNode();
-
   bool hasFocusDepend = false;
-
-  final _isFocus = BaseObs(false);
-
-  bool get isFocus => _isFocus.value;
-
-  set isFocus(bool value) {
-    if (hasFocusDepend) _isFocus.value = value;
-  }
+  bool isFocus = false;
+  bool isFocusVisible = false;
 
   void setFocusDepend() {
     hasFocusDepend = true;
@@ -40,25 +33,17 @@ class _ElFocusState extends State<ElFocus> {
   @override
   Widget build(BuildContext context) {
     final $data = ElEventTheme.of(context);
-    // FocusableActionDetector();
-    // IconButton();
+
     return Focus(
-      // onKeyEvent: (node, event) {
-      //   // i(event.logicalKey == LogicalKeyboardKey.tab);
-      //   i(event);
-      //   return KeyEventResult.ignored;
-      // },
       focusNode: focusNode,
       autofocus: widget.autofocus ?? $data.autofocus ?? false,
       canRequestFocus: (widget.disabled ?? $data.disabled ?? false) == false,
-      child: ObsBuilder(builder: (context) {
-        return _FocusInheritedWidget(
-          focusNode,
-          isFocus,
-          setFocusDepend,
-          child: widget.child,
-        );
-      }),
+      child: _FocusInheritedWidget(
+        focusNode,
+        isFocus,
+        setFocusDepend,
+        child: widget.child,
+      ),
     );
   }
 }

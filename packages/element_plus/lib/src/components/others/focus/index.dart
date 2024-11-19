@@ -37,11 +37,16 @@ class ElFocus extends StatefulWidget {
   /// 是否禁用，此属性会继承 [ElEventTheme]，若为 true，将不允许请求焦点
   final bool? disabled;
 
-  /// 通过上下文获取最近的聚焦状态
+  /// 通过当前上下文访问最近的 Focus 聚焦状态
   static bool isFocus(BuildContext context) =>
       _FocusInheritedWidget.getFocusStatus(context);
 
-  /// 通过上下文获取最近的聚焦状态
+  /// 与 [isFocus] 不同的是，只有当用户通过键盘导航时，此变量才会变成 true，它的行为类似 css 中的 focus-visible 伪类，
+  /// 链接：https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible
+  static bool isFocusVisible(BuildContext context) =>
+      _FocusInheritedWidget.getFocusStatus(context);
+
+  /// 通过当前上下文访问最近的 [FocusNode] 焦点对象，如果为空，则表示没有 [ElFocus] 小部件
   static FocusNode? focusNode(BuildContext context) =>
       context.getInheritedWidgetOfExactType<_FocusInheritedWidget>()?.focusNode;
 

@@ -104,10 +104,6 @@ class _ElButtonState extends State<ElButton> {
             CallbackAction<ActivateIntent>(onInvoke: activateOnIntent),
         ButtonActivateIntent:
             CallbackAction<ButtonActivateIntent>(onInvoke: activateOnIntent),
-        // _EnterIntent: CallbackAction<_EnterIntent>(onInvoke: (intent) {
-        //   onPressed();
-        //   return null;
-        // }),
       },
       child: ElFocus(
         autofocus: widget.autofocus,
