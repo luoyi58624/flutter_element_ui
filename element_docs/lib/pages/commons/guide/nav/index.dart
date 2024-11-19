@@ -27,31 +27,18 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      GestureDetector(
-        onTap: () {
-          el.message.show('点击');
-        },
-        child: Container(
-          width: 200,
-          height: 200,
-          color: Colors.green,
-          alignment: Alignment.center,
-          child: RawGestureDetector(
-            gestures: {
-              _ClickGestureRecognizer:
-                  GestureRecognizerFactoryWithHandlers<_ClickGestureRecognizer>(
-                () => _ClickGestureRecognizer(),
-                (instance) {
-                  instance.onTap = () {
-                    el.message.success('点击 Child');
-                  };
-                },
-              ),
+      ElEventTheme(
+        data: const ElEventThemeData(autofocus: true),
+        child: ElFocus(
+          child: ElEvent(
+            onTap: () {
+              el.message.show('点击');
             },
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.red,
+            builder: (context) => Container(
+              width: 200,
+              height: 200,
+              color: context.isFocus ? Colors.green : Colors.grey,
+              alignment: Alignment.center,
             ),
           ),
         ),

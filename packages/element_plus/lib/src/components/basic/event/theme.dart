@@ -17,6 +17,7 @@ class ElEventThemeData {
   /// ElEventTheme.maybeOf(context)?.onTapUp?.call(e);
   /// ```
   const ElEventThemeData({
+    this.autofocus,
     this.disabled,
     this.cancelScope,
     this.prevent,
@@ -42,6 +43,7 @@ class ElEventThemeData {
     this.onTertiaryTap,
     this.onTertiaryTapDown,
     this.onTertiaryTapUp,
+    this.onTapOutside,
     this.onDoubleTap,
     this.onLongPress,
     this.onDragStart,
@@ -62,6 +64,9 @@ class ElEventThemeData {
     this.onPointerSignal,
     this.onCancel,
   });
+
+  /// 是否自动聚焦
+  final bool? autofocus;
 
   /// 是否禁用，默认 false
   final bool? disabled;
@@ -129,6 +134,10 @@ class ElEventThemeData {
   final GestureTapCallback? onTertiaryTap;
   final GestureTapDownCallback? onTertiaryTapDown;
   final GestureTapUpCallback? onTertiaryTapUp;
+
+  /// 在元素外进行了点击，如果你监听了 Outside 系列事件，那么 Widget 将会包裹 [TapRegion] 小部件，
+  /// 这个小部件会定义一个区域，该区域会检查内部、外部的点击，而且它不参与手势消歧系统，
+  final TapRegionCallback? onTapOutside;
 
   /// 双击事件
   final VoidCallback? onDoubleTap;

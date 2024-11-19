@@ -9,6 +9,7 @@ part of '../../../../components/basic/event/index.dart';
 extension ElEventThemeDataExtension on ElEventThemeData {
   /// 接收一组可选参数，返回新的对象
   ElEventThemeData copyWith({
+    bool? autofocus,
     bool? disabled,
     int? cancelScope,
     bool? prevent,
@@ -34,6 +35,7 @@ extension ElEventThemeDataExtension on ElEventThemeData {
     void Function()? onTertiaryTap,
     void Function(TapDownDetails)? onTertiaryTapDown,
     void Function(TapUpDetails)? onTertiaryTapUp,
+    void Function(PointerDownEvent)? onTapOutside,
     void Function()? onDoubleTap,
     void Function()? onLongPress,
     void Function(DragStartDetails)? onDragStart,
@@ -55,6 +57,7 @@ extension ElEventThemeDataExtension on ElEventThemeData {
     void Function()? onCancel,
   }) {
     return ElEventThemeData(
+      autofocus: autofocus ?? this.autofocus,
       disabled: disabled ?? this.disabled,
       cancelScope: cancelScope ?? this.cancelScope,
       prevent: prevent ?? this.prevent,
@@ -80,6 +83,7 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onTertiaryTap: onTertiaryTap ?? this.onTertiaryTap,
       onTertiaryTapDown: onTertiaryTapDown ?? this.onTertiaryTapDown,
       onTertiaryTapUp: onTertiaryTapUp ?? this.onTertiaryTapUp,
+      onTapOutside: onTapOutside ?? this.onTapOutside,
       onDoubleTap: onDoubleTap ?? this.onDoubleTap,
       onLongPress: onLongPress ?? this.onLongPress,
       onDragStart: onDragStart ?? this.onDragStart,
@@ -110,6 +114,7 @@ extension ElEventThemeDataExtension on ElEventThemeData {
   ElEventThemeData merge([ElEventThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      autofocus: other.autofocus,
       disabled: other.disabled,
       cancelScope: other.cancelScope,
       prevent: other.prevent,
@@ -135,6 +140,7 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onTertiaryTap: other.onTertiaryTap,
       onTertiaryTapDown: other.onTertiaryTapDown,
       onTertiaryTapUp: other.onTertiaryTapUp,
+      onTapOutside: other.onTapOutside,
       onDoubleTap: other.onDoubleTap,
       onLongPress: other.onLongPress,
       onDragStart: other.onDragStart,

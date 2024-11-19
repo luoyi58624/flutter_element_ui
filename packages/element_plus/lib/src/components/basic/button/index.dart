@@ -43,6 +43,7 @@ class ElButton extends StatefulWidget {
     this.leftIcon,
     this.rightIcon,
     this.circle,
+    this.autofocus = false,
     this.disabled = false,
     this.loading = false,
     this.loadingWidget,
@@ -121,6 +122,9 @@ class ElButton extends StatefulWidget {
 
   /// 圆形按钮，按钮宽度强制和高度保持一致
   final bool? circle;
+
+  /// 按钮是否自动聚焦
+  final bool autofocus;
 
   /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
   final bool disabled;

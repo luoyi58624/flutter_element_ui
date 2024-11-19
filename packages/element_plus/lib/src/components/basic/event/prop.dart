@@ -31,6 +31,7 @@ class EventProp {
   final GestureTapCallback? onTertiaryTap;
   final GestureTapDownCallback? onTertiaryTapDown;
   final GestureTapUpCallback? onTertiaryTapUp;
+  final TapRegionCallback? onTapOutside;
   final VoidCallback? onDoubleTap;
   final VoidCallback? onLongPress;
   final GestureDragStartCallback? onDragStart;
@@ -77,6 +78,7 @@ class EventProp {
     this.onTertiaryTap,
     this.onTertiaryTapDown,
     this.onTertiaryTapUp,
+    this.onTapOutside,
     this.onDoubleTap,
     this.onLongPress,
     this.onDragStart,
@@ -129,6 +131,7 @@ class EventProp {
       widget.onTertiaryTap ?? $data.onTertiaryTap,
       widget.onTertiaryTapDown ?? $data.onTertiaryTapDown,
       widget.onTertiaryTapUp ?? $data.onTertiaryTapUp,
+      widget.onTapOutside ?? $data.onTapOutside,
       widget.onDoubleTap ?? $data.onDoubleTap,
       widget.onLongPress ?? $data.onLongPress,
       widget.onDragStart ?? $data.onDragStart,

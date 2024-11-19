@@ -53,6 +53,7 @@ class _ElEventState extends State<ElEvent>
     }
 
     if (isCancel == false) {
+      if (focusNode != null) focusNode!.requestFocus();
       isActiveDoubleTap = false;
       isActiveLongPress = false;
     }
@@ -120,6 +121,13 @@ class _ElEventState extends State<ElEvent>
     prop.onPointerSignal?.call(e);
   }
 
+  void onTapOutside(PointerDownEvent e) {
+    if (focusNode != null) {
+      focusNode!.unfocus();
+    }
+    prop.onTapOutside?.call(e);
+  }
+
   /// 阻止事件冒泡，它会一层一层向上不断执行
   void stopPropagation() {
     if (bubbleFlag) {
@@ -150,6 +158,7 @@ class _ElEventState extends State<ElEvent>
   @override
   Widget build(BuildContext context) {
     prop = EventProp.create(context, widget);
+    focusNode = ElFocus.focusNode(context);
 
     buildDragEvent();
 
@@ -188,9 +197,9 @@ class _ElEventState extends State<ElEvent>
       );
     }
 
-    if (widget.onTapOutside != null) {
+    if (prop.onTapOutside != null || focusNode != null) {
       result = TapRegion(
-        onTapOutside: widget.onTapOutside,
+        onTapOutside: onTapOutside,
         child: result,
       );
     }
@@ -205,9 +214,7 @@ class _ElEventState extends State<ElEvent>
       onPointerPanZoomUpdate: prop.disabled ? null : onPointerPanZoomUpdate,
       onPointerPanZoomEnd: prop.disabled ? null : onPointerPanZoomEnd,
       onPointerSignal: prop.disabled ? null : onPointerSignal,
-      child: Focus(
-        child: result,
-      ),
+      child: result,
     );
   }
 }

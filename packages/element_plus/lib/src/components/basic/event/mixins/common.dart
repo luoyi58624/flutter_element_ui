@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
@@ -42,6 +43,9 @@ mixin CommonMixin<T extends ElEvent> on State<T> {
 
   /// 长按事件计时器
   Timer? longPressTimer;
+
+  /// 焦点对象，如果存在 [ElFocus] 小部件，那么它将被初始化
+  FocusNode? focusNode;
 
   void cancelLongPressTimer() {
     if (longPressTimer != null) {

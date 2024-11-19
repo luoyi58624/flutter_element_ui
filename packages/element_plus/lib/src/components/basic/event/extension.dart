@@ -29,11 +29,11 @@ extension ElPointerMoveEventExtension on PointerMoveEvent {
 }
 
 extension ElEventExtension on BuildContext {
-  /// 通过当前上下文访问最近的 Tap 点击状态，如果引用此变量，[ElEvent] 获得点击事件时将会重建子组件
-  bool get isTap => ElEvent.isTap(this);
-
   /// 通过上下文访问最近的 Hover 悬停状态，如果引用此变量，[ElEvent] 获得悬停事件时将会重建子组件
   bool get isHover => ElEvent.isHover(this);
+
+  /// 通过当前上下文访问最近的 Tap 点击状态，如果引用此变量，[ElEvent] 获得点击事件时将会重建子组件
+  bool get isTap => ElEvent.isTap(this);
 
   /// 阻止事件冒泡，注意：你只能在手势事件函数中执行它，只有这样当指针抬起时才会重置冒泡状态。
   ///
