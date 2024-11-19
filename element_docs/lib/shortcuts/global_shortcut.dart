@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 Map<ShortcutActivator, Intent> globalShortcuts() => {
-      const SingleActivator(LogicalKeyboardKey.keyD, meta: true):
-          const DebugIntent(),
+      SingleActivator(LogicalKeyboardKey.keyD,
+          meta: PlatformUtil.isMacOS,
+          control: !PlatformUtil.isMacOS): const DebugIntent(),
       LogicalKeySet(LogicalKeyboardKey.keyA, LogicalKeyboardKey.keyS):
           const DebugIntent(),
       const SingleActivator(LogicalKeyboardKey.escape): const QuitIntent(),
