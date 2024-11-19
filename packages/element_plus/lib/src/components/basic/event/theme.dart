@@ -3,15 +3,22 @@ part of 'index.dart';
 @ElModel.copy()
 @ElThemeModel(desc: '事件默认配置')
 class ElEventThemeData {
-  static const theme = ElEventThemeData();
-  static const darkTheme = ElEventThemeData();
+  static const _default = ElEventThemeData(
+    tapUpDelay: 100,
+
+  );
+  static const theme = _default;
+  static const darkTheme = _default;
 
   /// 在 Element UI 中，事件也拥有主题数据，你不仅可以配置事件的全局属性（取消偏移范围、开启长按反馈、拖拽偏移幅度...），
-  /// 还可以为任意一个组件提供局部默认事件（悬停、双击、长按、右键、拖拽...），这样的机制大大提高了组件声明事件的灵活性，
-  /// 当然，事件主题与其他主题数据一样，都遵循 Component -> LocalTheme -> GlobalTheme 这样主题合并机制。
+  /// 还可以为任意一个组件注入所有事件（悬停、双击、长按、右键、拖拽...），这样的机制大大简化了每个组件的 prop 参数，
+  /// 例如 [ElButton] 只需提供 onPressed 参数即可，更多事件你可以通过 [ElEventTheme] 注入。
   ///
+  /// 当然，事件主题数据也同样遵循 Component -> LocalTheme -> GlobalTheme 这样主题合并机制，
   /// 对于组件开发者来说，如果你实现的组件占用了某些事件，若你希望用户可以通过 [ElEventTheme] 注入默认事件，
-  /// 只需在组件事件中调用默认事件即可，例如 [ElButton] 占用了 onTapDown、onTapUp 等事件：
+  /// 只需在组件事件中调用默认事件即可。
+  ///
+  /// 例如 [ElButton] 占用了 onTapDown、onTapUp 等事件，只需在事件逻辑中编写以下代码：
   /// ```dart
   /// ElEventTheme.maybeOf(context)?.onTapDown?.call(e);
   /// ElEventTheme.maybeOf(context)?.onTapUp?.call(e);
@@ -65,13 +72,13 @@ class ElEventThemeData {
     this.onCancel,
   });
 
-  /// 是否自动聚焦
+  /// 是否自动聚焦，这个属性是提供给 [ElFocus] 小部件，因为没必要为 [ElFocus] 单独创建一个主题
   final bool? autofocus;
 
   /// 是否禁用，默认 false
   final bool? disabled;
 
-  /// 触发取消事件偏移范围，默认 10 像素
+  /// 触发取消事件偏移范围，默认 20 像素
   final int? cancelScope;
 
   /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true

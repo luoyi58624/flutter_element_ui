@@ -48,15 +48,10 @@ part '../../../generates/components/basic/event/index.g.dart';
 /// 注意这个方案会引发 UI 重建。
 ///
 ///
-/// 为什么不直接基于 [GestureDetector] 小部件，而要重新实现已有事件？
+/// 为什么不直接基于 [GestureDetector] 小部件，而要重新实现已有轮子？
 ///
-/// 1. 我就是奔着允许事件冒泡去设计的，因为有些场景需要允许事件冒泡，例如：ElLink 嵌套 ElButton，
-/// 没有事件冒泡那只能让用户手动跳转链接了，当然你可以自定义 [TapGestureRecognizer] 解决这个问题。
-///
-/// 2. ElLink 属于 [GestureDetector] 嵌套 [GestureDetector]，那 [GestureDetector] 如何阻止 [Listener]？
-/// 不要觉得没有这样场景，没这个场景我就不会提出来了。
-///
-/// 3. 最后，实现双击、右键、长按、拖拽等事件并不复杂，真正让我感觉复杂的还是手势竞技场的这套机制。
+/// 因为必须要实现手动控制事件冒泡机制，否则无法处理 [Listener] 嵌套 [GestureDetector]，
+/// 若基于 [GestureDetector] 进行封装，你就需要和手势竞技场做斗争，这样做会令代码变得更加复杂。
 class ElEvent extends StatefulWidget {
   /// Element UI 事件交互构造器
   const ElEvent({
@@ -261,6 +256,16 @@ class ElEvent extends StatefulWidget {
     if (result != null) {
       _ElBubbleInheritedWidget.triggerFlag = true;
       _ElBubbleInheritedWidget._updateBubbleFlag(context, true, result);
+    }
+  }
+
+  /// 重置事件冒泡
+  static void resetPropagation(BuildContext context) {
+    EventInheritedWidget.resetPropagation(context);
+    final result = _ElBubbleInheritedWidget.getWidget(context);
+    if (result != null) {
+      _ElBubbleInheritedWidget.triggerFlag = false;
+      _ElBubbleInheritedWidget._updateBubbleFlag(context, false, result);
     }
   }
 

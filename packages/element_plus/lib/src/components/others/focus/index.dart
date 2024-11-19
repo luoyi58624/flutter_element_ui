@@ -1,12 +1,16 @@
-import 'package:element_plus/element_plus.dart';
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_obs/flutter_obs.dart';
 
 part 'state.dart';
 
 extension ElFocusExtension on BuildContext {
   /// 通过当前上下文访问最近的 Focus 聚焦状态
   bool get isFocus => ElFocus.isFocus(this);
+
+  /// 与 [isFocus] 不同的是，只有当用户通过键盘导航时，此变量才会变成 true，它的行为类似 css 中的 focus-visible 伪类，
+  /// 链接：https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible
+  bool get isFocusVisible => ElFocus.isFocus(this);
 
   /// 通过当前上下文访问最近的 [FocusNode] 焦点对象，如果为空，则表示没有 [ElFocus] 小部件
   FocusNode? get focusNode => ElFocus.focusNode(this);
@@ -15,7 +19,7 @@ extension ElFocusExtension on BuildContext {
 /// Element UI 聚焦小部件，通常情况它应该放在 [ElEvent] 之上，[ElEvent] 内部会自动帮你处理元素聚焦状态，
 /// 如果你需要控制聚焦范围，请参阅 [FocusScope] 小部件。
 class ElFocus extends StatefulWidget {
-  /// 聚焦小部件构造器，它很简单，你只需要关注 [isFocus]、[focusNode] 两个变量：
+  /// 焦点小部件构造器，它很简单，你只需要关注 [isFocus]、[focusNode] 两个变量：
   /// * [isFocus] - 顾名思义，它表示当前是否被聚焦，你可以通过此变量设置元素聚焦外观样式
   /// * [focusNode] - Flutter 提供的 [ChangeNotifier] 对象，你可以通过此对象请求焦点、取消焦点
   const ElFocus({

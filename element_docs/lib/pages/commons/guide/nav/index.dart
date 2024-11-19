@@ -27,21 +27,11 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      ElEventTheme(
-        data: const ElEventThemeData(autofocus: true),
-        child: ElFocus(
-          child: ElEvent(
-            onTap: () {
-              el.message.show('点击');
-            },
-            builder: (context) => Container(
-              width: 200,
-              height: 200,
-              color: context.isFocus ? Colors.green : Colors.grey,
-              alignment: Alignment.center,
-            ),
-          ),
-        ),
+      Container(
+        width: 200,
+        height: 200,
+        color: context.isFocus ? Colors.green : Colors.grey,
+        alignment: Alignment.center,
       ),
       const _Example(),
       // ...List.generate(

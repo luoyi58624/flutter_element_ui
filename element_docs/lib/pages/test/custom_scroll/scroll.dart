@@ -32,7 +32,7 @@ class _Child extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          ...buttonPage.buildPage(context) * 10,
+          ...buttonPage.buildPage(context) * 1,
           ...List.generate(
             100,
             (index) => Text('列表 - ${index + 1}'),
@@ -54,7 +54,7 @@ class _Child2 extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          ...buttonPage.buildPage(context) * 10,
+          ...buttonPage.buildPage(context) * 1,
           ...List.generate(
             100,
             (index) => Text('列表 - ${index + 1}'),

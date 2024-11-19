@@ -1,3 +1,5 @@
+import 'package:element_docs/pages/test/temp_test_page.dart';
+import 'package:element_docs/shortcuts/global_shortcut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,42 +37,61 @@ class MainApp extends StatelessWidget {
     }
     // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
     RouterState.isMobile.value = context.sm;
-    return ObsBuilder(builder: (context) {
-      return ElApp(
-        brightness: GlobalState.brightness,
-        theme: buildElementTheme(),
-        darkTheme: buildElementTheme(brightness: Brightness.dark),
+    return Shortcuts(
+      shortcuts: globalShortcuts(),
+      child: Actions(
+        actions: {
+          DebugIntent: CallbackAction<DebugIntent>(onInvoke: (intent) {
+            el.context.push(const TempTestPage());
+            return null;
+          }),
+          QuitIntent: CallbackAction<QuitIntent>(onInvoke: (intent) {
+            if (el.context.canPop()) {
+              el.context.pop();
+            }
+            return null;
+          }),
+        },
         child: ObsBuilder(builder: (context) {
-          return ElFps(
-            enabled: GlobalState.fps.value,
-            child: MaterialApp.router(
-              routerConfig: router,
-              debugShowCheckedModeBanner: false,
-              showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-              showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-              themeAnimationDuration: Duration.zero,
-              theme: ElThemeUtil.buildMaterialTheme(
-                context,
-                brightness: GlobalState.brightness,
-              ),
-              darkTheme: ElThemeUtil.buildMaterialTheme(
-                context,
-                brightness: Brightness.dark,
-              ),
-              builder: ElApp.builder(
-                builder: (context, child) => CupertinoTheme(
-                  data: ElThemeUtil.buildCupertinoThemeData(
+          return ElApp(
+            brightness: GlobalState.brightness,
+            theme: buildElementTheme(),
+            darkTheme: buildElementTheme(brightness: Brightness.dark),
+            child: ObsBuilder(builder: (context) {
+              return ElFps(
+                enabled: GlobalState.fps.value,
+                child: MaterialApp.router(
+                  routerConfig: router,
+                  debugShowCheckedModeBanner: false,
+                  showSemanticsDebugger:
+                      GlobalState.showSemanticsDebugger.value,
+                  showPerformanceOverlay:
+                      GlobalState.showPerformanceOverlay.value,
+                  themeAnimationDuration: Duration.zero,
+                  theme: ElThemeUtil.buildMaterialTheme(
                     context,
                     brightness: GlobalState.brightness,
                   ),
-                  child: child!,
+                  darkTheme: ElThemeUtil.buildMaterialTheme(
+                    context,
+                    brightness: Brightness.dark,
+                  ),
+                  builder: ElApp.builder(
+                    builder: (context, child) => CupertinoTheme(
+                      data: ElThemeUtil.buildCupertinoThemeData(
+                        context,
+                        brightness: GlobalState.brightness,
+                      ),
+                      child: child!,
+                    ),
+                    scrollBehavior: const ElScrollBehavior(showTrack: true),
+                  ),
                 ),
-                scrollBehavior: const ElScrollBehavior(showTrack: true),
-              ),
-            ),
+              );
+            }),
           );
         }),
-      );
-    });
+      ),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 part 'state.dart';
 
@@ -138,9 +139,13 @@ class ElButton extends StatefulWidget {
   /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
   final Widget Function(ElButtonLoadingData data)? loadingBuilder;
 
-  /// 点击事件，更多事件请通过 [ElEventTheme] 注入
+  /// 点击事件
   final VoidCallback? onPressed;
 
   @override
   State<ElButton> createState() => _ElButtonState();
+}
+
+class _EnterIntent extends Intent {
+  const _EnterIntent();
 }

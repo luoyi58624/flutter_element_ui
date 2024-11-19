@@ -27,7 +27,7 @@ mixin CommonMixin<T extends ElEvent> on State<T> {
   Offset tapDownOffset = Offset.zero;
 
   /// 记录当前的按下时间
-  int? tapDownTime;
+  int tapDownTime = currentMilliseconds;
 
   /// 是否触发了取消事件
   bool isCancel = false;

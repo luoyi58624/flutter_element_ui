@@ -6,7 +6,8 @@ class EventInheritedWidget extends InheritedWidget {
     this.setHoverDepend,
     this.isTap,
     this.setTapDepend,
-    this._stopPropagation, {
+    this._stopPropagation,
+    this._resetPropagation, {
     super.key,
     required super.child,
   });
@@ -16,6 +17,7 @@ class EventInheritedWidget extends InheritedWidget {
   final bool isTap;
   final VoidCallback setTapDepend;
   final VoidCallback _stopPropagation;
+  final VoidCallback _resetPropagation;
 
   static EventInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<EventInheritedWidget>();
@@ -36,6 +38,12 @@ class EventInheritedWidget extends InheritedWidget {
     context
         .getInheritedWidgetOfExactType<EventInheritedWidget>()
         ?._stopPropagation();
+  }
+
+  static void resetPropagation(BuildContext context) {
+    context
+        .getInheritedWidgetOfExactType<EventInheritedWidget>()
+        ?._resetPropagation();
   }
 
   @override

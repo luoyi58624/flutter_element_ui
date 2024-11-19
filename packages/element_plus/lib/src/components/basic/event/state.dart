@@ -121,19 +121,25 @@ class _ElEventState extends State<ElEvent>
     prop.onPointerSignal?.call(e);
   }
 
+  /// 点击元素外部事件，此事件属于 [TapRegion] 小部件
   void onTapOutside(PointerDownEvent e) {
-    if (focusNode != null) {
-      focusNode!.unfocus();
-    }
+    if (focusNode != null) focusNode!.unfocus();
     prop.onTapOutside?.call(e);
   }
 
-  /// 阻止事件冒泡，它会一层一层向上不断执行
+  /// 阻止事件冒泡，它会一层一层向上不断执行，直到最顶层的 [ElEvent]，
+  /// 逻辑很简单，就是将 [bubbleFlag] 冒泡标识设置为 false，阻止事件的执行。
   void stopPropagation() {
     if (bubbleFlag) {
       bubbleFlag = false;
       EventInheritedWidget.stopPropagation(context);
     }
+  }
+
+  /// 重置事件冒泡
+  void resetPropagation() {
+    bubbleFlag = true;
+    EventInheritedWidget.resetPropagation(context);
   }
 
   /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
@@ -174,10 +180,20 @@ class _ElEventState extends State<ElEvent>
           isTap,
           setTapDepend,
           stopPropagation,
+          resetPropagation,
           child: Builder(
             key: childKey,
             builder: (context) {
-              return widget.child ?? widget.builder!(context);
+              var result = widget.child ?? widget.builder!(context);
+              // 如果用户手动定义的了点击外部事件，或者小部件得到了焦点，那么将构建 TapRegion 小部件
+              if (prop.onTapOutside != null ||
+                  (focusNode != null && context.isFocus)) {
+                result = TapRegion(
+                  onTapOutside: onTapOutside,
+                  child: result,
+                );
+              }
+              return result;
             },
           ),
         );
@@ -193,13 +209,6 @@ class _ElEventState extends State<ElEvent>
         onHover: prop.disabled ? null : prop.onHover,
         onEnter: prop.disabled ? null : onEnter,
         onExit: prop.disabled ? null : onExit,
-        child: result,
-      );
-    }
-
-    if (prop.onTapOutside != null || focusNode != null) {
-      result = TapRegion(
-        onTapOutside: onTapOutside,
         child: result,
       );
     }

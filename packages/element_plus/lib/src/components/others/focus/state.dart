@@ -40,8 +40,14 @@ class _ElFocusState extends State<ElFocus> {
   @override
   Widget build(BuildContext context) {
     final $data = ElEventTheme.of(context);
-
+    // FocusableActionDetector();
+    // IconButton();
     return Focus(
+      // onKeyEvent: (node, event) {
+      //   // i(event.logicalKey == LogicalKeyboardKey.tab);
+      //   i(event);
+      //   return KeyEventResult.ignored;
+      // },
       focusNode: focusNode,
       autofocus: widget.autofocus ?? $data.autofocus ?? false,
       canRequestFocus: (widget.disabled ?? $data.disabled ?? false) == false,

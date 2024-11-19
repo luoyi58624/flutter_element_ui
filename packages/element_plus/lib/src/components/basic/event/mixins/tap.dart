@@ -45,18 +45,14 @@ mixin TapMixin<T extends ElEvent> on CommonMixin<T> {
   void tapUpHandler(PointerUpEvent e) {
     if (pointType == kPrimaryButton) {
       _tapHandler();
-
-      int delay = 0;
-      if (tapDownTime != null) {
-        delay = max(prop.tapUpDelay - (currentMilliseconds - tapDownTime!), 0);
-      }
+      // 延迟更新 isTap 的状态
       _tapUpTimer = setTimeout(() {
         _tapUpTimer = null;
         if (mounted) {
           isTap = false;
           prop.onTapUp?.call(e.toDetails);
         }
-      }, delay);
+      }, max(prop.tapUpDelay - (currentMilliseconds - tapDownTime), 0));
     }
   }
 

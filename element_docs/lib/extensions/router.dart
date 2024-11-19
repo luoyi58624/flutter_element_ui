@@ -19,6 +19,9 @@ extension FlutterRouterExtension on BuildContext {
     Navigator.of(this).pop(data);
   }
 
+  /// 是否可以退出
+  bool canPop() => GoRouter.of(this).canPop();
+
   /// 重定向页面，先跳转新页面，再删除之前的页面
   Future<T?> pushReplacement<T>(
     Widget page, {
