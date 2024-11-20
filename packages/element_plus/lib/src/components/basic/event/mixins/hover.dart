@@ -1,11 +1,6 @@
-import 'package:element_extension/element_extension.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_obs/flutter_obs.dart';
+part of '../index.dart';
 
-import '../index.dart';
-import 'common.dart';
-
-mixin HoverMixin<T extends ElEvent> on CommonMixin<T> {
+mixin _HoverMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在悬停状态依赖
   bool hasHoverDepend = false;
 

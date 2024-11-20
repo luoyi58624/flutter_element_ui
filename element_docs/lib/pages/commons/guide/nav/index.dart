@@ -27,19 +27,25 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      Listener(
-        onPointerDown: (e) {
-          if (e.buttons == kBackMouseButton) {
-            i('鼠标返回');
-          } else if (e.buttons == kForwardMouseButton) {
-            i('鼠标前进');
-          }
-        },
-        child: Container(
-          width: 200,
-          height: 200,
-          color: context.isFocus ? Colors.green : Colors.grey,
-          alignment: Alignment.center,
+      ElFocus(
+        child: ElEvent(
+          onPointerDown: (e) {
+            if (e.buttons == kBackMouseButton) {
+              i('鼠标返回');
+            } else if (e.buttons == kForwardMouseButton) {
+              i('鼠标前进');
+            }
+          },
+          child: Builder(
+            builder: (context) {
+              return Container(
+                width: 200,
+                height: 200,
+                color: context.isFocusVisible ? Colors.green : Colors.grey,
+                alignment: Alignment.center,
+              );
+            }
+          ),
         ),
       ),
       const _Example(),

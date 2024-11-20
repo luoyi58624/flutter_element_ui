@@ -1,11 +1,6 @@
-import 'dart:async';
-import 'dart:math';
+part of '../index.dart';
 
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
-import 'common.dart';
-
-mixin TapMixin<T extends ElEvent> on CommonMixin<T> {
+mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在点击状态依赖
   bool hasTapDepend = false;
 

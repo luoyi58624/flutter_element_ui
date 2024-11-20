@@ -1,14 +1,7 @@
-import 'dart:async';
-
-import 'package:element_plus/element_plus.dart';
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/widgets.dart';
-
-import '../prop.dart';
+part of '../index.dart';
 
 /// 各种类型事件的通用属性 mixin
-mixin CommonMixin<T extends ElEvent> on State<T> {
+mixin _CommonMixin<T extends ElEvent> on State<T> {
   GlobalKey childKey = GlobalKey();
 
   /// 最终合并的属性配置
@@ -44,8 +37,8 @@ mixin CommonMixin<T extends ElEvent> on State<T> {
   /// 长按事件计时器
   Timer? longPressTimer;
 
-  /// 焦点对象，如果存在 [ElFocus] 小部件，那么它将被初始化
-  FocusNode? focusNode;
+  /// 焦点注入的数据小部件，如果存在 [ElFocus] 小部件，那么它将被初始化
+  _FocusInheritedWidget? focusWidget;
 
   void cancelLongPressTimer() {
     if (longPressTimer != null) {

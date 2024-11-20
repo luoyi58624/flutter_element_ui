@@ -61,7 +61,6 @@ export 'src/components/others/anchor/index.dart' show ElAnchor;
 export 'src/components/others/close_button/index.dart';
 export 'src/components/others/code_preview/index.dart';
 export 'src/components/others/drag/index.dart';
-export 'src/components/others/focus/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/fps.dart';

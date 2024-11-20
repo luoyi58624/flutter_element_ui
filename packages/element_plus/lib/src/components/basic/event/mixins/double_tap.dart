@@ -1,9 +1,6 @@
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
+part of '../index.dart';
 
-import 'common.dart';
-
-mixin DoubleTapMixin<T extends ElEvent> on CommonMixin<T> {
+mixin _DoubleTapMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 双击事件处理，当第一次指针抬起时，如果用户注册了双击事件，
   /// 那么会启动一个计时器，如果用户在指定时间内再次点击，那么将触发双击事件。
   void doubleTapHandler(PointerUpEvent e) {

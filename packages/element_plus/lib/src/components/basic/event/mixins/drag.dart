@@ -1,13 +1,6 @@
-import 'dart:ui';
+part of '../index.dart';
 
-import 'package:element_dart/element_dart.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter_obs/flutter_obs.dart';
-
-import '../index.dart';
-import 'common.dart';
-
-mixin DragMixin<T extends ElEvent> on CommonMixin<T> {
+mixin _DragMixin<T extends ElEvent> on _CommonMixin<T> {
   late bool hasMoveEvent;
   late bool hasMoveEndEvent;
 

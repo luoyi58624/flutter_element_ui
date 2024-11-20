@@ -2,12 +2,12 @@ part of 'index.dart';
 
 class _ElEventState extends State<ElEvent>
     with
-        CommonMixin,
-        HoverMixin,
-        TapMixin,
-        DoubleTapMixin,
-        LongPressMixin,
-        DragMixin {
+        _CommonMixin,
+        _HoverMixin,
+        _TapMixin,
+        _DoubleTapMixin,
+        _LongPressMixin,
+        _DragMixin {
   /// 指针按下事件
   void onPointerDown(PointerDownEvent e) async {
     if (!bubbleFlag) return;
@@ -53,7 +53,7 @@ class _ElEventState extends State<ElEvent>
     }
 
     if (isCancel == false) {
-      if (focusNode != null) focusNode!.requestFocus();
+      focusWidget?.setFocusForEvent();
       isActiveDoubleTap = false;
       isActiveLongPress = false;
     }
@@ -123,7 +123,7 @@ class _ElEventState extends State<ElEvent>
 
   /// 点击元素外部事件，此事件属于 [TapRegion] 小部件
   void onTapOutside(PointerDownEvent e) {
-    if (focusNode != null) focusNode!.unfocus();
+    focusWidget?.focusNode.unfocus();
     prop.onTapOutside?.call(e);
   }
 
@@ -132,14 +132,14 @@ class _ElEventState extends State<ElEvent>
   void stopPropagation() {
     if (bubbleFlag) {
       bubbleFlag = false;
-      EventInheritedWidget.stopPropagation(context);
+      _EventInheritedWidget.stopPropagation(context);
     }
   }
 
   /// 重置事件冒泡
   void resetPropagation() {
     bubbleFlag = true;
-    EventInheritedWidget.resetPropagation(context);
+    _EventInheritedWidget.resetPropagation(context);
   }
 
   /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
@@ -155,16 +155,16 @@ class _ElEventState extends State<ElEvent>
 
   /// 重置 [ElBubbleBuilder] 小部件的状态，当 [onPointerUp]、[onPointerCancel] 时触发
   void resetBubbleBuilderWidget() {
-    if (_ElBubbleInheritedWidget.triggerFlag) {
-      _ElBubbleInheritedWidget.triggerFlag = false;
-      _ElBubbleInheritedWidget._updateBubbleFlag(context, false);
+    if (_BubbleInheritedWidget.triggerFlag) {
+      _BubbleInheritedWidget.triggerFlag = false;
+      _BubbleInheritedWidget._updateBubbleFlag(context, false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     prop = EventProp.create(context, widget);
-    focusNode = ElFocus.focusNode(context);
+    focusWidget = _FocusInheritedWidget.maybeOf(context);
 
     buildDragEvent();
 
@@ -174,7 +174,7 @@ class _ElEventState extends State<ElEvent>
 
     Widget result = ObsBuilder(
       builder: (context) {
-        return EventInheritedWidget(
+        return _EventInheritedWidget(
           isHover,
           setHoverDepend,
           isTap,
@@ -187,7 +187,7 @@ class _ElEventState extends State<ElEvent>
               var result = widget.child ?? widget.builder!(context);
               // 如果用户手动定义的了点击外部事件，或者小部件得到了焦点，那么将构建 TapRegion 小部件
               if (prop.onTapOutside != null ||
-                  (focusNode != null && context.isFocus)) {
+                  (focusWidget != null && context.isFocus)) {
                 result = TapRegion(
                   onTapOutside: onTapOutside,
                   child: result,
@@ -200,7 +200,7 @@ class _ElEventState extends State<ElEvent>
       },
     );
 
-    // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停
+    // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
     if (PlatformUtil.isDesktop) {
       if (prop.disabled) isHover = false;
       result = MouseRegion(
