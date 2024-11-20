@@ -16,7 +16,7 @@ extension FlutterRouterExtension on BuildContext {
 
   /// 返回上一页
   void pop([dynamic data]) async {
-    Navigator.of(this).pop(data);
+    GoRouter.of(this).pop(data);
   }
 
   /// 是否可以退出

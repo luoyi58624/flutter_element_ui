@@ -1,4 +1,4 @@
-import 'package:element_docs/pages/test/temp_test_page.dart';
+import 'package:element_docs/test/temp_test_page.dart';
 import 'package:element_docs/shortcuts/global_shortcut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   /// 当前应用的主题模式，默认跟随系统，如果当前平台启用了全局暗黑模式，那么此变量将强制为 dark，
@@ -27,16 +27,42 @@ class MainApp extends StatelessWidget {
   static late ThemeMode currentThemeMode;
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  @override
+  void initState() {
+    super.initState();
+    nextTick(() {
+      router.routerDelegate.addListener(() {
+        try {
+          RouterState.currentPath.value =
+              router.routerDelegate.state?.fullPath ?? '/';
+        } catch (e) {
+          return;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    router.routerDelegate.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    RouterState.isMobile.value = context.sm;
     GlobalState.globalFontSize = context.sm ? 15 : 16;
     MainApp.currentThemeMode = ThemeMode.system;
-    if (currentThemeMode == ThemeMode.system) {
+    if (MainApp.currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
         MainApp.currentThemeMode = ThemeMode.dark;
       }
     }
-    // 实时监听屏幕尺寸变化，如果 isMobile 发生变化，会重新构建路由
-    RouterState.isMobile.value = context.sm;
+
     return ObsBuilder(builder: (context) {
       return ElApp(
         brightness: GlobalState.brightness,

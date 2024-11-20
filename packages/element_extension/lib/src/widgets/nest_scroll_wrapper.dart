@@ -14,8 +14,8 @@ List<int> _hoverNestScrollList = [];
 
 /// 数组最后一个值是鼠标悬停的目标
 int? get _activeNestScroll {
- if(_hoverNestScrollList.isEmpty) return null;
- return _hoverNestScrollList.last;
+  if (_hoverNestScrollList.isEmpty) return null;
+  return _hoverNestScrollList.last;
 }
 
 class NestScrollWrapper extends StatefulWidget {
@@ -121,9 +121,11 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
     if (_preventChildScroll) {
       _preventChildTimer = setTimeout(() {
         _preventChildTimer = null;
-        setState(() {
-          _preventChildScroll = false;
-        });
+        if (mounted) {
+          setState(() {
+            _preventChildScroll = false;
+          });
+        }
       }, _activeDelay);
     }
   }

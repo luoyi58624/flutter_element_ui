@@ -1,32 +1,6 @@
-import 'package:element_docs/pages/commons/component/other/drag/index.dart';
-import 'package:go_router/go_router.dart';
+part of '../router.dart';
 
-import '../../pages/commons/component/basic/button/index.dart';
-import '../../pages/commons/component/basic/button_group/index.dart';
-import '../../pages/commons/component/basic/color/index.dart';
-import '../../pages/commons/component/basic/icon/index.dart';
-import '../../pages/commons/component/basic/text/index.dart';
-import '../../pages/commons/component/data/collapse/index.dart';
-import '../../pages/commons/component/data/progress/index.dart';
-import '../../pages/commons/component/data/tag/index.dart';
-import '../../pages/commons/component/feedback/message/index.dart';
-import '../../pages/commons/component/feedback/toast/index.dart';
-import '../../pages/commons/component/form/input/index.dart';
-import '../../pages/commons/component/form/slider/index.dart';
-import '../../pages/commons/component/form/switch/index.dart';
-import '../../pages/commons/component/navigation/nav_menu/index.dart';
-import '../../pages/commons/component/navigation/tabs/index.dart';
-import '../../pages/commons/component/other/animated_size/index.dart';
-import '../../pages/commons/component/other/context_menu/index.dart';
-import '../../pages/commons/component/basic/event/index.dart';
-import '../../pages/commons/not_found.dart';
-import '../../pages/commons/overview/cupertino/index.dart';
-import '../../pages/commons/overview/element/index.dart';
-import '../../pages/commons/overview/material/index.dart';
-import '../../widgets/demo.dart';
-import '../router_util.dart';
-
-List<RouteBase> buildComponentRoutes(String path) {
+List<RouteBase> _buildComponentRoutes(String path) {
   return [
     RouterUtil.buildRoute(
       path: '${path}element',

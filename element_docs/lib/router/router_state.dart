@@ -1,7 +1,4 @@
-import 'package:element_docs/global.dart';
-import 'package:go_router/go_router.dart';
-
-import 'router_util.dart';
+part of 'router.dart';
 
 /// 路由全局状态
 class RouterState {
@@ -18,11 +15,11 @@ class RouterState {
     null,
     watch: (newValue, oldValue) {
       newValue == true
-          ? routingConfig.value = RouterUtil.buildMobileRoutingConfig()
-          : routingConfig.value = RouterUtil.buildDesktopRoutingConfig();
+          ? routingConfig.value = _buildMobileRoutingConfig()
+          : routingConfig.value = _buildDesktopRoutingConfig();
     },
   );
 
   /// 当前路由地址
-  static final currentPath = Obs('');
+  static final currentPath = Obs('/');
 }

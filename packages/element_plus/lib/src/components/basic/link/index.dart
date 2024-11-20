@@ -51,15 +51,10 @@ class _LinkInheritedWidget extends InheritedWidget {
     required super.child,
   });
 
-  final VoidCallback to;
+  final VoidCallback? to;
 
-  static _LinkInheritedWidget of(BuildContext context) {
-    final _LinkInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
-    assert(result != null,
-        '当前上下文 context 无法获取 ElLink 实例，请尝试使用 Builder 小部件转发 context');
-    return result!;
-  }
+  static _LinkInheritedWidget? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_LinkInheritedWidget>();
 
   @override
   bool updateShouldNotify(_LinkInheritedWidget oldWidget) => true;
@@ -76,7 +71,6 @@ class ElLink extends StatelessWidget {
     this.decoration,
     this.cursor = MouseCursor.defer,
     this.target = LinkTarget.blank,
-    this.disabledEvent = false,
   });
 
   /// 超链接子组件，如果不是 Widget 类型，则渲染默认样式文本
@@ -100,12 +94,9 @@ class ElLink extends StatelessWidget {
   /// 打开链接的目标位置，默认 blank 新窗口打开
   final LinkTarget target;
 
-  /// 是否禁用点击事件，默认 false
-  final bool disabledEvent;
-
   /// 从当前上下文获取最近的超链接实例并触发跳转
   static void to(BuildContext context) {
-    _LinkInheritedWidget.of(context).to();
+    _LinkInheritedWidget.maybeOf(context)?.to?.call();
   }
 
   void _show(String href) {
@@ -141,6 +132,10 @@ class ElLink extends StatelessWidget {
     toLink(href, target);
   }
 
+  void activateOnIntent(Intent? intent) {
+    _toLink();
+  }
+
   Widget buildTextTheme(BuildContext context, VoidCallback toLink) {
     final $defaultStyle = context.elTheme.linkTheme;
     final $color = color ?? $defaultStyle.color;
@@ -171,46 +166,49 @@ class ElLink extends StatelessWidget {
     final previewLink = getPreviewLink(href);
     return DefaultSelectionStyle(
       mouseCursor: cursor,
-      child: ElEvent(
-        cursor: cursor,
-        onEnter: previewLink == null
-            ? null
-            : (e) {
-                if (_delayHideOverlay != null) {
-                  _delayHideOverlay!.cancel();
-                  _delayHideOverlay = null;
-                } else {
-                  if (_delayRemoveOverlay != null) {
-                    _controller!.forward();
-                    _delayRemoveOverlay!.cancel();
-                    _delayRemoveOverlay = null;
+      child: Actions(
+        actions: {
+          ActivateIntent:
+              CallbackAction<ActivateIntent>(onInvoke: activateOnIntent),
+          ButtonActivateIntent:
+              CallbackAction<ButtonActivateIntent>(onInvoke: activateOnIntent),
+        },
+        child: ElEvent(
+          cursor: cursor,
+          onEnter: previewLink == null
+              ? null
+              : (e) {
+                  if (_delayHideOverlay != null) {
+                    _delayHideOverlay!.cancel();
+                    _delayHideOverlay = null;
+                  } else {
+                    if (_delayRemoveOverlay != null) {
+                      _controller!.forward();
+                      _delayRemoveOverlay!.cancel();
+                      _delayRemoveOverlay = null;
+                    }
                   }
-                }
-                if (_linkOverlay == null) {
-                  _delayShowOverlay = setTimeout(() {
+                  if (_linkOverlay == null) {
+                    _delayShowOverlay = setTimeout(() {
+                      _show(previewLink);
+                    }, _delayTime);
+                  } else {
                     _show(previewLink);
-                  }, _delayTime);
-                } else {
-                  _show(previewLink);
-                }
-              },
-        onExit: previewLink == null
-            ? null
-            : (e) {
-                if (_delayShowOverlay != null) {
-                  _delayShowOverlay!.cancel();
-                  _delayShowOverlay = null;
-                }
-                if (_linkOverlay != null) {
-                  _delayHideOverlay = setTimeout(_hide, _delayTime);
-                }
-              },
-        onTap: disabledEvent
-            ? null
-            : () {
-                _toLink();
-              },
-        builder: (context) => buildTextTheme(context, _toLink),
+                  }
+                },
+          onExit: previewLink == null
+              ? null
+              : (e) {
+                  if (_delayShowOverlay != null) {
+                    _delayShowOverlay!.cancel();
+                    _delayShowOverlay = null;
+                  }
+                  if (_linkOverlay != null) {
+                    _delayHideOverlay = setTimeout(_hide, _delayTime);
+                  }
+                },
+          builder: (context) => buildTextTheme(context, _toLink),
+        ),
       ),
     );
   }
@@ -254,10 +252,12 @@ class _LinkOverlayState extends State<_LinkOverlay>
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width - 50,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: const BoxDecoration(
                     color: Color.fromRGBO(227, 227, 227, 1),
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(4)),
                     border: Border(
                       top: _linkBorderSide,
                       right: _linkBorderSide,

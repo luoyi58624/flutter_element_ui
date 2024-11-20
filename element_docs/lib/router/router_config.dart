@@ -25,9 +25,15 @@ enum WorkStatus {
 class RootRoute {
   static const RootRouteModelType guide = ('指南', 'guide');
   static const RootRouteModelType component = ('组件', 'component');
-  static const RootRouteModelType resource = ('资源', 'resource');
+  static const RootRouteModelType template = ('模版', 'template');
+  static const RootRouteModelType contribute = ('贡献', 'contribute');
 
-  static List<RootRouteModelType> values = [guide, component, resource];
+  static List<RootRouteModelType> values = [
+    guide,
+    component,
+    template,
+    contribute
+  ];
 }
 
 class SlideRouterConfig {

@@ -36,7 +36,7 @@ extension ElCloseButtonThemeDataExtension on ElCloseButtonThemeData {
 // **************************************************************************
 
 class ElCloseButtonTheme extends StatelessWidget {
-  /// 提供局部默认主题小部件
+  /// 提供局部默认主题小部件，局部默认主题必须强制继承祖先提供的样式
   const ElCloseButtonTheme({
     super.key,
     required this.child,

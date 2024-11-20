@@ -1,12 +1,4 @@
-import 'package:go_router/go_router.dart';
-
-import '../../pages/commons/guide/design/index.dart';
-import '../../pages/commons/guide/install/index.dart';
-import '../../pages/commons/guide/nav/index.dart';
-import '../../pages/commons/guide/quick_start/index.dart';
-import '../../pages/commons/guide/theme/index.dart';
-import '../../pages/commons/not_found.dart';
-import '../router_util.dart';
+part of '../router.dart';
 
 List<RouteBase> buildGuideRoutes(String path) {
   return [

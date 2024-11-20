@@ -13,6 +13,7 @@ class _ElEventState extends State<ElEvent>
     if (!bubbleFlag) return;
     stopPropagationByWidget();
 
+    childSize = childKey.currentContext?.size ?? Size.zero;
     // 设置指针按下时的一些通用属性
     prop.onPointerDown?.call(e);
     pointType = e.buttons;
@@ -53,7 +54,6 @@ class _ElEventState extends State<ElEvent>
     }
 
     if (isCancel == false) {
-      focusWidget?.setFocusForEvent();
       isActiveDoubleTap = false;
       isActiveLongPress = false;
     }
@@ -121,12 +121,6 @@ class _ElEventState extends State<ElEvent>
     prop.onPointerSignal?.call(e);
   }
 
-  /// 点击元素外部事件，此事件属于 [TapRegion] 小部件
-  void onTapOutside(PointerDownEvent e) {
-    focusWidget?.focusNode.unfocus();
-    prop.onTapOutside?.call(e);
-  }
-
   /// 阻止事件冒泡，它会一层一层向上不断执行，直到最顶层的 [ElEvent]，
   /// 逻辑很简单，就是将 [bubbleFlag] 冒泡标识设置为 false，阻止事件的执行。
   void stopPropagation() {
@@ -168,10 +162,6 @@ class _ElEventState extends State<ElEvent>
 
     buildDragEvent();
 
-    nextTick(() {
-      childSize = childKey.currentContext?.size ?? Size.zero;
-    });
-
     Widget result = ObsBuilder(
       builder: (context) {
         return _EventInheritedWidget(
@@ -184,16 +174,7 @@ class _ElEventState extends State<ElEvent>
           child: Builder(
             key: childKey,
             builder: (context) {
-              var result = widget.child ?? widget.builder!(context);
-              // 如果用户手动定义的了点击外部事件，或者小部件得到了焦点，那么将构建 TapRegion 小部件
-              if (prop.onTapOutside != null ||
-                  (focusWidget != null && context.isFocus)) {
-                result = TapRegion(
-                  onTapOutside: onTapOutside,
-                  child: result,
-                );
-              }
-              return result;
+              return widget.child ?? widget.builder!(context);
             },
           ),
         );

@@ -48,11 +48,9 @@ export 'src/components/form/input_number.dart';
 export 'src/components/form/switch/index.dart';
 export 'src/components/form/slider/index.dart';
 
-export 'src/components/layout/aside/index.dart';
+export 'src/components/layout/layout/index.dart';
 export 'src/components/layout/header/index.dart';
-export 'src/components/layout/body.dart';
-export 'src/components/layout/layout.dart';
-export 'src/components/layout/page.dart';
+export 'src/components/layout/sidebar/index.dart';
 
 export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/index.dart';
