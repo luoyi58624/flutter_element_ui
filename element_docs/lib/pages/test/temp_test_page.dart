@@ -4,7 +4,6 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'animate_value_generate.dart';
 import 'custom_scroll/scroll.dart';
 
 class TempTestPage extends HookWidget {

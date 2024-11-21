@@ -92,6 +92,16 @@ class SlideRouterConfig {
       ],
     ),
     (
+      'Layout 布局',
+      [
+        (
+          'ElLayout 布局容器',
+          '/${RootRoute.component.$2}/layout',
+          WorkStatus.finished
+        ),
+      ],
+    ),
+    (
       'Basic 基础组件',
       [
         ('Event 交互事件', '/${RootRoute.component.$2}/event', WorkStatus.finished),
@@ -103,7 +113,6 @@ class SlideRouterConfig {
         ),
         ('Color 色彩', '/${RootRoute.component.$2}/color', WorkStatus.finished),
         ('Icon 图标', '/${RootRoute.component.$2}/icon', WorkStatus.finished),
-        ('Layout 布局', '/${RootRoute.component.$2}/layout', WorkStatus.pending),
         ('Text 文本', '/${RootRoute.component.$2}/text', WorkStatus.finished),
         (
           'Typography 排版',
@@ -363,8 +372,11 @@ class SlideRouterConfig {
     (
       '布局模版',
       [
-        ('简单布局', '/${RootRoute.template.$2}/simple', WorkStatus.finished),
-        ('Material 布局', '/${RootRoute.template.$2}/material', WorkStatus.finished),
+        (
+          'Material 布局',
+          '/${RootRoute.template.$2}/material',
+          WorkStatus.finished
+        ),
       ],
     ),
   ];

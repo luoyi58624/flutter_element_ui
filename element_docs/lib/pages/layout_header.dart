@@ -17,16 +17,24 @@ class LayoutHeader extends StatelessWidget {
         children: [
           ElLink(
             href: '/',
-            child: SvgPicture.asset(
-              'assets/images/element-plus-logo.svg',
-              colorFilter: ColorFilter.mode(
-                context.elTheme.primary,
-                BlendMode.srcIn,
-              ),
-              width: 28,
-              height: 28,
-              package: null,
-            ),
+            cursor: SystemMouseCursors.click,
+            child: Builder(builder: (context) {
+              return ElEvent(
+                onTapDown: (e) {
+                  ElLink.to(context);
+                },
+                child: SvgPicture.asset(
+                  'assets/images/element-plus-logo.svg',
+                  colorFilter: ColorFilter.mode(
+                    context.elTheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                  width: 28,
+                  height: 28,
+                  package: null,
+                ),
+              );
+            }),
           ),
           const Expanded(child: SizedBox()),
           Row(

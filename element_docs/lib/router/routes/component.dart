@@ -15,6 +15,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const CupertinoOverviewPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}layout',
+      builder: (context, state) => const LayoutPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}event',
       builder: (context, state) => const EventPage(),
     ),

@@ -1,25 +1,27 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/test/temp_test_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-class SimpleLayoutPage extends ResponsivePage {
-  const SimpleLayoutPage({super.key});
+class Example1 extends StatelessWidget {
+  const Example1({super.key, required this.title});
+
+  final String title;
 
   @override
-  String get title => '简单布局';
-
-  @override
-  List<Widget> buildPage(BuildContext context) {
-    return [
-      textGap,
-      const CodeExample(
-        expanded: true,
-        code: code,
-        children: [
-          _Example(),
-        ],
-      ),
-    ];
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(title),
+        const CodeExample(
+          code: code,
+          children: [
+            _Example(),
+          ],
+        ),
+      ],
+    );
   }
 }
 

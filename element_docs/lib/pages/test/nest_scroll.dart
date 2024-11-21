@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../global.dart';
+import '../../global.dart';
 
 class NestScrollTest extends HookWidget {
   const NestScrollTest({super.key});
@@ -8,42 +8,47 @@ class NestScrollTest extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return SizedBox(
-      height: 800,
-      child: NestScrollWrapper(
-        controller: controller,
-        child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('嵌套滚动测试'),
+      ),
+      body: SizedBox(
+        height: 800,
+        child: NestScrollWrapper(
           controller: controller,
-          child: Column(
-            children: [
-              ...List.generate(
-                10,
-                    (index) => ListTile(
-                  onTap: () {},
-                  title: Text(
-                    'Item - ${index + 1}',
-                    style: const TextStyle(
-                      color: Colors.red,
+          child: SingleChildScrollView(
+            controller: controller,
+            child: Column(
+              children: [
+                ...List.generate(
+                  10,
+                  (index) => ListTile(
+                    onTap: () {},
+                    title: Text(
+                      'Item - ${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // const _Child2(),
-              const _Child(),
-              ...List.generate(
-                10,
-                    (index) => ListTile(
-                  onTap: () {},
-                  title: Text(
-                    'Item - ${index + 1}',
-                    style: const TextStyle(
-                      color: Colors.red,
+                // const _Child2(),
+                const _Child(),
+                ...List.generate(
+                  10,
+                  (index) => ListTile(
+                    onTap: () {},
+                    title: Text(
+                      'Item - ${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const _Child2(),
-            ],
+                const _Child2(),
+              ],
+            ),
           ),
         ),
       ),
@@ -73,7 +78,7 @@ class _Child extends HookWidget {
               children: [
                 ...List.generate(
                   20,
-                      (index) => ListTile(
+                  (index) => ListTile(
                     onTap: () {},
                     title: Text(
                       'Child Item - ${index + 1}',
@@ -112,7 +117,7 @@ class _Child2 extends HookWidget {
             children: [
               ...List.generate(
                 200,
-                    (index) => Text(
+                (index) => Text(
                   'Child Item - ${index + 1}',
                   style: const TextStyle(
                     color: Colors.green,
@@ -129,11 +134,10 @@ class _Child2 extends HookWidget {
 
 extension FlutterWidgetExtension on Widget {
   Widget get rawScrollBehavior => ScrollConfiguration(
-    behavior: const RawScrollBehavior(),
-    child: this,
-  );
+        behavior: const RawScrollBehavior(),
+        child: this,
+      );
 }
-
 
 class RawScrollBehavior extends CustomScrollBehavior {
   /// 将原生滚动条作为默认的滚动行为

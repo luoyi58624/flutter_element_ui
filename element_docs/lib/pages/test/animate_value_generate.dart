@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../global.dart';
+import '../../global.dart';
 
 class AnimateValueGeneratePage extends HookWidget {
   const AnimateValueGeneratePage({super.key});

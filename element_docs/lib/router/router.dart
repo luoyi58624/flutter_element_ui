@@ -7,6 +7,7 @@ import '../layouts/mobile/component_layout.dart';
 import '../layouts/mobile/guide_layout.dart';
 import '../layouts/mobile/home_layout.dart';
 import '../layouts/mobile/layout.dart';
+import '../pages/component/layout/layout/index.dart';
 import '../pages/component/other/drag/index.dart';
 import '../pages/guide/design/index.dart';
 import '../pages/home.dart';
@@ -37,7 +38,6 @@ import '../pages/overview/cupertino/index.dart';
 import '../pages/overview/element/index.dart';
 import '../pages/overview/material/index.dart';
 import '../pages/template/layout/material.dart';
-import '../pages/template/layout/simple.dart';
 import '../widgets/demo.dart';
 import 'router_config.dart';
 
@@ -54,7 +54,6 @@ part 'routes/template.dart';
 final GoRouter router = GoRouter.routingConfig(
   navigatorKey: el.navigatorKey,
   initialLocation: '/',
-  observers: [_RouterListener()],
   errorPageBuilder: (context, state) => const NoTransitionPage(
     child: NotFoundPage(),
   ),
@@ -72,14 +71,6 @@ final GoRouter router = GoRouter.routingConfig(
 //   }
 //   return null;
 // };
-
-class _RouterListener extends NavigatorObserver {
-  @override
-  void didPop(Route route, Route? previousRoute) {
-    super.didPop(route, previousRoute);
-    i(router.state?.fullPath);
-  }
-}
 
 /// 构建桌面端路由配置
 RoutingConfig _buildDesktopRoutingConfig() {
@@ -132,7 +123,7 @@ RoutingConfig _buildDesktopRoutingConfig() {
                   GoRoute(
                     path: RootRoute.template.$2,
                     redirect: (context, state) =>
-                        '/${RootRoute.template.$2}/simple',
+                        '/${RootRoute.template.$2}/material',
                   ),
                   ...buildTemplateRoutes('${RootRoute.template.$2}/')
                 ],

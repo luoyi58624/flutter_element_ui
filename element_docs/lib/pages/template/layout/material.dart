@@ -48,7 +48,7 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑模式，这里只用来处理波纹的颜色，这种方式并不好，因为它会覆盖祖先定义的主题，
+    // 应用 Material 局部暗黑模式，这里只用来处理波纹的颜色，但这种方式并不好，因为它会覆盖祖先定义的主题，
     // 但我不知道如何局部更改 Material 的主题
     return Theme(
       data: ThemeData.dark(),
@@ -106,7 +106,7 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑模式，这里只用来处理波纹的颜色，这种方式并不好，因为它会覆盖祖先定义的主题，
+    // 应用 Material 局部暗黑模式，这里只用来处理波纹的颜色，但这种方式并不好，因为它会覆盖祖先定义的主题，
     // 但我不知道如何局部更改 Material 的主题
     return Theme(
       data: ThemeData.dark(),

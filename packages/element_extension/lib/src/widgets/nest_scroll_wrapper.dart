@@ -142,18 +142,23 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
         },
         child: Listener(
           onPointerSignal: handlerListener,
-          child: NotificationListener<ScrollUpdateNotification>(
-            onNotification: (e) {
-              _setPreventChild();
+          child: NotificationListener<ScrollMetricsNotification>(
+            onNotification: (e){
               return true;
             },
-            child: IgnorePointer(
-              ignoring: _NestScrollWrapperInheritedWidget.maybeOf(context)
-                      ?.preventChildScroll ??
-                  false,
-              child: _NestScrollWrapperInheritedWidget(
-                _preventChildScroll,
-                child: widget.child,
+            child: NotificationListener<ScrollUpdateNotification>(
+              onNotification: (e) {
+                _setPreventChild();
+                return true;
+              },
+              child: IgnorePointer(
+                ignoring: _NestScrollWrapperInheritedWidget.maybeOf(context)
+                        ?.preventChildScroll ??
+                    false,
+                child: _NestScrollWrapperInheritedWidget(
+                  _preventChildScroll,
+                  child: widget.child,
+                ),
               ),
             ),
           ),

@@ -19,6 +19,8 @@ part 'widgets/inherited_widget.dart';
 
 part 'widgets/focus.dart';
 
+part 'widgets/shortcuts.dart';
+
 part 'mixins/common.dart';
 
 part 'mixins/double_tap.dart';

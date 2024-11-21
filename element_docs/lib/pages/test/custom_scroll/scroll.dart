@@ -1,8 +1,8 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/test/temp_test_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../pages/component/basic/button/index.dart';
+import '../../component/basic/button/index.dart';
+import '../temp_test_page.dart';
 
 class ScrollRenderTestPage extends HookWidget {
   const ScrollRenderTestPage({super.key});

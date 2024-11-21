@@ -21,6 +21,7 @@ abstract class ResponsivePage extends HookWidget {
     return ElBubbleBuilder(builder: (stopBubble) {
       return ResponsivePageData(
         path,
+        controller,
         child: context.sm
             ? Scaffold(
                 appBar: AppBar(
@@ -29,6 +30,7 @@ abstract class ResponsivePage extends HookWidget {
                 body: SizedBox(
                   width: double.infinity,
                   child: SingleChildScrollView(
+                    controller: controller,
                     physics: stopBubble
                         ? const NeverScrollableScrollPhysics()
                         : null,
@@ -78,12 +80,14 @@ abstract class ResponsivePage extends HookWidget {
 
 class ResponsivePageData extends InheritedWidget {
   const ResponsivePageData(
-    this.path, {
+    this.path,
+    this.scrollController, {
     super.key,
     required super.child,
   });
 
   final String path;
+  final ScrollController scrollController;
 
   static ResponsivePageData of(BuildContext context) {
     final ResponsivePageData? result =

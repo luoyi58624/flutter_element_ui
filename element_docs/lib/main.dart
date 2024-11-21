@@ -1,9 +1,10 @@
-import 'package:element_docs/test/temp_test_page.dart';
 import 'package:element_docs/shortcuts/global_shortcut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'global.dart';
+import 'pages/test/test_page.dart';
 import 'utils/app_theme.dart';
 import 'utils/element_theme.dart';
 
@@ -35,6 +36,8 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
     nextTick(() {
+      RouterState.currentPath.value =
+          router.routerDelegate.state?.fullPath ?? '/';
       router.routerDelegate.addListener(() {
         try {
           RouterState.currentPath.value =
@@ -63,54 +66,58 @@ class _MainAppState extends State<MainApp> {
       }
     }
 
-    return ObsBuilder(builder: (context) {
-      return ElApp(
-        brightness: GlobalState.brightness,
-        theme: buildElementTheme(),
-        darkTheme: buildElementTheme(brightness: Brightness.dark),
-        child: ObsBuilder(builder: (context) {
-          return ElFps(
-            enabled: GlobalState.fps.value,
-            child: MaterialApp.router(
-              routerConfig: router,
-              debugShowCheckedModeBanner: false,
-              showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-              showPerformanceOverlay: GlobalState.showPerformanceOverlay.value,
-              themeAnimationDuration: Duration.zero,
-              theme: ElThemeUtil.buildMaterialTheme(
-                context,
-                brightness: GlobalState.brightness,
-              ),
-              darkTheme: ElThemeUtil.buildMaterialTheme(
-                context,
-                brightness: Brightness.dark,
-              ),
-              shortcuts: {
-                ...WidgetsApp.defaultShortcuts,
-                ...globalShortcuts(),
-              },
-              actions: {
-                ...WidgetsApp.defaultActions,
-                DebugIntent: CallbackAction<DebugIntent>(onInvoke: (intent) {
-                  el.context.push(const TempTestPage());
-                  return null;
-                }),
-                QuitIntent: QuitAction(),
-              },
-              builder: ElApp.builder(
-                builder: (context, child) => CupertinoTheme(
-                  data: ElThemeUtil.buildCupertinoThemeData(
-                    context,
-                    brightness: GlobalState.brightness,
-                  ),
-                  child: child!,
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyP, shift: true): () {
+          el.message.success('hello');
+        }
+      },
+      child: ObsBuilder(builder: (context) {
+        return ElApp(
+          brightness: GlobalState.brightness,
+          theme: buildElementTheme(),
+          darkTheme: buildElementTheme(brightness: Brightness.dark),
+          child: ObsBuilder(builder: (context) {
+            return ElFps(
+              enabled: GlobalState.fps.value,
+              child: MaterialApp.router(
+                routerConfig: router,
+                debugShowCheckedModeBanner: false,
+                showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
+                showPerformanceOverlay:
+                    GlobalState.showPerformanceOverlay.value,
+                themeAnimationDuration: Duration.zero,
+                theme: ElThemeUtil.buildMaterialTheme(
+                  context,
+                  brightness: GlobalState.brightness,
                 ),
-                scrollBehavior: const ElScrollBehavior(showTrack: true),
+                darkTheme: ElThemeUtil.buildMaterialTheme(
+                  context,
+                  brightness: Brightness.dark,
+                ),
+                shortcuts: {
+                  ...WidgetsApp.defaultShortcuts,
+                  ...globalShortcuts(),
+                },
+                actions: {
+                  ...WidgetsApp.defaultActions,
+                  ...globalActions(),
+                },
+                builder: ElApp.builder(
+                  builder: (context, child) => CupertinoTheme(
+                    data: ElThemeUtil.buildCupertinoThemeData(
+                      context,
+                      brightness: GlobalState.brightness,
+                    ),
+                    child: child!,
+                  ),
+                  scrollBehavior: const ElScrollBehavior(showTrack: true),
+                ),
               ),
-            ),
-          );
-        }),
-      );
-    });
+            );
+          }),
+        );
+      }),
+    );
   }
 }
