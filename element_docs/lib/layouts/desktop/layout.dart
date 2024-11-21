@@ -1,4 +1,3 @@
-import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/layout_header.dart';
@@ -66,30 +65,37 @@ class DesktopComponentLayout extends StatelessWidget {
 }
 
 class DesktopTemplateLayout extends StatelessWidget {
-  const DesktopTemplateLayout({super.key});
+  const DesktopTemplateLayout({super.key, required this.child});
 
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    List<({String name, String path})> list = [
-      (name: 'ElLayout 布局', path: '/${RootRoute.template.$2}/layout'),
-    ];
-    return GridWidget(
-      size: 150,
-      itemCount: list.length,
-      itemBuilder: (context, index) => Card(
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-          onTap: () {
-            context.go(list[index].path);
-          },
-          child: Center(
-            child: ElText(
-              list[index].name,
-            ),
-          ),
-        ),
-      ),
+    return Row(
+      children: [
+        SlideWidget(SlideRouterConfig.templateSlideRoutes),
+        Expanded(child: child),
+      ],
     );
+    // List<({String name, String path})> list = [
+    //   (name: 'ElLayout 布局', path: '/${RootRoute.template.$2}/layout'),
+    // ];
+    // return GridWidget(
+    //   size: 150,
+    //   itemCount: list.length,
+    //   itemBuilder: (context, index) => Card(
+    //     clipBehavior: Clip.hardEdge,
+    //     child: InkWell(
+    //       onTap: () {
+    //         context.go(list[index].path);
+    //       },
+    //       child: Center(
+    //         child: ElText(
+    //           list[index].name,
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

@@ -94,7 +94,7 @@ class LayoutHeader extends StatelessWidget {
                           return Stack(
                             children: [
                               Container(
-                                height: context.elTheme.headerTheme.height,
+                                height: 56,
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 12,
                                 ),

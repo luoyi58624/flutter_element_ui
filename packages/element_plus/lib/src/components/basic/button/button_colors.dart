@@ -191,15 +191,15 @@ class _ButtonColors {
       if (prop.bgColor == null) {
         if (isSelected) {
           colors = _ButtonColorStyle(
-            bgColor: $elTheme.bgColor,
+            bgColor: $elTheme.layoutTheme.bgColor,
             textColor: $elTheme.primary,
             borderColor: $elTheme.primary,
           );
         } else if (isHover || isTap) {
           colors = _ButtonColorStyle(
-            bgColor: $elTheme.bgColor,
+            bgColor: $elTheme.layoutTheme.bgColor,
             textColor: $elTheme.primary,
-            borderColor: $elTheme.borderColor,
+            borderColor: $elTheme.layoutTheme.borderColor,
           );
         } else {
           colors = _ButtonColors.plainButton(context, disabled: prop.disabled);
@@ -230,14 +230,14 @@ class _ButtonColors {
       if (prop.bgColor == null) {
         if (isSelected) {
           colors = _ButtonColorStyle(
-            bgColor: $elTheme.bgColor,
+            bgColor: $elTheme.layoutTheme.bgColor,
             textColor: $elTheme.primary,
             borderColor: $elTheme.primary,
           );
         } else if (isHover || isTap) {
           colors = _ButtonColorStyle(
             textColor: $elTheme.primary,
-            borderColor: $elTheme.borderColor,
+            borderColor: $elTheme.layoutTheme.borderColor,
           );
         } else {
           colors = _ButtonColors.button(
@@ -255,7 +255,7 @@ class _ButtonColors {
         } else if (isHover || isTap) {
           colors = _ButtonColorStyle(
             textColor: prop.bgColor,
-            borderColor: $elTheme.borderColor,
+            borderColor: $elTheme.layoutTheme.borderColor,
           );
         } else {
           colors = _ButtonColors.button(
@@ -275,9 +275,9 @@ class _ButtonColors {
     bool disabled = false,
   }) {
     final $elTheme = context.elTheme;
-    Color $bgColor = $elTheme.bgColor;
+    Color $bgColor = $elTheme.layoutTheme.bgColor!;
     Color $textColor = $elTheme.textTheme.regularStyle.color!;
-    Color $borderColor = $elTheme.borderColor;
+    Color $borderColor = $elTheme.layoutTheme.borderColor!;
 
     if (disabled) {
       $textColor = $textColor.disabled(context);
@@ -340,9 +340,9 @@ class _ButtonColors {
     bool disabled = false,
   }) {
     final $elTheme = context.elTheme;
-    Color $bgColor = $elTheme.bgColor;
+    Color $bgColor = $elTheme.layoutTheme.bgColor!;
     Color $textColor = $elTheme.textTheme.regularStyle.color!;
-    Color $borderColor = $elTheme.borderColor;
+    Color $borderColor = $elTheme.layoutTheme.borderColor!;
 
     if (disabled) {
       $textColor = $textColor.disabled(context);
@@ -358,7 +358,7 @@ class _ButtonColors {
 
   static _ButtonColorStyle plainButtonHover(BuildContext context) {
     final $elTheme = context.elTheme;
-    Color $bgColor = $elTheme.bgColor;
+    Color $bgColor = $elTheme.layoutTheme.bgColor!;
     Color $textColor = $elTheme.primary;
     Color $borderColor = $elTheme.primary;
 
@@ -371,7 +371,7 @@ class _ButtonColors {
 
   static _ButtonColorStyle plainButtonActive(BuildContext context) {
     final $elTheme = context.elTheme;
-    Color $bgColor = $elTheme.bgColor;
+    Color $bgColor = $elTheme.layoutTheme.bgColor!;
     Color $textColor = $elTheme.primary;
     Color $borderColor = $elTheme.primary;
 
@@ -422,7 +422,7 @@ class _ButtonColors {
     bool disabled = false,
   }) {
     final $elTheme = context.elTheme;
-    final pageBgColor = $elTheme.bgColor;
+    final pageBgColor = $elTheme.layoutTheme.bgColor!;
     Color? $bgColor;
     if (bg) {
       $bgColor = pageBgColor.deepen(5);
@@ -446,7 +446,7 @@ class _ButtonColors {
     bool bg = false,
   }) {
     final $elTheme = context.elTheme;
-    final pageBgColor = $elTheme.bgColor;
+    final pageBgColor = $elTheme.layoutTheme.bgColor!;
     Color? $bgColor;
     if (bg) {
       $bgColor = pageBgColor.deepen(10);
@@ -466,7 +466,7 @@ class _ButtonColors {
     bool bg = false,
   }) {
     final $elTheme = context.elTheme;
-    final pageBgColor = $elTheme.bgColor;
+    final pageBgColor = $elTheme.layoutTheme.bgColor!;
     Color? $bgColor;
     if (bg) {
       $bgColor = pageBgColor.deepen(15);

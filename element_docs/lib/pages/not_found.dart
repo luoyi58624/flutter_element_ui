@@ -7,7 +7,7 @@ class NotFoundPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: context.elTheme.bgColor,
+      color: context.elTheme.layoutTheme.bgColor!,
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,

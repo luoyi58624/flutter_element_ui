@@ -7,7 +7,7 @@ class _TableHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var borderSide = BorderSide(color: context.elTheme.borderColor);
+    var borderSide = BorderSide(color: context.elTheme.layoutTheme.borderColor!);
     var rowHeight = _ElTableData.of(context).rowHeight;
     var column = columns[0];
     late List<Widget> children;

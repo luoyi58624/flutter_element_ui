@@ -86,7 +86,7 @@ class _ElNavMenuState extends State<ElNavMenu> {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = widget.bgColor ?? context.elTheme.sidebarTheme.color;
+    final $bgColor = widget.bgColor ?? context.elTheme.layoutTheme.sidebarColor!;
     if (widget.router == null) setActiveKey(widget.activeKey!);
     return AnimatedContainer(
       duration: context.elDuration(Duration.zero),

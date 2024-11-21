@@ -66,7 +66,7 @@ class ElMain extends _ElFlexLayoutWidget {
 
   Widget _buildColorBox(BuildContext context, Widget child) {
     return ColoredBox(
-      color: bgColor ?? context.elTheme.bgColor,
+      color: bgColor ?? context.elTheme.layoutTheme.bgColor!,
       child: child,
     );
   }

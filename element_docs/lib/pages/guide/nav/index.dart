@@ -1,18 +1,6 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/guide/nav/render.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../../component/basic/button/index.dart';
-
-class _ClickGestureRecognizer extends TapGestureRecognizer {
-  /// 重写点击拒绝事件，将拒绝变为允许，这样将会触发事件冒泡
-  @override
-  void rejectGesture(int pointer) {
-    acceptGesture(pointer);
-    super.rejectGesture(pointer);
-  }
-}
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -36,16 +24,14 @@ class NavPage extends ResponsivePage {
               i('鼠标前进');
             }
           },
-          child: Builder(
-            builder: (context) {
-              return Container(
-                width: 200,
-                height: 200,
-                color: context.isFocusVisible ? Colors.green : Colors.grey,
-                alignment: Alignment.center,
-              );
-            }
-          ),
+          child: Builder(builder: (context) {
+            return Container(
+              width: 200,
+              height: 200,
+              color: context.isFocusVisible ? Colors.green : Colors.grey,
+              alignment: Alignment.center,
+            );
+          }),
         ),
       ),
       const _Example(),

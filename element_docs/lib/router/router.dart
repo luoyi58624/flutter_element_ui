@@ -36,7 +36,8 @@ import '../pages/component/basic/event/index.dart';
 import '../pages/overview/cupertino/index.dart';
 import '../pages/overview/element/index.dart';
 import '../pages/overview/material/index.dart';
-import '../templates/layout/index.dart';
+import '../pages/template/layout/material.dart';
+import '../pages/template/layout/simple.dart';
 import '../widgets/demo.dart';
 import 'router_config.dart';
 
@@ -123,13 +124,26 @@ RoutingConfig _buildDesktopRoutingConfig() {
                   ..._buildComponentRoutes('${RootRoute.component.$2}/')
                 ],
               ),
-              GoRoute(
-                path: RootRoute.template.$2,
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: DesktopTemplateLayout(),
+              ShellRoute(
+                pageBuilder: (context, state, child) => NoTransitionPage(
+                  child: DesktopTemplateLayout(child: child),
                 ),
-                routes: [...buildTemplateRoutes()],
+                routes: [
+                  GoRoute(
+                    path: RootRoute.template.$2,
+                    redirect: (context, state) =>
+                        '/${RootRoute.template.$2}/simple',
+                  ),
+                  ...buildTemplateRoutes('${RootRoute.template.$2}/')
+                ],
               ),
+              // GoRoute(
+              //   path: RootRoute.template.$2,
+              //   pageBuilder: (context, state) => const NoTransitionPage(
+              //     child: DesktopTemplateLayout(),
+              //   ),
+              //   routes: [...buildTemplateRoutes('${RootRoute.template.$2}/')],
+              // ),
             ],
           ),
         ],

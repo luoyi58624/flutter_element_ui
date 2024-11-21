@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class Example3 extends HookWidget {

@@ -77,7 +77,7 @@ class ElCollapsePanel extends StatelessWidget {
       onChanged,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: context.elTheme.borderColor),
+          border: Border.all(color: context.elTheme.layoutTheme.borderColor!),
           borderRadius: context.elTheme.cardTheme.radius,
         ),
         child: ListView.separated(
@@ -149,7 +149,7 @@ class ElCollapseItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isActive
                             ? context.elTheme.primary
-                            : context.elTheme.bgColor,
+                            : context.elTheme.layoutTheme.bgColor!,
                         borderRadius: $indexData.index == $indexData.start
                             ? BorderRadius.only(
                                 topLeft: $cardRadius.topLeft,

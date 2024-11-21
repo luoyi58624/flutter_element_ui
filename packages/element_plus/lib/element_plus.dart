@@ -49,8 +49,9 @@ export 'src/components/form/switch/index.dart';
 export 'src/components/form/slider/index.dart';
 
 export 'src/components/layout/layout/index.dart';
-export 'src/components/layout/header/index.dart';
+export 'src/components/layout/navbar/index.dart';
 export 'src/components/layout/sidebar/index.dart';
+export 'src/components/layout/toolbar/index.dart';
 
 export 'src/components/navigation/nav_menu/index.dart';
 export 'src/components/navigation/tabs/index.dart';

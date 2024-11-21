@@ -12,7 +12,7 @@ class ElBrightness extends InheritedWidget {
 
   final Brightness? brightness;
 
-  /// 从当前上下文获取主题模式
+  /// 从当前上下文访问当前应用的主题模式：light、dark，优先访问局部主题模式，若没有则取全局主题模式
   static Brightness of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<ElBrightness>()?.brightness ??
       ElApp.of(context).brightness;

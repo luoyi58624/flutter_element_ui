@@ -29,10 +29,10 @@ class CodeExample extends HookWidget {
       child: ElEvent(builder: (context) {
         return Container(
           decoration: BoxDecoration(
-            color: context.elTheme.bgColor,
+            color: context.elTheme.layoutTheme.bgColor!,
             borderRadius: context.elTheme.cardTheme.radius,
             border: Border.all(
-              color: context.elTheme.borderColor,
+              color: context.elTheme.layoutTheme.borderColor!,
               width: 1,
             ),
           ),
@@ -121,8 +121,8 @@ class _PreviewButton extends HookWidget {
             height: 40,
             decoration: BoxDecoration(
                 color: context.isHover
-                    ? context.elTheme.primary.mix(context.elTheme.bgColor, 96)
-                    : context.elTheme.bgColor,
+                    ? context.elTheme.primary.mix(context.elTheme.layoutTheme.bgColor!, 96)
+                    : context.elTheme.layoutTheme.bgColor!,
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value
                       ? Radius.zero

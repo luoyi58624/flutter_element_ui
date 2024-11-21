@@ -1,10 +1,14 @@
 part of '../router.dart';
 
-List<RouteBase> buildTemplateRoutes() {
+List<RouteBase> buildTemplateRoutes(String path) {
   return [
     RouterUtil.buildRoute(
-      path: 'layout',
-      builder: (context, state) => const LayoutTemplatePage(),
+      path: '${path}simple',
+      builder: (context, state) => const SimpleLayoutPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}material',
+      builder: (context, state) => const MaterialLayoutPage(),
     ),
   ];
 }

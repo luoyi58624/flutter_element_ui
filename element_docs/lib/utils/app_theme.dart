@@ -98,7 +98,7 @@ class ElThemeUtil {
       //   TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
       // }),
       // 背景颜色
-      scaffoldBackgroundColor: elTheme.bgColor,
+      scaffoldBackgroundColor: elTheme.layoutTheme.bgColor!,
       // 图标颜色
       iconTheme: IconThemeData(color: elTheme.iconTheme.color),
     );
@@ -109,16 +109,16 @@ class ElThemeUtil {
         toolbarHeight: data.appbarHeight,
         elevation: data.appbarElevation,
         scrolledUnderElevation: data.appbarScrollElevation,
-        backgroundColor: elTheme.headerTheme.color,
+        backgroundColor: elTheme.layoutTheme.navbarColor,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.black87,
         titleTextStyle: textStyle.copyWith(
           fontSize: 18,
           fontWeight: ElFont.bold,
-          color: elTheme.headerTheme.color.elTextColor(context),
+          color: elTheme.layoutTheme.navbarColor!.elTextColor(context),
         ),
         iconTheme: IconThemeData(
-          color: elTheme.headerTheme.color.isDark
+          color: elTheme.layoutTheme.navbarColor!.isDark
               ? darkTheme.iconTheme.color
               : lightTheme.iconTheme.color,
         ),
@@ -133,14 +133,14 @@ class ElThemeUtil {
           fontSize: 15,
           color: elTheme.primary,
         ),
-        unselectedLabelColor: elTheme.headerTheme.color.isDark
+        unselectedLabelColor: elTheme.layoutTheme.navbarColor!.isDark
             ? darkTheme.textTheme.textStyle.color!.deepen(10)
             : lightTheme.textTheme.textStyle.color,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         elevation: 4,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: elTheme.headerTheme.color,
+        backgroundColor: elTheme.layoutTheme.navbarColor,
         unselectedLabelStyle: textStyle.copyWith(
           fontSize: 12,
           fontWeight: ElFont.medium,
@@ -214,7 +214,7 @@ class ElThemeUtil {
           fontSize: 15,
         ),
         elevation: elTheme.modalTheme.elevation,
-        backgroundColor: elTheme.bgColor,
+        backgroundColor: elTheme.layoutTheme.bgColor!,
         surfaceTintColor: Colors.transparent,
         shape: cardBorder,
         actionsPadding: const EdgeInsets.all(8),

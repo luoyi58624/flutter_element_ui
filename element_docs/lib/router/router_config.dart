@@ -358,4 +358,14 @@ class SlideRouterConfig {
       ],
     ),
   ];
+
+  static final List<SlideRouteModelType> templateSlideRoutes = [
+    (
+      '布局模版',
+      [
+        ('简单布局', '/${RootRoute.template.$2}/simple', WorkStatus.finished),
+        ('Material 布局', '/${RootRoute.template.$2}/material', WorkStatus.finished),
+      ],
+    ),
+  ];
 }

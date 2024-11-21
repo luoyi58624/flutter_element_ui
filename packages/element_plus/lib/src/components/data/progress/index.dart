@@ -163,7 +163,7 @@ class ElProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $bgColor = bgColor ?? context.elTheme.borderLightColor;
+    final $bgColor = bgColor ?? context.elTheme.layoutTheme.borderLightColor;
     final $color = color ?? context.elTheme.primary;
     final $valueRatio = math.max((value - min), 0) / (max - min);
     final $vertical = axis == AxisDirection.up || axis == AxisDirection.down;
