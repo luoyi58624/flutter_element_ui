@@ -9,7 +9,7 @@ class CodeExample extends HookWidget {
     super.key,
     this.code,
     required this.children,
-    this.expanded = true,
+    this.expanded = false,
   });
 
   /// 示例代码字符串

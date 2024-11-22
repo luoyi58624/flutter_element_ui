@@ -17,7 +17,7 @@ class EventProp {
   final int triggerDragScope;
   final double minVelocity;
   final double maxVelocity;
-  final HitTestBehavior hitTestBehavior;
+  final HitTestBehavior behavior;
   final MouseCursor cursor;
   final PointerEnterEventListener? onEnter;
   final PointerExitEventListener? onExit;
@@ -64,7 +64,7 @@ class EventProp {
     this.triggerDragScope,
     this.minVelocity,
     this.maxVelocity,
-    this.hitTestBehavior,
+    this.behavior,
     this.cursor,
     this.onEnter,
     this.onExit,
@@ -115,9 +115,7 @@ class EventProp {
       widget.triggerDragScope ?? $data.triggerDragScope ?? 0,
       widget.minVelocity ?? $data.minVelocity ?? kMinFlingVelocity,
       widget.maxVelocity ?? $data.maxVelocity ?? kMaxFlingVelocity,
-      widget.hitTestBehavior ??
-          $data.hitTestBehavior ??
-          HitTestBehavior.deferToChild,
+      widget.behavior ?? $data.behavior ?? HitTestBehavior.deferToChild,
       widget.cursor ?? $data.cursor ?? MouseCursor.defer,
       widget.onEnter ?? $data.onEnter,
       widget.onExit ?? $data.onExit,

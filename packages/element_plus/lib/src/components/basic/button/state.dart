@@ -38,6 +38,7 @@ class _ElButtonState extends State<ElButton> {
   bool get _hasGroup => _groupData != null;
 
   void onPressed() {
+
     // onPressed 相当于 onTap，如果它不为空，那么不应当执行默认的点击事件
     if (widget.onPressed != null) {
       widget.onPressed!();
@@ -108,105 +109,107 @@ class _ElButtonState extends State<ElButton> {
       child: ElFocus(
         autofocus: widget.autofocus,
         disabled: widget.disabled,
-        child: ElEvent(
-          cursor: _cursor,
-          hitTestBehavior: HitTestBehavior.deferToChild,
-          onEnter: (e) {
-            setState(() {
-              _isHover = true;
-            });
-            _eventThemeData.onEnter?.call(e);
-            if (_hasGroup) {
-              _groupData!.hoverIndex.value = _indexData!.index;
-            }
-          },
-          onExit: (e) {
-            setState(() {
-              _isHover = false;
-            });
-            _eventThemeData.onExit?.call(e);
-            if (_hasGroup) {
-              _groupData!.hoverIndex.value = -1;
-            }
-          },
-          onTap: onPressed,
-          onTapDown: (e) {
-            setState(() {
-              _isTap = true;
-            });
-            _eventThemeData.onTapDown?.call(e);
-            if (_hasGroup) {
-              _groupData!.tapIndex.value = _indexData!.index;
-            }
-          },
-          onTapUp: (e) {
-            setState(() {
-              _isTap = false;
-            });
-            _eventThemeData.onTapUp?.call(e);
-            if (_hasGroup) {
-              _groupData!.tapIndex.value = -1;
-            }
-          },
-          onCancel: () {
-            setState(() {
-              _isTap = false;
-            });
-            _eventThemeData.onCancel?.call();
-            if (_hasGroup) {
-              _groupData!.tapIndex.value = -1;
-            }
-          },
-          disabled: _prop.disabled,
-          child: Builder(
-            builder: (context) {
-              if (_prop.disabled) {
-                _isHover = false;
-                if (_hasGroup) {
-                  nextTick(() {
-                    _groupData!.hoverIndex.value = -1;
-                  });
-                }
+        child: Builder(builder: (context) {
+          return ElEvent(
+            cursor: _cursor,
+            onEnter: (e) {
+              setState(() {
+                _isHover = true;
+              });
+              _eventThemeData.onEnter?.call(e);
+              if (_hasGroup) {
+                _groupData!.hoverIndex.value = _indexData!.index;
               }
-              if (_prop.loading && _prop.loadingBuilder != null) {
-                _colorStyle = _ButtonColors.loadingButton(
-                  context,
-                  bgColor: _prop.bgColor,
-                  link: _prop.link,
-                  text: _prop.text,
-                  plain: _prop.plain,
-                );
-              } else {
-                final $colorStyleProp = (
-                  bgColor: _prop.bgColor,
-                  plain: _prop.plain,
-                  text: _prop.text,
-                  bg: _prop.bg,
-                  link: _prop.link,
-                  disabled: _prop.disabled,
-                );
-                if (_groupData == null ||
-                    _groupData!.type == _ButtonGroupType.none) {
-                  _colorStyle = _ButtonColors.calcColorStyle(
+            },
+            onExit: (e) {
+              setState(() {
+                _isHover = false;
+              });
+              _eventThemeData.onExit?.call(e);
+              if (_hasGroup) {
+                _groupData!.hoverIndex.value = -1;
+              }
+            },
+            onTap: onPressed,
+            onTapDown: (e) {
+              context.focusNode?.requestFocus();
+              setState(() {
+                _isTap = true;
+              });
+              _eventThemeData.onTapDown?.call(e);
+              if (_hasGroup) {
+                _groupData!.tapIndex.value = _indexData!.index;
+              }
+            },
+            onTapUp: (e) {
+              setState(() {
+                _isTap = false;
+              });
+              _eventThemeData.onTapUp?.call(e);
+              if (_hasGroup) {
+                _groupData!.tapIndex.value = -1;
+              }
+            },
+            onCancel: () {
+              setState(() {
+                _isTap = false;
+              });
+              _eventThemeData.onCancel?.call();
+              if (_hasGroup) {
+                _groupData!.tapIndex.value = -1;
+              }
+            },
+            disabled: _prop.disabled,
+            child: Builder(
+              builder: (context) {
+                if (_prop.disabled) {
+                  _isHover = false;
+                  if (_hasGroup) {
+                    nextTick(() {
+                      _groupData!.hoverIndex.value = -1;
+                    });
+                  }
+                }
+                if (_prop.loading && _prop.loadingBuilder != null) {
+                  _colorStyle = _ButtonColors.loadingButton(
                     context,
-                    prop: $colorStyleProp,
-                    isHover: _isHover || context.isFocusVisible,
-                    isTap: _isTap,
+                    bgColor: _prop.bgColor,
+                    link: _prop.link,
+                    text: _prop.text,
+                    plain: _prop.plain,
                   );
                 } else {
-                  _colorStyle = _ButtonColors.calcGroupColorStyle(
-                    context,
-                    prop: $colorStyleProp,
-                    isHover: _isHover || context.isFocusVisible,
-                    isTap: _isTap,
-                    isSelected: _isSelected,
+                  final $colorStyleProp = (
+                    bgColor: _prop.bgColor,
+                    plain: _prop.plain,
+                    text: _prop.text,
+                    bg: _prop.bg,
+                    link: _prop.link,
+                    disabled: _prop.disabled,
                   );
+                  if (_groupData == null ||
+                      _groupData!.type == _ButtonGroupType.none) {
+                    _colorStyle = _ButtonColors.calcColorStyle(
+                      context,
+                      prop: $colorStyleProp,
+                      isHover: _isHover || context.isFocus,
+                      isTap: _isTap,
+                    );
+                  } else {
+                    _colorStyle = _ButtonColors.calcGroupColorStyle(
+                      context,
+                      prop: $colorStyleProp,
+                      isHover: _isHover || context.isFocus,
+                      isTap: _isTap,
+                      isSelected: _isSelected,
+                    );
+                  }
                 }
-              }
-              return _buildButtonWrapper(context);
-            },
-          ),
-        ),
+                return _buildButtonWrapper(context);
+              },
+            ),
+          );
+        }),
       ),
     );
   }

@@ -37,6 +37,9 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 长按事件计时器
   Timer? longPressTimer;
 
+  /// 焦点注入的数据小部件，如果存在 [ElFocusScope] 小部件，那么它将被初始化
+  _FocusScopeInheritedWidget? focusScopeWidget;
+
   /// 焦点注入的数据小部件，如果存在 [ElFocus] 小部件，那么它将被初始化
   _FocusInheritedWidget? focusWidget;
 
@@ -44,6 +47,19 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
     if (longPressTimer != null) {
       longPressTimer!.cancel();
       longPressTimer = null;
+    }
+  }
+
+  void onTap() {
+    _requestFocus();
+    prop.onTap?.call();
+  }
+
+  void _requestFocus() {
+    if (focusScopeWidget != null) {
+      focusScopeWidget!.childFocusNode?.requestFocus();
+    } else {
+      focusWidget?.focusNode.requestFocus();
     }
   }
 }

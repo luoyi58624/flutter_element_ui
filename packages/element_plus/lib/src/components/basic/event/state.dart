@@ -13,13 +13,17 @@ class _ElEventState extends State<ElEvent>
     if (!bubbleFlag) return;
     stopPropagationByWidget();
 
-    childSize = childKey.currentContext?.size ?? Size.zero;
     // 设置指针按下时的一些通用属性
-    prop.onPointerDown?.call(e);
+    childSize = childKey.currentContext?.size ?? Size.zero;
     pointType = e.buttons;
     tapDownOffset = e.position;
     tapDownTime = currentMilliseconds;
     isCancel = false;
+
+    // 尝试立即设置选中的焦点，但这时还不需要请求焦点，只做预选中
+    focusScopeWidget?.setChildFocus(focusWidget?.focusNode);
+
+    prop.onPointerDown?.call(e);
 
     if (pointType == kPrimaryButton) {
       tapDownHandler(e);
@@ -158,6 +162,7 @@ class _ElEventState extends State<ElEvent>
   @override
   Widget build(BuildContext context) {
     prop = EventProp.create(context, widget);
+    focusScopeWidget = _FocusScopeInheritedWidget.maybeOf(context);
     focusWidget = _FocusInheritedWidget.maybeOf(context);
 
     buildDragEvent();
@@ -174,7 +179,16 @@ class _ElEventState extends State<ElEvent>
           child: Builder(
             key: childKey,
             builder: (context) {
-              return widget.child ?? widget.builder!(context);
+              var result = widget.child ?? widget.builder!(context);
+              if (focusScopeWidget == null && context.isFocus) {
+                result = TapRegion(
+                  onTapOutside: (e) {
+                    focusWidget!.focusNode.unfocus();
+                  },
+                  child: result,
+                );
+              }
+              return result;
             },
           ),
         );
@@ -186,7 +200,7 @@ class _ElEventState extends State<ElEvent>
       if (prop.disabled) isHover = false;
       result = MouseRegion(
         cursor: prop.cursor,
-        hitTestBehavior: prop.hitTestBehavior,
+        hitTestBehavior: prop.behavior,
         onHover: prop.disabled ? null : prop.onHover,
         onEnter: prop.disabled ? null : onEnter,
         onExit: prop.disabled ? null : onExit,
@@ -195,7 +209,7 @@ class _ElEventState extends State<ElEvent>
     }
 
     return Listener(
-      behavior: prop.hitTestBehavior,
+      behavior: prop.behavior,
       onPointerDown: prop.disabled ? null : onPointerDown,
       onPointerUp: prop.disabled ? null : onPointerUp,
       onPointerCancel: prop.disabled ? null : (e) => onPointerCancel(),

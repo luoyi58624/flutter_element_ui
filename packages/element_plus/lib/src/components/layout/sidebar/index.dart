@@ -27,43 +27,12 @@ class ElSidebar extends StatefulWidget {
 }
 
 class _ElSidebarState extends State<ElSidebar> {
-  final FocusScopeNode focusNode = FocusScopeNode();
-
-  @override
-  void dispose() {
-    super.dispose();
-    focusNode.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return TapRegion(
-      onTapOutside: (e) {
-        if (focusNode.hasFocus) focusNode.unfocus();
-      },
-      child: ElEvent(
-        child: FocusScope(
-          node: focusNode,
-          child: Builder(builder: (context) {
-            return Column(
-              children: [
-                ElEvent(
-                  onTap: () {
-                    focusNode.requestFocus();
-                  },
-                  child: Text(
-                    FocusScope.of(context).hasFocus ? '得到焦点' : '失去焦点',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Expanded(child: widget.child),
-              ],
-            );
-          }),
-        ),
-      ),
+    return ElFocusScope(
+      child: Builder(builder: (context) {
+        return widget.child;
+      }),
     );
   }
 }

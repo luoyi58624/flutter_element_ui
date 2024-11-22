@@ -16,7 +16,7 @@ mixin _DoubleTapMixin<T extends ElEvent> on _CommonMixin<T> {
         doubleTapTimer = null;
         // 双击计时器到了销毁时间，如果设置了等待双击延迟，那么触发点击事件
         if (prop.delayTapForDouble) {
-          if (isCancel == false) prop.onTap?.call();
+          if (isCancel == false) onTap();
         }
       }, prop.doubleTapTimeout);
     }

@@ -76,6 +76,9 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       textInputAction: widget.textInputAction,
       cursorColor: context.elTheme.textTheme.textStyle.color,
       cursorWidth: 1,
+      onTapOutside: (e){
+        focusNode.unfocus();
+      },
       onChanged: (v) {
         modelValue = v;
         if (useFormDataModel) {

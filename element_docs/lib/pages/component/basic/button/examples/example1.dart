@@ -10,7 +10,6 @@ class Example1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    i('build');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

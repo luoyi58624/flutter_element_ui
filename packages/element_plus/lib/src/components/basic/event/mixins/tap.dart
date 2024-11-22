@@ -61,11 +61,11 @@ mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
     }
     // 如果没有注册长按事件，那么直接触发单击事件
     if (prop.onLongPress == null) {
-      prop.onTap?.call();
+      onTap();
     } else {
       // 如果指针抬起时没有达到长按阈值时间，那么也将触发点击事件，同时还需要取消长按计时器
       if (isActiveLongPress == false) {
-        prop.onTap?.call();
+        onTap();
         cancelLongPressTimer();
       }
     }

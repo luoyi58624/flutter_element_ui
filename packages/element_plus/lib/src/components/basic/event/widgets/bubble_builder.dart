@@ -2,8 +2,7 @@ part of '../index.dart';
 
 /// 捕获 [ElEvent] 事件冒泡小部件，这通常用于 [GestureDetector] 嵌套 [ElEvent] 时引发事件冒泡的场景。
 ///
-/// 提示：这个小部件会引发 UI 重建（指针按下、指针抬起），不过绝大多数情况下你可以忽视这个问题，
-/// 因为如果因为这个小部件造成卡顿，那么你应当考虑优化这个页面。
+/// 提示：这个小部件会引发 UI 重建（指针按下、指针抬起）
 class ElBubbleBuilder extends StatefulWidget {
   const ElBubbleBuilder({super.key, required this.builder});
 

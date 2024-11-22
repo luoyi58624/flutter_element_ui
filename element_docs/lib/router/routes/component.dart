@@ -23,6 +23,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const EventPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}focus',
+      builder: (context, state) => const FocusPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}button',
       builder: (context, state) => const ButtonPage(),
     ),

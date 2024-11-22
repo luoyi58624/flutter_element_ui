@@ -105,6 +105,7 @@ class SlideRouterConfig {
       'Basic 基础组件',
       [
         ('Event 交互事件', '/${RootRoute.component.$2}/event', WorkStatus.finished),
+        ('Focus 焦点', '/${RootRoute.component.$2}/focus', WorkStatus.finished),
         ('Button 按钮', '/${RootRoute.component.$2}/button', WorkStatus.finished),
         (
           'ButtonGroup 按钮组',

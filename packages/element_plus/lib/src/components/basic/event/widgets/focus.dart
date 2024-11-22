@@ -36,7 +36,8 @@ class ElFocus extends StatefulWidget {
   State<ElFocus> createState() => _ElFocusState();
 }
 
-class _ElFocusState extends State<ElFocus> {
+class _ElFocusState extends State<ElFocus>
+    with AutomaticKeepAliveClientMixin<ElFocus> {
   final FocusNode focusNode = FocusNode();
   bool hasFocusDepend = false;
   bool hasFocusVisibleDepend = false;
@@ -84,6 +85,7 @@ class _ElFocusState extends State<ElFocus> {
       isFocusVisible = false;
     }
     _lock = false;
+    updateKeepAlive();
   }
 
   /// 通过 [ElEvent] 事件设置的焦点，需要锁定 [_isFocusVisible] 变量的修改
@@ -91,6 +93,10 @@ class _ElFocusState extends State<ElFocus> {
     _lock = true;
     focusNode.requestFocus();
   }
+
+  /// 得到焦点的小部件需要保留状态，防止在按需加载过程中被销毁
+  @override
+  bool get wantKeepAlive => focusNode.hasFocus;
 
   @override
   void initState() {
@@ -106,6 +112,7 @@ class _ElFocusState extends State<ElFocus> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final $data = ElEventTheme.of(context);
 
     return Focus(

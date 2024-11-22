@@ -20,6 +20,21 @@ class Example1 extends HookWidget {
               scrollDirection: Axis.horizontal,
               child: _InputExample(),
             ).noScrollBehavior,
+            const Gap(8),
+            const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _InputExample(),
+            ).noScrollBehavior,
+            const Gap(8),
+            const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _InputExample(),
+            ).noScrollBehavior,
+            const Gap(8),
+            const SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _InputExample(),
+            ).noScrollBehavior,
           ],
         ),
       ],

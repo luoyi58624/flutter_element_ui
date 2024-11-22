@@ -34,6 +34,32 @@ class NavPage extends ResponsivePage {
           }),
         ),
       ),
+      const Gap(8),
+      Stack(
+        children: [
+          GestureDetector(
+            onTapDown: (e) {
+              el.message.show('parent');
+            },
+            child: Container(
+              width: 300,
+              height: 300,
+              color: Colors.grey,
+            ),
+          ),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTapDown: (e) {
+              el.message.success('child');
+            },
+            child: Container(
+              width: 100,
+              height: 100,
+              // color: Colors.black12,
+            ),
+          ),
+        ],
+      ),
       const _Example(),
       // ...List.generate(
       //   50,

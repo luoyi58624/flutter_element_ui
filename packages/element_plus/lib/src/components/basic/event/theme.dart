@@ -5,7 +5,6 @@ part of 'index.dart';
 class ElEventThemeData {
   static const _default = ElEventThemeData(
     tapUpDelay: 100,
-
   );
   static const theme = _default;
   static const darkTheme = _default;
@@ -36,7 +35,7 @@ class ElEventThemeData {
     this.triggerDragScope,
     this.minVelocity,
     this.maxVelocity,
-    this.hitTestBehavior,
+    this.behavior,
     this.cursor,
     this.onEnter,
     this.onExit,
@@ -108,8 +107,19 @@ class ElEventThemeData {
   /// 拖拽结束时触发惯性速度的最大值，默认 [kMaxFlingVelocity]
   final double? maxVelocity;
 
-  /// 命中测试行为，默认：[HitTestBehavior.deferToChild]
-  final HitTestBehavior? hitTestBehavior;
+  /// 命中测试行为，默认：[HitTestBehavior.deferToChild]，这也是 [Listener] 的默认值，
+  /// 关于 [HitTestBehavior] 的三个行为，这里简单列举一下：
+  /// * [HitTestBehavior.deferToChild] - 命中透明部分事件会被忽略
+  /// * [HitTestBehavior.opaque] - 命中透明部分事件也能触发
+  /// * [HitTestBehavior.translucent] - 命中透明部分事件也能触发，同时位于元素下面的目标也能接收事件
+  ///
+  /// 以 Stack 为例，堆叠了两个小部件，下方小部件颜色随机，上方小部件颜色透明，点击重叠区域的行为如下：
+  /// * [HitTestBehavior.deferToChild] - 下方小部件触发事件
+  /// * [HitTestBehavior.opaque] - 上方小部件触发事件
+  /// * [HitTestBehavior.translucent] - 上方、下方小部件同时触发事件，但 [GestureDetector] 由于存在手势竞技场机制，所以它依然只有上方小部件触发事件
+  ///
+  /// 在大部分情况下你只需考虑 [HitTestBehavior.opaque]，而不是 [HitTestBehavior.translucent]。
+  final HitTestBehavior? behavior;
 
   /// 鼠标悬停光标样式
   final MouseCursor? cursor;

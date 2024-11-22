@@ -5,6 +5,7 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/components/basic/event/prop.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -18,6 +19,8 @@ part 'extension.dart';
 part 'widgets/inherited_widget.dart';
 
 part 'widgets/focus.dart';
+
+part 'widgets/focus_scope.dart';
 
 part 'widgets/shortcuts.dart';
 
@@ -37,7 +40,7 @@ part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
 
-/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能。
+/// Element UI 交互事件小部件，它包含了焦点、悬停、单击、双击、右键、长按、拖拽等功能。
 ///
 /// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
 /// 如果你不做任何处理那么将会触发事件冒泡。
@@ -57,14 +60,11 @@ part '../../../generates/components/basic/event/index.g.dart';
 ///
 /// 对于第三种情况：
 /// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
-/// builder 回调会传递一个 bool 参数，你要根据这个 bool 值手动控制函数逻辑的执行，
-/// 注意这个方案会引发 UI 重建。
+/// builder 回调会传递一个 bool 类型的冒泡标识，你要根据这个标识手动控制逻辑的执行。
 ///
-///
-/// 为什么不直接基于 [GestureDetector] 小部件，而要重新实现已有轮子？
-///
-/// 因为必须要实现手动控制事件冒泡机制，否则无法处理 [Listener] 嵌套 [GestureDetector]，
-/// 若基于 [GestureDetector] 进行封装，你就需要和手势竞技场做斗争，这样做会令代码变得更加复杂。
+/// 第二、第三种情况非常少，因为你没有太多理由非要使用 [GestureDetector] 嵌套 [ElEvent]，
+/// 同理，[InkWell] 的波纹动画也不应嵌套 [GestureDetector]，虽然能阻止上层事件执行，
+/// 但下面的波纹动画却依旧触发。
 class ElEvent extends StatefulWidget {
   /// Element UI 事件交互构造器
   const ElEvent({
@@ -82,7 +82,7 @@ class ElEvent extends StatefulWidget {
     this.triggerDragScope,
     this.minVelocity,
     this.maxVelocity,
-    this.hitTestBehavior,
+    this.behavior,
     this.cursor,
     this.onEnter,
     this.onExit,
@@ -159,8 +159,19 @@ class ElEvent extends StatefulWidget {
   /// 拖拽结束时触发惯性速度的最大值，默认 [kMaxFlingVelocity]
   final double? maxVelocity;
 
-  /// 命中测试行为，默认：[HitTestBehavior.deferToChild]
-  final HitTestBehavior? hitTestBehavior;
+  /// 命中测试行为，默认：[HitTestBehavior.deferToChild]，这也是 [Listener] 的默认值，
+  /// 关于 [HitTestBehavior] 的三个行为，这里简单列举一下：
+  /// * [HitTestBehavior.deferToChild] - 命中透明部分事件会被忽略
+  /// * [HitTestBehavior.opaque] - 命中透明部分事件也能触发
+  /// * [HitTestBehavior.translucent] - 命中透明部分事件也能触发，同时位于元素下面的目标也能接收事件
+  ///
+  /// 以 Stack 为例，堆叠了两个小部件，下方小部件颜色随机，上方小部件颜色透明，点击重叠区域的行为如下：
+  /// * [HitTestBehavior.deferToChild] - 下方小部件触发事件
+  /// * [HitTestBehavior.opaque] - 上方小部件触发事件
+  /// * [HitTestBehavior.translucent] - 上方、下方小部件同时触发事件，但 [GestureDetector] 由于存在手势竞技场机制，所以它依然只有上方小部件触发事件
+  ///
+  /// 在大部分情况下你只需考虑 [HitTestBehavior.opaque]，而不是 [HitTestBehavior.translucent]。
+  final HitTestBehavior? behavior;
 
   /// 鼠标悬停光标样式
   final MouseCursor? cursor;

@@ -24,10 +24,58 @@ class TestPage extends StatelessWidget {
             children: [
               CellWidget(title: '嵌套滚动测试', page: NestScrollTest()),
               CellWidget(title: '自定义滚动', page: _Demo()),
+              CellWidget(title: '自定义滚动', page: _Test()),
             ],
           ),
         ],
       ),
+    );
+  }
+}
+
+class _Test extends StatelessWidget {
+  const _Test({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(''),
+      ),
+      body: ListView.builder(
+        itemCount: 1000,
+        itemBuilder: (context, index) => _Item(index: index),
+      ),
+    );
+  }
+}
+
+class _Item extends StatelessWidget {
+  const _Item({super.key, required this.index});
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    i('build - ${index + 1}');
+    return ElFocus(
+      child: Builder(builder: (context) {
+        return ElEvent(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (e) {
+            Focus.of(context).requestFocus();
+          },
+          child: Ink(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Focus.of(context).hasFocus ? Colors.green : null,
+            ),
+            child: Text(
+              'item - ${index + 1}',
+            ),
+          ),
+        );
+      }),
     );
   }
 }

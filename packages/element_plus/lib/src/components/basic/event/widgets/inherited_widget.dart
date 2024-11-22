@@ -1,7 +1,7 @@
 part of '../index.dart';
 
+/// 阻止事件冒泡小部件，它会在指针按下时立即触发，另一种方式是手动执行 context.stopPropagation()
 class ElStopPropagation extends InheritedWidget {
-  /// 阻止事件冒泡小部件，它会在指针按下时立即触发，另一种方式是手动执行 context.stopPropagation()
   const ElStopPropagation({
     super.key,
     required super.child,
@@ -95,6 +95,37 @@ class _BubbleInheritedWidget extends InheritedWidget {
   @override
   bool updateShouldNotify(_BubbleInheritedWidget oldWidget) =>
       flag != oldWidget.flag;
+}
+
+class _FocusScopeInheritedWidget extends InheritedWidget {
+  const _FocusScopeInheritedWidget(
+    this.hasFocus,
+    this.setDepend,
+    this.focusScopeNode,
+    this.childFocusNode,
+    this.setChildFocus, {
+    required super.child,
+  });
+
+  final bool hasFocus;
+  final VoidCallback setDepend;
+  final FocusScopeNode focusScopeNode;
+  final FocusNode? childFocusNode;
+  final void Function(FocusNode? node) setChildFocus;
+
+  static _FocusScopeInheritedWidget? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
+
+  static bool getFocusStatus(BuildContext context) {
+    final result = maybeOf(context);
+    if (result != null) result.setDepend();
+    return result?.hasFocus ?? false;
+  }
+
+  @override
+  bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) {
+    return hasFocus != oldWidget.hasFocus;
+  }
 }
 
 class _FocusInheritedWidget extends InheritedWidget {
