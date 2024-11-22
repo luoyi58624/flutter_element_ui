@@ -72,7 +72,6 @@ class _Example extends HookWidget {
                       if (FocusScope.of(context).hasFocus) {
                         Focus.of(context).requestFocus();
                       }
-                      Focus.of(context).consumeKeyboardToken();
                       activeIndex.value = index;
                     },
                     onTap: () {

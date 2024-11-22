@@ -29,6 +29,7 @@ class ElThemeData extends _ElThemeData {
     tagTheme: ElTagThemeData.theme,
     progressTheme: ElProgressThemeData.theme,
     eventTheme: ElEventThemeData.theme,
+    treeTheme: ElTreeThemeData.theme,
   );
 
   /// 暗色默认主题
@@ -53,6 +54,7 @@ class ElThemeData extends _ElThemeData {
     tagTheme: ElTagThemeData.darkTheme,
     progressTheme: ElProgressThemeData.darkTheme,
     eventTheme: ElEventThemeData.darkTheme,
+    treeTheme: ElTreeThemeData.darkTheme,
   );
 
   /// 超链接默认样式
@@ -115,6 +117,9 @@ class ElThemeData extends _ElThemeData {
   /// 事件默认配置
   final ElEventThemeData eventTheme;
 
+  /// 标签默认样式
+  final ElTreeThemeData treeTheme;
+
   /// 亮色主题构造器，构建器是私有的，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
   const ElThemeData._({
     super.primary,
@@ -142,6 +147,7 @@ class ElThemeData extends _ElThemeData {
     required this.tagTheme,
     required this.progressTheme,
     required this.eventTheme,
+    required this.treeTheme,
   });
 
   /// 暗色主题构造器，构建器是私有的，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
@@ -166,6 +172,7 @@ class ElThemeData extends _ElThemeData {
     required this.tagTheme,
     required this.progressTheme,
     required this.eventTheme,
+    required this.treeTheme,
   }) : super.dark();
 
   /// 接收一组可选参数，返回新的对象
@@ -195,6 +202,7 @@ class ElThemeData extends _ElThemeData {
     ElTagThemeData? tagTheme,
     ElProgressThemeData? progressTheme,
     ElEventThemeData? eventTheme,
+    ElTreeThemeData? treeTheme,
   }) {
     return ElThemeData._(
       primary: primary ?? super.primary,
@@ -222,6 +230,7 @@ class ElThemeData extends _ElThemeData {
       tagTheme: this.tagTheme.merge(tagTheme),
       progressTheme: this.progressTheme.merge(progressTheme),
       eventTheme: this.eventTheme.merge(eventTheme),
+      treeTheme: this.treeTheme.merge(treeTheme),
     );
   }
 
@@ -254,6 +263,7 @@ class ElThemeData extends _ElThemeData {
       tagTheme: other.tagTheme,
       progressTheme: other.progressTheme,
       eventTheme: other.eventTheme,
+      treeTheme: other.treeTheme,
     );
   }
 }

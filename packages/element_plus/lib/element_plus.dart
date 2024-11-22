@@ -24,6 +24,7 @@ export 'src/components/data/collapse/index.dart';
 export 'src/components/data/collapse/collapse_panel.dart';
 export 'src/components/data/progress/index.dart';
 export 'src/components/data/tag/index.dart';
+export 'src/components/data/tree/index.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/image.dart';
 
