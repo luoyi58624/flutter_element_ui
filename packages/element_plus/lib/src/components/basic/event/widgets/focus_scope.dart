@@ -33,16 +33,22 @@ class ElFocusScope extends StatefulWidget {
 
   final Widget child;
 
-  /// 焦点组是否得到焦点
+  /// 焦点组是否得到焦点，当焦点组内部任意一个 Focus 得到焦点时，此变量将为 true
   static bool hasFocus(BuildContext context) =>
       _FocusScopeInheritedWidget.getFocusStatus(context);
 
   /// 焦点组请求焦点，注意：不要通过 [of] 请求焦点
   static void requestFocus(BuildContext context) {
-    final result = _FocusScopeInheritedWidget.maybeOf(context);
-    if (result != null) {
-      result.childFocusNode?.requestFocus();
-    }
+    // 必须在下一帧访问，否则如果用户在 onTapDown 事件中立即请求焦点时，拿到的是旧数据
+    nextTick(() {
+      if (context.mounted) {
+        final result =
+            context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
+        if (result != null) {
+          result.childFocusNode?.requestFocus();
+        }
+      }
+    });
   }
 
   /// 通过上下文获取 [FocusScopeNode] 焦点组对象
@@ -62,7 +68,7 @@ class _ElFocusScopeState extends State<ElFocusScope> {
   bool _hasFocus = false;
 
   set hasFocus(bool value) {
-    if (hasDepend) {
+    if (hasDepend && mounted) {
       if (_hasFocus != value) {
         setState(() {
           _hasFocus = value;
@@ -86,7 +92,9 @@ class _ElFocusScopeState extends State<ElFocusScope> {
   void initState() {
     super.initState();
     focusScopeNode.addListener(() {
-      hasFocus = focusScopeNode.hasFocus;
+      nextTick(() {
+        hasFocus = focusScopeNode.hasFocus;
+      });
     });
   }
 
@@ -100,7 +108,9 @@ class _ElFocusScopeState extends State<ElFocusScope> {
   Widget build(BuildContext context) {
     return TapRegion(
       onTapOutside: (e) {
-        if (focusScopeNode.hasFocus) focusScopeNode.unfocus();
+        if (focusScopeNode.hasFocus) {
+          focusScopeNode.unfocus();
+        }
       },
       child: FocusScope(
         node: focusScopeNode,

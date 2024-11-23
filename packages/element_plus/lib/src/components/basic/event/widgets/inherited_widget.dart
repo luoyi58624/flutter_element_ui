@@ -8,13 +8,31 @@ class ElStopPropagation extends InheritedWidget {
     this.enabled = true,
   });
 
-  /// 是否启用阻止冒泡，默认 true
+  /// 一个便捷开关，是否启用此功能，默认 true
   final bool enabled;
 
   @override
   bool updateShouldNotify(ElStopPropagation oldWidget) => false;
 }
 
+/// 阻止后代组件获得焦点，应用场景：当使用 [ElFocusScope] 时，希望排除某些小部件获取焦点
+class ElStopFocus extends InheritedWidget {
+  const ElStopFocus({
+    super.key,
+    required super.child,
+    this.enabled = true,
+  });
+
+  /// 一个便捷开关，是否启用此功能，默认 true
+  final bool enabled;
+
+  @override
+  bool updateShouldNotify(ElStopFocus oldWidget) => false;
+}
+
+// ===========================================================================
+// ================== 下面都是私有的配置类，用户无需关注 ========================
+// ===========================================================================
 class _EventInheritedWidget extends InheritedWidget {
   const _EventInheritedWidget(
     this.isHover,

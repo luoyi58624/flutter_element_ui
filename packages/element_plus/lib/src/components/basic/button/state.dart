@@ -38,7 +38,6 @@ class _ElButtonState extends State<ElButton> {
   bool get _hasGroup => _groupData != null;
 
   void onPressed() {
-
     // onPressed 相当于 onTap，如果它不为空，那么不应当执行默认的点击事件
     if (widget.onPressed != null) {
       widget.onPressed!();
@@ -132,7 +131,6 @@ class _ElButtonState extends State<ElButton> {
             },
             onTap: onPressed,
             onTapDown: (e) {
-              context.focusNode?.requestFocus();
               setState(() {
                 _isTap = true;
               });

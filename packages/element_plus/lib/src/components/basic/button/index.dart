@@ -145,7 +145,3 @@ class ElButton extends StatefulWidget {
   @override
   State<ElButton> createState() => _ElButtonState();
 }
-
-class _EnterIntent extends Intent {
-  const _EnterIntent();
-}

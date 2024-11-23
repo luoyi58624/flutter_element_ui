@@ -7,6 +7,7 @@ class ElFocus extends StatefulWidget {
     super.key,
     required this.child,
     this.autofocus,
+    this.skipTraversal,
     this.disabled,
   });
 
@@ -14,6 +15,9 @@ class ElFocus extends StatefulWidget {
 
   /// 是否自动聚焦，此属性会继承 [ElEventTheme]
   final bool? autofocus;
+
+
+  final bool? skipTraversal;
 
   /// 是否禁用，此属性会继承 [ElEventTheme]，若为 true，将不允许请求焦点
   final bool? disabled;
@@ -118,6 +122,7 @@ class _ElFocusState extends State<ElFocus>
     return Focus(
       focusNode: focusNode,
       autofocus: widget.autofocus ?? $data.autofocus ?? false,
+      skipTraversal: widget.skipTraversal,
       canRequestFocus: (widget.disabled ?? $data.disabled ?? false) == false,
       child: _FocusInheritedWidget(
         focusNode,
