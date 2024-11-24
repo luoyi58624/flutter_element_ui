@@ -28,34 +28,38 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        buildWidget(),
-        const Gap(8),
-        buildWidget(),
-        const Gap(8),
-        buildWidget(),
-      ],
+    return ElFocusScope(
+      child: Row(
+        children: [
+          buildWidget(),
+          const Gap(8),
+          buildWidget(),
+          const Gap(8),
+          buildWidget(),
+        ],
+      ),
     );
   }
 
-  Widget buildWidget() => Focus(
-        child: Builder(builder: (context) {
-          final focus = Focus.of(context);
-          return ElEvent(
-            onTapDown: (e) {
-              focus.requestFocus();
-            },
-            child: Builder(builder: (context) {
-              return Container(
-                width: 100,
-                height: 100,
-                color: focus.hasFocus ? Colors.green : Colors.grey,
-              );
-            }),
-          );
-        }),
-      );
+  Widget buildWidget() {
+    late FocusNode focus;
+    return ElEvent(
+      autofocus: true,
+      onTapDown: (e) {
+        setTimeout(() {
+          focus.requestFocus();
+        }, 50);
+      },
+      child: Builder(builder: (context) {
+        focus = Focus.of(context);
+        return Container(
+          width: 100,
+          height: 100,
+          color: focus.hasFocus ? Colors.green : Colors.grey,
+        );
+      }),
+    );
+  }
 }
 
 String get code => '''
@@ -64,32 +68,36 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        buildWidget(),
-        const Gap(8),
-        buildWidget(),
-        const Gap(8),
-        buildWidget(),
-      ],
+    return ElFocusScope(
+      child: Row(
+        children: [
+          buildWidget(),
+          const Gap(8),
+          buildWidget(),
+          const Gap(8),
+          buildWidget(),
+        ],
+      ),
     );
   }
 
-  Widget buildWidget() => ElFocus(
-        child: Builder(builder: (context) {
-          final focus = Focus.of(context);
-          return ElEvent(
-            onTapDown: (e) {
-              focus.requestFocus();
-            },
-            child: Builder(builder: (context) {
-              return Container(
-                width: 100,
-                height: 100,
-                color: focus.hasFocus ? Colors.green : Colors.grey,
-              );
-            }),
-          );
-        }),
-      );
+  Widget buildWidget() {
+    late FocusNode focus;
+    return ElEvent(
+      autofocus: true,
+      onTapDown: (e) {
+        setTimeout(() {
+          focus.requestFocus();
+        }, 50);
+      },
+      child: Builder(builder: (context) {
+        focus = Focus.of(context);
+        return Container(
+          width: 100,
+          height: 100,
+          color: focus.hasFocus ? Colors.green : Colors.grey,
+        );
+      }),
+    );
+  }
 }''';

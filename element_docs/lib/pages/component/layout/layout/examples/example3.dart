@@ -65,7 +65,7 @@ class _Example extends HookWidget {
           children: [
             ElEvent(
               onTap: () {
-                FocusScope.of(context).requestFocus();
+                ElFocusScope.requestPoinerDownFocus(context);
               },
               child: Text(
                 FocusScope.of(context).hasFocus ? '得到焦点' : '失去焦点',

@@ -53,11 +53,16 @@ class _Example extends HookWidget {
               child: Column(
                 children: [
                   const Gap(8),
-                  ElButton(
-                    onPressed: () {
-                      ElFocusScope.requestFocus(context);
-                    },
-                    child: ElFocusScope.hasFocus(context) ? '得到焦点' : '失去焦点',
+                  ElEventTheme(
+                    data: const ElEventThemeData(
+                      canRequestFocus: false,
+                    ),
+                    child: ElButton(
+                      onPressed: () {
+                        ElFocusScope.requestPoinerDownFocus(context);
+                      },
+                      child: FocusScope.of(context).hasFocus ? '得到焦点' : '失去焦点',
+                    ),
                   ),
                   const Gap(16),
                   ...List.generate(
@@ -68,30 +73,25 @@ class _Example extends HookWidget {
                           activeIndex.value = index;
                         }
                       },
-                      child: Focus(
-                        child: ElEvent(
-                          onTapDown: (e) async {
-                            if (ElFocusScope.hasFocus(context)) {
-                              ElFocusScope.requestFocus(context);
-                            }
-                            activeIndex.value = index;
-                          },
-                          child: Builder(builder: (context) {
-                            return Container(
-                              width: 240,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Focus.of(context).hasFocus
-                                    ? Colors.lightBlueAccent.shade400
-                                    : activeIndex.value == index
-                                        ? Colors.white24
-                                        : null,
-                              ),
-                              child:
-                                  Center(child: ElText('item - ${index + 1}')),
-                            );
-                          }),
-                        ),
+                      child: ElEvent(
+                        onTapDown: (e) {
+                          activeIndex.value = index;
+                        },
+                        child: Builder(builder: (context) {
+                          return Container(
+                            width: 240,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Focus.of(context).hasFocus
+                                  ? Colors.lightBlueAccent.shade400
+                                  : activeIndex.value == index
+                                      ? Colors.white24
+                                      : null,
+                            ),
+                            child:
+                                Center(child: ElText('item - ${index + 1}')),
+                          );
+                        }),
                       ),
                     ),
                   ),

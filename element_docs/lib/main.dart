@@ -20,6 +20,37 @@ void main() async {
   runApp(const MainApp());
 }
 
+class Demo extends StatelessWidget {
+  const Demo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    late FocusNode focus;
+    return ElApp(
+      child: ElEventTheme(
+        data: const ElEventThemeData(canRequestFocus: false),
+        child: ElEvent(
+          onTapDown: (e) {
+            setTimeout(() {
+              focus.requestFocus();
+            }, 50);
+          },
+          child: Builder(builder: (context) {
+            focus = Focus.of(context);
+            return Center(
+              child: Container(
+                width: 100,
+                height: 100,
+                color: focus.hasFocus ? Colors.green : Colors.grey,
+              ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}
+
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 

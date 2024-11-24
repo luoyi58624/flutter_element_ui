@@ -65,6 +65,8 @@ class ElEvent extends StatefulWidget {
     this.child,
     this.builder,
     this.disabled,
+    this.autofocus,
+    this.canRequestFocus,
     this.cancelScope,
     this.prevent,
     this.tapUpDelay,
@@ -121,6 +123,13 @@ class ElEvent extends StatefulWidget {
 
   /// 是否禁用，默认 false
   final bool? disabled;
+
+  /// 是否自动聚焦，如果在 [FocusScope] 中有多个节点设置为自动聚焦，那么只有第一个元素得到焦点，
+  /// 如果有多个 [FocusScope]，那么只有最后一个 [FocusScope] 中的第一个元素得到焦点。
+  final bool? autofocus;
+
+  /// 是否允许聚焦，默认 true，如果 [disabled] 为 true，那么会强制禁止聚焦
+  final bool? canRequestFocus;
 
   /// 触发取消事件偏移范围，默认 20 像素
   final int? cancelScope;

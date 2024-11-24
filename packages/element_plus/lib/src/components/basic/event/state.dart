@@ -22,7 +22,12 @@ class _ElEventState extends State<ElEvent>
 
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
     if (disabledSetFocusNode == false) {
-      focusScopeWidget?.setFocusNode(focusNode);
+      if (_focusScopeWidget != null) {
+        _focusScopeWidget!.setPoinerDownFocusNode(focusNode);
+        if (focusScopeNode!.hasFocus) {
+          focusNode!.requestFocus();
+        }
+      }
     }
 
     prop.onPointerDown?.call(e);
@@ -164,24 +169,28 @@ class _ElEventState extends State<ElEvent>
   @override
   Widget build(BuildContext context) {
     prop = EventProp.create(context, widget);
-    focusNode = Focus.maybeOf(context, createDependency: false);
-    focusScopeWidget = _FocusScopeInheritedWidget.maybeOf(context);
-    // disabledSetFocusNode = ElStopFocus._of(context);
-    buildDragEvent();
+    focusScopeWidget =
+        context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
 
-    Widget result = ObsBuilder(
-      key: childKey,
-      builder: (context) {
-        return _EventInheritedWidget(
-          isHover,
-          setHoverDepend,
-          isTap,
-          setTapDepend,
-          stopPropagation,
-          resetPropagation,
-          child: widget.child ?? widget.builder!(context),
-        );
-      },
+    buildDragEvent();
+    Widget result = Focus(
+      autofocus: prop.autofocus,
+      canRequestFocus: prop.canRequestFocus,
+      child: ObsBuilder(
+        key: childKey,
+        builder: (context) {
+          focusNode = Focus.maybeOf(context, createDependency: false);
+          return _EventInheritedWidget(
+            isHover,
+            setHoverDepend,
+            isTap,
+            setTapDepend,
+            stopPropagation,
+            resetPropagation,
+            child: widget.child ?? widget.builder!(context),
+          );
+        },
+      ),
     );
 
     // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件

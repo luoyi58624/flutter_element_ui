@@ -123,31 +123,14 @@ class _BubbleInheritedWidget extends InheritedWidget {
 
 class _FocusScopeInheritedWidget extends InheritedWidget {
   const _FocusScopeInheritedWidget(
-    this.hasFocus,
-    this.setDepend,
-    this.focusScopeNode,
-    this.focusNode,
-    this.setFocusNode, {
+    this.poinerDownFocusNode,
+    this.setPoinerDownFocusNode, {
     required super.child,
   });
 
-  final bool hasFocus;
-  final VoidCallback setDepend;
-  final FocusScopeNode focusScopeNode;
-  final FocusNode? focusNode;
-  final void Function(FocusNode? node) setFocusNode;
-
-  static _FocusScopeInheritedWidget? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
-
-  static bool getFocusStatus(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) result.setDepend();
-    return result?.hasFocus ?? false;
-  }
+  final FocusNode? poinerDownFocusNode;
+  final void Function(FocusNode? node) setPoinerDownFocusNode;
 
   @override
-  bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) {
-    return hasFocus != oldWidget.hasFocus;
-  }
+  bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) => false;
 }

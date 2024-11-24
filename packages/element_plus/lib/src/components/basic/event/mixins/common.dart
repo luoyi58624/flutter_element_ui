@@ -37,13 +37,27 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 长按事件计时器
   Timer? longPressTimer;
 
-  /// 焦点注入的数据小部件，如果存在 [ElFocusScope] 小部件，那么它将被初始化
-  _FocusScopeInheritedWidget? focusScopeWidget;
+  /// 焦点组节点对象，如果使用 [ElFocusScope]，那么它将初始化
+  FocusScopeNode? focusScopeNode;
+
+  /// 如果存在 [Focus] 焦点小部件，那么它将被初始化
+  FocusNode? focusNode;
 
   /// 指针按下时是否禁止设置焦点，此属性由 [ElStopFocus] 小部件决定
   bool disabledSetFocusNode = false;
 
-  FocusNode? focusNode;
+  /// 保存 [ElFocusScope] 小部件实例，用于设置指针按下时的焦点
+  _FocusScopeInheritedWidget? _focusScopeWidget;
+
+  set focusScopeWidget(_FocusScopeInheritedWidget? value) {
+    if (value != null) {
+      _focusScopeWidget = value;
+      focusScopeNode = FocusScope.of(context, createDependency: false);
+    } else {
+      _focusScopeWidget = null;
+      focusScopeNode = null;
+    }
+  }
 
   void cancelLongPressTimer() {
     if (longPressTimer != null) {
@@ -59,9 +73,7 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
 
   void _requestFocus() {
     if (disabledSetFocusNode == false) {
-      if (focusScopeWidget != null) {
-        focusScopeWidget!.focusNode?.requestFocus();
-      } else {
+      if (_focusScopeWidget != null && focusScopeNode!.hasFocus == false) {
         focusNode?.requestFocus();
       }
     }

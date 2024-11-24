@@ -9,8 +9,9 @@ part of '../../../../components/basic/event/index.dart';
 extension ElEventThemeDataExtension on ElEventThemeData {
   /// 接收一组可选参数，返回新的对象
   ElEventThemeData copyWith({
-    bool? autofocus,
     bool? disabled,
+    bool? autofocus,
+    bool? canRequestFocus,
     int? cancelScope,
     bool? prevent,
     int? tapUpDelay,
@@ -57,8 +58,9 @@ extension ElEventThemeDataExtension on ElEventThemeData {
     void Function()? onCancel,
   }) {
     return ElEventThemeData(
-      autofocus: autofocus ?? this.autofocus,
       disabled: disabled ?? this.disabled,
+      autofocus: autofocus ?? this.autofocus,
+      canRequestFocus: canRequestFocus ?? this.canRequestFocus,
       cancelScope: cancelScope ?? this.cancelScope,
       prevent: prevent ?? this.prevent,
       tapUpDelay: tapUpDelay ?? this.tapUpDelay,
@@ -114,8 +116,9 @@ extension ElEventThemeDataExtension on ElEventThemeData {
   ElEventThemeData merge([ElEventThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      autofocus: other.autofocus,
       disabled: other.disabled,
+      autofocus: other.autofocus,
+      canRequestFocus: other.canRequestFocus,
       cancelScope: other.cancelScope,
       prevent: other.prevent,
       tapUpDelay: other.tapUpDelay,

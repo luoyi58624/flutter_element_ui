@@ -1,3 +1,4 @@
+import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,8 @@ import 'index.dart';
 
 class EventProp {
   final bool disabled;
+  final bool autofocus;
+  final bool canRequestFocus;
   final int cancelScope;
   final bool prevent;
   final int tapUpDelay;
@@ -54,6 +57,8 @@ class EventProp {
 
   EventProp(
     this.disabled,
+    this.autofocus,
+    this.canRequestFocus,
     this.cancelScope,
     this.prevent,
     this.tapUpDelay,
@@ -102,9 +107,15 @@ class EventProp {
 
   factory EventProp.create(BuildContext context, ElEvent widget) {
     final $data = ElEventTheme.of(context);
+    final $disabled = widget.disabled ?? $data.disabled ?? false;
+    final $canRequestFocus = $disabled == true
+        ? false
+        : widget.canRequestFocus ?? $data.canRequestFocus ?? true;
 
     return EventProp(
-      widget.disabled ?? $data.disabled ?? false,
+      $disabled,
+      widget.autofocus ?? $data.autofocus ?? false,
+      $canRequestFocus,
       widget.cancelScope ?? $data.cancelScope ?? 20,
       widget.prevent ?? $data.prevent ?? true,
       widget.tapUpDelay ?? $data.tapUpDelay ?? 100,

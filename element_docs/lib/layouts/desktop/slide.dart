@@ -23,30 +23,21 @@ class SlideWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      autofocus: true,
-      child: Builder(builder: (context) {
-        return TapRegion(
-          onTapOutside: (e) {
-            Focus.of(context).unfocus();
-          },
-          child: SizedBox(
-            width: 300,
-            height: double.infinity,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:
-                      models.map((e) => buildSlideGroup(context, e)).toList(),
-                ),
-              ),
+    return Builder(builder: (context) {
+      return SizedBox(
+        width: 300,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: models.map((e) => buildSlideGroup(context, e)).toList(),
             ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
   Widget buildSlideGroup(BuildContext context, SlideRouteModelType e) {
@@ -62,22 +53,12 @@ class SlideWidget extends StatelessWidget {
               .map(
                 (e) => ElLink(
                   href: e.$2,
+                  cursor: SystemMouseCursors.click,
                   child: ObsBuilder(builder: (context) {
                     final isActive = RouterState.currentPath.value == e.$2;
-                    final focus = Focus.of(context);
-                    Color? bgColor;
-
-                    if (isActive) {
-                      bgColor = focus.hasFocus
-                          ? context.elTheme.primary.elLight9(context)
-                          : context.isDark
-                              ? Colors.grey.shade800
-                              : Colors.grey.shade200;
-                    }
 
                     return ElEvent(
                       onTapDown: (e) {
-                        focus.requestFocus();
                         ElLink.to(context);
                       },
                       child: TapRegion(
@@ -90,7 +71,11 @@ class SlideWidget extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: bgColor,
+                            color: isActive
+                                ? context.isDark
+                                    ? Colors.grey.shade800
+                                    : context.elTheme.primary.elLight9(context)
+                                : null,
                           ),
                           child: Row(
                             children: [
@@ -110,10 +95,10 @@ class SlideWidget extends StatelessWidget {
                                 child: ElText(
                                   e.$1,
                                   style: TextStyle(
-                                    color: bgColor == null
-                                        ? context
-                                            .elTheme.textTheme.textStyle.color
-                                        : bgColor.elTextColor(context),
+                                    color: context.isHover || isActive
+                                        ? context.elTheme.primary
+                                        : context
+                                            .elTheme.textTheme.textStyle.color,
                                     fontSize: 0.875.rem,
                                   ),
                                   overflow: TextOverflow.ellipsis,
