@@ -8,7 +8,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 part 'state.dart';
 
@@ -17,8 +16,6 @@ part 'widgets/bubble_builder.dart';
 part 'extension.dart';
 
 part 'widgets/inherited_widget.dart';
-
-part 'widgets/focus.dart';
 
 part 'widgets/focus_scope.dart';
 
@@ -40,7 +37,7 @@ part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
 
-/// Element UI 交互事件小部件，它包含了焦点、悬停、单击、双击、右键、长按、拖拽等功能。
+/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能。
 ///
 /// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
 /// 如果你不做任何处理那么将会触发事件冒泡。
@@ -55,16 +52,12 @@ part '../../../generates/components/basic/event/index.g.dart';
 /// * 在事件中手动执行 context.stopPropagation() 方法
 ///
 /// 对于第二种情况：
-/// * 你必须在 [GestureDetector] 上方插入 [Listener] 小部件，然后在 [Listener] 小部件的事件中执行 context.stopPropagation() 方法，
-/// 这是因为当手指轻触屏幕时，onTapDown 的触发时机可能比 [ElEvent] 的 [onTap] 还要慢。
+/// * 你需要插入 [Listener] 小部件，然后在事件中执行 context.stopPropagation() 方法，
+/// 这是因为 [GestureDetector] 小部件 onTapDown 事件触发时机比较慢。
 ///
 /// 对于第三种情况：
 /// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 类型的冒泡标识，你要根据这个标识手动控制逻辑的执行。
-///
-/// 第二、第三种情况非常少，因为你没有太多理由非要使用 [GestureDetector] 嵌套 [ElEvent]，
-/// 同理，[InkWell] 的波纹动画也不应嵌套 [GestureDetector]，虽然能阻止上层事件执行，
-/// 但下面的波纹动画却依旧触发。
 class ElEvent extends StatefulWidget {
   /// Element UI 事件交互构造器
   const ElEvent({

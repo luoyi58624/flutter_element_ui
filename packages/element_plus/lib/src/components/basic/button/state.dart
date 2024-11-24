@@ -105,9 +105,9 @@ class _ElButtonState extends State<ElButton> {
         ButtonActivateIntent:
             CallbackAction<ButtonActivateIntent>(onInvoke: activateOnIntent),
       },
-      child: ElFocus(
+      child: Focus(
         autofocus: widget.autofocus,
-        disabled: widget.disabled,
+        canRequestFocus: widget.disabled == false,
         child: Builder(builder: (context) {
           return ElEvent(
             cursor: _cursor,

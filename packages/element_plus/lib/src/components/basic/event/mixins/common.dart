@@ -40,11 +40,10 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 焦点注入的数据小部件，如果存在 [ElFocusScope] 小部件，那么它将被初始化
   _FocusScopeInheritedWidget? focusScopeWidget;
 
-  /// 焦点注入的数据小部件，如果存在 [ElFocus] 小部件，那么它将被初始化
-  _FocusInheritedWidget? focusWidget;
-
   /// 指针按下时是否禁止设置焦点，此属性由 [ElStopFocus] 小部件决定
   bool disabledSetFocusNode = false;
+
+  FocusNode? focusNode;
 
   void cancelLongPressTimer() {
     if (longPressTimer != null) {
@@ -63,7 +62,7 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
       if (focusScopeWidget != null) {
         focusScopeWidget!.focusNode?.requestFocus();
       } else {
-        focusWidget?.focusNode.requestFocus();
+        focusNode?.requestFocus();
       }
     }
   }

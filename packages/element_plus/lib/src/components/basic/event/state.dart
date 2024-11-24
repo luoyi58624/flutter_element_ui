@@ -22,7 +22,7 @@ class _ElEventState extends State<ElEvent>
 
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
     if (disabledSetFocusNode == false) {
-      focusScopeWidget?.setFocusNode(focusWidget?.focusNode);
+      focusScopeWidget?.setFocusNode(focusNode);
     }
 
     prop.onPointerDown?.call(e);
@@ -164,12 +164,13 @@ class _ElEventState extends State<ElEvent>
   @override
   Widget build(BuildContext context) {
     prop = EventProp.create(context, widget);
+    focusNode = Focus.maybeOf(context, createDependency: false);
     focusScopeWidget = _FocusScopeInheritedWidget.maybeOf(context);
-    focusWidget = _FocusInheritedWidget.maybeOf(context);
-    disabledSetFocusNode = ElStopFocus._of(context);
+    // disabledSetFocusNode = ElStopFocus._of(context);
     buildDragEvent();
 
     Widget result = ObsBuilder(
+      key: childKey,
       builder: (context) {
         return _EventInheritedWidget(
           isHover,
@@ -178,22 +179,7 @@ class _ElEventState extends State<ElEvent>
           setTapDepend,
           stopPropagation,
           resetPropagation,
-          child: Builder(
-            key: childKey,
-            builder: (context) {
-              var result = widget.child ?? widget.builder!(context);
-              if (focusScopeWidget == null &&
-                  Focus.maybeOf(context)?.hasFocus == true) {
-                result = TapRegion(
-                  onTapOutside: (e) {
-                    focusWidget?.focusNode.unfocus();
-                  },
-                  child: result,
-                );
-              }
-              return result;
-            },
-          ),
+          child: widget.child ?? widget.builder!(context),
         );
       },
     );

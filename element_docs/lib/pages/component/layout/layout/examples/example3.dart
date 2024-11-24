@@ -83,7 +83,7 @@ class _Example extends HookWidget {
                     activeIndex.value = index;
                   }
                 },
-                child: ElFocus(
+                child: Focus(
                   child: Builder(builder: (context) {
                     return ElEvent(
                       onTapDown: (e) {

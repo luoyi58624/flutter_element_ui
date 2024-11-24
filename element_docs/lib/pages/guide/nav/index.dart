@@ -15,7 +15,7 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      ElFocus(
+      Focus(
         child: ElEvent(
           onPointerDown: (e) {
             if (e.buttons == kBackMouseButton) {
@@ -28,7 +28,6 @@ class NavPage extends ResponsivePage {
             return Container(
               width: 200,
               height: 200,
-              color: context.isFocusVisible ? Colors.green : Colors.grey,
               alignment: Alignment.center,
             );
           }),

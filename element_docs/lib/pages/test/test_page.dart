@@ -58,7 +58,7 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     i('build - ${index + 1}');
-    return ElFocus(
+    return Focus(
       child: Builder(builder: (context) {
         return ElEvent(
           behavior: HitTestBehavior.opaque,

@@ -16,25 +16,25 @@ class ElStopPropagation extends InheritedWidget {
       enabled != oldWidget.enabled;
 }
 
-/// 阻止后代组件获得焦点，应用场景：当使用 [ElFocusScope] 时，希望排除某些小部件获取焦点
-class ElStopFocus extends InheritedWidget {
-  const ElStopFocus({
-    super.key,
-    required super.child,
-    this.enabled = true,
-  });
-
-  /// 一个便捷开关，是否启用此功能，默认 true
-  final bool enabled;
-
-  static bool _of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElStopFocus>()?.enabled ??
-      false;
-
-  @override
-  bool updateShouldNotify(ElStopFocus oldWidget) =>
-      enabled != oldWidget.enabled;
-}
+// /// 阻止后代组件获得焦点，应用场景：当使用 [ElFocusScope] 时，希望排除某些小部件获取焦点
+// class ElStopFocus extends InheritedWidget {
+//   const ElStopFocus({
+//     super.key,
+//     required super.child,
+//     this.enabled = true,
+//   });
+//
+//   /// 一个便捷开关，是否启用此功能，默认 true
+//   final bool enabled;
+//
+//   static bool _of(BuildContext context) =>
+//       context.dependOnInheritedWidgetOfExactType<ElStopFocus>()?.enabled ??
+//       false;
+//
+//   @override
+//   bool updateShouldNotify(ElStopFocus oldWidget) =>
+//       enabled != oldWidget.enabled;
+// }
 
 // ===========================================================================
 // ================== 下面都是私有的配置类，用户无需关注 ========================
@@ -149,35 +149,5 @@ class _FocusScopeInheritedWidget extends InheritedWidget {
   @override
   bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) {
     return hasFocus != oldWidget.hasFocus;
-  }
-}
-
-class _FocusInheritedWidget extends InheritedWidget {
-  const _FocusInheritedWidget(
-    this.focusNode,
-    this.isFocusVisible,
-    this.setFocusVisibleDepend,
-    this.setFocusForEvent, {
-    required super.child,
-  });
-
-  final FocusNode focusNode;
-  final bool isFocusVisible;
-  final VoidCallback setFocusVisibleDepend;
-  final VoidCallback setFocusForEvent;
-
-  static _FocusInheritedWidget? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_FocusInheritedWidget>();
-
-
-  static bool getFocusVisibleStatus(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) result.setFocusVisibleDepend();
-    return result?.isFocusVisible ?? false;
-  }
-
-  @override
-  bool updateShouldNotify(_FocusInheritedWidget oldWidget) {
-    return isFocusVisible != oldWidget.isFocusVisible;
   }
 }

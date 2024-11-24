@@ -17,15 +17,13 @@ class ElFocusScopeApi {
   final VoidCallback unfocus;
 }
 
-/// 管理一组 [ElFocus] 焦点，[ElFocusScope] 必须配合 [ElFocus] + [ElEvent] 一起使用：
-/// * [ElEvent] 在指针按下时，会拿到 [ElFocus] 的焦点并设置到 [ElFocusScope] 中
-/// * [ElEvent] 在指针抬起时，如果事件没有被取消，则会自动激活选中的焦点
-///
-/// 然后是失去焦点处理：
-/// * 如果 [ElFocus] 不在 [ElFocusScope] 中，那么点击元素外部将会失去焦点
-/// * 如果 [ElFocus] 在 [ElFocusScope] 中，那么当点击 [ElFocusScope] 外部时才会失去焦点
 class ElFocusScope extends StatefulWidget {
   const ElFocusScope({
+    super.key,
+    required this.child,
+  });
+
+  const ElFocusScope.exclude({
     super.key,
     required this.child,
   });

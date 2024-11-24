@@ -30,8 +30,6 @@ extension ElEventExtension on BuildContext {
 
   bool get isTap => ElEvent.isTap(this);
 
-  bool get isFocusVisible => ElFocus.isFocusVisible(this);
-
   void stopPropagation() => ElEvent.stopPropagation(this);
 
   void resetPropagation() => ElEvent.resetPropagation(this);
