@@ -155,29 +155,20 @@ class _FocusScopeInheritedWidget extends InheritedWidget {
 class _FocusInheritedWidget extends InheritedWidget {
   const _FocusInheritedWidget(
     this.focusNode,
-    this.isFocus,
     this.isFocusVisible,
-    this.setFocusDepend,
     this.setFocusVisibleDepend,
     this.setFocusForEvent, {
     required super.child,
   });
 
   final FocusNode focusNode;
-  final bool isFocus;
   final bool isFocusVisible;
-  final VoidCallback setFocusDepend;
   final VoidCallback setFocusVisibleDepend;
   final VoidCallback setFocusForEvent;
 
   static _FocusInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_FocusInheritedWidget>();
 
-  static bool getFocusStatus(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) result.setFocusDepend();
-    return result?.isFocus ?? false;
-  }
 
   static bool getFocusVisibleStatus(BuildContext context) {
     final result = maybeOf(context);
@@ -187,6 +178,6 @@ class _FocusInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_FocusInheritedWidget oldWidget) {
-    return isFocus != oldWidget.isFocus;
+    return isFocusVisible != oldWidget.isFocusVisible;
   }
 }

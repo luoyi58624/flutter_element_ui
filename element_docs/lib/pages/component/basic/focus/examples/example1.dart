@@ -83,7 +83,7 @@ class _Example extends HookWidget {
                               width: 240,
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: context.isFocus
+                                color: Focus.of(context).hasFocus
                                     ? Colors.lightBlueAccent.shade400
                                     : activeIndex.value == index
                                         ? Colors.white24

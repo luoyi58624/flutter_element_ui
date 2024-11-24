@@ -190,14 +190,14 @@ class _ElButtonState extends State<ElButton> {
                     _colorStyle = _ButtonColors.calcColorStyle(
                       context,
                       prop: $colorStyleProp,
-                      isHover: _isHover || context.isFocus,
+                      isHover: _isHover,
                       isTap: _isTap,
                     );
                   } else {
                     _colorStyle = _ButtonColors.calcGroupColorStyle(
                       context,
                       prop: $colorStyleProp,
-                      isHover: _isHover || context.isFocus,
+                      isHover: _isHover,
                       isTap: _isTap,
                       isSelected: _isSelected,
                     );

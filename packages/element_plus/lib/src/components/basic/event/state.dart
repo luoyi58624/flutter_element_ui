@@ -182,10 +182,11 @@ class _ElEventState extends State<ElEvent>
             key: childKey,
             builder: (context) {
               var result = widget.child ?? widget.builder!(context);
-              if (focusScopeWidget == null && context.isFocus) {
+              if (focusScopeWidget == null &&
+                  Focus.maybeOf(context)?.hasFocus == true) {
                 result = TapRegion(
                   onTapOutside: (e) {
-                    focusWidget!.focusNode.unfocus();
+                    focusWidget?.focusNode.unfocus();
                   },
                   child: result,
                 );
