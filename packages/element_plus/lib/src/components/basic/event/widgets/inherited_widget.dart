@@ -12,7 +12,8 @@ class ElStopPropagation extends InheritedWidget {
   final bool enabled;
 
   @override
-  bool updateShouldNotify(ElStopPropagation oldWidget) => false;
+  bool updateShouldNotify(ElStopPropagation oldWidget) =>
+      enabled != oldWidget.enabled;
 }
 
 /// 阻止后代组件获得焦点，应用场景：当使用 [ElFocusScope] 时，希望排除某些小部件获取焦点
@@ -26,8 +27,13 @@ class ElStopFocus extends InheritedWidget {
   /// 一个便捷开关，是否启用此功能，默认 true
   final bool enabled;
 
+  static bool _of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElStopFocus>()?.enabled ??
+      false;
+
   @override
-  bool updateShouldNotify(ElStopFocus oldWidget) => false;
+  bool updateShouldNotify(ElStopFocus oldWidget) =>
+      enabled != oldWidget.enabled;
 }
 
 // ===========================================================================
@@ -120,16 +126,16 @@ class _FocusScopeInheritedWidget extends InheritedWidget {
     this.hasFocus,
     this.setDepend,
     this.focusScopeNode,
-    this.childFocusNode,
-    this.setChildFocus, {
+    this.focusNode,
+    this.setFocusNode, {
     required super.child,
   });
 
   final bool hasFocus;
   final VoidCallback setDepend;
   final FocusScopeNode focusScopeNode;
-  final FocusNode? childFocusNode;
-  final void Function(FocusNode? node) setChildFocus;
+  final FocusNode? focusNode;
+  final void Function(FocusNode? node) setFocusNode;
 
   static _FocusScopeInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();

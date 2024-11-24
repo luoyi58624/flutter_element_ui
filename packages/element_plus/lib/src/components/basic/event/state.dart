@@ -20,8 +20,10 @@ class _ElEventState extends State<ElEvent>
     tapDownTime = currentMilliseconds;
     isCancel = false;
 
-    // 尝试立即设置选中的焦点，但这时还不需要请求焦点，只做预选中
-    focusScopeWidget?.setChildFocus(focusWidget?.focusNode);
+    // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
+    if (disabledSetFocusNode == false) {
+      focusScopeWidget?.setFocusNode(focusWidget?.focusNode);
+    }
 
     prop.onPointerDown?.call(e);
 
@@ -164,7 +166,7 @@ class _ElEventState extends State<ElEvent>
     prop = EventProp.create(context, widget);
     focusScopeWidget = _FocusScopeInheritedWidget.maybeOf(context);
     focusWidget = _FocusInheritedWidget.maybeOf(context);
-
+    disabledSetFocusNode = ElStopFocus._of(context);
     buildDragEvent();
 
     Widget result = ObsBuilder(

@@ -7,7 +7,10 @@ import 'components/feedback/toast/index.dart';
 /// Element UI 全局服务对象实例
 final el = El._();
 
-/// Element UI 全局服务
+/// Element UI 全局服务。
+///
+/// 注意：只有 const 常量才使用静态修饰符，这样做的目的是让所有地方都能直接使用，
+/// 例如在函数参数中作为默认值。
 class El with AnchorService, RouterService, CursorService {
   El._();
 

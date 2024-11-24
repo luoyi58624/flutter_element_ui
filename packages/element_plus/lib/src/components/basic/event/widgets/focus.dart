@@ -16,7 +16,6 @@ class ElFocus extends StatefulWidget {
   /// 是否自动聚焦，此属性会继承 [ElEventTheme]
   final bool? autofocus;
 
-
   final bool? skipTraversal;
 
   /// 是否禁用，此属性会继承 [ElEventTheme]，若为 true，将不允许请求焦点

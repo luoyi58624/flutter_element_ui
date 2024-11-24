@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+final GlobalKey<NavigatorState> _navigatorKey =
+    GlobalKey(debugLabel: 'element_navigatorKey');
 
 mixin RouterService {
   /// 全局路由导航key

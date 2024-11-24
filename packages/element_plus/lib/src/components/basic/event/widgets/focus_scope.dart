@@ -17,8 +17,7 @@ class ElFocusScopeApi {
   final VoidCallback unfocus;
 }
 
-/// 管理一组 [ElFocus] 焦点小部件，[ElFocusScope] 必须配合 [ElFocus] + [ElEvent] 一起使用，
-/// 这个组合简化了 Flutter 中的焦点处理：
+/// 管理一组 [ElFocus] 焦点，[ElFocusScope] 必须配合 [ElFocus] + [ElEvent] 一起使用：
 /// * [ElEvent] 在指针按下时，会拿到 [ElFocus] 的焦点并设置到 [ElFocusScope] 中
 /// * [ElEvent] 在指针抬起时，如果事件没有被取消，则会自动激活选中的焦点
 ///
@@ -45,7 +44,7 @@ class ElFocusScope extends StatefulWidget {
         final result =
             context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
         if (result != null) {
-          result.childFocusNode?.requestFocus();
+          result.focusNode?.requestFocus();
         }
       }
     });
@@ -78,10 +77,10 @@ class _ElFocusScopeState extends State<ElFocusScope> {
   }
 
   /// 内部 [ElFocus] 预设焦点，[ElEvent] 会在指针按下那一瞬间便立即将选中的焦点设置到此变量
-  FocusNode? childFocusNode;
+  FocusNode? focusNode;
 
-  void setChildFocus(FocusNode? node) {
-    if (node != null) childFocusNode = node;
+  void setFocusNode(FocusNode? node) {
+    if (node != null) focusNode = node;
   }
 
   void setDepend() {
@@ -106,22 +105,15 @@ class _ElFocusScopeState extends State<ElFocusScope> {
 
   @override
   Widget build(BuildContext context) {
-    return TapRegion(
-      onTapOutside: (e) {
-        if (focusScopeNode.hasFocus) {
-          focusScopeNode.unfocus();
-        }
-      },
-      child: FocusScope(
-        node: focusScopeNode,
-        child: _FocusScopeInheritedWidget(
-          _hasFocus,
-          setDepend,
-          focusScopeNode,
-          childFocusNode,
-          setChildFocus,
-          child: widget.child,
-        ),
+    return FocusScope(
+      node: focusScopeNode,
+      child: _FocusScopeInheritedWidget(
+        _hasFocus,
+        setDepend,
+        focusScopeNode,
+        focusNode,
+        setFocusNode,
+        child: widget.child,
       ),
     );
   }

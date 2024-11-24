@@ -53,11 +53,13 @@ class _Example extends HookWidget {
               child: Column(
                 children: [
                   const Gap(8),
-                  ElButton(
-                    // onPressed: () {
-                    //   ElFocusScope.requestFocus(context);
-                    // },
-                    child: ElFocusScope.hasFocus(context) ? '得到焦点' : '失去焦点',
+                  ElStopFocus(
+                    child: ElButton(
+                      onPressed: () {
+                        ElFocusScope.requestFocus(context);
+                      },
+                      child: ElFocusScope.hasFocus(context) ? '得到焦点' : '失去焦点',
+                    ),
                   ),
                   const Gap(16),
                   ...List.generate(
@@ -106,8 +108,11 @@ class _Example extends HookWidget {
 
   Widget get rightWidget {
     final input = useState('');
-    return Center(
-      child: ElInput(input),
+    return Column(
+      children: [
+        const ElButton(child: 'hello'),
+        ElInput(input),
+      ],
     );
   }
 }
