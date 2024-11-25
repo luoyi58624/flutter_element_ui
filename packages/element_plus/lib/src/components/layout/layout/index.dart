@@ -2,6 +2,8 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 
+part 'state.dart';
+
 part 'theme.dart';
 
 part '../../../generates/components/layout/layout/index.g.dart';
@@ -48,86 +50,6 @@ class ElLayout extends StatefulWidget {
 
   @override
   State<ElLayout> createState() => _ElLayoutState();
-}
-
-class _ElLayoutState extends State<ElLayout> {
-  late ElLayoutThemeData themeData;
-  late ElLayoutData layoutData;
-
-  @override
-  Widget build(BuildContext context) {
-    themeData = ElLayoutTheme.of(context);
-    layoutData = ElLayoutData(
-      navbarHeight: widget.navbar?.height ?? 0,
-      sidebarWidth: widget.sidebar?.width ?? 0,
-      rightSidebarWidth: widget.rightSidebar?.width ?? 0,
-    );
-
-    List<Widget> children = [];
-
-    if (widget.body != null) {
-      children.add(
-        Positioned(
-          top: layoutData.navbarHeight,
-          bottom: 0,
-          left: layoutData.sidebarWidth,
-          right: layoutData.rightSidebarWidth,
-          child: widget.body!,
-        ),
-      );
-    }
-    if (widget.sidebar != null) {
-      children.add(
-        Positioned(
-          top: layoutData.navbarHeight,
-          bottom: 0,
-          left: 0,
-          child: ColoredBox(
-            color: themeData.sidebarColor!,
-            child: SizedBox(
-              width: layoutData.sidebarWidth,
-              child: widget.sidebar!,
-            ),
-          ),
-        ),
-      );
-    }
-    if (widget.rightSidebar != null) {
-      children.add(
-        Positioned(
-          top: layoutData.navbarHeight,
-          bottom: 0,
-          child: ColoredBox(
-            color: themeData.sidebarColor!,
-            child: SizedBox(
-              width: layoutData.rightSidebarWidth,
-              child: widget.rightSidebar!,
-            ),
-          ),
-        ),
-      );
-    }
-    if (widget.navbar != null) {
-      children.add(
-        Positioned(
-          child: ColoredBox(
-            color: themeData.navbarColor!,
-            child: SizedBox(
-              height: layoutData.navbarHeight,
-              child: widget.navbar!,
-            ),
-          ),
-        ),
-      );
-    }
-
-    return _LayoutInheritedWidget(
-      layoutData,
-      child: Stack(
-        children: children,
-      ),
-    );
-  }
 }
 
 class ElLayoutData {

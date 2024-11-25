@@ -429,7 +429,7 @@ class _GroupDivide extends StatelessWidget {
       final double $borderSize = ($isHover || $isTap || $isSelected
               ? $data.borderActiveWidth
               : $data.borderWidth) ??
-          context.elConfig.borderSize;
+          context.elConfig.borderWidth!;
 
       return Positioned(
         // -1 是为了遮盖 Flutter 元素重叠bug，两个相同颜色的 Widget 之间会有 1px 的空白间距

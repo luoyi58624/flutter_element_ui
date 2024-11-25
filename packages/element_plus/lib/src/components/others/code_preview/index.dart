@@ -79,7 +79,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
       widget.bgColor ?? context.elTheme.codePreviewTheme.bgColor;
 
   BorderRadius get borderRadius =>
-      widget.borderRadius ?? context.elTheme.cardTheme.radius;
+      widget.borderRadius ?? context.elConfig.cardRadius!;
 
   @override
   void initState() {

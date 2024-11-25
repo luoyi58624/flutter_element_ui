@@ -12,6 +12,14 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: [
+            'ElLayout 体系下的所有布局组件不包含任何内容，你要自己去实现它们，'
+                '例如下面这个示例便是实现 Material 风格布局面板'
+          ],
+        ),
+        textGap,
         const CodeExample(
           code: code,
           children: [
@@ -66,10 +74,11 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑主题
+    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式，
+    // 但我目前不知道更好的方法，请自行研究。
     return Theme(
       data: ThemeData.dark(),
-      // 应用 Element UI 局部暗黑主题
+      // 要为 Element UI 应用局部暗黑主题，只需套上 ElBrightness 小部件即可
       child: ElBrightness(
         brightness: Brightness.dark,
         // 波纹绘制必须放在 Material 小部件中
@@ -155,10 +164,11 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑主题
+    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式，
+    // 但我目前不知道更好的方法，请自行研究。
     return Theme(
       data: ThemeData.dark(),
-      // 应用 Element UI 局部暗黑主题
+      // 要为 Element UI 应用局部暗黑主题，只需套上 ElBrightness 小部件即可
       child: ElBrightness(
         brightness: Brightness.dark,
         // 波纹绘制必须放在 Material 小部件中

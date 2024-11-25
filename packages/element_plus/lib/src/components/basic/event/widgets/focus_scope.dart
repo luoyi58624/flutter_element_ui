@@ -7,20 +7,14 @@ class ElFocusScope extends StatefulWidget {
     required this.child,
   });
 
-  /// 排除焦点组的选中
-  const ElFocusScope.exclude({
-    super.key,
-    required this.child,
-  });
-
   final Widget child;
 
   /// 请求指针按下时的焦点
-  static void requestPoinerDownFocus(BuildContext context) {
+  static void requestPointerDownFocus(BuildContext context) {
     final result =
         context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
     if (result != null) {
-      result.poinerDownFocusNode?.requestFocus();
+      result.pointerDownFocusNode?.requestFocus();
     }
   }
 
@@ -30,18 +24,18 @@ class ElFocusScope extends StatefulWidget {
 
 class _ElFocusScopeState extends State<ElFocusScope> {
   /// 记录指针按下时选中的焦点
-  FocusNode? poinerDownFocusNode;
+  FocusNode? pointerDownFocusNode;
 
-  void setPoinerDownFocusNode(FocusNode? node) {
-    if (node != null) poinerDownFocusNode = node;
+  void setPointerDownFocusNode(FocusNode? node) {
+    if (node != null) pointerDownFocusNode = node;
   }
 
   @override
   Widget build(BuildContext context) {
     return FocusScope(
       child: _FocusScopeInheritedWidget(
-        poinerDownFocusNode,
-        setPoinerDownFocusNode,
+        pointerDownFocusNode,
+        setPointerDownFocusNode,
         child: widget.child,
       ),
     );

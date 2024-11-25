@@ -16,26 +16,6 @@ class ElStopPropagation extends InheritedWidget {
       enabled != oldWidget.enabled;
 }
 
-// /// 阻止后代组件获得焦点，应用场景：当使用 [ElFocusScope] 时，希望排除某些小部件获取焦点
-// class ElStopFocus extends InheritedWidget {
-//   const ElStopFocus({
-//     super.key,
-//     required super.child,
-//     this.enabled = true,
-//   });
-//
-//   /// 一个便捷开关，是否启用此功能，默认 true
-//   final bool enabled;
-//
-//   static bool _of(BuildContext context) =>
-//       context.dependOnInheritedWidgetOfExactType<ElStopFocus>()?.enabled ??
-//       false;
-//
-//   @override
-//   bool updateShouldNotify(ElStopFocus oldWidget) =>
-//       enabled != oldWidget.enabled;
-// }
-
 // ===========================================================================
 // ================== 下面都是私有的配置类，用户无需关注 ========================
 // ===========================================================================
@@ -123,13 +103,13 @@ class _BubbleInheritedWidget extends InheritedWidget {
 
 class _FocusScopeInheritedWidget extends InheritedWidget {
   const _FocusScopeInheritedWidget(
-    this.poinerDownFocusNode,
-    this.setPoinerDownFocusNode, {
+    this.pointerDownFocusNode,
+    this.setPointerDownFocusNode, {
     required super.child,
   });
 
-  final FocusNode? poinerDownFocusNode;
-  final void Function(FocusNode? node) setPoinerDownFocusNode;
+  final FocusNode? pointerDownFocusNode;
+  final void Function(FocusNode? node) setPointerDownFocusNode;
 
   @override
   bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) => false;

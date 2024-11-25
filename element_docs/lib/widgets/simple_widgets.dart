@@ -101,7 +101,7 @@ class SectionCard extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: context.elThemeColors[type]!.elLight9(context),
-              borderRadius: context.elTheme.cardTheme.radius,
+              borderRadius: context.elConfig.cardRadius!,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,12 +123,12 @@ class SectionCard extends StatelessWidget {
           top: 0,
           bottom: 0,
           child: Container(
-            width: context.elTheme.cardTheme.radius.bottomLeft.x,
+            width: context.elConfig.cardRadius!.bottomLeft.x,
             decoration: BoxDecoration(
               color: context.elThemeColors[type],
               borderRadius: BorderRadius.only(
-                topLeft: context.elTheme.cardTheme.radius.topLeft,
-                bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                topLeft: context.elConfig.cardRadius!.topLeft,
+                bottomLeft: context.elConfig.cardRadius!.bottomLeft,
               ),
             ),
           ),

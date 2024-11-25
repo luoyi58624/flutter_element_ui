@@ -84,6 +84,15 @@ class _ElButtonState extends State<ElButton> {
 
     _prop = _ButtonProp.create(context, widget, _hasGroup);
 
+    ElRing.setRingStyle(
+      context,
+      duration: _duration,
+      radius: _prop.borderRadius,
+      color: _prop.bgColor == null
+          ? context.elTheme.primary.elLight5(context)
+          : _prop.bgColor!.elLight5(context),
+    );
+
     _cursor = _prop.loading
         ? MouseCursor.defer
         : _prop.disabled

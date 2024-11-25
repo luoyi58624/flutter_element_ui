@@ -23,7 +23,7 @@ class _ElEventState extends State<ElEvent>
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
     if (disabledSetFocusNode == false) {
       if (_focusScopeWidget != null) {
-        _focusScopeWidget!.setPoinerDownFocusNode(focusNode);
+        _focusScopeWidget!.setPointerDownFocusNode(focusNode);
         if (focusScopeNode!.hasFocus) {
           focusNode!.requestFocus();
         }
@@ -168,29 +168,28 @@ class _ElEventState extends State<ElEvent>
 
   @override
   Widget build(BuildContext context) {
-    prop = EventProp.create(context, widget);
+    prop = _Prop.create(context, widget);
     focusScopeWidget =
         context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
 
     buildDragEvent();
-    Widget result = Focus(
-      autofocus: prop.autofocus,
-      canRequestFocus: prop.canRequestFocus,
-      child: ObsBuilder(
-        key: childKey,
-        builder: (context) {
-          focusNode = Focus.maybeOf(context, createDependency: false);
-          return _EventInheritedWidget(
-            isHover,
-            setHoverDepend,
-            isTap,
-            setTapDepend,
-            stopPropagation,
-            resetPropagation,
-            child: widget.child ?? widget.builder!(context),
-          );
-        },
-      ),
+    Widget result = ObsBuilder(
+      builder: (context) {
+        return _EventInheritedWidget(
+          isHover,
+          setHoverDepend,
+          isTap,
+          setTapDepend,
+          stopPropagation,
+          resetPropagation,
+          child: Builder(
+            key: childKey,
+            builder: (context) {
+              return widget.child ?? widget.builder!(context);
+            },
+          ),
+        );
+      },
     );
 
     // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
@@ -206,7 +205,7 @@ class _ElEventState extends State<ElEvent>
       );
     }
 
-    return Listener(
+    result = Listener(
       behavior: prop.behavior,
       onPointerDown: prop.disabled ? null : onPointerDown,
       onPointerUp: prop.disabled ? null : onPointerUp,
@@ -217,6 +216,15 @@ class _ElEventState extends State<ElEvent>
       onPointerPanZoomEnd: prop.disabled ? null : onPointerPanZoomEnd,
       onPointerSignal: prop.disabled ? null : onPointerSignal,
       child: result,
+    );
+
+    return Focus(
+      autofocus: prop.autofocus,
+      canRequestFocus: prop.canRequestFocus,
+      child: Builder(builder: (context) {
+        focusNode = Focus.maybeOf(context, createDependency: false);
+        return result;
+      }),
     );
   }
 }

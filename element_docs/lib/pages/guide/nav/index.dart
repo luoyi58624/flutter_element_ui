@@ -2,6 +2,8 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../component/basic/button/index.dart';
+
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -15,56 +17,70 @@ class NavPage extends ResponsivePage {
       // const _Demo(),
 
       // const _Demo(),
-      Focus(
-        child: ElEvent(
-          onPointerDown: (e) {
-            if (e.buttons == kBackMouseButton) {
-              i('鼠标返回');
-            } else if (e.buttons == kForwardMouseButton) {
-              i('鼠标前进');
-            }
-          },
-          child: Builder(builder: (context) {
-            return Container(
-              width: 200,
-              height: 200,
-              alignment: Alignment.center,
-            );
-          }),
-        ),
+      // ElEvent(
+      //   onPointerDown: (e) {
+      //     i(e.buttons);
+      //     if (e.buttons == kBackMouseButton) {
+      //       i('鼠标返回');
+      //     } else if (e.buttons == kForwardMouseButton) {
+      //       i('鼠标前进');
+      //     }
+      //   },
+      //   child: Builder(builder: (context) {
+      //     return Container(
+      //       width: 200,
+      //       height: 200,
+      //       alignment: Alignment.center,
+      //       color: Colors.grey,
+      //     );
+      //   }),
+      // ),
+      Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        children: ButtonPage.buttonTypes
+            .map(
+              (type) => FocusExample(type),
+            )
+            .toList(),
       ),
       const Gap(8),
-      Stack(
-        children: [
-          GestureDetector(
-            onTapDown: (e) {
-              el.message.show('parent');
-            },
-            child: Container(
-              width: 300,
-              height: 300,
-              color: Colors.grey,
-            ),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (e) {
-              el.message.success('child');
-            },
-            child: Container(
-              width: 100,
-              height: 100,
-              // color: Colors.black12,
-            ),
-          ),
-        ],
-      ),
-      const _Example(),
+
+      // const _Example(),
       // ...List.generate(
       //   50,
       //   (index) => Text('列表 - ${index + 1}'),
       // ),
     ];
+  }
+}
+
+class FocusExample extends HookWidget {
+  const FocusExample(this.type, {super.key});
+
+  final String? type;
+
+  @override
+  Widget build(BuildContext context) {
+    final isHover = useState(false);
+    return ElEventTheme(
+      data: ElEventThemeData(
+        onHover: (e) {
+          isHover.value = true;
+        },
+        onExit: (e) {
+          isHover.value = false;
+        },
+      ),
+      child: ElRing(
+        show: isHover.value,
+        child: ElButton(
+          child: 'Hello',
+          type: type,
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
+    );
   }
 }
 

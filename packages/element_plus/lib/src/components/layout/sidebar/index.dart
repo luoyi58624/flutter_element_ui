@@ -31,7 +31,16 @@ class _ElSidebarState extends State<ElSidebar> {
   Widget build(BuildContext context) {
     return ElFocusScope(
       child: Builder(builder: (context) {
-        return widget.child;
+        return ElEvent(
+          behavior: HitTestBehavior.opaque,
+          canRequestFocus: false,
+          onTap: () {
+            if (FocusScope.of(context).hasFocus == false) {
+              ElFocusScope.requestPointerDownFocus(context);
+            }
+          },
+          child: widget.child,
+        );
       }),
     );
   }

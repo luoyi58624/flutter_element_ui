@@ -8,6 +8,7 @@ import '../layouts/mobile/guide_layout.dart';
 import '../layouts/mobile/home_layout.dart';
 import '../layouts/mobile/layout.dart';
 import '../pages/component/basic/focus/index.dart';
+import '../pages/component/data/tree/index.dart';
 import '../pages/component/layout/layout/index.dart';
 import '../pages/component/other/drag/index.dart';
 import '../pages/guide/design/index.dart';

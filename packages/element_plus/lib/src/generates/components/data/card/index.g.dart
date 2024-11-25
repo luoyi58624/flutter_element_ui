@@ -11,12 +11,10 @@ extension ElCardThemeDataExtension on ElCardThemeData {
   ElCardThemeData copyWith({
     Color? color,
     double? elevation,
-    BorderRadius? radius,
   }) {
     return ElCardThemeData(
       color: color ?? this.color,
       elevation: elevation ?? this.elevation,
-      radius: radius ?? this.radius,
     );
   }
 
@@ -26,7 +24,6 @@ extension ElCardThemeDataExtension on ElCardThemeData {
     return copyWith(
       color: other.color,
       elevation: other.elevation,
-      radius: other.radius,
     );
   }
 }

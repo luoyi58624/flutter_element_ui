@@ -59,7 +59,7 @@ class _Example extends HookWidget {
                     ),
                     child: ElButton(
                       onPressed: () {
-                        ElFocusScope.requestPoinerDownFocus(context);
+                        ElFocusScope.requestPointerDownFocus(context);
                       },
                       child: FocusScope.of(context).hasFocus ? '得到焦点' : '失去焦点',
                     ),

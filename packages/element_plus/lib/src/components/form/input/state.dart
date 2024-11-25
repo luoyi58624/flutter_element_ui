@@ -29,14 +29,14 @@ class ElInputState extends ElModelValueState<ElInput, String> {
     }
     final defaultStyle = context.elTheme.inputTheme;
     final $height =
-        widget.height ?? defaultStyle.height ?? context.elConfig.size;
+        widget.height ?? defaultStyle.height ?? context.elConfig.size!;
     _styleProp = (
       height: $height,
       borderRadius: isRound
           ? BorderRadius.circular($height / 2)
           : (widget.borderRadius ??
               defaultStyle.borderRadius ??
-              context.elConfig.radius),
+              context.elConfig.radius!),
       margin: widget.margin ?? defaultStyle.margin,
       padding: widget.padding ??
           (widget.round == true

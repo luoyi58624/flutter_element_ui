@@ -89,7 +89,7 @@ class _CardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
           border: Border.all(color: context.elTheme.layoutTheme.borderColor!),
-          borderRadius: context.elTheme.cardTheme.radius,
+          borderRadius: context.elConfig.cardRadius!,
         ),
         child: Column(
           children: [
@@ -133,9 +133,9 @@ class _CardWidget extends StatelessWidget {
                               ? context.elTheme.primary
                               : context.elTheme.cardTheme.color,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                        bottomLeft: context.elConfig.cardRadius!.bottomLeft,
                         bottomRight:
-                            context.elTheme.cardTheme.radius.bottomRight,
+                            context.elConfig.cardRadius!.bottomRight,
                       ),
                     ),
                     child: Center(

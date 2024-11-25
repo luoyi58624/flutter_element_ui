@@ -9,40 +9,18 @@ part of '../../../../components/data/tree/index.dart';
 extension ElTreeThemeDataExtension on ElTreeThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTreeThemeData copyWith({
-    Duration? duration,
-    Curve? curve,
-    String? type,
-    Widget? icon,
-    double? width,
-    double? height,
-    Color? bgColor,
-    Color? textColor,
-    double? textSize,
-    Color? iconColor,
+    double? itemHeight,
     double? iconSize,
-    bool? plain,
-    bool? round,
-    bool? closable,
-    BorderRadius? borderRadius,
+    double? parentGap,
     EdgeInsetsGeometry? padding,
+    BorderRadius? borderRadius,
   }) {
     return ElTreeThemeData(
-      duration: duration ?? this.duration,
-      curve: curve ?? this.curve,
-      type: type ?? this.type,
-      icon: icon ?? this.icon,
-      width: width ?? this.width,
-      height: height ?? this.height,
-      bgColor: bgColor ?? this.bgColor,
-      textColor: textColor ?? this.textColor,
-      textSize: textSize ?? this.textSize,
-      iconColor: iconColor ?? this.iconColor,
+      itemHeight: itemHeight ?? this.itemHeight,
       iconSize: iconSize ?? this.iconSize,
-      plain: plain ?? this.plain,
-      round: round ?? this.round,
-      closable: closable ?? this.closable,
-      borderRadius: borderRadius ?? this.borderRadius,
+      parentGap: parentGap ?? this.parentGap,
       padding: padding ?? this.padding,
+      borderRadius: borderRadius ?? this.borderRadius,
     );
   }
 
@@ -50,22 +28,11 @@ extension ElTreeThemeDataExtension on ElTreeThemeData {
   ElTreeThemeData merge([ElTreeThemeData? other]) {
     if (other == null) return this;
     return copyWith(
-      duration: other.duration,
-      curve: other.curve,
-      type: other.type,
-      icon: other.icon,
-      width: other.width,
-      height: other.height,
-      bgColor: other.bgColor,
-      textColor: other.textColor,
-      textSize: other.textSize,
-      iconColor: other.iconColor,
+      itemHeight: other.itemHeight,
       iconSize: other.iconSize,
-      plain: other.plain,
-      round: other.round,
-      closable: other.closable,
-      borderRadius: other.borderRadius,
+      parentGap: other.parentGap,
       padding: other.padding,
+      borderRadius: other.borderRadius,
     );
   }
 }

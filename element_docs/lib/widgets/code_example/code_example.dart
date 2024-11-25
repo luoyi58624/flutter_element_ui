@@ -30,7 +30,7 @@ class CodeExample extends HookWidget {
         return Container(
           decoration: BoxDecoration(
             color: context.elTheme.layoutTheme.bgColor!,
-            borderRadius: context.elTheme.cardTheme.radius,
+            borderRadius: context.elConfig.cardRadius!,
             border: Border.all(
               color: context.elTheme.layoutTheme.borderColor!,
               width: 1,
@@ -55,8 +55,8 @@ class CodeExample extends HookWidget {
                   child: ElCodePreview(
                     code: code!,
                     borderRadius: BorderRadius.only(
-                      bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
-                      bottomRight: context.elTheme.cardTheme.radius.bottomRight,
+                      bottomLeft: context.elConfig.cardRadius!.bottomLeft,
+                      bottomRight: context.elConfig.cardRadius!.bottomRight,
                     ),
                   ),
                 ),
@@ -126,10 +126,10 @@ class _PreviewButton extends HookWidget {
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value
                       ? Radius.zero
-                      : context.elTheme.cardTheme.radius.bottomLeft,
+                      : context.elConfig.cardRadius!.bottomLeft,
                   bottomRight: isExpanded.value
                       ? Radius.zero
-                      : context.elTheme.cardTheme.radius.bottomRight,
+                      : context.elConfig.cardRadius!.bottomRight,
                 )),
             alignment: Alignment.center,
             child: AnimatedBuilder(

@@ -14,6 +14,7 @@ class Example1 extends HookWidget {
         SectionTitle(title),
         FlatCodeExample(
           code: code,
+          maxHeight: 600,
           child: const _Example(),
         ),
       ],

@@ -69,7 +69,7 @@ class ElThemeUtil {
     }
 
     final cardBorder = RoundedRectangleBorder(
-      borderRadius: elTheme.cardTheme.radius,
+      borderRadius: context.elConfig.cardRadius!,
     );
 
     final themeData = ThemeData(

@@ -8,6 +8,7 @@ class FlatCodeExample extends StatelessWidget {
     this.code,
     required this.child,
     this.noBorderRadius = false,
+    this.maxHeight = 500,
   });
 
   /// 示例代码字符串
@@ -18,13 +19,15 @@ class FlatCodeExample extends StatelessWidget {
 
   final bool noBorderRadius;
 
+  final double maxHeight;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: noBorderRadius
             ? BorderRadius.zero
-            : context.elTheme.cardTheme.radius,
+            : context.elConfig.cardRadius!,
         border: Border.all(
           color: context.elTheme.layoutTheme.borderColor!,
           width: 1,
@@ -44,12 +47,12 @@ class FlatCodeExample extends StatelessWidget {
               child: ElCodePreview(
                 code: code!,
                 height: double.infinity,
-                maxHeight: 500,
+                maxHeight: maxHeight,
                 borderRadius: noBorderRadius
                     ? BorderRadius.zero
                     : BorderRadius.only(
-                        topLeft: context.elTheme.cardTheme.radius.topLeft,
-                        bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                        topLeft: context.elConfig.cardRadius!.topLeft,
+                        bottomLeft: context.elConfig.cardRadius!.bottomLeft,
                       ),
               ),
             ),
@@ -68,10 +71,10 @@ class FlatCodeExample extends StatelessWidget {
               child: ElCodePreview(
                 code: code!,
                 height: double.infinity,
-                maxHeight: 500,
+                maxHeight: maxHeight,
                 borderRadius: BorderRadius.only(
-                  topLeft: context.elTheme.cardTheme.radius.topLeft,
-                  bottomLeft: context.elTheme.cardTheme.radius.bottomLeft,
+                  topLeft: context.elConfig.cardRadius!.topLeft,
+                  bottomLeft: context.elConfig.cardRadius!.bottomLeft,
                 ),
               ),
             ),

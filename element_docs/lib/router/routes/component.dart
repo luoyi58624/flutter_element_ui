@@ -143,6 +143,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const TagPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}tree',
+      builder: (context, state) => const TreePage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}message',
       builder: (context, state) => const MessagePage(),
     ),

@@ -90,7 +90,7 @@ class ElDialog extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
-          borderRadius: context.elTheme.cardTheme.radius,
+          borderRadius: context.elConfig.cardRadius!,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

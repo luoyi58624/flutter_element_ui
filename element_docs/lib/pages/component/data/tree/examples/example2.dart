@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:element_docs/global.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Example2 extends StatelessWidget {
@@ -16,8 +20,6 @@ class Example2 extends StatelessWidget {
           code: code,
           children: const [
             _Example(),
-            Gap(8),
-            _Example2(),
           ],
         ),
       ],
@@ -28,44 +30,39 @@ class Example2 extends StatelessWidget {
 class _Example extends StatelessWidget {
   const _Example();
 
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: El.themeTypes
-          .mapIndexed((i, e) => ElTag(
-                'Tag ${i + 1}',
-                type: e,
-                closable: true,
-                onClose: () {
-                  el.message.show('点击了关闭按钮', type: e);
-                },
-              ))
-          .toList(),
-    );
+  void open() async {
+    if (kIsWeb) {
+      el.message.error('web不支持读取本地文件夹');
+      return;
+    }
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null) {
+      final directory = Directory(selectedDirectory);
+      i(directory);
+
+      final fileList = directory.listSync();
+      i(fileList);
+      for (var entity in fileList) {
+        print(entity.path);
+        // if (entity is Directory) {
+        //   i(entity.path, '目录');
+        // } else if (entity is File) {
+        //   w(entity.path, '文件');
+        // }
+      }
+    }
   }
-}
-
-class _Example2 extends StatelessWidget {
-  const _Example2();
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: El.themeTypes
-          .mapIndexed((i, e) => ElTag(
-                'Tag ${i + 1}',
-                type: e,
-                plain: true,
-                closable: true,
-                onClose: () {
-                  el.message.show('点击了关闭按钮', type: e);
-                },
-              ))
-          .toList(),
+    return Column(
+      children: [
+        ElButton(
+          onPressed: open,
+          type: El.primary,
+          child: '打开文件夹',
+        ),
+      ],
     );
   }
 }

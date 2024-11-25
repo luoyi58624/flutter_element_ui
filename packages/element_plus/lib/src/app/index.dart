@@ -4,6 +4,8 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/theme.dart';
+
 part 'extension.dart';
 
 part 'config.dart';
@@ -30,7 +32,7 @@ class ElApp extends StatelessWidget {
     this.brightness,
     this.theme = ElThemeData.theme,
     this.darkTheme = ElThemeData.darkTheme,
-    this.config = ElConfigData.data,
+    this.config = ElConfigData.globalData,
   });
 
   final Widget child;
@@ -44,7 +46,7 @@ class ElApp extends StatelessWidget {
   /// 暗色主题
   final ElThemeData darkTheme;
 
-  /// 全局配置
+  /// 全局配置，警告：全局配置所有属性必须设置默认值，否则程序运行会出现 null 错误
   final ElConfigData config;
 
   /// 访问 ElApp 注入的全局配置信息

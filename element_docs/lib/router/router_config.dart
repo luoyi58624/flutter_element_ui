@@ -229,7 +229,7 @@ class SlideRouterConfig {
         ),
         (
           'Pagination 分页',
-          '/${RootRoute.component.$2}/Pagination',
+          '/${RootRoute.component.$2}/pagination',
           WorkStatus.pending
         ),
         (
@@ -237,29 +237,29 @@ class SlideRouterConfig {
           '/${RootRoute.component.$2}/progress',
           WorkStatus.processing
         ),
-        ('Result 结果', '/${RootRoute.component.$2}/Result', WorkStatus.pending),
+        ('Result 结果', '/${RootRoute.component.$2}/result', WorkStatus.pending),
         (
           'Skeleton 骨架屏',
-          '/${RootRoute.component.$2}/Skeleton',
+          '/${RootRoute.component.$2}/skeleton',
           WorkStatus.pending
         ),
-        ('Table 表格', '/${RootRoute.component.$2}/Table', WorkStatus.pending),
+        ('Table 表格', '/${RootRoute.component.$2}/table', WorkStatus.pending),
         ('Tag 标签', '/${RootRoute.component.$2}/tag', WorkStatus.finished),
         (
           'Timeline 时间线',
-          '/${RootRoute.component.$2}/Timeline',
+          '/${RootRoute.component.$2}/timeline',
           WorkStatus.pending
         ),
-        ('Tour 漫游式引导', '/${RootRoute.component.$2}/Tour', WorkStatus.pending),
-        ('Tree 树形控件', '/${RootRoute.component.$2}/Tree', WorkStatus.pending),
+        ('Tour 漫游式引导', '/${RootRoute.component.$2}/tour', WorkStatus.pending),
+        ('Tree 树形控件', '/${RootRoute.component.$2}/tree', WorkStatus.pending),
         (
           'Statistic 统计组件',
-          '/${RootRoute.component.$2}/Statistic',
+          '/${RootRoute.component.$2}/statistic',
           WorkStatus.pending
         ),
         (
           'Segmented 分段控制器',
-          '/${RootRoute.component.$2}/Segmented',
+          '/${RootRoute.component.$2}/segmented',
           WorkStatus.pending
         ),
       ],

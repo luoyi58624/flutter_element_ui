@@ -191,7 +191,7 @@ class _DefaultMessage extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: themeColor.themeLightBg(context),
-          borderRadius: context.elTheme.cardTheme.radius,
+          borderRadius: context.elConfig.cardRadius!,
           border: Border.all(color: themeColor.themeLightBorder(context)),
         ),
         child: Row(

@@ -76,9 +76,14 @@ class ElThemeModelGenerator extends GeneratorForAnnotation<ElThemeModel> {
 
     _ignoreGlobalTheme = annotation.read('ignoreGlobalTheme').boolValue;
 
+    String desc = annotation.read('desc').stringValue;
+    final record = ThemeModelRecord(name: _className, desc: desc);
     if (_ignoreGlobalTheme != true) {
-      String desc = annotation.read('desc').stringValue;
-      themeModelList.add(ThemeModelRecord(name: _className, desc: desc));
+      themeModelList.add(record);
+    } else {
+      if (themeModelList.contains(record)) {
+        themeModelList.remove(record);
+      }
     }
 
     String result = """

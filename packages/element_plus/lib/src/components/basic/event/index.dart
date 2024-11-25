@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:element_plus/element_plus.dart';
-import 'package:element_plus/src/components/basic/event/prop.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 part 'state.dart';
+
+part 'prop.dart';
 
 part 'widgets/bubble_builder.dart';
 
@@ -37,25 +38,25 @@ part 'theme.dart';
 
 part '../../../generates/components/basic/event/index.g.dart';
 
-/// Element UI 交互事件小部件，它包含了悬停、单击、双击、右键、长按、拖拽等功能。
+/// Element UI 交互事件小部件，它包含了焦点、悬停、单击、双击、右键、长按、拖拽等功能。
 ///
 /// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
-/// 如果你不做任何处理那么将会触发事件冒泡。
+/// 嵌套事件小部件会产生事件冒泡。
 ///
 /// 解决事件冒泡需要分 3 种情况：
 /// 1. [ElEvent] 嵌套 [ElEvent]
 /// 2. [ElEvent] 嵌套 [GestureDetector]
 /// 3. [GestureDetector] 嵌套 [ElEvent]
 ///
-/// 第一种情况你可以使用以下方案解决事件冒泡：
+/// 第一种情况：
 /// * 在中间插入 [ElStopPropagation] 小部件
-/// * 在事件中手动执行 context.stopPropagation() 方法
+/// * 在事件中执行 context.stopPropagation() 方法
 ///
-/// 对于第二种情况：
+/// 第二种情况：
 /// * 你需要插入 [Listener] 小部件，然后在事件中执行 context.stopPropagation() 方法，
-/// 这是因为 [GestureDetector] 小部件 onTapDown 事件触发时机比较慢。
+/// 这是因为在手指轻触屏幕时，[GestureDetector] onTapDown 事件的触发比 [ElEvent] onTap 还要慢一点。
 ///
-/// 对于第三种情况：
+/// 第三种情况：
 /// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 类型的冒泡标识，你要根据这个标识手动控制逻辑的执行。
 class ElEvent extends StatefulWidget {

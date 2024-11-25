@@ -5,6 +5,7 @@ export 'package:element_extension/element_extension.dart';
 export 'package:element_annotation/element_annotation.dart';
 export 'package:flutter_obs/flutter_obs.dart';
 
+export 'models.dart';
 export 'service.dart';
 export 'types.dart';
 

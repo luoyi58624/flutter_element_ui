@@ -78,7 +78,7 @@ class ElCollapsePanel extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: context.elTheme.layoutTheme.borderColor!),
-          borderRadius: context.elTheme.cardTheme.radius,
+          borderRadius: context.elConfig.cardRadius!,
         ),
         child: ListView.separated(
           shrinkWrap: true,
@@ -118,7 +118,7 @@ class ElCollapseItem extends StatelessWidget {
     final $data = _CollapseData.of(context);
     final $indexData = ElChildIndex.of(context);
 
-    final $cardRadius = context.elTheme.cardTheme.radius;
+    final $cardRadius = context.elConfig.cardRadius!;
     return SizedBox(
       width: double.infinity,
       child: Column(

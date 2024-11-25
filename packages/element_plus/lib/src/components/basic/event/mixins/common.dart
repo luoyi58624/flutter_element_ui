@@ -5,7 +5,7 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   GlobalKey childKey = GlobalKey();
 
   /// 最终合并的属性配置
-  late EventProp prop;
+  late _Prop prop;
 
   /// 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡
   bool bubbleFlag = true;

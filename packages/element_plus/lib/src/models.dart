@@ -1,14 +1,14 @@
-part of 'index.dart';
+import 'package:flutter/widgets.dart';
 
 class ElMenuModel {
-  /// 菜单唯一标识，如果是路由菜单，key将为跳转地址
+  /// 菜单唯一标识
   final String key;
 
   /// 菜单名字
   final String title;
 
   /// 菜单图标
-  final dynamic icon;
+  final Widget? icon;
 
   /// 子菜单
   final List<ElMenuModel> children;

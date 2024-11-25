@@ -1,12 +1,6 @@
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+part of 'index.dart';
 
-import 'index.dart';
-
-class EventProp {
+class _Prop {
   final bool disabled;
   final bool autofocus;
   final bool canRequestFocus;
@@ -55,7 +49,7 @@ class EventProp {
   final PointerSignalEventListener? onPointerSignal;
   final VoidCallback? onCancel;
 
-  EventProp(
+  _Prop(
     this.disabled,
     this.autofocus,
     this.canRequestFocus,
@@ -105,14 +99,14 @@ class EventProp {
     this.onCancel,
   );
 
-  factory EventProp.create(BuildContext context, ElEvent widget) {
+  factory _Prop.create(BuildContext context, ElEvent widget) {
     final $data = ElEventTheme.of(context);
     final $disabled = widget.disabled ?? $data.disabled ?? false;
     final $canRequestFocus = $disabled == true
         ? false
         : widget.canRequestFocus ?? $data.canRequestFocus ?? true;
 
-    return EventProp(
+    return _Prop(
       $disabled,
       widget.autofocus ?? $data.autofocus ?? false,
       $canRequestFocus,

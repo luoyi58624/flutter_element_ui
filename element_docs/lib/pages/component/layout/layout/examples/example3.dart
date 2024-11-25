@@ -63,18 +63,6 @@ class _Example extends HookWidget {
         brightness: Brightness.dark,
         child: Column(
           children: [
-            ElEvent(
-              onTap: () {
-                ElFocusScope.requestPoinerDownFocus(context);
-              },
-              child: Text(
-                FocusScope.of(context).hasFocus ? '得到焦点' : '失去焦点',
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const Gap(16),
             ...List.generate(
               10,
               (index) => CallbackShortcuts(
@@ -83,9 +71,9 @@ class _Example extends HookWidget {
                     activeIndex.value = index;
                   }
                 },
-                child: Focus(
-                  child: Builder(builder: (context) {
-                    return ElEvent(
+                child: Builder(builder: (context) {
+                  return ElStopPropagation(
+                    child: ElEvent(
                       onTapDown: (e) {
                         activeIndex.value = index;
                       },
@@ -103,9 +91,9 @@ class _Example extends HookWidget {
                           child: Center(child: ElText('item - ${index + 1}')),
                         );
                       }),
-                    );
-                  }),
-                ),
+                    ),
+                  );
+                }),
               ),
             ),
           ],

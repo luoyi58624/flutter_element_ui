@@ -60,7 +60,7 @@ class _ButtonProp {
     ElButton widget,
     bool hasGroup,
   ) {
-    final defaultBorderSize = context.elConfig.borderSize;
+    final defaultBorderSize = context.elConfig.borderWidth;
     final $data = ElButtonTheme.of(context);
     late final double $height;
     late final Color? $bgColor;
@@ -75,7 +75,7 @@ class _ButtonProp {
     final bool $block = widget.block ?? $data.block ?? false;
 
     if (hasGroup) {
-      $height = $data.height ?? context.elConfig.size;
+      $height = $data.height ?? context.elConfig.size!;
       $bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
       $text = $data.text ?? false;
       $bg = $data.bg ?? false;
@@ -83,10 +83,10 @@ class _ButtonProp {
       $link = false;
       $plain = $data.plain ?? false;
       $round = $data.round ?? false;
-      $borderWidth = $data.borderWidth ?? defaultBorderSize;
-      $borderActiveWidth = $data.borderActiveWidth ?? defaultBorderSize;
+      $borderWidth = $data.borderWidth ?? defaultBorderSize!;
+      $borderActiveWidth = $data.borderActiveWidth ?? defaultBorderSize!;
     } else {
-      $height = widget.height ?? $data.height ?? context.elConfig.size;
+      $height = widget.height ?? $data.height ?? context.elConfig.size!;
       $bgColor = widget.bgColor ??
           $data.bgColor ??
           context.elThemeColors[widget.type ?? $data.type];
@@ -97,10 +97,10 @@ class _ButtonProp {
       $plain = widget.plain ?? $data.plain ?? false;
       $round = widget.round ?? $data.round ?? false;
       $borderWidth =
-          widget.borderWidth ?? $data.borderWidth ?? defaultBorderSize;
+          widget.borderWidth ?? $data.borderWidth ?? defaultBorderSize!;
       $borderActiveWidth = widget.borderActiveWidth ??
           $data.borderActiveWidth ??
-          defaultBorderSize;
+          defaultBorderSize!;
     }
 
     final $horizontalPadding = $height / 2;
@@ -111,7 +111,7 @@ class _ButtonProp {
             EdgeInsets.symmetric(horizontal: $horizontalPadding));
     final $borderRadius = $round || $circle
         ? BorderRadius.circular($height / 2)
-        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius;
+        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius!;
 
     double? $iconSize = widget.iconSize ?? $data.iconSize;
     if ($iconSize == null) {

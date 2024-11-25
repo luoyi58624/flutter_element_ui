@@ -27,24 +27,27 @@ class Demo extends StatelessWidget {
   Widget build(BuildContext context) {
     late FocusNode focus;
     return ElApp(
-      child: ElEventTheme(
-        data: const ElEventThemeData(canRequestFocus: false),
+      child: Center(
         child: ElEvent(
-          onTapDown: (e) {
-            setTimeout(() {
-              focus.requestFocus();
-            }, 50);
-          },
-          child: Builder(builder: (context) {
-            focus = Focus.of(context);
-            return Center(
-              child: Container(
-                width: 100,
-                height: 100,
-                color: focus.hasFocus ? Colors.green : Colors.grey,
-              ),
-            );
-          }),
+          child: Builder(
+            builder: (context) {
+              return Container(
+                width: 300,
+                height: 300,
+                color: Colors.grey,
+                // color: context.isHover ? Colors.blue : Colors.grey,
+                child: ElEvent(builder: (context) {
+                  return Center(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: context.isHover ? Colors.red : Colors.green,
+                    ),
+                  );
+                }),
+              );
+            }
+          ),
         ),
       ),
     );
