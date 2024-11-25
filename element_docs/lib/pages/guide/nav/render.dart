@@ -18,7 +18,7 @@ class _MyRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
 
   @override
   void performLayout() {
-    i('performLayout');
+    // i('performLayout');
     size = const Size(200, 200);
     if (child != null) {
       child!.layout(BoxConstraints.loose(size), parentUsesSize: true);
@@ -28,8 +28,11 @@ class _MyRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    i('paint');
-    Paint paint = Paint()..color = Colors.grey.shade300;
+    // i('paint');
+    Paint paint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.001;
     context.canvas.drawRect(offset & size, paint);
     if (child != null) {
       context.paintChild(child!, offset + childParentData.offset);
@@ -44,7 +47,7 @@ class _MyRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return child?.hitTest(result,
-            position: position - childParentData.offset) ??
+        position: position - childParentData.offset) ??
         false;
   }
 }

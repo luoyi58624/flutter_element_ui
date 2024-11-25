@@ -165,12 +165,11 @@ class _ElRingState extends State<ElRing> {
                   curve: ringCurve.value ?? Curves.linear,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      width: ringThemeData.show!
-                          ? ringThemeData.width!
-                          : 0.0000001,
-                      color: ringThemeData.show!
-                          ? ringColor.value!
-                          : context.elTheme.layoutTheme.bgColor!,
+                      width: ringThemeData.show! ? ringThemeData.width! : 0.001,
+                      color: ringColor.value!,
+                      // color: ringThemeData.show!
+                      //     ? ringColor.value!
+                      //     : context.elTheme.layoutTheme.bgColor!,
                     ),
                     borderRadius:
                         ringRadius.value ?? BorderRadius.circular(2.0),

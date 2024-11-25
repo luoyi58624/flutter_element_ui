@@ -1,8 +1,10 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pixel_snap/pixel_snap.dart';
+// import 'package:pixel_snap/material.dart';
 
 import '../../component/basic/button/index.dart';
+import 'render.dart';
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -12,6 +14,7 @@ class NavPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
+    final ps = PixelSnap.of(context);
     return <Widget>[
       // const Gap(50),
       // const _Demo(),
@@ -45,7 +48,14 @@ class NavPage extends ResponsivePage {
             .toList(),
       ),
       const Gap(8),
-
+      MyRender(),
+      const Gap(8),
+      Container(
+        height: 100,
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.001),
+        ),
+      ),
       // const _Example(),
       // ...List.generate(
       //   50,
