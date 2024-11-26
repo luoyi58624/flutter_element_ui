@@ -3,9 +3,6 @@ part of 'index.dart';
 /// 按钮最小宽度
 const double _minWidth = 64;
 
-/// 按钮动画持续时间，默认 100 毫秒
-const _duration = Duration(milliseconds: 100);
-
 /// 按钮默认文本样式
 const _defaultTextStyle = TextStyle(fontSize: 15, fontWeight: FontWeight.w500);
 
@@ -22,7 +19,7 @@ class _ElButtonState extends State<ElButton> {
   bool _isSelected = false;
 
   /// 按钮最终的 prop 配置
-  late _ButtonProp _prop;
+  late _Prop _prop;
 
   /// 按钮颜色样式
   late _ButtonColorStyle _colorStyle;
@@ -59,7 +56,7 @@ class _ElButtonState extends State<ElButton> {
       setState(() {
         _isTap = false;
       });
-    }, _duration.inMilliseconds);
+    }, _prop.duration.inMilliseconds);
   }
 
   @override
@@ -82,7 +79,7 @@ class _ElButtonState extends State<ElButton> {
       ElAssert.themeType(widget.type, 'ElButton');
     }
 
-    _prop = _ButtonProp.create(context, widget, _hasGroup);
+    _prop = _Prop.create(context, widget, _hasGroup);
 
     _cursor = _prop.loading
         ? MouseCursor.defer
@@ -95,16 +92,7 @@ class _ElButtonState extends State<ElButton> {
         ? result
         : UnconstrainedBox(child: result);
 
-    return ElRingTheme(
-      data: ElRingThemeData(
-        duration: _duration,
-        radius: _prop.borderRadius,
-        color: _prop.bgColor == null ? context.elTheme.primary : _prop.bgColor!,
-      ),
-      child: ElRing(
-        child: result,
-      ),
-    );
+    return result;
   }
 
   /// 构建按钮事件
@@ -212,7 +200,20 @@ class _ElButtonState extends State<ElButton> {
                   );
                 }
               }
-              return _buildButtonWrapper(context);
+
+              return ElRingTheme(
+                data: ElRingThemeData(
+                  show: Focus.of(context).hasFocus,
+                  duration: _prop.duration,
+                  radius: _prop.borderRadius,
+                  color: _prop.bgColor == null
+                      ? context.elTheme.primary
+                      : _prop.bgColor!,
+                ),
+                child: ElRing(
+                  child: _buildButtonWrapper(context),
+                ),
+              );
             },
           ),
         );

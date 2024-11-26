@@ -76,48 +76,56 @@ class SectionCard extends StatelessWidget {
     this.type = El.primary,
     required this.title,
     required this.content,
+    this.allowSelected = false,
   });
 
   final String type;
   final String title;
   final List<dynamic> content;
+  final bool allowSelected;
 
   @override
   Widget build(BuildContext context) {
+    Widget result = ElDefaultTextStyle(
+      style: const TextStyle(
+        fontFamily: MyFonts.consolas,
+        fontSize: 15,
+        height: 1.5,
+      ),
+      child: AnimatedContainer(
+        duration: context.elDuration(),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 20,
+        ),
+        decoration: BoxDecoration(
+          color: context.elThemeColors[type]!.elLight9(context),
+          borderRadius: context.elConfig.cardRadius!,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            H4(title),
+            const Gap(8),
+            ...content.map((e) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: e is Widget ? e : ElText(e),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+    if (allowSelected) {
+      result = SelectionArea(
+        child: result,
+      );
+    }
     return Stack(
       children: [
-        ElDefaultTextStyle(
-          style: const TextStyle(
-            fontFamily: MyFonts.consolas,
-            fontSize: 15,
-            height: 1.5,
-          ),
-          child: AnimatedContainer(
-            duration: context.elDuration(),
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 20,
-            ),
-            decoration: BoxDecoration(
-              color: context.elThemeColors[type]!.elLight9(context),
-              borderRadius: context.elConfig.cardRadius!,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                H4(title),
-                const Gap(8),
-                ...content.map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: e is Widget ? e : ElText(e),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        result,
         Positioned(
           left: 0,
           top: 0,
@@ -218,7 +226,6 @@ class CellWidget extends StatelessWidget {
     );
   }
 }
-
 
 class ListViewDemoWidget extends HookWidget {
   const ListViewDemoWidget({

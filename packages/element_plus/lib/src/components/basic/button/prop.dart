@@ -1,7 +1,6 @@
 part of 'index.dart';
 
-/// 按钮最终 prop 配置
-class _ButtonProp {
+class _Prop {
   final dynamic child;
   final Duration duration;
   final double? width;
@@ -27,7 +26,7 @@ class _ButtonProp {
   final Widget loadingWidget;
   final Widget Function(ElButtonLoadingData data)? loadingBuilder;
 
-  _ButtonProp({
+  _Prop({
     required this.child,
     required this.duration,
     required this.width,
@@ -55,7 +54,7 @@ class _ButtonProp {
   });
 
   /// 通过工厂函数创建按钮最终 prop 配置
-  factory _ButtonProp.create(
+  factory _Prop.create(
     BuildContext context,
     ElButton widget,
     bool hasGroup,
@@ -69,6 +68,7 @@ class _ButtonProp {
     late final bool $circle;
     late final bool $link;
     late final bool $plain;
+    late final bool $ring;
     late final bool $round;
     late final double $borderWidth;
     late final double $borderActiveWidth;
@@ -122,9 +122,9 @@ class _ButtonProp {
       }
     }
 
-    return _ButtonProp(
+    return _Prop(
       child: widget.child ?? $data.child,
-      duration: widget.duration ?? $data.duration ?? _duration,
+      duration: widget.duration ?? $data.duration!,
       width: widget.width ?? $data.width,
       height: $height,
       bgColor: $bgColor,

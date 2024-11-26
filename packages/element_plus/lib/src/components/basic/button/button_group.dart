@@ -439,7 +439,7 @@ class _GroupDivide extends StatelessWidget {
         bottom: isHorizontal ? 0 : null,
         child: IgnorePointer(
           child: AnimatedColoredBox(
-            duration: context.elDuration(_duration),
+            duration: context.elDuration($data.duration),
             color: $borderColor ?? context.elTheme.layoutTheme.borderColor!,
             child: SizedBox(
               width: isHorizontal ? $borderSize : null,

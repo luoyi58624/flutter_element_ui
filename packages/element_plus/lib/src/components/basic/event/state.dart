@@ -219,10 +219,10 @@ class _ElEventState extends State<ElEvent>
     );
 
     return Focus(
+      focusNode: focusNode,
       autofocus: prop.autofocus,
       canRequestFocus: prop.canRequestFocus,
       child: Builder(builder: (context) {
-        focusNode = Focus.maybeOf(context, createDependency: false);
         return result;
       }),
     );

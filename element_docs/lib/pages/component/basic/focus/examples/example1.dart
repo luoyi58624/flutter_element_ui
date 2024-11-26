@@ -12,6 +12,16 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          allowSelected: true,
+          content: [
+            'ElFocusScope 是对 FocusScope 进行的一层浅包装，它需要配合 ElEvent 共同使用，'
+                '如果 ElEvent 祖先存在 ElFocusScope 小部件，那么在指针按下时会立即选中焦点，'
+                '如果 ElFocusScope 已经处于激活状态，那么按下时会立即请求焦点，否则会在点击事件触发时再请求焦点。'
+          ],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: const [
@@ -31,33 +41,26 @@ class _Example extends HookWidget {
     return ElFocusScope(
       child: Row(
         children: [
-          buildWidget(),
+          focusWidget,
           const Gap(8),
-          buildWidget(),
+          focusWidget,
           const Gap(8),
-          buildWidget(),
+          focusWidget,
         ],
       ),
     );
   }
 
-  Widget buildWidget() {
-    late FocusNode focus;
+  Widget get focusWidget {
     return ElEvent(
-      autofocus: true,
-      onTapDown: (e) {
-        setTimeout(() {
-          focus.requestFocus();
-        }, 50);
-      },
-      child: Builder(builder: (context) {
-        focus = Focus.of(context);
+      builder: (context) {
         return Container(
-          width: 100,
-          height: 100,
-          color: focus.hasFocus ? Colors.green : Colors.grey,
+          width: 50,
+          height: 50,
+          // ElEvent + ElFocusScope 会帮你自动获取焦点
+          color: Focus.of(context).hasFocus ? Colors.green : Colors.grey,
         );
-      }),
+      },
     );
   }
 }
@@ -71,33 +74,25 @@ class _Example extends HookWidget {
     return ElFocusScope(
       child: Row(
         children: [
-          buildWidget(),
+          focusWidget,
           const Gap(8),
-          buildWidget(),
+          focusWidget,
           const Gap(8),
-          buildWidget(),
+          focusWidget,
         ],
       ),
     );
   }
 
-  Widget buildWidget() {
-    late FocusNode focus;
+  Widget get focusWidget {
     return ElEvent(
-      autofocus: true,
-      onTapDown: (e) {
-        setTimeout(() {
-          focus.requestFocus();
-        }, 50);
-      },
-      child: Builder(builder: (context) {
-        focus = Focus.of(context);
+      builder: (context) {
         return Container(
-          width: 100,
-          height: 100,
-          color: focus.hasFocus ? Colors.green : Colors.grey,
+          width: 50,
+          height: 50,
+          color: Focus.of(context).hasFocus ? Colors.green : Colors.grey,
         );
-      }),
+      },
     );
   }
 }''';

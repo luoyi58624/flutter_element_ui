@@ -104,7 +104,7 @@ class _Prop {
     final $disabled = widget.disabled ?? $data.disabled ?? false;
     final $canRequestFocus = $disabled == true
         ? false
-        : widget.canRequestFocus ?? $data.canRequestFocus ?? true;
+        : widget.canRequestFocus ?? $data.canRequestFocus ?? false;
 
     return _Prop(
       $disabled,
