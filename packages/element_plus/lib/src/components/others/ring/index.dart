@@ -1,12 +1,11 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 part 'theme.dart';
 
 part '../../../generates/components/others/ring/index.g.dart';
 
-/// 在小部件周围绘制轮廓环，轮廓环不会占用空间
+/// 在小部件周围绘制轮廓环
 class ElRing extends StatefulWidget {
   const ElRing({
     super.key,
@@ -62,11 +61,24 @@ class ElRing extends StatefulWidget {
 }
 
 class _ElRingState extends State<ElRing> {
-  late ElRingThemeData ringThemeData;
-  late final ringDuration = Obs<Duration?>(null);
-  late final ringCurve = Obs<Curve?>(null);
-  late final ringRadius = Obs<BorderRadius?>(null);
-  late final ringColor = Obs<Color?>(null);
+  late ElRingThemeData themeData;
+  Duration? _duration;
+
+  Duration get duration => themeData.duration ?? _duration ?? Duration.zero;
+
+  Curve? _curve;
+
+  Curve get curve => themeData.curve ?? _curve ?? Curves.linear;
+
+  BorderRadius? _ringRadius;
+
+  BorderRadius get ringRadius =>
+      themeData.radius ?? _ringRadius ?? BorderRadius.circular(4.0);
+
+  Color? _ringColor;
+
+  Color get ringColor =>
+      themeData.color ?? _ringColor ?? context.elTheme.primary;
 
   void setRingStyle(
     Duration? duration,
@@ -74,67 +86,44 @@ class _ElRingState extends State<ElRing> {
     BorderRadius? radius,
     Color? color,
   ) {
-    if (ringThemeData.duration != null) {
-      ringDuration.value = ringThemeData.duration;
+    _duration = duration;
+    _curve = curve;
+    _ringColor = color;
+    if (radius != null) {
+      _ringRadius = BorderRadius.only(
+        topLeft: Radius.elliptical(
+          calcRingRadius(radius.topLeft.x),
+          calcRingRadius(radius.topLeft.y),
+        ),
+        topRight: Radius.elliptical(
+          calcRingRadius(radius.topRight.x),
+          calcRingRadius(radius.topRight.y),
+        ),
+        bottomLeft: Radius.elliptical(
+          calcRingRadius(radius.bottomLeft.x),
+          calcRingRadius(radius.bottomLeft.y),
+        ),
+        bottomRight: Radius.elliptical(
+          calcRingRadius(radius.bottomRight.x),
+          calcRingRadius(radius.bottomRight.y),
+        ),
+      );
     } else {
-      ringDuration.value = duration;
-    }
-
-    if (ringThemeData.curve != null) {
-      ringCurve.value = ringThemeData.curve;
-    } else {
-      ringCurve.value = curve;
-    }
-
-    if (ringThemeData.radius != null) {
-      ringRadius.value = ringThemeData.radius;
-    } else {
-      if (radius != null) {
-        ringRadius.value = BorderRadius.only(
-          topLeft: Radius.elliptical(
-            calcRingRadius(radius.topLeft.x),
-            calcRingRadius(radius.topLeft.y),
-          ),
-          topRight: Radius.elliptical(
-            calcRingRadius(radius.topRight.x),
-            calcRingRadius(radius.topRight.y),
-          ),
-          bottomLeft: Radius.elliptical(
-            calcRingRadius(radius.bottomLeft.x),
-            calcRingRadius(radius.bottomLeft.y),
-          ),
-          bottomRight: Radius.elliptical(
-            calcRingRadius(radius.bottomRight.x),
-            calcRingRadius(radius.bottomRight.y),
-          ),
-        );
-      } else {
-        ringRadius.value = null;
-      }
-    }
-
-    if (ringThemeData.color != null) {
-      ringColor.value = ringThemeData.color;
-    } else {
-      nextTick(() {
-        ringColor.value = color;
-      });
+      _ringRadius = null;
     }
   }
 
-  double get ringPosition => -(ringThemeData.offset! + ringThemeData.width!);
-
   double calcRingRadius(double value) {
-    if (value <= ringThemeData.offset!) {
+    if (value <= themeData.offset!) {
       return 0.0;
     } else {
-      return value + ringThemeData.offset!;
+      return value + themeData.offset!;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ringThemeData = ElRingTheme.of(context).merge(ElRingThemeData(
+    themeData = ElRingTheme.of(context).merge(ElRingThemeData(
       duration: widget.duration,
       curve: widget.curve,
       offset: widget.offset,
@@ -143,6 +132,7 @@ class _ElRingState extends State<ElRing> {
       color: widget.color,
       show: widget.show,
     ));
+    final show = themeData.show!;
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -150,37 +140,76 @@ class _ElRingState extends State<ElRing> {
           setRingStyle,
           child: widget.child,
         ),
-        Positioned(
-          top: ringPosition,
-          left: ringPosition,
-          right: ringPosition,
-          bottom: ringPosition,
-          child: IgnorePointer(
-            child: ObsBuilder(builder: (context) {
-              if (ringColor.value == null) {
-                return const SizedBox();
-              } else {
-                return AnimatedDecoratedBox(
-                  duration: ringDuration.value ?? Duration.zero,
-                  curve: ringCurve.value ?? Curves.linear,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: ringThemeData.show! ? ringThemeData.width! : 0.001,
-                      color: ringColor.value!,
-                      // color: ringThemeData.show!
-                      //     ? ringColor.value!
-                      //     : context.elTheme.layoutTheme.bgColor!,
-                    ),
-                    borderRadius:
-                        ringRadius.value ?? BorderRadius.circular(2.0),
-                  ),
-                );
-              }
-            }),
+        _AnimatedRing(
+          duration: duration,
+          curve: curve,
+          position: -(themeData.offset! + themeData.width!),
+          opacity: show ? 1.0 : 0.0,
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: show ? themeData.width! : 0.0,
+              color: ringColor,
+            ),
+            borderRadius: ringRadius,
           ),
         ),
       ],
     );
+  }
+}
+
+class _AnimatedRing extends ImplicitlyAnimatedWidget {
+  const _AnimatedRing({
+    required super.duration,
+    super.curve,
+    required this.position,
+    required this.opacity,
+    required this.decoration,
+  });
+
+  final double position;
+  final double opacity;
+  final BoxDecoration decoration;
+
+  @override
+  AnimatedWidgetBaseState<_AnimatedRing> createState() => _AnimatedRingState();
+}
+
+class _AnimatedRingState extends AnimatedWidgetBaseState<_AnimatedRing> {
+  Tween<double>? _position;
+  Tween<double>? _opacity;
+  DecorationTween? _decoration;
+
+  @override
+  Widget build(BuildContext context) {
+    final position = _position!.evaluate(animation);
+    return Positioned(
+      top: position,
+      left: position,
+      right: position,
+      bottom: position,
+      child: IgnorePointer(
+        child: Opacity(
+          opacity: _opacity!.evaluate(animation),
+          child: DecoratedBox(
+            decoration: _decoration!.evaluate(animation),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _position = visitor(_position, widget.position,
+            (dynamic value) => Tween<double>(begin: value as double))
+        as Tween<double>;
+    _opacity = visitor(_opacity, widget.opacity,
+            (dynamic value) => Tween<double>(begin: value as double))
+        as Tween<double>;
+    _decoration = visitor(_decoration, widget.decoration,
+            (dynamic value) => DecorationTween(begin: value as BoxDecoration))
+        as DecorationTween;
   }
 }
 
@@ -191,8 +220,11 @@ class _RingInheritedWidget extends InheritedWidget {
   });
 
   final void Function(
-          Duration? duration, Curve? curve, BorderRadius? value, Color? color)
-      setRingStyle;
+    Duration? duration,
+    Curve? curve,
+    BorderRadius? value,
+    Color? color,
+  ) setRingStyle;
 
   @override
   bool updateShouldNotify(_RingInheritedWidget oldWidget) => false;

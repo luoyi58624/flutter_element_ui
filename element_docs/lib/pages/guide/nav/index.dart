@@ -47,15 +47,22 @@ class NavPage extends ResponsivePage {
             )
             .toList(),
       ),
-      const Gap(8),
-      MyRender(),
-      const Gap(8),
-      Container(
-        height: 100,
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.001),
-        ),
-      ),
+      const Gap(20),
+      ElEvent(builder: (context) {
+        return ElRing(
+          show: true,
+          offset: 4,
+          width: context.isHover ? 10 : 2,
+          duration: Duration(milliseconds: 100),
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              border: Border.all(width: 1),
+            ),
+          ),
+        );
+      }),
       // const _Example(),
       // ...List.generate(
       //   50,
@@ -83,6 +90,7 @@ class FocusExample extends HookWidget {
         },
       ),
       child: ElRing(
+        // duration: const Duration(milliseconds: 150),
         show: isHover.value,
         child: ElButton(
           child: 'Hello',
