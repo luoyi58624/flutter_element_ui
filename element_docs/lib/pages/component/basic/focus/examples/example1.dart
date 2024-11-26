@@ -42,10 +42,10 @@ class _Example extends HookWidget {
       child: Row(
         children: [
           focusWidget,
-          const Gap(8),
-          focusWidget,
-          const Gap(8),
-          focusWidget,
+          // const Gap(8),
+          // focusWidget,
+          // const Gap(8),
+          // focusWidget,
         ],
       ),
     );
@@ -57,7 +57,6 @@ class _Example extends HookWidget {
         return Container(
           width: 50,
           height: 50,
-          // ElEvent + ElFocusScope 会帮你自动获取焦点
           color: Focus.of(context).hasFocus ? Colors.green : Colors.grey,
         );
       },

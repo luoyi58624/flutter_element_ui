@@ -1,10 +1,5 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:pixel_snap/pixel_snap.dart';
-// import 'package:pixel_snap/material.dart';
-
-import '../../component/basic/button/index.dart';
-import 'render.dart';
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -14,12 +9,23 @@ class NavPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    final ps = PixelSnap.of(context);
     return <Widget>[
-      // const Gap(50),
-      // const _Demo(),
+      const Gap(50),
+      // const FocusExample(),
+      const Gap(8),
+      const FocusScope(child: FocusExample2()),
 
-      // const _Demo(),
+      ElFocusScope(
+        child: ElEvent(
+          builder: (context) {
+            return Container(
+              width: 50,
+              height: 50,
+              color: Focus.of(context).hasFocus ? Colors.green : Colors.grey,
+            );
+          },
+        ),
+      ),
       // ElEvent(
       //   onPointerDown: (e) {
       //     i(e.buttons);
@@ -38,49 +44,144 @@ class NavPage extends ResponsivePage {
       //     );
       //   }),
       // ),
-      Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        children: ButtonPage.buttonTypes
-            .map(
-              (type) => FocusExample(type),
-            )
-            .toList(),
-      ),
+
       // const _Example(),
-      // ...List.generate(
-      //   50,
-      //   (index) => Text('列表 - ${index + 1}'),
-      // ),
     ];
   }
 }
 
-class FocusExample extends HookWidget {
-  const FocusExample(this.type, {super.key});
+class FocusExample extends StatefulWidget {
+  const FocusExample({super.key});
 
-  final String? type;
+  @override
+  State<FocusExample> createState() => _FocusExampleState();
+}
+
+class _FocusExampleState extends State<FocusExample> {
+  final focus = FocusNode();
+  final focus2 = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    final isHover = useState(false);
-    return ElEventTheme(
-      data: ElEventThemeData(
-        onHover: (e) {
-          isHover.value = true;
-        },
-        onExit: (e) {
-          isHover.value = false;
-        },
-      ),
-      child: ElRingTheme(
-        data: ElRingThemeData(
-          show: isHover.value,
+    return GestureDetector(
+      onTap: () {
+        focus.hasFocus ? focus.unfocus() : focus.requestFocus();
+        setState(() {});
+      },
+      child: Focus(
+        focusNode: focus,
+        canRequestFocus: false,
+        child: Builder(
+          builder: (context) {
+            return Container(
+              width: 300,
+              height: 300,
+              color: focus.hasFocus ? Colors.green : Colors.grey,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () {
+                    focus2.hasFocus ? focus2.unfocus() : focus2.requestFocus();
+                    setState(() {});
+                  },
+                  child: Focus(
+                    focusNode: focus2,
+                    child: Builder(
+                      builder: (context) {
+                        return Container(
+                          width: 100,
+                          height: 100,
+                          color: focus2.hasFocus
+                              ? Colors.blue
+                              : Colors.grey.shade300,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
-        child: ElButton(
-          child: 'Hello',
-          type: type,
-          borderRadius: BorderRadius.circular(4),
+      ),
+    );
+  }
+}
+
+class FocusExample2 extends StatefulWidget {
+  const FocusExample2({super.key});
+
+  @override
+  State<FocusExample2> createState() => _FocusExample2State();
+}
+
+class _FocusExample2State extends State<FocusExample2> {
+  final focus = FocusNode();
+  final focus2 = FocusNode();
+  final focus3 = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: focus.hasFocus ? Colors.red : Colors.grey.shade100,
+      child: InkWell(
+        focusNode: focus,
+        onTap: () {
+          focus.hasFocus ? focus.unfocus() : focus.requestFocus();
+          setState(() {});
+        },
+        child: Builder(
+          builder: (context) {
+            return SizedBox(
+              width: 300,
+              height: 300,
+              child: Center(
+                child: Material(
+                  color: focus2.hasFocus ? Colors.green : Colors.grey.shade200,
+                  child: InkWell(
+                    focusNode: focus2,
+                    onTap: () {
+                      focus2.hasFocus
+                          ? focus2.unfocus()
+                          : focus2.requestFocus();
+                      setState(() {});
+                    },
+                    child: Builder(
+                      builder: (context) {
+                        return SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: Center(
+                            child: Material(
+                              color: focus3.hasFocus
+                                  ? Colors.blue
+                                  : Colors.grey.shade300,
+                              child: InkWell(
+                                focusNode: focus3,
+                                onTap: () {
+                                  focus3.hasFocus
+                                      ? focus3.unfocus()
+                                      : focus3.requestFocus();
+                                  setState(() {});
+                                },
+                                child: Builder(
+                                  builder: (context) {
+                                    return const SizedBox(
+                                      width: 100,
+                                      height: 100,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

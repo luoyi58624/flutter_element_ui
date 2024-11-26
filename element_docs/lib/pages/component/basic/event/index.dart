@@ -24,11 +24,7 @@ class EventPage extends ResponsivePage {
             'ElEvent 是 Element UI 所有小部件的事件监听类，它直接基于 ',
             LinkWidgets.listener,
             ' 小部件实现，这意味着它不参与手势竞技场的竞争，',
-            '所以，你很容易遇到事件冒泡的情况，'
-                '在处理事件冒泡的机制上和 ',
-            LinkWidgets.gestureDetector,
-            ' 小部件区别在于，一个是自动挡、另一个是手动挡，ElEvent 需要你手动处理事件冒泡，'
-                '它的逻辑与 Web 上的事件冒泡机制十分相似'
+            '对于嵌套事件你需要手动控制事件冒泡，其机制与 Web 类似。'
           ]),
         ],
       ),

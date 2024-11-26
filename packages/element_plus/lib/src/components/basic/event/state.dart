@@ -185,6 +185,7 @@ class _ElEventState extends State<ElEvent>
           child: Builder(
             key: childKey,
             builder: (context) {
+              focusNode = Focus.maybeOf(context, createDependency: false);
               return widget.child ?? widget.builder!(context);
             },
           ),
@@ -218,13 +219,18 @@ class _ElEventState extends State<ElEvent>
       child: result,
     );
 
-    return Focus(
-      focusNode: focusNode,
-      autofocus: prop.autofocus,
-      canRequestFocus: prop.canRequestFocus,
-      child: Builder(builder: (context) {
-        return result;
-      }),
-    );
+    if (_focusScopeWidget != null &&
+        context.getInheritedWidgetOfExactType<_EventInheritedWidget>() ==
+            null) {
+      result = Focus(
+        focusNode: focusNode,
+        autofocus: prop.autofocus,
+        canRequestFocus: prop.canRequestFocus,
+        child: result,
+      );
+    } else {
+      focusNode = Focus.maybeOf(context, createDependency: false);
+    }
+    return result;
   }
 }

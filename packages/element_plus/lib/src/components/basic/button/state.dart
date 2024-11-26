@@ -26,7 +26,6 @@ class _ElButtonState extends State<ElButton> {
 
   late MouseCursor _cursor;
 
-  // ElEvent 后来自带了悬停、点击状态，这两个属性是早期的写法，不过已经没必要去改动它了
   bool _isTap = false;
   bool _isHover = false;
 
@@ -203,7 +202,7 @@ class _ElButtonState extends State<ElButton> {
 
               return ElRingTheme(
                 data: ElRingThemeData(
-                  show: Focus.of(context).hasFocus,
+                  show: Focus.maybeOf(context)?.hasFocus,
                   duration: _prop.duration,
                   radius: _prop.borderRadius,
                   color: _prop.bgColor == null
