@@ -169,10 +169,8 @@ class _ElEventState extends State<ElEvent>
   @override
   Widget build(BuildContext context) {
     prop = _Prop.create(context, widget);
-    focusScopeWidget =
-        context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
-
     buildDragEvent();
+
     Widget result = ObsBuilder(
       builder: (context) {
         return _EventInheritedWidget(
@@ -184,10 +182,7 @@ class _ElEventState extends State<ElEvent>
           resetPropagation,
           child: Builder(
             key: childKey,
-            builder: (context) {
-              focusNode = Focus.maybeOf(context, createDependency: false);
-              return widget.child ?? widget.builder!(context);
-            },
+            builder: (context) => widget.child ?? widget.builder!(context),
           ),
         );
       },
@@ -219,18 +214,23 @@ class _ElEventState extends State<ElEvent>
       child: result,
     );
 
-    if (_focusScopeWidget != null &&
-        context.getInheritedWidgetOfExactType<_EventInheritedWidget>() ==
-            null) {
-      result = Focus(
-        focusNode: focusNode,
-        autofocus: prop.autofocus,
-        canRequestFocus: prop.canRequestFocus,
-        child: result,
+    focusScopeWidget = LookupBoundary.findAncestorWidgetOfExactType<
+        _FocusScopeInheritedWidget>(context);
+
+    if (focusScopeWidget != null) {
+      focusNode ??= FocusNode();
+      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
+      // 无论你怎么嵌套 ElEvent，只要你想支持焦点，就必须重新添加 ElFocusScope 小部件。
+      result = LookupBoundary(
+        child: Focus(
+          focusNode: focusNode,
+          autofocus: prop.autofocus,
+          canRequestFocus: prop.canRequestFocus,
+          child: result,
+        ),
       );
-    } else {
-      focusNode = Focus.maybeOf(context, createDependency: false);
     }
+
     return result;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:element_docs/global.dart';
+import 'package:element_docs/main.dart';
 import 'package:flutter/material.dart';
 
 class NavPage extends ResponsivePage {
@@ -13,17 +14,47 @@ class NavPage extends ResponsivePage {
       const Gap(50),
       // const FocusExample(),
       const Gap(8),
-      const FocusScope(child: FocusExample2()),
+      // const FocusScope(child: FocusExample2()),
+      //
+      // _Demo(
+      //   child: LookupBoundary(
+      //     child: Builder(
+      //       builder: (context) {
+      //         // i(_Demo.of(context));
+      //         i(LookupBoundary.findAncestorWidgetOfExactType<_Demo>(context));
+      //         return Container();
+      //       }
+      //     ),
+      //   ),
+      // ),
 
       ElFocusScope(
-        child: ElEvent(
-          builder: (context) {
-            return Container(
-              width: 50,
-              height: 50,
-              color: Focus.of(context).hasFocus ? Colors.green : Colors.grey,
-            );
-          },
+        child: Column(
+          children: [
+            ElEvent(
+              builder: (context) {
+                return Container(
+                  width: 50,
+                  height: 50,
+                  color: Focus.maybeOf(context)?.hasFocus == true
+                      ? Colors.green
+                      : Colors.grey,
+                );
+              },
+            ),
+            const Gap(8),
+            ElEvent(
+              builder: (context) {
+                return Container(
+                  width: 50,
+                  height: 50,
+                  color: Focus.maybeOf(context)?.hasFocus == true
+                      ? Colors.green
+                      : Colors.grey,
+                );
+              },
+            ),
+          ],
         ),
       ),
       // ElEvent(
@@ -47,6 +78,24 @@ class NavPage extends ResponsivePage {
 
       // const _Example(),
     ];
+  }
+}
+
+class _Demo extends InheritedWidget {
+  const _Demo({
+    super.key,
+    required super.child,
+  });
+
+  static _Demo of(BuildContext context) {
+    final _Demo? result = context.dependOnInheritedWidgetOfExactType<_Demo>();
+    assert(result != null, 'No _Demo found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(_Demo oldWidget) {
+    return false;
   }
 }
 

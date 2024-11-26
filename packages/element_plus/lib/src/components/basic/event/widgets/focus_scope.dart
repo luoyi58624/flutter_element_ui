@@ -1,6 +1,8 @@
 part of '../index.dart';
 
-/// 这个小部件只是对 [FocusScope] 进行一些略微增强，它必须配合 [ElEvent] 小部件才能发挥作用
+/// 这个小部件只是对 [FocusScope] 进行一些略微增强，它需要配合 [ElEvent] 小部件一起工作，
+/// 如果 [ElEvent] 祖先存在 [ElFocusScope]，那么将会创建 [Focus] 小部件，
+/// 同时添加 [LookupBoundary] 进行隔离，防止嵌套 [ElEvent] 重复创建 [Focus]。
 class ElFocusScope extends StatefulWidget {
   const ElFocusScope({
     super.key,
@@ -9,7 +11,7 @@ class ElFocusScope extends StatefulWidget {
 
   final Widget child;
 
-  /// 请求指针按下时的焦点
+  /// 请求焦点，与 [FocusScopeNode] 不同的是，它请求的是指针按下时的焦点
   static void requestPointerDownFocus(BuildContext context) {
     final result =
         context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();

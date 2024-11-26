@@ -42,10 +42,10 @@ class _Example extends HookWidget {
       child: Row(
         children: [
           focusWidget,
-          // const Gap(8),
-          // focusWidget,
-          // const Gap(8),
-          // focusWidget,
+          const Gap(8),
+          focusWidget,
+          const Gap(8),
+          focusWidget,
         ],
       ),
     );

@@ -25,28 +25,42 @@ class Demo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late FocusNode focus;
-    return ElApp(
-      child: Center(
-        child: ElEvent(
-          child: Builder(
-            builder: (context) {
-              return Container(
-                width: 300,
-                height: 300,
-                color: Colors.grey,
-                // color: context.isHover ? Colors.blue : Colors.grey,
-                child: ElEvent(builder: (context) {
-                  return Center(
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      color: context.isHover ? Colors.red : Colors.green,
-                    ),
+    return const ElApp(
+      child: MaterialApp(home: _HomePage()),
+    );
+  }
+}
+
+class _HomePage extends StatelessWidget {
+  const _HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('首页'),
+      ),
+      body: Container(
+        color: Colors.grey,
+        child: TapRegion(
+          behavior: HitTestBehavior.opaque,
+          onTapOutside: (e) {
+            i('xx');
+            ElUtil.unFocus();
+          },
+          child: Center(
+            child: ElFocusScope(
+              child: ElEvent(
+                child: Builder(builder: (context) {
+                  return Container(
+                    width: 300,
+                    height: 300,
+                    color:
+                        Focus.of(context).hasFocus ? Colors.red : Colors.green,
                   );
                 }),
-              );
-            }
+              ),
+            ),
           ),
         ),
       ),

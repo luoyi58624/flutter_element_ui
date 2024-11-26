@@ -49,6 +49,8 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 保存 [ElFocusScope] 小部件实例，用于设置指针按下时的焦点
   _FocusScopeInheritedWidget? _focusScopeWidget;
 
+  _FocusScopeInheritedWidget? get focusScopeWidget => _focusScopeWidget;
+
   set focusScopeWidget(_FocusScopeInheritedWidget? value) {
     if (value != null) {
       _focusScopeWidget = value;
@@ -77,5 +79,11 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
         if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    focusNode?.dispose();
   }
 }
