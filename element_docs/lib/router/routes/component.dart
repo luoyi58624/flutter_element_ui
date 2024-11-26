@@ -174,5 +174,9 @@ List<RouteBase> _buildComponentRoutes(String path) {
       path: '${path}drag',
       builder: (context, state) => const DragPage(),
     ),
+    RouterUtil.buildRoute(
+      path: '${path}ring',
+      builder: (context, state) => const RingPage(),
+    ),
   ];
 }

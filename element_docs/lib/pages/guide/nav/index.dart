@@ -47,22 +47,6 @@ class NavPage extends ResponsivePage {
             )
             .toList(),
       ),
-      const Gap(20),
-      ElEvent(builder: (context) {
-        return ElRing(
-          show: true,
-          offset: 4,
-          width: context.isHover ? 10 : 2,
-          duration: Duration(milliseconds: 100),
-          child: Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              border: Border.all(width: 1),
-            ),
-          ),
-        );
-      }),
       // const _Example(),
       // ...List.generate(
       //   50,
@@ -89,9 +73,10 @@ class FocusExample extends HookWidget {
           isHover.value = false;
         },
       ),
-      child: ElRing(
-        // duration: const Duration(milliseconds: 150),
-        show: isHover.value,
+      child: ElRingTheme(
+        data: ElRingThemeData(
+          show: isHover.value,
+        ),
         child: ElButton(
           child: 'Hello',
           type: type,

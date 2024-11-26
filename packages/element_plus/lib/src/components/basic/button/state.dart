@@ -84,15 +84,6 @@ class _ElButtonState extends State<ElButton> {
 
     _prop = _ButtonProp.create(context, widget, _hasGroup);
 
-    ElRing.setRingStyle(
-      context,
-      duration: _duration,
-      radius: _prop.borderRadius,
-      color: _prop.bgColor == null
-          ? context.elTheme.primary.elLight5(context)
-          : _prop.bgColor!.elLight5(context),
-    );
-
     _cursor = _prop.loading
         ? MouseCursor.defer
         : _prop.disabled
@@ -100,9 +91,20 @@ class _ElButtonState extends State<ElButton> {
             : SystemMouseCursors.click;
     Widget result = _buildButtonEvent();
 
-    return (_prop.block || _groupData != null) && !_prop.circle
+    result = (_prop.block || _groupData != null) && !_prop.circle
         ? result
         : UnconstrainedBox(child: result);
+
+    return ElRingTheme(
+      data: ElRingThemeData(
+        duration: _duration,
+        radius: _prop.borderRadius,
+        color: _prop.bgColor == null ? context.elTheme.primary : _prop.bgColor!,
+      ),
+      child: ElRing(
+        child: result,
+      ),
+    );
   }
 
   /// 构建按钮事件

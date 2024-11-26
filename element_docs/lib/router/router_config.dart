@@ -365,6 +365,7 @@ class SlideRouterConfig {
           WorkStatus.pending
         ),
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
+        ('Ring 轮廓环', '/${RootRoute.component.$2}/ring', WorkStatus.finished),
       ],
     ),
   ];

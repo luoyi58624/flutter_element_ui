@@ -12,8 +12,8 @@ extension ElRingThemeDataExtension on ElRingThemeData {
     Duration? duration,
     Curve? curve,
     bool? show,
-    double? offset,
     double? width,
+    double? offset,
     BorderRadius? radius,
     Color? color,
   }) {
@@ -21,8 +21,8 @@ extension ElRingThemeDataExtension on ElRingThemeData {
       duration: duration ?? this.duration,
       curve: curve ?? this.curve,
       show: show ?? this.show,
-      offset: offset ?? this.offset,
       width: width ?? this.width,
+      offset: offset ?? this.offset,
       radius: radius ?? this.radius,
       color: color ?? this.color,
     );
@@ -35,8 +35,8 @@ extension ElRingThemeDataExtension on ElRingThemeData {
       duration: other.duration,
       curve: other.curve,
       show: other.show,
-      offset: other.offset,
       width: other.width,
+      offset: other.offset,
       radius: other.radius,
       color: other.color,
     );

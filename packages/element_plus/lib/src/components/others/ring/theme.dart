@@ -4,8 +4,7 @@ part of 'index.dart';
 @ElThemeModel(desc: '轮廓环默认样式')
 class ElRingThemeData {
   static const _defaultTheme = ElRingThemeData(
-    show: false,
-    offset: 1.5,
+    offset: 2.0,
     width: 2.0,
   );
   static const theme = _defaultTheme;
@@ -15,8 +14,8 @@ class ElRingThemeData {
     this.duration,
     this.curve,
     this.show,
-    this.offset,
     this.width,
+    this.offset,
     this.radius,
     this.color,
   });
@@ -27,18 +26,18 @@ class ElRingThemeData {
   /// 动画曲线
   final Curve? curve;
 
-  /// 是否显示轮廓环，默认 false
+  /// 是否显示轮廓环
   final bool? show;
 
-  /// 轮廓环与子组件的距离，默认 1.0
-  final double? offset;
-
-  /// 轮廓环的宽度，默认 1.5
+  /// 轮廓环的宽度
   final double? width;
 
-  /// 轮廓环的圆角值，Element UI 很多组件会通过 [setRingRadius] 方法自动设置轮廓环的圆角
+  /// 轮廓环与子组件的距离
+  final double? offset;
+
+  /// 轮廓环的圆角值，圆角值和目标小部件保持一致就行，ElRing 内部会自动计算出符合视觉的最终圆角
   final BorderRadius? radius;
 
-  /// 轮廓环的颜色
+  /// 轮廓环的颜色，默认主题色
   final Color? color;
 }

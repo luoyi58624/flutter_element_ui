@@ -5,7 +5,7 @@ part 'theme.dart';
 
 part '../../../generates/components/others/ring/index.g.dart';
 
-/// 在小部件周围绘制轮廓环
+/// 在小部件周围绘制轮廓环，轮廓环不会占据小部件的空间
 class ElRing extends StatefulWidget {
   const ElRing({
     super.key,
@@ -13,8 +13,8 @@ class ElRing extends StatefulWidget {
     this.duration,
     this.curve,
     this.show,
-    this.offset,
     this.width,
+    this.offset,
     this.radius,
     this.color,
   });
@@ -31,30 +31,17 @@ class ElRing extends StatefulWidget {
   /// 是否显示轮廓环，默认 false
   final bool? show;
 
-  /// 轮廓环与子组件的距离，默认 1.0
-  final double? offset;
-
-  /// 轮廓环的宽度，默认 1.5
+  /// 轮廓环的宽度
   final double? width;
 
-  /// 轮廓环的圆角值，Element UI 很多组件会通过 [setRingRadius] 方法自动设置轮廓环的圆角
+  /// 轮廓环与子组件的距离
+  final double? offset;
+
+  /// 轮廓环的圆角值，圆角值和目标小部件保持一致就行，ElRing 内部会自动计算出符合视觉的最终圆角
   final BorderRadius? radius;
 
-  /// 轮廓环的颜色
+  /// 轮廓环的颜色，默认主题色
   final Color? color;
-
-  /// 设置轮廓环的样式
-  static void setRingStyle(
-    BuildContext context, {
-    Duration? duration,
-    Curve? curve,
-    BorderRadius? radius,
-    Color? color,
-  }) {
-    context
-        .getInheritedWidgetOfExactType<_RingInheritedWidget>()
-        ?.setRingStyle(duration, curve, radius, color);
-  }
 
   @override
   State<ElRing> createState() => _ElRingState();
@@ -62,62 +49,38 @@ class ElRing extends StatefulWidget {
 
 class _ElRingState extends State<ElRing> {
   late ElRingThemeData themeData;
-  Duration? _duration;
 
-  Duration get duration => themeData.duration ?? _duration ?? Duration.zero;
+  BorderRadius calcRadius(BorderRadius? radius) {
+    if (radius == null) return BorderRadius.zero;
 
-  Curve? _curve;
-
-  Curve get curve => themeData.curve ?? _curve ?? Curves.linear;
-
-  BorderRadius? _ringRadius;
-
-  BorderRadius get ringRadius =>
-      themeData.radius ?? _ringRadius ?? BorderRadius.circular(4.0);
-
-  Color? _ringColor;
-
-  Color get ringColor =>
-      themeData.color ?? _ringColor ?? context.elTheme.primary;
-
-  void setRingStyle(
-    Duration? duration,
-    Curve? curve,
-    BorderRadius? radius,
-    Color? color,
-  ) {
-    _duration = duration;
-    _curve = curve;
-    _ringColor = color;
-    if (radius != null) {
-      _ringRadius = BorderRadius.only(
-        topLeft: Radius.elliptical(
-          calcRingRadius(radius.topLeft.x),
-          calcRingRadius(radius.topLeft.y),
-        ),
-        topRight: Radius.elliptical(
-          calcRingRadius(radius.topRight.x),
-          calcRingRadius(radius.topRight.y),
-        ),
-        bottomLeft: Radius.elliptical(
-          calcRingRadius(radius.bottomLeft.x),
-          calcRingRadius(radius.bottomLeft.y),
-        ),
-        bottomRight: Radius.elliptical(
-          calcRingRadius(radius.bottomRight.x),
-          calcRingRadius(radius.bottomRight.y),
-        ),
-      );
-    } else {
-      _ringRadius = null;
-    }
+    return BorderRadius.only(
+      topLeft: Radius.elliptical(
+        calcRadiusValue(radius.topLeft.x),
+        calcRadiusValue(radius.topLeft.y),
+      ),
+      topRight: Radius.elliptical(
+        calcRadiusValue(radius.topRight.x),
+        calcRadiusValue(radius.topRight.y),
+      ),
+      bottomLeft: Radius.elliptical(
+        calcRadiusValue(radius.bottomLeft.x),
+        calcRadiusValue(radius.bottomLeft.y),
+      ),
+      bottomRight: Radius.elliptical(
+        calcRadiusValue(radius.bottomRight.x),
+        calcRadiusValue(radius.bottomRight.y),
+      ),
+    );
   }
 
-  double calcRingRadius(double value) {
-    if (value <= themeData.offset!) {
-      return 0.0;
+  double calcRadiusValue(double value) {
+    // 这里依旧存在一点瑕疵
+    if (value < themeData.width! + themeData.offset!) {
+      return value +
+          (themeData.width! + themeData.offset!) *
+              (value / (themeData.width! + themeData.offset!));
     } else {
-      return value + themeData.offset!;
+      return value + themeData.width! + themeData.offset!;
     }
   }
 
@@ -132,25 +95,23 @@ class _ElRingState extends State<ElRing> {
       color: widget.color,
       show: widget.show,
     ));
-    final show = themeData.show!;
+    final show = themeData.show ?? false;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        _RingInheritedWidget(
-          setRingStyle,
-          child: widget.child,
-        ),
+        widget.child,
         _AnimatedRing(
-          duration: duration,
-          curve: curve,
+          duration: themeData.duration ?? Duration.zero,
+          curve: themeData.curve ?? Curves.linear,
           position: -(themeData.offset! + themeData.width!),
           opacity: show ? 1.0 : 0.0,
           decoration: BoxDecoration(
             border: Border.all(
-              width: show ? themeData.width! : 0.0,
-              color: ringColor,
+              width: themeData.width!,
+              color: themeData.color ?? context.elTheme.primary,
             ),
-            borderRadius: ringRadius,
+            borderRadius: calcRadius(themeData.radius),
           ),
         ),
       ],
@@ -211,21 +172,4 @@ class _AnimatedRingState extends AnimatedWidgetBaseState<_AnimatedRing> {
             (dynamic value) => DecorationTween(begin: value as BoxDecoration))
         as DecorationTween;
   }
-}
-
-class _RingInheritedWidget extends InheritedWidget {
-  const _RingInheritedWidget(
-    this.setRingStyle, {
-    required super.child,
-  });
-
-  final void Function(
-    Duration? duration,
-    Curve? curve,
-    BorderRadius? value,
-    Color? color,
-  ) setRingStyle;
-
-  @override
-  bool updateShouldNotify(_RingInheritedWidget oldWidget) => false;
 }
