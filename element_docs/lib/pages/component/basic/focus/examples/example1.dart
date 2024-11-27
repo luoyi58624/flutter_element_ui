@@ -17,7 +17,7 @@ class Example1 extends HookWidget {
           allowSelected: true,
           content: [
             'ElFocusScope 是对 FocusScope 进行的一层浅包装，它需要配合 ElEvent 共同使用，'
-                '如果 ElEvent 祖先存在 ElFocusScope 小部件，那么在指针按下时会立即选中焦点，'
+                '如果 ElEvent 祖先存在 ElFocusScope 小部件，那么在指针按下时会预选中焦点，'
                 '如果 ElFocusScope 已经处于激活状态，那么按下时会立即请求焦点，否则会在点击事件触发时再请求焦点。'
           ],
         ),
@@ -33,7 +33,7 @@ class Example1 extends HookWidget {
   }
 }
 
-class _Example extends HookWidget {
+class _Example extends StatelessWidget {
   const _Example();
 
   @override
@@ -65,7 +65,7 @@ class _Example extends HookWidget {
 }
 
 String get code => '''
-class _Example extends HookWidget {
+class _Example extends StatelessWidget {
   const _Example();
 
   @override

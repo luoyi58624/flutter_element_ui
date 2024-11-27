@@ -12,7 +12,7 @@ class ElFocusScope extends StatefulWidget {
   final Widget child;
 
   /// 请求焦点，与 [FocusScopeNode] 不同的是，它请求的是指针按下时的焦点
-  static void requestPointerDownFocus(BuildContext context) {
+  static void requestFocus(BuildContext context) {
     final result =
         context.getInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
     if (result != null) {
@@ -35,10 +35,7 @@ class _ElFocusScopeState extends State<ElFocusScope> {
   @override
   Widget build(BuildContext context) {
     return FocusScope(
-      child: ElEventTheme(
-        data: const ElEventThemeData(
-          canRequestFocus: true,
-        ),
+      child: ElStopPropagation(
         child: _FocusScopeInheritedWidget(
           pointerDownFocusNode,
           setPointerDownFocusNode,

@@ -4,7 +4,7 @@ part of 'index.dart';
 @ElThemeModel(desc: '轮廓环默认样式')
 class ElRingThemeData {
   static const _defaultTheme = ElRingThemeData(
-    offset: 2.0,
+    offset: 1.0,
     width: 2.0,
   );
   static const theme = _defaultTheme;

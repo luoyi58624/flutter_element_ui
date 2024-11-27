@@ -114,3 +114,29 @@ class _FocusScopeInheritedWidget extends InheritedWidget {
   @override
   bool updateShouldNotify(_FocusScopeInheritedWidget oldWidget) => false;
 }
+
+/// 每当 [ElEvent] 找到 [ElFocusScope] 时，都会插入这个小部件将 [_FocusScopeInheritedWidget] 进行隔离，
+/// 防止嵌套的 [ElEvent] 重复创建 [Focus] 焦点，这个小部件原理参照 [LookupBoundary]，
+/// 之所以要单独创建是为了防止影响到 [Overlay.of]
+class _FocusScopeLookupBoundary extends InheritedWidget {
+  const _FocusScopeLookupBoundary({
+    required super.child,
+  });
+
+  /// 通过上下文寻找 [_FocusScopeInheritedWidget]，如果找到表示祖先存在 [ElFocusScope] 小部件，
+  /// 此函数时间复杂度为 O(1)
+  static _FocusScopeInheritedWidget? getWidget(BuildContext context) {
+    final result = context
+        .getElementForInheritedWidgetOfExactType<_FocusScopeInheritedWidget>();
+    if (result == null) return null;
+    final boundaryResult = context
+        .getElementForInheritedWidgetOfExactType<_FocusScopeLookupBoundary>();
+    if (boundaryResult != null && boundaryResult.depth > result.depth) {
+      return null;
+    }
+    return result.widget as _FocusScopeInheritedWidget;
+  }
+
+  @override
+  bool updateShouldNotify(_FocusScopeLookupBoundary oldWidget) => false;
+}

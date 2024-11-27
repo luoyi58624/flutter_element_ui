@@ -80,9 +80,6 @@ class ElEventThemeData {
   final bool? autofocus;
 
   /// 是否允许聚焦，默认 true，如果 [disabled] 为 true，那么会强制禁止聚焦。
-  ///
-  /// 在 Flutter 中，要正确理解 focus 焦点系统可不是一件容易的事，而 [ElEvent] 作为基础小部件，
-  /// 并不是所有的节点都需要支持焦点，所以在默认情况下，是不允许请求焦点。
   final bool? canRequestFocus;
 
   /// 触发取消事件偏移范围，默认 20 像素

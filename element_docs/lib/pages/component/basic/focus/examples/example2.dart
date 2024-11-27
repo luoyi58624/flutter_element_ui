@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +38,7 @@ class Example2 extends HookWidget {
   }
 }
 
-class _Example extends HookWidget {
+class _Example extends StatelessWidget {
   const _Example();
 
   @override
@@ -53,7 +55,7 @@ class _Example extends HookWidget {
   }
 }
 
-class _Example2 extends HookWidget {
+class _Example2 extends StatelessWidget {
   const _Example2();
 
   @override
@@ -73,7 +75,7 @@ class _Example2 extends HookWidget {
 }
 
 String get code => '''
-class _Example extends HookWidget {
+class _Example extends StatelessWidget {
   const _Example();
 
   @override

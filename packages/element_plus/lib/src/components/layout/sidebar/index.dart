@@ -36,7 +36,7 @@ class _ElSidebarState extends State<ElSidebar> {
           canRequestFocus: false,
           onTap: () {
             if (FocusScope.of(context).hasFocus == false) {
-              ElFocusScope.requestPointerDownFocus(context);
+              ElFocusScope.requestFocus(context);
             }
           },
           child: widget.child,

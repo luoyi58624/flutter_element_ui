@@ -1,7 +1,7 @@
 part of '../index.dart';
 
 mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
-  /// 是否存在点击状态依赖
+  /// 是否存在点击状态依赖，如果没有依赖需要防止不必要的重新渲染
   bool hasTapDepend = false;
 
   final _isTap = BaseObs(false);

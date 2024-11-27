@@ -200,19 +200,7 @@ class _ElButtonState extends State<ElButton> {
                 }
               }
 
-              return ElRingTheme(
-                data: ElRingThemeData(
-                  show: Focus.maybeOf(context)?.hasFocus,
-                  duration: _prop.duration,
-                  radius: _prop.borderRadius,
-                  color: _prop.bgColor == null
-                      ? context.elTheme.primary
-                      : _prop.bgColor!,
-                ),
-                child: ElRing(
-                  child: _buildButtonWrapper(context),
-                ),
-              );
+              return _buildButtonWrapper(context);
             },
           ),
         );
@@ -232,6 +220,7 @@ class _ElButtonState extends State<ElButton> {
                     (_isIconChild ? _prop.height * 1.25 : _minWidth)),
           );
 
+    final borderRadius = _calcBorderRadius(context);
     Widget result = Center(
       child: Builder(builder: (context) {
         return _buildButtonContent(context);
@@ -256,8 +245,20 @@ class _ElButtonState extends State<ElButton> {
         decoration: BoxDecoration(
           color: _colorStyle.bgColor,
           border: _calcBorder(context, _colorStyle.borderColor),
-          borderRadius: _calcBorderRadius(context),
+          borderRadius: borderRadius,
         ),
+        child: result,
+      ),
+    );
+
+    result = ElRingTheme(
+      data: ElRingThemeData(
+        show: Focus.maybeOf(context)?.hasFocus,
+        duration: _prop.duration,
+        radius: borderRadius,
+        color: _prop.bgColor == null ? context.elTheme.primary : _prop.bgColor!,
+      ),
+      child: ElRing(
         child: result,
       ),
     );
@@ -408,7 +409,7 @@ class _ElButtonState extends State<ElButton> {
     );
   }
 
-  BorderRadiusGeometry? _calcBorderRadius(BuildContext context) {
+  BorderRadius? _calcBorderRadius(BuildContext context) {
     if (!_hasGroup) return _prop.borderRadius;
 
     final isHorizontal = _groupData!.axis == Axis.horizontal;

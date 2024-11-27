@@ -188,6 +188,23 @@ class _ElEventState extends State<ElEvent>
       },
     );
 
+    focusScopeWidget = _FocusScopeLookupBoundary.getWidget(context);
+
+    if (focusScopeWidget != null) {
+      focusNode ??= FocusNode();
+      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
+      // 这么做的目的是：只有当用户使用了 ElFocusScope 小部件，下面 ElEvent 才会创建焦点，
+      // 同时，如果 ElEvent 嵌套 ElEvent，内部 ElEvent 要想获得焦点就必须再次插入 ElFocusScope。
+      result = _FocusScopeLookupBoundary(
+        child: Focus(
+          focusNode: focusNode,
+          autofocus: prop.autofocus,
+          canRequestFocus: prop.canRequestFocus,
+          child: result,
+        ),
+      );
+    }
+
     // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
     if (PlatformUtil.isDesktop) {
       if (prop.disabled) isHover = false;
@@ -214,23 +231,13 @@ class _ElEventState extends State<ElEvent>
       child: result,
     );
 
-    focusScopeWidget = LookupBoundary.findAncestorWidgetOfExactType<
-        _FocusScopeInheritedWidget>(context);
-
-    if (focusScopeWidget != null) {
-      focusNode ??= FocusNode();
-      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
-      // 无论你怎么嵌套 ElEvent，只要你想支持焦点，就必须重新添加 ElFocusScope 小部件。
-      result = LookupBoundary(
-        child: Focus(
-          focusNode: focusNode,
-          autofocus: prop.autofocus,
-          canRequestFocus: prop.canRequestFocus,
-          child: result,
-        ),
-      );
-    }
-
+    //
+    // result = Focus(
+    //   focusNode: focusNode,
+    //   autofocus: prop.autofocus,
+    //   canRequestFocus: prop.canRequestFocus,
+    //   child: result,
+    // );
     return result;
   }
 }
