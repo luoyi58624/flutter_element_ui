@@ -20,11 +20,7 @@ class Example2 extends HookWidget {
         CodeExample(
           code: code,
           children: const [
-            Row(
-              children: [
-                _Example(),
-              ],
-            ),
+            _Example(),
           ],
         ),
       ],
@@ -37,6 +33,8 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final count = useState(1.0);
+    final size = useState(100.0);
     final radius = useState(0.0);
     final isActive = useState(false);
 
@@ -45,42 +43,63 @@ class _Example extends HookWidget {
     return Column(
       children: [
         Slider(
+          min: 1.0,
+          max: 1000.0,
+          label: count.value.round().toString(),
+          value: count.value,
+          onChanged: (v) => count.value = v,
+        ),
+        Slider(
+          min: 50.0,
+          max: 800.0,
+          label: size.value.round().toString(),
+          value: size.value,
+          onChanged: (v) => size.value = v,
+        ),
+        Slider(
           min: 0,
           max: 50,
           label: radius.value.round().toString(),
           value: radius.value,
           onChanged: (v) => radius.value = v,
         ),
-        ElEvent(
-          cursor: SystemMouseCursors.click,
-          onTap: () {
-            isActive.value = !isActive.value;
-          },
-          builder: (context) {
-            return ElRing(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeOut,
-              show: isActive.value || context.isHover,
-              width: isActive.value || context.isHover ? 6 : 0,
-              offset: 4,
-              radius: borderRadius,
-              color: Colors.red,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOut,
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: isActive.value ? Colors.green : null,
-                  border: Border.all(
-                    width: 4,
-                    color: isActive.value ? Colors.green : Colors.grey,
-                  ),
-                  borderRadius: borderRadius,
-                ),
-              ),
-            );
-          },
+        Wrap(
+          spacing: 32,
+          runSpacing: 32,
+          children: [
+            ...ElEvent(
+                  cursor: SystemMouseCursors.click,
+                  onTap: () {
+                    isActive.value = !isActive.value;
+                  },
+                  child: Builder(builder: (context) {
+                    return ElRing(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                      show: isActive.value || context.isHover,
+                      width: isActive.value || context.isHover ? 6 : 0,
+                      offset: 4,
+                      radius: borderRadius,
+                      color: Colors.red,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOut,
+                        width: size.value,
+                        height: size.value,
+                        decoration: BoxDecoration(
+                          color: isActive.value ? Colors.green : null,
+                          border: Border.all(
+                            width: 4,
+                            color: isActive.value ? Colors.green : Colors.grey,
+                          ),
+                          borderRadius: borderRadius,
+                        ),
+                      ),
+                    );
+                  }),
+                ) *
+                count.value.toInt(),
+          ],
         ),
       ],
     );
@@ -93,6 +112,8 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final count = useState(1.0);
+    final size = useState(100.0);
     final radius = useState(0.0);
     final isActive = useState(false);
 
@@ -101,42 +122,63 @@ class _Example extends HookWidget {
     return Column(
       children: [
         Slider(
+          min: 1.0,
+          max: 1000.0,
+          label: count.value.round().toString(),
+          value: count.value,
+          onChanged: (v) => count.value = v,
+        ),
+        Slider(
+          min: 50.0,
+          max: 800.0,
+          label: size.value.round().toString(),
+          value: size.value,
+          onChanged: (v) => size.value = v,
+        ),
+        Slider(
           min: 0,
           max: 50,
           label: radius.value.round().toString(),
           value: radius.value,
           onChanged: (v) => radius.value = v,
         ),
-        ElEvent(
-          cursor: SystemMouseCursors.click,
-          onTap: () {
-            isActive.value = !isActive.value;
-          },
-          builder: (context) {
-            return ElRing(
-              duration: const Duration(milliseconds: 200),
-              curve: Curves.easeOut,
-              show: isActive.value || context.isHover,
-              width: isActive.value || context.isHover ? 6 : 0,
-              offset: 4,
-              radius: borderRadius,
-              color: Colors.red,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOut,
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: isActive.value ? Colors.green : null,
-                  border: Border.all(
-                    width: 4,
-                    color: isActive.value ? Colors.green : Colors.grey,
-                  ),
-                  borderRadius: borderRadius,
-                ),
-              ),
-            );
-          },
+        Wrap(
+          spacing: 32,
+          runSpacing: 32,
+          children: [
+            ...ElEvent(
+                  cursor: SystemMouseCursors.click,
+                  onTap: () {
+                    isActive.value = !isActive.value;
+                  },
+                  child: Builder(builder: (context) {
+                    return ElRing(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                      show: isActive.value || context.isHover,
+                      width: isActive.value || context.isHover ? 6 : 0,
+                      offset: 4,
+                      radius: borderRadius,
+                      color: Colors.red,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeOut,
+                        width: size.value,
+                        height: size.value,
+                        decoration: BoxDecoration(
+                          color: isActive.value ? Colors.green : null,
+                          border: Border.all(
+                            width: 4,
+                            color: isActive.value ? Colors.green : Colors.grey,
+                          ),
+                          borderRadius: borderRadius,
+                        ),
+                      ),
+                    );
+                  }),
+                ) *
+                count.value.toInt(),
+          ],
         ),
       ],
     );

@@ -231,13 +231,6 @@ class _ElEventState extends State<ElEvent>
       child: result,
     );
 
-    //
-    // result = Focus(
-    //   focusNode: focusNode,
-    //   autofocus: prop.autofocus,
-    //   canRequestFocus: prop.canRequestFocus,
-    //   child: result,
-    // );
     return result;
   }
 }

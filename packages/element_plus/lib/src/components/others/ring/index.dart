@@ -5,7 +5,7 @@ part 'theme.dart';
 
 part '../../../generates/components/others/ring/index.g.dart';
 
-/// 在小部件周围绘制轮廓环，轮廓环不会占据小部件的空间，这个小部件通常用于 focus 得到焦点样式
+/// 在小部件周围绘制轮廓环，轮廓环不会占据小部件的空间，这个小部件通常用于 focus 焦点样式
 class ElRing extends StatefulWidget {
   const ElRing({
     super.key,
@@ -50,6 +50,11 @@ class ElRing extends StatefulWidget {
 class _ElRingState extends State<ElRing> {
   late ElRingThemeData themeData;
 
+  Obs<_RingStyle>? ringStyle;
+  final LayerLink layerLink = LayerLink();
+  OverlayState? overlay;
+  OverlayEntry? overlayEntry;
+
   BorderRadius calcRadius(BorderRadius? radius) {
     if (radius == null) return BorderRadius.zero;
 
@@ -84,7 +89,60 @@ class _ElRingState extends State<ElRing> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    nextTick(() {
+      ringStyle = Obs(_RingStyle(
+        show: themeData.show ?? false,
+        size: context.size!,
+        width: themeData.width!,
+        offset: themeData.offset! + themeData.width!,
+        color: themeData.color ?? context.elTheme.primary,
+        borderRadius: calcRadius(themeData.radius),
+      ));
+
+      if (overlayEntry == null) {
+        overlayEntry = OverlayEntry(builder: (context) {
+          return IgnorePointer(
+            child: UnconstrainedBox(
+              child: ObsBuilder(builder: (context) {
+                final style = ringStyle!.value;
+                return _AnimatedRing(
+                  duration: themeData.duration ?? Duration.zero,
+                  curve: themeData.curve ?? Curves.linear,
+                  link: layerLink,
+                  size: style.size,
+                  offset: style.offset,
+                  opacity: style.show ? 1.0 : 0.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: style.width,
+                      color: style.color,
+                    ),
+                    borderRadius: calcRadius(themeData.radius),
+                  ),
+                );
+              }),
+            ),
+          );
+        });
+        overlay!.insert(overlayEntry!);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    if (overlayEntry != null) {
+      overlayEntry!.remove();
+      overlayEntry = null;
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    overlay ??= Overlay.of(context);
     themeData = ElRingTheme.of(context).merge(ElRingThemeData(
       duration: widget.duration,
       curve: widget.curve,
@@ -94,40 +152,90 @@ class _ElRingState extends State<ElRing> {
       color: widget.color,
       show: widget.show,
     ));
-    final show = themeData.show ?? false;
+    if (ringStyle != null) {
+      bool flag = false;
+      final show = themeData.show ?? false;
+      final offset = themeData.offset! + themeData.width!;
+      final color = themeData.color ?? context.elTheme.primary;
+      final borderRadius = calcRadius(themeData.radius);
+      final style = ringStyle!.value;
+      if (style.show != show) {
+        ringStyle!.value.show = show;
+        flag = true;
+      }
+      if (style.width != themeData.width) {
+        ringStyle!.value.width = themeData.width!;
+        flag = true;
+      }
+      if (style.offset != offset) {
+        ringStyle!.value.offset = offset;
+        flag = true;
+      }
+      if (style.color != color) {
+        ringStyle!.value.color = color;
+        flag = true;
+      }
+      if (style.borderRadius != borderRadius) {
+        ringStyle!.value.borderRadius = borderRadius;
+        flag = true;
+      }
+      if (flag) {
+        nextTick(() {
+          ringStyle!.notify();
+        });
+      }
+    }
 
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        widget.child,
-        _AnimatedRing(
-          duration: themeData.duration ?? Duration.zero,
-          curve: themeData.curve ?? Curves.linear,
-          position: -(themeData.offset! + themeData.width!),
-          opacity: show ? 1.0 : 0.0,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: themeData.width!,
-              color: themeData.color ?? context.elTheme.primary,
-            ),
-            borderRadius: calcRadius(themeData.radius),
-          ),
+    return NotificationListener<SizeChangedLayoutNotification>(
+      onNotification: (e) {
+        nextTick(() {
+          ringStyle!.value.size = context.size!;
+          ringStyle!.notify();
+        });
+        return false;
+      },
+      child: SizeChangedLayoutNotifier(
+        child: CompositedTransformTarget(
+          link: layerLink,
+          child: widget.child,
         ),
-      ],
+      ),
     );
   }
+}
+
+class _RingStyle {
+  bool show;
+  Size size;
+  double width;
+  double offset;
+  Color color;
+  BorderRadius borderRadius;
+
+  _RingStyle({
+    required this.show,
+    required this.size,
+    required this.width,
+    required this.offset,
+    required this.color,
+    required this.borderRadius,
+  });
 }
 
 class _AnimatedRing extends ImplicitlyAnimatedWidget {
   const _AnimatedRing({
     required super.duration,
     super.curve,
-    required this.position,
+    required this.link,
+    required this.size,
+    required this.offset,
     required this.opacity,
     required this.decoration,
   });
 
-  final double position;
+  final LayerLink link;
+  final Size size;
+  final double offset;
   final double opacity;
   final BoxDecoration decoration;
 
@@ -136,19 +244,19 @@ class _AnimatedRing extends ImplicitlyAnimatedWidget {
 }
 
 class _AnimatedRingState extends AnimatedWidgetBaseState<_AnimatedRing> {
-  Tween<double>? _position;
+  Tween<double>? _offset;
   Tween<double>? _opacity;
   DecorationTween? _decoration;
 
   @override
   Widget build(BuildContext context) {
-    final position = _position!.evaluate(animation);
-    return Positioned(
-      top: position,
-      left: position,
-      right: position,
-      bottom: position,
-      child: IgnorePointer(
+    final offset = _offset!.evaluate(animation);
+    return CompositedTransformFollower(
+      link: widget.link,
+      offset: Offset(-offset, -offset),
+      child: SizedBox(
+        width: widget.size.width + offset * 2,
+        height: widget.size.height + offset * 2,
         child: Opacity(
           opacity: _opacity!.evaluate(animation),
           child: DecoratedBox(
@@ -161,7 +269,7 @@ class _AnimatedRingState extends AnimatedWidgetBaseState<_AnimatedRing> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _position = visitor(_position, widget.position,
+    _offset = visitor(_offset, widget.offset,
             (dynamic value) => Tween<double>(begin: value as double))
         as Tween<double>;
     _opacity = visitor(_opacity, widget.opacity,
