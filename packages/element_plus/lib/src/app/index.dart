@@ -4,8 +4,6 @@ import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/theme.dart';
-
 part 'extension.dart';
 
 part 'config.dart';

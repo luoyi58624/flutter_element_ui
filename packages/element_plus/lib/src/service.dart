@@ -1,3 +1,5 @@
+import 'package:element_plus/src/global.dart';
+
 import './services/anchor.dart';
 import './services/cursor.dart';
 import './services/router.dart';
@@ -25,6 +27,11 @@ class El with AnchorService, RouterService, CursorService {
 
   /// Element UI 颜色主题类型集合
   static const List<String> themeTypes = [primary, ...themeStatusTypes];
+
+  static Future<void> init() async {
+    await initSP();
+    
+  }
 
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
   ElMessageService message = ElMessageService();

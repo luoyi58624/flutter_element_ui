@@ -1,8 +1,5 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../button/index.dart';
 
 class Example3 extends HookWidget {
   const Example3({super.key, required this.title});
@@ -32,12 +29,17 @@ class _Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ElFocusScope(
-      child: ElButtonGroup(
-        children: [
-          ElButton(child: '选项一'),
-          ElButton(child: '选项二'),
-          ElButton(child: '选项三'),
-        ],
+      child: ElButtonTheme(
+        data: ElButtonThemeData(
+          type: El.primary,
+        ),
+        child: ElButtonGroup(
+          children: [
+            ElButton(child: '选项一'),
+            ElButton(child: '选项二'),
+            ElButton(child: '选项三'),
+          ],
+        ),
       ),
     );
   }

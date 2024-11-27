@@ -1,10 +1,5 @@
-import 'dart:math';
-
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '../../button/index.dart';
 
 class Example2 extends HookWidget {
   const Example2({super.key, required this.title});

@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/main.dart';
 import 'package:flutter/material.dart';
 
 class NavPage extends ResponsivePage {

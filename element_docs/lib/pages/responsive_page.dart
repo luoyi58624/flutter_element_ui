@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/layout_header.dart';
 import 'package:flutter/material.dart';
 
 /// 响应式页面抽象类
