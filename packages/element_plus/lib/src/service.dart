@@ -7,7 +7,12 @@ import 'components/feedback/message/index.dart';
 import 'components/feedback/toast/index.dart';
 
 /// Element UI 全局服务对象实例
-final el = El._();
+El? _el;
+
+El get el {
+  assert(_el != null, 'el 全局变量还未初始化，请在 main 函数中执行 El.init() 方法');
+  return _el!;
+}
 
 /// Element UI 全局服务。
 ///
@@ -28,9 +33,12 @@ class El with AnchorService, RouterService, CursorService {
   /// Element UI 颜色主题类型集合
   static const List<String> themeTypes = [primary, ...themeStatusTypes];
 
+  /// 初始化 [el] 全局变量
   static Future<void> init() async {
-    await initSP();
-    
+    if (_el == null) {
+      _el = El._();
+      await initSP();
+    }
   }
 
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息

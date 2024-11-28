@@ -9,6 +9,7 @@ import 'utils/element_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await El.init();
   // setPathUrlStrategy();
   // await initFont(
   //   windows: true,

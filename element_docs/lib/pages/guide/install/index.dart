@@ -36,7 +36,10 @@ String get code2 => '''
 import 'package:flutter/material.dart';
 import 'package:element_plus/element_plus.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // 1. 初始化 Element 全局服务
+  await El.init();
   runApp(const MainApp());
 }
 
@@ -45,13 +48,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. ElApp 只负责注入全局主题数据，您可以搭配任意顶级 App 构建应用
+    // 2. ElApp 只负责注入全局主题数据，您可以搭配任意顶级 App 构建应用
     return ElApp(
       child: MaterialApp(
-        // 2. 您需要添加 navigatorKey，否则使用 message 等 api 时会报错
+        // 3. 您需要添加 navigatorKey，否则使用 message 等 api 时会报错
         navigatorKey: el.navigatorKey,
         home: const HomePage(),
-        // 3. ElApp.builder 主要是在导航器上方插入一个默认的 Overlay 遮罩小部件，否则通过 el.context 调用的 message 等 api 会报错
+        // 4. ElApp.builder 主要是在导航器上方插入一个默认的 Overlay 遮罩小部件，否则通过 el.context 调用的 message 等 api 会报错
         builder: ElApp.builder(),
       ),
     );
