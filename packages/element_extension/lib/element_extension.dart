@@ -6,6 +6,8 @@ export 'package:gap/gap.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:super_sliver_list/super_sliver_list.dart';
 
+export 'src/commons/models.dart';
+
 export 'src/extensions/color.dart';
 export 'src/extensions/context.dart';
 export 'src/extensions/num.dart';
