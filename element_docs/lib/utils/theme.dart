@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ElMaterialThemeData {
-  static final data = ElMaterialThemeData();
+class MaterialThemeData {
+  static final data = MaterialThemeData();
 
-  ElMaterialThemeData({
+  MaterialThemeData({
     this.useMaterial3 = true,
     this.enableRipple = true,
     this.translucenceStatusBar = false,
@@ -38,8 +38,31 @@ class ElMaterialThemeData {
   double? appbarScrollElevation;
 }
 
-class ElThemeUtil {
-  ElThemeUtil._();
+class ThemeUtil {
+  ThemeUtil._();
+
+  static ElThemeData buildElementTheme({
+    Brightness brightness = Brightness.light,
+  }) {
+    ElThemeData data =
+        brightness.isDark ? ElThemeData.darkTheme : ElThemeData.theme;
+
+    final $data = data.copyWith(
+      primary: brightness.isDark
+          ? Colors.cyanAccent
+          : GlobalState.primaryColor.value,
+      textTheme: data.textTheme.copyWith(
+        textStyle: ElFont.defaultTextStyle.copyWith(
+          fontSize: GlobalState.globalFontSize,
+        ),
+      ),
+      codePreviewTheme: const ElCodePreviewThemeData(
+        fontFamily: MyFonts.consolas,
+      ),
+    );
+
+    return $data;
+  }
 
   /// 基于 Element UI 主题系统构建 Material 主题
   ///
@@ -47,10 +70,10 @@ class ElThemeUtil {
   /// 同一作用域内请使用 [Builder] 转发 [context] 对象
   static ThemeData buildMaterialTheme(
     BuildContext context, {
-    ElMaterialThemeData? data,
+    MaterialThemeData? data,
     Brightness brightness = Brightness.light,
   }) {
-    data ??= ElMaterialThemeData.data;
+    data ??= MaterialThemeData.data;
     bool isDarkMode = brightness == Brightness.dark;
     final lightTheme = ElApp.of(context).theme;
     final darkTheme = context.darkTheme;

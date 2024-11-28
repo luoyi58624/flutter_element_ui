@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'global.dart';
-import 'utils/app_theme.dart';
-import 'utils/element_theme.dart';
+import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,8 +99,8 @@ class _MainAppState extends State<MainApp> {
       child: ObsBuilder(builder: (context) {
         return ElApp(
           brightness: GlobalState.brightness,
-          theme: buildElementTheme(),
-          darkTheme: buildElementTheme(brightness: Brightness.dark),
+          theme: ThemeUtil.buildElementTheme(),
+          darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
           child: ObsBuilder(builder: (context) {
             return ElFps(
               enabled: GlobalState.fps.value,
@@ -112,11 +111,11 @@ class _MainAppState extends State<MainApp> {
                 showPerformanceOverlay:
                     GlobalState.showPerformanceOverlay.value,
                 themeAnimationDuration: Duration.zero,
-                theme: ElThemeUtil.buildMaterialTheme(
+                theme: ThemeUtil.buildMaterialTheme(
                   context,
                   brightness: GlobalState.brightness,
                 ),
-                darkTheme: ElThemeUtil.buildMaterialTheme(
+                darkTheme: ThemeUtil.buildMaterialTheme(
                   context,
                   brightness: Brightness.dark,
                 ),
@@ -130,7 +129,7 @@ class _MainAppState extends State<MainApp> {
                 },
                 builder: ElApp.builder(
                   builder: (context, child) => CupertinoTheme(
-                    data: ElThemeUtil.buildCupertinoThemeData(
+                    data: ThemeUtil.buildCupertinoThemeData(
                       context,
                       brightness: GlobalState.brightness,
                     ),

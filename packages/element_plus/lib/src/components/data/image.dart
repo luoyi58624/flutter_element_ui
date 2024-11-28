@@ -58,7 +58,7 @@ class ElImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     late Widget result;
-    if (ElUtil.isHttp(src)) {
+    if (FlutterUtil.isHttp(src)) {
       result = buildNetworkImage();
     } else {
       if (kIsWeb) {

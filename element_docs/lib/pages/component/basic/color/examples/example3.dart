@@ -55,7 +55,7 @@ class MainApp extends StatelessWidget {
               colorIndex++;
               primaryColor = colors[colorIndex % colors.length];
               // 刷新应用状态，正常情况下你应当使用状态管理
-              ElUtil.refreshApp();
+              FlutterUtil.refreshApp();
             },
             type: 'primary',
             child: 'Change Theme',
@@ -105,7 +105,7 @@ class MainApp extends StatelessWidget {
                 colorIndex++;
                 primaryColor = colors[colorIndex % colors.length];
                 // 刷新应用状态，正常情况下你应当使用状态管理
-                ElUtil.refreshApp(); 
+                FlutterUtil.refreshApp(); 
               },
               type: 'primary',
               child: 'Change Theme',

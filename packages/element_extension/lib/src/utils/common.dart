@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:crypto/crypto.dart' as crypto;
 
-class ElUtil {
-  ElUtil._();
+class FlutterUtil {
+  FlutterUtil._();
 
   static final Codec<String, String> _base64Codec = utf8.fuse(base64);
 
