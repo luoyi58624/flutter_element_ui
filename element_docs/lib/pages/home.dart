@@ -128,22 +128,19 @@ class _CardWidget extends StatelessWidget {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color:
-                          context.isTap || context.isHover
-                              ? context.elTheme.primary
-                              : context.elTheme.cardTheme.color,
+                      color: context.isTap || context.isHover
+                          ? context.elTheme.primary
+                          : context.elTheme.cardTheme.color,
                       borderRadius: BorderRadius.only(
                         bottomLeft: context.elConfig.cardRadius!.bottomLeft,
-                        bottomRight:
-                            context.elConfig.cardRadius!.bottomRight,
+                        bottomRight: context.elConfig.cardRadius!.bottomRight,
                       ),
                     ),
                     child: Center(
                       child: ElText(
                         '查看详情',
                         style: TextStyle(
-                          color: context.isTap ||
-                                  context.isHover
+                          color: context.isTap || context.isHover
                               ? context.elTheme.primary.elTextColor(context)
                               : context.elTheme.primary,
                         ),
