@@ -45,7 +45,7 @@ class SlideWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Gap(16),
-        H5(e.$1),
+        TranslatorText(child: H5(e.$1)),
         const Gap(8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,16 +92,18 @@ class SlideWidget extends StatelessWidget {
                               ),
                               const Gap(8),
                               Expanded(
-                                child: ElText(
-                                  e.$1,
-                                  style: TextStyle(
-                                    color: context.isHover || isActive
-                                        ? context.elTheme.primary
-                                        : context
-                                            .elTheme.textTheme.textStyle.color,
-                                    fontSize: 0.875.rem,
+                                child: TranslatorText(
+                                  child: ElText(
+                                    e.$1,
+                                    style: TextStyle(
+                                      color: context.isHover || isActive
+                                          ? context.elTheme.primary
+                                          : context.elTheme.textTheme.textStyle
+                                              .color,
+                                      fontSize: 0.875.rem,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],

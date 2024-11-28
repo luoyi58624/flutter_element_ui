@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class ElInputState extends ElModelValueState<ElInput, String> {
+class ElInputState extends ModelValueState<ElInput, String> {
   late final TextEditingController controller =
       widget.controller ?? TextEditingController(text: modelValue);
   final focusNode = FocusNode();
@@ -76,7 +76,7 @@ class ElInputState extends ElModelValueState<ElInput, String> {
       textInputAction: widget.textInputAction,
       cursorColor: context.elTheme.textTheme.textStyle.color,
       cursorWidth: 1,
-      onTapOutside: (e){
+      onTapOutside: (e) {
         focusNode.unfocus();
       },
       onChanged: (v) {

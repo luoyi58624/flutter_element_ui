@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 /// 双向绑定小部件抽象类，当传递 [ValueNotifier] 类型数据时，将无需在 onChanged 事件中手动更新状态
-abstract class ElModelValue<D> extends StatefulWidget {
-  const ElModelValue(
+abstract class ModelValue<D> extends StatefulWidget {
+  const ModelValue(
     this.modelValue, {
     super.key,
     this.onChanged,
@@ -15,11 +15,10 @@ abstract class ElModelValue<D> extends StatefulWidget {
   final ValueChanged<D>? onChanged;
 
   @override
-  State<ElModelValue<D>> createState();
+  State<ModelValue<D>> createState();
 }
 
-abstract class ElModelValueState<T extends ElModelValue<D>, D>
-    extends State<T> {
+abstract class ModelValueState<T extends ModelValue<D>, D> extends State<T> {
   /// 是否是响应式类型
   bool get isReactive {
     if (widget.modelValue is ValueNotifier) {

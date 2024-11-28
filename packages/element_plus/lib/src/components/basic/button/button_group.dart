@@ -30,39 +30,37 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final Obs<List<double>> dividePositionList;
   final ValueChanged onChanged;
 
-  static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) =>
-      context
-          .dependOnInheritedWidgetOfExactType<_ElButtonGroupInheritedWidget>();
+  static _ElButtonGroupInheritedWidget? maybeOf(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<_ElButtonGroupInheritedWidget>();
 
   @override
   bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => true;
 }
 
-class ElButtonGroup extends ElModelValue {
+class ElButtonGroup extends ModelValue {
   /// Element UI 按钮组
   const ElButtonGroup({
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
-  })
-      : _type = _ButtonGroupType.none,
+  })  : _type = _ButtonGroupType.none,
         mandatory = false,
         super(null, onChanged: null);
 
   /// Element UI 单选按钮组，[modelValue] 支持 [int]、[ValueNotifier] 类型
-  ElButtonGroup.single(super.modelValue, {
+  ElButtonGroup.single(
+    super.modelValue, {
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
     this.mandatory = false,
     super.onChanged,
-  })
-      : _type = _ButtonGroupType.single,
+  })  : _type = _ButtonGroupType.single,
         assert(() {
           if ((modelValue is int? ||
-              modelValue is int ||
-              modelValue is ValueNotifier<int?> ||
-              modelValue is ValueNotifier<int>) ==
+                  modelValue is int ||
+                  modelValue is ValueNotifier<int?> ||
+                  modelValue is ValueNotifier<int>) ==
               false) {
             throw 'ElButtonGroup.single 单选按钮组 modelValue 类型错误，参数类型必须明确指定 int 或者 int? 类型';
           }
@@ -70,17 +68,17 @@ class ElButtonGroup extends ElModelValue {
         }());
 
   /// Element UI 多选按钮组，[modelValue] 支持 [List]、[ValueNotifier] 类型
-  ElButtonGroup.multi(super.modelValue, {
+  ElButtonGroup.multi(
+    super.modelValue, {
     super.key,
     required this.children,
     this.axis = Axis.horizontal,
     this.mandatory = false,
     super.onChanged,
-  })
-      : _type = _ButtonGroupType.multi,
+  })  : _type = _ButtonGroupType.multi,
         assert(() {
           if ((modelValue is List<int> ||
-              modelValue is ValueNotifier<List<int>>) ==
+                  modelValue is ValueNotifier<List<int>>) ==
               false) {
             throw 'ElButtonGroup.multi 多选按钮组 modelValue 类型错误，参数类型必须明确指定为 List<int>';
           }
@@ -103,7 +101,7 @@ class ElButtonGroup extends ElModelValue {
   State<ElButtonGroup> createState() => _ElButtonGroupState();
 }
 
-class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
+class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
   /// 当前鼠标悬停的按钮
   final _hoverIndex = Obs(-1);
 
@@ -119,10 +117,9 @@ class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
   /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的
   final _dividePositionList = Obs<List<double>>([]);
 
-  bool get _hasSelected =>
-      modelValue is List
-          ? (modelValue as List).isNotEmpty
-          : modelValue != null &&
+  bool get _hasSelected => modelValue is List
+      ? (modelValue as List).isNotEmpty
+      : modelValue != null &&
           modelValue is int &&
           modelValue >= 0 &&
           modelValue <= widget.children.length - 1;
@@ -285,12 +282,11 @@ class _ElButtonGroupState extends ElModelValueState<ElButtonGroup, dynamic> {
         children: [
           result,
           ..._childrenKeyList.mapIndexed(
-                (i, e) =>
-                _GroupDivide(
-                  length: $length,
-                  index: i,
-                  hasSelected: _hasSelected,
-                ),
+            (i, e) => _GroupDivide(
+              length: $length,
+              index: i,
+              hasSelected: _hasSelected,
+            ),
           ),
         ],
       ),
@@ -365,31 +361,29 @@ class _GroupDivide extends StatelessWidget {
       }
 
       bool disabled = ($groupData.children[index].disabled ||
-          $groupData.children[index].loading) &&
+              $groupData.children[index].loading) &&
           ($groupData.children[index + 1].disabled ||
               $groupData.children[index + 1].loading);
 
       final colorStyleProp = (
-      bgColor: bgColor,
-      plain: $data.plain ?? false,
-      text: $data.text ?? false,
-      bg: $data.bg ?? false,
-      link: false,
-      disabled: disabled,
+        bgColor: bgColor,
+        plain: $data.plain ?? false,
+        text: $data.text ?? false,
+        bg: $data.bg ?? false,
+        link: false,
+        disabled: disabled,
       );
 
       if ($groupData.type == _ButtonGroupType.none) {
         if (bgColor != null && $data.plain != true) {
           $borderColor = bgColor.mix(Colors.white, disabled ? 75 : 50);
         } else {
-          $borderColor = _ButtonColors
-              .calcColorStyle(
+          $borderColor = _ButtonColors.calcColorStyle(
             context,
             prop: colorStyleProp,
             isTap: $isTap,
             isHover: $isHover,
-          )
-              .borderColor;
+          ).borderColor;
         }
       } else {
         // 判断多选主题类型按钮组 selected 是否相邻，需要在中间绘制比较显眼的分割线
@@ -419,15 +413,13 @@ class _GroupDivide extends StatelessWidget {
           }
         }
 
-        $borderColor = _ButtonColors
-            .calcGroupColorStyle(
+        $borderColor = _ButtonColors.calcGroupColorStyle(
           context,
           prop: colorStyleProp,
           isTap: $isTap,
           isHover: $isHover,
           isSelected: $isSelected,
-        )
-            .borderColor;
+        ).borderColor;
 
         if (isUnionBorder && bgColor != null && $borderColor != null) {
           $borderColor = bgColor.mix(Colors.white, 50);
@@ -435,8 +427,8 @@ class _GroupDivide extends StatelessWidget {
       }
 
       final double $borderSize = ($isHover || $isTap || $isSelected
-          ? $data.borderActiveWidth
-          : $data.borderWidth) ??
+              ? $data.borderActiveWidth
+              : $data.borderWidth) ??
           context.elConfig.borderWidth!;
 
       return Positioned(

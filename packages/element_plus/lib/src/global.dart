@@ -19,5 +19,4 @@ export 'extensions/widget.dart';
 
 export 'widgets/brightness.dart';
 
-export 'widgets/model_value.dart';
 export 'widgets/simple_widgets.dart';

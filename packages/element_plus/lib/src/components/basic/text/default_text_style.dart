@@ -1,7 +1,7 @@
 part of 'index.dart';
 
 class ElDefaultTextStyle extends StatelessWidget {
-  /// [ElText] 默认文本样式小部件，此小部件强制继承祖先文本样式
+  /// [ElText] 默认文本样式小部件，此小部件强制继承祖先文本样式。
   const ElDefaultTextStyle({
     super.key,
     required this.style,
@@ -24,11 +24,11 @@ class ElDefaultTextStyle extends StatelessWidget {
   final TextHeightBehavior? textHeightBehavior;
 
   /// 通过当前上下文 context 访问祖先默认文本样式
-  static TextInheritedWidget of(BuildContext context) {
-    final TextInheritedWidget? result =
-        context.dependOnInheritedWidgetOfExactType<TextInheritedWidget>();
+  static ElTextInheritedWidget of(BuildContext context) {
+    final ElTextInheritedWidget? result =
+        context.dependOnInheritedWidgetOfExactType<ElTextInheritedWidget>();
     if (result == null) {
-      return TextInheritedWidget(
+      return ElTextInheritedWidget(
         style: context.elTheme.textTheme.textStyle,
         child: const ElNullWidget(),
       );
@@ -39,7 +39,7 @@ class ElDefaultTextStyle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final parent = ElDefaultTextStyle.of(context);
-    return TextInheritedWidget(
+    return ElTextInheritedWidget(
       style: parent.style.merge(style),
       textAlign: textAlign ?? parent.textAlign,
       softWrap: softWrap ?? parent.softWrap,
@@ -153,9 +153,11 @@ class _ElAnimatedDefaultTextStyleState
   }
 }
 
-/// 注意：此小部件不能暴露给外部
-class TextInheritedWidget extends InheritedWidget {
-  const TextInheritedWidget({
+/// Element UI 的所有主题都强制遵循 global_theme -> local_theme -> component_theme 的继承机制，
+/// 而 MaterialApp 会往后代注入黄色双下划线的文本样式，以引导用户在 [Material] 小部件中使用文本，
+/// 所以我重新创建一个新的组件而不是使用 [DefaultTextStyle]。
+class ElTextInheritedWidget extends InheritedWidget {
+  const ElTextInheritedWidget({
     super.key,
     required this.style,
     this.textAlign,
@@ -176,5 +178,5 @@ class TextInheritedWidget extends InheritedWidget {
   final TextHeightBehavior? textHeightBehavior;
 
   @override
-  bool updateShouldNotify(TextInheritedWidget oldWidget) => true;
+  bool updateShouldNotify(ElTextInheritedWidget oldWidget) => true;
 }

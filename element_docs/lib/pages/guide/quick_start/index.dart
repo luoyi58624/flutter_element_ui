@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/utils/animate.dart';
 import 'package:flutter/material.dart';
 
 TickerProvider? parent;
@@ -103,5 +102,19 @@ class QuickStartPage extends ResponsivePage {
       //   children: [...numList.value.map((e) => Text('$e'))],
       // ),
     ];
+  }
+}
+
+extension AnimateExt on AnimationController {
+  Animation<T> createAnimate<T>({
+    required Tween<T> tween,
+    Curve curve = Curves.linear,
+  }) {
+    return tween.animate(
+      CurvedAnimation(
+        parent: this,
+        curve: curve,
+      ),
+    );
   }
 }

@@ -71,6 +71,25 @@ class LayoutHeader extends StatelessWidget {
                   ),
                 ),
               ),
+              PopupMenuButton<String>(
+                enableFeedback: true,
+                offset: const Offset(0, 56),
+                popUpAnimationStyle: AnimationStyle.noAnimation,
+                icon: const Icon(Icons.translate),
+                onSelected: (value) {
+                  TranslatorText.language.value = value;
+                  FlutterUtil.refreshApp();
+                },
+                itemBuilder: (context) {
+                  return TranslatorText.supportLanguages.keys
+                      .map((key) => PopupMenuItem(
+                            height: 40,
+                            value: TranslatorText.supportLanguages[key]!,
+                            child: Text(key),
+                          ))
+                      .toList();
+                },
+              ),
             ],
           ),
         ],
@@ -107,14 +126,16 @@ class LayoutHeader extends StatelessWidget {
                                   horizontal: 12,
                                 ),
                                 child: Center(
-                                  child: H6(
-                                    e.$1,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: context.isHover
-                                            ? context.elTheme.primary
-                                            : context.elTheme.textTheme
-                                                .textStyle.color),
+                                  child: TranslatorText(
+                                    child: H6(
+                                      e.$1,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: context.isHover
+                                              ? context.elTheme.primary
+                                              : context.elTheme.textTheme
+                                                  .textStyle.color),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -5,7 +5,7 @@ import 'package:element_plus/src/global.dart';
 
 part 'state.dart';
 
-class ElSwitch extends ElModelValue<bool> {
+class ElSwitch extends ModelValue<bool> {
   const ElSwitch(
     super.modelValue, {
     super.key,

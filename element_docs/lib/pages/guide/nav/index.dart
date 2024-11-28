@@ -13,49 +13,17 @@ class NavPage extends ResponsivePage {
       const Gap(50),
       // const FocusExample(),
       const Gap(8),
-      // const FocusScope(child: FocusExample2()),
-      //
-      // _Demo(
-      //   child: LookupBoundary(
-      //     child: Builder(
-      //       builder: (context) {
-      //         // i(_Demo.of(context));
-      //         i(LookupBoundary.findAncestorWidgetOfExactType<_Demo>(context));
-      //         return Container();
-      //       }
-      //     ),
-      //   ),
-      // ),
-
-      ElFocusScope(
-        child: Column(
-          children: [
-            ElEvent(
-              builder: (context) {
-                return Container(
-                  width: 50,
-                  height: 50,
-                  color: Focus.maybeOf(context)?.hasFocus == true
-                      ? Colors.green
-                      : Colors.grey,
-                );
-              },
-            ),
-            const Gap(8),
-            ElEvent(
-              builder: (context) {
-                return Container(
-                  width: 50,
-                  height: 50,
-                  color: Focus.maybeOf(context)?.hasFocus == true
-                      ? Colors.green
-                      : Colors.grey,
-                );
-              },
-            ),
-          ],
-        ),
+      ElButton(
+        onPressed: () {
+          getTextElement(el.context);
+        },
+        child: '查找所有 Text',
       ),
+
+      const TranslatorText(
+        child: ElText('你好'),
+      ),
+
       // ElEvent(
       //   onPointerDown: (e) {
       //     i(e.buttons);
@@ -80,160 +48,13 @@ class NavPage extends ResponsivePage {
   }
 }
 
-class _Demo extends InheritedWidget {
-  const _Demo({
-    super.key,
-    required super.child,
+void getTextElement(BuildContext context) {
+  context.visitChildElements((element) {
+    if (element.widget is ElText) {
+      i((element.widget as ElText).data);
+    }
+    getTextElement(element);
   });
-
-  static _Demo of(BuildContext context) {
-    final _Demo? result = context.dependOnInheritedWidgetOfExactType<_Demo>();
-    assert(result != null, 'No _Demo found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(_Demo oldWidget) {
-    return false;
-  }
-}
-
-class FocusExample extends StatefulWidget {
-  const FocusExample({super.key});
-
-  @override
-  State<FocusExample> createState() => _FocusExampleState();
-}
-
-class _FocusExampleState extends State<FocusExample> {
-  final focus = FocusNode();
-  final focus2 = FocusNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        focus.hasFocus ? focus.unfocus() : focus.requestFocus();
-        setState(() {});
-      },
-      child: Focus(
-        focusNode: focus,
-        canRequestFocus: false,
-        child: Builder(
-          builder: (context) {
-            return Container(
-              width: 300,
-              height: 300,
-              color: focus.hasFocus ? Colors.green : Colors.grey,
-              child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    focus2.hasFocus ? focus2.unfocus() : focus2.requestFocus();
-                    setState(() {});
-                  },
-                  child: Focus(
-                    focusNode: focus2,
-                    child: Builder(
-                      builder: (context) {
-                        return Container(
-                          width: 100,
-                          height: 100,
-                          color: focus2.hasFocus
-                              ? Colors.blue
-                              : Colors.grey.shade300,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class FocusExample2 extends StatefulWidget {
-  const FocusExample2({super.key});
-
-  @override
-  State<FocusExample2> createState() => _FocusExample2State();
-}
-
-class _FocusExample2State extends State<FocusExample2> {
-  final focus = FocusNode();
-  final focus2 = FocusNode();
-  final focus3 = FocusNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: focus.hasFocus ? Colors.red : Colors.grey.shade100,
-      child: InkWell(
-        focusNode: focus,
-        onTap: () {
-          focus.hasFocus ? focus.unfocus() : focus.requestFocus();
-          setState(() {});
-        },
-        child: Builder(
-          builder: (context) {
-            return SizedBox(
-              width: 300,
-              height: 300,
-              child: Center(
-                child: Material(
-                  color: focus2.hasFocus ? Colors.green : Colors.grey.shade200,
-                  child: InkWell(
-                    focusNode: focus2,
-                    onTap: () {
-                      focus2.hasFocus
-                          ? focus2.unfocus()
-                          : focus2.requestFocus();
-                      setState(() {});
-                    },
-                    child: Builder(
-                      builder: (context) {
-                        return SizedBox(
-                          width: 200,
-                          height: 200,
-                          child: Center(
-                            child: Material(
-                              color: focus3.hasFocus
-                                  ? Colors.blue
-                                  : Colors.grey.shade300,
-                              child: InkWell(
-                                focusNode: focus3,
-                                onTap: () {
-                                  focus3.hasFocus
-                                      ? focus3.unfocus()
-                                      : focus3.requestFocus();
-                                  setState(() {});
-                                },
-                                child: Builder(
-                                  builder: (context) {
-                                    return const SizedBox(
-                                      width: 100,
-                                      height: 100,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
 }
 
 class _Example extends StatefulHookWidget {

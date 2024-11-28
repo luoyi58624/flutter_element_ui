@@ -15,7 +15,7 @@ part 'theme.dart';
 
 part '../../../generates/components/form/slider/index.g.dart';
 
-class ElSlider extends ElModelValue<double> {
+class ElSlider extends ModelValue<double> {
   const ElSlider(
     super.modelValue, {
     super.key,

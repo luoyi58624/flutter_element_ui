@@ -2,7 +2,7 @@ part of 'index.dart';
 
 const _autoScrollerVelocityScalar = 100.0;
 
-class _ElTabsState extends ElModelValueState<ElTabs, int> {
+class _ElTabsState extends ModelValueState<ElTabs, int> {
   final scrollController = ScrollController();
   late ElTabsThemeData theme;
   late Axis axis;

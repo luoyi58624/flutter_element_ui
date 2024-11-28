@@ -3,7 +3,7 @@ part of 'index.dart';
 const _duration = Duration(milliseconds: 250);
 const _curve = Curves.easeInOut;
 
-class _ElSliderState extends ElModelValueState<ElSlider, double>
+class _ElSliderState extends ModelValueState<ElSlider, double>
     with SingleTickerProviderStateMixin {
   late final AnimationController animationController = AnimationController(
     vsync: this,

@@ -16,13 +16,13 @@ extension FlutterBrightnessExtension on Brightness {
 }
 
 extension FlutterAnimationControllerExtension on AnimationController {
-  /// 根据当前动画状态继续运行动画
-  void start() {
+  /// 继续运行动画，默认情况下会根据当前状态继续朝相同方向运行动画，将参数设置为 true 则朝反方向运行动画
+  void start([bool? $reverse]) {
     if (status == AnimationStatus.dismissed ||
         status == AnimationStatus.forward) {
-      forward();
+      $reverse == true ? reverse() : forward();
     } else {
-      reverse();
+      $reverse == true ? forward() : reverse();
     }
   }
 }

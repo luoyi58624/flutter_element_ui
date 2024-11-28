@@ -3,7 +3,7 @@ part of 'index.dart';
 const _duration = Duration(milliseconds: 250);
 const _curve = Curves.easeInOut;
 
-class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
+class _ElSwitchState extends ModelValueState<ElSwitch, bool>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   late Animation<double> animation;
@@ -22,8 +22,9 @@ class _ElSwitchState extends ElModelValueState<ElSwitch, bool>
   Color get activeBgColor => (widget.activeBgColor ?? context.elTheme.primary)
       .withOpacity(disabledOpacity);
 
-  Color get inactiveBgColor => (widget.bgColor ?? context.elTheme.layoutTheme.borderColor!)
-      .withOpacity(disabledOpacity);
+  Color get inactiveBgColor =>
+      (widget.bgColor ?? context.elTheme.layoutTheme.borderColor!)
+          .withOpacity(disabledOpacity);
 
   @override
   void initState() {

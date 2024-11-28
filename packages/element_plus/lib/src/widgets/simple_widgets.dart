@@ -2,9 +2,6 @@ import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
 class ElNullWidget extends StatelessWidget {
-  /// 永远都不应该触发的小部件，如果构建它将抛出异常，应用场景：
-  /// * mixin build 覆写，如果子类没有执行 super.build，那么将抛出此异常
-  /// * 当做无效 widget，例如 [ElDefaultTextStyle.of] 方法返回的默认构造
   const ElNullWidget({super.key});
 
   @override
@@ -76,4 +73,3 @@ class ElChildIndex extends InheritedWidget {
   @override
   bool updateShouldNotify(ElChildIndex oldWidget) => true;
 }
-
