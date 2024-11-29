@@ -22,7 +22,7 @@ class ElGoogleTab extends ElBaseTab {
       },
       child: ElEvent(builder: (context) {
         return ColoredBox(
-          color: context.isHover
+          color: context.hasHover
               ? context.isDark
                   ? context.elTheme.primary.elLight1(context)
                   : Colors.grey.shade100
@@ -108,7 +108,7 @@ class _TabContent extends ElBaseTab {
                     width: 16,
                     height: 16,
                     decoration: BoxDecoration(
-                      color: context.isHover ? Colors.grey.shade400 : null,
+                      color: context.hasHover ? Colors.grey.shade400 : null,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const ElIcon(Icons.close, size: 14),

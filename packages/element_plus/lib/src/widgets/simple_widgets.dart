@@ -1,41 +1,13 @@
-import 'package:element_plus/element_plus.dart';
 import 'package:flutter/widgets.dart';
 
 class ElNullWidget extends StatelessWidget {
+  /// 用于某些 Api 不正当使用时的占位小部件，如果渲染就报错
   const ElNullWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     throw FlutterError('ElNullWidget Error');
   }
-}
-
-class ElCurrentColor extends InheritedWidget {
-  /// 一个功能小部件，传递当前文字颜色、背景颜色
-  const ElCurrentColor({
-    super.key,
-    this.color,
-    this.bgColor,
-    required super.child,
-  });
-
-  /// 当前文本颜色
-  final Color? color;
-
-  /// 当前背景颜色
-  final Color? bgColor;
-
-  static ElCurrentColor? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<ElCurrentColor>();
-
-  static ElCurrentColor? of(BuildContext context) {
-    final ElCurrentColor? result = maybeOf(context);
-    assert(result != null, 'No ElCurrentColor found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(ElCurrentColor oldWidget) => true;
 }
 
 class ElChildIndex extends InheritedWidget {

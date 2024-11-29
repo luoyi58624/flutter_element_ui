@@ -30,7 +30,7 @@ class _ElDefaultSliderState extends State<ElDefaultSlider> {
     final $data = widget.of(context);
     return AnimatedScale(
       duration: const Duration(milliseconds: 100),
-      scale: $data.isDrag || context.isHover ? 1.2 : 1.0,
+      scale: $data.isDrag || context.hasHover ? 1.2 : 1.0,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         width: widget.thumbSize,

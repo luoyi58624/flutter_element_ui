@@ -31,7 +31,7 @@ class Demo extends StatelessWidget {
 }
 
 class _HomePage extends StatelessWidget {
-  const _HomePage({super.key});
+  const _HomePage();
 
   @override
   Widget build(BuildContext context) {
@@ -40,29 +40,24 @@ class _HomePage extends StatelessWidget {
         title: const Text('首页'),
       ),
       body: const SelectionArea(
-        child: ElEventTheme(
-          data: ElEventThemeData(
-            canRequestFocus: false,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ElText([
-                'hello, ',
-                ElText(
-                  '这是一段富文本, ',
-                  style: TextStyle(color: Colors.green),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElText([
+              'hello, ',
+              ElText(
+                '这是一段富文本, ',
+                style: TextStyle(color: Colors.green),
+              ),
+              ' ',
+              SelectionContainer.disabled(
+                child: ElButton(
+                  child: 'Hello',
+                  type: El.primary,
                 ),
-                ' ',
-                SelectionContainer.disabled(
-                  child: ElButton(
-                    child: 'Hello',
-                    type: El.primary,
-                  ),
-                ),
-              ]),
-            ],
-          ),
+              ),
+            ]),
+          ],
         ),
       ),
     );

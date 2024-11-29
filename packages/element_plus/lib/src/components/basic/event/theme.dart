@@ -88,7 +88,7 @@ class ElEventThemeData {
   /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true
   final bool? prevent;
 
-  /// 指针抬起延迟时间，作用是让 [isTap] 状态效果更好，默认 100 毫秒
+  /// 指针抬起延迟时间，作用是让 [hasTap] 状态效果更好，默认 100 毫秒
   final int? tapUpDelay;
 
   /// 双击触发时间，默认 300 毫秒

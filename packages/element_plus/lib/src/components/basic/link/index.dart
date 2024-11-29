@@ -150,15 +150,15 @@ class ElLink extends StatelessWidget {
       toLink,
       child: ElDefaultTextStyle(
         style: TextStyle(
-          color: context.isHover ? $activeColor : $color,
+          color: context.hasHover ? $activeColor : $color,
           decoration: $decoration == ElLinkDecoration.underline
               ? TextDecoration.underline
               : $decoration == ElLinkDecoration.hoverUnderline
-                  ? (context.isHover
+                  ? (context.hasHover
                       ? TextDecoration.underline
                       : TextDecoration.none)
                   : TextDecoration.none,
-          decorationColor: context.isHover ? $activeColor : $color,
+          decorationColor: context.hasHover ? $activeColor : $color,
         ),
         child: child is Widget ? child : ElText(child),
       ),

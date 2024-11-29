@@ -26,9 +26,9 @@ class _ElButtonState extends State<ElButton> {
 
   late MouseCursor _cursor;
 
-  bool _isHover = false;
-  bool _isTap = false;
-  bool _isFocus = false;
+  bool _hasHover = false;
+  bool _hasTap = false;
+  bool _hasFocus = false;
 
   bool get _isIconChild => _prop.child is ElIcon || _prop.child is Icon;
 
@@ -52,7 +52,7 @@ class _ElButtonState extends State<ElButton> {
       if (_hasGroup) {
         _groupData!.tapIndex.value = _indexData!.index;
       }
-      _isTap = true;
+      _hasTap = true;
     });
     onPressed();
     setTimeout(() {
@@ -61,7 +61,7 @@ class _ElButtonState extends State<ElButton> {
           if (_hasGroup) {
             _groupData!.tapIndex.value = -1;
           }
-          _isTap = false;
+          _hasTap = false;
         });
       }
     }, _prop.duration.inMilliseconds);
@@ -124,7 +124,7 @@ class _ElButtonState extends State<ElButton> {
           cursor: _cursor,
           onEnter: (e) {
             setState(() {
-              _isHover = true;
+              _hasHover = true;
             });
             _eventThemeData.onEnter?.call(e);
             if (_hasGroup) {
@@ -133,7 +133,7 @@ class _ElButtonState extends State<ElButton> {
           },
           onExit: (e) {
             setState(() {
-              _isHover = false;
+              _hasHover = false;
             });
             _eventThemeData.onExit?.call(e);
             if (_hasGroup) {
@@ -143,7 +143,7 @@ class _ElButtonState extends State<ElButton> {
           onTap: onPressed,
           onTapDown: (e) {
             setState(() {
-              _isTap = true;
+              _hasTap = true;
             });
             _eventThemeData.onTapDown?.call(e);
             if (_hasGroup) {
@@ -152,7 +152,7 @@ class _ElButtonState extends State<ElButton> {
           },
           onTapUp: (e) {
             setState(() {
-              _isTap = false;
+              _hasTap = false;
             });
             _eventThemeData.onTapUp?.call(e);
             if (_hasGroup) {
@@ -161,7 +161,7 @@ class _ElButtonState extends State<ElButton> {
           },
           onCancel: () {
             setState(() {
-              _isTap = false;
+              _hasTap = false;
             });
             _eventThemeData.onCancel?.call();
             if (_hasGroup) {
@@ -170,11 +170,11 @@ class _ElButtonState extends State<ElButton> {
           },
           child: Builder(
             builder: (context) {
-              _isFocus = Focus.maybeOf(context)?.hasFocus ?? false;
+              _hasFocus = context.hasFocus;
               final hasFocusScope = FocusScope.of(context).hasFocus;
 
               if (_prop.disabled || _prop.loading) {
-                _isHover = false;
+                _hasHover = false;
                 if (_hasGroup) {
                   nextTick(() {
                     _groupData!.hoverIndex.value = -1;
@@ -187,7 +187,7 @@ class _ElButtonState extends State<ElButton> {
                   if (_prop.disabled) {
                     _groupData!.focusIndex.value = -1;
                   } else {
-                    if (_isFocus) {
+                    if (_hasFocus) {
                       _groupData!.focusIndex.value = _indexData!.index;
                     } else {
                       if (hasFocusScope == false) {
@@ -221,17 +221,17 @@ class _ElButtonState extends State<ElButton> {
                   _colorStyle = _ButtonColors.calcColorStyle(
                     context,
                     prop: $colorStyleProp,
-                    isHover: _isHover,
-                    isTap: _isTap,
-                    isFocus: _isFocus,
+                    hasHover: _hasHover,
+                    hasTap: _hasTap,
+                    isFocus: _hasFocus,
                     hasGroup: _hasGroup,
                   );
                 } else {
                   _colorStyle = _ButtonColors.calcGroupColorStyle(
                     context,
                     prop: $colorStyleProp,
-                    isHover: _isHover,
-                    isTap: _isTap,
+                    hasHover: _hasHover,
+                    hasTap: _hasTap,
                     isSelected: _isSelected,
                   );
                 }
@@ -292,7 +292,7 @@ class _ElButtonState extends State<ElButton> {
     if (_hasGroup == false) {
       result = ElRingTheme(
         data: ElRingThemeData(
-          show: Focus.maybeOf(context)?.hasFocus,
+          show: _hasFocus,
           duration: _prop.duration,
           radius: borderRadius,
           color:
@@ -414,7 +414,7 @@ class _ElButtonState extends State<ElButton> {
     if (borderColor == null) return const Border();
     final defaultBorder = Border.all(
       color: borderColor,
-      width: _isHover || _isTap || _isSelected
+      width: _hasHover || _hasTap || _isSelected
           ? _prop.borderActiveWidth
           : _prop.borderWidth,
     );

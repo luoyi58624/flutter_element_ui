@@ -46,12 +46,12 @@ class ElCloseButton extends StatelessWidget {
             width: $size,
             height: $size,
             decoration: BoxDecoration(
-              color: context.isHover ? $bgHoverColor : null,
+              color: context.hasHover ? $bgHoverColor : null,
               borderRadius: BorderRadius.circular($size / 2),
             ),
             child: ElIcon(
               ElIcons.close,
-              color: context.isHover ? $iconHoverColor : null,
+              color: context.hasHover ? $iconHoverColor : null,
               size: $iconSize,
             ),
           );

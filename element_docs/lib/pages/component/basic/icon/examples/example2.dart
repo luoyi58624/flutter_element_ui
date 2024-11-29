@@ -67,7 +67,7 @@ class Example2 extends StatelessWidget {
                         ElIcon(
                           ElIcons.values[keys[index]],
                           color:
-                              context.isHover ? context.elTheme.primary : null,
+                              context.hasHover ? context.elTheme.primary : null,
                         ),
                         const Gap(16),
                         Padding(
@@ -78,7 +78,7 @@ class Example2 extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 12,
-                              color: context.isHover
+                              color: context.hasHover
                                   ? context.elTheme.primary
                                   : null,
                             ),

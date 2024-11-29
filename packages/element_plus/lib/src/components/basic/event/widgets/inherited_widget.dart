@@ -21,19 +21,23 @@ class ElStopPropagation extends InheritedWidget {
 // ===========================================================================
 class _EventInheritedWidget extends InheritedWidget {
   const _EventInheritedWidget(
-    this.isHover,
+    this.hasHover,
     this.setHoverDepend,
-    this.isTap,
+    this.hasTap,
     this.setTapDepend,
+    this.hasFocus,
+    this.setFocusDepend,
     this._stopPropagation,
     this._resetPropagation, {
     required super.child,
   });
 
-  final bool isHover;
+  final bool hasHover;
   final VoidCallback setHoverDepend;
-  final bool isTap;
+  final bool hasTap;
   final VoidCallback setTapDepend;
+  final bool hasFocus;
+  final VoidCallback setFocusDepend;
   final VoidCallback _stopPropagation;
   final VoidCallback _resetPropagation;
 
@@ -43,13 +47,19 @@ class _EventInheritedWidget extends InheritedWidget {
   static bool getHoverStatus(BuildContext context) {
     final result = maybeOf(context);
     if (result != null) result.setHoverDepend();
-    return result?.isHover ?? false;
+    return result?.hasHover ?? false;
   }
 
   static bool getTapStatus(BuildContext context) {
     final result = maybeOf(context);
     if (result != null) result.setTapDepend();
-    return result?.isTap ?? false;
+    return result?.hasTap ?? false;
+  }
+
+  static bool getFocusStatus(BuildContext context) {
+    final result = maybeOf(context);
+    if (result != null) result.setFocusDepend();
+    return result?.hasFocus ?? false;
   }
 
   static void stopPropagation(BuildContext context) {
@@ -66,7 +76,7 @@ class _EventInheritedWidget extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_EventInheritedWidget oldWidget) {
-    return isHover != oldWidget.isHover || isTap != oldWidget.isTap;
+    return hasHover != oldWidget.hasHover || hasTap != oldWidget.hasTap;
   }
 }
 

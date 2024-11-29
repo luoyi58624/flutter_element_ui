@@ -98,7 +98,7 @@ class _PreviewButton extends HookWidget {
     return ElEvent(
       cursor: SystemMouseCursors.click,
       builder: (context) {
-        if (context.isHover) {
+        if (context.hasHover) {
           _delayShow = setTimeout(() {
             _delayShow = null;
             controller.forward();
@@ -120,8 +120,9 @@ class _PreviewButton extends HookWidget {
             curve: context.elTheme.collapseTheme.curve,
             height: 40,
             decoration: BoxDecoration(
-                color: context.isHover
-                    ? context.elTheme.primary.mix(context.elTheme.layoutTheme.bgColor!, 96)
+                color: context.hasHover
+                    ? context.elTheme.primary
+                        .mix(context.elTheme.layoutTheme.bgColor!, 96)
                     : context.elTheme.layoutTheme.bgColor!,
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value

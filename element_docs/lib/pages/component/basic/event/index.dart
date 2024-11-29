@@ -32,7 +32,7 @@ class EventPage extends ResponsivePage {
       const SectionCard(
         title: 'Tip',
         content: [
-          '之所以不使用 GestureDetector 体系进行二次封装，是因为在有些情况下需要手动阻止事件冒泡。',
+          '之所以不使用 GestureDetector 体系进行二次封装，是因为在有些情况下需要允许事件冒泡。',
           '例如：ElLink + ElButton，如果使用 GestureDetector 进行封装，那么手势竞技场会导致 Button 阻止链接跳转事件，'
               '注意：即使你没有设置 onTap，ElLink 也不会触发，因为 Button 监听了 onTapDown 事件来更新样式，'
               '这就导致了用户必须在 Button 中手动跳转链接，很不方便。',

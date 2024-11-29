@@ -140,7 +140,7 @@ class Example1 extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(left: 16),
                 decoration: BoxDecoration(
-                  color: context.isHover
+                  color: context.hasHover
                       ? context.elTheme.primary.withOpacity(0.8)
                       : context.elTheme.primary,
                 ),
@@ -196,7 +196,7 @@ class Example1 extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: e,
                                     border: Border.all(
-                                      width: context.isHover
+                                      width: context.hasHover
                                           ? 4
                                           : 0.0000000000000001,
                                       color: Colors.white,
@@ -240,7 +240,7 @@ Row(
                 border: Border.all(
                   // flutter 边框设置 0 依旧会当做 1px 渲染
                   // https://api.flutter.dev/flutter/painting/BorderSide/width.html
-                  width: context.isHover ? 4 : 0.0000000000000001,
+                  width: context.hasHover ? 4 : 0.0000000000000001,
                   color: Colors.white,
                 ),
               ),

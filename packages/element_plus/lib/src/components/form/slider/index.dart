@@ -102,11 +102,11 @@ class ElSliderState {
   final bool isDrag;
 
   /// 鼠标是否悬停在滑块上
-  final bool isHover;
+  final bool hasHover;
 
   ElSliderState({
     required this.isDrag,
-    required this.isHover,
+    required this.hasHover,
   });
 }
 

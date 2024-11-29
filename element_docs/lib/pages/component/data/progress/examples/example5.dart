@@ -61,14 +61,14 @@ class _Example extends HookWidget {
         child: ElEvent(
           cursor: SystemMouseCursors.click,
           builder: (context) {
-            final isHover = context.isHover;
+            final hasHover = context.hasHover;
             return Stack(
               clipBehavior: Clip.none,
               children: [
                 ElProgress(
                   progress.value,
                   duration: Duration.zero,
-                  strokeSize: isHover || isDrag.value ? 6 : 2,
+                  strokeSize: hasHover || isDrag.value ? 6 : 2,
                   round: false,
                   radius: 2,
                 ),
@@ -81,7 +81,7 @@ class _Example extends HookWidget {
                         (Widget child, Animation<double> animation) {
                       return ScaleTransition(scale: animation, child: child);
                     },
-                    child: isHover || isDrag.value
+                    child: hasHover || isDrag.value
                         ? Container(
                             color: Colors.white,
                             child: SvgPicture.string(
@@ -138,14 +138,14 @@ class _Example extends HookWidget {
         child: ElHover(
           cursor: SystemMouseCursors.click,
           builder: (context) {
-            final isHover = context.isHover;
+            final hasHover = context.hasHover;
             return Stack(
               clipBehavior: Clip.none,
               children: [
                 ElProgress(
                   progress.value,
                   duration: Duration.zero,
-                  strokeSize: isHover || isDrag.value ? 6 : 2,
+                  strokeSize: hasHover || isDrag.value ? 6 : 2,
                   round: false,
                   radius: 2,
                 ),
@@ -158,7 +158,7 @@ class _Example extends HookWidget {
                         (Widget child, Animation<double> animation) {
                       return ScaleTransition(scale: animation, child: child);
                     },
-                    child: isHover || isDrag.value
+                    child: hasHover || isDrag.value
                         ? Container(
                             color: Colors.white,
                             child: SvgPicture.string(

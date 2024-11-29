@@ -20,6 +20,8 @@ class Example3 extends HookWidget {
               LinkWidgets.gestureDetector,
               ' 小部件的事件冲突，它稍微麻烦一点。'
             ]),
+            '通常情况下你应该尽量避免混用不同的交互小部件，例如示例三：InkWell 嵌套 GestureDetector，'
+                '即使是官方也做不到尽善尽美，依然存在各种妥协。',
           ],
         ),
         textGap,
@@ -74,8 +76,8 @@ class _Example extends HookWidget {
                 height: 150,
                 color: Colors.grey,
                 alignment: Alignment.center,
-                // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部执行的逻辑比较多，
-                // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
+                // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
+                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
                 child: Listener(
                   onPointerDown: (e) {
                     context.stopPropagation();
@@ -113,6 +115,8 @@ class _Example2 extends HookWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
+            // 目前我只能想到这种方法解决 GestureDetector 嵌套 ElEvent 事件冒泡问题，
+            // 这种方式会引起 UI 重建
             ElBubbleBuilder(
               builder: (stopBubble) => GestureDetector(
                 onTap: stopBubble
@@ -267,8 +271,8 @@ class _Example extends HookWidget {
             height: 150,
             color: Colors.grey,
             alignment: Alignment.center,
-            // 你必须在 Listener 中阻止事件冲突，因为 GestureDetector 内部执行的逻辑比较多，
-            // 手指轻触屏幕时，onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
+            // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
+            // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
             child: Listener(
               onPointerDown: (e) {
                 context.stopPropagation();
@@ -285,6 +289,55 @@ class _Example extends HookWidget {
               ),
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Example2 extends HookWidget {
+  const _Example2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const ElText('GestureDetector -> ElEvent'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            // 目前我只能想到这种方法解决 GestureDetector 嵌套 ElEvent 事件冒泡问题，
+            // 这种方式会引起 UI 重建
+            ElBubbleBuilder(
+              builder: (stopBubble) => GestureDetector(
+                onTap: stopBubble
+                    ? null
+                    : () {
+                        el.message.show('GestureDetector');
+                      },
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  color: Colors.grey,
+                  alignment: Alignment.center,
+                  child: ElStopPropagation(
+                    child: ElEvent(
+                      onTap: () {
+                        el.message.success('ElEvent');
+                      },
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

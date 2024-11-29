@@ -1,16 +1,17 @@
 part of '../index.dart';
 
-mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
+mixin _TapMixin<T extends ElEvent>
+    on _CommonMixin<T>, _LongPressMixin<T>, _FocusMixin<T> {
   /// 是否存在点击状态依赖，如果没有依赖需要防止不必要的重新渲染
   bool hasTapDepend = false;
 
-  final _isTap = BaseObs(false);
+  final _hasTap = BaseObs(false);
 
   /// 点击状态响应式变量，此属性会注入到 InheritedWidget 小部件
-  bool get isTap => _isTap.value;
+  bool get hasTap => _hasTap.value;
 
-  set isTap(bool value) {
-    if (hasTapDepend) _isTap.value = value;
+  set hasTap(bool value) {
+    if (hasTapDepend) _hasTap.value = value;
   }
 
   void setTapDepend() {
@@ -19,7 +20,7 @@ mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
 
   /// onTapUp 触发需要延迟 100 毫秒触发，这样可以让点击事件的效果更好，
   /// 否则，当指针轻触屏幕时，onTapDown -> onTapUp 之间的点击时间极短，
-  /// 如果 [Widget] 依赖 isTap 状态，那么效果就是一闪而过。
+  /// 如果 [Widget] 依赖 hasTap 状态，那么效果就是一闪而过。
   Timer? _tapUpTimer;
 
   void _cancelTapUpTimer() {
@@ -32,7 +33,7 @@ mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
   void tapDownHandler(PointerDownEvent e) {
     if (pointType == kPrimaryButton) {
       _cancelTapUpTimer();
-      isTap = true;
+      hasTap = true;
       prop.onTapDown?.call(e.toDetails);
     }
   }
@@ -40,11 +41,11 @@ mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
   void tapUpHandler(PointerUpEvent e) {
     if (pointType == kPrimaryButton) {
       _tapHandler();
-      // 延迟更新 isTap 的状态
+      // 延迟更新 hasTap 的状态
       _tapUpTimer = setTimeout(() {
         _tapUpTimer = null;
         if (mounted) {
-          isTap = false;
+          hasTap = false;
           prop.onTapUp?.call(e.toDetails);
         }
       }, max(prop.tapUpDelay - (currentMilliseconds - tapDownTime), 0));
@@ -69,5 +70,10 @@ mixin _TapMixin<T extends ElEvent> on _CommonMixin<T> {
         cancelLongPressTimer();
       }
     }
+  }
+
+  void onTap() {
+    _requestFocus();
+    prop.onTap?.call();
   }
 }

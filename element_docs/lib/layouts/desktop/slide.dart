@@ -96,7 +96,7 @@ class SlideWidget extends StatelessWidget {
                                   child: ElText(
                                     e.$1,
                                     style: TextStyle(
-                                      color: context.isHover || isActive
+                                      color: context.hasHover || isActive
                                           ? context.elTheme.primary
                                           : context.elTheme.textTheme.textStyle
                                               .color,

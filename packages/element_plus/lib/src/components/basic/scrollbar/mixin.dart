@@ -7,7 +7,7 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
   late final _ScrollbarPainter scrollbarPainter;
 
   /// 鼠标是否进入滚动区域
-  bool isHover = false;
+  bool hasHover = false;
 
   /// 是否处于拖拽滚动条状态
   bool isDragScroll = false;

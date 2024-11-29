@@ -76,8 +76,8 @@ class _Example extends HookWidget {
                     return ElRing(
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeOut,
-                      show: isActive.value || context.isHover,
-                      width: isActive.value || context.isHover ? 6 : 0,
+                      show: isActive.value || context.hasHover,
+                      width: isActive.value || context.hasHover ? 6 : 0,
                       offset: 4,
                       radius: borderRadius,
                       color: Colors.red,
@@ -155,8 +155,8 @@ class _Example extends HookWidget {
                     return ElRing(
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeOut,
-                      show: isActive.value || context.isHover,
-                      width: isActive.value || context.isHover ? 6 : 0,
+                      show: isActive.value || context.hasHover,
+                      width: isActive.value || context.hasHover ? 6 : 0,
                       offset: 4,
                       radius: borderRadius,
                       color: Colors.red,

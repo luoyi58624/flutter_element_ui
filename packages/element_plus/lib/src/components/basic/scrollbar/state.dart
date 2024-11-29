@@ -3,8 +3,8 @@ part of 'index.dart';
 class _ElScrollbarState extends State<ElScrollbar>
     with SingleTickerProviderStateMixin, _ElScrollbarMixin, _RawScrollbarMixin {
   void handleHoverEnter(PointerEnterEvent event) {
-    if (isHover == false) {
-      isHover = true;
+    if (hasHover == false) {
+      hasHover = true;
       // 如果是在拖拽状态下鼠标重新进入滚动区域，需要重新判断是否处于滚动条上
       if (isDragScroll) {
         if (isPointerOverThumb(event.position, event.kind)) {
@@ -17,7 +17,7 @@ class _ElScrollbarState extends State<ElScrollbar>
   }
 
   void handleHoverExit(PointerExitEvent event) {
-    isHover = false;
+    hasHover = false;
     if (isDragScroll) return;
     changeColor(widget.thumbColor, defaultThumbColor);
   }
@@ -39,10 +39,10 @@ class _ElScrollbarState extends State<ElScrollbar>
     if (widget.mode == ElScrollbarMode.onlyScrolling) {
       changeColor(widget.thumbActiveColor, widget.thumbColor);
     } else {
-      // 短暂延迟一段时间执行结束逻辑，因为需要依赖 isHover 判断鼠标是否还在当前滚动区域
+      // 短暂延迟一段时间执行结束逻辑，因为需要依赖 hasHover 判断鼠标是否还在当前滚动区域
       setTimeout(() {
         isDragScroll = false;
-        if (isHover) {
+        if (hasHover) {
           changeColor(widget.thumbActiveColor, widget.thumbColor);
         } else {
           changeColor(widget.thumbActiveColor, defaultThumbColor);

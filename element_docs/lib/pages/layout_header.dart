@@ -132,7 +132,7 @@ class LayoutHeader extends StatelessWidget {
                                       e.$1,
                                       style: TextStyle(
                                           fontSize: 14,
-                                          color: context.isHover
+                                          color: context.hasHover
                                               ? context.elTheme.primary
                                               : context.elTheme.textTheme
                                                   .textStyle.color),

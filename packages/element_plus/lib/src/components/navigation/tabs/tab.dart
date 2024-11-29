@@ -22,7 +22,7 @@ class ElTab extends StatelessWidget {
         data: ElTagThemeData(
           bgColor: $key.value == $data.activeIndex
               ? context.elTheme.primary
-              : context.isHover
+              : context.hasHover
                   ? $theme.hoverBgColor
                   : $theme.bgColor,
         ),

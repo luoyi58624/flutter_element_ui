@@ -3,25 +3,19 @@ part of 'index.dart';
 class _ElEventState extends State<ElEvent>
     with
         _CommonMixin,
+        _FocusMixin,
+        _LongPressMixin,
         _HoverMixin,
         _TapMixin,
         _DoubleTapMixin,
-        _LongPressMixin,
-        _DragMixin {
+        _DragMixin,
+        _BubbleMixin {
   /// 指针按下事件
   void onPointerDown(PointerDownEvent e) async {
     if (!bubbleFlag) return;
     stopPropagationByWidget();
-
-    // 设置指针按下时的一些通用属性
-    childSize = childKey.currentContext?.size ?? Size.zero;
-    pointType = e.buttons;
-    tapDownOffset = e.position;
-    tapDownTime = currentMilliseconds;
-    isCancel = false;
-
+    setPointerDownDetails(e);
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
-
     if (_focusScopeWidget != null) {
       _focusScopeWidget!.setPointerDownFocusNode(focusNode);
       if (focusScopeNode!.hasFocus) {
@@ -81,7 +75,7 @@ class _ElEventState extends State<ElEvent>
     }
     if (isCancel) return;
     isCancel = true;
-    isTap = false;
+    hasTap = false;
     isActiveDoubleTap = false;
     isActiveLongPress = false;
     cancelLongPressTimer();
@@ -131,40 +125,6 @@ class _ElEventState extends State<ElEvent>
     prop.onPointerSignal?.call(e);
   }
 
-  /// 阻止事件冒泡，它会一层一层向上不断执行，直到最顶层的 [ElEvent]，
-  /// 逻辑很简单，就是将 [bubbleFlag] 冒泡标识设置为 false，阻止事件的执行。
-  void stopPropagation() {
-    if (bubbleFlag) {
-      bubbleFlag = false;
-      _EventInheritedWidget.stopPropagation(context);
-    }
-  }
-
-  /// 重置事件冒泡
-  void resetPropagation() {
-    bubbleFlag = true;
-    _EventInheritedWidget.resetPropagation(context);
-  }
-
-  /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
-  /// 所在 Element Tree 的位置开始，向上查找 [ElEvent] 小部件并执行阻止冒泡函数
-  void stopPropagationByWidget() {
-    final result = context.getInheritedWidgetOfExactType<ElStopPropagation>();
-    if (result != null && result.enabled == true) {
-      context
-          .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
-          ?.stopPropagation();
-    }
-  }
-
-  /// 重置 [ElBubbleBuilder] 小部件的状态，当 [onPointerUp]、[onPointerCancel] 时触发
-  void resetBubbleBuilderWidget() {
-    if (_BubbleInheritedWidget.triggerFlag) {
-      _BubbleInheritedWidget.triggerFlag = false;
-      _BubbleInheritedWidget._updateBubbleFlag(context, false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     prop = _Prop.create(context, widget);
@@ -173,10 +133,12 @@ class _ElEventState extends State<ElEvent>
     Widget result = ObsBuilder(
       builder: (context) {
         return _EventInheritedWidget(
-          isHover,
+          hasHover,
           setHoverDepend,
-          isTap,
+          hasTap,
           setTapDepend,
+          hasFocus,
+          setFocusDepend,
           stopPropagation,
           resetPropagation,
           child: Builder(
@@ -186,38 +148,8 @@ class _ElEventState extends State<ElEvent>
         );
       },
     );
-
-    focusScopeWidget = _FocusScopeLookupBoundary.getWidget(context);
-
-    if (focusScopeWidget != null) {
-      focusNode ??= FocusNode();
-      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
-      // 这么做的目的是：只有当用户使用了 ElFocusScope 小部件，下面 ElEvent 才会创建焦点，
-      // 同时，如果 ElEvent 嵌套 ElEvent，内部 ElEvent 要想获得焦点就必须再次插入 ElFocusScope。
-      result = _FocusScopeLookupBoundary(
-        child: Focus(
-          focusNode: focusNode,
-          autofocus: prop.autofocus,
-          canRequestFocus: prop.canRequestFocus,
-          // descendantsAreFocusable: prop.canRequestFocus,
-          child: result,
-        ),
-      );
-    }
-
-    // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
-    if (PlatformUtil.isDesktop) {
-      if (prop.disabled) isHover = false;
-      result = MouseRegion(
-        cursor: prop.cursor,
-        hitTestBehavior: prop.behavior,
-        onHover: prop.disabled ? null : prop.onHover,
-        onEnter: prop.disabled ? null : onEnter,
-        onExit: prop.disabled ? null : onExit,
-        child: result,
-      );
-    }
-
+    result = buildFocusWidget(context, result);
+    result = buildHoverWidget(context, result);
     result = Listener(
       behavior: prop.behavior,
       onPointerDown: prop.disabled ? null : onPointerDown,

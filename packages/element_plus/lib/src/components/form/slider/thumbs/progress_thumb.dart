@@ -22,7 +22,7 @@ class ElProgressSliderState extends State<ElProgressSlider> {
   /// 显示滑块按钮条件
   bool get showThumb {
     final $data = widget.of(context);
-    return $data.isHover || $data.isDrag;
+    return $data.hasHover || $data.isDrag;
   }
 
   @override

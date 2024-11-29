@@ -14,7 +14,7 @@ export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';
 export 'src/components/basic/container.dart';
 export 'src/components/basic/scrollbar/index.dart';
-export 'src/components/basic/text/index.dart' hide TextInheritedWidget;
+export 'src/components/basic/text/index.dart';
 
 export 'src/components/data/table/config.dart';
 export 'src/components/data/avatar/index.dart';
@@ -75,4 +75,5 @@ export 'src/extensions/widget.dart';
 export 'src/utils/font.dart';
 
 export 'src/widgets/brightness.dart';
+export 'src/widgets/current_color.dart';
 export 'src/widgets/simple_widgets.dart';

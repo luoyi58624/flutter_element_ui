@@ -353,18 +353,18 @@ class _GroupDivide extends StatelessWidget {
       final $tapIndex = $groupData.tapIndex.value;
       final $focusIndex = $groupData.focusIndex.value;
       final $modelValue = $groupData.modelValue;
-      bool $isHover = false;
-      bool $isTap = false;
+      bool $hasHover = false;
+      bool $hasTap = false;
       bool $isFocus = false;
       bool $isSelected = false;
 
       if ($tapIndex != -1) {
         if (matchIndex($tapIndex)) {
-          $isTap = true;
+          $hasTap = true;
         }
       } else if ($hoverIndex != -1) {
         if (matchIndex($hoverIndex)) {
-          $isHover = true;
+          $hasHover = true;
         }
       }
       if ($focusIndex != -1) {
@@ -396,8 +396,8 @@ class _GroupDivide extends StatelessWidget {
           $borderColor = _ButtonColors.calcColorStyle(
             context,
             prop: colorStyleProp,
-            isTap: $isTap,
-            isHover: $isHover,
+            hasTap: $hasTap,
+            hasHover: $hasHover,
             isFocus: $isFocus,
             hasGroup: true,
           ).borderColor;
@@ -433,8 +433,8 @@ class _GroupDivide extends StatelessWidget {
         $borderColor = _ButtonColors.calcGroupColorStyle(
           context,
           prop: colorStyleProp,
-          isTap: $isTap,
-          isHover: $isHover,
+          hasTap: $hasTap,
+          hasHover: $hasHover,
           isSelected: $isSelected,
         ).borderColor;
 
@@ -443,7 +443,7 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      final double $borderSize = ($isHover || $isTap || $isSelected
+      final double $borderSize = ($hasHover || $hasTap || $isSelected
               ? $data.borderActiveWidth
               : $data.borderWidth) ??
           context.elConfig.borderWidth!;

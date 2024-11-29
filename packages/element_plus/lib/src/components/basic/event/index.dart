@@ -22,11 +22,15 @@ part 'widgets/focus_scope.dart';
 
 part 'widgets/shortcuts.dart';
 
+part 'mixins/bubble.dart';
+
 part 'mixins/common.dart';
 
 part 'mixins/double_tap.dart';
 
 part 'mixins/drag.dart';
+
+part 'mixins/focus.dart';
 
 part 'mixins/hover.dart';
 
@@ -60,7 +64,6 @@ part '../../../generates/components/basic/event/index.g.dart';
 /// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
 /// builder 回调会传递一个 bool 类型的冒泡标识，你要根据这个标识手动控制逻辑的执行。
 class ElEvent extends StatefulWidget {
-  /// Element UI 事件交互构造器
   const ElEvent({
     super.key,
     this.child,
@@ -138,7 +141,7 @@ class ElEvent extends StatefulWidget {
   /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true
   final bool? prevent;
 
-  /// 指针抬起延迟时间，作用是让 [isTap] 状态效果更好，默认 100 毫秒
+  /// 指针抬起延迟时间，作用是让 [hasTap] 状态效果更好，默认 100 毫秒
   final int? tapUpDelay;
 
   /// 双击触发时间，默认 300 毫秒
@@ -267,12 +270,16 @@ class ElEvent extends StatefulWidget {
   final VoidCallback? onCancel;
 
   /// 通过上下文访问最近的 Hover 悬停状态，如果引用此变量，[ElEvent] 获得悬停事件时将会重建子组件
-  static bool isHover(BuildContext context) =>
+  static bool hasHover(BuildContext context) =>
       _EventInheritedWidget.getHoverStatus(context);
 
   /// 通过当前上下文访问最近的 Tap 点击状态，如果引用此变量，[ElEvent] 获得点击事件时将会重建子组件
-  static bool isTap(BuildContext context) =>
+  static bool hasTap(BuildContext context) =>
       _EventInheritedWidget.getTapStatus(context);
+
+  /// 通过当前上下文访问最近的 Focus 焦点状态，如果引用此变量，[ElEvent] 获得点击事件时将会重建子组件
+  static bool hasFocus(BuildContext context) =>
+      _EventInheritedWidget.getFocusStatus(context);
 
   /// 阻止事件冒泡，在大部分情况下你只需嵌套 [ElStopPropagation] 小部件即可，它更简单，
   /// 你无需考虑 context 作用域问题，但如果你想要控制阻止事件冒泡的时机，例如：

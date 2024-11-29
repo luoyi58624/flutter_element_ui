@@ -24,7 +24,7 @@ class _ElSliderState extends ModelValueState<ElSlider, double>
   bool isDrag = false;
 
   /// 鼠标是否悬停在 Slider 上
-  final isHover = Obs(false);
+  final hasHover = Obs(false);
 
   /// 当前 [modelValue] 在最大值、最小值之间的比例
   double get _valueRatio =>
@@ -231,7 +231,7 @@ class _ElSliderState extends ModelValueState<ElSlider, double>
                 return _SlideInheritedWidget(
                   ElSliderState(
                     isDrag: isDrag,
-                    isHover: context.isHover || isHover.value,
+                    hasHover: context.hasHover || hasHover.value,
                   ),
                   child: widget.sliderWidget,
                 );
@@ -270,7 +270,7 @@ class _ElSliderState extends ModelValueState<ElSlider, double>
           cursor: SystemMouseCursors.click,
           builder: (context) {
             nextTick(() {
-              isHover.value = context.isHover;
+              hasHover.value = context.hasHover;
             });
             return child;
           }),

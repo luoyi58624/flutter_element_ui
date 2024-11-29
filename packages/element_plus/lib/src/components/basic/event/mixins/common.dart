@@ -7,9 +7,6 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 最终合并的属性配置
   late _Prop prop;
 
-  /// 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡
-  bool bubbleFlag = true;
-
   /// 子组件的尺寸
   Size childSize = Size.zero;
 
@@ -34,51 +31,12 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 双击事件计时器
   Timer? doubleTapTimer;
 
-  /// 长按事件计时器
-  Timer? longPressTimer;
-
-  /// 焦点组节点对象，如果使用 [ElFocusScope]，那么它将初始化
-  FocusScopeNode? focusScopeNode;
-
-  /// 如果存在 [Focus] 焦点小部件，那么它将被初始化
-  FocusNode? focusNode;
-
-  /// 保存 [ElFocusScope] 小部件实例，用于设置指针按下时的焦点
-  _FocusScopeInheritedWidget? _focusScopeWidget;
-
-  _FocusScopeInheritedWidget? get focusScopeWidget => _focusScopeWidget;
-
-  set focusScopeWidget(_FocusScopeInheritedWidget? value) {
-    if (value != null) {
-      _focusScopeWidget = value;
-      focusScopeNode = FocusScope.of(context, createDependency: false);
-    } else {
-      _focusScopeWidget = null;
-      focusScopeNode = null;
-    }
-  }
-
-  void cancelLongPressTimer() {
-    if (longPressTimer != null) {
-      longPressTimer!.cancel();
-      longPressTimer = null;
-    }
-  }
-
-  void onTap() {
-    _requestFocus();
-    prop.onTap?.call();
-  }
-
-  void _requestFocus() {
-    if (_focusScopeWidget != null && focusScopeNode!.hasFocus == false) {
-      if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    focusNode?.dispose();
+  /// 设置指针按下时的一些通用属性
+  setPointerDownDetails(PointerDownEvent e) {
+    childSize = childKey.currentContext?.size ?? Size.zero;
+    pointType = e.buttons;
+    tapDownOffset = e.position;
+    tapDownTime = currentMilliseconds;
+    isCancel = false;
   }
 }

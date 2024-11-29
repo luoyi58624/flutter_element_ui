@@ -40,7 +40,8 @@ class IconTestPage extends HookWidget {
                       children: [
                         ElIcon(
                           ElIcons.values[keys[index]],
-                          color: context.isHover ? context.elTheme.primary : null,
+                          color:
+                              context.hasHover ? context.elTheme.primary : null,
                         ),
                         const Gap(16),
                         Padding(
@@ -51,8 +52,9 @@ class IconTestPage extends HookWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 12,
-                              color:
-                                  context.isHover ? context.elTheme.primary : null,
+                              color: context.hasHover
+                                  ? context.elTheme.primary
+                                  : null,
                             ),
                           ),
                         ),
