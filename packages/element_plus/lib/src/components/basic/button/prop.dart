@@ -68,7 +68,6 @@ class _Prop {
     late final bool $circle;
     late final bool $link;
     late final bool $plain;
-    late final bool $ring;
     late final bool $round;
     late final double $borderWidth;
     late final double $borderActiveWidth;
@@ -143,7 +142,7 @@ class _Prop {
       leftIcon: widget.leftIcon ?? $data.leftIcon,
       rightIcon: widget.rightIcon ?? $data.rightIcon,
       circle: $circle,
-      disabled: widget.disabled || widget.loading,
+      disabled: widget.disabled,
       loading: widget.loading,
       loadingWidget: widget.loadingWidget ??
           $data.loadingWidget ??

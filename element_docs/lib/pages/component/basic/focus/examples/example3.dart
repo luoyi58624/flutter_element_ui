@@ -14,7 +14,6 @@ class Example3 extends HookWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          allowSelected: true,
           content: [
             '按钮组不能存在轮廓环，Flutter 的 Stack 不支持类似 CSS 中的 z-index 功能，'
                 '这会导致轮廓环被后面的按钮覆盖。',
@@ -79,6 +78,22 @@ class _Example extends HookWidget {
             data: ElButtonThemeData(
               type: El.success,
               plain: true,
+            ),
+            child: ElButtonGroup(
+              children: [
+                ElButton(child: '选项一'),
+                ElButton(child: '选项二'),
+                ElButton(child: '选项三'),
+              ],
+            ),
+          ),
+        ),
+        const Gap(8),
+        const ElFocusScope(
+          child: ElButtonTheme(
+            data: ElButtonThemeData(
+              type: El.success,
+              text: true,
             ),
             child: ElButtonGroup(
               children: [

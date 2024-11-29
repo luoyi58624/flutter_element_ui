@@ -61,11 +61,13 @@ class SectionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        ElText(text),
-      ],
+    return SelectionArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElText(text),
+        ],
+      ),
     );
   }
 }
@@ -76,13 +78,11 @@ class SectionCard extends StatelessWidget {
     this.type = El.primary,
     required this.title,
     required this.content,
-    this.allowSelected = false,
   });
 
   final String type;
   final String title;
   final List<dynamic> content;
-  final bool allowSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -118,11 +118,11 @@ class SectionCard extends StatelessWidget {
         ),
       ),
     );
-    if (allowSelected) {
-      result = SelectionArea(
-        child: result,
-      );
-    }
+
+    result = SelectionArea(
+      child: result,
+    );
+
     return Stack(
       children: [
         result,

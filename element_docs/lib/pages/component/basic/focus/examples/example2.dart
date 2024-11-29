@@ -14,7 +14,6 @@ class Example2 extends HookWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          allowSelected: true,
           content: [
             '如果按钮处于焦点组中，那么按下它便可得到焦点',
           ],
@@ -24,8 +23,6 @@ class Example2 extends HookWidget {
           code: code,
           children: const [
             _Example(),
-            Gap(20),
-            _Example2(),
           ],
         ),
       ],
@@ -39,31 +36,44 @@ class _Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElFocusScope(
-      child: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        children: [null, ...El.themeTypes]
-            .map((type) => ElButton(child: 'Hello', type: type))
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _Example2 extends StatelessWidget {
-  const _Example2();
-
-  @override
-  Widget build(BuildContext context) {
-    return ElFocusScope(
-      child: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        children: [null, ...El.themeTypes]
-            .map((type) => ElLink(
-                href: githubLink,
-                child: ElButton(child: 'Link', type: type, link: true)))
-            .toList(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElButton(child: 'Hello', type: type))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map(
+                    (type) => ElButton(child: 'Hello', type: type, plain: true))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElButton(child: 'Hello', type: type, text: true))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElLink(
+                    href: githubLink,
+                    child: ElButton(child: 'Link', type: type, link: true)))
+                .toList(),
+          ),
+        ],
       ),
     );
   }
@@ -76,12 +86,44 @@ class _Example extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElFocusScope(
-      child: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        children: [null, ...El.themeTypes]
-            .map((type) => ElButton(child: 'Hello', type: type))
-            .toList(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElButton(child: 'Hello', type: type))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map(
+                    (type) => ElButton(child: 'Hello', type: type, plain: true))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElButton(child: 'Hello', type: type, text: true))
+                .toList(),
+          ),
+          const Gap(20),
+          Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [null, ...El.themeTypes]
+                .map((type) => ElLink(
+                    href: githubLink,
+                    child: ElButton(child: 'Link', type: type, link: true)))
+                .toList(),
+          ),
+        ],
       ),
     );
   }

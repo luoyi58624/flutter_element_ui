@@ -14,10 +14,9 @@ class Example1 extends HookWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          allowSelected: true,
           content: [
             'ElFocusScope 是对 FocusScope 进行的一层浅包装，它需要配合 ElEvent 共同使用，'
-                '如果 ElEvent 祖先存在 ElFocusScope 小部件，那么在指针按下时会预选中焦点，'
+                '如果 ElEvent 祖先存在 ElFocusScope 小部件，那么在指针按下时会预选中焦点（仅限桌面端，移动端依旧需要等待点击事件触发），'
                 '如果 ElFocusScope 已经处于激活状态，那么按下时会立即请求焦点，否则会在点击事件触发时再请求焦点。'
           ],
         ),

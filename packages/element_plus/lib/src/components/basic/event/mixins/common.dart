@@ -43,9 +43,6 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 如果存在 [Focus] 焦点小部件，那么它将被初始化
   FocusNode? focusNode;
 
-  /// 指针按下时是否禁止设置焦点，此属性由 [ElStopFocus] 小部件决定
-  bool disabledSetFocusNode = false;
-
   /// 保存 [ElFocusScope] 小部件实例，用于设置指针按下时的焦点
   _FocusScopeInheritedWidget? _focusScopeWidget;
 
@@ -74,10 +71,8 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   }
 
   void _requestFocus() {
-    if (disabledSetFocusNode == false) {
-      if (_focusScopeWidget != null && focusScopeNode!.hasFocus == false) {
-        if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
-      }
+    if (_focusScopeWidget != null && focusScopeNode!.hasFocus == false) {
+      if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
     }
   }
 

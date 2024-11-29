@@ -36,7 +36,7 @@ class _Example extends HookWidget {
           onTap: () {
             el.message.show('单击');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
           child: Container(
@@ -51,7 +51,7 @@ class _Example extends HookWidget {
           onSecondaryTap: () {
             el.message.primary('右键');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
           child: Container(
@@ -66,7 +66,7 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
           child: Container(
@@ -84,7 +84,7 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
           child: Container(
@@ -102,10 +102,10 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
-          delayTapForDouble: true,
+          delayTapForDouble: true, // 这个功能是 GestureDetector 小部件默认逻辑
           child: Container(
             width: 160,
             height: 50,
@@ -118,7 +118,7 @@ class _Example extends HookWidget {
           onLongPress: () {
             el.message.warning('长按');
           },
-          onCancel: (){
+          onCancel: () {
             el.message.error('取消');
           },
           child: Container(
@@ -202,7 +202,7 @@ class _Example extends HookWidget {
           onDoubleTap: () {
             el.message.success('双击');
           },
-          delayTapForDouble: true,
+          delayTapForDouble: true, // 这个功能是 GestureDetector 小部件默认逻辑
           child: Container(
             width: 160,
             height: 50,

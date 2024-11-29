@@ -66,6 +66,7 @@ class ElLink extends StatelessWidget {
     super.key,
     required this.child,
     required this.href,
+    this.manualTrigger = false,
     this.color,
     this.activeColor,
     this.decoration,
@@ -78,6 +79,9 @@ class ElLink extends StatelessWidget {
 
   /// 超链接地址
   final String href;
+
+  /// 是否手动触发跳转，若为 true 不会触发点击事件，默认 false
+  final bool manualTrigger;
 
   /// 默认的超链接文本颜色
   final Color? color;
@@ -175,6 +179,11 @@ class ElLink extends StatelessWidget {
         },
         child: ElEvent(
           cursor: cursor,
+          onTap: manualTrigger == true
+              ? null
+              : () {
+                  _toLink();
+                },
           onEnter: previewLink == null
               ? null
               : (e) {
@@ -207,7 +216,25 @@ class ElLink extends StatelessWidget {
                     _delayHideOverlay = setTimeout(_hide, _delayTime);
                   }
                 },
-          builder: (context) => buildTextTheme(context, _toLink),
+          builder: (context) {
+            // if (previewLink != null) {
+            //   if (Focus.maybeOf(context)?.hasFocus == true) {
+            //     nextTick(() {
+            //       _show(previewLink);
+            //     });
+            //   } else {
+            //     if (_delayShowOverlay != null) {
+            //       _delayShowOverlay!.cancel();
+            //       _delayShowOverlay = null;
+            //     }
+            //     if (_linkOverlay != null) {
+            //       _delayHideOverlay = setTimeout(_hide, _delayTime);
+            //     }
+            //   }
+            // }
+
+            return buildTextTheme(context, _toLink);
+          },
         ),
       ),
     );

@@ -17,6 +17,7 @@ class LayoutHeader extends StatelessWidget {
         children: [
           ElLink(
             href: '/',
+            manualTrigger: true,
             cursor: SystemMouseCursors.click,
             child: Builder(builder: (context) {
               return ElEvent(
@@ -53,24 +54,6 @@ class LayoutHeader extends StatelessWidget {
                   // color: context.elTheme.iconTheme.color,
                 );
               }),
-              IconButton(
-                tooltip: '全局配置',
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-                icon: const Icon(Icons.settings),
-              ),
-              Tooltip(
-                message: '跳转 GitHub 链接',
-                child: ElLink(
-                  href: 'https://github.com/luoyi58624/flutter_element_ui',
-                  target: LinkTarget.blank,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const _GithubLogo(),
-                  ),
-                ),
-              ),
               PopupMenuButton<String>(
                 enableFeedback: true,
                 offset: const Offset(0, 56),
@@ -89,6 +72,24 @@ class LayoutHeader extends StatelessWidget {
                           ))
                       .toList();
                 },
+              ),
+              IconButton(
+                tooltip: '全局配置',
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+                icon: const Icon(Icons.settings),
+              ),
+              Tooltip(
+                message: '跳转 GitHub 链接',
+                child: ElLink(
+                  href: 'https://github.com/luoyi58624/flutter_element_ui',
+                  target: LinkTarget.blank,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const _GithubLogo(),
+                  ),
+                ),
               ),
             ],
           ),

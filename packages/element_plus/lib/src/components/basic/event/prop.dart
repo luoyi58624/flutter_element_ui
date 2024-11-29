@@ -102,9 +102,8 @@ class _Prop {
   factory _Prop.create(BuildContext context, ElEvent widget) {
     final $data = ElEventTheme.of(context);
     final $disabled = widget.disabled ?? $data.disabled ?? false;
-    final $canRequestFocus = $disabled == true
-        ? false
-        : widget.canRequestFocus ?? $data.canRequestFocus ?? true;
+    final $canRequestFocus =
+        widget.canRequestFocus ?? $data.canRequestFocus ?? true;
 
     return _Prop(
       $disabled,

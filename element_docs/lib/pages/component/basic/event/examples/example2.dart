@@ -98,8 +98,8 @@ class _Example2 extends HookWidget {
             height: 150,
             color: Colors.blue,
             alignment: Alignment.center,
-            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，或者在事件中执行 context.stopPropagation() 方法，
-            // 在大多数情况下嵌套小部件的方式更简单，因为后者你还需要注意 context 作用域问题
+            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，
+            // 你也可以在事件中执行 context.stopPropagation() 方法阻止事件冒泡
             child: ElStopPropagation(
               child: ElEvent(
                 onTap: () {
@@ -233,8 +233,8 @@ class _Example2 extends HookWidget {
             height: 150,
             color: Colors.blue,
             alignment: Alignment.center,
-            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，或者在事件中执行 context.stopPropagation() 方法，
-            // 在大多数情况下嵌套小部件的方式更简单，因为后者你还需要注意 context 作用域问题
+            // 添加 ElStopPropagation 小部件即可阻止事件冒泡，
+            // 你也可以在事件中执行 context.stopPropagation() 方法阻止事件冒泡
             child: ElStopPropagation(
               child: ElEvent(
                 onTap: () {

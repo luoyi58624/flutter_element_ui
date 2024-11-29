@@ -105,6 +105,10 @@ class _ElButtonState extends State<ElButton> {
 
   /// 构建按钮事件
   Widget _buildButtonEvent() {
+    // i(_prop.disabled == false &&
+    //     (_eventThemeData.canRequestFocus == null ||
+    //             _eventThemeData.canRequestFocus == false) ==
+    //         false);
     return Actions(
       actions: {
         ActivateIntent:
@@ -114,8 +118,9 @@ class _ElButtonState extends State<ElButton> {
       },
       child: Builder(builder: (context) {
         return ElEvent(
-          disabled: _prop.disabled,
+          disabled: _prop.disabled || _prop.loading,
           autofocus: widget.autofocus,
+          canRequestFocus: _prop.disabled == false,
           cursor: _cursor,
           onEnter: (e) {
             setState(() {
@@ -167,17 +172,21 @@ class _ElButtonState extends State<ElButton> {
             builder: (context) {
               _isFocus = Focus.maybeOf(context)?.hasFocus ?? false;
               final hasFocusScope = FocusScope.of(context).hasFocus;
-              if (_prop.disabled) {
+
+              if (_prop.disabled || _prop.loading) {
                 _isHover = false;
                 if (_hasGroup) {
                   nextTick(() {
                     _groupData!.hoverIndex.value = -1;
-                    _groupData!.focusIndex.value = -1;
                   });
                 }
-              } else {
-                if (_hasGroup) {
-                  nextTick(() {
+              }
+
+              if (_hasGroup) {
+                nextTick(() {
+                  if (_prop.disabled) {
+                    _groupData!.focusIndex.value = -1;
+                  } else {
                     if (_isFocus) {
                       _groupData!.focusIndex.value = _indexData!.index;
                     } else {
@@ -185,8 +194,8 @@ class _ElButtonState extends State<ElButton> {
                         _groupData!.focusIndex.value = -1;
                       }
                     }
-                  });
-                }
+                  }
+                });
               }
 
               if (_prop.loading && _prop.loadingBuilder != null) {
@@ -205,6 +214,7 @@ class _ElButtonState extends State<ElButton> {
                   bg: _prop.bg,
                   link: _prop.link,
                   disabled: _prop.disabled,
+                  loading: _prop.loading,
                 );
                 if (_groupData == null ||
                     _groupData!.type == _ButtonGroupType.none) {
@@ -214,6 +224,7 @@ class _ElButtonState extends State<ElButton> {
                     isHover: _isHover,
                     isTap: _isTap,
                     isFocus: _isFocus,
+                    hasGroup: _hasGroup,
                   );
                 } else {
                   _colorStyle = _ButtonColors.calcGroupColorStyle(

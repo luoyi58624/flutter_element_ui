@@ -7,6 +7,7 @@ typedef _ColorStyleProp = ({
   bool bg,
   bool link,
   bool disabled,
+  bool loading,
 });
 
 /// 按钮颜色样式
@@ -62,6 +63,7 @@ class _ButtonColors {
     required bool isTap,
     required bool isHover,
     required bool isFocus,
+    required bool hasGroup,
   }) {
     final $elTheme = context.elTheme;
     late _ButtonColorStyle colors;
@@ -69,13 +71,13 @@ class _ButtonColors {
     if (prop.link) {
       if (isTap) {
         colors = linkButtonActive(context, bgColor: prop.bgColor);
-      } else if (isHover || isFocus) {
+      } else if (isHover) {
         colors = linkButtonHover(context, bgColor: prop.bgColor);
       } else {
         colors = linkButton(
           context,
           bgColor: prop.bgColor,
-          disabled: prop.disabled,
+          disabled: prop.disabled || prop.loading,
         );
       }
     } else if (prop.text) {
@@ -85,7 +87,7 @@ class _ButtonColors {
           bgColor: prop.bgColor,
           bg: prop.bg,
         );
-      } else if (isHover || isFocus) {
+      } else if (isHover || (hasGroup && isFocus)) {
         colors = textButtonHover(
           context,
           bgColor: prop.bgColor,
@@ -96,7 +98,7 @@ class _ButtonColors {
           context,
           bgColor: prop.bgColor,
           bg: prop.bg,
-          disabled: prop.disabled,
+          disabled: prop.disabled || prop.loading,
         );
       }
     } else if (prop.plain) {
@@ -106,7 +108,10 @@ class _ButtonColors {
         } else if (isHover || isFocus) {
           colors = plainButtonHover(context);
         } else {
-          colors = plainButton(context, disabled: prop.disabled);
+          colors = plainButton(
+            context,
+            disabled: prop.disabled || prop.loading,
+          );
         }
       } else {
         if (isTap) {
@@ -117,7 +122,7 @@ class _ButtonColors {
           colors = plainThemeButton(
             context,
             bgColor: prop.bgColor!,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       }
@@ -138,19 +143,19 @@ class _ButtonColors {
         } else {
           colors = button(
             context,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       } else {
         if (isTap) {
           colors = themeButtonActive(context, bgColor: prop.bgColor!);
-        } else if (isHover || isFocus) {
+        } else if (isHover || (hasGroup && isFocus)) {
           colors = themeButtonHover(context, bgColor: prop.bgColor!);
         } else {
           colors = themeButton(
             context,
             bgColor: prop.bgColor!,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       }

@@ -16,7 +16,10 @@ class Example9 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            'Element UI 所有组件都没有提供 size 选项，你可以通过设置 width、height、padding、block 等属性自由地封装各种尺寸按钮。'
+            '预设全局 Size 不仅需要考虑 Widget 的各种边距、尺寸，还需要考虑内部的文字、图标的大小，'
+                '即使实现在很多时候预设的值往往无法符合需求，还造成 Api 复杂度、代码实现复杂度进一步提升，'
+                '所以我对这种功能并不感兴趣，我更推荐用户自己去封装一些特定尺寸的小部件，'
+                '例如：你可以简单的通过设置 width、height、padding、block 等属性封装各种尺寸按钮。'
           ],
         ),
         textGap,

@@ -39,7 +39,32 @@ class _HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('首页'),
       ),
-      body: const SizedBox(),
+      body: const SelectionArea(
+        child: ElEventTheme(
+          data: ElEventThemeData(
+            canRequestFocus: false,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ElText([
+                'hello, ',
+                ElText(
+                  '这是一段富文本, ',
+                  style: TextStyle(color: Colors.green),
+                ),
+                ' ',
+                SelectionContainer.disabled(
+                  child: ElButton(
+                    child: 'Hello',
+                    type: El.primary,
+                  ),
+                ),
+              ]),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

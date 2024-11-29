@@ -373,10 +373,11 @@ class _GroupDivide extends StatelessWidget {
         }
       }
 
-      bool disabled = ($groupData.children[index].disabled ||
-              $groupData.children[index].loading) &&
-          ($groupData.children[index + 1].disabled ||
-              $groupData.children[index + 1].loading);
+      bool disabled = $groupData.children[index].disabled &&
+          $groupData.children[index + 1].disabled;
+
+      bool loading = $groupData.children[index].loading &&
+          $groupData.children[index + 1].loading;
 
       final colorStyleProp = (
         bgColor: bgColor,
@@ -385,6 +386,7 @@ class _GroupDivide extends StatelessWidget {
         bg: $data.bg ?? false,
         link: false,
         disabled: disabled,
+        loading: loading,
       );
 
       if ($groupData.type == _ButtonGroupType.none) {
@@ -397,6 +399,7 @@ class _GroupDivide extends StatelessWidget {
             isTap: $isTap,
             isHover: $isHover,
             isFocus: $isFocus,
+            hasGroup: true,
           ).borderColor;
         }
       } else {

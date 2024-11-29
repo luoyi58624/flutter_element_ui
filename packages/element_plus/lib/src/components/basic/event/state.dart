@@ -21,12 +21,11 @@ class _ElEventState extends State<ElEvent>
     isCancel = false;
 
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
-    if (disabledSetFocusNode == false) {
-      if (_focusScopeWidget != null) {
-        _focusScopeWidget!.setPointerDownFocusNode(focusNode);
-        if (focusScopeNode!.hasFocus) {
-          focusNode!.requestFocus();
-        }
+
+    if (_focusScopeWidget != null) {
+      _focusScopeWidget!.setPointerDownFocusNode(focusNode);
+      if (focusScopeNode!.hasFocus) {
+        focusNode!.requestFocus();
       }
     }
 
@@ -200,6 +199,7 @@ class _ElEventState extends State<ElEvent>
           focusNode: focusNode,
           autofocus: prop.autofocus,
           canRequestFocus: prop.canRequestFocus,
+          // descendantsAreFocusable: prop.canRequestFocus,
           child: result,
         ),
       );
