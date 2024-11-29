@@ -14,6 +14,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
     required this.axis,
     required this.hoverIndex,
     required this.tapIndex,
+    required this.focusIndex,
     required this.divideColor,
     required this.dividePositionList,
     required this.onChanged,
@@ -26,6 +27,7 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   final Axis axis;
   final Obs<int> hoverIndex;
   final Obs<int> tapIndex;
+  final Obs<int> focusIndex;
   final Obs<Color?> divideColor;
   final Obs<List<double>> dividePositionList;
   final ValueChanged onChanged;
@@ -107,6 +109,9 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
 
   /// 当前鼠标激活的按钮
   final _tapIndex = Obs(-1);
+
+  /// 当下得到焦点的按钮
+  final _focusIndex = Obs(-1);
 
   /// 按钮组分割线颜色，它的颜色会和按钮边框同步
   final _divideColor = Obs<Color?>(null);
@@ -275,6 +280,7 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
       axis: widget.axis,
       hoverIndex: _hoverIndex,
       tapIndex: _tapIndex,
+      focusIndex: _focusIndex,
       divideColor: _divideColor,
       dividePositionList: _dividePositionList,
       onChanged: _onChange,
@@ -345,9 +351,11 @@ class _GroupDivide extends StatelessWidget {
       Color? $borderColor;
       final $hoverIndex = $groupData.hoverIndex.value;
       final $tapIndex = $groupData.tapIndex.value;
+      final $focusIndex = $groupData.focusIndex.value;
       final $modelValue = $groupData.modelValue;
       bool $isHover = false;
       bool $isTap = false;
+      bool $isFocus = false;
       bool $isSelected = false;
 
       if ($tapIndex != -1) {
@@ -357,6 +365,11 @@ class _GroupDivide extends StatelessWidget {
       } else if ($hoverIndex != -1) {
         if (matchIndex($hoverIndex)) {
           $isHover = true;
+        }
+      }
+      if ($focusIndex != -1) {
+        if (matchIndex($focusIndex)) {
+          $isFocus = true;
         }
       }
 
@@ -383,6 +396,7 @@ class _GroupDivide extends StatelessWidget {
             prop: colorStyleProp,
             isTap: $isTap,
             isHover: $isHover,
+            isFocus: $isFocus,
           ).borderColor;
         }
       } else {
@@ -433,9 +447,9 @@ class _GroupDivide extends StatelessWidget {
 
       return Positioned(
         // -1 是为了遮盖 Flutter 元素重叠bug，两个相同颜色的 Widget 之间会有 1px 的空白间距
-        left: isHorizontal ? $dividePositionList[index] - 1 : 0,
+        left: isHorizontal ? $dividePositionList[index] : 0,
         right: !isHorizontal ? 0 : null,
-        top: !isHorizontal ? $dividePositionList[index] - 1 : 0,
+        top: !isHorizontal ? $dividePositionList[index] : 0,
         bottom: isHorizontal ? 0 : null,
         child: IgnorePointer(
           child: AnimatedColoredBox(

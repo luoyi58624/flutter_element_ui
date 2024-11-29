@@ -12,6 +12,15 @@ class Example3 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          allowSelected: true,
+          content: [
+            '按钮组不能存在轮廓环，Flutter 的 Stack 不支持类似 CSS 中的 z-index 功能，'
+                '这会导致轮廓环被后面的按钮覆盖。',
+          ],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: const [
@@ -23,24 +32,64 @@ class Example3 extends HookWidget {
   }
 }
 
-class _Example extends StatelessWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
-    return const ElFocusScope(
-      child: ElButtonTheme(
-        data: ElButtonThemeData(
-          type: El.primary,
+    final loading = useState(false);
+    return Column(
+      children: [
+        const ElFocusScope(
+          child: ElButtonGroup(
+            children: [
+              ElButton(child: '选项一'),
+              ElButton(child: '选项二'),
+              ElButton(child: '选项三'),
+            ],
+          ),
         ),
-        child: ElButtonGroup(
-          children: [
-            ElButton(child: '选项一'),
-            ElButton(child: '选项二'),
-            ElButton(child: '选项三'),
-          ],
+        const Gap(8),
+        ElFocusScope(
+          child: ElButtonTheme(
+            data: const ElButtonThemeData(
+              type: El.primary,
+            ),
+            child: ElButtonGroup(
+              children: [
+                const ElButton(child: '选项一'),
+                ElButton(
+                  onPressed: () {
+                    loading.value = true;
+                    setTimeout(() {
+                      loading.value = false;
+                    }, 1000);
+                  },
+                  child: '选项二',
+                  loading: loading.value,
+                ),
+                const ElButton(child: '选项三'),
+              ],
+            ),
+          ),
         ),
-      ),
+        const Gap(8),
+        const ElFocusScope(
+          child: ElButtonTheme(
+            data: ElButtonThemeData(
+              type: El.success,
+              plain: true,
+            ),
+            child: ElButtonGroup(
+              children: [
+                ElButton(child: '选项一'),
+                ElButton(child: '选项二'),
+                ElButton(child: '选项三'),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

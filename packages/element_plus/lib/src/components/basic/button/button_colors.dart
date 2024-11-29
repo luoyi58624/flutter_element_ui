@@ -22,6 +22,20 @@ class _ButtonColorStyle {
     this.borderColor,
     this.loadingTextColor,
   });
+
+  _ButtonColorStyle copyWith({
+    Color? bgColor,
+    Color? textColor,
+    Color? borderColor,
+    Color? loadingTextColor,
+  }) {
+    return _ButtonColorStyle(
+      bgColor: bgColor ?? this.bgColor,
+      textColor: textColor ?? this.textColor,
+      borderColor: borderColor ?? this.borderColor,
+      loadingTextColor: loadingTextColor ?? this.loadingTextColor,
+    );
+  }
 }
 
 extension _ButtonColorExtension on Color {
@@ -47,6 +61,7 @@ class _ButtonColors {
     required _ColorStyleProp prop,
     required bool isTap,
     required bool isHover,
+    required bool isFocus,
   }) {
     final $elTheme = context.elTheme;
     late _ButtonColorStyle colors;
@@ -54,7 +69,7 @@ class _ButtonColors {
     if (prop.link) {
       if (isTap) {
         colors = linkButtonActive(context, bgColor: prop.bgColor);
-      } else if (isHover) {
+      } else if (isHover || isFocus) {
         colors = linkButtonHover(context, bgColor: prop.bgColor);
       } else {
         colors = linkButton(
@@ -70,7 +85,7 @@ class _ButtonColors {
           bgColor: prop.bgColor,
           bg: prop.bg,
         );
-      } else if (isHover) {
+      } else if (isHover || isFocus) {
         colors = textButtonHover(
           context,
           bgColor: prop.bgColor,
@@ -88,7 +103,7 @@ class _ButtonColors {
       if (prop.bgColor == null) {
         if (isTap) {
           colors = plainButtonActive(context);
-        } else if (isHover) {
+        } else if (isHover || isFocus) {
           colors = plainButtonHover(context);
         } else {
           colors = plainButton(context, disabled: prop.disabled);
@@ -96,7 +111,7 @@ class _ButtonColors {
       } else {
         if (isTap) {
           colors = plainThemeButtonActive(context, bgColor: prop.bgColor!);
-        } else if (isHover) {
+        } else if (isHover || isFocus) {
           colors = themeButton(context, bgColor: prop.bgColor!);
         } else {
           colors = plainThemeButton(
@@ -114,7 +129,7 @@ class _ButtonColors {
             textColor: $elTheme.primary,
             borderColor: $elTheme.primary,
           );
-        } else if (isHover) {
+        } else if (isHover || isFocus) {
           colors = _ButtonColorStyle(
             bgColor: $elTheme.primary.elLight9(context),
             textColor: $elTheme.primary,
@@ -129,7 +144,7 @@ class _ButtonColors {
       } else {
         if (isTap) {
           colors = themeButtonActive(context, bgColor: prop.bgColor!);
-        } else if (isHover) {
+        } else if (isHover || isFocus) {
           colors = themeButtonHover(context, bgColor: prop.bgColor!);
         } else {
           colors = themeButton(

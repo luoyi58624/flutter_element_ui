@@ -26,8 +26,9 @@ class _ElButtonState extends State<ElButton> {
 
   late MouseCursor _cursor;
 
-  bool _isTap = false;
   bool _isHover = false;
+  bool _isTap = false;
+  bool _isFocus = false;
 
   bool get _isIconChild => _prop.child is ElIcon || _prop.child is Icon;
 
@@ -48,13 +49,21 @@ class _ElButtonState extends State<ElButton> {
   void activateOnIntent(Intent? intent) {
     if (_prop.disabled) return;
     setState(() {
+      if (_hasGroup) {
+        _groupData!.tapIndex.value = _indexData!.index;
+      }
       _isTap = true;
     });
     onPressed();
     setTimeout(() {
-      setState(() {
-        _isTap = false;
-      });
+      if (mounted) {
+        setState(() {
+          if (_hasGroup) {
+            _groupData!.tapIndex.value = -1;
+          }
+          _isTap = false;
+        });
+      }
     }, _prop.duration.inMilliseconds);
   }
 
@@ -156,14 +165,30 @@ class _ElButtonState extends State<ElButton> {
           },
           child: Builder(
             builder: (context) {
+              _isFocus = Focus.maybeOf(context)?.hasFocus ?? false;
+              final hasFocusScope = FocusScope.of(context).hasFocus;
               if (_prop.disabled) {
                 _isHover = false;
                 if (_hasGroup) {
                   nextTick(() {
                     _groupData!.hoverIndex.value = -1;
+                    _groupData!.focusIndex.value = -1;
+                  });
+                }
+              } else {
+                if (_hasGroup) {
+                  nextTick(() {
+                    if (_isFocus) {
+                      _groupData!.focusIndex.value = _indexData!.index;
+                    } else {
+                      if (hasFocusScope == false) {
+                        _groupData!.focusIndex.value = -1;
+                      }
+                    }
                   });
                 }
               }
+
               if (_prop.loading && _prop.loadingBuilder != null) {
                 _colorStyle = _ButtonColors.loadingButton(
                   context,
@@ -188,6 +213,7 @@ class _ElButtonState extends State<ElButton> {
                     prop: $colorStyleProp,
                     isHover: _isHover,
                     isTap: _isTap,
+                    isFocus: _isFocus,
                   );
                 } else {
                   _colorStyle = _ButtonColors.calcGroupColorStyle(
@@ -251,17 +277,21 @@ class _ElButtonState extends State<ElButton> {
       ),
     );
 
-    result = ElRingTheme(
-      data: ElRingThemeData(
-        show: Focus.maybeOf(context)?.hasFocus,
-        duration: _prop.duration,
-        radius: borderRadius,
-        color: _prop.bgColor == null ? context.elTheme.primary : _prop.bgColor!,
-      ),
-      child: ElRing(
-        child: result,
-      ),
-    );
+    /// 按钮组排除轮廓环，flutter Stack 布局会遮挡轮廓环
+    if (_hasGroup == false) {
+      result = ElRingTheme(
+        data: ElRingThemeData(
+          show: Focus.maybeOf(context)?.hasFocus,
+          duration: _prop.duration,
+          radius: borderRadius,
+          color:
+              _prop.bgColor == null ? context.elTheme.primary : _prop.bgColor!,
+        ),
+        child: ElRing(
+          child: result,
+        ),
+      );
+    }
 
     if (_prop.loadingBuilder != null && _prop.loading) {
       assert(_colorStyle.loadingTextColor != null,
