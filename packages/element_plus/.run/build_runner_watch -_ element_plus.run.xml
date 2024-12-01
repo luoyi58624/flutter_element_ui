@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="build_runner -&gt; 'element_plus'" type="ShConfigurationType">
+  <configuration default="false" name="build_runner_watch -&gt; element_plus" type="ShConfigurationType">
     <option name="SCRIPT_TEXT" value="dart run build_runner watch --delete-conflicting-outputs" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />

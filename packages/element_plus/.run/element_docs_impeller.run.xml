@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="element_docs_impeller" type="FlutterRunConfigurationType" factoryName="Flutter">
     <option name="additionalArgs" value="--profile --enable-impeller" />
-    <option name="filePath" value="$PROJECT_DIR$/element_docs/lib/main.dart" />
+    <option name="filePath" value="$PROJECT_DIR$/packages/element_docs/lib/main.dart" />
     <method v="2" />
   </configuration>
 </component>

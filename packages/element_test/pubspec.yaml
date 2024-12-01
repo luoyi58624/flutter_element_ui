@@ -8,15 +8,15 @@ dependencies:
   flutter:
     sdk: flutter
   element_plus:
-    path: ../packages/element_plus
+    path: ../element_plus
   element_extension:
-    path: ../packages/element_extension
+    path: ../element_extension
   element_dart:
-    path: ../packages/element_dart
+    path: ../element_dart
   element_annotation:
-    path: ../packages/element_annotation
+    path: ../element_annotation
   flutter_obs:
-    path: ../packages/flutter_obs
+    path: ../flutter_obs
 
 dev_dependencies:
   flutter_test:
@@ -24,8 +24,8 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.10
   element_generator:
-    path: ../packages/element_generator
+    path: ../element_generator
 
 dependency_overrides:
   flutter_obs:
-    path: ../packages/flutter_obs
+    path: ../flutter_obs
