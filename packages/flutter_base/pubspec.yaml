@@ -11,13 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
   element_plus:
-    path: ../../packages/element_plus
+    path: ../element_plus
   element_dart:
-    path: ../../packages/element_dart
+    path: ../element_dart
   element_extension:
-    path: ../../packages/element_extension
+    path: ../element_extension
   flutter_obs:
-    path: ../../packages/flutter_obs
+    path: ../flutter_obs
   collection: ^1.18.0
   dio: ^5.4.2
   dio_smart_retry: ^6.0.0
