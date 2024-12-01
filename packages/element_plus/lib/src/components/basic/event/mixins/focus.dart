@@ -25,7 +25,7 @@ mixin _FocusMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在焦点状态依赖，如果没有依赖需要防止不必要的重新渲染
   bool hasFocusDepend = false;
 
-  final _hasFocus = BaseObs(false);
+  final _hasFocus = RawObs(false);
 
   /// 焦点状态响应式变量，此属性会注入到 InheritedWidget 小部件
   bool get hasFocus => _hasFocus.value;

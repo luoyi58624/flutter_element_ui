@@ -9,9 +9,9 @@ VoidCallback? _tempBuilderNotifyFun;
 /// 此集合就是在 build 过程中收集多个响应式变量 builderFunList 对象
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
-class BaseObs<T> extends ValueNotifier<T> {
-  /// 最基础的响应式变量实现，它只负责与 [ObsBuilder] 建立联系
-  BaseObs(this._value) : super(_value) {
+class RawObs<T> extends ValueNotifier<T> {
+  /// 响应式变量的核心实现，它负责与 [ObsBuilder] 建立联系
+  RawObs(this._value) : super(_value) {
     this._initialValue = _value;
     this._oldValue = _value;
   }

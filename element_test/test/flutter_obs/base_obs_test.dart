@@ -6,8 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'common.dart';
 
 void baseObsTest() {
-  testWidgets('测试 BaseObs', (tester) async {
-    final count = BaseObs(0);
+  testWidgets('测试 RawObs', (tester) async {
+    final count = RawObs(0);
 
     await tester.pumpWidget(MaterialApp(
       home: Builder(builder: (context) {

@@ -12,14 +12,6 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: [
-            'ElLayout 体系下的所有布局组件不包含任何内容，你要自己去实现它们，'
-                '例如下面这个示例便是实现 Material 风格布局面板'
-          ],
-        ),
-        textGap,
         const CodeExample(
           code: code,
           children: [

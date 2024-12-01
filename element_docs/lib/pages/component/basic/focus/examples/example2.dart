@@ -68,9 +68,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElLink(
-                    href: githubLink,
-                    child: ElButton(child: 'Link', type: type, link: true)))
+                .map((type) => ElButton(child: 'Link', type: type, link: true))
                 .toList(),
           ),
         ],
@@ -118,9 +116,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElLink(
-                    href: githubLink,
-                    child: ElButton(child: 'Link', type: type, link: true)))
+                .map((type) => ElButton(child: 'Link', type: type, link: true))
                 .toList(),
           ),
         ],

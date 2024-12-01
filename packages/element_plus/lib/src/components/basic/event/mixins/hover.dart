@@ -4,7 +4,7 @@ mixin _HoverMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在悬停状态依赖，如果没有依赖需要防止不必要的重新渲染
   bool hasHoverDepend = false;
 
-  late final BaseObs<bool>? _hasHover;
+  RawObs<bool>? _hasHover;
 
   /// 悬停状态响应式变量，此属性会注入到 InheritedWidget 小部件
   bool get hasHover => _hasHover?.value ?? false;
@@ -35,7 +35,7 @@ mixin _HoverMixin<T extends ElEvent> on _CommonMixin<T> {
   void initState() {
     super.initState();
     if (PlatformUtil.isDesktop) {
-      _hasHover = BaseObs(false);
+      _hasHover = RawObs(false);
     }
   }
 

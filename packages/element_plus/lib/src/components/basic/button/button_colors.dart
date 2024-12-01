@@ -222,27 +222,27 @@ class _ButtonColors {
             borderColor: $elTheme.layoutTheme.borderColor,
           );
         } else {
-          colors = _ButtonColors.plainButton(context, disabled: prop.disabled);
+          colors = _ButtonColors.plainButton(context, disabled: prop.disabled || prop.loading);
         }
       } else {
         if (isSelected) {
           colors = _ButtonColors.themeButton(
             context,
             bgColor: prop.bgColor!,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         } else if (hasHover || hasTap) {
           colors = _ButtonColors.plainThemeButton(
             context,
             bgColor: prop.bgColor!,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
           colors.textColor = colors.textColor!.tap(context);
         } else {
           colors = _ButtonColors.plainThemeButton(
             context,
             bgColor: prop.bgColor!,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       }
@@ -262,7 +262,7 @@ class _ButtonColors {
         } else {
           colors = _ButtonColors.button(
             context,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       } else {
@@ -280,7 +280,7 @@ class _ButtonColors {
         } else {
           colors = _ButtonColors.button(
             context,
-            disabled: prop.disabled,
+            disabled: prop.disabled || prop.loading,
           );
         }
       }

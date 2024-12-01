@@ -2,7 +2,10 @@ import 'package:flutter/widgets.dart';
 
 import 'base_obs.dart';
 
-/// 响应式变量监听回调，接收 newValue、oldValue 参数
+/// 响应式变量监听回调，接收 newValue、oldValue 参数。
+///
+/// 注意：如果监听依赖 oldValue，那么修改响应式变量时你必须通过 .value 更新，
+/// 否则 setter 方法无法拦截修改。
 typedef WatchCallback<T> = void Function(T newValue, T oldValue);
 
 /// 响应式变量通知模式
@@ -26,7 +29,7 @@ enum ObsNotifyMode {
 /// [Obs] 继承自 [ValueNotifier]，所以支持多种使用方式：
 ///
 /// ```dart
-/// const count = BaseObs(0);
+/// const count = RawObs(0);
 ///
 /// ObsBuilder(
 ///   builder: (context){
@@ -46,13 +49,13 @@ enum ObsNotifyMode {
 ///   },
 /// ),
 /// ```
-class Obs<T> extends BaseObs<T> {
+class Obs<T> extends RawObs<T> {
   /// 创建一个响应式变量，[ObsBuilder] 会自动收集所有依赖的响应式变量，当发生变更时会自动重建小部件。
   /// * watch 设置监听回调函数，接收 newValue、oldValue 回调
   /// * immediate 是否立即执行一次监听函数，默认false
   ///
-  /// 提示：当作为局部变量时，通常情况下你无需在 dispose 中手动销毁它，因为 [ObsBuilder] 被卸载时会自动移除依赖，
-  /// 除非你手动添加副作用监听函数。
+  /// 当作为局部变量时，[ObsBuilder] 被卸载时会自动移除依赖，如果你没有添加副作用监听函数，
+  /// 那么无需在 dispose 中手动销毁它。
   Obs(
     super.value, {
     this.notifyMode = const [ObsNotifyMode.all],
@@ -160,7 +163,7 @@ class Obs<T> extends BaseObs<T> {
 class ObsTest extends Obs {
   ObsTest._(super.value);
 
-  static int getBuilderFunLength<T>(BaseObs<T> obs) {
+  static int getBuilderFunLength<T>(RawObs<T> obs) {
     return obs.builderFunList.length;
   }
 

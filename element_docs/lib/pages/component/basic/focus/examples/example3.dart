@@ -15,8 +15,10 @@ class Example3 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            '按钮组不能存在轮廓环，Flutter 的 Stack 不支持类似 CSS 中的 z-index 功能，'
-                '这会导致轮廓环被后面的按钮覆盖。',
+            '按钮组不能存在轮廓环，因为按钮组和轮廓环都是基于 Stack 小部件实现，'
+                '但 Stack 不支持类似 CSS 中的 z-index 功能，'
+                '这会导致轮廓环被后面的按钮覆盖，或许可以通过重排序解决此问题，'
+                '但是代价会造成按钮组极其频繁的 build',
           ],
         ),
         textGap,

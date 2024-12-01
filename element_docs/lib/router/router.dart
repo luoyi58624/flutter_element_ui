@@ -54,13 +54,30 @@ part 'routes/component.dart';
 
 part 'routes/template.dart';
 
+part 'routes/contribute.dart';
+
 final GoRouter router = GoRouter.routingConfig(
   navigatorKey: el.navigatorKey,
   initialLocation: '/',
   errorPageBuilder: (context, state) => const NoTransitionPage(
     child: NotFoundPage(),
   ),
-  routingConfig: RouterState.routingConfig,
+  routingConfig: _routingConfig,
+);
+
+/// 控制路由配置全局响应式变量，当屏幕尺寸达到移动端尺寸阈值时，将自动更新路由配置
+final isMobileRoute = Obs<bool?>(
+  null,
+  watch: (newValue, oldValue) {
+    newValue == true
+        ? _routingConfig.value = _buildMobileRoutingConfig()
+        : _routingConfig.value = _buildDesktopRoutingConfig();
+  },
+);
+
+/// 动态路由配置，初始默认为空数组
+final _routingConfig = Obs<RoutingConfig>(
+  const RoutingConfig(routes: []),
 );
 
 /// 监听路由跳转
@@ -78,9 +95,8 @@ final GoRouter router = GoRouter.routingConfig(
 /// 构建桌面端路由配置
 RoutingConfig _buildDesktopRoutingConfig() {
   return RoutingConfig(
-    // redirect: _routerRedirect,
     routes: [
-      /// [ShellRoute] 表示嵌套导航，构建器包含第三个参数：child，它表示当前导航的子路由页面
+      /// ShellRoute 表示嵌套导航，切换页面不会保存状态
       ShellRoute(
         pageBuilder: (context, state, child) => NoTransitionPage(
           child: DesktopLayout(child: child),
@@ -146,12 +162,11 @@ RoutingConfig _buildDesktopRoutingConfig() {
   );
 }
 
-/// 构建适用于移动端路由配置，移动端布局特点是包含 4 个一级根页面，所以它会用 [StatefulShellRoute] 构建有状态选项卡式导航
+/// 构建适用于移动端路由配置，它会用 [StatefulShellRoute] 构建选项卡式导航
 RoutingConfig _buildMobileRoutingConfig() {
   return RoutingConfig(
-    // redirect: _routerRedirect,
     routes: [
-      /// 能够保持页面状态的嵌套导航，切换过程中页面状态不会丢失
+      /// StatefulShellRoute 能够保持页面状态的嵌套导航，切换过程中页面状态不会丢失
       StatefulShellRoute.indexedStack(
         pageBuilder: (context, state, navigationShell) => NoTransitionPage(
           child: MobileLayout(

@@ -12,7 +12,7 @@ class ObsBuilder extends StatefulWidget {
   final WidgetBuilder builder;
 
   /// 手动绑定监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件
-  final List<BaseObs> watch;
+  final List<RawObs> watch;
 
   @override
   State<ObsBuilder> createState() => _ObsBuilderState();
@@ -38,9 +38,9 @@ class _ObsBuilderState extends State<ObsBuilder> {
       } else if (widget.watch.isEmpty) {
         _removeWatch(oldWidget.watch);
       } else {
-        final List<BaseObs> hasObsList = [];
-        final List<BaseObs> addObsList = [];
-        final List<BaseObs> removeObsList = [];
+        final List<RawObs> hasObsList = [];
+        final List<RawObs> addObsList = [];
+        final List<RawObs> removeObsList = [];
         for (var value in widget.watch) {
           if (oldWidget.watch.contains(value)) {
             hasObsList.add(value);
@@ -69,7 +69,7 @@ class _ObsBuilderState extends State<ObsBuilder> {
     super.dispose();
   }
 
-  void _addWatch(List<BaseObs> watch) {
+  void _addWatch(List<RawObs> watch) {
     for (final item in watch) {
       if (!item.builderFunList.contains(_notify)) {
         item.builderFunList.add(_notify);
@@ -78,7 +78,7 @@ class _ObsBuilderState extends State<ObsBuilder> {
     }
   }
 
-  void _removeWatch(List<BaseObs> watch) {
+  void _removeWatch(List<RawObs> watch) {
     for (final item in watch) {
       item.builderFunList.remove(_notify);
       _builderObsList.remove(item.builderFunList);

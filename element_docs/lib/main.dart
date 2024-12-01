@@ -101,7 +101,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    RouterState.isMobile.value = context.sm;
+    isMobileRoute.value = context.sm;
     GlobalState.globalFontSize = context.sm ? 15 : 16;
     MainApp.currentThemeMode = ThemeMode.system;
     if (MainApp.currentThemeMode == ThemeMode.system) {

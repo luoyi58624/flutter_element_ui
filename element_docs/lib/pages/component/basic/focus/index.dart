@@ -19,7 +19,7 @@ class FocusPage extends ResponsivePage {
       titleGap,
       const SectionText(
           'Element UI 提供了 ElFocusScope 小部件，ElFocusScope 是对 FocusScope 进行的一层浅包装，'
-          '但是它与 ElEvent 进行绑定，它可以简化在桌面端 Flutter 焦点的应用。'),
+          '组件本身十分简单，但它与 ElEvent 进行强绑定，其作用是简化在桌面端 Flutter 焦点的应用。'),
       const Example1(title: '基础使用'),
       const Example2(title: '焦点按钮'),
       const Example3(title: '焦点按钮组'),

@@ -4,7 +4,7 @@ import 'package:flutter_obs/flutter_obs.dart';
 
 import 'animation.dart';
 
-class AnimateObs<T> extends BaseObs<T> {
+class AnimateObs<T> extends RawObs<T> {
   /// 动画响应式变量
   /// * duration 动画持续时间
   /// * curve 动画曲线
