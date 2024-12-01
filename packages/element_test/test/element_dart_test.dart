@@ -8,11 +8,11 @@ void elementDartTest() {
     test('onlyOneNotNull', () {
       expect(DartUtil.listOnlyOne(['x', null]), isTrue);
       expect(DartUtil.listOnlyOne(['x', null, 1]), isFalse);
-      expect(DartUtil.listOnlyOne([null, null]), isFalse);
+      expect(DartUtil.listOnlyOne([null, null], allowAllNull: false), isFalse);
       expect(DartUtil.listOnlyOne([null, null, 1]), isTrue);
-      expect(DartUtil.listOnlyOne([null, null, null]), isFalse);
-      expect(DartUtil.listOnlyOne([null, null, null], allowAllNull: true),
-          isTrue);
+      expect(DartUtil.listOnlyOne([null, null, null], allowAllNull: false),
+          isFalse);
+      expect(DartUtil.listOnlyOne([null, null, null]), isTrue);
     });
   });
 
