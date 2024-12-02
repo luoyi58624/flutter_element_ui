@@ -16,6 +16,8 @@ import '../pages/component/other/ring/index.dart';
 import '../pages/component/overview/cupertino/index.dart';
 import '../pages/component/overview/element/index.dart';
 import '../pages/component/overview/material/index.dart';
+import '../pages/contribute/start.dart';
+import '../pages/contribute/theme_manager.dart';
 import '../pages/guide/design/index.dart';
 import '../pages/home.dart';
 import '../pages/not_found.dart';

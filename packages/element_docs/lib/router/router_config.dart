@@ -389,11 +389,6 @@ class SlideRouterConfig {
       [
         ('开始', '/${RootRoute.contribute.$2}/start', WorkStatus.finished),
         (
-          '代码结构',
-          '/${RootRoute.contribute.$2}/code_structure',
-          WorkStatus.finished
-        ),
-        (
           '主题管理',
           '/${RootRoute.contribute.$2}/theme_manager',
           WorkStatus.finished

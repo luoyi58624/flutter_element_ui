@@ -42,6 +42,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/home/
+    - assets/images/contribute/
   fonts:
     - family: Consolas
       fonts:
