@@ -12,5 +12,3 @@ part 'widget.dart';
 part 'theme.dart';
 
 part '../../../generates/components/feedback/toast/index.g.dart';
-
-

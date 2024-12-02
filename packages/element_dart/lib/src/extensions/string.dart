@@ -1,5 +1,3 @@
-
-
 import '../utils/reg.dart';
 
 extension DartStringExtension on String {

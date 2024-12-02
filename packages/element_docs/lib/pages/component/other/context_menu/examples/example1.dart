@@ -29,7 +29,7 @@ class _ContextMenuExample extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ElContextMenu(
-      on: (offset){
+      on: (offset) {
         i(offset);
       },
       child: Container(

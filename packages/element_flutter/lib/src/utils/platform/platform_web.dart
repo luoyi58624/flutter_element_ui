@@ -13,8 +13,7 @@ class GeneralPlatform {
 
   static final bool isAndroid = _userAgent.contains('Android');
 
-  static final bool isIOS =
-      RegExp(r'(iPad|iPhone|iPod)').hasMatch(_userAgent);
+  static final bool isIOS = RegExp(r'(iPad|iPhone|iPod)').hasMatch(_userAgent);
 
   static const bool isFuchsia = false;
 

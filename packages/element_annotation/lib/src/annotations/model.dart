@@ -130,4 +130,3 @@ class ElField {
   /// 指定默认值，当反序列化时如果 json 没有目标参数、或者目标类型转换失败时将使用此默认值
   final dynamic defaultValue;
 }
-

@@ -113,8 +113,6 @@ class Example1 extends StatelessWidget {
                   )
                   .toList(),
             ),
-
-
           ],
         ),
       ],

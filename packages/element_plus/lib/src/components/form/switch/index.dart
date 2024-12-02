@@ -63,4 +63,3 @@ class ElSwitch extends ModelValue<bool> {
   @override
   State<ElSwitch> createState() => _ElSwitchState();
 }
-

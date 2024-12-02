@@ -29,4 +29,3 @@ class ElSliderThemeData {
   /// 滑块未激活颜色
   final Color inactiveColor;
 }
-

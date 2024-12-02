@@ -87,10 +87,7 @@ class DesignPage extends ResponsivePage {
         ...items.map(
           (e) => Li(
             child: ElText(
-              [
-                ElText(e.$1, style: TextStyle(fontWeight: ElFont.medium)),
-                e.$2
-              ],
+              [ElText(e.$1, style: TextStyle(fontWeight: ElFont.medium)), e.$2],
             ),
           ),
         ),

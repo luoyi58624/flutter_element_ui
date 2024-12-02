@@ -46,7 +46,7 @@ class _MyRender extends RenderBox with RenderObjectWithChildMixin<RenderBox> {
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return child?.hitTest(result,
-        position: position - childParentData.offset) ??
+            position: position - childParentData.offset) ??
         false;
   }
 }

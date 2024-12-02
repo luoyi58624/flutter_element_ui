@@ -28,7 +28,8 @@ class _TableColumnScrollState extends State<_TableColumnScroll> {
     super.initState();
     widget.controller.addListener(() {
       for (var controller in widget.linkageController) {
-        if (controller != null && controller.offset != widget.controller.offset) {
+        if (controller != null &&
+            controller.offset != widget.controller.offset) {
           controller.jumpTo(widget.controller.offset);
         }
       }
@@ -69,7 +70,8 @@ class _TableScrollBehavior extends ScrollBehavior {
   //     };
 
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
     switch (getPlatform(context)) {
       case TargetPlatform.linux:
       case TargetPlatform.macOS:

@@ -562,11 +562,11 @@ class _ScrollbarPainter extends ChangeNotifier implements CustomPainter {
         trackOffset = Offset(_leadingTrackMainAxisOffset, y - crossAxisMargin);
         borderStart1 = trackOffset;
         borderEnd1 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy);
-        // MODIFY
-        // borderStart2 = trackOffset +
-        //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
-        // borderEnd2 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy) +
-        //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
+      // MODIFY
+      // borderStart2 = trackOffset +
+      //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
+      // borderEnd2 = Offset(trackOffset.dx + _trackExtent, trackOffset.dy) +
+      //     Offset(0.0, thickness + crossAxisMargin * 2 + padding.vertical);
     }
 
     // Whether we paint or not, calculating these rects allows us to hit test

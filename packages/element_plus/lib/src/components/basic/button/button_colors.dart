@@ -222,7 +222,8 @@ class _ButtonColors {
             borderColor: $elTheme.layoutTheme.borderColor,
           );
         } else {
-          colors = _ButtonColors.plainButton(context, disabled: prop.disabled || prop.loading);
+          colors = _ButtonColors.plainButton(context,
+              disabled: prop.disabled || prop.loading);
         }
       } else {
         if (isSelected) {

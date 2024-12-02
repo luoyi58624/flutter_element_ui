@@ -38,7 +38,6 @@ class _Example extends StatelessWidget {
   }
 }
 
-
 String get code => '''
 class _Example extends StatelessWidget {
   const _Example();
