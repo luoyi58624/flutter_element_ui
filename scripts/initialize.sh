@@ -1,5 +1,5 @@
 dart pub global activate melos
 flutter pub get
-melos bootstrap
+dart pub global run melos bootstrap
 
 
