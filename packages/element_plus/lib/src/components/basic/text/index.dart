@@ -147,7 +147,7 @@ class ElText extends StatelessWidget {
 
     // 3. 处理 ElText 小部件
     if (data is ElText) {
-      if (FlutterUtil.isBaseType(data.data)) {
+      if (DartUtil.isBaseType(data.data)) {
         return TextSpan(
           text: '${data.data}',
           style: data.style,

@@ -28,7 +28,7 @@ class ElBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (FlutterUtil.isEmpty(badge)) return child;
+    if (DartUtil.isEmpty(badge)) return child;
     if (badge is num) {
       return Badge(
         label: ConstrainedBox(

@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_base/flutter_base.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
-import 'package:element_plus/src/global.dart';
-
-part 'state.dart';
-
-part 'theme.dart';
-
-part '../../../generates/components/others/code_preview/index.g.dart';
 
 /// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
 bool _initialize = false;
@@ -15,15 +9,13 @@ bool _initialize = false;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
-class ElCodePreview extends StatefulWidget {
+class CodePreview extends StatefulWidget {
   /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
-  const ElCodePreview({
+  const CodePreview({
     super.key,
     required this.code,
-    this.fontFamily,
-    this.color,
-    this.bgColor,
-    this.enableSection,
+    this.color = const Color(0xFFD19A66),
+    this.bgColor = const Color.fromRGBO(49, 49, 49, 1.0),
     this.height,
     this.maxHeight,
     this.borderRadius,
@@ -32,17 +24,11 @@ class ElCodePreview extends StatefulWidget {
   /// 示例代码字符串
   final String code;
 
-  /// 字体名称
-  final String? fontFamily;
-
   /// 默认文本颜色
-  final Color? color;
+  final Color color;
 
   /// 默认背景颜色
-  final Color? bgColor;
-
-  /// 是否开启文本选择
-  final bool? enableSection;
+  final Color bgColor;
 
   /// 固定高度
   final double? height;
@@ -53,30 +39,28 @@ class ElCodePreview extends StatefulWidget {
   /// 代码示例背景圆角
   final BorderRadius? borderRadius;
 
+  /// 代码字体全局样式
+  static final textStyle = Obs(const TextStyle(
+    fontSize: 14,
+    height: 1.5,
+  ));
+
   @override
-  State<ElCodePreview> createState() => _ElCodePreviewState();
+  State<CodePreview> createState() => _CodePreviewState();
 }
 
-class _ElCodePreviewState extends State<ElCodePreview> {
+class _CodePreviewState extends State<CodePreview> {
   ScrollController scrollController = ScrollController();
   final code = Obs(const TextSpan());
 
-  TextStyle get _textStyle => TextStyle(
-        fontFamily:
-            widget.fontFamily ?? context.elTheme.codePreviewTheme.fontFamily,
-        fontSize: 14,
-        height: 1.5,
-      );
-
-  Color get codeColor => widget.color ?? context.elTheme.codePreviewTheme.color;
+  Color get codeColor => widget.color;
 
   EdgeInsetsGeometry get _padding => const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 10,
       );
 
-  Color get bgColor =>
-      widget.bgColor ?? context.elTheme.codePreviewTheme.bgColor;
+  Color get bgColor => widget.bgColor;
 
   BorderRadius get borderRadius =>
       widget.borderRadius ?? context.elConfig.cardRadius!;
@@ -88,7 +72,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   @override
-  void didUpdateWidget(covariant ElCodePreview oldWidget) {
+  void didUpdateWidget(covariant CodePreview oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.code != oldWidget.code) {
       initCodeStyle(context);
@@ -103,7 +87,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
 
   @override
   Widget build(BuildContext context) {
-    return buildElCodePreview();
+    return buildCodePreview();
   }
 
   /// 初始化预览代码样式，全局只加载一次
@@ -115,8 +99,8 @@ class _ElCodePreviewState extends State<ElCodePreview> {
         // 暗色主题使用自定义的配置文件
         var darkCodeTheme = await HighlighterTheme.loadFromAssets(
           [
-            'packages/element_plus/assets/code_themes/dark_vs.json',
-            'packages/element_plus/assets/code_themes/dark_plus.json',
+            'packages/flutter_base/assets/code_themes/dark_vs.json',
+            'packages/flutter_base/assets/code_themes/dark_plus.json',
             // 'assets/code_themes/dark_vs.json',
             // 'assets/code_themes/dark_plus.json',
           ],
@@ -133,7 +117,7 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   /// 构建预览代码块
-  Widget buildElCodePreview() {
+  Widget buildCodePreview() {
     return Stack(
       children: [
         TextSelectionTheme(
@@ -184,25 +168,23 @@ class _ElCodePreviewState extends State<ElCodePreview> {
   }
 
   Widget buildCode() {
-    Widget result = SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ObsBuilder(builder: (context) {
-        return Container(
-          padding: _padding,
-          child: ObsBuilder(builder: (context) {
-            return ElText(
-              code.value,
-              softWrap: false,
-              style: _textStyle,
-            );
-          }),
-        );
-      }),
+    Widget result = SelectionArea(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: ObsBuilder(builder: (context) {
+          return Container(
+            padding: _padding,
+            child: ObsBuilder(builder: (context) {
+              return ElText(
+                code.value,
+                softWrap: false,
+                style: CodePreview.textStyle.value,
+              );
+            }),
+          );
+        }),
+      ),
     );
-    if (widget.enableSection ??
-        context.elTheme.codePreviewTheme.enableSection) {
-      result = SelectionArea(child: result);
-    }
     return result;
   }
 
@@ -226,19 +208,23 @@ class _ElCodePreviewState extends State<ElCodePreview> {
           )
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: List.generate(
-          numLines,
-          (index) => ElText(
-            '${index + 1}',
-            textAlign: TextAlign.right,
-            style: _textStyle.copyWith(
-              color: context.elTheme.textTheme.secondaryStyle.color,
-            ),
-          ),
-        ),
-      ),
+      child: ObsBuilder(
+          watch: [CodePreview.textStyle],
+          builder: (context) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: List.generate(
+                numLines,
+                (index) => ElText(
+                  '${index + 1}',
+                  textAlign: TextAlign.right,
+                  style: CodePreview.textStyle.value.copyWith(
+                    color: context.elTheme.textTheme.secondaryStyle.color,
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 

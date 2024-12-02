@@ -99,3 +99,19 @@ class DesktopTemplateLayout extends StatelessWidget {
     // );
   }
 }
+
+class DesktopContributeLayout extends StatelessWidget {
+  const DesktopContributeLayout({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SlideWidget(SlideRouterConfig.contributeSlideRoutes),
+        Expanded(child: child),
+      ],
+    );
+  }
+}

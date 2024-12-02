@@ -1,5 +1,7 @@
 library element_dart;
 
+export 'package:collection/collection.dart';
+
 export 'src/utils/common.dart';
 export 'src/utils/logger.dart';
 export 'src/utils/reg.dart';

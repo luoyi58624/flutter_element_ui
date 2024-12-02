@@ -18,7 +18,8 @@ class _TableRowItem extends StatefulWidget {
 class _TableRowItemState extends State<_TableRowItem> {
   @override
   Widget build(BuildContext context) {
-    var borderSide = BorderSide(color: context.elTheme.layoutTheme.borderColor!);
+    var borderSide =
+        BorderSide(color: context.elTheme.layoutTheme.borderColor!);
     var elTableData = _ElTableData.of(context);
     var rowHeight = elTableData.rowHeight;
     var column = widget.columns[0];
@@ -95,7 +96,8 @@ class _TableRowItemState extends State<_TableRowItem> {
                   ? context.elTheme.layoutTheme.bgColor!.deepen(5)
                   : null,
               border: Border(
-                  bottom: BorderSide(color: context.elTheme.layoutTheme.borderColor!)),
+                  bottom: BorderSide(
+                      color: context.elTheme.layoutTheme.borderColor!)),
             ),
             child: Row(children: children),
           );
@@ -110,7 +112,7 @@ Widget _buildTableBodyItemContainer(Map dataItem, ElTableColumn column) {
     return column.render!(dataItem);
   } else if (column.prop != null) {
     return Text(
-      FlutterUtil.safeString(dataItem[column.prop] ?? ''),
+      DartUtil.safeString(dataItem[column.prop] ?? ''),
     );
   } else {
     return const SizedBox();

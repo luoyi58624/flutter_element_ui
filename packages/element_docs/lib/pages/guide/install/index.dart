@@ -11,7 +11,7 @@ class InstallPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const SectionTitle('添加依赖'),
-      ElCodePreview(code: code1),
+      CodePreview(code: code1),
       const SectionTitle('编辑 main.dart'),
       const SectionCard(title: 'Tip', content: [
         ElText([
@@ -25,7 +25,7 @@ class InstallPage extends ResponsivePage {
         ]),
       ]),
       textGap,
-      ElCodePreview(code: code2),
+      CodePreview(code: code2),
     ];
   }
 }

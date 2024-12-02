@@ -88,7 +88,7 @@ class _ElTooltipState extends State<ElTooltip> {
   Widget _buildContentWidget(Color bgColor) {
     late Widget result;
     bool isTextWidget = true;
-    if (FlutterUtil.isBaseType(widget.content)) {
+    if (DartUtil.isBaseType(widget.content)) {
       result = ElText(
         widget.content,
         strutStyle: const StrutStyle(

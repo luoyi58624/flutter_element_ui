@@ -40,7 +40,7 @@ class CacheInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     String url = options.uri.toString();
     if (options.extra['useCache'] == true) {
-      String key = FlutterUtil.md5(url);
+      String key = DartUtil.md5(url);
       if (cacheData[key] == null) {
         handler.next(options);
       } else {
@@ -67,7 +67,7 @@ class CacheInterceptor extends Interceptor {
   onResponse(Response response, ResponseInterceptorHandler handler) async {
     // 判断请求选项是否配置了enableCache，如果为true则将结果保存到本地
     if (response.requestOptions.extra['enableCache'] == true) {
-      String key = FlutterUtil.md5(response.requestOptions.uri.toString());
+      String key = DartUtil.md5(response.requestOptions.uri.toString());
       cacheData[key] = ExpireDataModel(response.data,
               response.requestOptions.extra['cacheTime'] ?? _cacheTime)
           .toJson();

@@ -52,7 +52,7 @@ class CodeExample extends HookWidget {
               if (code != null)
                 ElCollapseTransition(
                   isExpanded.value,
-                  child: ElCodePreview(
+                  child: CodePreview(
                     code: code!,
                     borderRadius: BorderRadius.only(
                       bottomLeft: context.elConfig.cardRadius!.bottomLeft,

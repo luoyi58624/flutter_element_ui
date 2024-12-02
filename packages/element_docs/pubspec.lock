@@ -129,6 +129,46 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.2"
+  device_info_plus:
+    dependency: transitive
+    description:
+      name: device_info_plus
+      sha256: a7fd703482b391a87d60b6061d04dfdeab07826b96f9abd8f5ed98068acc0074
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "10.1.2"
+  device_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_plus_platform_interface
+      sha256: "282d3cf731045a2feb66abfe61bbc40870ae50a3ed10a4d3d217556c35c8c2ba"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "7.0.1"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.7.0"
+  dio_smart_retry:
+    dependency: transitive
+    description:
+      name: dio_smart_retry
+      sha256: "3d71450c19b4d91ef4c7d726a55a284bfc11eb3634f1f25006cdfab3f8595653"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.0.0"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "33259a9276d6cea88774a0000cfae0d861003497755969c92faa223108620dc8"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   element_annotation:
     dependency: "direct main"
     description:
@@ -137,21 +177,21 @@ packages:
     source: path
     version: "1.0.0"
   element_dart:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../element_dart"
       relative: true
     source: path
     version: "1.0.0"
   element_extension:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../element_extension"
       relative: true
     source: path
     version: "0.0.1"
   element_plus:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../element_plus"
       relative: true
@@ -173,6 +213,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.1"
+  faker:
+    dependency: transitive
+    description:
+      name: faker
+      sha256: "544c34e9e1d322824156d5a8d451bc1bb778263b892aded24ec7ba77b0706624"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.0"
   ffi:
     dependency: transitive
     description:
@@ -218,6 +266,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.5.2"
+  flutter_base:
+    dependency: "direct main"
+    description:
+      path: "../flutter_base"
+      relative: true
+    source: path
+    version: "0.0.1"
   flutter_cache_manager:
     dependency: transitive
     description:
@@ -248,7 +303,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_obs:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../flutter_obs"
       relative: true
@@ -853,6 +908,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.9.0"
+  win32_registry:
+    dependency: transitive
+    description:
+      name: win32_registry
+      sha256: "21ec76dfc731550fd3e2ce7a33a9ea90b828fdf19a5c3bcf556fa992cfa99852"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -870,5 +933,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.5.3 <4.0.0"
   flutter: ">=3.24.0"

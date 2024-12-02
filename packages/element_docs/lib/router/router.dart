@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../global.dart';
 import '../layouts/desktop/layout.dart';
 import '../layouts/mobile/component_layout.dart';
+import '../layouts/mobile/contribute_layout.dart';
 import '../layouts/mobile/guide_layout.dart';
 import '../layouts/mobile/home_layout.dart';
 import '../layouts/mobile/layout.dart';
@@ -12,6 +13,9 @@ import '../pages/component/data/tree/index.dart';
 import '../pages/component/layout/layout/index.dart';
 import '../pages/component/other/drag/index.dart';
 import '../pages/component/other/ring/index.dart';
+import '../pages/component/overview/cupertino/index.dart';
+import '../pages/component/overview/element/index.dart';
+import '../pages/component/overview/material/index.dart';
 import '../pages/guide/design/index.dart';
 import '../pages/home.dart';
 import '../pages/not_found.dart';
@@ -37,9 +41,6 @@ import '../pages/component/navigation/tabs/index.dart';
 import '../pages/component/other/animated_size/index.dart';
 import '../pages/component/other/context_menu/index.dart';
 import '../pages/component/basic/event/index.dart';
-import '../pages/overview/cupertino/index.dart';
-import '../pages/overview/element/index.dart';
-import '../pages/overview/material/index.dart';
 import '../pages/template/layout/material.dart';
 import '../widgets/demo.dart';
 import 'router_config.dart';
@@ -147,13 +148,19 @@ RoutingConfig _buildDesktopRoutingConfig() {
                   ...buildTemplateRoutes('${RootRoute.template.$2}/')
                 ],
               ),
-              // GoRoute(
-              //   path: RootRoute.template.$2,
-              //   pageBuilder: (context, state) => const NoTransitionPage(
-              //     child: DesktopTemplateLayout(),
-              //   ),
-              //   routes: [...buildTemplateRoutes('${RootRoute.template.$2}/')],
-              // ),
+              ShellRoute(
+                pageBuilder: (context, state, child) => NoTransitionPage(
+                  child: DesktopContributeLayout(child: child),
+                ),
+                routes: [
+                  GoRoute(
+                    path: RootRoute.contribute.$2,
+                    redirect: (context, state) =>
+                        '/${RootRoute.contribute.$2}/start',
+                  ),
+                  ...buildContributeRoutes('${RootRoute.contribute.$2}/')
+                ],
+              ),
             ],
           ),
         ],
@@ -212,7 +219,7 @@ RoutingConfig _buildMobileRoutingConfig() {
             routes: [
               GoRoute(
                 path: '/${RootRoute.contribute.$2}',
-                builder: (context, state) => const MobileComponentLayout(),
+                builder: (context, state) => const MobileContributeLayout(),
               ),
             ],
           ),

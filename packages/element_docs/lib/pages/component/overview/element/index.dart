@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../responsive_page.dart';
+import '../../../responsive_page.dart';
 
 class ElementOverviewPage extends ResponsivePage {
   const ElementOverviewPage({super.key});

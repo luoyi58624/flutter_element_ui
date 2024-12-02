@@ -56,9 +56,6 @@ class ThemeUtil {
           fontSize: GlobalState.globalFontSize,
         ),
       ),
-      codePreviewTheme: const ElCodePreviewThemeData(
-        fontFamily: MyFonts.consolas,
-      ),
     );
 
     return $data;

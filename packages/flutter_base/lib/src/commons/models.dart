@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_base/flutter_base.dart';
 
 /// 包含name-icon结构的简单数据模型
 class IconModel {
