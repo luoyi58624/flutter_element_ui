@@ -42,12 +42,18 @@ class _Example extends HookWidget {
           sidebar: ElSidebar(
             child: buildSidebar(),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: [
-                ElInput(username),
-              ],
+          body: ElBody(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  ElInput(username),
+                  const Gap(8),
+                  const ElFocusScope(
+                    child: ElButton(child: 'hello'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -19,6 +19,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const LayoutPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}layout_drag',
+      builder: (context, state) => const LayoutDragPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}event',
       builder: (context, state) => const EventPage(),
     ),
@@ -177,6 +181,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}ring',
       builder: (context, state) => const RingPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}split',
+      builder: (context, state) => const SplitPage(),
     ),
   ];
 }

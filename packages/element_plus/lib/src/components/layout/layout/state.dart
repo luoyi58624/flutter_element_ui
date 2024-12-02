@@ -29,7 +29,7 @@ class _ElLayoutState extends State<ElLayout> {
     if (widget.sidebar != null) {
       children.add(
         Positioned(
-          top: layoutData.navbarHeight,
+          top: widget.sidebar!.expandedTop ? 0 : layoutData.navbarHeight,
           bottom: 0,
           left: 0,
           child: ColoredBox(
@@ -60,6 +60,11 @@ class _ElLayoutState extends State<ElLayout> {
     if (widget.navbar != null) {
       children.add(
         Positioned(
+          left:
+              widget.sidebar?.expandedTop == true ? layoutData.sidebarWidth : 0,
+          right: widget.rightSidebar?.expandedTop == true
+              ? layoutData.rightSidebarWidth
+              : 0,
           child: ColoredBox(
             color: themeData.navbarColor!,
             child: SizedBox(

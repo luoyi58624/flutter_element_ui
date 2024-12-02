@@ -99,6 +99,11 @@ class SlideRouterConfig {
           '/${RootRoute.component.$2}/layout',
           WorkStatus.finished
         ),
+        (
+          'ElLayout 拖拽尺寸',
+          '/${RootRoute.component.$2}/layout_drag',
+          WorkStatus.finished
+        ),
       ],
     ),
     (
@@ -366,6 +371,7 @@ class SlideRouterConfig {
         ),
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
         ('Ring 轮廓环', '/${RootRoute.component.$2}/ring', WorkStatus.finished),
+        ('Split 分割器', '/${RootRoute.component.$2}/split', WorkStatus.finished),
       ],
     ),
   ];

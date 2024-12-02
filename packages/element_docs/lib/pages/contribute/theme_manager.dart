@@ -58,10 +58,21 @@ class ThemeManagerPage extends ResponsivePage {
       const SectionTitle('4. 代码生成器配置'),
       const SectionCard(
         title: 'Tip',
-        content: ['最后贴上代码生成器配置 build.yaml'],
+        content: ['最后贴上代码生成器配置 build.yaml，配置并不复杂，也没什么好讲解的，您只需要知道配置的作用就行了。'],
       ),
       textGap,
       const ElImage(src: 'assets/images/contribute/code_generate_build.png'),
+      const SectionTitle('5. 代码生成出现 InvalidType'),
+      const SectionCard(
+        title: 'Tip',
+        content: [
+          '运行代码生成器时，有时候乱改依赖会造成生成的代码出现 InvalidType 错误，这种错误具体原因我也不清楚，'
+              '可能是 build_runner 的 bug 也有可能是我写的包存在 bug，总之，'
+              '当你遇到这个错误时请先关闭监听服务器，然后清除缓存、重新构建。'
+        ],
+      ),
+      textGap,
+      const ElImage(src: 'assets/images/contribute/code_generate_error.png'),
     ];
   }
 }

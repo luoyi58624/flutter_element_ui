@@ -51,6 +51,7 @@ export 'src/components/form/switch/index.dart';
 export 'src/components/form/slider/index.dart';
 
 export 'src/components/layout/layout/index.dart';
+export 'src/components/layout/body/index.dart';
 export 'src/components/layout/navbar/index.dart';
 export 'src/components/layout/sidebar/index.dart';
 export 'src/components/layout/toolbar/index.dart';
@@ -62,11 +63,11 @@ export 'src/components/others/anchor/index.dart' show ElAnchor;
 export 'src/components/others/close_button/index.dart';
 export 'src/components/others/drag/index.dart';
 export 'src/components/others/ring/index.dart';
+export 'src/components/others/split/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/fps.dart';
 export 'src/components/others/triangle/triangle.dart';
-export 'src/components/others/split/split.dart';
 
 export 'src/extensions/color.dart';
 export 'src/extensions/widget.dart';

@@ -22,6 +22,8 @@ part 'widgets/focus_scope.dart';
 
 part 'widgets/shortcuts.dart';
 
+part 'widgets/stop_propagation.dart';
+
 part 'mixins/bubble.dart';
 
 part 'mixins/common.dart';
