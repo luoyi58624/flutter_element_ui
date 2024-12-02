@@ -3,12 +3,19 @@ part of 'index.dart';
 @ElModel.copy()
 @ElThemeModel(desc: '按钮默认样式')
 class ElButtonThemeData {
-  static const theme = ElButtonThemeData(
+  static const _defaultTheme = ElButtonThemeData(
     duration: Duration(milliseconds: 100),
+    text: false,
+    bg: false,
+    link: false,
+    plain: false,
+    round: false,
+    block: false,
+    circle: false,
+    loadingWidget: ElLoading(ElIcons.loading),
   );
-  static const darkTheme = ElButtonThemeData(
-    duration: Duration(milliseconds: 100),
-  );
+  static const theme = _defaultTheme;
+  static const darkTheme = _defaultTheme;
 
   const ElButtonThemeData({
     this.child,

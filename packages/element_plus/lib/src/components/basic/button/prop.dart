@@ -71,17 +71,17 @@ class _Prop {
     late final bool $round;
     late final double $borderWidth;
     late final double $borderActiveWidth;
-    final bool $block = widget.block ?? $data.block ?? false;
+    final bool $block = widget.block ?? $data.block!;
 
     if (hasGroup) {
       $height = $data.height ?? context.elConfig.size!;
       $bgColor = $data.bgColor ?? context.elThemeColors[$data.type];
-      $text = $data.text ?? false;
-      $bg = $data.bg ?? false;
+      $text = $data.text!;
+      $bg = $data.bg!;
       $circle = false;
       $link = false;
-      $plain = $data.plain ?? false;
-      $round = $data.round ?? false;
+      $plain = $data.plain!;
+      $round = $data.round!;
       $borderWidth = $data.borderWidth ?? defaultBorderSize!;
       $borderActiveWidth = $data.borderActiveWidth ?? defaultBorderSize!;
     } else {
@@ -89,12 +89,12 @@ class _Prop {
       $bgColor = widget.bgColor ??
           $data.bgColor ??
           context.elThemeColors[widget.type ?? $data.type];
-      $circle = widget.circle ?? $data.circle ?? false;
-      $text = widget.text ?? $data.text ?? false;
-      $bg = widget.bg ?? $data.bg ?? false;
-      $link = widget.link ?? $data.link ?? false;
-      $plain = widget.plain ?? $data.plain ?? false;
-      $round = widget.round ?? $data.round ?? false;
+      $circle = widget.circle ?? $data.circle!;
+      $text = widget.text ?? $data.text!;
+      $bg = widget.bg ?? $data.bg!;
+      $link = widget.link ?? $data.link!;
+      $plain = widget.plain ?? $data.plain!;
+      $round = widget.round ?? $data.round!;
       $borderWidth =
           widget.borderWidth ?? $data.borderWidth ?? defaultBorderSize!;
       $borderActiveWidth = widget.borderActiveWidth ??
@@ -144,9 +144,7 @@ class _Prop {
       circle: $circle,
       disabled: widget.disabled,
       loading: widget.loading,
-      loadingWidget: widget.loadingWidget ??
-          $data.loadingWidget ??
-          const ElLoading(ElIcons.loading),
+      loadingWidget: widget.loadingWidget ?? $data.loadingWidget!,
       loadingBuilder: widget.loadingBuilder ?? $data.loadingBuilder,
     );
   }
