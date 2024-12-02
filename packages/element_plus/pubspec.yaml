@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   element_dart:
     path: ../element_dart
-  element_extension:
-    path: ../element_extension
+  element_flutter:
+    path: ../element_flutter
   element_annotation:
     path: ../element_annotation
   flutter_obs:

@@ -1,5 +1,5 @@
 export 'package:element_plus/element_plus.dart';
-export 'package:element_extension/element_extension.dart';
+export 'package:element_flutter/element_flutter.dart';
 export 'package:element_dart/element_dart.dart';
 export 'package:flutter_obs/flutter_obs.dart';
 

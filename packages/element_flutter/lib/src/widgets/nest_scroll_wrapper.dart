@@ -4,7 +4,7 @@ import 'package:element_dart/element_dart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../element_extension.dart';
+import '../../element_flutter.dart';
 
 /// 嵌套滚动激活延迟
 const int _activeDelay = 200;
@@ -143,7 +143,7 @@ class _NestScrollWrapperState extends State<NestScrollWrapper> {
         child: Listener(
           onPointerSignal: handlerListener,
           child: NotificationListener<ScrollMetricsNotification>(
-            onNotification: (e){
+            onNotification: (e) {
               return true;
             },
             child: NotificationListener<ScrollUpdateNotification>(

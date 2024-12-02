@@ -183,10 +183,10 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
-  element_extension:
+  element_flutter:
     dependency: "direct overridden"
     description:
-      path: "../element_extension"
+      path: "../element_flutter"
       relative: true
     source: path
     version: "0.0.1"

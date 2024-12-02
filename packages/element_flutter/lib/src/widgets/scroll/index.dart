@@ -4,6 +4,8 @@ import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../element_flutter.dart';
+
 part 'state.dart';
 
 part 'render.dart';

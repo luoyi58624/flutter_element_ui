@@ -1,4 +1,4 @@
-import 'package:element_extension/element_extension.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 

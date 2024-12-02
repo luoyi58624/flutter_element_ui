@@ -1,5 +1,5 @@
 import 'package:element_dart/element_dart.dart';
-import 'package:element_extension/element_extension.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:url_launcher/link.dart';
 import 'package:url_launcher/url_launcher.dart';
 

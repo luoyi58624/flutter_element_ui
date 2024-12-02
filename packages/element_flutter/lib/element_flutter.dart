@@ -1,4 +1,4 @@
-library element_extension;
+library element_flutter;
 
 export 'src/common.dart';
 

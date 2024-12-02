@@ -16,7 +16,7 @@ class Example3 extends StatelessWidget {
           '通过继承 ElText 小部件，你可以轻松地让它们和富文本一起工作，不过这些组件 element_plus 包没有提供，你需要自行封装，',
           ElLink(
             href:
-                'https://github.com/luoyi58624/flutter_element_ui/tree/main/packages/element_extension/lib/src/widgets/html/typography.dart',
+                'https://github.com/luoyi58624/flutter_element_ui/tree/main/packages/element_flutter/lib/src/widgets/html/typography.dart',
             decoration: ElLinkDecoration.hoverUnderline,
             child: '查看示例',
           ),

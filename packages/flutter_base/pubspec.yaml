@@ -14,8 +14,8 @@ dependencies:
     path: ../element_plus
   element_dart:
     path: ../element_dart
-  element_extension:
-    path: ../element_extension
+  element_flutter:
+    path: ../element_flutter
   flutter_obs:
     path: ../flutter_obs
   collection: ^1.18.0
