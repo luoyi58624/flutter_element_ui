@@ -30,17 +30,10 @@ class _ElSplitState extends State<ElSplit> {
 
   ElSplitThemeData get themeData => _themeData!;
 
-  // 为什么不使用 Stack 构建而是通过更复杂的 Overlay?
-  // 这跟 Flutter 的事件命中机制有关，可交互拖拽器通常比显示在页面上的交互器范围更大，
-  // 如果使用 Stack 那么超出部分的区域事件将不可命中，更多详细描述请访问：
-  // https://github.com/flutter/flutter/issues/19445
-  // https://github.com/flutter/flutter/issues/75747
   set themeData(ElSplitThemeData value) {
     _themeData = value;
     removeOverlay();
-    nextTick(() {
-      insertOverlay();
-    });
+    insertOverlay();
   }
 
   final size = Obs(Size.zero);
@@ -91,19 +84,30 @@ class _ElSplitState extends State<ElSplit> {
             offset: offset,
             child: ElEvent(
               behavior: HitTestBehavior.opaque,
-              cursor: SystemMouseCursors.resizeColumn,
+              cursor: isVertical
+                  ? SystemMouseCursors.resizeColumn
+                  : SystemMouseCursors.resizeRow,
               onTapDown: (e) {
                 isActive.value = true;
-                el.cursor.add(SystemMouseCursors.resizeColumn);
+                el.cursor.add(isVertical
+                    ? SystemMouseCursors.resizeColumn
+                    : SystemMouseCursors.resizeRow);
               },
-              onHorizontalDragUpdate: (e) {
-                themeData.onChanged?.call(e.delta.dx);
-              },
-              onHorizontalDragEnd: (e) {
+              onDragEnd: (e) {
                 themeData.onEnd?.call();
                 isActive.value = false;
                 el.cursor.remove();
               },
+              onHorizontalDragUpdate: !isVertical
+                  ? null
+                  : (e) {
+                      themeData.onChanged?.call(e.delta.dx);
+                    },
+              onVerticalDragUpdate: isVertical
+                  ? null
+                  : (e) {
+                      themeData.onChanged?.call(e.delta.dy);
+                    },
               child: result,
             ),
           ),
@@ -138,7 +142,6 @@ class _ElSplitState extends State<ElSplit> {
 
     overlayState ??= Overlay.of(context);
     themeData = ElSplitTheme.of(context);
-    insertOverlay();
 
     Widget result = themeData.axis == Axis.vertical
         ? SizedBox(width: themeData.size, height: double.infinity)

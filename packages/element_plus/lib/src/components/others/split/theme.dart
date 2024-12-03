@@ -6,7 +6,7 @@ class ElSplitThemeData {
   static const _defaultTheme = ElSplitThemeData(
     axis: Axis.vertical,
     size: 0,
-    triggerSize: 10,
+    triggerSize: 8,
     position: ElSplitPosition.center,
   );
   static const theme = _defaultTheme;
@@ -26,13 +26,13 @@ class ElSplitThemeData {
   /// 分割器方向，默认垂直
   final Axis? axis;
 
-  /// 控件占据页面的空间
+  /// 控件占据页面的空间，默认 0
   final double? size;
 
-  /// 可拖拽控件触发范围
+  /// 可拖拽控件触发范围，默认 8
   final double? triggerSize;
 
-  /// 控件颜色，默认边框颜色
+  /// 控件颜色，默认 null
   final Color? color;
 
   /// 拖拽激活颜色，默认 null

@@ -17,19 +17,19 @@ class Example1 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            '这只是分割器的基本使用，页面分割器实际上就是绘制一个可拖拽控件，'
-                '主要特点是它在页面上可能是一个细小边框、或者根本不绘制任何元素，'
-                '同时要求能够产生交互，交互区域范围需要比较大，否则鼠标不易触发。',
+            'ElSplit 主要特点是它在页面上可能是一个细小边框、或者根本不绘制任何元素，'
+                '但它需要较大的交互区域范围，否则鼠标不易触发。',
             ElText([
-              '要在 Flutter 当中要实现这个功能可并不简单，'
-                  '由于底层事件的',
+              '但是受底层事件的',
               ElLink(
                 href: 'https://github.com/flutter/flutter/issues/75747',
                 decoration: ElLinkDecoration.hoverUnderline,
                 child: '命中策略',
               ),
-              '，绘制可交互的控件将直接排除 Stack 小部件，我目前能够想到的只有 Overlay 小部件，'
-                  '下面这个示例展示了 ElSplit 基本用法。',
+              '影响，绘制可交互的控件不能简单地使用 Stack 小部件，只能使用较复杂的 Overlay 小部件，'
+                  '这导致当修改配置时，要刷新 Overlay 中的内容相当麻烦，为了减少源码复杂度，'
+                  '我直接简单粗暴地通过对比新旧主题数据来移除、插入 Overlay，所以在 build 过程中，'
+                  '请保证传递的主题对象不会发生变化，否则会频繁地移除、插入 Overlay。',
             ]),
           ],
         ),
@@ -103,11 +103,7 @@ class _ExampleState extends State<_Example> {
               top: 0,
               bottom: 0,
               child: ElSplitTheme(
-                // 为了解决 Flutter 中事件命中限制，ElSplit 可交互拖拽器是通过 Overlay 插入的，
-                // 请保证在拖拽过程中主题对象是相同的，否则会不断触发 Overlay 的删除、插入
                 data: ElSplitThemeData(
-                  size: 1,
-                  color: context.elTheme.layoutTheme.borderColor!,
                   activeColor: context.elTheme.primary,
                   // 避免匿名函数，否则对象一定不相等
                   onChanged: onChanged,
@@ -182,11 +178,7 @@ class _ExampleState extends State<_Example> {
               top: 0,
               bottom: 0,
               child: ElSplitTheme(
-                // 为了解决 Flutter 中事件命中限制，ElSplit 可交互拖拽器是通过 Overlay 插入的，
-                // 请保证在拖拽过程中主题对象是相同的，否则会不断触发 Overlay 的删除、插入
                 data: ElSplitThemeData(
-                  size: 1,
-                  color: context.elTheme.layoutTheme.borderColor!,
                   activeColor: context.elTheme.primary,
                   // 避免匿名函数，否则对象一定不相等
                   onChanged: onChanged,
