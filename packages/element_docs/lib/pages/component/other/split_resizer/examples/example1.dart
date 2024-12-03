@@ -17,10 +17,10 @@ class Example1 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            'ElSplitResizer 主要特点是它在页面上可能是一个细小边框、或者根本不绘制任何元素，'
-                '但它需要较大的交互区域范围，否则鼠标不易触发。',
+            'ElSplitResizer 拖拽分割器，特点是在页面上可能是一个细小边框、或者根本不绘制任何元素，'
+                '但它拥有比较大的实际可交互区域。',
             ElText([
-              '但是受底层事件的',
+              '受底层事件的',
               ElLink(
                 href: 'https://github.com/flutter/flutter/issues/75747',
                 decoration: ElLinkDecoration.hoverUnderline,
@@ -28,9 +28,18 @@ class Example1 extends HookWidget {
               ),
               '影响，绘制可交互的控件不能简单地使用 Stack 小部件，只能使用较复杂的 Overlay 小部件，'
                   '这导致当修改配置时，要刷新 Overlay 中的内容相当麻烦，为了减少源码复杂度，'
-                  '我直接简单粗暴地通过对比新旧主题数据来移除、插入 Overlay，所以在 build 过程中，'
-                  '请保证传递的主题对象不会发生变化，否则会频繁地移除、插入 Overlay。',
+                  '我直接简单粗暴地通过对比新旧主题数据来移除、插入 Overlay，如果主题数据没有发生变化，'
+                  '那么分割器将不会重建，否则每次 build 时都会地移除、插入 Overlay。',
             ]),
+          ],
+        ),
+        textGap,
+        const SectionCard(
+          title: 'Tip',
+          type: El.info,
+          content: [
+            '更新：经过测试即使频繁移除、插入 Overlay，对性能影响也不大，但如果你有强迫症，'
+                '那么 onChanged、onEnd 不要设置为匿名函数即可。',
           ],
         ),
         textGap,
@@ -45,34 +54,15 @@ class Example1 extends HookWidget {
   }
 }
 
-class _Example extends StatefulWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
-  State<_Example> createState() => _ExampleState();
-}
-
-class _ExampleState extends State<_Example> {
-  late BoxConstraints _constraints;
-  double _left = 100;
-
-  void onChanged(double value) {
-    setState(() {
-      _left += value;
-    });
-  }
-
-  void onEnd() {
-    setState(() {
-      _left = min(max(_left, 0), _constraints.maxWidth);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final $left = useState(100.0);
+
     return LayoutBuilder(builder: (context, constraints) {
-      _constraints = constraints;
-      final double left = min(max(_left, 0), _constraints.maxWidth);
+      final double left = min(max($left.value, 0), constraints.maxWidth);
       return SizedBox(
         height: 300,
         child: Stack(
@@ -105,9 +95,13 @@ class _ExampleState extends State<_Example> {
               child: ElSplitResizerTheme(
                 data: ElSplitResizerThemeData(
                   activeColor: context.elTheme.primary,
-                  // 避免匿名函数，否则对象一定不相等
-                  onChanged: onChanged,
-                  onEnd: onEnd,
+                  onChanged: (double value) {
+                    $left.value += value;
+                  },
+                  onEnd: () {
+                    $left.value =
+                        min(max($left.value, 0), constraints.maxWidth);
+                  },
                 ),
                 child: const ElSplitResizer(),
               ),
@@ -120,34 +114,15 @@ class _ExampleState extends State<_Example> {
 }
 
 String get code => '''
-class _Example extends StatefulWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
-  State<_Example> createState() => _ExampleState();
-}
-
-class _ExampleState extends State<_Example> {
-  late BoxConstraints _constraints;
-  double _left = 100;
-
-  void onChanged(double value) {
-    setState(() {
-      _left += value;
-    });
-  }
-
-  void onEnd() {
-    setState(() {
-      _left = min(max(_left, 0), _constraints.maxWidth);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final \$left = useState(100.0);
+
     return LayoutBuilder(builder: (context, constraints) {
-      _constraints = constraints;
-      final double left = min(max(_left, 0), _constraints.maxWidth);
+      final double left = min(max(\$left.value, 0), constraints.maxWidth);
       return SizedBox(
         height: 300,
         child: Stack(
@@ -180,9 +155,13 @@ class _ExampleState extends State<_Example> {
               child: ElSplitResizerTheme(
                 data: ElSplitResizerThemeData(
                   activeColor: context.elTheme.primary,
-                  // 避免匿名函数，否则对象一定不相等
-                  onChanged: onChanged,
-                  onEnd: onEnd,
+                  onChanged: (double value) {
+                    \$left.value += value;
+                  },
+                  onEnd: () {
+                    \$left.value =
+                        min(max(\$left.value, 0), constraints.maxWidth);
+                  },
                 ),
                 child: const ElSplitResizer(),
               ),

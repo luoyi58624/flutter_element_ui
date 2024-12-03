@@ -82,7 +82,8 @@ class _ExampleState extends State<_Example> {
             child: ElSplitResizerTheme(
               data: ElSplitResizerThemeData(
                 axis: Axis.horizontal,
-                // 避免匿名函数，否则对象一定不相等
+                // 避免匿名函数，否则每次 build 主题对象将不一致，
+                // 造成分割器 Overlay 不断删除、插入
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
@@ -153,7 +154,8 @@ class _ExampleState extends State<_Example> {
             child: ElSplitResizerTheme(
               data: ElSplitResizerThemeData(
                 axis: Axis.horizontal,
-                // 避免匿名函数，否则对象一定不相等
+                // 避免匿名函数，否则每次 build 主题对象将不一致，
+                // 造成分割器 Overlay 不断删除、插入
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
