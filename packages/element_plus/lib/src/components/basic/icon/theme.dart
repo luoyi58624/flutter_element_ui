@@ -26,4 +26,10 @@ class ElIconThemeData {
 
   /// 图标颜色
   final Color? color;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

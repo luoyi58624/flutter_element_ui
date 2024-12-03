@@ -72,4 +72,10 @@ class ElTagThemeData {
 
   /// 自定义内边距
   final EdgeInsetsGeometry? padding;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

@@ -84,4 +84,10 @@ class ElTabsThemeData {
 
   /// 自定义拖拽代理
   final ReorderItemProxyDecorator? dragProxyDecorator;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

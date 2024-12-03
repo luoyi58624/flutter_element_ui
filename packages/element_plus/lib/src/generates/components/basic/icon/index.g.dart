@@ -29,6 +29,18 @@ extension ElIconThemeDataExtension on ElIconThemeData {
       color: other.color,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElIconThemeData &&
+          runtimeType == other.runtimeType &&
+          icon == other.icon &&
+          size == other.size &&
+          color == other.color;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => icon.hashCode ^ size.hashCode ^ color.hashCode;
 }
 
 // **************************************************************************
@@ -73,7 +85,7 @@ class _ElIconTheme extends InheritedWidget {
   final ElIconThemeData data;
 
   @override
-  bool updateShouldNotify(_ElIconTheme oldWidget) => true;
+  bool updateShouldNotify(_ElIconTheme oldWidget) => data != oldWidget.data;
 }
 
 class ElAnimatedIconTheme extends StatelessWidget {

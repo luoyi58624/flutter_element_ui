@@ -89,6 +89,61 @@ extension ElButtonThemeDataExtension on ElButtonThemeData {
       loadingBuilder: other.loadingBuilder,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElButtonThemeData &&
+          runtimeType == other.runtimeType &&
+          child == other.child &&
+          duration == other.duration &&
+          width == other.width &&
+          height == other.height &&
+          bgColor == other.bgColor &&
+          color == other.color &&
+          type == other.type &&
+          text == other.text &&
+          bg == other.bg &&
+          link == other.link &&
+          plain == other.plain &&
+          round == other.round &&
+          block == other.block &&
+          borderWidth == other.borderWidth &&
+          borderActiveWidth == other.borderActiveWidth &&
+          borderRadius == other.borderRadius &&
+          padding == other.padding &&
+          iconSize == other.iconSize &&
+          leftIcon == other.leftIcon &&
+          rightIcon == other.rightIcon &&
+          circle == other.circle &&
+          loadingWidget == other.loadingWidget &&
+          loadingBuilder == other.loadingBuilder;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      child.hashCode ^
+      duration.hashCode ^
+      width.hashCode ^
+      height.hashCode ^
+      bgColor.hashCode ^
+      color.hashCode ^
+      type.hashCode ^
+      text.hashCode ^
+      bg.hashCode ^
+      link.hashCode ^
+      plain.hashCode ^
+      round.hashCode ^
+      block.hashCode ^
+      borderWidth.hashCode ^
+      borderActiveWidth.hashCode ^
+      borderRadius.hashCode ^
+      padding.hashCode ^
+      iconSize.hashCode ^
+      leftIcon.hashCode ^
+      rightIcon.hashCode ^
+      circle.hashCode ^
+      loadingWidget.hashCode ^
+      loadingBuilder.hashCode;
 }
 
 // **************************************************************************
@@ -133,5 +188,5 @@ class _ElButtonTheme extends InheritedWidget {
   final ElButtonThemeData data;
 
   @override
-  bool updateShouldNotify(_ElButtonTheme oldWidget) => true;
+  bool updateShouldNotify(_ElButtonTheme oldWidget) => data != oldWidget.data;
 }

@@ -13,4 +13,10 @@ class ElNavMenuThemeData {
 
   /// 菜单激活文字颜色
   final Color activeTextColor;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

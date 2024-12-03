@@ -68,6 +68,47 @@ extension ElTagThemeDataExtension on ElTagThemeData {
       padding: other.padding,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElTagThemeData &&
+          runtimeType == other.runtimeType &&
+          duration == other.duration &&
+          curve == other.curve &&
+          type == other.type &&
+          icon == other.icon &&
+          width == other.width &&
+          height == other.height &&
+          bgColor == other.bgColor &&
+          textColor == other.textColor &&
+          textSize == other.textSize &&
+          iconColor == other.iconColor &&
+          iconSize == other.iconSize &&
+          plain == other.plain &&
+          round == other.round &&
+          closable == other.closable &&
+          borderRadius == other.borderRadius &&
+          padding == other.padding;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      duration.hashCode ^
+      curve.hashCode ^
+      type.hashCode ^
+      icon.hashCode ^
+      width.hashCode ^
+      height.hashCode ^
+      bgColor.hashCode ^
+      textColor.hashCode ^
+      textSize.hashCode ^
+      iconColor.hashCode ^
+      iconSize.hashCode ^
+      plain.hashCode ^
+      round.hashCode ^
+      closable.hashCode ^
+      borderRadius.hashCode ^
+      padding.hashCode;
 }
 
 // **************************************************************************
@@ -112,5 +153,5 @@ class _ElTagTheme extends InheritedWidget {
   final ElTagThemeData data;
 
   @override
-  bool updateShouldNotify(_ElTagTheme oldWidget) => true;
+  bool updateShouldNotify(_ElTagTheme oldWidget) => data != oldWidget.data;
 }

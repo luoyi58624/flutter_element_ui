@@ -20,4 +20,10 @@ class ElProgressThemeData {
 
   /// 动画进度条第二条动画曲线，其进度尺寸不变
   final Curve secondCurve;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

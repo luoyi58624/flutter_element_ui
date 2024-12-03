@@ -28,4 +28,10 @@ class ElInputThemeData {
 
   /// 输入框文本样式
   final TextStyle textStyle;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

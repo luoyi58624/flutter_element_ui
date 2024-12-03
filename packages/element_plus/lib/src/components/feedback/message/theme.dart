@@ -32,4 +32,10 @@ class ElMessageThemeData {
 
   /// 自定义全局 message 小部件
   final ElMessageBuilder? builder;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

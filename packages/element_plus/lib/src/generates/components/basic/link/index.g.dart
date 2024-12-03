@@ -32,6 +32,23 @@ extension ElLinkThemeDataExtension on ElLinkThemeData {
       allowDrag: other.allowDrag,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElLinkThemeData &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          activeColor == other.activeColor &&
+          decoration == other.decoration &&
+          allowDrag == other.allowDrag;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      color.hashCode ^
+      activeColor.hashCode ^
+      decoration.hashCode ^
+      allowDrag.hashCode;
 }
 
 // **************************************************************************
@@ -76,5 +93,5 @@ class _ElLinkTheme extends InheritedWidget {
   final ElLinkThemeData data;
 
   @override
-  bool updateShouldNotify(_ElLinkTheme oldWidget) => true;
+  bool updateShouldNotify(_ElLinkTheme oldWidget) => data != oldWidget.data;
 }

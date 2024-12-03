@@ -32,6 +32,23 @@ extension ElSliderThemeDataExtension on ElSliderThemeData {
       inactiveColor: other.inactiveColor,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElSliderThemeData &&
+          runtimeType == other.runtimeType &&
+          sliderSize == other.sliderSize &&
+          thumbSize == other.thumbSize &&
+          activeColor == other.activeColor &&
+          inactiveColor == other.inactiveColor;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      sliderSize.hashCode ^
+      thumbSize.hashCode ^
+      activeColor.hashCode ^
+      inactiveColor.hashCode;
 }
 
 // **************************************************************************
@@ -76,5 +93,5 @@ class _ElSliderTheme extends InheritedWidget {
   final ElSliderThemeData data;
 
   @override
-  bool updateShouldNotify(_ElSliderTheme oldWidget) => true;
+  bool updateShouldNotify(_ElSliderTheme oldWidget) => data != oldWidget.data;
 }

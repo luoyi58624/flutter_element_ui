@@ -165,6 +165,109 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onCancel: other.onCancel,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElEventThemeData &&
+          runtimeType == other.runtimeType &&
+          disabled == other.disabled &&
+          autofocus == other.autofocus &&
+          canRequestFocus == other.canRequestFocus &&
+          cancelScope == other.cancelScope &&
+          prevent == other.prevent &&
+          tapUpDelay == other.tapUpDelay &&
+          doubleTapTimeout == other.doubleTapTimeout &&
+          delayTapForDouble == other.delayTapForDouble &&
+          longPressTimeout == other.longPressTimeout &&
+          feedback == other.feedback &&
+          triggerDragScope == other.triggerDragScope &&
+          minVelocity == other.minVelocity &&
+          maxVelocity == other.maxVelocity &&
+          behavior == other.behavior &&
+          cursor == other.cursor &&
+          onEnter == other.onEnter &&
+          onExit == other.onExit &&
+          onHover == other.onHover &&
+          onTap == other.onTap &&
+          onTapDown == other.onTapDown &&
+          onTapUp == other.onTapUp &&
+          onSecondaryTap == other.onSecondaryTap &&
+          onSecondaryTapDown == other.onSecondaryTapDown &&
+          onSecondaryTapUp == other.onSecondaryTapUp &&
+          onTertiaryTap == other.onTertiaryTap &&
+          onTertiaryTapDown == other.onTertiaryTapDown &&
+          onTertiaryTapUp == other.onTertiaryTapUp &&
+          onTapOutside == other.onTapOutside &&
+          onDoubleTap == other.onDoubleTap &&
+          onLongPress == other.onLongPress &&
+          onDragStart == other.onDragStart &&
+          onDragUpdate == other.onDragUpdate &&
+          onDragEnd == other.onDragEnd &&
+          onVerticalDragStart == other.onVerticalDragStart &&
+          onVerticalDragUpdate == other.onVerticalDragUpdate &&
+          onVerticalDragEnd == other.onVerticalDragEnd &&
+          onHorizontalDragStart == other.onHorizontalDragStart &&
+          onHorizontalDragUpdate == other.onHorizontalDragUpdate &&
+          onHorizontalDragEnd == other.onHorizontalDragEnd &&
+          onPointerDown == other.onPointerDown &&
+          onPointerUp == other.onPointerUp &&
+          onPointerMove == other.onPointerMove &&
+          onPointerPanZoomStart == other.onPointerPanZoomStart &&
+          onPointerPanZoomUpdate == other.onPointerPanZoomUpdate &&
+          onPointerPanZoomEnd == other.onPointerPanZoomEnd &&
+          onPointerSignal == other.onPointerSignal &&
+          onCancel == other.onCancel;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      disabled.hashCode ^
+      autofocus.hashCode ^
+      canRequestFocus.hashCode ^
+      cancelScope.hashCode ^
+      prevent.hashCode ^
+      tapUpDelay.hashCode ^
+      doubleTapTimeout.hashCode ^
+      delayTapForDouble.hashCode ^
+      longPressTimeout.hashCode ^
+      feedback.hashCode ^
+      triggerDragScope.hashCode ^
+      minVelocity.hashCode ^
+      maxVelocity.hashCode ^
+      behavior.hashCode ^
+      cursor.hashCode ^
+      onEnter.hashCode ^
+      onExit.hashCode ^
+      onHover.hashCode ^
+      onTap.hashCode ^
+      onTapDown.hashCode ^
+      onTapUp.hashCode ^
+      onSecondaryTap.hashCode ^
+      onSecondaryTapDown.hashCode ^
+      onSecondaryTapUp.hashCode ^
+      onTertiaryTap.hashCode ^
+      onTertiaryTapDown.hashCode ^
+      onTertiaryTapUp.hashCode ^
+      onTapOutside.hashCode ^
+      onDoubleTap.hashCode ^
+      onLongPress.hashCode ^
+      onDragStart.hashCode ^
+      onDragUpdate.hashCode ^
+      onDragEnd.hashCode ^
+      onVerticalDragStart.hashCode ^
+      onVerticalDragUpdate.hashCode ^
+      onVerticalDragEnd.hashCode ^
+      onHorizontalDragStart.hashCode ^
+      onHorizontalDragUpdate.hashCode ^
+      onHorizontalDragEnd.hashCode ^
+      onPointerDown.hashCode ^
+      onPointerUp.hashCode ^
+      onPointerMove.hashCode ^
+      onPointerPanZoomStart.hashCode ^
+      onPointerPanZoomUpdate.hashCode ^
+      onPointerPanZoomEnd.hashCode ^
+      onPointerSignal.hashCode ^
+      onCancel.hashCode;
 }
 
 // **************************************************************************
@@ -209,5 +312,5 @@ class _ElEventTheme extends InheritedWidget {
   final ElEventThemeData data;
 
   @override
-  bool updateShouldNotify(_ElEventTheme oldWidget) => true;
+  bool updateShouldNotify(_ElEventTheme oldWidget) => data != oldWidget.data;
 }

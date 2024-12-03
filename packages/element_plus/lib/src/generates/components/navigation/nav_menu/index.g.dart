@@ -23,6 +23,16 @@ extension ElNavMenuThemeDataExtension on ElNavMenuThemeData {
       activeTextColor: other.activeTextColor,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElNavMenuThemeData &&
+          runtimeType == other.runtimeType &&
+          activeTextColor == other.activeTextColor;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => activeTextColor.hashCode;
 }
 
 // **************************************************************************
@@ -67,5 +77,5 @@ class _ElNavMenuTheme extends InheritedWidget {
   final ElNavMenuThemeData data;
 
   @override
-  bool updateShouldNotify(_ElNavMenuTheme oldWidget) => true;
+  bool updateShouldNotify(_ElNavMenuTheme oldWidget) => data != oldWidget.data;
 }

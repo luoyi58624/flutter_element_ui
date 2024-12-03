@@ -35,6 +35,25 @@ extension ElTreeThemeDataExtension on ElTreeThemeData {
       borderRadius: other.borderRadius,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElTreeThemeData &&
+          runtimeType == other.runtimeType &&
+          itemHeight == other.itemHeight &&
+          iconSize == other.iconSize &&
+          parentGap == other.parentGap &&
+          padding == other.padding &&
+          borderRadius == other.borderRadius;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      itemHeight.hashCode ^
+      iconSize.hashCode ^
+      parentGap.hashCode ^
+      padding.hashCode ^
+      borderRadius.hashCode;
 }
 
 // **************************************************************************
@@ -79,5 +98,5 @@ class _ElTreeTheme extends InheritedWidget {
   final ElTreeThemeData data;
 
   @override
-  bool updateShouldNotify(_ElTreeTheme oldWidget) => true;
+  bool updateShouldNotify(_ElTreeTheme oldWidget) => data != oldWidget.data;
 }

@@ -26,6 +26,17 @@ extension ElCardThemeDataExtension on ElCardThemeData {
       elevation: other.elevation,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElCardThemeData &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          elevation == other.elevation;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => color.hashCode ^ elevation.hashCode;
 }
 
 // **************************************************************************
@@ -70,5 +81,5 @@ class _ElCardTheme extends InheritedWidget {
   final ElCardThemeData data;
 
   @override
-  bool updateShouldNotify(_ElCardTheme oldWidget) => true;
+  bool updateShouldNotify(_ElCardTheme oldWidget) => data != oldWidget.data;
 }

@@ -41,14 +41,14 @@ class ElModel {
     this.toJsonUnderline = false,
   });
 
-  /// 默认生成 copyWith、merge 方法
+  /// 默认生成 copyWith、merge、equals、hashCode 方法
   const ElModel.copy({
     this.formJson = false,
     this.toJson = false,
     this.copyWith = true,
     this.merge = true,
-    this.generateEquals = false,
-    this.generateHashCode = false,
+    this.generateEquals = true,
+    this.generateHashCode = true,
     this.generateToString = false,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,

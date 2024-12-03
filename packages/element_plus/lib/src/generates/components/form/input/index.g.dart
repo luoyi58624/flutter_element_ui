@@ -35,6 +35,25 @@ extension ElInputThemeDataExtension on ElInputThemeData {
       textStyle: other.textStyle,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElInputThemeData &&
+          runtimeType == other.runtimeType &&
+          height == other.height &&
+          borderRadius == other.borderRadius &&
+          margin == other.margin &&
+          padding == other.padding &&
+          textStyle == other.textStyle;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      height.hashCode ^
+      borderRadius.hashCode ^
+      margin.hashCode ^
+      padding.hashCode ^
+      textStyle.hashCode;
 }
 
 // **************************************************************************
@@ -79,5 +98,5 @@ class _ElInputTheme extends InheritedWidget {
   final ElInputThemeData data;
 
   @override
-  bool updateShouldNotify(_ElInputTheme oldWidget) => true;
+  bool updateShouldNotify(_ElInputTheme oldWidget) => data != oldWidget.data;
 }

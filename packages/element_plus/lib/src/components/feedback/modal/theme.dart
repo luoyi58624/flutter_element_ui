@@ -22,4 +22,10 @@ class ElModalThemeData {
 
   /// 模态框海拔层级
   final double elevation;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

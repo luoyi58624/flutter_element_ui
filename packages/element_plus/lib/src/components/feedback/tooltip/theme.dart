@@ -16,4 +16,10 @@ class ElTooltipThemeData {
 
   /// 是否开启震动反馈，默认跟随 config.enableFeedback
   final bool? enableFeedback;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

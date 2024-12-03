@@ -41,6 +41,29 @@ extension ElRingThemeDataExtension on ElRingThemeData {
       color: other.color,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElRingThemeData &&
+          runtimeType == other.runtimeType &&
+          duration == other.duration &&
+          curve == other.curve &&
+          show == other.show &&
+          width == other.width &&
+          offset == other.offset &&
+          radius == other.radius &&
+          color == other.color;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      duration.hashCode ^
+      curve.hashCode ^
+      show.hashCode ^
+      width.hashCode ^
+      offset.hashCode ^
+      radius.hashCode ^
+      color.hashCode;
 }
 
 // **************************************************************************
@@ -85,5 +108,5 @@ class _ElRingTheme extends InheritedWidget {
   final ElRingThemeData data;
 
   @override
-  bool updateShouldNotify(_ElRingTheme oldWidget) => true;
+  bool updateShouldNotify(_ElRingTheme oldWidget) => data != oldWidget.data;
 }

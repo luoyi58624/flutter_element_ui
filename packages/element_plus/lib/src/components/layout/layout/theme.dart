@@ -38,4 +38,10 @@ class ElLayoutThemeData {
 
   /// 边框颜色与背景色进行混合形成的颜色
   Color get borderLightColor => borderColor!.mix(bgColor!, 50);
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

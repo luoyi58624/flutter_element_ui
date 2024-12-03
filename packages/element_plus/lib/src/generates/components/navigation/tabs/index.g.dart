@@ -69,6 +69,47 @@ extension ElTabsThemeDataExtension on ElTabsThemeData {
       dragProxyDecorator: other.dragProxyDecorator,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElTabsThemeData &&
+          runtimeType == other.runtimeType &&
+          builderWrapper == other.builderWrapper &&
+          builderScrollbar == other.builderScrollbar &&
+          size == other.size &&
+          direction == other.direction &&
+          bgColor == other.bgColor &&
+          hoverBgColor == other.hoverBgColor &&
+          activeBgColor == other.activeBgColor &&
+          textColor == other.textColor &&
+          hoverTextColor == other.hoverTextColor &&
+          activeTextColor == other.activeTextColor &&
+          padding == other.padding &&
+          itemGap == other.itemGap &&
+          enabledDrag == other.enabledDrag &&
+          dragDelay == other.dragDelay &&
+          autoScrollerVelocityScalar == other.autoScrollerVelocityScalar &&
+          dragProxyDecorator == other.dragProxyDecorator;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      builderWrapper.hashCode ^
+      builderScrollbar.hashCode ^
+      size.hashCode ^
+      direction.hashCode ^
+      bgColor.hashCode ^
+      hoverBgColor.hashCode ^
+      activeBgColor.hashCode ^
+      textColor.hashCode ^
+      hoverTextColor.hashCode ^
+      activeTextColor.hashCode ^
+      padding.hashCode ^
+      itemGap.hashCode ^
+      enabledDrag.hashCode ^
+      dragDelay.hashCode ^
+      autoScrollerVelocityScalar.hashCode ^
+      dragProxyDecorator.hashCode;
 }
 
 // **************************************************************************
@@ -113,5 +154,5 @@ class _ElTabsTheme extends InheritedWidget {
   final ElTabsThemeData data;
 
   @override
-  bool updateShouldNotify(_ElTabsTheme oldWidget) => true;
+  bool updateShouldNotify(_ElTabsTheme oldWidget) => data != oldWidget.data;
 }

@@ -20,4 +20,10 @@ class ElToastThemeData {
 
   /// 自定义全局 message 小部件
   final ElToastBuilder? builder;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

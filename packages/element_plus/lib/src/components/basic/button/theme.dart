@@ -112,6 +112,12 @@ class ElButtonThemeData {
 
   /// loading 构建器，它会替代 [loadingWidget]，其特点是背景颜色固定为灰色、同时隐藏原有内容，只展示用户构建的 Widget
   final Widget Function(ElButtonLoadingData data)? loadingBuilder;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }
 
 class ElButtonLoadingData {

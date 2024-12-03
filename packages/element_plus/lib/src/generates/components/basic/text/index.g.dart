@@ -32,4 +32,21 @@ extension ElTextThemeDataExtension on ElTextThemeData {
       placeholderStyle: other.placeholderStyle,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElTextThemeData &&
+          runtimeType == other.runtimeType &&
+          textStyle == other.textStyle &&
+          regularStyle == other.regularStyle &&
+          secondaryStyle == other.secondaryStyle &&
+          placeholderStyle == other.placeholderStyle;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      textStyle.hashCode ^
+      regularStyle.hashCode ^
+      secondaryStyle.hashCode ^
+      placeholderStyle.hashCode;
 }

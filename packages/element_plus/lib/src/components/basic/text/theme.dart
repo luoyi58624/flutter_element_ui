@@ -58,4 +58,10 @@ class ElTextThemeData {
 
   /// 占位文本样式
   final TextStyle placeholderStyle;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

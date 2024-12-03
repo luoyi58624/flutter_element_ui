@@ -38,4 +38,25 @@ extension ElMessageThemeDataExtension on ElMessageThemeData {
       builder: other.builder,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElMessageThemeData &&
+          runtimeType == other.runtimeType &&
+          offset == other.offset &&
+          closeDuration == other.closeDuration &&
+          animationDuration == other.animationDuration &&
+          showClose == other.showClose &&
+          grouping == other.grouping &&
+          builder == other.builder;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      offset.hashCode ^
+      closeDuration.hashCode ^
+      animationDuration.hashCode ^
+      showClose.hashCode ^
+      grouping.hashCode ^
+      builder.hashCode;
 }

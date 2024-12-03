@@ -29,6 +29,18 @@ extension ElCollapseThemeDataExtension on ElCollapseThemeData {
       curve: other.curve,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElCollapseThemeData &&
+          runtimeType == other.runtimeType &&
+          keepState == other.keepState &&
+          duration == other.duration &&
+          curve == other.curve;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => keepState.hashCode ^ duration.hashCode ^ curve.hashCode;
 }
 
 // **************************************************************************
@@ -73,5 +85,5 @@ class _ElCollapseTheme extends InheritedWidget {
   final ElCollapseThemeData data;
 
   @override
-  bool updateShouldNotify(_ElCollapseTheme oldWidget) => true;
+  bool updateShouldNotify(_ElCollapseTheme oldWidget) => data != oldWidget.data;
 }

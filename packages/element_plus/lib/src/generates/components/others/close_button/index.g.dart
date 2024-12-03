@@ -29,6 +29,19 @@ extension ElCloseButtonThemeDataExtension on ElCloseButtonThemeData {
       cursor: other.cursor,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElCloseButtonThemeData &&
+          runtimeType == other.runtimeType &&
+          iconHoverColor == other.iconHoverColor &&
+          bgHoverColor == other.bgHoverColor &&
+          cursor == other.cursor;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      iconHoverColor.hashCode ^ bgHoverColor.hashCode ^ cursor.hashCode;
 }
 
 // **************************************************************************
@@ -73,7 +86,8 @@ class _ElCloseButtonTheme extends InheritedWidget {
   final ElCloseButtonThemeData data;
 
   @override
-  bool updateShouldNotify(_ElCloseButtonTheme oldWidget) => true;
+  bool updateShouldNotify(_ElCloseButtonTheme oldWidget) =>
+      data != oldWidget.data;
 }
 
 class ElAnimatedCloseButtonTheme extends StatelessWidget {

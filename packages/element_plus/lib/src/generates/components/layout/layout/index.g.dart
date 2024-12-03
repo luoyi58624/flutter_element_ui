@@ -32,6 +32,23 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
       borderColor: other.borderColor,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElLayoutThemeData &&
+          runtimeType == other.runtimeType &&
+          bgColor == other.bgColor &&
+          navbarColor == other.navbarColor &&
+          sidebarColor == other.sidebarColor &&
+          borderColor == other.borderColor;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      bgColor.hashCode ^
+      navbarColor.hashCode ^
+      sidebarColor.hashCode ^
+      borderColor.hashCode;
 }
 
 // **************************************************************************
@@ -76,5 +93,5 @@ class _ElLayoutTheme extends InheritedWidget {
   final ElLayoutThemeData data;
 
   @override
-  bool updateShouldNotify(_ElLayoutTheme oldWidget) => true;
+  bool updateShouldNotify(_ElLayoutTheme oldWidget) => data != oldWidget.data;
 }

@@ -28,4 +28,10 @@ class ElTreeThemeData {
 
   /// 边框圆角
   final BorderRadius borderRadius;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

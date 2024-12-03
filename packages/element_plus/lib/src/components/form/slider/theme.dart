@@ -28,4 +28,10 @@ class ElSliderThemeData {
 
   /// 滑块未激活颜色
   final Color inactiveColor;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

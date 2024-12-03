@@ -20,4 +20,10 @@ class ElCollapseThemeData {
 
   /// 折叠动画曲线
   final Curve curve;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

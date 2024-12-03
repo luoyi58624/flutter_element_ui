@@ -159,7 +159,7 @@ class _$themeClassName extends InheritedWidget {
   final $_className data;
   
   @override
-  bool updateShouldNotify(_$themeClassName oldWidget) => true;
+  bool updateShouldNotify(_$themeClassName oldWidget) => data != oldWidget.data;
 }    
     """;
   }

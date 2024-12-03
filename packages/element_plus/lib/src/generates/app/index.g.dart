@@ -14,8 +14,8 @@ class ElThemeData extends _ElThemeData {
     layoutTheme: ElLayoutThemeData.theme,
     linkTheme: ElLinkThemeData.theme,
     textTheme: ElTextThemeData.theme,
-    buttonTheme: ElButtonThemeData.theme,
     iconTheme: ElIconThemeData.theme,
+    buttonTheme: ElButtonThemeData.theme,
     tabsTheme: ElTabsThemeData.theme,
     navMenuTheme: ElNavMenuThemeData.theme,
     eventTheme: ElEventThemeData.theme,
@@ -40,8 +40,8 @@ class ElThemeData extends _ElThemeData {
     layoutTheme: ElLayoutThemeData.darkTheme,
     linkTheme: ElLinkThemeData.darkTheme,
     textTheme: ElTextThemeData.darkTheme,
-    buttonTheme: ElButtonThemeData.darkTheme,
     iconTheme: ElIconThemeData.darkTheme,
+    buttonTheme: ElButtonThemeData.darkTheme,
     tabsTheme: ElTabsThemeData.darkTheme,
     navMenuTheme: ElNavMenuThemeData.darkTheme,
     eventTheme: ElEventThemeData.darkTheme,
@@ -74,11 +74,11 @@ class ElThemeData extends _ElThemeData {
   /// 文本默认样式
   final ElTextThemeData textTheme;
 
-  /// 按钮默认样式
-  final ElButtonThemeData buttonTheme;
-
   /// 图标默认样式
   final ElIconThemeData iconTheme;
+
+  /// 按钮默认样式
+  final ElButtonThemeData buttonTheme;
 
   /// 标签容器默认样式
   final ElTabsThemeData tabsTheme;
@@ -137,8 +137,8 @@ class ElThemeData extends _ElThemeData {
     required this.layoutTheme,
     required this.linkTheme,
     required this.textTheme,
-    required this.buttonTheme,
     required this.iconTheme,
+    required this.buttonTheme,
     required this.tabsTheme,
     required this.navMenuTheme,
     required this.eventTheme,
@@ -163,8 +163,8 @@ class ElThemeData extends _ElThemeData {
     required this.layoutTheme,
     required this.linkTheme,
     required this.textTheme,
-    required this.buttonTheme,
     required this.iconTheme,
+    required this.buttonTheme,
     required this.tabsTheme,
     required this.navMenuTheme,
     required this.eventTheme,
@@ -194,8 +194,8 @@ class ElThemeData extends _ElThemeData {
     ElLayoutThemeData? layoutTheme,
     ElLinkThemeData? linkTheme,
     ElTextThemeData? textTheme,
-    ElButtonThemeData? buttonTheme,
     ElIconThemeData? iconTheme,
+    ElButtonThemeData? buttonTheme,
     ElTabsThemeData? tabsTheme,
     ElNavMenuThemeData? navMenuTheme,
     ElEventThemeData? eventTheme,
@@ -223,8 +223,8 @@ class ElThemeData extends _ElThemeData {
       layoutTheme: this.layoutTheme.merge(layoutTheme),
       linkTheme: this.linkTheme.merge(linkTheme),
       textTheme: this.textTheme.merge(textTheme),
-      buttonTheme: this.buttonTheme.merge(buttonTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
+      buttonTheme: this.buttonTheme.merge(buttonTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
       navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
       eventTheme: this.eventTheme.merge(eventTheme),
@@ -257,8 +257,8 @@ class ElThemeData extends _ElThemeData {
       layoutTheme: other.layoutTheme,
       linkTheme: other.linkTheme,
       textTheme: other.textTheme,
-      buttonTheme: other.buttonTheme,
       iconTheme: other.iconTheme,
+      buttonTheme: other.buttonTheme,
       tabsTheme: other.tabsTheme,
       navMenuTheme: other.navMenuTheme,
       eventTheme: other.eventTheme,
@@ -308,4 +308,21 @@ extension ElConfigDataExtension on ElConfigData {
       borderWidth: other.borderWidth,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElConfigData &&
+          runtimeType == other.runtimeType &&
+          size == other.size &&
+          radius == other.radius &&
+          cardRadius == other.cardRadius &&
+          borderWidth == other.borderWidth;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      size.hashCode ^
+      radius.hashCode ^
+      cardRadius.hashCode ^
+      borderWidth.hashCode;
 }

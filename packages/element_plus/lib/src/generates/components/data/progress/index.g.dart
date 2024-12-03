@@ -29,6 +29,19 @@ extension ElProgressThemeDataExtension on ElProgressThemeData {
       secondCurve: other.secondCurve,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElProgressThemeData &&
+          runtimeType == other.runtimeType &&
+          duration == other.duration &&
+          curve == other.curve &&
+          secondCurve == other.secondCurve;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      duration.hashCode ^ curve.hashCode ^ secondCurve.hashCode;
 }
 
 // **************************************************************************
@@ -73,5 +86,5 @@ class _ElProgressTheme extends InheritedWidget {
   final ElProgressThemeData data;
 
   @override
-  bool updateShouldNotify(_ElProgressTheme oldWidget) => true;
+  bool updateShouldNotify(_ElProgressTheme oldWidget) => data != oldWidget.data;
 }

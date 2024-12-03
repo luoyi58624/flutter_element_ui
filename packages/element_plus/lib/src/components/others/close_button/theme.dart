@@ -20,4 +20,10 @@ class ElCloseButtonThemeData {
 
   /// 鼠标悬停光标样式
   final MouseCursor? cursor;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

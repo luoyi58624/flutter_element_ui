@@ -40,4 +40,10 @@ class ElRingThemeData {
 
   /// 轮廓环的颜色，默认主题色
   final Color? color;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

@@ -26,4 +26,15 @@ extension ElTooltipThemeDataExtension on ElTooltipThemeData {
       enableFeedback: other.enableFeedback,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElTooltipThemeData &&
+          runtimeType == other.runtimeType &&
+          color == other.color &&
+          enableFeedback == other.enableFeedback;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => color.hashCode ^ enableFeedback.hashCode;
 }

@@ -29,4 +29,17 @@ extension ElToastThemeDataExtension on ElToastThemeData {
       builder: other.builder,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElToastThemeData &&
+          runtimeType == other.runtimeType &&
+          closeDuration == other.closeDuration &&
+          enableFeedback == other.enableFeedback &&
+          builder == other.builder;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      closeDuration.hashCode ^ enableFeedback.hashCode ^ builder.hashCode;
 }

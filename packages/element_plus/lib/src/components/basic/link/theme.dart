@@ -30,4 +30,10 @@ class ElLinkThemeData {
 
   /// 是否允许拖拽超链接（仅限 web 平台）
   final bool allowDrag;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

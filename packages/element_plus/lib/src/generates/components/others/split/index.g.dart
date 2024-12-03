@@ -9,18 +9,24 @@ part of '../../../../components/others/split/index.dart';
 extension ElSplitThemeDataExtension on ElSplitThemeData {
   /// 接收一组可选参数，返回新的对象
   ElSplitThemeData copyWith({
+    Axis? axis,
     double? size,
     double? triggerSize,
     Color? color,
     Color? activeColor,
     ElSplitPosition? position,
+    void Function(double)? onChanged,
+    void Function()? onEnd,
   }) {
     return ElSplitThemeData(
+      axis: axis ?? this.axis,
       size: size ?? this.size,
       triggerSize: triggerSize ?? this.triggerSize,
       color: color ?? this.color,
       activeColor: activeColor ?? this.activeColor,
       position: position ?? this.position,
+      onChanged: onChanged ?? this.onChanged,
+      onEnd: onEnd ?? this.onEnd,
     );
   }
 
@@ -28,13 +34,41 @@ extension ElSplitThemeDataExtension on ElSplitThemeData {
   ElSplitThemeData merge([ElSplitThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      axis: other.axis,
       size: other.size,
       triggerSize: other.triggerSize,
       color: other.color,
       activeColor: other.activeColor,
       position: other.position,
+      onChanged: other.onChanged,
+      onEnd: other.onEnd,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElSplitThemeData &&
+          runtimeType == other.runtimeType &&
+          axis == other.axis &&
+          size == other.size &&
+          triggerSize == other.triggerSize &&
+          color == other.color &&
+          activeColor == other.activeColor &&
+          position == other.position &&
+          onChanged == other.onChanged &&
+          onEnd == other.onEnd;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      axis.hashCode ^
+      size.hashCode ^
+      triggerSize.hashCode ^
+      color.hashCode ^
+      activeColor.hashCode ^
+      position.hashCode ^
+      onChanged.hashCode ^
+      onEnd.hashCode;
 }
 
 // **************************************************************************
@@ -79,5 +113,5 @@ class _ElSplitTheme extends InheritedWidget {
   final ElSplitThemeData data;
 
   @override
-  bool updateShouldNotify(_ElSplitTheme oldWidget) => true;
+  bool updateShouldNotify(_ElSplitTheme oldWidget) => data != oldWidget.data;
 }
