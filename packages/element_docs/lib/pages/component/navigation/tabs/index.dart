@@ -13,7 +13,7 @@ class TabsPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      const Example1(title: '基础用法'),
+      const Example1(title: '基础使用'),
       const Example2(title: 'Material 标签页'),
     ];
   }

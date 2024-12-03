@@ -17,7 +17,7 @@ class Example1 extends HookWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            'ElSplit 主要特点是它在页面上可能是一个细小边框、或者根本不绘制任何元素，'
+            'ElSplitResizer 主要特点是它在页面上可能是一个细小边框、或者根本不绘制任何元素，'
                 '但它需要较大的交互区域范围，否则鼠标不易触发。',
             ElText([
               '但是受底层事件的',
@@ -102,14 +102,14 @@ class _ExampleState extends State<_Example> {
               left: left,
               top: 0,
               bottom: 0,
-              child: ElSplitTheme(
-                data: ElSplitThemeData(
+              child: ElSplitResizerTheme(
+                data: ElSplitResizerThemeData(
                   activeColor: context.elTheme.primary,
                   // 避免匿名函数，否则对象一定不相等
                   onChanged: onChanged,
                   onEnd: onEnd,
                 ),
-                child: const ElSplit(),
+                child: const ElSplitResizer(),
               ),
             ),
           ],
@@ -177,14 +177,14 @@ class _ExampleState extends State<_Example> {
               left: left,
               top: 0,
               bottom: 0,
-              child: ElSplitTheme(
-                data: ElSplitThemeData(
+              child: ElSplitResizerTheme(
+                data: ElSplitResizerThemeData(
                   activeColor: context.elTheme.primary,
                   // 避免匿名函数，否则对象一定不相等
                   onChanged: onChanged,
                   onEnd: onEnd,
                 ),
-                child: const ElSplit(),
+                child: const ElSplitResizer(),
               ),
             ),
           ],

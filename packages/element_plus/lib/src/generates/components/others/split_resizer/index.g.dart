@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../components/others/split/index.dart';
+part of '../../../../components/others/split_resizer/index.dart';
 
 // **************************************************************************
 // ElModelGenerator
 // **************************************************************************
 
-extension ElSplitThemeDataExtension on ElSplitThemeData {
+extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
   /// 接收一组可选参数，返回新的对象
-  ElSplitThemeData copyWith({
+  ElSplitResizerThemeData copyWith({
     Axis? axis,
     double? size,
     double? triggerSize,
@@ -18,7 +18,7 @@ extension ElSplitThemeDataExtension on ElSplitThemeData {
     void Function(double)? onChanged,
     void Function()? onEnd,
   }) {
-    return ElSplitThemeData(
+    return ElSplitResizerThemeData(
       axis: axis ?? this.axis,
       size: size ?? this.size,
       triggerSize: triggerSize ?? this.triggerSize,
@@ -31,7 +31,7 @@ extension ElSplitThemeDataExtension on ElSplitThemeData {
   }
 
   /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
-  ElSplitThemeData merge([ElSplitThemeData? other]) {
+  ElSplitResizerThemeData merge([ElSplitResizerThemeData? other]) {
     if (other == null) return this;
     return copyWith(
       axis: other.axis,
@@ -48,7 +48,7 @@ extension ElSplitThemeDataExtension on ElSplitThemeData {
   /// 生成 equals 对象比较方法
   bool _equals(Object other) =>
       identical(this, other) ||
-      other is ElSplitThemeData &&
+      other is ElSplitResizerThemeData &&
           runtimeType == other.runtimeType &&
           axis == other.axis &&
           size == other.size &&
@@ -75,43 +75,44 @@ extension ElSplitThemeDataExtension on ElSplitThemeData {
 // ElThemeModelGenerator
 // **************************************************************************
 
-class ElSplitTheme extends StatelessWidget {
+class ElSplitResizerTheme extends StatelessWidget {
   /// 提供局部默认主题小部件，局部默认主题必须强制继承祖先提供的样式
-  const ElSplitTheme({
+  const ElSplitResizerTheme({
     super.key,
     required this.child,
     required this.data,
   });
 
   final Widget child;
-  final ElSplitThemeData data;
+  final ElSplitResizerThemeData data;
 
   /// 通过上下文访问默认的主题数据，可能为 null
-  static ElSplitThemeData? maybeOf(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<_ElSplitTheme>()?.data;
+  static ElSplitResizerThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ElSplitResizerTheme>()?.data;
 
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
-  static ElSplitThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elTheme.splitTheme;
+  static ElSplitResizerThemeData of(BuildContext context) =>
+      maybeOf(context) ?? context.elTheme.splitResizerTheme;
 
   @override
   Widget build(BuildContext context) {
-    final parent = ElSplitTheme.of(context);
-    return _ElSplitTheme(
+    final parent = ElSplitResizerTheme.of(context);
+    return _ElSplitResizerTheme(
       data: parent.merge(data),
       child: child,
     );
   }
 }
 
-class _ElSplitTheme extends InheritedWidget {
-  const _ElSplitTheme({
+class _ElSplitResizerTheme extends InheritedWidget {
+  const _ElSplitResizerTheme({
     required super.child,
     required this.data,
   });
 
-  final ElSplitThemeData data;
+  final ElSplitResizerThemeData data;
 
   @override
-  bool updateShouldNotify(_ElSplitTheme oldWidget) => data != oldWidget.data;
+  bool updateShouldNotify(_ElSplitResizerTheme oldWidget) =>
+      data != oldWidget.data;
 }

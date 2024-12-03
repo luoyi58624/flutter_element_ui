@@ -34,7 +34,7 @@ class ButtonGroupPage extends ResponsivePage {
         type: 'primary',
         child: const ElText('按钮组滚动性能测试'),
       ),
-      const Example1(title: '基础用法'),
+      const Example1(title: '基础使用'),
       const Example2(title: '单选按钮组'),
       const Example3(title: '多选按钮组'),
     ];

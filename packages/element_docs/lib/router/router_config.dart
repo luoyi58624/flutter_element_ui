@@ -371,7 +371,16 @@ class SlideRouterConfig {
         ),
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
         ('Ring 轮廓环', '/${RootRoute.component.$2}/ring', WorkStatus.finished),
-        ('Split 分割器', '/${RootRoute.component.$2}/split', WorkStatus.finished),
+        (
+          'SplitResizer 分割器',
+          '/${RootRoute.component.$2}/split_resizer',
+          WorkStatus.finished
+        ),
+        (
+          'SplitPane 分割面板',
+          '/${RootRoute.component.$2}/split_pane',
+          WorkStatus.finished
+        ),
       ],
     ),
   ];

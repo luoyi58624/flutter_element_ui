@@ -15,7 +15,7 @@ class ContextMenuPage extends ResponsivePage {
       titleGap,
       const SectionText('通过鼠标或键盘输入字符'),
       textGap,
-      const Example1(title: '基础用法'),
+      const Example1(title: '基础使用'),
       // Example2(),
     ];
   }

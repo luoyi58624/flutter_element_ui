@@ -79,14 +79,14 @@ class _ExampleState extends State<_Example> {
             right: 0,
             top: top,
             bottom: 0,
-            child: ElSplitTheme(
-              data: ElSplitThemeData(
+            child: ElSplitResizerTheme(
+              data: ElSplitResizerThemeData(
                 axis: Axis.horizontal,
                 // 避免匿名函数，否则对象一定不相等
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
-              child: const ElSplit(),
+              child: const ElSplitResizer(),
             ),
           ),
         ],
@@ -150,14 +150,14 @@ class _ExampleState extends State<_Example> {
             right: 0,
             top: top,
             bottom: 0,
-            child: ElSplitTheme(
-              data: ElSplitThemeData(
+            child: ElSplitResizerTheme(
+              data: ElSplitResizerThemeData(
                 axis: Axis.horizontal,
                 // 避免匿名函数，否则对象一定不相等
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
-              child: const ElSplit(),
+              child: const ElSplitResizer(),
             ),
           ),
         ],

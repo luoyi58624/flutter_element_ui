@@ -27,7 +27,7 @@ class ButtonPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return const [
-      Example1(title: '基础用法'),
+      Example1(title: '基础使用'),
       Example2(title: '禁用状态'),
       Example3(title: '链接按钮'),
       Example4(title: '文字按钮'),

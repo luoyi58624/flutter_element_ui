@@ -2,8 +2,8 @@ part of 'index.dart';
 
 @ElModel.copy()
 @ElThemeModel(desc: '分割器默认样式')
-class ElSplitThemeData {
-  static const _defaultTheme = ElSplitThemeData(
+class ElSplitResizerThemeData {
+  static const _defaultTheme = ElSplitResizerThemeData(
     axis: Axis.vertical,
     size: 0,
     triggerSize: 8,
@@ -12,7 +12,7 @@ class ElSplitThemeData {
   static const theme = _defaultTheme;
   static const darkTheme = _defaultTheme;
 
-  const ElSplitThemeData({
+  const ElSplitResizerThemeData({
     this.axis,
     this.size,
     this.triggerSize,

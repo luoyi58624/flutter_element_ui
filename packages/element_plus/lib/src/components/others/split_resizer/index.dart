@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 part 'theme.dart';
 
-part '../../../generates/components/others/split/index.g.dart';
+part '../../../generates/components/others/split_resizer/index.g.dart';
 
 /// 分割器触发偏移位置
 enum ElSplitPosition {
@@ -18,19 +18,19 @@ enum ElSplitPosition {
 }
 
 /// Element UI 拖拽分割器，它内部会通过 [Overlay] 创建可交互的拖拽器
-class ElSplit extends StatefulWidget {
-  const ElSplit({super.key});
+class ElSplitResizer extends StatefulWidget {
+  const ElSplitResizer({super.key});
 
   @override
-  State<ElSplit> createState() => _ElSplitState();
+  State<ElSplitResizer> createState() => _ElSplitResizerState();
 }
 
-class _ElSplitState extends State<ElSplit> {
-  ElSplitThemeData? _themeData;
+class _ElSplitResizerState extends State<ElSplitResizer> {
+  ElSplitResizerThemeData? _themeData;
 
-  ElSplitThemeData get themeData => _themeData!;
+  ElSplitResizerThemeData get themeData => _themeData!;
 
-  set themeData(ElSplitThemeData value) {
+  set themeData(ElSplitResizerThemeData value) {
     _themeData = value;
     removeOverlay();
     insertOverlay();
@@ -141,7 +141,7 @@ class _ElSplitState extends State<ElSplit> {
     });
 
     overlayState ??= Overlay.of(context);
-    themeData = ElSplitTheme.of(context);
+    themeData = ElSplitResizerTheme.of(context);
 
     Widget result = themeData.axis == Axis.vertical
         ? SizedBox(width: themeData.size, height: double.infinity)

@@ -17,17 +17,18 @@ class ElThemeData extends _ElThemeData {
     iconTheme: ElIconThemeData.theme,
     buttonTheme: ElButtonThemeData.theme,
     tabsTheme: ElTabsThemeData.theme,
-    navMenuTheme: ElNavMenuThemeData.theme,
     eventTheme: ElEventThemeData.theme,
-    splitTheme: ElSplitThemeData.theme,
+    navMenuTheme: ElNavMenuThemeData.theme,
     closeButtonTheme: ElCloseButtonThemeData.theme,
+    splitPaneTheme: ElSplitPaneThemeData.theme,
+    splitResizerTheme: ElSplitResizerThemeData.theme,
     ringTheme: ElRingThemeData.theme,
     tooltipTheme: ElTooltipThemeData.theme,
     toastTheme: ElToastThemeData.theme,
-    modalTheme: ElModalThemeData.theme,
     messageTheme: ElMessageThemeData.theme,
-    cardTheme: ElCardThemeData.theme,
+    modalTheme: ElModalThemeData.theme,
     treeTheme: ElTreeThemeData.theme,
+    cardTheme: ElCardThemeData.theme,
     progressTheme: ElProgressThemeData.theme,
     collapseTheme: ElCollapseThemeData.theme,
     tagTheme: ElTagThemeData.theme,
@@ -43,17 +44,18 @@ class ElThemeData extends _ElThemeData {
     iconTheme: ElIconThemeData.darkTheme,
     buttonTheme: ElButtonThemeData.darkTheme,
     tabsTheme: ElTabsThemeData.darkTheme,
-    navMenuTheme: ElNavMenuThemeData.darkTheme,
     eventTheme: ElEventThemeData.darkTheme,
-    splitTheme: ElSplitThemeData.darkTheme,
+    navMenuTheme: ElNavMenuThemeData.darkTheme,
     closeButtonTheme: ElCloseButtonThemeData.darkTheme,
+    splitPaneTheme: ElSplitPaneThemeData.darkTheme,
+    splitResizerTheme: ElSplitResizerThemeData.darkTheme,
     ringTheme: ElRingThemeData.darkTheme,
     tooltipTheme: ElTooltipThemeData.darkTheme,
     toastTheme: ElToastThemeData.darkTheme,
-    modalTheme: ElModalThemeData.darkTheme,
     messageTheme: ElMessageThemeData.darkTheme,
-    cardTheme: ElCardThemeData.darkTheme,
+    modalTheme: ElModalThemeData.darkTheme,
     treeTheme: ElTreeThemeData.darkTheme,
+    cardTheme: ElCardThemeData.darkTheme,
     progressTheme: ElProgressThemeData.darkTheme,
     collapseTheme: ElCollapseThemeData.darkTheme,
     tagTheme: ElTagThemeData.darkTheme,
@@ -83,17 +85,20 @@ class ElThemeData extends _ElThemeData {
   /// 标签容器默认样式
   final ElTabsThemeData tabsTheme;
 
-  /// 导航菜单默认样式
-  final ElNavMenuThemeData navMenuTheme;
-
   /// 事件默认配置
   final ElEventThemeData eventTheme;
 
-  /// 分割器默认样式
-  final ElSplitThemeData splitTheme;
+  /// 导航菜单默认样式
+  final ElNavMenuThemeData navMenuTheme;
 
   /// 关闭按钮默认样式
   final ElCloseButtonThemeData closeButtonTheme;
+
+  /// 分割器默认样式
+  final ElSplitPaneThemeData splitPaneTheme;
+
+  /// 分割器默认样式
+  final ElSplitResizerThemeData splitResizerTheme;
 
   /// 轮廓环默认样式
   final ElRingThemeData ringTheme;
@@ -104,17 +109,17 @@ class ElThemeData extends _ElThemeData {
   /// 轻提示默认样式
   final ElToastThemeData toastTheme;
 
-  /// 模态框默认样式
-  final ElModalThemeData modalTheme;
-
   /// 消息提示默认样式
   final ElMessageThemeData messageTheme;
 
-  /// 卡片默认样式
-  final ElCardThemeData cardTheme;
+  /// 模态框默认样式
+  final ElModalThemeData modalTheme;
 
   /// ElTree 主题数据
   final ElTreeThemeData treeTheme;
+
+  /// 卡片默认样式
+  final ElCardThemeData cardTheme;
 
   /// 进度条默认样式
   final ElProgressThemeData progressTheme;
@@ -140,17 +145,18 @@ class ElThemeData extends _ElThemeData {
     required this.iconTheme,
     required this.buttonTheme,
     required this.tabsTheme,
-    required this.navMenuTheme,
     required this.eventTheme,
-    required this.splitTheme,
+    required this.navMenuTheme,
     required this.closeButtonTheme,
+    required this.splitPaneTheme,
+    required this.splitResizerTheme,
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.modalTheme,
     required this.messageTheme,
-    required this.cardTheme,
+    required this.modalTheme,
     required this.treeTheme,
+    required this.cardTheme,
     required this.progressTheme,
     required this.collapseTheme,
     required this.tagTheme,
@@ -166,17 +172,18 @@ class ElThemeData extends _ElThemeData {
     required this.iconTheme,
     required this.buttonTheme,
     required this.tabsTheme,
-    required this.navMenuTheme,
     required this.eventTheme,
-    required this.splitTheme,
+    required this.navMenuTheme,
     required this.closeButtonTheme,
+    required this.splitPaneTheme,
+    required this.splitResizerTheme,
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.modalTheme,
     required this.messageTheme,
-    required this.cardTheme,
+    required this.modalTheme,
     required this.treeTheme,
+    required this.cardTheme,
     required this.progressTheme,
     required this.collapseTheme,
     required this.tagTheme,
@@ -197,17 +204,18 @@ class ElThemeData extends _ElThemeData {
     ElIconThemeData? iconTheme,
     ElButtonThemeData? buttonTheme,
     ElTabsThemeData? tabsTheme,
-    ElNavMenuThemeData? navMenuTheme,
     ElEventThemeData? eventTheme,
-    ElSplitThemeData? splitTheme,
+    ElNavMenuThemeData? navMenuTheme,
     ElCloseButtonThemeData? closeButtonTheme,
+    ElSplitPaneThemeData? splitPaneTheme,
+    ElSplitResizerThemeData? splitResizerTheme,
     ElRingThemeData? ringTheme,
     ElTooltipThemeData? tooltipTheme,
     ElToastThemeData? toastTheme,
-    ElModalThemeData? modalTheme,
     ElMessageThemeData? messageTheme,
-    ElCardThemeData? cardTheme,
+    ElModalThemeData? modalTheme,
     ElTreeThemeData? treeTheme,
+    ElCardThemeData? cardTheme,
     ElProgressThemeData? progressTheme,
     ElCollapseThemeData? collapseTheme,
     ElTagThemeData? tagTheme,
@@ -226,17 +234,18 @@ class ElThemeData extends _ElThemeData {
       iconTheme: this.iconTheme.merge(iconTheme),
       buttonTheme: this.buttonTheme.merge(buttonTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
-      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
       eventTheme: this.eventTheme.merge(eventTheme),
-      splitTheme: this.splitTheme.merge(splitTheme),
+      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
       closeButtonTheme: this.closeButtonTheme.merge(closeButtonTheme),
+      splitPaneTheme: this.splitPaneTheme.merge(splitPaneTheme),
+      splitResizerTheme: this.splitResizerTheme.merge(splitResizerTheme),
       ringTheme: this.ringTheme.merge(ringTheme),
       tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
-      modalTheme: this.modalTheme.merge(modalTheme),
       messageTheme: this.messageTheme.merge(messageTheme),
-      cardTheme: this.cardTheme.merge(cardTheme),
+      modalTheme: this.modalTheme.merge(modalTheme),
       treeTheme: this.treeTheme.merge(treeTheme),
+      cardTheme: this.cardTheme.merge(cardTheme),
       progressTheme: this.progressTheme.merge(progressTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
@@ -260,17 +269,18 @@ class ElThemeData extends _ElThemeData {
       iconTheme: other.iconTheme,
       buttonTheme: other.buttonTheme,
       tabsTheme: other.tabsTheme,
-      navMenuTheme: other.navMenuTheme,
       eventTheme: other.eventTheme,
-      splitTheme: other.splitTheme,
+      navMenuTheme: other.navMenuTheme,
       closeButtonTheme: other.closeButtonTheme,
+      splitPaneTheme: other.splitPaneTheme,
+      splitResizerTheme: other.splitResizerTheme,
       ringTheme: other.ringTheme,
       tooltipTheme: other.tooltipTheme,
       toastTheme: other.toastTheme,
-      modalTheme: other.modalTheme,
       messageTheme: other.messageTheme,
-      cardTheme: other.cardTheme,
+      modalTheme: other.modalTheme,
       treeTheme: other.treeTheme,
+      cardTheme: other.cardTheme,
       progressTheme: other.progressTheme,
       collapseTheme: other.collapseTheme,
       tagTheme: other.tagTheme,

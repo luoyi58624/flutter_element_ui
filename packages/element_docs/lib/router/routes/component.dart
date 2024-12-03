@@ -183,8 +183,12 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const RingPage(),
     ),
     RouterUtil.buildRoute(
-      path: '${path}split',
-      builder: (context, state) => const SplitPage(),
+      path: '${path}split_resizer',
+      builder: (context, state) => const SplitResizerPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}split_pane',
+      builder: (context, state) => const SplitPanePage(),
     ),
   ];
 }

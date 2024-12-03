@@ -33,10 +33,10 @@ class ElMessageService {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final style = (context ?? el.context).elTheme.messageTheme;
+    final themeData = (context ?? el.context).elTheme.messageTheme;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
-    if (grouping ?? style.grouping) {
+    if (grouping ?? themeData.grouping) {
       for (final model in _messageList) {
         if (model.type == type &&
             model.content == content &&
@@ -48,21 +48,21 @@ class ElMessageService {
     }
 
     final id = _id++;
-    _firstTopOffset ??= offset ?? style.offset;
+    _firstTopOffset ??= offset ?? themeData.offset;
 
     // 构建浮层对象
     final overlayEntry = OverlayEntry(
       builder: (context) => _MessageWidget(
         id,
-        closeDuration ?? style.closeDuration,
-        style.animationDuration,
-        builder ?? style.builder ?? _defaultBuilder,
+        closeDuration ?? themeData.closeDuration,
+        themeData.animationDuration,
+        builder ?? themeData.builder ?? _defaultBuilder,
       ),
     );
 
     // 创建消息模型对象并添加到消息列表
     final model = ElMessageModel._(id, type, content, icon,
-        showClose ?? style.showClose, overlayEntry, false, Obs(0));
+        showClose ?? themeData.showClose, overlayEntry, false, Obs(0));
 
     _messageList.add(model);
 
