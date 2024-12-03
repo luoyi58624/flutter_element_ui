@@ -31,8 +31,12 @@ class _Example extends StatelessWidget {
     return SizedBox(
       height: 500,
       child: ElLayout(
+        cacheKey: 'Material_Layout_Demo',
         navbar: ElNavbar(child: navbar),
-        sidebar: ElSidebar(child: sidebar),
+        sidebar: ElSidebar(
+          enabledDrag: true,
+          child: sidebar,
+        ),
       ),
     );
   }
@@ -122,7 +126,10 @@ class _Example extends StatelessWidget {
       height: 500,
       child: ElLayout(
         navbar: ElNavbar(child: navbar),
-        sidebar: ElSidebar(child: sidebar),
+        sidebar: ElSidebar(
+          enabledDrag: true,
+          child: sidebar,
+        ),
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 TickerProvider? parent;
 
 void useLoadData() {
-  onMounted(() async {
+  useMounted(() async {
     ElLoading.show('加载数据中');
     await 1000.ms.delay();
     ElLoading.close();
@@ -39,7 +39,7 @@ class QuickStartPage extends ResponsivePage {
     );
 
     useLoadData();
-    onMounted(() async {
+    useMounted(() async {
       i('mounted, size: ${context.size}');
     });
     useWatch(flag, (newValue, oldValue) {

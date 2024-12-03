@@ -4,17 +4,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../common.dart';
 
 /// initState 之前执行
-void onBeforeInit(VoidCallback fun) {
+void useBeforeInit(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.beforeInit, fun));
 }
 
 /// initState 之后执行
-void onInit(VoidCallback fun) {
+void useInit(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.init, fun));
 }
 
 /// 组件 build 挂载完成后执行，它只会触发一次
-void onMounted(VoidCallback fun) {
+void useMounted(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.mounted, fun));
 }
 
@@ -24,17 +24,17 @@ void useBeforeDeactivate(VoidCallback fun) {
 }
 
 /// deactivate 之后执行
-void onDeactivate(VoidCallback fun) {
+void useDeactivate(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.deactivate, fun));
 }
 
 /// dispose 之前执行
-void onBeforeDispose(VoidCallback fun) {
+void useBeforeDispose(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.beforeDispose, fun));
 }
 
 /// dispose 之后执行
-void onDispose(VoidCallback fun) {
+void useDispose(VoidCallback fun) {
   use(_LifecycleHook(_Lifecycle.dispose, fun));
 }
 

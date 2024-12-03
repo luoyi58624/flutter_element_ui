@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obs/src/base_obs.dart';
+import 'package:flutter_obs/src/raw_obs.dart';
 import 'package:flutter_obs/src/obs.dart';
 import 'package:flutter_test/flutter_test.dart';
 

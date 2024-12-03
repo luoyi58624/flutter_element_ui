@@ -12,19 +12,6 @@ class Example3 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: [
-            ElText([
-              '上面的示例仅限于 ElEvent 嵌套 ElEvent，这个示例是处理 ',
-              LinkWidgets.gestureDetector,
-              ' 小部件的事件冲突，它稍微麻烦一点。'
-            ]),
-            '通常情况下你应该尽量避免混用不同的交互小部件，例如示例三：InkWell 嵌套 GestureDetector，'
-                '即使是官方也做不到尽善尽美，依然存在各种妥协。',
-          ],
-        ),
-        textGap,
         CodeExample(
           code: code,
           children: const [

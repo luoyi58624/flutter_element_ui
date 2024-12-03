@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class ElLayout extends StatefulWidget {
   /// 缓存布局信息 key
   final String? cacheKey;
 
+  /// 访问 [ElLayout] 布局信息
   static ElLayoutData of(BuildContext context) =>
       _LayoutInheritedWidget.of(context);
 

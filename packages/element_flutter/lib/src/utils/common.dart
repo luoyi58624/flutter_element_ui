@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:element_dart/element_dart.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class FlutterUtil {
   FlutterUtil._();
-
-  static final Codec<String, String> _base64Codec = utf8.fuse(base64);
 
   /// 刷新整个应用，其效果相当于热重载
   static void refreshApp() {

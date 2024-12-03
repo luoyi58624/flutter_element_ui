@@ -10,7 +10,7 @@ VoidCallback? _tempBuilderNotifyFun;
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
 class RawObs<T> extends ValueNotifier<T> {
-  /// 响应式变量的核心实现，它负责与 [ObsBuilder] 建立联系
+  /// 响应式变量的核心实现
   RawObs(this._value) : super(_value) {
     this._initialValue = _value;
     this._oldValue = _value;

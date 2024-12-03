@@ -6,7 +6,7 @@ class ElSplitResizerThemeData {
   static const _defaultTheme = ElSplitResizerThemeData(
     axis: Axis.vertical,
     size: 0,
-    triggerSize: 8,
+    triggerSize: 4,
     position: ElSplitPosition.center,
   );
   static const theme = _defaultTheme;
@@ -29,7 +29,7 @@ class ElSplitResizerThemeData {
   /// 控件占据页面的空间，默认 0
   final double? size;
 
-  /// 可拖拽控件触发范围，默认 8
+  /// 可拖拽控件触发范围，默认 4
   final double? triggerSize;
 
   /// 控件颜色，默认 null

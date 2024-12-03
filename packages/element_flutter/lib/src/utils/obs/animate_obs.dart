@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
-import 'animation.dart';
+import '../animation.dart';
 
 class AnimateObs<T> extends RawObs<T> {
   /// 动画响应式变量

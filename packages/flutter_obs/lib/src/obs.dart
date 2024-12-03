@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'base_obs.dart';
+import 'raw_obs.dart';
 
 /// 响应式变量监听回调，接收 newValue、oldValue 参数。
 ///

@@ -16,7 +16,7 @@ class Example2 extends HookWidget {
           title: 'Tip',
           content: [
             '第一个盒子是嵌套事件的默认行为，默认情况下子容器的事件会冒泡到外层，所以点击 green 方块会同时触发 blue 方块。',
-            '第二个盒子只是在中间插入一个 ElStopPropagation 小部件，这个小部件的作用便是阻止事件冒泡。',
+            '第二个盒子在中间插入一个 ElStopPropagation 小部件，这个小部件的作用便是阻止事件冒泡。',
             '第三个盒子在第二个盒子基础上再嵌套了一个 red 盒子，blue 方块和 red 方块之间没有插入 ElStopPropagation，所以它们会同时触发事件。',
             '第四个盒子则在 red 和 blue 之间也插入 ElStopPropagation，这样便可以解决它们之间的事件冒泡。'
           ],

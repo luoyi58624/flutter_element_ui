@@ -1,4 +1,4 @@
-part of 'base_obs.dart';
+part of 'raw_obs.dart';
 
 class ObsBuilder extends StatefulWidget {
   /// 响应式变量构建器，监听内部的响应式变量，当变量发生变更时，将重建小部件
