@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:element_plus/element_plus.dart';
@@ -44,7 +45,7 @@ class ElLayout extends StatefulWidget {
   /// 底部工具类
   final ElToolbar? bottomToolbar;
 
-  /// 缓存布局信息 key
+  /// 持久化缓存 key
   final String? cacheKey;
 
   /// 访问 [ElLayout] 布局信息
@@ -55,16 +56,34 @@ class ElLayout extends StatefulWidget {
   State<ElLayout> createState() => _ElLayoutState();
 }
 
-class ElLayoutData {
-  double navbarHeight;
-  double sidebarWidth;
-  double rightSidebarWidth;
+@ElModel.all()
+class ElLayoutData implements ElSerializeModel<ElLayoutData> {
+  final double navbarHeight;
+  final double sidebarWidth;
+  final double rightSidebarWidth;
 
-  ElLayoutData({
+  const ElLayoutData({
     required this.navbarHeight,
     required this.sidebarWidth,
     required this.rightSidebarWidth,
   });
+
+  factory ElLayoutData.fromJson(Map<String, dynamic>? json) => _fromJson(json);
+
+  @override
+  ElLayoutData fromJson(Map<String, dynamic>? json) => _fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _toJson();
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
+
+  @override
+  String toString() => _toString();
 }
 
 class _LayoutInheritedWidget extends InheritedWidget {

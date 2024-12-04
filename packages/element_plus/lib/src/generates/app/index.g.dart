@@ -10,15 +10,15 @@ class ElThemeData extends _ElThemeData {
   /// 亮色默认主题
   static const ElThemeData theme = ElThemeData._(
     inputTheme: ElInputThemeData.theme,
-    sliderTheme: ElSliderThemeData.theme,
     layoutTheme: ElLayoutThemeData.theme,
+    sliderTheme: ElSliderThemeData.theme,
     linkTheme: ElLinkThemeData.theme,
     textTheme: ElTextThemeData.theme,
     iconTheme: ElIconThemeData.theme,
     buttonTheme: ElButtonThemeData.theme,
     tabsTheme: ElTabsThemeData.theme,
-    eventTheme: ElEventThemeData.theme,
     navMenuTheme: ElNavMenuThemeData.theme,
+    eventTheme: ElEventThemeData.theme,
     closeButtonTheme: ElCloseButtonThemeData.theme,
     splitPaneTheme: ElSplitPaneThemeData.theme,
     splitResizerTheme: ElSplitResizerThemeData.theme,
@@ -37,15 +37,15 @@ class ElThemeData extends _ElThemeData {
   /// 暗色默认主题
   static const ElThemeData darkTheme = ElThemeData._dark(
     inputTheme: ElInputThemeData.darkTheme,
-    sliderTheme: ElSliderThemeData.darkTheme,
     layoutTheme: ElLayoutThemeData.darkTheme,
+    sliderTheme: ElSliderThemeData.darkTheme,
     linkTheme: ElLinkThemeData.darkTheme,
     textTheme: ElTextThemeData.darkTheme,
     iconTheme: ElIconThemeData.darkTheme,
     buttonTheme: ElButtonThemeData.darkTheme,
     tabsTheme: ElTabsThemeData.darkTheme,
-    eventTheme: ElEventThemeData.darkTheme,
     navMenuTheme: ElNavMenuThemeData.darkTheme,
+    eventTheme: ElEventThemeData.darkTheme,
     closeButtonTheme: ElCloseButtonThemeData.darkTheme,
     splitPaneTheme: ElSplitPaneThemeData.darkTheme,
     splitResizerTheme: ElSplitResizerThemeData.darkTheme,
@@ -64,11 +64,11 @@ class ElThemeData extends _ElThemeData {
   /// 输入框默认样式
   final ElInputThemeData inputTheme;
 
-  /// 滑块默认样式
-  final ElSliderThemeData sliderTheme;
-
   /// 布局样式
   final ElLayoutThemeData layoutTheme;
+
+  /// 滑块默认样式
+  final ElSliderThemeData sliderTheme;
 
   /// 超链接默认样式
   final ElLinkThemeData linkTheme;
@@ -85,11 +85,11 @@ class ElThemeData extends _ElThemeData {
   /// 标签容器默认样式
   final ElTabsThemeData tabsTheme;
 
-  /// 事件默认配置
-  final ElEventThemeData eventTheme;
-
   /// 导航菜单默认样式
   final ElNavMenuThemeData navMenuTheme;
+
+  /// 事件默认配置
+  final ElEventThemeData eventTheme;
 
   /// 关闭按钮默认样式
   final ElCloseButtonThemeData closeButtonTheme;
@@ -138,15 +138,15 @@ class ElThemeData extends _ElThemeData {
     super.warning,
     super.error,
     required this.inputTheme,
-    required this.sliderTheme,
     required this.layoutTheme,
+    required this.sliderTheme,
     required this.linkTheme,
     required this.textTheme,
     required this.iconTheme,
     required this.buttonTheme,
     required this.tabsTheme,
-    required this.eventTheme,
     required this.navMenuTheme,
+    required this.eventTheme,
     required this.closeButtonTheme,
     required this.splitPaneTheme,
     required this.splitResizerTheme,
@@ -165,15 +165,15 @@ class ElThemeData extends _ElThemeData {
   /// 暗色主题构造器，构建器是私有的，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
   const ElThemeData._dark({
     required this.inputTheme,
-    required this.sliderTheme,
     required this.layoutTheme,
+    required this.sliderTheme,
     required this.linkTheme,
     required this.textTheme,
     required this.iconTheme,
     required this.buttonTheme,
     required this.tabsTheme,
-    required this.eventTheme,
     required this.navMenuTheme,
+    required this.eventTheme,
     required this.closeButtonTheme,
     required this.splitPaneTheme,
     required this.splitResizerTheme,
@@ -197,15 +197,15 @@ class ElThemeData extends _ElThemeData {
     Color? warning,
     Color? error,
     ElInputThemeData? inputTheme,
-    ElSliderThemeData? sliderTheme,
     ElLayoutThemeData? layoutTheme,
+    ElSliderThemeData? sliderTheme,
     ElLinkThemeData? linkTheme,
     ElTextThemeData? textTheme,
     ElIconThemeData? iconTheme,
     ElButtonThemeData? buttonTheme,
     ElTabsThemeData? tabsTheme,
-    ElEventThemeData? eventTheme,
     ElNavMenuThemeData? navMenuTheme,
+    ElEventThemeData? eventTheme,
     ElCloseButtonThemeData? closeButtonTheme,
     ElSplitPaneThemeData? splitPaneTheme,
     ElSplitResizerThemeData? splitResizerTheme,
@@ -227,15 +227,15 @@ class ElThemeData extends _ElThemeData {
       warning: warning ?? super.warning,
       error: error ?? super.error,
       inputTheme: this.inputTheme.merge(inputTheme),
-      sliderTheme: this.sliderTheme.merge(sliderTheme),
       layoutTheme: this.layoutTheme.merge(layoutTheme),
+      sliderTheme: this.sliderTheme.merge(sliderTheme),
       linkTheme: this.linkTheme.merge(linkTheme),
       textTheme: this.textTheme.merge(textTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
       buttonTheme: this.buttonTheme.merge(buttonTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
-      eventTheme: this.eventTheme.merge(eventTheme),
       navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
+      eventTheme: this.eventTheme.merge(eventTheme),
       closeButtonTheme: this.closeButtonTheme.merge(closeButtonTheme),
       splitPaneTheme: this.splitPaneTheme.merge(splitPaneTheme),
       splitResizerTheme: this.splitResizerTheme.merge(splitResizerTheme),
@@ -262,15 +262,15 @@ class ElThemeData extends _ElThemeData {
       warning: other.warning,
       error: other.error,
       inputTheme: other.inputTheme,
-      sliderTheme: other.sliderTheme,
       layoutTheme: other.layoutTheme,
+      sliderTheme: other.sliderTheme,
       linkTheme: other.linkTheme,
       textTheme: other.textTheme,
       iconTheme: other.iconTheme,
       buttonTheme: other.buttonTheme,
       tabsTheme: other.tabsTheme,
-      eventTheme: other.eventTheme,
       navMenuTheme: other.navMenuTheme,
+      eventTheme: other.eventTheme,
       closeButtonTheme: other.closeButtonTheme,
       splitPaneTheme: other.splitPaneTheme,
       splitResizerTheme: other.splitResizerTheme,

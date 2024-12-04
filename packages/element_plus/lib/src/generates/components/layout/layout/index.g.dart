@@ -6,6 +6,77 @@ part of '../../../../components/layout/layout/index.dart';
 // ElModelGenerator
 // **************************************************************************
 
+/// 生成的全局默认实体类对象
+const ElLayoutData $elLayoutData = ElLayoutData(
+  navbarHeight: 0.0,
+  sidebarWidth: 0.0,
+  rightSidebarWidth: 0.0,
+);
+
+/// 生成 fromJson 方法，将 Map 对象转成实体类
+ElLayoutData _fromJson(Map<String, dynamic>? json) {
+  if (json == null) return $elLayoutData;
+  return ElLayoutData(
+    navbarHeight: $ElJsonUtil.$double(json, 'navbarHeight') ?? 0.0,
+    sidebarWidth: $ElJsonUtil.$double(json, 'sidebarWidth') ?? 0.0,
+    rightSidebarWidth: $ElJsonUtil.$double(json, 'rightSidebarWidth') ?? 0.0,
+  );
+}
+
+extension ElLayoutDataExtension on ElLayoutData {
+  /// 生成 toJson 方法，将实体类转成 Map 对象
+  Map<String, dynamic> _toJson() {
+    return {
+      'navbarHeight': navbarHeight,
+      'sidebarWidth': sidebarWidth,
+      'rightSidebarWidth': rightSidebarWidth,
+    };
+  }
+
+  /// 接收一组可选参数，返回新的对象
+  ElLayoutData copyWith({
+    double? navbarHeight,
+    double? sidebarWidth,
+    double? rightSidebarWidth,
+  }) {
+    return ElLayoutData(
+      navbarHeight: navbarHeight ?? this.navbarHeight,
+      sidebarWidth: sidebarWidth ?? this.sidebarWidth,
+      rightSidebarWidth: rightSidebarWidth ?? this.rightSidebarWidth,
+    );
+  }
+
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
+  ElLayoutData merge([ElLayoutData? other]) {
+    if (other == null) return this;
+    return copyWith(
+      navbarHeight: other.navbarHeight,
+      sidebarWidth: other.sidebarWidth,
+      rightSidebarWidth: other.rightSidebarWidth,
+    );
+  }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ElLayoutData &&
+          runtimeType == other.runtimeType &&
+          navbarHeight == other.navbarHeight &&
+          sidebarWidth == other.sidebarWidth &&
+          rightSidebarWidth == other.rightSidebarWidth;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      navbarHeight.hashCode ^
+      sidebarWidth.hashCode ^
+      rightSidebarWidth.hashCode;
+
+  /// 生成 toString 方法
+  String _toString() {
+    return 'ElLayoutData{\n  navbarHeight: $navbarHeight,\n  sidebarWidth: $sidebarWidth,\n  rightSidebarWidth: $rightSidebarWidth\n}';
+  }
+}
+
 extension ElLayoutThemeDataExtension on ElLayoutThemeData {
   /// 接收一组可选参数，返回新的对象
   ElLayoutThemeData copyWith({

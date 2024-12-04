@@ -7,7 +7,7 @@ class LocalObs<T> extends Obs<T> {
   /// 支持本地缓存的响应式变量，它基于 shared_preferences 第三库实现持久化
   LocalObs(
     super.value, {
-    required this.cacheKey,
+    this.cacheKey,
     this.serialize,
     super.watch,
     super.immediate,
@@ -19,28 +19,29 @@ class LocalObs<T> extends Obs<T> {
   }
 
   /// 缓存 key，请保证唯一
-  String cacheKey;
+  String? cacheKey;
 
   /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，例如：
   /// [ElDateTimeSerialize]、[ElColorSerialize]
   ElSerialize? serialize;
 
   void setLocalValue() {
+    if (cacheKey == null) return;
     final value = getValue();
     if (value is String) {
-      sp.setString(cacheKey, value);
+      sp.setString(cacheKey!, value);
     } else if (value is int) {
-      sp.setInt(cacheKey, value);
+      sp.setInt(cacheKey!, value);
     } else if (value is double) {
-      sp.setDouble(cacheKey, value);
+      sp.setDouble(cacheKey!, value);
     } else if (value is bool) {
-      sp.setBool(cacheKey, value);
+      sp.setBool(cacheKey!, value);
     } else if (value is List<String>) {
-      sp.setStringList(cacheKey, value);
+      sp.setStringList(cacheKey!, value);
     } else {
       final str = serialize!.serialize(value);
       if (str != null) {
-        sp.setString(cacheKey, str);
+        sp.setString(cacheKey!, str);
       } else {
         w('LocalObs 自定义序列化得到的结果为 null，无法进行持久化，\n '
             '参数类型: ${T.toString()}\n'
@@ -50,21 +51,22 @@ class LocalObs<T> extends Obs<T> {
   }
 
   dynamic _getLocalValue() {
+    if (cacheKey == null) return null;
     final value = getValue();
     if (value is String) {
-      return sp.getString(cacheKey);
+      return sp.getString(cacheKey!);
     } else if (value is int) {
-      return sp.getInt(cacheKey);
+      return sp.getInt(cacheKey!);
     } else if (value is double) {
-      return sp.getDouble(cacheKey);
+      return sp.getDouble(cacheKey!);
     } else if (value is bool) {
-      return sp.getBool(cacheKey);
+      return sp.getBool(cacheKey!);
     } else if (value is List<String>) {
-      return sp.getStringList(cacheKey);
+      return sp.getStringList(cacheKey!);
     } else {
       assert(serialize != null,
           'LocalObs 不支持 ${T.toString()} 类型的序列化，请指定 serialize 参数');
-      return serialize!.deserialize(sp.getString(cacheKey));
+      return serialize!.deserialize(sp.getString(cacheKey!));
     }
   }
 }

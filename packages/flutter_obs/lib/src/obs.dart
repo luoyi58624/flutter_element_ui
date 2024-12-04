@@ -54,8 +54,7 @@ class Obs<T> extends RawObs<T> {
   /// * watch 设置监听回调函数，接收 newValue、oldValue 回调
   /// * immediate 是否立即执行一次监听函数，默认false
   ///
-  /// 当作为局部变量时，[ObsBuilder] 被卸载时会自动移除依赖，如果你没有添加副作用监听函数，
-  /// 那么无需在 dispose 中手动销毁它。
+  /// 当作为局部变量时，[ObsBuilder] 被卸载时会自动移除依赖，大部分情况下你无需在 dispose 中手动销毁它
   Obs(
     super.value, {
     this.notifyMode = const [ObsNotifyMode.all],

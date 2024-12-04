@@ -28,20 +28,20 @@ class ElModel {
     this.toJsonUnderline = false,
   });
 
-  /// 默认生成 json 序列化方法
+  /// 生成 formJson、toJson、equals、hashCode 方法
   const ElModel.json({
     this.formJson = true,
     this.toJson = true,
     this.copyWith = false,
     this.merge = false,
-    this.generateEquals = false,
-    this.generateHashCode = false,
+    this.generateEquals = true,
+    this.generateHashCode = true,
     this.generateToString = false,
     this.fromJsonDiff = false,
     this.toJsonUnderline = false,
   });
 
-  /// 默认生成 copyWith、merge、equals、hashCode 方法
+  /// 生成 copyWith、merge、equals、hashCode 方法
   const ElModel.copy({
     this.formJson = false,
     this.toJson = false,
