@@ -3,11 +3,11 @@ import 'package:flutter/widgets.dart';
 class ElNavbar extends StatefulWidget {
   const ElNavbar({
     super.key,
-    required this.child,
+    this.child,
     this.height = 56,
   });
 
-  final Widget child;
+  final Widget? child;
   final double height;
 
   @override
@@ -17,6 +17,6 @@ class ElNavbar extends StatefulWidget {
 class _ElNavbarState extends State<ElNavbar> {
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.child ?? const SizedBox();
   }
 }

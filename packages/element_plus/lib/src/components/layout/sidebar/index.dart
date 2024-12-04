@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class ElSidebar extends StatefulWidget {
   const ElSidebar({
     super.key,
-    required this.child,
+    this.child,
     this.width = 240,
     this.minWidth = 200,
     this.maxWidth,
@@ -15,7 +15,7 @@ class ElSidebar extends StatefulWidget {
   })  : assert(width >= minWidth, 'ElSidebar width 必须大于等于 minWidth'),
         assert(maxWidth == null || maxWidth >= width,
             'ElSidebar maxWidth 要么等于 null，要么必须大于 width');
-  final Widget child;
+  final Widget? child;
 
   /// 侧边栏默认宽度
   final double width;
@@ -53,7 +53,7 @@ class _ElSidebarState extends State<ElSidebar> {
         child: Builder(builder: (context) {
           $context = context;
           focusScopeNode = FocusScope.of(context);
-          return widget.child;
+          return widget.child ?? const SizedBox();
         }),
       ),
     );

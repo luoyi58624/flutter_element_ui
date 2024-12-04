@@ -24,6 +24,105 @@ class NavPage extends ResponsivePage {
         child: ElText('你好'),
       ),
 
+      Container(
+        width: 300,
+        height: 200,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: ['#e66465'.toColor(), '#9198e5'.toColor()],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+      ),
+      const Gap(8),
+
+      ElEvent(
+        child: Builder(builder: (context) {
+          return ShaderMask(
+            shaderCallback: (bounds) => LinearGradient(
+              colors: context.hasTap
+                  ? [
+                      Color.fromRGBO(255, 255, 255, 0.9),
+                      Color.fromRGBO(0, 0, 0, 0.1),
+                    ]
+                  : [
+                      Color.fromRGBO(255, 255, 255, 0.15),
+                      Color.fromRGBO(0, 0, 0, 0.1),
+                    ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: const [0.0, 1.0],
+            ).createShader(bounds),
+            child: Container(
+              width: 300,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border:
+                    Border.all(color: context.elTheme.layoutTheme.borderColor!),
+              ),
+            ),
+          );
+        }),
+      ),
+      const Gap(8),
+
+      Container(
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          shape: BoxShape.rectangle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(25),
+              offset: const Offset(0, 14),
+              blurRadius: 24,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+      ),
+
+      const Gap(50),
+
+      Container(
+        width: 100,
+        height: 36,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade600,
+              spreadRadius: 1,
+              blurRadius: 4,
+              offset: const Offset(0, 4),
+            ),
+            BoxShadow(
+              color: Colors.white,
+              offset: const Offset(-4, 0),
+            ),
+            BoxShadow(
+              color: Colors.white,
+              offset: const Offset(4, 0),
+            )
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.grey.shade200,
+              Colors.grey.shade300,
+              Colors.grey.shade400,
+              Colors.grey.shade500,
+            ],
+          ),
+        ),
+        child: Center(child: Text('hello')),
+      ),
+
       // ElEvent(
       //   onPointerDown: (e) {
       //     i(e.buttons);

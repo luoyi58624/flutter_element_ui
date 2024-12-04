@@ -38,12 +38,8 @@ class _Example extends StatelessWidget {
           sidebarColor: Colors.blueGrey.shade800,
         ),
         child: const ElLayout(
-          navbar: ElNavbar(
-            child: Row(),
-          ),
-          sidebar: ElSidebar(
-            child: Column(),
-          ),
+          navbar: ElNavbar(),
+          sidebar: ElSidebar(),
         ),
       ),
     );
@@ -64,12 +60,8 @@ class _Example extends StatelessWidget {
           sidebarColor: Colors.blueGrey.shade800,
         ),
         child: const ElLayout(
-          navbar: ElNavbar(
-            child: Row(),
-          ),
-          sidebar: ElSidebar(
-            child: Column(),
-          ),
+          navbar: ElNavbar(),
+          sidebar: ElSidebar(),
         ),
       ),
     );

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class Example3 extends StatelessWidget {
-  const Example3({super.key, required this.title});
+class Example4 extends StatelessWidget {
+  const Example4({super.key, required this.title});
 
   final String title;
 
@@ -39,7 +39,9 @@ class _Example extends HookWidget {
           sidebarColor: Color.fromRGBO(34, 37, 43, 0.9),
         ),
         child: ElLayout(
-          sidebar: ElSidebar(),
+          sidebar: ElSidebar(
+            child: buildSidebar(),
+          ),
           body: ElBody(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -57,6 +59,53 @@ class _Example extends HookWidget {
         ),
       ),
     );
+  }
+
+  Widget buildSidebar() {
+    final activeIndex = useState(-1);
+
+    return Builder(builder: (context) {
+      return ElBrightness(
+        brightness: Brightness.dark,
+        child: Column(
+          children: [
+            ...List.generate(
+              10,
+              (index) => CallbackShortcuts(
+                bindings: {
+                  const SingleActivator(LogicalKeyboardKey.enter): () {
+                    activeIndex.value = index;
+                  }
+                },
+                child: Builder(builder: (context) {
+                  return ElStopPropagation(
+                    child: ElEvent(
+                      onTapDown: (e) {
+                        activeIndex.value = index;
+                      },
+                      child: Builder(builder: (context) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Focus.of(context).hasPrimaryFocus
+                                ? Colors.lightBlueAccent.shade400
+                                : activeIndex.value == index
+                                    ? Colors.white24
+                                    : null,
+                          ),
+                          child: Center(child: ElText('item - ${index + 1}')),
+                        );
+                      }),
+                    ),
+                  );
+                }),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 

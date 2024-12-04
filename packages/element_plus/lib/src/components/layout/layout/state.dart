@@ -123,12 +123,12 @@ class _ElLayoutState extends State<ElLayout> {
               right: widget.rightSidebar?.expandedTop == true
                   ? layoutData.rightSidebarWidth
                   : 0,
-              child: ColoredBox(
-                color: themeData.navbarColor!,
-                child: SizedBox(
-                  height: layoutData.navbarHeight,
-                  child: widget.navbar!,
+              child: Container(
+                height: layoutData.navbarHeight,
+                decoration: BoxDecoration(
+                  color: themeData.navbarColor!,
                 ),
+                child: widget.navbar!,
               ),
             ),
           );
