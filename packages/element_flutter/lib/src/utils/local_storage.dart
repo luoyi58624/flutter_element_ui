@@ -10,6 +10,6 @@ SharedPreferences get sp {
 
 /// 初始化 SharedPreferences 本地存储实例
 Future<void> initSP() async {
-  SharedPreferences.setPrefix('element');
+  SharedPreferences.setPrefix('element.');
   _sp = await SharedPreferences.getInstance();
 }

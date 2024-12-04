@@ -9,9 +9,13 @@ class GlobalState {
   GlobalState._();
 
   /// 主题色
-  static final primaryColor = Obs(ElThemeData.theme.primary);
+  static final primaryColor = LocalObs(
+    ElThemeData.theme.primary,
+    cacheKey: 'primary_color',
+    serialize: const ElColorSerialize(),
+  );
 
-  static final _isDark = Obs(false);
+  static final _isDark = LocalObs(false, cacheKey: 'isDark');
 
   /// 当前是否是暗黑主题，当前应用的主题策略是：
   /// * 如果系统是亮色模式，那么允许用户手动切换

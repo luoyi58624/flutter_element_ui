@@ -34,14 +34,14 @@ class ExpireDataModel implements ElSerializeModel<ExpireDataModel> {
   /// 存储的数据
   dynamic data;
 
-  /// 过期时间，单位毫秒，如果为null或者小于等于0，[expire]将强制等于-1，表示没有过期时间，
+  /// 过期时间，单位毫秒，如果为 null，则表示没有过期时间，
   int? expire;
 
   ExpireDataModel(this.data, [int? expire]) {
-    if (expire != null && expire > 0) {
-      this.expire = currentMilliseconds + expire;
-    } else {
-      this.expire = -1;
+    if (expire != null) {
+      if (expire > 0) {
+        this.expire = currentMilliseconds + expire;
+      }
     }
   }
 

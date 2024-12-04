@@ -1,5 +1,4 @@
 export 'package:flutter_base/flutter_base.dart';
-export 'package:element_annotation/element_annotation.dart';
 export 'package:go_router/go_router.dart' hide GoRouterHelper;
 export 'package:collection/collection.dart';
 

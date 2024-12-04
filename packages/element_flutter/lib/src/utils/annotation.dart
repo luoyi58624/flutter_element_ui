@@ -3,6 +3,7 @@ import 'package:element_annotation/element_annotation.dart';
 import 'package:meta/meta_meta.dart';
 import '../extensions/color.dart';
 
+// @Target 表示：在代码生成中，如果将其用于注解，那么只能放在字段上
 @Target({TargetKind.field})
 class ElDateTimeSerialize implements ElSerialize<DateTime> {
   /// 日期序列化
