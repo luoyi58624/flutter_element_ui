@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "2.0.0"
   element_annotation:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "../element_annotation"
       relative: true

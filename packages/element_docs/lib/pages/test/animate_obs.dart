@@ -1,23 +1,28 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-class ObsTestPage extends StatelessWidget {
-  const ObsTestPage({super.key});
+class AnimateObsTestPage extends StatelessWidget {
+  const AnimateObsTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          ...List.generate(
-            100,
-            (index) => Test(
-              index: index,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('动画 Obs 测试'),
+      ),
+      body: Center(
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ...List.generate(
+              100,
+              (index) => Test(
+                index: index,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

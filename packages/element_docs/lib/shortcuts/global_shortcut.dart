@@ -2,7 +2,7 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../pages/test/test_page.dart';
+import '../pages/test/index.dart';
 
 Map<ShortcutActivator, Intent> globalShortcuts() => {
       SingleActivator(LogicalKeyboardKey.keyD,

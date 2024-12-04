@@ -1,10 +1,8 @@
-import 'package:element_plus/src/global.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/physics.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import '../../../element_flutter.dart';
+import 'package:flutter_base/flutter_base.dart';
 
 part 'state.dart';
 

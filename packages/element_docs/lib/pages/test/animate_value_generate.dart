@@ -21,46 +21,51 @@ class AnimateValueGeneratePage extends HookWidget {
       curve: Curves.linear,
     ));
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Slider(
-            min: 100,
-            max: 1000,
-            divisions: 9,
-            label: duration.value.round().toString(),
-            value: duration.value,
-            onChanged: (v) => duration.value = v,
-          ),
-          Row(
-            children: [
-              Expanded(child: ElInput(inputValue)),
-              const Gap(8),
-              ElButton(
-                onPressed: () {
-                  numList = [];
-                  controller.forward(from: 0);
-                },
-                child: '生成',
-                type: El.primary,
-              ),
-            ],
-          ),
-          AnimatedBuilder(
-            animation: controller.view,
-            builder: (context, child) {
-              numList.add(animate.value);
-              return Column(
-                children: [
-                  ElText('生成的值数量：${numList.length - 1}'),
-                  ...numList.map(
-                    (e) => ElText(e),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('动画 Value 生成'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Slider(
+              min: 100,
+              max: 1000,
+              divisions: 9,
+              label: duration.value.round().toString(),
+              value: duration.value,
+              onChanged: (v) => duration.value = v,
+            ),
+            Row(
+              children: [
+                Expanded(child: ElInput(inputValue)),
+                const Gap(8),
+                ElButton(
+                  onPressed: () {
+                    numList = [];
+                    controller.forward(from: 0);
+                  },
+                  child: '生成',
+                  type: El.primary,
+                ),
+              ],
+            ),
+            AnimatedBuilder(
+              animation: controller.view,
+              builder: (context, child) {
+                numList.add(animate.value);
+                return Column(
+                  children: [
+                    ElText('生成的值数量：${numList.length - 1}'),
+                    ...numList.map(
+                      (e) => ElText(e),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

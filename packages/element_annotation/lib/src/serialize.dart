@@ -1,4 +1,4 @@
-/// 对象序列化接口，此接口用于实现自定义序列化注解
+/// 对象序列化接口，此接口用于单个 Object 对象
 abstract interface class ElSerialize<T> {
   /// 序列化: object -> string
   String? serialize(T? data);
