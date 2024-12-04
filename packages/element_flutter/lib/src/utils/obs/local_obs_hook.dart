@@ -1,58 +1,50 @@
+import 'package:element_annotation/element_annotation.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'animate_obs.dart';
-
-AnimateObs<T> useAnimateObs<T>(
+LocalObs<T> useLocalObs<T>(
   T initialData, {
-  Duration duration = const Duration(milliseconds: 250),
-  Curve curve = Curves.linear,
-  Tween<T>? tween,
+  required String cacheKey,
+  ElSerialize? serialize,
 }) {
-  return use(_ObsHook(initialData, duration, curve, tween));
+  return use(_ObsHook(initialData, cacheKey, serialize));
 }
 
-class _ObsHook<T> extends Hook<AnimateObs<T>> {
+class _ObsHook<T> extends Hook<LocalObs<T>> {
   const _ObsHook(
     this.initialData,
-    this.duration,
-    this.curve,
-    this.tween,
+    this.cacheKey,
+    this.serialize,
   );
 
   final T initialData;
-  final Duration duration;
-  final Curve curve;
-  final Tween<T>? tween;
+  final String cacheKey;
+  final ElSerialize? serialize;
 
   @override
   _ObsHookState<T> createState() => _ObsHookState();
 }
 
-class _ObsHookState<T> extends HookState<AnimateObs<T>, _ObsHook<T>> {
-  late final _state = AnimateObs<T>(
+class _ObsHookState<T> extends HookState<LocalObs<T>, _ObsHook<T>> {
+  late final _state = LocalObs<T>(
     hook.initialData,
-    duration: hook.duration,
-    curve: hook.curve,
-    tween: hook.tween,
+    cacheKey: hook.cacheKey,
+    serialize: hook.serialize,
   );
 
   @override
   void didUpdateHook(_ObsHook<T> oldHook) {
     super.didUpdateHook(oldHook);
-    if (hook.duration != oldHook.duration) {
-      _state.duration = hook.duration;
+    if (hook.cacheKey != oldHook.cacheKey) {
+      _state.cacheKey = hook.cacheKey;
     }
-    if (hook.curve != oldHook.curve) {
-      _state.curve = hook.curve;
-    }
-    if (hook.tween != oldHook.tween) {
-      _state.tween = hook.tween;
+    if (hook.serialize != oldHook.serialize) {
+      _state.serialize = hook.serialize;
     }
   }
 
   @override
-  AnimateObs<T> build(BuildContext context) => _state;
+  LocalObs<T> build(BuildContext context) => _state;
 
   @override
   void dispose() {
@@ -61,5 +53,5 @@ class _ObsHookState<T> extends HookState<AnimateObs<T>, _ObsHook<T>> {
   }
 
   @override
-  String get debugLabel => 'useAnimateObs<$T>';
+  String get debugLabel => 'useLocalObs<$T>';
 }

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:element_flutter/element_flutter.dart';
@@ -10,7 +8,6 @@ class LocalObs<T> extends Obs<T> {
   LocalObs(
     super.value, {
     required this.cacheKey,
-    this.expire,
     this.serialize,
     super.watch,
     super.immediate,
@@ -22,14 +19,11 @@ class LocalObs<T> extends Obs<T> {
   }
 
   /// 缓存 key，请保证唯一
-  final String cacheKey;
-
-  /// 缓存过期时间，单位毫秒，如果大于 0，则表示存在过期时间
-  final int? expire;
+  String cacheKey;
 
   /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，例如：
   /// [ElDateTimeSerialize]、[ElColorSerialize]
-  final ElSerialize? serialize;
+  ElSerialize? serialize;
 
   void setLocalValue() {
     final value = getValue();

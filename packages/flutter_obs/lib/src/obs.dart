@@ -100,20 +100,7 @@ class Obs<T> extends RawObs<T> {
     }
   }
 
-  /// 添加监听函数，接收 newValue、oldValue 两个参数。
-  ///
-  /// 提示：通过 [addWatch] 添加的监听函数在正常情况下不需要你手动销毁它。
-  ///
-  /// 举个简单例子，你创建一个普通 class 对象，这个 class 中存在一个 List 数组，当 [StatefulWidget] 销毁时，
-  /// 你有必要在 dispose 生命周期中手动清空 List 数组吗？我们没有必要，dart 垃圾回收会帮你完成这项工作。
-  ///
-  /// 然后将这个普通 class 对象当做 Obs 响应式对象，[addWatch] 就是往 [watchFunList] 数组中追加依赖，
-  /// 当 [StatefulWidget] 销毁时，Obs 作为局部变量它也会跟其他普通对象一样被自动回收。
-  ///
-  /// 为什么 [ChangeNotifier] 要求用户手动执行 [dispose]？
-  ///
-  /// 这是因为 [ChangeNotifier] 的使用非常广泛，在 Flutter SDK 中，你看到的任何 Controller 都是基于 [ChangeNotifier] 实现，
-  /// 这些 Controller 监听的副作用可能存在各种隐式依赖，对于那些各种复杂的 Controller，手动执行 [dispose] 防止内存泄漏是有必要的。
+  /// 添加监听函数，接收 newValue、oldValue 两个参数
   void addWatch(WatchCallback<T> fun) {
     if (watchFunList.contains(fun) == false) {
       watchFunList.add(fun);
