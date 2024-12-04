@@ -67,14 +67,15 @@ class Obs<T> extends RawObs<T> {
   }
 
   /// 当响应式变量 setter 方法成功拦截时应用的通知模式，它接收一个数组，默认 [ObsNotifyMode.all]，
-  /// 如果是空数组，那么修改响应式变量将不会触发任何通知。
+  /// 如果是空数组，那么修改响应式变量将不会触发任何通知
   List<ObsNotifyMode> notifyMode;
 
   /// 构造方法添加的监听函数
   late final WatchCallback<T>? _watchFun;
 
   /// 用户手动添加的监听函数集合
-  final List<WatchCallback<T>> _watchFunList = [];
+  @protected
+  final List<WatchCallback<T>> watchFunList = [];
 
   /// 拦截 setter 方法，根据通知策略触发监听函数
   @override
@@ -106,22 +107,22 @@ class Obs<T> extends RawObs<T> {
   /// 举个简单例子，你创建一个普通 class 对象，这个 class 中存在一个 List 数组，当 [StatefulWidget] 销毁时，
   /// 你有必要在 dispose 生命周期中手动清空 List 数组吗？我们没有必要，dart 垃圾回收会帮你完成这项工作。
   ///
-  /// 然后将这个普通 class 对象当做 Obs 响应式对象，[addWatch] 就是往 [_watchFunList] 数组中追加依赖，
+  /// 然后将这个普通 class 对象当做 Obs 响应式对象，[addWatch] 就是往 [watchFunList] 数组中追加依赖，
   /// 当 [StatefulWidget] 销毁时，Obs 作为局部变量它也会跟其他普通对象一样被自动回收。
   ///
-  /// 那为什么 [ChangeNotifier] 要求用户手动执行 [dispose]？
+  /// 为什么 [ChangeNotifier] 要求用户手动执行 [dispose]？
   ///
   /// 这是因为 [ChangeNotifier] 的使用非常广泛，在 Flutter SDK 中，你看到的任何 Controller 都是基于 [ChangeNotifier] 实现，
   /// 这些 Controller 监听的副作用可能存在各种隐式依赖，对于那些各种复杂的 Controller，手动执行 [dispose] 防止内存泄漏是有必要的。
   void addWatch(WatchCallback<T> fun) {
-    if (_watchFunList.contains(fun) == false) {
-      _watchFunList.add(fun);
+    if (watchFunList.contains(fun) == false) {
+      watchFunList.add(fun);
     }
   }
 
   /// 移除监听函数
   void removeWatch(WatchCallback<T> fun) {
-    _watchFunList.remove(fun);
+    watchFunList.remove(fun);
   }
 
   /// 通知所有监听函数的执行、包括页面刷新
@@ -140,7 +141,7 @@ class Obs<T> extends RawObs<T> {
 
   /// 执行所有通过 [addWatch] 方法添加的监听函数
   notifyWatchList() {
-    for (var fun in _watchFunList) {
+    for (var fun in watchFunList) {
       fun(getValue(), oldValue);
     }
   }
@@ -157,7 +158,7 @@ class Obs<T> extends RawObs<T> {
   /// 对于添加的一些简单的副作用函数，你也不需要手动销毁它，因为 dart 垃圾回收器会帮你完成这项工作。
   @override
   void dispose() {
-    _watchFunList.clear();
+    watchFunList.clear();
     super.dispose();
   }
 
@@ -177,6 +178,6 @@ class ObsTest extends Obs {
   }
 
   static int getWatchFunLength<T>(Obs<T> obs) {
-    return obs._watchFunList.length;
+    return obs.watchFunList.length;
   }
 }

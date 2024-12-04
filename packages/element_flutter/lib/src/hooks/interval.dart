@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:element_dart/element_dart.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
+import '../common.dart';
 
 /// 定时器钩子，当组件被卸载时会自动取消
 Timer useInterval(VoidCallback fun, int wait) {

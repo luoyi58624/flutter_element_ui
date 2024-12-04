@@ -6,6 +6,7 @@ import 'animate_obs.dart';
 import 'animate_value_generate.dart';
 import 'local_obs.dart';
 import 'nest_scroll.dart';
+import 'throttle_test_page.dart';
 
 /// 测试页面，Ctrl + D 快捷键进入
 class TestPage extends StatelessWidget {
@@ -30,6 +31,7 @@ class TestPage extends StatelessWidget {
               CellWidget(title: '本地持久化 Obs 测试', page: LocalObsTest()),
               CellWidget(
                   title: '动画 Value 生成测试', page: AnimateValueGeneratePage()),
+              CellWidget(title: '节流测试', page: ThrottleTestPage()),
             ],
           ),
         ],

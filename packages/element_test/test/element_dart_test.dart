@@ -40,17 +40,6 @@ void elementDartTest() {
     });
   });
 
-  group('DartFunExtension', () {
-    test('throttle', () {
-      i('==========开始=========');
-      void hello() {
-        i('hello');
-      }
-
-      hello.throttle(2000)();
-    });
-  });
-
   group('正则测试', () {
     test('demo', () {
       String str = 'UserModel<T>?';

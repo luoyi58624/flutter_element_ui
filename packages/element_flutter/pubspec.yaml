@@ -30,6 +30,7 @@ dependencies:
   gap: ^3.0.1
   flutter_hooks: ^0.20.5
   super_sliver_list: ^0.4.1
+  rxdart: ^0.28.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0

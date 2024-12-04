@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:element_flutter/element_flutter.dart';
@@ -15,7 +17,8 @@ class LocalObs<T> extends Obs<T> {
   }) {
     final result = _getLocalValue();
     if (result != null) super.setValue(result);
-    super.addWatch(_watch);
+    final fun = FlutterUtil.debounce(setLocalValue, 1000);
+    super.addListener(() => fun());
   }
 
   /// 缓存 key，请保证唯一
@@ -28,21 +31,18 @@ class LocalObs<T> extends Obs<T> {
   /// [ElDateTimeSerialize]、[ElColorSerialize]
   final ElSerialize? serialize;
 
-  void _watch(newValue, oldValue) {
-    (() => setLocalValue(newValue)).throttle(1000)();
-  }
-
-  void setLocalValue(dynamic newValue) {
+  void setLocalValue() {
+    final value = getValue();
     if (value is String) {
-      sp.setString(cacheKey, newValue);
+      sp.setString(cacheKey, value);
     } else if (value is int) {
-      sp.setInt(cacheKey, newValue);
+      sp.setInt(cacheKey, value);
     } else if (value is double) {
-      sp.setDouble(cacheKey, newValue);
+      sp.setDouble(cacheKey, value);
     } else if (value is bool) {
-      sp.setBool(cacheKey, newValue);
+      sp.setBool(cacheKey, value);
     } else if (value is List<String>) {
-      sp.setStringList(cacheKey, newValue);
+      sp.setStringList(cacheKey, value);
     } else {
       final str = serialize!.serialize(value);
       if (str != null) {
@@ -56,6 +56,7 @@ class LocalObs<T> extends Obs<T> {
   }
 
   dynamic _getLocalValue() {
+    final value = getValue();
     if (value is String) {
       return sp.getString(cacheKey);
     } else if (value is int) {
