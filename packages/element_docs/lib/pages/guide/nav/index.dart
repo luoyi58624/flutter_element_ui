@@ -59,15 +59,13 @@ class NavPage extends ResponsivePage {
               height: 40,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border:
-                    Border.all(color: context.elTheme.layoutTheme.borderColor!),
+                border: Border.all(color: context.elLayout.borderColor!),
               ),
             ),
           );
         }),
       ),
       const Gap(8),
-
       Container(
         height: 100,
         width: 100,

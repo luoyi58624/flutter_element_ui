@@ -18,7 +18,9 @@ class ElLayout extends StatefulWidget {
     this.body,
     this.sidebar,
     this.rightSidebar,
-    this.toolbar,
+    this.footer,
+    this.topToolbar,
+    this.leftToolbar,
     this.rightToolbar,
     this.bottomToolbar,
     this.cacheKey,
@@ -36,13 +38,19 @@ class ElLayout extends StatefulWidget {
   /// 右边侧边栏
   final ElSidebar? rightSidebar;
 
-  /// 左侧工具栏
-  final ElToolbar? toolbar;
+  /// 底部区域栏
+  final ElFooter? footer;
 
-  /// 右侧工具栏
+  /// 顶部工具栏，它位于 [navbar] 下方
+  final ElToolbar? topToolbar;
+
+  /// 左侧工具栏，它位于 [sidebar] 左边
+  final ElToolbar? leftToolbar;
+
+  /// 右侧工具栏，它位于 [rightSidebar] 右边
   final ElToolbar? rightToolbar;
 
-  /// 底部工具类
+  /// 底部工具栏，它位于 [footer] 下方
   final ElToolbar? bottomToolbar;
 
   /// 持久化缓存 key
@@ -58,11 +66,11 @@ class ElLayout extends StatefulWidget {
 
 @ElModel.all()
 class ElLayoutData implements ElSerializeModel<ElLayoutData> {
-  final double navbarHeight;
-  final double sidebarWidth;
-  final double rightSidebarWidth;
+  double navbarHeight;
+  double sidebarWidth;
+  double rightSidebarWidth;
 
-  const ElLayoutData({
+  ElLayoutData({
     required this.navbarHeight,
     required this.sidebarWidth,
     required this.rightSidebarWidth,

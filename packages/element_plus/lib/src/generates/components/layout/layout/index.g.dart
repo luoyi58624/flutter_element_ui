@@ -7,7 +7,7 @@ part of '../../../../components/layout/layout/index.dart';
 // **************************************************************************
 
 /// 生成的全局默认实体类对象
-const ElLayoutData $elLayoutData = ElLayoutData(
+final ElLayoutData $elLayoutData = ElLayoutData(
   navbarHeight: 0.0,
   sidebarWidth: 0.0,
   rightSidebarWidth: 0.0,

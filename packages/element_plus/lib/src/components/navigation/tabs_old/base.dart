@@ -69,7 +69,7 @@ abstract class ElBaseTabsState<T extends ElBaseTabs> extends State<T> {
 
   Widget buildTabs(BuildContext context);
 
-  Color get bgColor => widget.bgColor ?? context.elTheme.layoutTheme.bgColor!;
+  Color get bgColor => widget.bgColor ?? context.elLayout.bgColor!;
 
   EdgeInsetsGeometry get tabPadding => EdgeInsets.zero;
 

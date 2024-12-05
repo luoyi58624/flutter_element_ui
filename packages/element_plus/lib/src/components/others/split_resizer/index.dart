@@ -5,7 +5,7 @@ part 'theme.dart';
 
 part '../../../generates/components/others/split_resizer/index.g.dart';
 
-/// 分割器触发偏移位置
+/// 分割器交互偏移位置
 enum ElSplitPosition {
   /// 左偏移，如果是垂直分割布局，则上偏移
   left,
@@ -146,12 +146,13 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
     Widget result = themeData.axis == Axis.vertical
         ? SizedBox(width: themeData.size, height: double.infinity)
         : SizedBox(height: themeData.size, width: double.infinity);
-    if (themeData.color != null) {
+    if (themeData.size! > 0) {
       result = ColoredBox(
-        color: themeData.color!,
+        color: themeData.color ?? context.elLayout.borderColor!,
         child: result,
       );
     }
+
     return CompositedTransformTarget(
       link: layerLink,
       child: result,

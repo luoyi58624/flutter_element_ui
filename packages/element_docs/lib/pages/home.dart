@@ -88,7 +88,7 @@ class _CardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
-          border: Border.all(color: context.elTheme.layoutTheme.borderColor!),
+          border: Border.all(color: context.elLayout.borderColor!),
           borderRadius: context.elConfig.cardRadius!,
         ),
         child: Column(

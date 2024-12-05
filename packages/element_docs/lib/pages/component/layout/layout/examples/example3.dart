@@ -31,28 +31,28 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final username = useState('initialData');
     return SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: const ElLayoutThemeData(
-          sidebarColor: Color.fromRGBO(34, 37, 43, 0.9),
+      child: ElSplitResizerTheme(
+        // 定义拖拽分割器主题样式
+        data: ElSplitResizerThemeData(
+          size: 1,
+          activeColor: context.elTheme.primary,
         ),
-        child: ElLayout(
-          sidebar: ElSidebar(),
-          body: ElBody(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  ElInput(username),
-                  const Gap(8),
-                  const ElFocusScope(
-                    child: ElButton(child: 'hello'),
-                  ),
-                ],
-              ),
-            ),
+        // 因为布局处于示例代码中，所以在整体布局周围绘制边框更好看一些，
+        // 用轮廓环当做边框使用，好处是它的层级比子组件高，不会被子组件背景颜色遮挡
+        child: ElRing(
+          show: true,
+          width: 1,
+          offset: 0,
+          color: context.elLayout.borderColor,
+          child: const ElLayout(
+            cacheKey: 'layout_example3',
+            navbar: ElNavbar(enabledDrag: true),
+            sidebar: ElSidebar(enabledDrag: true),
+            rightSidebar: ElSidebar(enabledDrag: true),
+            body: ElBody(),
+            // footer: ElFooter(),
           ),
         ),
       ),
@@ -61,24 +61,32 @@ class _Example extends HookWidget {
 }
 
 const String code = """
-class _Example extends StatelessWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: ElLayoutThemeData(
-          navbarColor: Colors.blue,
-          sidebarColor: Colors.blueGrey.shade800,
+      child: ElSplitResizerTheme(
+        // 定义拖拽分割器主题样式
+        data: ElSplitResizerThemeData(
+          size: 1,
+          activeColor: context.elTheme.primary,
         ),
-        child: const ElLayout(
-          navbar: ElNavbar(
-            child: Row(),
-          ),
-          sidebar: ElSidebar(
-            child: Column(),
+        // 因为布局处于示例代码中，所以在整体布局周围绘制边框更好看一些，
+        // 用轮廓环当做边框使用，好处是它的层级比子组件高，不会被子组件背景颜色遮挡
+        child: ElRing(
+          show: true,
+          width: 1,
+          offset: 0,
+          color: context.elLayout.borderColor,
+          child: const ElLayout(
+            cacheKey: 'layout_example3',
+            navbar: ElNavbar(enabledDrag: true),
+            sidebar: ElSidebar(enabledDrag: true),
+            rightSidebar: ElSidebar(enabledDrag: true),
+            body: ElBody(),
           ),
         ),
       ),

@@ -5,8 +5,8 @@ part 'theme.dart';
 
 part '../../../generates/components/others/ring/index.g.dart';
 
-/// 在小部件周围绘制轮廓环，轮廓环不会占据小部件的空间，这个小部件通常用于 focus 得到焦点样式
 class ElRing extends StatefulWidget {
+  /// 在小部件周围绘制轮廓环，轮廓环不会占据小部件的空间
   const ElRing({
     super.key,
     required this.child,
@@ -73,8 +73,15 @@ class _ElRingState extends State<ElRing> {
     );
   }
 
+  /// 我能力不够，计算圆角的准确度存在偏差
   double calcRadiusValue(double value) {
-    if (value < themeData.width! + themeData.offset!) {
+    if (themeData.offset == 0) {
+      if (value == 0) {
+        return 0;
+      } else {
+        return value + themeData.width!;
+      }
+    } else if (value < themeData.width! + themeData.offset!) {
       return value +
           (themeData.width! + themeData.offset!) *
               (value / (themeData.width! + themeData.offset!));
@@ -109,6 +116,8 @@ class _ElRingState extends State<ElRing> {
             border: Border.all(
               width: themeData.width!,
               color: themeData.color ?? context.elTheme.primary,
+              style:
+                  themeData.width == 0 ? BorderStyle.none : BorderStyle.solid,
             ),
             borderRadius: calcRadius(themeData.radius),
           ),

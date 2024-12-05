@@ -54,6 +54,7 @@ export 'src/components/layout/layout/index.dart';
 export 'src/components/layout/body/index.dart';
 export 'src/components/layout/navbar/index.dart';
 export 'src/components/layout/sidebar/index.dart';
+export 'src/components/layout/footer/index.dart';
 export 'src/components/layout/toolbar/index.dart';
 
 export 'src/components/navigation/nav_menu/index.dart';

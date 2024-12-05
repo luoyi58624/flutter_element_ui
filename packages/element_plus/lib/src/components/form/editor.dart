@@ -131,7 +131,7 @@ class ElEditorState extends State<ElEditor>
         behavior: HitTestBehavior.translucent,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: context.elTheme.layoutTheme.borderColor!),
+            border: Border.all(color: context.elLayout.borderColor!),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),

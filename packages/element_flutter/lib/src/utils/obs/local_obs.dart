@@ -4,7 +4,8 @@ import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
 class LocalObs<T> extends Obs<T> {
-  /// 支持本地缓存的响应式变量，它基于 shared_preferences 第三库实现持久化
+  /// 支持本地缓存的响应式变量，它基于 shared_preferences 实现持久化，
+  /// 如果是局部变量，请记得在 dispose 生命周期中销毁它
   LocalObs(
     super.value, {
     this.cacheKey,
@@ -14,8 +15,9 @@ class LocalObs<T> extends Obs<T> {
   }) {
     final result = _getLocalValue();
     if (result != null) super.setValue(result);
-    final fun = FlutterUtil.debounce(setLocalValue, 1000);
-    super.addListener(() => fun());
+
+    // 对持久化操作进行防抖处理，防止在频繁更新响应式变量时触发缓存操作
+    super.addListener(FlutterUtil.debounce(setLocalValue, 1000));
   }
 
   /// 缓存 key，请保证唯一

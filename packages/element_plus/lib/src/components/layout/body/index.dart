@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 class ElBody extends StatefulWidget {
   const ElBody({
     super.key,
-    required this.child,
+    this.child,
   });
 
-  final Widget child;
+  final Widget? child;
 
   @override
   State<ElBody> createState() => _ElBodyState();
@@ -32,7 +32,7 @@ class _ElBodyState extends State<ElBody> {
         child: Builder(builder: (context) {
           $context = context;
           focusScopeNode = FocusScope.of(context);
-          return widget.child;
+          return widget.child ?? const SizedBox();
         }),
       ),
     );

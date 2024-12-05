@@ -45,7 +45,7 @@ class Example2 extends StatelessWidget {
           child: GridWidget(
             size: 125,
             itemCount: ElIcons.values.length,
-            borderColor: context.elTheme.layoutTheme.borderColor!,
+            borderColor: context.elLayout.borderColor!,
             borderRadius: context.elConfig.cardRadius!,
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(

@@ -11,7 +11,7 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return ColoredBox(
-//       color: context.elTheme.layoutTheme.bgColor!,
+//       color: context.elLayout.bgColor!,
 //       child: Column(
 //         children: [
 //           if (header != null) header!,
