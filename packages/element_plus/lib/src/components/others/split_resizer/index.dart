@@ -30,6 +30,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
 
   ElSplitResizerThemeData get themeData => _themeData!;
 
+  /// 如果分割器主题数据发生变化，那么将不断移除、插入 Overlay
   set themeData(ElSplitResizerThemeData value) {
     _themeData = value;
     removeOverlay();
@@ -134,6 +135,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
 
   @override
   Widget build(BuildContext context) {
+    i('xx');
     nextTick(() {
       if (mounted) {
         size.value = context.size!;

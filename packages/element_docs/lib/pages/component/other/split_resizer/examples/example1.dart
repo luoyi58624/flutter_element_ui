@@ -34,43 +34,20 @@ class _Example extends HookWidget {
 
     return LayoutBuilder(builder: (context, constraints) {
       final double left = min(max($left.value, 0), constraints.maxWidth);
-      return SizedBox(
+      return Container(
         height: 300,
+        decoration: BoxDecoration(border: context.elBorder),
         child: Stack(
           children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: left,
-                height: 300,
-                color: Colors.green,
-              ),
-            ),
-            Positioned(
-              left: left,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: double.infinity,
-                height: 300,
-                color: Colors.grey,
-              ),
-            ),
             Positioned(
               left: left,
               top: 0,
               bottom: 0,
               child: ElSplitResizerTheme(
                 data: ElSplitResizerThemeData(
+                  size: 1,
                   activeColor: context.elTheme.primary,
-                  // 使用匿名函数会导致主题对象永远不一致，进而引起分割器频繁 build，
-                  // 不过这点性能影响并不大
-                  onChanged: (double value) {
-                    $left.value += value;
-                  },
+                  onChanged: (double value) => $left.value += value,
                   onEnd: () {
                     $left.value =
                         min(max($left.value, 0), constraints.maxWidth);

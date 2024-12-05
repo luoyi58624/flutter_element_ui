@@ -91,12 +91,14 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
     Color? bgColor,
     Color? navbarColor,
     Color? sidebarColor,
+    Color? footerColor,
     Color? borderColor,
   }) {
     return ElLayoutThemeData(
       bgColor: bgColor ?? this.bgColor,
       navbarColor: navbarColor ?? this.navbarColor,
       sidebarColor: sidebarColor ?? this.sidebarColor,
+      footerColor: footerColor ?? this.footerColor,
       borderColor: borderColor ?? this.borderColor,
     );
   }
@@ -108,6 +110,7 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
       bgColor: other.bgColor,
       navbarColor: other.navbarColor,
       sidebarColor: other.sidebarColor,
+      footerColor: other.footerColor,
       borderColor: other.borderColor,
     );
   }
@@ -120,6 +123,7 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
           bgColor == other.bgColor &&
           navbarColor == other.navbarColor &&
           sidebarColor == other.sidebarColor &&
+          footerColor == other.footerColor &&
           borderColor == other.borderColor;
 
   /// 生成 hashCode 方法
@@ -127,6 +131,7 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
       bgColor.hashCode ^
       navbarColor.hashCode ^
       sidebarColor.hashCode ^
+      footerColor.hashCode ^
       borderColor.hashCode;
 }
 

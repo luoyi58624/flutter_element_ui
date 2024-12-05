@@ -19,10 +19,6 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const LayoutPage(),
     ),
     RouterUtil.buildRoute(
-      path: '${path}layout_drag',
-      builder: (context, state) => const LayoutDragPage(),
-    ),
-    RouterUtil.buildRoute(
       path: '${path}event',
       builder: (context, state) => const EventPage(),
     ),

@@ -7,13 +7,15 @@ class ElLayoutThemeData {
     bgColor: Color(0xfffafafa),
     navbarColor: Color(0xffffffff),
     sidebarColor: Color(0xffffffff),
+    footerColor: Color(0xffffffff),
     borderColor: Color(0xffDCDFE6),
   );
 
   static const darkTheme = ElLayoutThemeData(
     bgColor: Color(0xff2b2b2b),
-    navbarColor: Color(0xff404040),
-    sidebarColor: Color(0xff374151),
+    navbarColor: Color.fromRGBO(43, 45, 48, 1.0),
+    sidebarColor: Color.fromRGBO(43, 45, 48, 1.0),
+    footerColor: Color.fromRGBO(43, 43, 43, 1.0),
     borderColor: Color(0xffa3a3a3),
   );
 
@@ -22,6 +24,7 @@ class ElLayoutThemeData {
     this.borderColor,
     this.navbarColor,
     this.sidebarColor,
+    this.footerColor,
   });
 
   /// 全局背景色
@@ -32,6 +35,9 @@ class ElLayoutThemeData {
 
   /// 侧边栏背景颜色
   final Color? sidebarColor;
+
+  /// 底部区域栏背景颜色
+  final Color? footerColor;
 
   /// 边框颜色
   final Color? borderColor;

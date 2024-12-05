@@ -99,11 +99,6 @@ class SlideRouterConfig {
           '/${RootRoute.component.$2}/layout',
           WorkStatus.finished
         ),
-        (
-          'ElLayout 拖拽尺寸',
-          '/${RootRoute.component.$2}/layout_drag',
-          WorkStatus.finished
-        ),
       ],
     ),
     (

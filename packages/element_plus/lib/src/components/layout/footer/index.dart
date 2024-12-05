@@ -29,10 +29,10 @@ class ElFooter extends StatefulWidget {
   final bool enabledDrag;
 
   @override
-  State<ElSidebar> createState() => _ElSidebarState();
+  State<ElFooter> createState() => _ElFooterState();
 }
 
-class _ElSidebarState extends State<ElSidebar> {
+class _ElFooterState extends State<ElFooter> {
   @override
   Widget build(BuildContext context) {
     return widget.child ?? const SizedBox();
