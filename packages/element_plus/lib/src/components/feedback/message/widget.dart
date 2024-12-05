@@ -91,6 +91,7 @@ class _MessageWidgetState extends State<_MessageWidget>
     // 动画执行完毕后从列表中移除消息对象
     await widget.animationDuration.delay();
     message._overlayEntry.remove();
+    message._overlayEntry.dispose();
     el.message._messageList.remove(message);
     // 如果所有消息都被弹出，则重置第一条消息的顶部位置
     if (el.message._messageList.isEmpty) el.message._firstTopOffset = null;

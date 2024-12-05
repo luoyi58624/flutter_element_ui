@@ -70,52 +70,7 @@ class _ExampleState extends State<_Example> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      _constraints = constraints;
-      final double left = min(max(_left, 0), _constraints.maxWidth);
-      return SizedBox(
-        height: 300,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: left,
-                height: 300,
-                color: Colors.green,
-              ),
-            ),
-            Positioned(
-              left: left,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: double.infinity,
-                height: 300,
-                color: Colors.grey,
-              ),
-            ),
-            Positioned(
-              left: left,
-              top: 0,
-              bottom: 0,
-              child: ElSplitResizerTheme(
-                data: ElSplitResizerThemeData(
-                  activeColor: context.elTheme.primary,
-                  // 避免匿名函数，否则对象一定不相等
-                  onChanged: onChanged,
-                  onEnd: onEnd,
-                ),
-                child: const ElSplitResizer(),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+    return SizedBox();
   }
 }
 

@@ -17,133 +17,131 @@ enum ElSplitPosition {
   right,
 }
 
-/// Element UI 拖拽分割器，它内部会通过 [Overlay] 创建可交互的拖拽器
+/// Element UI 拖拽分割器，它内部会通过 [Overlay] 创建可交互的拖拽器，
+/// 注意：[ElSplitResizer] 只负责提供拖拽交互，不会对交互数据做任何校验。
 class ElSplitResizer extends StatefulWidget {
-  const ElSplitResizer({super.key});
+  const ElSplitResizer({super.key, this.onChanged, this.onEnd});
+
+  /// 分割器拖拽偏移
+  final ValueChanged<double>? onChanged;
+
+  /// 分割器结束拖拽
+  final VoidCallback? onEnd;
 
   @override
   State<ElSplitResizer> createState() => _ElSplitResizerState();
 }
 
 class _ElSplitResizerState extends State<ElSplitResizer> {
-  ElSplitResizerThemeData? _themeData;
-
-  ElSplitResizerThemeData get themeData => _themeData!;
-
-  /// 如果分割器主题数据发生变化，那么将不断移除、插入 Overlay
-  set themeData(ElSplitResizerThemeData value) {
-    _themeData = value;
-    removeOverlay();
-    insertOverlay();
-  }
-
-  final size = Obs(Size.zero);
-  final isActive = Obs(false);
+  late ElSplitResizerThemeData themeData;
   final LayerLink layerLink = LayerLink();
-  OverlayState? overlayState;
-  OverlayEntry? overlayEntry;
+  late OverlayEntry overlayEntry;
+
+  final size = RawObs(Size.zero);
+  final isActive = RawObs(false);
 
   void insertOverlay() {
-    if (overlayEntry == null) {
-      overlayEntry = OverlayEntry(builder: (context) {
-        bool isVertical = themeData.axis == Axis.vertical;
-        Widget result = ObsBuilder(builder: (context) {
-          Widget result = isVertical
-              ? SizedBox(
-                  width: themeData.triggerSize,
-                  height: size.value.height,
-                )
-              : SizedBox(
-                  width: size.value.width,
-                  height: themeData.triggerSize,
-                );
-          if (isActive.value && themeData.activeColor != null) {
-            result = ColoredBox(
-              color: themeData.activeColor!,
-              child: result,
-            );
-          }
-          return result;
-        });
-
-        late final Offset offset;
-        switch (themeData.position!) {
-          case ElSplitPosition.left:
-            offset = isVertical
-                ? Offset(-themeData.triggerSize! + themeData.size!, 0)
-                : Offset(0, -themeData.triggerSize! + themeData.size!);
-          case ElSplitPosition.center:
-            offset = isVertical
-                ? Offset(-(themeData.triggerSize! - themeData.size!) / 2, 0)
-                : Offset(0, -(themeData.triggerSize! - themeData.size!) / 2);
-          case ElSplitPosition.right:
-            offset = const Offset(0, 0);
+    overlayEntry = OverlayEntry(builder: (context) {
+      bool isVertical = themeData.axis == Axis.vertical;
+      Widget result = ObsBuilder(builder: (context) {
+        Widget result = isVertical
+            ? SizedBox(
+                width: themeData.triggerSize,
+                height: size.value.height,
+              )
+            : SizedBox(
+                width: size.value.width,
+                height: themeData.triggerSize,
+              );
+        if (isActive.value && themeData.activeColor != null) {
+          result = ColoredBox(
+            color: themeData.activeColor!,
+            child: result,
+          );
         }
-        return UnconstrainedBox(
-          child: CompositedTransformFollower(
-            link: layerLink,
-            offset: offset,
-            child: ElEvent(
-              behavior: HitTestBehavior.opaque,
-              cursor: isVertical
-                  ? SystemMouseCursors.resizeColumn
-                  : SystemMouseCursors.resizeRow,
-              onTapDown: (e) {
-                isActive.value = true;
-                el.cursor.add(isVertical
-                    ? SystemMouseCursors.resizeColumn
-                    : SystemMouseCursors.resizeRow);
-              },
-              onDragEnd: (e) {
-                themeData.onEnd?.call();
-                isActive.value = false;
-                el.cursor.remove();
-              },
-              onHorizontalDragUpdate: !isVertical
-                  ? null
-                  : (e) {
-                      themeData.onChanged?.call(e.delta.dx);
-                    },
-              onVerticalDragUpdate: isVertical
-                  ? null
-                  : (e) {
-                      themeData.onChanged?.call(e.delta.dy);
-                    },
-              child: result,
-            ),
-          ),
+        result = ColoredBox(
+          color: context.elTheme.primary,
+          child: result,
         );
+        return result;
       });
-      nextTick(() {
-        overlayState!.insert(overlayEntry!);
-      });
-    }
+
+      late final Offset offset;
+      switch (themeData.position!) {
+        case ElSplitPosition.left:
+          offset = isVertical
+              ? Offset(-themeData.triggerSize! + themeData.size!, 0)
+              : Offset(0, -themeData.triggerSize! + themeData.size!);
+        case ElSplitPosition.center:
+          offset = isVertical
+              ? Offset(-(themeData.triggerSize! - themeData.size!) / 2, 0)
+              : Offset(0, -(themeData.triggerSize! - themeData.size!) / 2);
+        case ElSplitPosition.right:
+          offset = const Offset(0, 0);
+      }
+
+      return UnconstrainedBox(
+        child: CompositedTransformFollower(
+          link: layerLink,
+          offset: offset,
+          child: ElEvent(
+            behavior: HitTestBehavior.opaque,
+            cursor: isVertical
+                ? SystemMouseCursors.resizeColumn
+                : SystemMouseCursors.resizeRow,
+            onTapDown: (e) {
+              isActive.value = true;
+              el.cursor.add(isVertical
+                  ? SystemMouseCursors.resizeColumn
+                  : SystemMouseCursors.resizeRow);
+            },
+            onDragEnd: (e) {
+              widget.onEnd?.call();
+              isActive.value = false;
+              el.cursor.remove();
+            },
+            onHorizontalDragUpdate: !isVertical
+                ? null
+                : (e) {
+                    widget.onChanged?.call(e.delta.dx);
+                  },
+            onVerticalDragUpdate: isVertical
+                ? null
+                : (e) {
+                    widget.onChanged?.call(e.delta.dy);
+                  },
+            child: result,
+          ),
+        ),
+      );
+    });
+
+    nextTick(() {
+      Overlay.of(context).insert(overlayEntry);
+    });
   }
 
-  void removeOverlay() {
-    if (overlayEntry != null) {
-      overlayEntry!.remove();
-      overlayEntry = null;
-    }
+  @override
+  void initState() {
+    super.initState();
+    insertOverlay();
   }
 
   @override
   void dispose() {
-    removeOverlay();
+    overlayEntry.remove();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    i('xx');
+    themeData = ElSplitResizerTheme.of(context);
+
     nextTick(() {
       if (mounted) {
         size.value = context.size!;
       }
     });
-
-    overlayState ??= Overlay.of(context);
-    themeData = ElSplitResizerTheme.of(context);
 
     Widget result = themeData.axis == Axis.vertical
         ? SizedBox(width: themeData.size, height: double.infinity)

@@ -198,12 +198,13 @@ class ElLayoutState extends State<ElLayout> {
                 bottom: bottom,
                 left: sidebarWidth,
                 child: ElSplitResizerTheme(
-                  data: ElSplitResizerThemeData(
+                  data: const ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
+                  ),
+                  child: ElSplitResizer(
                     onChanged: _updateSidebar,
                     onEnd: _updateEndSidebar,
                   ),
-                  child: const ElSplitResizer(),
                 ),
               ),
             );
@@ -235,12 +236,13 @@ class ElLayoutState extends State<ElLayout> {
                 bottom: bottom,
                 right: rightSidebarWidth,
                 child: ElSplitResizerTheme(
-                  data: ElSplitResizerThemeData(
+                  data: const ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
+                  ),
+                  child: ElSplitResizer(
                     onChanged: _updateRightSidebar,
                     onEnd: _updateEndRightSidebar,
                   ),
-                  child: const ElSplitResizer(),
                 ),
               ),
             );
@@ -271,13 +273,14 @@ class ElLayoutState extends State<ElLayout> {
                 left: left,
                 right: right,
                 child: ElSplitResizerTheme(
-                  data: ElSplitResizerThemeData(
+                  data: const ElSplitResizerThemeData(
                     axis: Axis.horizontal,
                     position: ElSplitPosition.center,
+                  ),
+                  child: ElSplitResizer(
                     onChanged: _updateNavbar,
                     onEnd: _updateEndNavbar,
                   ),
-                  child: const ElSplitResizer(),
                 ),
               ),
             );
@@ -310,13 +313,14 @@ class ElLayoutState extends State<ElLayout> {
                 left: left,
                 right: right,
                 child: ElSplitResizerTheme(
-                  data: ElSplitResizerThemeData(
+                  data: const ElSplitResizerThemeData(
                     axis: Axis.horizontal,
                     position: ElSplitPosition.center,
+                  ),
+                  child: ElSplitResizer(
                     onChanged: _updateFooter,
                     onEnd: _updateEndFooter,
                   ),
-                  child: const ElSplitResizer(),
                 ),
               ),
             );

@@ -14,6 +14,14 @@ class Example1 extends HookWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: [
+            'ElSplitResizer 拖拽分割器，这是一个偏底层的小部件，它只负责提供拖拽交互，'
+                '其特点是它可以不占据页面空间，但依然允许用户进行拖拽交互，这是因为它通过 Overlay 小部件插入了一个较大范围的可交互区域。'
+          ],
+        ),
+        const Gap(8),
         CodeExample(
           code: code,
           children: const [
@@ -30,30 +38,27 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final $left = useState(100.0);
+    final left = useState(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
-      final double left = min(max($left.value, 0), constraints.maxWidth);
+      // 布局尺寸如果变小，那么需要同步分隔条的位置，防止溢出
+      if (left.value > constraints.maxWidth) {
+        nextTick(() => left.value = constraints.maxWidth);
+      }
+      // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
+      final double positionLeft = min(max(left.value, 0), constraints.maxWidth);
       return Container(
         height: 300,
         decoration: BoxDecoration(border: context.elBorder),
         child: Stack(
           children: [
             Positioned(
-              left: left,
+              left: positionLeft,
               top: 0,
               bottom: 0,
-              child: ElSplitResizerTheme(
-                data: ElSplitResizerThemeData(
-                  size: 1,
-                  activeColor: context.elTheme.primary,
-                  onChanged: (double value) => $left.value += value,
-                  onEnd: () {
-                    $left.value =
-                        min(max($left.value, 0), constraints.maxWidth);
-                  },
-                ),
-                child: const ElSplitResizer(),
+              child: ElSplitResizer(
+                onChanged: (double value) => left.value += value,
+                onEnd: () => left.value = positionLeft,
               ),
             ),
           ],
@@ -69,53 +74,27 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final \$left = useState(100.0);
+    final left = useState(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
-      final double left = min(max(\$left.value, 0), constraints.maxWidth);
-      return SizedBox(
+      // 布局尺寸如果变小，那么需要同步分隔条的位置，防止溢出
+      if (left.value > constraints.maxWidth) {
+        nextTick(() => left.value = constraints.maxWidth);
+      }
+      // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
+      final double positionLeft = min(max(left.value, 0), constraints.maxWidth);
+      return Container(
         height: 300,
+        decoration: BoxDecoration(border: context.elBorder),
         child: Stack(
           children: [
             Positioned(
-              left: 0,
+              left: positionLeft,
               top: 0,
               bottom: 0,
-              child: Container(
-                width: left,
-                height: 300,
-                color: Colors.green,
-              ),
-            ),
-            Positioned(
-              left: left,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Container(
-                width: double.infinity,
-                height: 300,
-                color: Colors.grey,
-              ),
-            ),
-            Positioned(
-              left: left,
-              top: 0,
-              bottom: 0,
-              child: ElSplitResizerTheme(
-                data: ElSplitResizerThemeData(
-                  activeColor: context.elTheme.primary,
-                  // 使用匿名函数会导致主题对象永远不一致，进而引起分割器频繁 build，
-                  // 不过这点性能影响并不大
-                  onChanged: (double value) {
-                    \$left.value += value;
-                  },
-                  onEnd: () {
-                    \$left.value =
-                        min(max(\$left.value, 0), constraints.maxWidth);
-                  },
-                ),
-                child: const ElSplitResizer(),
+              child: ElSplitResizer(
+                onChanged: (double value) => left.value += value,
+                onEnd: () => left.value = positionLeft,
               ),
             ),
           ],

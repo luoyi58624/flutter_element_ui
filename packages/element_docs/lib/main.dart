@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'demo.dart';
 import 'global.dart';
 import 'utils/theme.dart';
 
@@ -115,7 +116,11 @@ class _MainAppState extends State<MainApp> {
 
     return CallbackShortcuts(
       bindings: {
-        const SingleActivator(LogicalKeyboardKey.keyP, shift: true): () {
+        const SingleActivator(LogicalKeyboardKey.keyQ, shift: true): () {
+          GlobalState.showPerformanceOverlay.value =
+              !GlobalState.showPerformanceOverlay.value;
+        },
+        const SingleActivator(LogicalKeyboardKey.keyW, shift: true): () {
           el.message.success('hello');
         }
       },
@@ -150,15 +155,15 @@ class _MainAppState extends State<MainApp> {
                   ...WidgetsApp.defaultActions,
                   ...globalActions(),
                 },
-                builder: ElApp.builder(
-                  builder: (context, child) => CupertinoTheme(
+                builder: (context, child) => ScrollConfiguration(
+                  behavior: const ElScrollBehavior(showTrack: true),
+                  child: CupertinoTheme(
                     data: ThemeUtil.buildCupertinoThemeData(
                       context,
                       brightness: GlobalState.brightness,
                     ),
                     child: child!,
                   ),
-                  scrollBehavior: const ElScrollBehavior(showTrack: true),
                 ),
               ),
             );

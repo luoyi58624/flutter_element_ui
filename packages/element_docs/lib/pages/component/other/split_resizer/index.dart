@@ -14,7 +14,7 @@ class SplitResizerPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Example1(title: '基础使用'),
-      // const Example2(title: '水平分割'),
+      const Example2(title: '水平分割'),
     ];
   }
 }

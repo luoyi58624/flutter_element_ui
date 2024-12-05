@@ -80,14 +80,13 @@ class _ExampleState extends State<_Example> {
             top: top,
             bottom: 0,
             child: ElSplitResizerTheme(
-              data: ElSplitResizerThemeData(
+              data: const ElSplitResizerThemeData(
                 axis: Axis.horizontal,
-                // 避免匿名函数，否则每次 build 主题对象将不一致，
-                // 造成分割器 Overlay 不断删除、插入
+              ),
+              child: ElSplitResizer(
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
-              child: const ElSplitResizer(),
             ),
           ),
         ],
@@ -152,14 +151,13 @@ class _ExampleState extends State<_Example> {
             top: top,
             bottom: 0,
             child: ElSplitResizerTheme(
-              data: ElSplitResizerThemeData(
+              data: const ElSplitResizerThemeData(
                 axis: Axis.horizontal,
-                // 避免匿名函数，否则每次 build 主题对象将不一致，
-                // 造成分割器 Overlay 不断删除、插入
+              ),
+              child: ElSplitResizer(
                 onChanged: onChanged,
                 onEnd: onEnd,
               ),
-              child: const ElSplitResizer(),
             ),
           ),
         ],

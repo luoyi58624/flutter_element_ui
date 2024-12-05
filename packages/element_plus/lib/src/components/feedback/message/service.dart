@@ -23,7 +23,6 @@ class ElMessageService {
   /// * builder 自定义构建消息内容
   ElMessageModel show(
     String content, {
-    BuildContext? context,
     String type = El.info,
     Widget? icon,
     Duration? closeDuration,
@@ -33,7 +32,7 @@ class ElMessageService {
     ElMessageBuilder? builder,
   }) {
     ElAssert.themeTypeRequired(type, 'ElMessageModel');
-    final themeData = (context ?? el.context).elTheme.messageTheme;
+    final themeData = el.context.elTheme.messageTheme;
 
     // 如果设置了分组属性，则只需更新响应式变量即可
     if (grouping ?? themeData.grouping) {
@@ -65,16 +64,13 @@ class ElMessageService {
         showClose ?? themeData.showClose, overlayEntry, false, Obs(0));
 
     _messageList.add(model);
-
-    // 插入浮层元素
-    Overlay.of(context ?? el.context).insert(overlayEntry);
+    el.overlay.insert(overlayEntry);
     return model;
   }
 
   /// primary 主题消息
   ElMessageModel primary(
     String content, {
-    BuildContext? context,
     Widget? icon,
     Duration? closeDuration,
     bool? showClose,
@@ -83,7 +79,6 @@ class ElMessageService {
   }) {
     return show(
       content,
-      context: context,
       type: El.primary,
       icon: icon,
       closeDuration: closeDuration,
@@ -96,7 +91,6 @@ class ElMessageService {
   /// success 主题消息
   ElMessageModel success(
     String content, {
-    BuildContext? context,
     Widget? icon,
     Duration? closeDuration,
     bool? showClose,
@@ -105,7 +99,6 @@ class ElMessageService {
   }) {
     return show(
       content,
-      context: context,
       type: 'success',
       icon: icon,
       closeDuration: closeDuration,
@@ -118,7 +111,6 @@ class ElMessageService {
   /// info 主题消息
   ElMessageModel info(
     String content, {
-    BuildContext? context,
     Widget? icon,
     Duration? closeDuration,
     bool? showClose,
@@ -127,7 +119,6 @@ class ElMessageService {
   }) {
     return show(
       content,
-      context: context,
       type: 'info',
       icon: icon,
       closeDuration: closeDuration,
@@ -140,7 +131,6 @@ class ElMessageService {
   /// warning 主题消息
   ElMessageModel warning(
     String content, {
-    BuildContext? context,
     Widget? icon,
     Duration? closeDuration,
     bool? showClose,
@@ -149,7 +139,6 @@ class ElMessageService {
   }) {
     return show(
       content,
-      context: context,
       type: 'warning',
       icon: icon,
       closeDuration: closeDuration,
@@ -162,7 +151,6 @@ class ElMessageService {
   /// error 主题消息
   ElMessageModel error(
     String content, {
-    BuildContext? context,
     Widget? icon,
     Duration? closeDuration,
     bool? showClose,
@@ -171,7 +159,6 @@ class ElMessageService {
   }) {
     return show(
       content,
-      context: context,
       type: 'error',
       icon: icon,
       closeDuration: closeDuration,

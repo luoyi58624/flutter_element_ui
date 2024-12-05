@@ -5,7 +5,7 @@ part of 'index.dart';
 class ElSplitResizerThemeData {
   static const _defaultTheme = ElSplitResizerThemeData(
     axis: Axis.vertical,
-    size: 0,
+    size: 1,
     triggerSize: 4,
     position: ElSplitPosition.center,
   );
@@ -19,14 +19,12 @@ class ElSplitResizerThemeData {
     this.color,
     this.activeColor,
     this.position,
-    this.onChanged,
-    this.onEnd,
   });
 
   /// 分割器方向，默认垂直
   final Axis? axis;
 
-  /// 控件占据页面的空间，默认 0
+  /// 控件占据页面的空间，默认 1
   final double? size;
 
   /// 可拖拽控件触发范围，默认 4
@@ -42,12 +40,6 @@ class ElSplitResizerThemeData {
   ///
   /// 如果你设置了较大触发范围，可能会遮挡了页面中的滚动条，你可以设置此参数调整触发位置。
   final ElSplitPosition? position;
-
-  /// 分割器拖拽偏移
-  final ValueChanged<double>? onChanged;
-
-  /// 分割器结束拖拽
-  final VoidCallback? onEnd;
 
   @override
   bool operator ==(Object other) => _equals(other);
