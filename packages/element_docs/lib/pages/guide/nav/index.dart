@@ -12,6 +12,10 @@ class NavPage extends ResponsivePage {
     return <Widget>[
       const Gap(50),
       // const FocusExample(),
+      ElButton2(
+        onPressed: () {},
+        child: 'Hello',
+      ),
       const Gap(8),
       ElButton(
         onPressed: () {
