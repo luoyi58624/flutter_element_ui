@@ -76,6 +76,15 @@ class GlobalSetting extends StatelessWidget {
               },
             );
           }),
+          CellWidget(
+            title: '清除本地缓存',
+            trailing: const SizedBox(),
+            onTap: () async {
+              await sp.clear();
+              FlutterUtil.refreshApp();
+              el.message.success('清除成功');
+            },
+          ),
         ],
       ),
     );

@@ -27,6 +27,12 @@ class LocalObs<T> extends Obs<T> {
   /// [ElDateTimeSerialize]、[ElColorSerialize]
   ElSerialize? serialize;
 
+  @override
+  void reset() {
+    value = initialValue;
+    if (cacheKey != null) sp.remove(cacheKey!);
+  }
+
   void setLocalValue() {
     if (cacheKey == null) return;
     final value = getValue();

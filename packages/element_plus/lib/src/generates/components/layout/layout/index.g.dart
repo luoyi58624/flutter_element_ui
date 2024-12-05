@@ -8,18 +8,20 @@ part of '../../../../components/layout/layout/index.dart';
 
 /// 生成的全局默认实体类对象
 final ElLayoutData $elLayoutData = ElLayoutData(
-  navbarHeight: 0.0,
-  sidebarWidth: 0.0,
-  rightSidebarWidth: 0.0,
+  navbar: 0.0,
+  sidebar: 0.0,
+  rightSidebar: 0.0,
+  footer: 0.0,
 );
 
 /// 生成 fromJson 方法，将 Map 对象转成实体类
 ElLayoutData _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $elLayoutData;
   return ElLayoutData(
-    navbarHeight: $ElJsonUtil.$double(json, 'navbarHeight') ?? 0.0,
-    sidebarWidth: $ElJsonUtil.$double(json, 'sidebarWidth') ?? 0.0,
-    rightSidebarWidth: $ElJsonUtil.$double(json, 'rightSidebarWidth') ?? 0.0,
+    navbar: $ElJsonUtil.$double(json, 'navbar') ?? 0.0,
+    sidebar: $ElJsonUtil.$double(json, 'sidebar') ?? 0.0,
+    rightSidebar: $ElJsonUtil.$double(json, 'rightSidebar') ?? 0.0,
+    footer: $ElJsonUtil.$double(json, 'footer') ?? 0.0,
   );
 }
 
@@ -27,22 +29,25 @@ extension ElLayoutDataExtension on ElLayoutData {
   /// 生成 toJson 方法，将实体类转成 Map 对象
   Map<String, dynamic> _toJson() {
     return {
-      'navbarHeight': navbarHeight,
-      'sidebarWidth': sidebarWidth,
-      'rightSidebarWidth': rightSidebarWidth,
+      'navbar': navbar,
+      'sidebar': sidebar,
+      'rightSidebar': rightSidebar,
+      'footer': footer,
     };
   }
 
   /// 接收一组可选参数，返回新的对象
   ElLayoutData copyWith({
-    double? navbarHeight,
-    double? sidebarWidth,
-    double? rightSidebarWidth,
+    double? navbar,
+    double? sidebar,
+    double? rightSidebar,
+    double? footer,
   }) {
     return ElLayoutData(
-      navbarHeight: navbarHeight ?? this.navbarHeight,
-      sidebarWidth: sidebarWidth ?? this.sidebarWidth,
-      rightSidebarWidth: rightSidebarWidth ?? this.rightSidebarWidth,
+      navbar: navbar ?? this.navbar,
+      sidebar: sidebar ?? this.sidebar,
+      rightSidebar: rightSidebar ?? this.rightSidebar,
+      footer: footer ?? this.footer,
     );
   }
 
@@ -50,9 +55,10 @@ extension ElLayoutDataExtension on ElLayoutData {
   ElLayoutData merge([ElLayoutData? other]) {
     if (other == null) return this;
     return copyWith(
-      navbarHeight: other.navbarHeight,
-      sidebarWidth: other.sidebarWidth,
-      rightSidebarWidth: other.rightSidebarWidth,
+      navbar: other.navbar,
+      sidebar: other.sidebar,
+      rightSidebar: other.rightSidebar,
+      footer: other.footer,
     );
   }
 
@@ -61,19 +67,21 @@ extension ElLayoutDataExtension on ElLayoutData {
       identical(this, other) ||
       other is ElLayoutData &&
           runtimeType == other.runtimeType &&
-          navbarHeight == other.navbarHeight &&
-          sidebarWidth == other.sidebarWidth &&
-          rightSidebarWidth == other.rightSidebarWidth;
+          navbar == other.navbar &&
+          sidebar == other.sidebar &&
+          rightSidebar == other.rightSidebar &&
+          footer == other.footer;
 
   /// 生成 hashCode 方法
   int get _hashCode =>
-      navbarHeight.hashCode ^
-      sidebarWidth.hashCode ^
-      rightSidebarWidth.hashCode;
+      navbar.hashCode ^
+      sidebar.hashCode ^
+      rightSidebar.hashCode ^
+      footer.hashCode;
 
   /// 生成 toString 方法
   String _toString() {
-    return 'ElLayoutData{\n  navbarHeight: $navbarHeight,\n  sidebarWidth: $sidebarWidth,\n  rightSidebarWidth: $rightSidebarWidth\n}';
+    return 'ElLayoutData{\n  navbar: $navbar,\n  sidebar: $sidebar,\n  rightSidebar: $rightSidebar,\n  footer: $footer\n}';
   }
 }
 

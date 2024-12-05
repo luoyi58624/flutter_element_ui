@@ -15,6 +15,7 @@ export 'src/extensions/num.dart';
 export 'src/extensions/responsive.dart';
 export 'src/extensions/widget.dart';
 
+export 'src/hooks/global_key.dart';
 export 'src/hooks/id.dart';
 export 'src/hooks/interval.dart';
 export 'src/hooks/lifecycle.dart';

@@ -61,19 +61,28 @@ class ElLayout extends StatefulWidget {
       _LayoutInheritedWidget.of(context);
 
   @override
-  State<ElLayout> createState() => _ElLayoutState();
+  State<ElLayout> createState() => ElLayoutState();
 }
 
 @ElModel.all()
 class ElLayoutData implements ElSerializeModel<ElLayoutData> {
-  double navbarHeight;
-  double sidebarWidth;
-  double rightSidebarWidth;
+  /// 导航头位置
+  double navbar;
+
+  /// 侧边栏位置
+  double sidebar;
+
+  /// 右边侧边栏位置
+  double rightSidebar;
+
+  /// 底部区域栏位置
+  double footer;
 
   ElLayoutData({
-    required this.navbarHeight,
-    required this.sidebarWidth,
-    required this.rightSidebarWidth,
+    required this.navbar,
+    required this.sidebar,
+    required this.rightSidebar,
+    required this.footer,
   });
 
   factory ElLayoutData.fromJson(Map<String, dynamic>? json) => _fromJson(json);

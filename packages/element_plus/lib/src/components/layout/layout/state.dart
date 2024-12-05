@@ -11,16 +11,17 @@ class _LayoutDataSerialize implements ElSerialize<ElLayoutData> {
       str == null ? null : ElLayoutData.fromJson(jsonDecode(str));
 }
 
-class _ElLayoutState extends State<ElLayout> {
+class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
-  late ElLayoutThemeData themeData;
+  late ElLayoutThemeData _themeData;
 
   /// 布局信息
   late final _layoutData = LocalObs(
     ElLayoutData(
-      navbarHeight: widget.navbar?.height ?? 0,
-      sidebarWidth: widget.sidebar?.width ?? 0,
-      rightSidebarWidth: widget.rightSidebar?.width ?? 0,
+      navbar: widget.navbar?.height ?? 0,
+      sidebar: widget.sidebar?.width ?? 0,
+      rightSidebar: widget.rightSidebar?.width ?? 0,
+      footer: widget.footer?.height ?? 0,
     ),
     cacheKey: widget.cacheKey,
     serialize: const _LayoutDataSerialize(),
@@ -29,54 +30,58 @@ class _ElLayoutState extends State<ElLayout> {
   ElLayoutData get layoutData => _layoutData.value;
 
   double get navbarHeight => min(
-        max(layoutData.navbarHeight, widget.navbar!.minHeight),
+        max(layoutData.navbar, widget.navbar!.minHeight),
         widget.navbar!.maxHeight ?? _constraints.maxHeight,
       );
 
-  void updateNavbarHeight(double value) {
+  void _updateNavbar(double value) {
     _layoutData.value = _layoutData.value.copyWith(
-      navbarHeight: _layoutData.value.navbarHeight + value,
+      navbar: _layoutData.value.navbar + value,
     );
   }
 
-  void updateEndNavbarHeight() {
+  void _updateEndNavbar() {
     _layoutData.value = _layoutData.value.copyWith(
-      navbarHeight: navbarHeight,
+      navbar: navbarHeight,
     );
   }
 
   double get sidebarWidth => min(
-        max(layoutData.sidebarWidth, widget.sidebar!.minWidth),
+        max(layoutData.sidebar, widget.sidebar!.minWidth),
         widget.sidebar!.maxWidth ?? _constraints.maxWidth,
       );
 
-  void updateSidebarWidth(double value) {
+  void _updateSidebar(double value) {
     _layoutData.value = _layoutData.value.copyWith(
-      sidebarWidth: _layoutData.value.sidebarWidth + value,
+      sidebar: _layoutData.value.sidebar + value,
     );
   }
 
-  void updateEndSidebarWidth() {
+  void _updateEndSidebar() {
     _layoutData.value = _layoutData.value.copyWith(
-      sidebarWidth: sidebarWidth,
+      sidebar: sidebarWidth,
     );
   }
 
   double get rightSidebarWidth => min(
-        max(layoutData.rightSidebarWidth, widget.rightSidebar!.minWidth),
+        max(layoutData.rightSidebar, widget.rightSidebar!.minWidth),
         widget.rightSidebar!.maxWidth ?? _constraints.maxWidth,
       );
 
-  void updateRightSidebarWidth(double value) {
+  void _updateRightSidebar(double value) {
     _layoutData.value = _layoutData.value.copyWith(
-      rightSidebarWidth: _layoutData.value.rightSidebarWidth - value,
+      rightSidebar: _layoutData.value.rightSidebar - value,
     );
   }
 
-  void updateEndRightSidebarWidth() {
+  void _updateEndRightSidebar() {
     _layoutData.value = _layoutData.value.copyWith(
-      rightSidebarWidth: rightSidebarWidth,
+      rightSidebar: rightSidebarWidth,
     );
+  }
+
+  void resetLayout() {
+    _layoutData.reset();
   }
 
   @override
@@ -85,36 +90,36 @@ class _ElLayoutState extends State<ElLayout> {
     bool flag = false;
     if (widget.navbar != null) {
       if (oldWidget.navbar == null) {
-        _layoutData.value.navbarHeight = widget.navbar!.height;
+        _layoutData.value.navbar = widget.navbar!.height;
         flag = true;
       }
     } else {
       if (oldWidget.navbar != null) {
-        _layoutData.value.navbarHeight = 0;
+        _layoutData.value.navbar = 0;
         flag = true;
       }
     }
 
     if (widget.sidebar != null) {
       if (oldWidget.sidebar == null) {
-        _layoutData.value.sidebarWidth = widget.sidebar!.width;
+        _layoutData.value.sidebar = widget.sidebar!.width;
         flag = true;
       }
     } else {
       if (oldWidget.sidebar != null) {
-        _layoutData.value.sidebarWidth = 0;
+        _layoutData.value.sidebar = 0;
         flag = true;
       }
     }
 
     if (widget.rightSidebar != null) {
       if (oldWidget.rightSidebar == null) {
-        _layoutData.value.rightSidebarWidth = widget.rightSidebar!.width;
+        _layoutData.value.rightSidebar = widget.rightSidebar!.width;
         flag = true;
       }
     } else {
       if (oldWidget.rightSidebar != null) {
-        _layoutData.value.rightSidebarWidth = 0;
+        _layoutData.value.rightSidebar = 0;
         flag = true;
       }
     }
@@ -130,7 +135,7 @@ class _ElLayoutState extends State<ElLayout> {
 
   @override
   Widget build(BuildContext context) {
-    themeData = ElLayoutTheme.of(context);
+    _themeData = ElLayoutTheme.of(context);
 
     return LayoutBuilder(builder: (context, constraints) {
       _constraints = constraints;
@@ -141,24 +146,24 @@ class _ElLayoutState extends State<ElLayout> {
         if (widget.body != null) {
           children.add(
             Positioned(
-              top: layoutData.navbarHeight,
+              top: layoutData.navbar,
               bottom: 0,
               left: sidebarWidth,
-              right: layoutData.rightSidebarWidth,
+              right: layoutData.rightSidebar,
               child: widget.body!,
             ),
           );
         }
         if (widget.sidebar != null) {
           final double top =
-              widget.sidebar!.expandedTop ? 0 : layoutData.navbarHeight;
+              widget.sidebar!.expandedTop ? 0 : layoutData.navbar;
           children.add(
             Positioned(
               top: top,
               bottom: 0,
               left: 0,
               child: ColoredBox(
-                color: themeData.sidebarColor!,
+                color: _themeData.sidebarColor!,
                 child: SizedBox(
                   width: sidebarWidth,
                   child: widget.sidebar!,
@@ -175,8 +180,8 @@ class _ElLayoutState extends State<ElLayout> {
                 child: ElSplitResizerTheme(
                   data: ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
-                    onChanged: updateSidebarWidth,
-                    onEnd: updateEndSidebarWidth,
+                    onChanged: _updateSidebar,
+                    onEnd: _updateEndSidebar,
                   ),
                   child: const ElSplitResizer(),
                 ),
@@ -186,16 +191,16 @@ class _ElLayoutState extends State<ElLayout> {
         }
         if (widget.rightSidebar != null) {
           final double top =
-              widget.rightSidebar!.expandedTop ? 0 : layoutData.navbarHeight;
+              widget.rightSidebar!.expandedTop ? 0 : layoutData.navbar;
           children.add(
             Positioned(
               top: top,
               bottom: 0,
               right: 0,
               child: ColoredBox(
-                color: themeData.sidebarColor!,
+                color: _themeData.sidebarColor!,
                 child: SizedBox(
-                  width: layoutData.rightSidebarWidth,
+                  width: layoutData.rightSidebar,
                   child: widget.rightSidebar!,
                 ),
               ),
@@ -210,8 +215,8 @@ class _ElLayoutState extends State<ElLayout> {
                 child: ElSplitResizerTheme(
                   data: ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
-                    onChanged: updateRightSidebarWidth,
-                    onEnd: updateEndRightSidebarWidth,
+                    onChanged: _updateRightSidebar,
+                    onEnd: _updateEndRightSidebar,
                   ),
                   child: const ElSplitResizer(),
                 ),
@@ -222,16 +227,16 @@ class _ElLayoutState extends State<ElLayout> {
         if (widget.navbar != null) {
           final left = widget.sidebar?.expandedTop == true ? sidebarWidth : 0.0;
           final right = widget.rightSidebar?.expandedTop == true
-              ? layoutData.rightSidebarWidth
+              ? layoutData.rightSidebar
               : 0.0;
           children.add(
             Positioned(
               left: left,
               right: right,
               child: Container(
-                height: layoutData.navbarHeight,
+                height: layoutData.navbar,
                 decoration: BoxDecoration(
-                  color: themeData.navbarColor!,
+                  color: _themeData.navbarColor!,
                 ),
                 child: widget.navbar!,
               ),
@@ -247,8 +252,8 @@ class _ElLayoutState extends State<ElLayout> {
                   data: ElSplitResizerThemeData(
                     axis: Axis.horizontal,
                     position: ElSplitPosition.center,
-                    onChanged: updateNavbarHeight,
-                    onEnd: updateEndNavbarHeight,
+                    onChanged: _updateNavbar,
+                    onEnd: _updateEndNavbar,
                   ),
                   child: const ElSplitResizer(),
                 ),
