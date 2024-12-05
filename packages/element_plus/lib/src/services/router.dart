@@ -5,18 +5,18 @@ final GlobalKey<NavigatorState> _navigatorKey =
     GlobalKey(debugLabel: 'element_navigatorKey');
 
 mixin RouterService {
-  /// 全局路由导航key
+  /// 全局路由导航 key
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   /// Element UI 全局路由导航 context 对象
   BuildContext get context {
-    ElAssert.navigatorError();
+    ElAssert.navigatorAssert();
     return navigatorKey.currentContext!;
   }
 
-  /// 全局 [Overlay] 对象
+  /// 全局路由 [Overlay] 对象
   OverlayState get overlay {
-    ElAssert.navigatorError();
+    ElAssert.navigatorAssert();
     return navigatorKey.currentState!.overlay!;
   }
 }

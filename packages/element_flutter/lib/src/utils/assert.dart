@@ -25,7 +25,7 @@ abstract class ElAssert {
   }
 
   /// Element 全局导航器断言，如果没有配置全局导航 key，那么使用一些相关 Api 时将引起报错
-  static void navigatorError() {
+  static void navigatorAssert() {
     assert(() {
       if (el.navigatorKey.currentWidget == null ||
           el.navigatorKey.currentWidget is! Navigator) {

@@ -25,7 +25,7 @@ class CursorInstance {
             builder: (context) => const _CursorOverlay(),
           );
 
-          Overlay.of(el.context).insert(_overlayEntry!);
+          el.overlay.insert(_overlayEntry!);
         }
       });
     }
@@ -35,6 +35,7 @@ class CursorInstance {
   void remove() {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
+      _overlayEntry!.dispose();
       _overlayEntry = null;
       nextTick(() {
         _cursor.value = MouseCursor.defer;

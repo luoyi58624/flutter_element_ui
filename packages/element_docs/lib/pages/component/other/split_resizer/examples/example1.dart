@@ -38,31 +38,38 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final left = useState(100.0);
+    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件，
+    // 为了简单起见，这个示例我直接使用自己实现的私有 hook，你无法直接运行，只需要理解意思就行
+    final left = useObs(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
       // 布局尺寸如果变小，那么需要同步分隔条的位置，防止溢出
       if (left.value > constraints.maxWidth) {
         nextTick(() => left.value = constraints.maxWidth);
       }
-      // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
-      final double positionLeft = min(max(left.value, 0), constraints.maxWidth);
+
       return Container(
         height: 300,
         decoration: BoxDecoration(border: context.elBorder),
-        child: Stack(
-          children: [
-            Positioned(
-              left: positionLeft,
-              top: 0,
-              bottom: 0,
-              child: ElSplitResizer(
-                onChanged: (double value) => left.value += value,
-                onEnd: () => left.value = positionLeft,
+        child: ObsBuilder(builder: (context) {
+          // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
+          final double positionLeft =
+              min(max(left.value, 0), constraints.maxWidth);
+
+          return Stack(
+            children: [
+              Positioned(
+                left: positionLeft,
+                top: 0,
+                bottom: 0,
+                child: ElSplitResizer(
+                  onChanged: (double value) => left.value += value,
+                  onEnd: () => left.value = positionLeft,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       );
     });
   }
@@ -74,31 +81,38 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final left = useState(100.0);
+    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件，
+    // 为了简单起见，这个示例我直接使用自己实现的私有 hook，你无法直接运行，只需要理解意思就行
+    final left = useObs(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
       // 布局尺寸如果变小，那么需要同步分隔条的位置，防止溢出
       if (left.value > constraints.maxWidth) {
         nextTick(() => left.value = constraints.maxWidth);
       }
-      // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
-      final double positionLeft = min(max(left.value, 0), constraints.maxWidth);
+
       return Container(
         height: 300,
         decoration: BoxDecoration(border: context.elBorder),
-        child: Stack(
-          children: [
-            Positioned(
-              left: positionLeft,
-              top: 0,
-              bottom: 0,
-              child: ElSplitResizer(
-                onChanged: (double value) => left.value += value,
-                onEnd: () => left.value = positionLeft,
+        child: ObsBuilder(builder: (context) {
+          // 拖拽的实际位置肯定需要跟随指针，但显示在页面上的位置必须施加限制
+          final double positionLeft =
+              min(max(left.value, 0), constraints.maxWidth);
+
+          return Stack(
+            children: [
+              Positioned(
+                left: positionLeft,
+                top: 0,
+                bottom: 0,
+                child: ElSplitResizer(
+                  onChanged: (double value) => left.value += value,
+                  onEnd: () => left.value = positionLeft,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       );
     });
   }

@@ -59,10 +59,6 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
             child: result,
           );
         }
-        result = ColoredBox(
-          color: context.elTheme.primary,
-          child: result,
-        );
         return result;
       });
 
@@ -117,7 +113,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
     });
 
     nextTick(() {
-      Overlay.of(context).insert(overlayEntry);
+      el.overlay.insert(overlayEntry);
     });
   }
 
@@ -130,6 +126,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
   @override
   void dispose() {
     overlayEntry.remove();
+    overlayEntry.dispose();
     super.dispose();
   }
 

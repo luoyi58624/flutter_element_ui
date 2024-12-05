@@ -112,7 +112,7 @@ class ElLink extends StatelessWidget {
         builder: (_) => const _LinkOverlay(),
       );
       try {
-        Overlay.of(el.context).insert(_linkOverlay!);
+        el.overlay.insert(_linkOverlay!);
       } catch (e) {
         _linkOverlay = null;
         rethrow;
@@ -127,6 +127,7 @@ class ElLink extends StatelessWidget {
       _delayRemoveOverlay = setTimeout(() {
         _delayRemoveOverlay = null;
         _linkOverlay!.remove();
+        _linkOverlay!.dispose();
         _linkOverlay = null;
       }, _animationTime);
     }
