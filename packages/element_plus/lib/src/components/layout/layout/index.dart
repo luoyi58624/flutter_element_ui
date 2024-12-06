@@ -15,7 +15,7 @@ class ElLayout extends StatefulWidget {
   const ElLayout({
     super.key,
     this.navbar,
-    this.body,
+    required this.body,
     this.sidebar,
     this.rightSidebar,
     this.footer,
@@ -30,7 +30,7 @@ class ElLayout extends StatefulWidget {
   final ElNavbar? navbar;
 
   /// 布局的主要内容区域
-  final ElBody? body;
+  final ElBody body;
 
   /// 左边侧边栏，当窗口为移动端尺寸时，会自动收起
   final ElSidebar? sidebar;

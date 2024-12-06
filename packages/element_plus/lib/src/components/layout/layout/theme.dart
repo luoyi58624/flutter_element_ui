@@ -13,7 +13,7 @@ class ElLayoutThemeData {
 
   static const darkTheme = ElLayoutThemeData(
     bgColor: Color(0xff2b2b2b),
-    navbarColor: Color.fromRGBO(43, 45, 48, 1.0),
+    navbarColor: Color(0xff404040),
     sidebarColor: Color.fromRGBO(43, 45, 48, 1.0),
     footerColor: Color.fromRGBO(43, 43, 43, 1.0),
     borderColor: Color(0xffa3a3a3),

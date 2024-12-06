@@ -52,9 +52,9 @@ class _Example extends HookWidget {
             data: ElSplitResizerThemeData(
               size: 1,
               activeColor: context.elTheme.primary,
+              rootOverlay: false,
             ),
-            // 因为布局处于示例代码中，所以在整体布局周围绘制边框更好看一些，
-            // 用轮廓环当做边框使用，好处是它的层级比子组件高，不会被子组件背景颜色遮挡
+            // 使用 Ring 在布局周围绘制边框
             child: ElRing(
               show: true,
               width: 1,
@@ -64,20 +64,15 @@ class _Example extends HookWidget {
                 key: layoutKey,
                 cacheKey: 'layout_example3',
                 navbar: const ElNavbar(enabledDrag: true),
-                sidebar: ElSidebar(
+                sidebar: const ElSidebar(
                   enabledDrag: true,
-                  child: Material(
-                    color: context.elLayout.sidebarColor,
-                    child: ListView.builder(
-                      itemCount: 20,
-                      itemBuilder: (context, index) => CellWidget(
-                        onTap: () {},
-                        title: '列表-${index + 1}',
-                      ),
-                    ),
-                  ),
+                  expandedBottom: true,
                 ),
-                rightSidebar: const ElSidebar(enabledDrag: true),
+                rightSidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedTop: true,
+                  expandedBottom: true,
+                ),
                 body: const ElBody(),
                 footer: const ElFooter(enabledDrag: true),
               ),
@@ -87,6 +82,16 @@ class _Example extends HookWidget {
       ],
     );
   }
+
+// Widget get list => Material(
+//       child: ListView.builder(
+//         itemCount: 20,
+//         itemBuilder: (context, index) => CellWidget(
+//           onTap: () {},
+//           title: '列表-${index + 1}',
+//         ),
+//       ),
+//     );
 }
 
 const String code = """
@@ -117,8 +122,7 @@ class _Example extends HookWidget {
               size: 1,
               activeColor: context.elTheme.primary,
             ),
-            // 因为布局处于示例代码中，所以在整体布局周围绘制边框更好看一些，
-            // 用轮廓环当做边框使用，好处是它的层级比子组件高，不会被子组件背景颜色遮挡
+            // 使用 Ring 在布局周围绘制边框
             child: ElRing(
               show: true,
               width: 1,
@@ -128,8 +132,15 @@ class _Example extends HookWidget {
                 key: layoutKey,
                 cacheKey: 'layout_example3',
                 navbar: const ElNavbar(enabledDrag: true),
-                sidebar: const ElSidebar(enabledDrag: true),
-                rightSidebar: const ElSidebar(enabledDrag: true),
+                sidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedBottom: true,
+                ),
+                rightSidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedTop: true,
+                  expandedBottom: true,
+                ),
                 body: const ElBody(),
                 footer: const ElFooter(enabledDrag: true),
               ),

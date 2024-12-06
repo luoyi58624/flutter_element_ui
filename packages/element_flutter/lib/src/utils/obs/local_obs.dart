@@ -1,6 +1,7 @@
 import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:element_flutter/element_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
 class LocalObs<T> extends Obs<T> {
@@ -13,7 +14,7 @@ class LocalObs<T> extends Obs<T> {
     super.watch,
     super.immediate,
   }) {
-    final result = _getLocalValue();
+    final result = getLocalValue();
     if (result != null) super.setValue(result);
 
     // 对持久化操作进行防抖处理，防止在频繁更新响应式变量时触发缓存操作
@@ -23,7 +24,7 @@ class LocalObs<T> extends Obs<T> {
   /// 缓存 key，请保证唯一
   String? cacheKey;
 
-  /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，例如：
+  /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，请参考：
   /// [ElDateTimeSerialize]、[ElColorSerialize]
   ElSerialize? serialize;
 
@@ -33,6 +34,7 @@ class LocalObs<T> extends Obs<T> {
     if (cacheKey != null) sp.remove(cacheKey!);
   }
 
+  @protected
   void setLocalValue() {
     if (cacheKey == null) return;
     final value = getValue();
@@ -58,7 +60,8 @@ class LocalObs<T> extends Obs<T> {
     }
   }
 
-  dynamic _getLocalValue() {
+  @protected
+  dynamic getLocalValue() {
     if (cacheKey == null) return null;
     final value = getValue();
     if (value is String) {

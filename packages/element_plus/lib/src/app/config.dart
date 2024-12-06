@@ -31,6 +31,12 @@ class ElConfigData {
 
   /// 基础控件默认边框尺寸
   final double? borderWidth;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }
 
 class ElConfig extends StatelessWidget {

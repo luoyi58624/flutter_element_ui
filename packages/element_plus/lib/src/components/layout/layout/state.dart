@@ -1,48 +1,62 @@
 part of 'index.dart';
 
-class _LayoutDataSerialize implements ElSerialize<ElLayoutData> {
-  const _LayoutDataSerialize();
-
-  @override
-  String? serialize(ElLayoutData? data) => jsonEncode(data?.toJson());
-
-  @override
-  ElLayoutData? deserialize(String? str) =>
-      str == null ? null : ElLayoutData.fromJson(jsonDecode(str));
-}
-
 class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
   late ElLayoutThemeData _themeData;
 
   /// 布局信息
-  late final _layoutData = LocalObs(
+  late final _layoutData = ModelObs(
     ElLayoutData(
-      navbar: widget.navbar?.height ?? 0,
-      sidebar: widget.sidebar?.width ?? 0,
-      rightSidebar: widget.rightSidebar?.width ?? 0,
-      footer: widget.footer?.height ?? 0,
+      navbar: widget.navbar?.height ?? 0.0,
+      sidebar: widget.sidebar?.width ?? 0.0,
+      rightSidebar: widget.rightSidebar?.width ?? 0.0,
+      footer: widget.footer?.height ?? 0.0,
     ),
     cacheKey: widget.cacheKey,
-    serialize: const _LayoutDataSerialize(),
   );
 
   ElLayoutData get layoutData => _layoutData.value;
+
+  Size get bodySize => Size(
+        widget.body.minWidth ?? ElApp.of(context).responsive.xs,
+        widget.body.minHeight,
+      );
 
   double get navbarHeight => min(
         max(layoutData.navbar, widget.navbar!.minHeight),
         widget.navbar!.maxHeight ?? _constraints.maxHeight,
       );
 
-  double get sidebarWidth => min(
-        max(layoutData.sidebar, widget.sidebar!.minWidth),
-        widget.sidebar!.maxWidth ?? _constraints.maxWidth,
-      );
+  /// 对左边侧边栏宽度施加限制，计算出符合所有条件后的最终宽度
+  double get sidebarWidth {
+    if (widget.sidebar == null) return 0.0;
+    if (layoutData.sidebar < widget.sidebar!.minWidth) {
+      return widget.sidebar!.minWidth;
+    }
+    final maxWidth =
+        _constraints.maxWidth - layoutData.rightSidebar - bodySize.width;
+    if (widget.sidebar!.maxWidth != null) {
+      return min(layoutData.sidebar, min(widget.sidebar!.maxWidth!, maxWidth));
+    } else {
+      return min(layoutData.sidebar, maxWidth);
+    }
+  }
 
-  double get rightSidebarWidth => min(
-        max(layoutData.rightSidebar, widget.rightSidebar!.minWidth),
-        widget.rightSidebar!.maxWidth ?? _constraints.maxWidth,
-      );
+  /// 对右边侧边栏宽度施加限制，计算出符合所有条件后的最终宽度
+  double get rightSidebarWidth {
+    if (widget.rightSidebar == null) return 0.0;
+    if (layoutData.rightSidebar < widget.rightSidebar!.minWidth) {
+      return widget.rightSidebar!.minWidth;
+    }
+    final maxWidth =
+        _constraints.maxWidth - layoutData.sidebar - bodySize.width;
+    if (widget.rightSidebar!.maxWidth != null) {
+      return min(layoutData.rightSidebar,
+          min(widget.rightSidebar!.maxWidth!, maxWidth));
+    } else {
+      return min(layoutData.rightSidebar, maxWidth);
+    }
+  }
 
   double get footerHeight => min(
         max(layoutData.footer, widget.footer!.minHeight),
@@ -154,6 +168,7 @@ class ElLayoutState extends State<ElLayout> {
   @override
   Widget build(BuildContext context) {
     _themeData = ElLayoutTheme.of(context);
+    final splitResizerThemeData = ElSplitResizerTheme.of(context);
 
     return LayoutBuilder(builder: (context, constraints) {
       _constraints = constraints;
@@ -161,17 +176,16 @@ class ElLayoutState extends State<ElLayout> {
       return ObsBuilder(builder: (context) {
         List<Widget> children = [];
 
-        if (widget.body != null) {
-          children.add(
-            Positioned(
-              top: layoutData.navbar,
-              bottom: 0,
-              left: sidebarWidth,
-              right: layoutData.rightSidebar,
-              child: widget.body!,
-            ),
-          );
-        }
+        children.add(
+          Positioned(
+            top: layoutData.navbar,
+            bottom: 0,
+            left: sidebarWidth,
+            right: layoutData.rightSidebar,
+            child: widget.body,
+          ),
+        );
+
         if (widget.sidebar != null) {
           final double top =
               widget.sidebar!.expandedTop ? 0 : layoutData.navbar;
@@ -249,9 +263,11 @@ class ElLayoutState extends State<ElLayout> {
           }
         }
         if (widget.navbar != null) {
-          final left = widget.sidebar?.expandedTop == true ? sidebarWidth : 0.0;
+          final left = widget.sidebar?.expandedTop == true
+              ? sidebarWidth + splitResizerThemeData.size!
+              : 0.0;
           final right = widget.rightSidebar?.expandedTop == true
-              ? layoutData.rightSidebar
+              ? layoutData.rightSidebar + splitResizerThemeData.size!
               : 0.0;
           children.add(
             Positioned(
@@ -287,10 +303,11 @@ class ElLayoutState extends State<ElLayout> {
           }
         }
         if (widget.footer != null) {
-          final left =
-              widget.sidebar?.expandedBottom == true ? sidebarWidth : 0.0;
+          final left = widget.sidebar?.expandedBottom == true
+              ? sidebarWidth + splitResizerThemeData.size!
+              : 0.0;
           final right = widget.rightSidebar?.expandedBottom == true
-              ? layoutData.rightSidebar
+              ? layoutData.rightSidebar + splitResizerThemeData.size!
               : 0.0;
           children.add(
             Positioned(

@@ -20,10 +20,13 @@ enum ElSplitPosition {
 /// Element UI 拖拽分割器，它内部会通过 [Overlay] 创建可交互的拖拽器，
 /// 注意：[ElSplitResizer] 只负责提供拖拽交互，不会对交互数据做任何校验。
 class ElSplitResizer extends StatefulWidget {
-  const ElSplitResizer({super.key, this.onChanged, this.onEnd});
+  const ElSplitResizer({super.key, this.onChanged, this.onStart, this.onEnd});
 
   /// 分割器拖拽偏移
   final ValueChanged<double>? onChanged;
+
+  /// 分割器开始拖拽
+  final VoidCallback? onStart;
 
   /// 分割器结束拖拽
   final VoidCallback? onEnd;
@@ -36,7 +39,6 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
   late ElSplitResizerThemeData themeData;
   final LayerLink layerLink = LayerLink();
   late OverlayEntry overlayEntry;
-
   final size = RawObs(Size.zero);
   final isActive = RawObs(false);
 
@@ -90,11 +92,12 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
               el.cursor.add(isVertical
                   ? SystemMouseCursors.resizeColumn
                   : SystemMouseCursors.resizeRow);
+              widget.onStart?.call();
             },
             onDragEnd: (e) {
-              widget.onEnd?.call();
               isActive.value = false;
               el.cursor.remove();
+              widget.onEnd?.call();
             },
             onHorizontalDragUpdate: !isVertical
                 ? null
@@ -113,7 +116,8 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
     });
 
     nextTick(() {
-      el.overlay.insert(overlayEntry);
+      Overlay.of(context, rootOverlay: themeData.rootOverlay!)
+          .insert(overlayEntry);
     });
   }
 

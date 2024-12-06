@@ -105,8 +105,6 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    isMobileRoute.value = context.sm;
-    GlobalState.globalFontSize = context.sm ? 15 : 16;
     MainApp.currentThemeMode = ThemeMode.system;
     if (MainApp.currentThemeMode == ThemeMode.system) {
       if (MediaQuery.platformBrightnessOf(context) == Brightness.dark) {
@@ -130,6 +128,8 @@ class _MainAppState extends State<MainApp> {
           theme: ThemeUtil.buildElementTheme(),
           darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
           child: ObsBuilder(builder: (context) {
+            isMobileRoute.value = context.sm;
+            GlobalState.globalFontSize = context.sm ? 15 : 16;
             return ElFps(
               enabled: GlobalState.fps.value,
               child: MaterialApp.router(

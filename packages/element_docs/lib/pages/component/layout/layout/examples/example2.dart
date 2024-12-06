@@ -45,6 +45,7 @@ class _Example extends StatelessWidget {
           enabledDrag: true,
           child: sidebar,
         ),
+        body: const ElBody(),
       ),
     );
   }
@@ -138,6 +139,7 @@ class _Example extends StatelessWidget {
           enabledDrag: true,
           child: sidebar,
         ),
+        body: const ElBody(),
       ),
     );
   }

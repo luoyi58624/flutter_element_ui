@@ -12,7 +12,6 @@ export 'src/extensions/color.dart';
 export 'src/extensions/context.dart';
 export 'src/extensions/flutter.dart';
 export 'src/extensions/num.dart';
-export 'src/extensions/responsive.dart';
 export 'src/extensions/widget.dart';
 
 export 'src/hooks/global_key.dart';
@@ -28,6 +27,9 @@ export 'src/utils/obs/animate_obs.dart';
 export 'src/utils/obs/animate_obs_hook.dart';
 export 'src/utils/obs/local_obs.dart';
 export 'src/utils/obs/local_obs_hook.dart';
+export 'src/utils/obs/model_obs.dart';
+export 'src/utils/obs/model_obs_hook.dart';
+
 export 'src/utils/animation.dart';
 export 'src/utils/annotation.dart';
 export 'src/utils/assert.dart';

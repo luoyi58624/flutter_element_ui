@@ -38,8 +38,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件，
-    // 为了简单起见，这个示例我直接使用自己实现的私有 hook，你无法直接运行，只需要理解意思就行
+    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件
     final left = useObs(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -62,9 +61,14 @@ class _Example extends HookWidget {
                 left: positionLeft,
                 top: 0,
                 bottom: 0,
-                child: ElSplitResizer(
-                  onChanged: (double value) => left.value += value,
-                  onEnd: () => left.value = positionLeft,
+                child: ElSplitResizerTheme(
+                  data: const ElSplitResizerThemeData(
+                    size: 1,
+                  ),
+                  child: ElSplitResizer(
+                    onChanged: (double value) => left.value += value,
+                    onEnd: () => left.value = positionLeft,
+                  ),
                 ),
               ),
             ],
@@ -81,8 +85,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件，
-    // 为了简单起见，这个示例我直接使用自己实现的私有 hook，你无法直接运行，只需要理解意思就行
+    // useState 会引起整个 build 重建，会不断触发下面 LayoutBuilder 的条件
     final left = useObs(100.0);
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -105,9 +108,14 @@ class _Example extends HookWidget {
                 left: positionLeft,
                 top: 0,
                 bottom: 0,
-                child: ElSplitResizer(
-                  onChanged: (double value) => left.value += value,
-                  onEnd: () => left.value = positionLeft,
+                child: ElSplitResizerTheme(
+                  data: const ElSplitResizerThemeData(
+                    size: 1,
+                  ),
+                  child: ElSplitResizer(
+                    onChanged: (double value) => left.value += value,
+                    onEnd: () => left.value = positionLeft,
+                  ),
                 ),
               ),
             ],

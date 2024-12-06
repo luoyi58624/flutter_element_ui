@@ -8,6 +8,8 @@ part 'extension.dart';
 
 part 'config.dart';
 
+part 'responsive.dart';
+
 part 'theme.dart';
 
 part 'theme_animation.dart';
@@ -31,6 +33,7 @@ class ElApp extends StatelessWidget {
     this.theme = ElThemeData.theme,
     this.darkTheme = ElThemeData.darkTheme,
     this.config = ElConfigData.globalData,
+    this.responsive = const ElResponsiveData(),
   });
 
   final Widget child;
@@ -44,8 +47,11 @@ class ElApp extends StatelessWidget {
   /// 暗色主题
   final ElThemeData darkTheme;
 
-  /// 全局配置，警告：全局配置所有属性必须设置默认值，否则程序运行会出现 null 错误
+  /// 全局配置
   final ElConfigData config;
+
+  /// 响应式断点配置
+  final ElResponsiveData responsive;
 
   /// 访问 ElApp 注入的全局配置信息
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
@@ -61,6 +67,7 @@ class ElApp extends StatelessWidget {
         theme: theme,
         darkTheme: darkTheme,
         config: config,
+        responsive: responsive,
       ),
       child: _SwitchThemeAnimation(
         data: $data,
@@ -75,12 +82,14 @@ class ElAppData {
   final ElThemeData theme;
   final ElThemeData darkTheme;
   final ElConfigData config;
+  final ElResponsiveData responsive;
 
   const ElAppData({
     required this.brightness,
     required this.theme,
     required this.darkTheme,
     required this.config,
+    required this.responsive,
   });
 }
 

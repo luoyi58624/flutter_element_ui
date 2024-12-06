@@ -8,7 +8,7 @@ class ElSidebar extends StatefulWidget {
     super.key,
     this.child,
     this.width = 240,
-    this.minWidth = 0,
+    this.minWidth = 50,
     this.maxWidth,
     this.enabledDrag = false,
     this.expandedTop = false,

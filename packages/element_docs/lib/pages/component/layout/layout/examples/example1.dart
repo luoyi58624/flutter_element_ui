@@ -40,6 +40,7 @@ class _Example extends StatelessWidget {
         child: const ElLayout(
           navbar: ElNavbar(),
           sidebar: ElSidebar(),
+          body: ElBody(),
         ),
       ),
     );
@@ -62,6 +63,7 @@ class _Example extends StatelessWidget {
         child: const ElLayout(
           navbar: ElNavbar(),
           sidebar: ElSidebar(),
+          body: ElBody(),
         ),
       ),
     );

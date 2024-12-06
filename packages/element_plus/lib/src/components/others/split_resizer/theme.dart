@@ -5,9 +5,10 @@ part of 'index.dart';
 class ElSplitResizerThemeData {
   static const _defaultTheme = ElSplitResizerThemeData(
     axis: Axis.vertical,
-    size: 1,
+    size: 0,
     triggerSize: 4,
     position: ElSplitPosition.center,
+    rootOverlay: true,
   );
   static const theme = _defaultTheme;
   static const darkTheme = _defaultTheme;
@@ -19,6 +20,7 @@ class ElSplitResizerThemeData {
     this.color,
     this.activeColor,
     this.position,
+    this.rootOverlay,
   });
 
   /// 分割器方向，默认垂直
@@ -40,6 +42,13 @@ class ElSplitResizerThemeData {
   ///
   /// 如果你设置了较大触发范围，可能会遮挡了页面中的滚动条，你可以设置此参数调整触发位置。
   final ElSplitPosition? position;
+
+  /// 分隔条是否作用于顶级 [Overlay]，默认 true，如果是局部布局，那么请设置为 false，
+  /// 否则分隔条会绘制在导航栏之上。
+  ///
+  /// 注意：之所以默认设置为 true，是因为如果开启性能视图（任何操作 [MaterialApp] 全局属性），
+  /// 那么分割器的事件将会丢失，这很大概率是 Flutter 的一个 bug。
+  final bool? rootOverlay;
 
   @override
   bool operator ==(Object other) => _equals(other);

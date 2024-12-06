@@ -41,13 +41,8 @@ class ContributeStartPage extends ResponsivePage {
         title: 'Tip',
         type: El.warning,
         content: [
-          '出于一些因素考虑，我推荐你只使用 element_plus 包，不要使用存储库中的其他包。',
-          '例如 element_dart、element_flutter 这两个库封装的 api 就是不希望暴露给用户，'
-              '我不喜欢一个库给用户塞太多乱七八糟的 api。',
-          '而 element_annotation、element_generator 代码生成器是我第一次学习元编程时直接编写的，它们的实现很简陋，许多地方欠缺考虑，'
-              '但对于 element 主题生成来说，这已经足够了。',
-          '最后是 flutter_obs，它的定位只是一个简单的状态管理，'
-              '在实际项目中我更推荐你使用成熟的状态管理库：Getx、Provider、Riverpod、Bloc、MobX...',
+          '对于用户而言，我推荐你只使用 element_plus、flutter_obs 包，其他包请不要使用，'
+              '如果有想要的 api 请 copy 到自己封装的存储库中，因为这些 api 可能随时会改动'
         ],
       ),
     ];

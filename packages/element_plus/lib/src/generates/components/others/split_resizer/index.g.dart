@@ -15,6 +15,7 @@ extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
     Color? color,
     Color? activeColor,
     ElSplitPosition? position,
+    bool? rootOverlay,
   }) {
     return ElSplitResizerThemeData(
       axis: axis ?? this.axis,
@@ -23,6 +24,7 @@ extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
       color: color ?? this.color,
       activeColor: activeColor ?? this.activeColor,
       position: position ?? this.position,
+      rootOverlay: rootOverlay ?? this.rootOverlay,
     );
   }
 
@@ -36,6 +38,7 @@ extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
       color: other.color,
       activeColor: other.activeColor,
       position: other.position,
+      rootOverlay: other.rootOverlay,
     );
   }
 
@@ -49,7 +52,8 @@ extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
           triggerSize == other.triggerSize &&
           color == other.color &&
           activeColor == other.activeColor &&
-          position == other.position;
+          position == other.position &&
+          rootOverlay == other.rootOverlay;
 
   /// 生成 hashCode 方法
   int get _hashCode =>
@@ -58,7 +62,8 @@ extension ElSplitResizerThemeDataExtension on ElSplitResizerThemeData {
       triggerSize.hashCode ^
       color.hashCode ^
       activeColor.hashCode ^
-      position.hashCode;
+      position.hashCode ^
+      rootOverlay.hashCode;
 }
 
 // **************************************************************************
