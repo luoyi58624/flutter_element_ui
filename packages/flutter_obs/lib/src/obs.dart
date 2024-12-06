@@ -1,3 +1,4 @@
+import 'package:dart_serialize/dart_serialize.dart';
 import 'package:flutter/widgets.dart';
 
 import 'raw_obs.dart';
@@ -59,17 +60,41 @@ class Obs<T> extends RawObs<T> {
   /// ```
   Obs(
     super.value, {
-    this.notifyMode = const [ObsNotifyMode.all],
     WatchCallback<T>? watch,
     bool immediate = false,
   }) {
+    _initialValue = _safeValue(getValue());
+    _oldValue = _initialValue;
     this._watchFun = watch;
     if (immediate) notifyWatch();
   }
 
-  /// 当响应式变量 setter 方法成功拦截时应用的通知模式，它接收一个数组，默认 [ObsNotifyMode.all]，
-  /// 如果是空数组，那么修改响应式变量将不会触发任何通知
-  List<ObsNotifyMode> notifyMode;
+  late T _initialValue;
+
+  /// [value] 初始值，当执行 [reset] 重置方法时应用它
+  T get initialValue => _initialValue;
+
+  late T _oldValue;
+
+  /// 记录上一次 [value] 值
+  T get oldValue => _oldValue;
+
+  /// 更新 [oldValue] 断言变量
+  bool _oldValueAssert = false;
+
+  /// 设置 [oldValue]，默认使用当前值更新，如果不通过 .value 更新变量那么你要记得先执行此方法，
+  /// 防止依赖 [oldValue] 的代码出现异常。
+  void setOldValue([T? value]) {
+    assert(() {
+      _oldValueAssert = true;
+      return true;
+    }());
+    _oldValue = _safeValue(value ?? getValue());
+  }
+
+  /// 触发 setter 拦截时应用的通知模式，有时候你可能进行某项操作时，不希望触发所有的副作用监听，
+  /// 那么你可以在任意位置临时修改通知模式，
+  List<ObsNotifyMode> notifyMode = [ObsNotifyMode.all];
 
   /// 构造方法添加的监听函数
   late final WatchCallback<T>? _watchFun;
@@ -113,42 +138,63 @@ class Obs<T> extends RawObs<T> {
     watchFunList.remove(fun);
   }
 
-  /// 通知所有监听函数的执行、包括页面刷新
   @override
   void notify() {
-    notifyBuilders();
+    assert(() {
+      if (_oldValueAssert == true) {
+        _oldValueAssert = false;
+        return true;
+      }
+      throw '你正在手动执行 notify 副作用通知，在此之前请执行 setOldValue 方法';
+    }());
+    super.notify();
     notifyWatch();
     notifyWatchList();
-    notifyListeners();
   }
 
   /// 执行通过构造方法添加的监听函数
+  @protected
   notifyWatch() {
     if (_watchFun != null) _watchFun!(getValue(), oldValue);
   }
 
   /// 执行所有通过 [addWatch] 方法添加的监听函数
+  @protected
   notifyWatchList() {
     for (var fun in watchFunList) {
       fun(getValue(), oldValue);
     }
   }
 
-  /// 释放所有监听器，只有当你将响应式变量作为局部变量时才可能需要用到它。
-  ///
-  /// 但如果响应式只有刷新小部件的依赖，你完全不需要调用这个函数，因为当小部件被卸载时会自动移除监听函数，
-  /// 但如果添加了副作用监听函数、或者说你重度使用了该变量，其他 [Widget] 可能会添加各种隐式依赖，
-  /// 为了安全起见，建议你在 dispose 生命周期中明确销毁它，杜绝内存泄漏的风险。
+  /// 重置响应式变量到初始状态
+  void reset() {
+    value = _safeValue(_initialValue);
+  }
+
   @override
   void dispose() {
     watchFunList.clear();
     super.dispose();
   }
 
-  /// 如果将响应式变量当字符串使用，你可以省略.value
-  @override
-  String toString() {
-    return value.toString();
+  /// 安全地进行赋值，防止操作对象时出现值引用问题
+  T _safeValue(T value) {
+    if (value is Cloneable) {
+      return value.clone();
+    } else {
+      return value;
+    }
+    // if (value is List) {
+    //   return List.from(value).cast<T>();
+    // } else if (value is Set) {
+    //   return {...value} as T;
+    // } else if (value is Map) {
+    //   return {...value} as T;
+    // } else if (value is Cloneable) {
+    //   return value.clone();
+    // } else {
+    //   return value;
+    // }
   }
 }
 

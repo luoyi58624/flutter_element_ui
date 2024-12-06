@@ -10,22 +10,9 @@ VoidCallback? _tempBuilderNotifyFun;
 /// 此集合就是在 build 过程中收集多个响应式变量 builderFunList 对象
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
-/// 响应式变量的核心实现，主要负责与 [ObsBuilder] 建立关联
+/// 响应式变量的核心实现，只负责与 [ObsBuilder] 建立关联
 class RawObs<T> extends ValueNotifier<T> {
-  RawObs(this._value) : super(_value) {
-    _initialValue = _safeValue(_value);
-    setOldValue();
-  }
-
-  late T _initialValue;
-
-  /// [value] 初始值，当执行 [reset] 重置方法时应用它
-  T get initialValue => _initialValue;
-
-  late T _oldValue;
-
-  /// 记录上一次 [value] 值
-  T get oldValue => _oldValue;
+  RawObs(this._value) : super(_value);
 
   /// 响应式变量原始值
   T _value;
@@ -41,31 +28,14 @@ class RawObs<T> extends ValueNotifier<T> {
   @override
   set value(T value) {
     if (_value != value) {
-      setOldValue();
       _value = value;
-      notifyBuilders();
+      notify();
     }
   }
 
   /// [ObsBuilder] 刷新函数集合
   @protected
   final Set<VoidCallback> builderFunList = {};
-
-  /// 提供子类直接访问 [_value] 的方法，避免触发副作用函数
-  @protected
-  T getValue() => _value;
-
-  /// 提供子类直接修改 [_value] 的方法，避免触发副作用函数
-  @protected
-  void setValue(T value) {
-    _value = value;
-  }
-
-  /// 设置 [oldValue]，默认使用当前值更新，如果不通过 .value 更新变量那么你要记得先执行此方法，
-  /// 防止依赖 [oldValue] 的代码出现异常。
-  void setOldValue([T? value]) {
-    _oldValue = _safeValue(value ?? _value);
-  }
 
   /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中执行用户 builder 函数前，
   /// 会将 setState 函数设置到 [_tempBuilderNotifyFun]，然后执行 builder 函数时，
@@ -95,41 +65,37 @@ class RawObs<T> extends ValueNotifier<T> {
   }
 
   /// 通知所有 [ObsBuilder] 小部件刷新
+  @protected
   void notifyBuilders() {
     for (var fun in builderFunList) {
       fun();
     }
   }
 
-  /// 暴露 [ChangeNotifier] 中的通知方法，允许用户可以手动触发 [ChangeNotifier] 中的监听函数
-  @override
-  notifyListeners() {
-    super.notifyListeners();
+  /// 提供子类直接访问 [_value] 的方法，避免触发副作用函数
+  @protected
+  T getValue() => _value;
+
+  /// 提供子类直接修改 [_value] 的方法，避免触发副作用函数
+  @protected
+  void setValue(T value) {
+    _value = value;
   }
 
-  /// 重置响应式变量到初始状态
-  void reset() {
-    value = _safeValue(_initialValue);
-  }
-
+  /// 释放所有监听器，只有当你将响应式变量作为局部变量时才可能需要用到它。
+  ///
+  /// 但如果响应式只有刷新小部件的依赖，你完全不需要调用这个函数，因为当小部件被卸载时会自动移除监听函数，
+  /// 但如果添加了副作用监听函数、或者说你重度使用了该变量，其他 [Widget] 可能会添加各种隐式依赖，
+  /// 为了安全起见，建议你在 dispose 生命周期中明确销毁它，杜绝内存泄漏的风险。
   @override
   void dispose() {
     builderFunList.clear();
     super.dispose();
   }
 
-  /// 安全地进行赋值，防止操作对象时出现值引用问题
-  T _safeValue(T value) {
-    if (value is List) {
-      return [...value] as T;
-    } else if (value is Set) {
-      return {...value} as T;
-    } else if (value is Map) {
-      return {...value} as T;
-    } else if (value is Cloneable) {
-      return value.clone();
-    } else {
-      return value;
-    }
+  /// 如果将响应式变量当字符串使用，你可以省略.value
+  @override
+  String toString() {
+    return value.toString();
   }
 }

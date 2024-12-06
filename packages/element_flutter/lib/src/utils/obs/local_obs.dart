@@ -28,8 +28,10 @@ class LocalObs<T> extends Obs<T> {
 
   @override
   void reset() {
+    notifyMode = [ObsNotifyMode.builders];
     super.reset();
     if (cacheKey != null) sp.remove(cacheKey!);
+    notifyMode = [ObsNotifyMode.all];
   }
 
   @protected

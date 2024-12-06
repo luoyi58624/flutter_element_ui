@@ -14,10 +14,7 @@ class Example2 extends StatelessWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          content: [
-            'ElLayout 所有布局组件都只负责基础页面排版，除了颜色主题、布局信息之外不存在任何黑魔法，'
-                '内部的任何构造都由您自己决定，以下示例则是简单实现了 Material 风格样式。'
-          ],
+          content: ['ElLayout 页面排版，内部的任何构造都由您自己决定，以下示例则是简单实现了 Material 风格样式。'],
         ),
         const Gap(8),
         const CodeExample(

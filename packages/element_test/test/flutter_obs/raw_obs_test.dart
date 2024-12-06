@@ -44,8 +44,8 @@ void rawObsTest() {
     expect(ObsTest.getBuilderFunLength(count), 0);
   });
 
-  testWidgets('RawObs initialValue 对象克隆测试', (tester) async {
-    final model = RawObs(CloneModel(
+  testWidgets('Obs initialValue 对象克隆测试', (tester) async {
+    final model = Obs(CloneModel(
       name: 'hihi',
       age: 20,
     ));
@@ -53,12 +53,22 @@ void rawObsTest() {
     model.value.name = 'xx';
     expect(model.initialValue.name, 'xx');
 
-    final model2 = RawObs(CloneModel3(
+    final model2 = Obs(CloneModel3(
       name: 'hihi',
       age: 20,
     ));
 
     model2.value.name = 'xx';
     expect(model2.initialValue.name, 'hihi');
+  });
+
+  testWidgets('RawObs initialValue List 数组测试', (tester) async {
+    final list = Obs([0, 1]);
+
+    list.value[0] = -1;
+    expect(list.initialValue[0], -1);
+
+    list.value.add(2);
+    expect(list.initialValue, [-1, 1, 2]);
   });
 }
