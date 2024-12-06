@@ -51,14 +51,7 @@ class RawObs<T> extends ValueNotifier<T> {
     }
   }
 
-  /// 执行所有副作用监听函数、包括 UI 页面刷新，通过 .value 更新变量会进入 setter 方法拦截，
-  /// 从而自动执行 [notify] 通知函数，无需用户手动通知。
-  ///
-  /// 但是受 Dart 语言的限制，在操作 List、Map、自定义 Model 时，如果不进行完整对象赋值，
-  /// 那么无法被 setter 方法拦截，在这种情况下你可以手动调用 [notify] 方法通知 UI 刷新，
-  /// 但是，手动执行 [notify] 方法有 2 个注意事项：
-  /// * 如果存在依赖 [oldValue] 的代码，请记得执行 [setOldValue]
-  /// * 如果你在操作自定义 Model，你需要实现 [Cloneable] 对象克隆接口，否则 [oldValue]、[initialValue] 将出现值引用问题
+  /// 执行所有副作用监听函数、包括 UI 页面刷新
   void notify() {
     notifyBuilders();
     notifyListeners();
