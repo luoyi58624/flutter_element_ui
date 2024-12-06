@@ -18,11 +18,11 @@ class MirrorUtils {
     return classInfo.fields.where((e) => MirrorUtils._fieldFilter(e)).toList();
   }
 
-  /// 判断元素是否实现了 [ElSerializeModel] 序列化模型
+  /// 判断元素是否实现了 [SerializeModel] 序列化模型
   static bool isSerializeModel(Element? element) {
     if (element is InterfaceElement) {
       return element.allSupertypes
-          .any((e) => e.toString().contains('ElSerializeModel'));
+          .any((e) => e.toString().contains('SerializeModel'));
     }
     return false;
   }

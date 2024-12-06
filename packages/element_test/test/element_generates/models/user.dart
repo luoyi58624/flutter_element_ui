@@ -1,11 +1,12 @@
 import 'package:element_annotation/element_annotation.dart';
+import 'package:element_dart/element_dart.dart';
 
 import 'animal.dart';
 
 part '../generates/models/user.g.dart';
 
 @ElModel.all()
-class UserModel implements ElSerializeModel<UserModel> {
+class UserModel implements SerializeModel<UserModel> {
   final String? username;
   final int? age;
   final UserModel? child;

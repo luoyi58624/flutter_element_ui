@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:element_plus/element_plus.dart';
@@ -65,7 +64,8 @@ class ElLayout extends StatefulWidget {
 }
 
 @ElModel.all()
-class ElLayoutData implements ElSerializeModel<ElLayoutData> {
+class ElLayoutData
+    implements SerializeModel<ElLayoutData>, Cloneable<ElLayoutData> {
   /// 导航头位置
   double navbar;
 
@@ -85,13 +85,14 @@ class ElLayoutData implements ElSerializeModel<ElLayoutData> {
     required this.footer,
   });
 
-  factory ElLayoutData.fromJson(Map<String, dynamic>? json) => _fromJson(json);
-
   @override
   ElLayoutData fromJson(Map<String, dynamic>? json) => _fromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _toJson();
+
+  @override
+  ElLayoutData clone() => copyWith();
 
   @override
   bool operator ==(Object other) => _equals(other);

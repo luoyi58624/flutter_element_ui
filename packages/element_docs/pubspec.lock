@@ -113,6 +113,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.8"
+  dart_serialize:
+    dependency: "direct overridden"
+    description:
+      path: "../dart_serialize"
+      relative: true
+    source: path
+    version: "1.0.0"
   decimal:
     dependency: "direct main"
     description:

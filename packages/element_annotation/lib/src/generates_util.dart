@@ -111,7 +111,7 @@ class $ElJsonUtil {
   static T? $model<T>(dynamic json, String key, T model) {
     final value = _getJsonValue(json, key);
     if (value == null) return null;
-    if (model is ElSerializeModel) {
+    if (model is SerializeModel) {
       return model.fromJson(value);
     }
     return null;
@@ -119,7 +119,7 @@ class $ElJsonUtil {
 
   /// 当内置的数据转换不满足目标类型时，将统一进入自定义序列化方法，
   /// 如果用户没有提供自定义序列化，那么程序将抛出异常
-  static T? $custom<T>(dynamic json, String key, ElSerialize<T> model) {
+  static T? $custom<T>(dynamic json, String key, Serialize<T> model) {
     final value = _getJsonValue(json, key);
     if (value == null) return null;
     return model.deserialize(value);

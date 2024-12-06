@@ -2,10 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'raw_obs.dart';
 
-/// 响应式变量监听回调，接收 newValue、oldValue 参数。
-///
-/// 注意：如果监听依赖 oldValue，那么修改响应式变量时你必须通过 .value 更新，
-/// 否则 setter 方法无法拦截修改。
+/// 响应式变量监听回调，接收 newValue、oldValue 参数
 typedef WatchCallback<T> = void Function(T newValue, T oldValue);
 
 /// 响应式变量通知模式
@@ -26,35 +23,40 @@ enum ObsNotifyMode {
   listeners,
 }
 
-/// [Obs] 继承自 [ValueNotifier]，所以支持多种使用方式：
-///
-/// ```dart
-/// const count = RawObs(0);
-///
-/// ObsBuilder(
-///   builder: (context){
-///     return Text('${count.value}');
-///   },
-/// ),
-/// ListenableBuilder(
-///   listenable: count,
-///   builder: (context, child){
-///     return Text('${count.value}');
-///   },
-/// ),
-/// ValueListenableBuilder(
-///   valueListenable: count,
-///   builder: (context, value, child){
-///     return Text('$value');
-///   },
-/// ),
-/// ```
 class Obs<T> extends RawObs<T> {
-  /// 创建一个响应式变量，[ObsBuilder] 会自动收集所有依赖的响应式变量，当发生变更时会自动重建小部件。
+  /// 创建一个响应式变量，你可以在任意地方创建它，它既可以当做全局状态、也可以当做局部变量使用。
+  /// * notifyMode 通知模式，如果你想手动更新 UI 那么请传递空数组
   /// * watch 设置监听回调函数，接收 newValue、oldValue 回调
   /// * immediate 是否立即执行一次监听函数，默认false
   ///
-  /// 当作为局部变量时，[ObsBuilder] 被卸载时会自动移除依赖，大部分情况下你无需在 dispose 中手动销毁它
+  /// 在 [ObsBuilder] 中使用时会自动收集所有依赖的响应式变量：
+  /// ```dart
+  /// const count = Obs(0);
+  ///
+  /// ObsBuilder(
+  ///   builder: (context){
+  ///     return Text('${count.value}');
+  ///   },
+  /// ),
+  /// ```
+  ///
+  /// 由于 [RawObs] 继承自 [ValueNotifier]，所以它也兼容以下小部件：
+  /// ```dart
+  /// const count = Obs(0);
+  ///
+  /// ListenableBuilder(
+  ///   listenable: count,
+  ///   builder: (context, child){
+  ///     return Text('${count.value}');
+  ///   },
+  /// ),
+  /// ValueListenableBuilder(
+  ///   valueListenable: count,
+  ///   builder: (context, value, child){
+  ///     return Text('$value');
+  ///   },
+  /// ),
+  /// ```
   Obs(
     super.value, {
     this.notifyMode = const [ObsNotifyMode.all],
@@ -80,7 +82,7 @@ class Obs<T> extends RawObs<T> {
   @override
   set value(T newValue) {
     if (getValue() != newValue) {
-      setOldValue(getValue());
+      setOldValue();
       setValue(newValue);
       if (notifyMode.isNotEmpty) {
         if (notifyMode.contains(ObsNotifyMode.all)) {
@@ -130,12 +132,6 @@ class Obs<T> extends RawObs<T> {
     for (var fun in watchFunList) {
       fun(getValue(), oldValue);
     }
-  }
-
-  /// 暴露 [ChangeNotifier] 中的通知方法，允许用户可以手动触发 [ChangeNotifier] 中的监听函数
-  @override
-  notifyListeners() {
-    super.notifyListeners();
   }
 
   /// 释放所有监听器，只有当你将响应式变量作为局部变量时才可能需要用到它。

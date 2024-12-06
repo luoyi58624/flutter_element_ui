@@ -1,3 +1,4 @@
+import 'package:dart_serialize/dart_serialize.dart';
 import 'package:flutter/widgets.dart';
 
 part 'builder.dart';
@@ -9,11 +10,11 @@ VoidCallback? _tempBuilderNotifyFun;
 /// 此集合就是在 build 过程中收集多个响应式变量 builderFunList 对象
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
-/// 响应式变量的核心实现，它只负责与 [ObsBuilder] 建立关联
+/// 响应式变量的核心实现，主要负责与 [ObsBuilder] 建立关联
 class RawObs<T> extends ValueNotifier<T> {
   RawObs(this._value) : super(_value) {
-    this._initialValue = _value;
-    this._oldValue = _value;
+    _initialValue = _safeValue(_value);
+    setOldValue();
   }
 
   late T _initialValue;
@@ -40,7 +41,7 @@ class RawObs<T> extends ValueNotifier<T> {
   @override
   set value(T value) {
     if (_value != value) {
-      _oldValue = _value;
+      setOldValue();
       _value = value;
       notifyBuilders();
     }
@@ -60,10 +61,10 @@ class RawObs<T> extends ValueNotifier<T> {
     _value = value;
   }
 
-  /// 提供子类直接修改 [_oldValue] 的方法
-  @protected
-  void setOldValue(T value) {
-    _oldValue = value;
+  /// 设置 [oldValue]，默认使用当前值更新，如果不通过 .value 更新变量那么你要记得先执行此方法，
+  /// 防止依赖 [oldValue] 的代码出现异常。
+  void setOldValue([T? value]) {
+    _oldValue = _safeValue(value ?? _value);
   }
 
   /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中执行用户 builder 函数前，
@@ -80,7 +81,14 @@ class RawObs<T> extends ValueNotifier<T> {
     }
   }
 
-  /// 通知响应式变量所有监听函数
+  /// 执行所有副作用监听函数、包括 UI 页面刷新，通过 .value 更新变量会进入 setter 方法拦截，
+  /// 从而自动执行 [notify] 通知函数，无需用户手动通知。
+  ///
+  /// 但是受 Dart 语言的限制，在操作 List、Map、自定义 Model 时，如果不进行完整对象赋值，
+  /// 那么无法被 setter 方法拦截，在这种情况下你可以手动调用 [notify] 方法通知 UI 刷新，
+  /// 但是，手动执行 [notify] 方法有 2 个注意事项：
+  /// * 如果存在依赖 [oldValue] 的代码，请记得执行 [setOldValue]
+  /// * 如果你在操作自定义 Model，你需要实现 [Cloneable] 对象克隆接口，否则 [oldValue]、[initialValue] 将出现值引用问题
   void notify() {
     notifyBuilders();
     notifyListeners();
@@ -93,14 +101,35 @@ class RawObs<T> extends ValueNotifier<T> {
     }
   }
 
+  /// 暴露 [ChangeNotifier] 中的通知方法，允许用户可以手动触发 [ChangeNotifier] 中的监听函数
+  @override
+  notifyListeners() {
+    super.notifyListeners();
+  }
+
   /// 重置响应式变量到初始状态
   void reset() {
-    value = _initialValue;
+    value = _safeValue(_initialValue);
   }
 
   @override
   void dispose() {
     builderFunList.clear();
     super.dispose();
+  }
+
+  /// 安全地进行赋值，防止操作对象时出现值引用问题
+  T _safeValue(T value) {
+    if (value is List) {
+      return [...value] as T;
+    } else if (value is Set) {
+      return {...value} as T;
+    } else if (value is Map) {
+      return {...value} as T;
+    } else if (value is Cloneable) {
+      return value.clone();
+    } else {
+      return value;
+    }
   }
 }

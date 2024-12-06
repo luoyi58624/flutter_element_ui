@@ -32,4 +32,21 @@ extension ConfigDataExtension on ConfigData {
       themeCurve: other.themeCurve,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ConfigData &&
+          runtimeType == other.runtimeType &&
+          baseHeight == other.baseHeight &&
+          radius == other.radius &&
+          themeDuration == other.themeDuration &&
+          themeCurve == other.themeCurve;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      baseHeight.hashCode ^
+      radius.hashCode ^
+      themeDuration.hashCode ^
+      themeCurve.hashCode;
 }

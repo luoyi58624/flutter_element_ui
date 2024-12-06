@@ -52,7 +52,6 @@ class _Example extends HookWidget {
             data: ElSplitResizerThemeData(
               size: 1,
               activeColor: context.elTheme.primary,
-              rootOverlay: false,
             ),
             // 使用 Ring 在布局周围绘制边框
             child: ElRing(

@@ -7,9 +7,9 @@ class ElBody extends StatefulWidget {
     super.key,
     this.child,
     this.minWidth,
-    this.minHeight = 0.0,
+    this.minHeight = 50.0,
   })  : assert(minWidth == null || minWidth >= 0.0),
-        assert(minHeight >= 0.0);
+        assert(minHeight >= 50.0);
 
   final Widget? child;
 

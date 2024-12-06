@@ -42,9 +42,9 @@ void elementDartTest() {
 
   group('正则测试', () {
     test('demo', () {
-      String str = 'UserModel<T>?';
-      final result = str.replaceAll(RegExp(r'(<.*>)|\?'), '');
-      i(result);
+      // String str = 'UserModel<T>?';
+      // final result = str.replaceAll(RegExp(r'(<.*>)|\?'), '');
+      // i(result);
     });
 
     test('提取 html 标签中的字符', () {

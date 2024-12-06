@@ -134,10 +134,11 @@ class _MainAppState extends State<MainApp> {
               enabled: GlobalState.fps.value,
               child: MaterialApp.router(
                 routerConfig: router,
-                debugShowCheckedModeBanner: false,
                 showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
                 showPerformanceOverlay:
                     GlobalState.showPerformanceOverlay.value,
+                debugShowCheckedModeBanner:
+                    GlobalState.debugShowCheckedModeBanner.value,
                 themeAnimationDuration: Duration.zero,
                 theme: ThemeUtil.buildMaterialTheme(
                   context,

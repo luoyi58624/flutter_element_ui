@@ -7,6 +7,8 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
+  dart_serialize:
+    path: ../dart_serialize
   element_dart:
     path: ../element_dart
   meta: ^1.12.0

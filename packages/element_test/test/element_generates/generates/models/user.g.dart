@@ -9,7 +9,7 @@ part of '../../models/user.dart';
 /// 生成的全局默认实体类对象
 const UserModel $userModel = UserModel();
 
-/// 生成的 fromJson 方法，将 Map 对象转成实体类
+/// 生成 fromJson 方法，将 Map 对象转成实体类
 UserModel _fromJson(Map<String, dynamic>? json) {
   if (json == null) return $userModel;
   return UserModel(
@@ -23,7 +23,7 @@ UserModel _fromJson(Map<String, dynamic>? json) {
 }
 
 extension UserModelExtension on UserModel {
-  /// 生成的 toJson 方法，将实体类转成 Map 对象
+  /// 生成 toJson 方法，将实体类转成 Map 对象
   Map<String, dynamic> _toJson() {
     return {
       'username': username,
@@ -67,8 +67,7 @@ extension UserModelExtension on UserModel {
     );
   }
 
-  /// 生成的对象比较方法，它只支持 String、num、int、double、bool、List、Set、Map、Model 等类型，
-  /// 如果你的实体类还包含其他数据类型，那么比较方法将失去作用
+  /// 生成 equals 对象比较方法
   bool _equals(Object other) =>
       identical(this, other) ||
       other is UserModel &&
@@ -80,7 +79,7 @@ extension UserModelExtension on UserModel {
           $ElJsonUtil.eqMap(animalMap, other.animalMap) &&
           $ElJsonUtil.eqMap(mapField, other.mapField);
 
-  /// 生成的 hashCode 方法
+  /// 生成 hashCode 方法
   int get _hashCode =>
       username.hashCode ^
       age.hashCode ^
@@ -89,7 +88,7 @@ extension UserModelExtension on UserModel {
       animalMap.hashCode ^
       mapField.hashCode;
 
-  /// 生成的 toString 方法
+  /// 生成 toString 方法
   String _toString() {
     return 'UserModel{\n  username: $username,\n  age: $age,\n  child: $child,\n  children: $children,\n  animalMap: $animalMap,\n  mapField: $mapField\n}';
   }

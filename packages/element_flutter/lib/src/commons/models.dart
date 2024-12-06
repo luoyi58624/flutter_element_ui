@@ -2,7 +2,7 @@ import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 
 /// 包含 [label]、[value] 简单数据模型
-class LabelModel implements ElSerializeModel<LabelModel> {
+class LabelModel implements SerializeModel<LabelModel> {
   final String label;
   final String value;
 
@@ -30,7 +30,7 @@ class LabelModel implements ElSerializeModel<LabelModel> {
 }
 
 /// 包含过期时间数据模型
-class ExpireDataModel implements ElSerializeModel<ExpireDataModel> {
+class ExpireDataModel implements SerializeModel<ExpireDataModel> {
   /// 存储的数据
   dynamic data;
 

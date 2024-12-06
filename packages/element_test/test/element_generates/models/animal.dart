@@ -1,9 +1,10 @@
 import 'package:element_annotation/element_annotation.dart';
+import 'package:element_dart/element_dart.dart';
 
 part '../generates/models/animal.g.dart';
 
 @ElModel.all()
-class AnimalModel implements ElSerializeModel {
+class AnimalModel implements SerializeModel {
   final String? name;
   final String? type;
 

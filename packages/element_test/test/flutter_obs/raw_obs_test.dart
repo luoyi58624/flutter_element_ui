@@ -3,9 +3,10 @@ import 'package:flutter_obs/src/raw_obs.dart';
 import 'package:flutter_obs/src/obs.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../element_generates/models/clone_model.dart';
 import 'common.dart';
 
-void baseObsTest() {
+void rawObsTest() {
   testWidgets('测试 RawObs', (tester) async {
     final count = RawObs(0);
 
@@ -41,5 +42,23 @@ void baseObsTest() {
     await tester.tap(find.text('back'));
     await tester.pumpAndSettle();
     expect(ObsTest.getBuilderFunLength(count), 0);
+  });
+
+  testWidgets('RawObs initialValue 对象克隆测试', (tester) async {
+    final model = RawObs(CloneModel(
+      name: 'hihi',
+      age: 20,
+    ));
+
+    model.value.name = 'xx';
+    expect(model.initialValue.name, 'xx');
+
+    final model2 = RawObs(CloneModel3(
+      name: 'hihi',
+      age: 20,
+    ));
+
+    model2.value.name = 'xx';
+    expect(model2.initialValue.name, 'hihi');
   });
 }

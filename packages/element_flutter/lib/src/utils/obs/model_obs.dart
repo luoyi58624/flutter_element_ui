@@ -3,9 +3,8 @@ import 'dart:convert';
 import 'package:element_annotation/element_annotation.dart';
 import 'package:element_flutter/element_flutter.dart';
 
-class ModelObs<T extends ElSerializeModel> extends LocalObs<T> {
-  /// 支持本地缓存的响应式变量，它基于 shared_preferences 实现持久化，
-  /// 如果是局部变量，请记得在 dispose 生命周期中销毁它
+class ModelObs<T extends SerializeModel> extends LocalObs<T> {
+  /// 继承自 [LocalObs]，[value] 只需要实现 [SerializeModel] 接口即可进行持久化
   ModelObs(
     super.value, {
     super.cacheKey,

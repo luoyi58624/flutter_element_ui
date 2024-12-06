@@ -61,6 +61,9 @@ class GlobalState {
   /// 开启性能视图
   static final showPerformanceOverlay = Obs(false);
 
+  /// 显示 debug 标识
+  static final debugShowCheckedModeBanner = LocalObs(true);
+
   /// 显示语义调式器
   static final showSemanticsDebugger = Obs(false);
 

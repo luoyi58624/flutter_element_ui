@@ -3,60 +3,18 @@ part of 'index.dart';
 class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
   late ElLayoutThemeData _themeData;
-
-  /// 布局信息
-  late final _layoutData = ModelObs(
-    ElLayoutData(
-      navbar: widget.navbar?.height ?? 0.0,
-      sidebar: widget.sidebar?.width ?? 0.0,
-      rightSidebar: widget.rightSidebar?.width ?? 0.0,
-      footer: widget.footer?.height ?? 0.0,
-    ),
-    cacheKey: widget.cacheKey,
-  );
-
+  late final ModelObs<ElLayoutData> _layoutData; // 布局信息对象，对象会进行持久化
   ElLayoutData get layoutData => _layoutData.value;
+
+  double _navbar = 0.0;
+  double _sidebar = 0.0;
+  double _rightSidebar = 0.0;
+  double _footer = 0.0;
 
   Size get bodySize => Size(
         widget.body.minWidth ?? ElApp.of(context).responsive.xs,
         widget.body.minHeight,
       );
-
-  double get navbarHeight => min(
-        max(layoutData.navbar, widget.navbar!.minHeight),
-        widget.navbar!.maxHeight ?? _constraints.maxHeight,
-      );
-
-  /// 对左边侧边栏宽度施加限制，计算出符合所有条件后的最终宽度
-  double get sidebarWidth {
-    if (widget.sidebar == null) return 0.0;
-    if (layoutData.sidebar < widget.sidebar!.minWidth) {
-      return widget.sidebar!.minWidth;
-    }
-    final maxWidth =
-        _constraints.maxWidth - layoutData.rightSidebar - bodySize.width;
-    if (widget.sidebar!.maxWidth != null) {
-      return min(layoutData.sidebar, min(widget.sidebar!.maxWidth!, maxWidth));
-    } else {
-      return min(layoutData.sidebar, maxWidth);
-    }
-  }
-
-  /// 对右边侧边栏宽度施加限制，计算出符合所有条件后的最终宽度
-  double get rightSidebarWidth {
-    if (widget.rightSidebar == null) return 0.0;
-    if (layoutData.rightSidebar < widget.rightSidebar!.minWidth) {
-      return widget.rightSidebar!.minWidth;
-    }
-    final maxWidth =
-        _constraints.maxWidth - layoutData.sidebar - bodySize.width;
-    if (widget.rightSidebar!.maxWidth != null) {
-      return min(layoutData.rightSidebar,
-          min(widget.rightSidebar!.maxWidth!, maxWidth));
-    } else {
-      return min(layoutData.rightSidebar, maxWidth);
-    }
-  }
 
   double get footerHeight => min(
         max(layoutData.footer, widget.footer!.minHeight),
@@ -64,56 +22,122 @@ class ElLayoutState extends State<ElLayout> {
       );
 
   void _updateNavbar(double value) {
-    _layoutData.value = _layoutData.value.copyWith(
-      navbar: _layoutData.value.navbar + value,
-    );
-  }
+    _navbar += value;
+    late double result;
 
-  void _updateEndNavbar() {
-    _layoutData.value = _layoutData.value.copyWith(
-      navbar: navbarHeight,
-    );
+    if (_navbar < widget.navbar!.minHeight) {
+      result = widget.navbar!.minHeight;
+    } else {
+      final maxHeight =
+          _constraints.maxHeight - layoutData.footer - bodySize.height;
+      if (widget.navbar!.maxHeight != null) {
+        result = min(_navbar, min(widget.navbar!.maxHeight!, maxHeight));
+      } else {
+        result = min(_navbar, maxHeight);
+      }
+    }
+    if (_layoutData.value.navbar != result) {
+      _layoutData.setOldValue();
+      _layoutData.value.navbar = result;
+      _layoutData.notify();
+    }
   }
 
   void _updateSidebar(double value) {
-    _layoutData.value = _layoutData.value.copyWith(
-      sidebar: _layoutData.value.sidebar + value,
-    );
-  }
+    _sidebar += value;
+    late double result;
 
-  void _updateEndSidebar() {
-    _layoutData.value = _layoutData.value.copyWith(
-      sidebar: sidebarWidth,
-    );
+    if (_sidebar < widget.sidebar!.minWidth) {
+      result = widget.sidebar!.minWidth;
+    } else {
+      final maxWidth =
+          _constraints.maxWidth - layoutData.rightSidebar - bodySize.width;
+      if (widget.sidebar!.maxWidth != null) {
+        result = min(_sidebar, min(widget.sidebar!.maxWidth!, maxWidth));
+      } else {
+        result = min(_sidebar, maxWidth);
+      }
+    }
+    if (_layoutData.value.sidebar != result) {
+      _layoutData.setOldValue();
+      _layoutData.value.sidebar = result;
+      _layoutData.notify();
+    }
   }
 
   void _updateRightSidebar(double value) {
-    _layoutData.value = _layoutData.value.copyWith(
-      rightSidebar: _layoutData.value.rightSidebar - value,
-    );
-  }
+    _rightSidebar -= value;
 
-  void _updateEndRightSidebar() {
-    _layoutData.value = _layoutData.value.copyWith(
-      rightSidebar: rightSidebarWidth,
-    );
+    late double result;
+    if (_rightSidebar < widget.rightSidebar!.minWidth) {
+      result = widget.rightSidebar!.minWidth;
+    } else {
+      final maxWidth =
+          _constraints.maxWidth - layoutData.sidebar - bodySize.width;
+      if (widget.rightSidebar!.maxWidth != null) {
+        result = min(
+          _rightSidebar,
+          min(widget.rightSidebar!.maxWidth!, maxWidth),
+        );
+      } else {
+        result = min(_rightSidebar, maxWidth);
+      }
+    }
+    if (_layoutData.value.rightSidebar != result) {
+      _layoutData.setOldValue();
+      _layoutData.value.rightSidebar = result;
+      _layoutData.notify();
+    }
   }
 
   void _updateFooter(double value) {
-    _layoutData.value = _layoutData.value.copyWith(
-      footer: _layoutData.value.footer - value,
-    );
-  }
+    _footer -= value;
+    late double result;
 
-  void _updateEndFooter() {
-    _layoutData.value = _layoutData.value.copyWith(
-      footer: footerHeight,
-    );
+    if (_footer < widget.footer!.minHeight) {
+      result = widget.footer!.minHeight;
+    } else {
+      final maxHeight =
+          _constraints.maxHeight - layoutData.navbar - bodySize.height;
+      if (widget.footer!.maxHeight != null) {
+        result = min(_footer, min(widget.footer!.maxHeight!, maxHeight));
+      } else {
+        result = min(_footer, maxHeight);
+      }
+    }
+    if (_layoutData.value.footer != result) {
+      _layoutData.setOldValue();
+      _layoutData.value.footer = result;
+      _layoutData.notify();
+    }
   }
 
   /// 重置布局信息，同时清除本地缓存
   void resetLayout() {
     _layoutData.reset();
+    _navbar = widget.navbar?.height ?? 0.0;
+    _sidebar = widget.sidebar?.width ?? 0.0;
+    _rightSidebar = widget.rightSidebar?.width ?? 0.0;
+    _footer = widget.footer?.height ?? 0.0;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _layoutData = ModelObs(
+      ElLayoutData(
+        navbar: widget.navbar?.height ?? 0.0,
+        sidebar: widget.sidebar?.width ?? 0.0,
+        rightSidebar: widget.rightSidebar?.width ?? 0.0,
+        footer: widget.footer?.height ?? 0.0,
+      ),
+      cacheKey: widget.cacheKey,
+    );
+
+    _navbar = layoutData.navbar;
+    _sidebar = layoutData.sidebar;
+    _rightSidebar = layoutData.rightSidebar;
+    _footer = layoutData.footer;
   }
 
   @override
@@ -180,7 +204,7 @@ class ElLayoutState extends State<ElLayout> {
           Positioned(
             top: layoutData.navbar,
             bottom: 0,
-            left: sidebarWidth,
+            left: layoutData.sidebar,
             right: layoutData.rightSidebar,
             child: widget.body,
           ),
@@ -199,7 +223,7 @@ class ElLayoutState extends State<ElLayout> {
               child: ColoredBox(
                 color: _themeData.sidebarColor!,
                 child: SizedBox(
-                  width: sidebarWidth,
+                  width: layoutData.sidebar,
                   child: widget.sidebar!,
                 ),
               ),
@@ -210,14 +234,16 @@ class ElLayoutState extends State<ElLayout> {
               Positioned(
                 top: top,
                 bottom: bottom,
-                left: sidebarWidth,
+                left: layoutData.sidebar,
                 child: ElSplitResizerTheme(
                   data: const ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
                   ),
                   child: ElSplitResizer(
                     onChanged: _updateSidebar,
-                    onEnd: _updateEndSidebar,
+                    onEnd: () {
+                      _sidebar = _layoutData.value.sidebar;
+                    },
                   ),
                 ),
               ),
@@ -248,14 +274,16 @@ class ElLayoutState extends State<ElLayout> {
               Positioned(
                 top: top,
                 bottom: bottom,
-                right: rightSidebarWidth,
+                right: layoutData.rightSidebar,
                 child: ElSplitResizerTheme(
                   data: const ElSplitResizerThemeData(
                     position: ElSplitPosition.right,
                   ),
                   child: ElSplitResizer(
                     onChanged: _updateRightSidebar,
-                    onEnd: _updateEndRightSidebar,
+                    onEnd: () {
+                      _rightSidebar = _layoutData.value.rightSidebar;
+                    },
                   ),
                 ),
               ),
@@ -264,7 +292,7 @@ class ElLayoutState extends State<ElLayout> {
         }
         if (widget.navbar != null) {
           final left = widget.sidebar?.expandedTop == true
-              ? sidebarWidth + splitResizerThemeData.size!
+              ? layoutData.sidebar + splitResizerThemeData.size!
               : 0.0;
           final right = widget.rightSidebar?.expandedTop == true
               ? layoutData.rightSidebar + splitResizerThemeData.size!
@@ -285,7 +313,7 @@ class ElLayoutState extends State<ElLayout> {
           if (widget.navbar!.enabledDrag) {
             children.add(
               Positioned(
-                top: navbarHeight,
+                top: layoutData.navbar,
                 left: left,
                 right: right,
                 child: ElSplitResizerTheme(
@@ -295,7 +323,9 @@ class ElLayoutState extends State<ElLayout> {
                   ),
                   child: ElSplitResizer(
                     onChanged: _updateNavbar,
-                    onEnd: _updateEndNavbar,
+                    onEnd: () {
+                      _navbar = _layoutData.value.navbar;
+                    },
                   ),
                 ),
               ),
@@ -304,7 +334,7 @@ class ElLayoutState extends State<ElLayout> {
         }
         if (widget.footer != null) {
           final left = widget.sidebar?.expandedBottom == true
-              ? sidebarWidth + splitResizerThemeData.size!
+              ? layoutData.sidebar + splitResizerThemeData.size!
               : 0.0;
           final right = widget.rightSidebar?.expandedBottom == true
               ? layoutData.rightSidebar + splitResizerThemeData.size!
@@ -336,7 +366,9 @@ class ElLayoutState extends State<ElLayout> {
                   ),
                   child: ElSplitResizer(
                     onChanged: _updateFooter,
-                    onEnd: _updateEndFooter,
+                    onEnd: () {
+                      _footer = _layoutData.value.footer;
+                    },
                   ),
                 ),
               ),

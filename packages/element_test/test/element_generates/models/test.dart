@@ -7,7 +7,7 @@ import 'user.dart';
 part '../generates/models/test.g.dart';
 
 @ElModel.all(toJsonUnderline: true)
-class TestModel implements ElSerializeModel<TestModel> {
+class TestModel implements SerializeModel<TestModel> {
   @ElField(jsonKey: 'custom_string')
   final String stringField;
   final String? stringField2;
