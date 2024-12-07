@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_obs/src/raw_obs.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 import 'package:flutter_obs/src/obs.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -63,7 +63,7 @@ void rawObsTest() {
   });
 
   testWidgets('RawObs initialValue List 数组测试', (tester) async {
-    final list = Obs([0, 1]);
+    final list = ImmutableObs([0, 1]);
 
     list.value[0] = -1;
     expect(list.initialValue[0], -1);

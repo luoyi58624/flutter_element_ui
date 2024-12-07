@@ -1,36 +1,17 @@
 import 'package:dart_serialize/dart_serialize.dart';
 import 'package:flutter/widgets.dart';
 
-import 'raw_obs.dart';
+part 'builder.dart';
 
-/// 响应式变量监听回调，接收 newValue、oldValue 参数
-typedef WatchCallback<T> = void Function(T newValue, T oldValue);
+/// 临时 ObsBuilder 小部件重建函数
+VoidCallback? _tempBuilderNotifyFun;
 
-/// 响应式变量通知模式
-enum ObsNotifyMode {
-  /// 触发所有通知
-  all,
+/// ObsBuilder 内部允许存在多个 Obs 变量，
+/// 此集合就是在 build 过程中收集多个响应式变量 builderFunList 对象
+Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
-  /// 触发 [ObsBuilder] 自动重建
-  builders,
-
-  /// 触发构造方法绑定的 watch 监听函数
-  watch,
-
-  /// 触发通过 addWatch 添加的所有监听函数
-  watchList,
-
-  /// 触发 [ChangeNotifier] 中的所有监听函数
-  listeners,
-}
-
-class Obs<T> extends RawObs<T> {
-  /// 创建一个响应式变量，你可以在任意地方创建它，它既可以当做全局状态、也可以当做局部变量使用。
-  /// * notifyMode 通知模式，如果你想手动更新 UI 那么请传递空数组
-  /// * watch 设置监听回调函数，接收 newValue、oldValue 回调
-  /// * immediate 是否立即执行一次监听函数，默认false
-  ///
-  /// 在 [ObsBuilder] 中使用时会自动收集所有依赖的响应式变量：
+class Obs<T> extends ValueNotifier<T> {
+  /// 创建一个响应式变量，在 [ObsBuilder] 中使用时会自动收集所有依赖，当更新时会自动重建 UI：
   /// ```dart
   /// const count = Obs(0);
   ///
@@ -41,7 +22,7 @@ class Obs<T> extends RawObs<T> {
   /// ),
   /// ```
   ///
-  /// 由于 [RawObs] 继承自 [ValueNotifier]，所以它也兼容以下小部件：
+  /// 由于 [Obs] 继承 [ValueNotifier]，所以它也兼容以下小部件：
   /// ```dart
   /// const count = Obs(0);
   ///
@@ -58,162 +39,83 @@ class Obs<T> extends RawObs<T> {
   ///   },
   /// ),
   /// ```
-  Obs(
-    super.value, {
-    WatchCallback<T>? watch,
-    bool immediate = false,
-  }) {
-    _initialValue = _safeValue(getValue());
-    _oldValue = _initialValue;
-    this._watchFun = watch;
-    if (immediate) notifyWatch();
-  }
+  Obs(this._value) : super(_value);
 
-  late T _initialValue;
+  /// 响应式变量原始值
+  T _value;
 
-  /// [value] 初始值，当执行 [reset] 重置方法时应用它
-  T get initialValue => _initialValue;
-
-  late T _oldValue;
-
-  /// 记录上一次 [value] 值
-  T get oldValue => _oldValue;
-
-  /// 更新 [oldValue] 断言变量
-  bool _oldValueAssert = false;
-
-  /// 设置 [oldValue]，默认使用当前值更新，如果不通过 .value 更新变量那么你要记得先执行此方法，
-  /// 防止依赖 [oldValue] 的代码出现异常。
-  void setOldValue([T? value]) {
-    assert(() {
-      _oldValueAssert = true;
-      return true;
-    }());
-    _oldValue = _safeValue(value ?? getValue());
-  }
-
-  /// 触发 setter 拦截时应用的通知模式，有时候你可能进行某项操作时，不希望触发所有的副作用监听，
-  /// 那么你可以在任意位置临时修改通知模式，
-  List<ObsNotifyMode> notifyMode = [ObsNotifyMode.all];
-
-  /// 构造方法添加的监听函数
-  late final WatchCallback<T>? _watchFun;
-
-  /// 用户手动添加的监听函数集合
-  @protected
-  final List<WatchCallback<T>> watchFunList = [];
-
-  /// 拦截 setter 方法，根据通知策略触发监听函数
+  /// 当小部件被 [ObsBuilder] 包裹时，它会追踪内部的响应式变量
   @override
-  set value(T newValue) {
-    if (getValue() != newValue) {
-      setOldValue();
-      setValue(newValue);
-      if (notifyMode.isNotEmpty) {
-        if (notifyMode.contains(ObsNotifyMode.all)) {
-          notify();
-        } else {
-          if (notifyMode.contains(ObsNotifyMode.builders)) notifyBuilders();
-          if (notifyMode.contains(ObsNotifyMode.watch)) notifyWatch();
-          if (notifyMode.contains(ObsNotifyMode.watchList)) {
-            notifyWatchList();
-          }
-          if (notifyMode.contains(ObsNotifyMode.listeners)) {
-            notifyListeners();
-          }
-        }
+  T get value {
+    bindBuilders();
+    return _value;
+  }
+
+  /// 拦截 setter 方法，当响应式变量发生更改时触发所有 [ObsBuilder] 刷新
+  @override
+  set value(T value) {
+    if (_value != value) {
+      _value = value;
+      notify();
+    }
+  }
+
+  /// [ObsBuilder] 刷新函数集合
+  @protected
+  final Set<VoidCallback> builderFunList = {};
+
+  /// 将响应式变量与 [ObsBuilder] 进行绑定，在 [ObsBuilder] build 方法中执行用户 builder 函数前，
+  /// 会将 setState 函数设置到 [_tempBuilderNotifyFun]，然后执行 builder 函数时，
+  /// 如果代码中存在 .value 的响应式变量，则会触发 getter 函数，而 getter 函数将会执行 [bindBuilders] 建立绑定关系。
+  @protected
+  void bindBuilders() {
+    if (_tempBuilderNotifyFun != null) {
+      final fun = _tempBuilderNotifyFun!;
+      if (!builderFunList.contains(fun)) {
+        builderFunList.add(fun);
+        _tempBuilderObsList.add(builderFunList);
       }
     }
   }
 
-  /// 添加监听函数，接收 newValue、oldValue 两个参数
-  void addWatch(WatchCallback<T> fun) {
-    if (watchFunList.contains(fun) == false) {
-      watchFunList.add(fun);
-    }
-  }
-
-  /// 移除监听函数
-  void removeWatch(WatchCallback<T> fun) {
-    watchFunList.remove(fun);
-  }
-
-  /// 通知所有副作用、包括 UI 刷新。
-  ///
-  /// 受 Dart 语言的限制，在操作 List、Map、自定义 Model 时，如果不进行完整对象赋值，
-  /// 那么无法被 setter 方法拦截，在这种情况下你可以手动调用 [notify] 方法通知 UI 刷新，
-  /// 但是，手动执行 [notify] 方法有 2 个注意事项：
-  /// * 如果存在依赖 [oldValue] 的代码，请记得执行 [setOldValue]
-  /// * 如果你在操作自定义 Model，你需要实现 [Cloneable] 对象克隆接口，否则 [oldValue]、[initialValue] 将出现值引用问题
-  @override
+  /// 执行所有副作用监听函数、包括 UI 页面刷新
   void notify() {
-    assert(() {
-      if (_oldValueAssert == true) {
-        _oldValueAssert = false;
-        return true;
-      }
-      throw '你正在手动执行 notify 副作用通知，在此之前请执行 setOldValue 方法';
-    }());
-    super.notify();
-    notifyWatch();
-    notifyWatchList();
+    notifyBuilders();
+    notifyListeners();
   }
 
-  /// 执行通过构造方法添加的监听函数
+  /// 通知所有 [ObsBuilder] 小部件刷新
   @protected
-  notifyWatch() {
-    if (_watchFun != null) _watchFun!(getValue(), oldValue);
-  }
-
-  /// 执行所有通过 [addWatch] 方法添加的监听函数
-  @protected
-  notifyWatchList() {
-    for (var fun in watchFunList) {
-      fun(getValue(), oldValue);
+  void notifyBuilders() {
+    for (var fun in builderFunList) {
+      fun();
     }
   }
 
-  /// 重置响应式变量到初始状态
-  void reset() {
-    value = _safeValue(_initialValue);
+  /// 提供子类直接访问 [_value] 的方法，避免触发副作用函数
+  @protected
+  T getValue() => _value;
+
+  /// 提供子类直接修改 [_value] 的方法，避免触发副作用函数
+  @protected
+  void setValue(T value) {
+    _value = value;
   }
 
+  /// 释放所有监听器，只有当你将响应式变量作为局部变量时才可能需要用到它。
+  ///
+  /// 但如果响应式只有刷新小部件的依赖，你完全不需要调用这个函数，因为当小部件被卸载时会自动移除监听函数，
+  /// 但如果添加了副作用监听函数、或者说你重度使用了该变量，其他 [Widget] 可能会添加各种隐式依赖，
+  /// 为了安全起见，建议你在 dispose 生命周期中明确销毁它，杜绝内存泄漏的风险。
   @override
   void dispose() {
-    watchFunList.clear();
+    builderFunList.clear();
     super.dispose();
   }
 
-  /// 安全地进行赋值，防止操作对象时出现值引用问题
-  T _safeValue(T value) {
-    if (value is Cloneable) {
-      return value.clone();
-    } else {
-      return value;
-    }
-    // if (value is List) {
-    //   return List.from(value).cast<T>();
-    // } else if (value is Set) {
-    //   return {...value} as T;
-    // } else if (value is Map) {
-    //   return {...value} as T;
-    // } else if (value is Cloneable) {
-    //   return value.clone();
-    // } else {
-    //   return value;
-    // }
-  }
-}
-
-/// 响应式变量测试工具类
-class ObsTest extends Obs {
-  ObsTest._(super.value);
-
-  static int getBuilderFunLength<T>(RawObs<T> obs) {
-    return obs.builderFunList.length;
-  }
-
-  static int getWatchFunLength<T>(Obs<T> obs) {
-    return obs.watchFunList.length;
+  /// 如果将响应式变量当字符串使用，你可以省略.value
+  @override
+  String toString() {
+    return value.toString();
   }
 }

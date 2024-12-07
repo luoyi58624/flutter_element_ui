@@ -1,4 +1,6 @@
 library flutter_obs;
 
-export 'src/raw_obs.dart';
-export 'src/obs.dart' hide ObsTest;
+export 'src/obs.dart';
+export 'src/immutable_obs.dart';
+export 'src/watch_obs.dart';
+
