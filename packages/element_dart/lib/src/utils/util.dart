@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:archive/archive.dart';
@@ -445,6 +446,58 @@ class DartUtil {
   }) {
     final l = values.where((e) => e != null).length;
     return allowAllNull ? l == 0 || l == 1 : l == 1;
+  }
+
+  static final List<String> _throttleKeyList = [];
+
+  /// 创建一个节流函数，忽略指定时间内的多次调用
+  /// * wait 节流时间(毫秒)
+  /// * key 如果是匿名函数，请添加一个标识符，否则无法识别是否是同一个函数执行
+  static dynamic throttle(
+      Function fun,
+      int wait, {
+        String? key,
+      }) {
+    assert(wait > 0);
+    key ??= fun.hashCode.toString();
+
+    return () {
+      if (_throttleKeyList.contains(key)) return;
+      fun();
+      _throttleKeyList.add(key!);
+      Timer(Duration(milliseconds: wait), () {
+        _throttleKeyList.remove(key);
+      });
+    };
+  }
+
+  static final Map<String, Timer> _debounceTimerMap = {};
+
+  /// 创建一个防抖函数，如果在指定时间内多次执行函数，那么会忽略掉它，并重置等待时间，当等待时间结束后再执行函数
+  /// * wait 防抖时间(毫秒)
+  /// * key 如果是匿名函数，请添加一个标识符，否则无法识别是否是同一个函数执行
+  static dynamic debounce(
+      Function fun,
+      int wait, {
+        String? key,
+      }) {
+    assert(wait > 0);
+    key ??= fun.hashCode.toString();
+    return () {
+      if (_debounceTimerMap.containsKey(key)) {
+        _debounceTimerMap[key!]!.cancel();
+        _debounceTimerMap[key] = Timer(Duration(milliseconds: wait), () {
+          fun();
+          _debounceTimerMap.remove(key);
+        });
+        return;
+      } else {
+        _debounceTimerMap[key!] = Timer(Duration(milliseconds: wait), () {
+          fun();
+          _debounceTimerMap.remove(key);
+        });
+      }
+    };
   }
 }
 

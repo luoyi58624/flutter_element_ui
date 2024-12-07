@@ -39,8 +39,8 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
   late ElSplitResizerThemeData themeData;
   final LayerLink layerLink = LayerLink();
   late OverlayEntry overlayEntry;
-  final size = RawObs(Size.zero);
-  final isActive = RawObs(false);
+  final size = Obs(Size.zero);
+  final isActive = Obs(false);
 
   void insertOverlay() {
     overlayEntry = OverlayEntry(builder: (context) {

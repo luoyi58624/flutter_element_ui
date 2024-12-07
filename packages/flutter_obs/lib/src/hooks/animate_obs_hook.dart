@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'animate_obs.dart';
+import '../core/animate_obs.dart';
 
 AnimateObs<T> useAnimateObs<T>(
   T initialData, {
@@ -9,11 +9,11 @@ AnimateObs<T> useAnimateObs<T>(
   Curve curve = Curves.linear,
   Tween<T>? tween,
 }) {
-  return use(_ObsHook(initialData, duration, curve, tween));
+  return use(_Hook(initialData, duration, curve, tween));
 }
 
-class _ObsHook<T> extends Hook<AnimateObs<T>> {
-  const _ObsHook(
+class _Hook<T> extends Hook<AnimateObs<T>> {
+  const _Hook(
     this.initialData,
     this.duration,
     this.curve,
@@ -26,10 +26,10 @@ class _ObsHook<T> extends Hook<AnimateObs<T>> {
   final Tween<T>? tween;
 
   @override
-  _ObsHookState<T> createState() => _ObsHookState();
+  _HookState<T> createState() => _HookState();
 }
 
-class _ObsHookState<T> extends HookState<AnimateObs<T>, _ObsHook<T>> {
+class _HookState<T> extends HookState<AnimateObs<T>, _Hook<T>> {
   late final _state = AnimateObs<T>(
     hook.initialData,
     duration: hook.duration,
@@ -38,7 +38,7 @@ class _ObsHookState<T> extends HookState<AnimateObs<T>, _ObsHook<T>> {
   );
 
   @override
-  void didUpdateHook(_ObsHook<T> oldHook) {
+  void didUpdateHook(_Hook<T> oldHook) {
     super.didUpdateHook(oldHook);
     if (hook.duration != oldHook.duration) {
       _state.duration = hook.duration;

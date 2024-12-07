@@ -14,7 +14,7 @@ mixin _DragMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在点击状态依赖
   bool hasDragDepend = false;
 
-  final _isDrag = RawObs(false);
+  final _isDrag = Obs(false);
 
   /// 拖拽状态响应式变量，此属性会注入到 InheritedWidget 小部件
   bool get isDrag => _isDrag.value;

@@ -71,7 +71,7 @@ final GoRouter router = GoRouter.routingConfig(
 );
 
 /// 控制路由配置全局响应式变量，当屏幕尺寸达到移动端尺寸阈值时，将自动更新路由配置
-final isMobileRoute = Obs<bool?>(
+final isMobileRoute = WatchObs<bool?>(
   null,
   watch: (newValue, oldValue) {
     newValue == true

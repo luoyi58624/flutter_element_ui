@@ -22,13 +22,6 @@ export 'src/hooks/watch.dart';
 
 export 'src/utils/global_font/global_font.dart';
 export 'src/utils/platform/platform.dart';
-export 'src/utils/obs/obs_hook.dart';
-export 'src/utils/obs/animate_obs.dart';
-export 'src/utils/obs/animate_obs_hook.dart';
-export 'src/utils/obs/local_obs.dart';
-export 'src/utils/obs/local_obs_hook.dart';
-export 'src/utils/obs/model_obs.dart';
-export 'src/utils/obs/model_obs_hook.dart';
 
 export 'src/utils/animation.dart';
 export 'src/utils/annotation.dart';

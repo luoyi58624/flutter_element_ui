@@ -1,4 +1,3 @@
-import 'package:dart_serialize/dart_serialize.dart';
 import 'package:flutter/widgets.dart';
 
 part 'builder.dart';
@@ -11,7 +10,7 @@ VoidCallback? _tempBuilderNotifyFun;
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
 class Obs<T> extends ValueNotifier<T> {
-  /// 创建一个响应式变量，在 [ObsBuilder] 中使用时会自动收集所有依赖，当更新时会自动重建 UI：
+  /// 创建一个响应式变量，[ObsBuilder] 会收集所有依赖，当更新时会自动重建 UI：
   /// ```dart
   /// const count = Obs(0);
   ///

@@ -9,7 +9,7 @@ class ThrottleTestPage extends StatefulWidget {
 }
 
 class _ThrottleTestPageState extends State<ThrottleTestPage> {
-  final count = Obs(0);
+  final count = WatchObs(0);
 
   void printCount() {
     i(count.value);
@@ -18,7 +18,7 @@ class _ThrottleTestPageState extends State<ThrottleTestPage> {
   @override
   void initState() {
     super.initState();
-    final fun = FlutterUtil.debounce(printCount, 1000);
+    final fun = DartUtil.debounce(printCount, 1000);
     count.addWatch((newValue, oldValue) {
       fun();
     });
@@ -36,7 +36,7 @@ class _ThrottleTestPageState extends State<ThrottleTestPage> {
           children: [
             ObsBuilder(builder: (context) {
               return ElButton(
-                onPressed: FlutterUtil.throttle(() {
+                onPressed: DartUtil.throttle(() {
                   count.value++;
                 }, 500, key: 'addCount'),
                 type: El.primary,

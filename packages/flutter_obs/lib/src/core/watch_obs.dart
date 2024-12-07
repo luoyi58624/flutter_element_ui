@@ -6,6 +6,7 @@ import 'immutable_obs.dart';
 typedef WatchCallback<T> = void Function(T newValue, T oldValue);
 
 class WatchObs<T> extends ImmutableObs<T> {
+  /// 创建支持监听 newValue、oldValue 函数的响应式变量
   WatchObs(
     super.value, {
     WatchCallback<T>? watch,
@@ -39,6 +40,7 @@ class WatchObs<T> extends ImmutableObs<T> {
     if (getValue() != newValue) {
       setOldValue();
       setValue(newValue);
+      notify();
     }
   }
 
@@ -69,7 +71,9 @@ class WatchObs<T> extends ImmutableObs<T> {
 
   /// 执行通过构造方法添加的监听函数
   _notifyWatch() {
-    if (_watchFun != null) _watchFun!(getValue(), oldValue);
+    if (_watchFun != null) {
+      _watchFun!(getValue(), oldValue);
+    }
   }
 
   /// 执行所有通过 [addWatch] 方法添加的监听函数

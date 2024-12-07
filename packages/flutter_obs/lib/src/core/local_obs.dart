@@ -1,8 +1,11 @@
-import 'package:element_flutter/element_flutter.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:element_dart/element_dart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_obs/flutter_obs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalObs<T> extends Obs<T> {
+SharedPreferences? _sp;
+
+class LocalObs<T> extends WatchObs<T> {
   /// 支持本地缓存的响应式变量，它基于 shared_preferences 实现持久化，
   /// 如果是局部变量，请记得在 dispose 生命周期中销毁它
   LocalObs(
@@ -16,7 +19,7 @@ class LocalObs<T> extends Obs<T> {
     if (result != null) super.setValue(result);
 
     // 对持久化操作进行防抖处理，防止在频繁更新响应式变量时触发缓存操作
-    super.addListener(FlutterUtil.debounce(setLocalValue, 1000));
+    super.addListener(DartUtil.debounce(setLocalValue, 1000));
   }
 
   /// 缓存 key，请保证唯一
@@ -28,10 +31,9 @@ class LocalObs<T> extends Obs<T> {
 
   @override
   void reset() {
-    notifyMode = [ObsNotifyMode.builders];
-    super.reset();
+    setValue(initialValue);
+    notifyBuilders();
     if (cacheKey != null) sp.remove(cacheKey!);
-    notifyMode = [ObsNotifyMode.all];
   }
 
   @protected
@@ -79,5 +81,18 @@ class LocalObs<T> extends Obs<T> {
           'LocalObs 不支持 ${T.toString()} 类型的序列化，请指定 serialize 参数');
       return serialize!.deserialize(sp.getString(cacheKey!));
     }
+  }
+
+  /// 初始化本地存储实例
+  static Future<void> initStorage([String? key]) async {
+    SharedPreferences.setPrefix('${key != null ? "$key." : ""}flutter_obs.');
+    _sp = await SharedPreferences.getInstance();
+  }
+
+  /// SharedPreferences 本地存储实例
+  static SharedPreferences get sp {
+    assert(_sp != null,
+        'LocalObs 的本地存储 SharedPreferences 实例还未初始化，请在 main 函数中执行 LocalObs.initStorage() 方法');
+    return _sp!;
   }
 }

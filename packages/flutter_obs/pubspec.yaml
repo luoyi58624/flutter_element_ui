@@ -10,8 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dart_serialize:
-    path: ../dart_serialize
+  element_dart:
+    path: ../element_dart
+  flutter_hooks: ^0.20.5
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_lints: ^4.0.0

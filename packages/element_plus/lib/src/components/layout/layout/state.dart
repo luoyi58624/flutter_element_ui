@@ -37,9 +37,7 @@ class ElLayoutState extends State<ElLayout> {
       }
     }
     if (_layoutData.value.navbar != result) {
-      _layoutData.setOldValue();
-      _layoutData.value.navbar = result;
-      _layoutData.notify();
+      _layoutData.value = layoutData.copyWith(navbar: result);
     }
   }
 
@@ -59,9 +57,7 @@ class ElLayoutState extends State<ElLayout> {
       }
     }
     if (_layoutData.value.sidebar != result) {
-      _layoutData.setOldValue();
-      _layoutData.value.sidebar = result;
-      _layoutData.notify();
+      _layoutData.value = layoutData.copyWith(sidebar: result);
     }
   }
 
@@ -84,9 +80,7 @@ class ElLayoutState extends State<ElLayout> {
       }
     }
     if (_layoutData.value.rightSidebar != result) {
-      _layoutData.setOldValue();
-      _layoutData.value.rightSidebar = result;
-      _layoutData.notify();
+      _layoutData.value = layoutData.copyWith(rightSidebar: result);
     }
   }
 
@@ -106,9 +100,7 @@ class ElLayoutState extends State<ElLayout> {
       }
     }
     if (_layoutData.value.footer != result) {
-      _layoutData.setOldValue();
-      _layoutData.value.footer = result;
-      _layoutData.notify();
+      _layoutData.value = layoutData.copyWith(footer: result);
     }
   }
 

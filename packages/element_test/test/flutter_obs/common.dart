@@ -7,6 +7,14 @@ Future<dynamic> push(BuildContext context, Widget child) {
   );
 }
 
+class ObsTest extends Obs {
+  ObsTest() : super('');
+
+  static int getBuilderFunLength(Obs obs){
+    return obs.builderFunList.length;
+  }
+}
+
 /// 通用的子页面，包含一个 back 返回文本按钮
 class ChildPage extends StatelessWidget {
   const ChildPage({super.key, required this.child});

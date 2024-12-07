@@ -5,7 +5,7 @@ mixin _TapMixin<T extends ElEvent>
   /// 是否存在点击状态依赖，如果没有依赖需要防止不必要的重新渲染
   bool hasTapDepend = false;
 
-  final _hasTap = RawObs(false);
+  final _hasTap = Obs(false);
 
   /// 点击状态响应式变量，此属性会注入到 InheritedWidget 小部件
   bool get hasTap => _hasTap.value;
