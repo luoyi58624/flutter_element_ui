@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:element_dart/element_dart.dart';
+import 'package:flutter/foundation.dart';
 
 import 'local_obs.dart';
 
@@ -13,6 +14,7 @@ class ModelObs<T extends SerializeModel> extends LocalObs<T> {
     super.immediate,
   });
 
+  @protected
   @override
   void setLocalValue() {
     if (cacheKey == null) return;
@@ -20,6 +22,7 @@ class ModelObs<T extends SerializeModel> extends LocalObs<T> {
     LocalObs.sp.setString(cacheKey!, jsonEncode(value.toJson()));
   }
 
+  @protected
   @override
   dynamic getLocalValue() {
     if (cacheKey == null) return;

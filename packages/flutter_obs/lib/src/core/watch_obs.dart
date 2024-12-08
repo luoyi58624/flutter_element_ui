@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-import 'immutable_obs.dart';
+import 'obs.dart';
 
 /// 响应式变量监听回调，接收 newValue、oldValue 参数
 typedef WatchCallback<T> = void Function(T newValue, T oldValue);
 
-class WatchObs<T> extends ImmutableObs<T> {
+class WatchObs<T> extends Obs<T> {
   /// 创建支持监听 newValue、oldValue 函数的响应式变量
   WatchObs(
     super.value, {
