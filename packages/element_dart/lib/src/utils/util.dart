@@ -454,10 +454,10 @@ class DartUtil {
   /// * wait 节流时间(毫秒)
   /// * key 如果是匿名函数，请添加一个标识符，否则无法识别是否是同一个函数执行
   static dynamic throttle(
-      Function fun,
-      int wait, {
-        String? key,
-      }) {
+    Function fun,
+    int wait, {
+    String? key,
+  }) {
     assert(wait > 0);
     key ??= fun.hashCode.toString();
 
@@ -477,10 +477,10 @@ class DartUtil {
   /// * wait 防抖时间(毫秒)
   /// * key 如果是匿名函数，请添加一个标识符，否则无法识别是否是同一个函数执行
   static dynamic debounce(
-      Function fun,
-      int wait, {
-        String? key,
-      }) {
+    Function fun,
+    int wait, {
+    String? key,
+  }) {
     assert(wait > 0);
     key ??= fun.hashCode.toString();
     return () {

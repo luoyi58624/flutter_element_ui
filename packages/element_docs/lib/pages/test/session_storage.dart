@@ -4,14 +4,14 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LocalStorageTestPage extends StatelessWidget {
-  const LocalStorageTestPage({super.key});
+class SessionStorageTestPage extends StatelessWidget {
+  const SessionStorageTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LocalStorage Example'),
+        title: const Text('SessionStorage 测试'),
       ),
       body: Center(
         child: Column(
@@ -26,10 +26,10 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.setItem('string', 'local_data');
+                sessionStorage.setItem('string', 'local_data');
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(localStorage.getItem('string') ?? 'null'),
+                  content: Text(sessionStorage.getItem('string') ?? 'null'),
                 ));
               },
               child: const Text('set string'),
@@ -37,10 +37,10 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.setItem('int', 100);
+                sessionStorage.setItem('int', 100);
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("${localStorage.getItem('int') ?? 'null'}"),
+                  content: Text("${sessionStorage.getItem('int') ?? 'null'}"),
                 ));
               },
               child: const Text('set int'),
@@ -48,10 +48,11 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.setItem('double', 1000.23);
+                sessionStorage.setItem('double', 1000.23);
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("${localStorage.getItem('double') ?? 'null'}"),
+                  content:
+                      Text("${sessionStorage.getItem('double') ?? 'null'}"),
                 ));
               },
               child: const Text('set double'),
@@ -59,10 +60,10 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.setItem('bool', true);
+                sessionStorage.setItem('bool', true);
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("${localStorage.getItem('bool') ?? 'null'}"),
+                  content: Text("${sessionStorage.getItem('bool') ?? 'null'}"),
                 ));
               },
               child: const Text('set bool'),
@@ -70,7 +71,7 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.clear();
+                sessionStorage.clear();
               },
               child: const Text('clear'),
             ),
@@ -95,7 +96,7 @@ class _BigDataPageState extends State<BigDataPage> {
   @override
   void initState() {
     super.initState();
-    String? listStr = localStorage.getItem('list');
+    String? listStr = sessionStorage.getItem('list');
     if (listStr != null) {
       dataList
           .addAll((jsonDecode(listStr) as List).cast<Map<String, dynamic>>());
@@ -111,7 +112,7 @@ class _BigDataPageState extends State<BigDataPage> {
           IconButton(
             onPressed: () {
               dataList.clear();
-              localStorage.setItem('list', jsonEncode(dataList));
+              sessionStorage.setItem('list', jsonEncode(dataList));
               setState(() {});
             },
             icon: const Icon(Icons.clear),
@@ -125,7 +126,7 @@ class _BigDataPageState extends State<BigDataPage> {
                 (index) => {'list - ${start + index}': 'hihi'},
               );
               dataList.addAll(newList);
-              localStorage.setItem('list', jsonEncode(dataList));
+              sessionStorage.setItem('list', jsonEncode(dataList));
               setState(() {});
             },
             icon: const Icon(Icons.add),

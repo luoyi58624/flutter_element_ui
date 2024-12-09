@@ -1,5 +1,4 @@
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/component/basic/button/index.dart';
 import 'package:flutter/material.dart';
 
 import 'animate_obs.dart';
@@ -8,6 +7,7 @@ import 'local_obs.dart';
 import 'local_obs_list.dart';
 import 'local_storage.dart';
 import 'nest_scroll.dart';
+import 'session_storage.dart';
 import 'throttle_test_page.dart';
 
 /// 测试页面，Ctrl + D 快捷键进入
@@ -33,9 +33,17 @@ class TestPage extends StatelessWidget {
               CellWidget(title: '本地持久化 Obs 测试', page: LocalObsTest()),
               CellWidget(title: '本地持久化 Obs 测试（列表）', page: LocalObsListTest()),
               CellWidget(
-                  title: 'localStorage 测试', page: LocalStorageTestPage()),
+                title: 'localStorage 测试',
+                page: LocalStorageTestPage(),
+              ),
               CellWidget(
-                  title: '动画 Value 生成测试', page: AnimateValueGeneratePage()),
+                title: 'sessionStorage 测试',
+                page: SessionStorageTestPage(),
+              ),
+              CellWidget(
+                title: '动画 Value 生成测试',
+                page: AnimateValueGeneratePage(),
+              ),
               CellWidget(title: '节流测试', page: ThrottleTestPage()),
             ],
           ),

@@ -1,5 +1,5 @@
 import 'package:element_plus/src/global.dart';
-import 'package:element_plus/src/utils/local_storage/local_storage.dart';
+import 'package:element_storage/element_storage.dart';
 
 import './services/anchor.dart';
 import './services/cursor.dart';
@@ -39,7 +39,8 @@ class El with AnchorService, RouterService, CursorService {
     if (_el == null) {
       _el = El._();
       await LocalObs.initStorage();
-      localStorage = await ElStorage.createLocalStorage();
+      await ElStorage.createLocalStorage();
+      await ElStorage.createSessionStorage();
     }
   }
 

@@ -197,6 +197,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  element_storage:
+    dependency: "direct overridden"
+    description:
+      path: "../element_storage"
+      relative: true
+    source: path
+    version: "0.0.1"
   equatable:
     dependency: "direct main"
     description:
