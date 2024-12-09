@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:uuid/uuid.dart';
 
 /// 是否为release版

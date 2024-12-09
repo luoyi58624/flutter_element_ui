@@ -33,14 +33,13 @@ abstract class ElOverlayState<T extends ElOverlay> extends State<T> {
 
   /// Overlay 小部件
   late final Widget overlayWidget = ObsBuilder(
-      watch: [buildCount],
+      binding: [buildCount],
       builder: (_) {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
         bool isUp = offset.dy > 100;
         nextTick(() {
           _setContentSize();
-          // i(_contentSize, 'build');
         });
         return Offstage(
           offstage: !showOverlay.value,

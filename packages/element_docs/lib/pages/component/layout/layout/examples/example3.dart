@@ -49,10 +49,7 @@ class _Example extends HookWidget {
           height: 500,
           child: ElSplitResizerTheme(
             // 定义拖拽分割器主题样式
-            data: ElSplitResizerThemeData(
-              size: 1,
-              activeColor: context.elTheme.primary,
-            ),
+            data: const ElSplitResizerThemeData(size: 1),
             // 使用 Ring 在布局周围绘制边框
             child: ElRing(
               show: true,

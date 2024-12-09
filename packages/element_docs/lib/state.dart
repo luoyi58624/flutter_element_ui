@@ -12,7 +12,6 @@ class GlobalState {
   static final primaryColor = LocalObs(
     ElThemeData.theme.primary,
     cacheKey: 'primary_color',
-    serialize: const ElColorSerialize(),
   );
 
   static final _isDark = LocalObs(false, cacheKey: 'isDark');
@@ -51,8 +50,10 @@ class GlobalState {
   );
 
   /// 开启重采样机制，开启此功能可以让高刷手机拥有更平滑的触控，但缺点是会带来一点延迟
-  static final enableResampling = WatchObs(
+  static final enableResampling = LocalObs(
     false,
+    cacheKey: 'enabled_resampling',
+    immediate: true,
     watch: (newValue, oldValue) {
       GestureBinding.instance.resamplingEnabled = newValue;
     },
@@ -68,5 +69,5 @@ class GlobalState {
   static final showSemanticsDebugger = Obs(false);
 
   /// 监控 fps 帧率
-  static final fps = Obs(false);
+  static final fps = LocalObs(false, cacheKey: 'show_fps');
 }

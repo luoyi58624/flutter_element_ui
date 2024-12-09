@@ -209,7 +209,7 @@ class _CodePreviewState extends State<CodePreview> {
         ],
       ),
       child: ObsBuilder(
-          watch: [CodePreview.textStyle],
+          binding: [CodePreview.textStyle],
           builder: (context) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.end,

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'demo.dart';
 import 'global.dart';
 import 'utils/theme.dart';
 
@@ -122,55 +121,59 @@ class _MainAppState extends State<MainApp> {
           el.message.success('hello');
         }
       },
-      child: ObsBuilder(builder: (context) {
-        return ElApp(
-          brightness: GlobalState.brightness,
-          theme: ThemeUtil.buildElementTheme(),
-          darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
-          child: ObsBuilder(builder: (context) {
-            isMobileRoute.value = context.sm;
-            GlobalState.globalFontSize = context.sm ? 15 : 16;
-            return ElFps(
-              enabled: GlobalState.fps.value,
-              child: MaterialApp.router(
-                routerConfig: router,
-                showSemanticsDebugger: GlobalState.showSemanticsDebugger.value,
-                showPerformanceOverlay:
-                    GlobalState.showPerformanceOverlay.value,
-                debugShowCheckedModeBanner:
-                    GlobalState.debugShowCheckedModeBanner.value,
-                themeAnimationDuration: Duration.zero,
-                theme: ThemeUtil.buildMaterialTheme(
-                  context,
-                  brightness: GlobalState.brightness,
-                ),
-                darkTheme: ThemeUtil.buildMaterialTheme(
-                  context,
-                  brightness: Brightness.dark,
-                ),
-                shortcuts: {
-                  ...WidgetsApp.defaultShortcuts,
-                  ...globalShortcuts(),
-                },
-                actions: {
-                  ...WidgetsApp.defaultActions,
-                  ...globalActions(),
-                },
-                builder: (context, child) => ScrollConfiguration(
-                  behavior: const ElScrollBehavior(showTrack: true),
-                  child: CupertinoTheme(
-                    data: ThemeUtil.buildCupertinoThemeData(
-                      context,
-                      brightness: GlobalState.brightness,
+      child: ObsBuilder(
+        binding: [GlobalState.enableResampling],
+        builder: (context) {
+          return ElApp(
+            brightness: GlobalState.brightness,
+            theme: ThemeUtil.buildElementTheme(),
+            darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
+            child: ObsBuilder(builder: (context) {
+              isMobileRoute.value = context.sm;
+              GlobalState.globalFontSize = context.sm ? 15 : 16;
+              return ElFps(
+                enabled: GlobalState.fps.value,
+                child: MaterialApp.router(
+                  routerConfig: router,
+                  showSemanticsDebugger:
+                      GlobalState.showSemanticsDebugger.value,
+                  showPerformanceOverlay:
+                      GlobalState.showPerformanceOverlay.value,
+                  debugShowCheckedModeBanner:
+                      GlobalState.debugShowCheckedModeBanner.value,
+                  themeAnimationDuration: Duration.zero,
+                  theme: ThemeUtil.buildMaterialTheme(
+                    context,
+                    brightness: GlobalState.brightness,
+                  ),
+                  darkTheme: ThemeUtil.buildMaterialTheme(
+                    context,
+                    brightness: Brightness.dark,
+                  ),
+                  shortcuts: {
+                    ...WidgetsApp.defaultShortcuts,
+                    ...globalShortcuts(),
+                  },
+                  actions: {
+                    ...WidgetsApp.defaultActions,
+                    ...globalActions(),
+                  },
+                  builder: (context, child) => ScrollConfiguration(
+                    behavior: const ElScrollBehavior(showTrack: true),
+                    child: CupertinoTheme(
+                      data: ThemeUtil.buildCupertinoThemeData(
+                        context,
+                        brightness: GlobalState.brightness,
+                      ),
+                      child: child!,
                     ),
-                    child: child!,
                   ),
                 ),
-              ),
-            );
-          }),
-        );
-      }),
+              );
+            }),
+          );
+        },
+      ),
     );
   }
 }

@@ -23,10 +23,9 @@ export 'src/hooks/watch.dart';
 export 'src/utils/global_font/global_font.dart';
 export 'src/utils/platform/platform.dart';
 
-export 'src/utils/animation.dart';
-export 'src/utils/annotation.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/flutter_util.dart';
+export 'src/utils/preset_serialize.dart';
 export 'src/utils/cursor.dart';
 export 'src/utils/shortcut.dart';
 

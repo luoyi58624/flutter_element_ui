@@ -5,14 +5,14 @@ class ObsBuilder extends StatefulWidget {
   const ObsBuilder({
     super.key,
     required this.builder,
-    this.watch = const [],
+    this.binding = const [],
   });
 
   /// 通过函数构建小部件，它会自动收集内部的响应式变量，你也可以手动指定：[watch]
   final WidgetBuilder builder;
 
   /// 手动绑定监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件
-  final List<Obs> watch;
+  final List<Obs> binding;
 
   @override
   State<ObsBuilder> createState() => _ObsBuilderState();
@@ -31,24 +31,24 @@ class _ObsBuilderState extends State<ObsBuilder> {
   @override
   void didUpdateWidget(covariant ObsBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.watch != oldWidget.watch) {
+    if (widget.binding != oldWidget.binding) {
       _isUpdateWatch = true;
-      if (oldWidget.watch.isEmpty) {
-        _addWatch(widget.watch);
-      } else if (widget.watch.isEmpty) {
-        _removeWatch(oldWidget.watch);
+      if (oldWidget.binding.isEmpty) {
+        _addWatch(widget.binding);
+      } else if (widget.binding.isEmpty) {
+        _removeWatch(oldWidget.binding);
       } else {
         final List<Obs> hasObsList = [];
         final List<Obs> addObsList = [];
         final List<Obs> removeObsList = [];
-        for (var value in widget.watch) {
-          if (oldWidget.watch.contains(value)) {
+        for (var value in widget.binding) {
+          if (oldWidget.binding.contains(value)) {
             hasObsList.add(value);
           } else {
             addObsList.add(value);
           }
         }
-        for (var value in oldWidget.watch) {
+        for (var value in oldWidget.binding) {
           if (!hasObsList.contains(value)) {
             removeObsList.add(value);
           }
@@ -103,14 +103,14 @@ class _ObsBuilderState extends State<ObsBuilder> {
     // 5.销毁依赖的响应式变量集合
     _tempBuilderObsList.clear();
     // 6.如果设置了watch，则需要将监听的响应式变量添加到集合中
-    if (widget.watch.isNotEmpty) {
+    if (widget.binding.isNotEmpty) {
       // 7.排除更新 watch 依赖，didUpdateWidget生命周期中已处理
       if (_isUpdateWatch) {
         _isUpdateWatch = false;
       }
       // 8.添加监听依赖，如果已添加会自动跳过
       else {
-        _addWatch(widget.watch);
+        _addWatch(widget.binding);
       }
     }
     return result;

@@ -5,7 +5,7 @@ class ElNavbar extends StatefulWidget {
     super.key,
     this.child,
     this.height = 56,
-    this.minHeight = 0,
+    this.minHeight = 40,
     this.maxHeight,
     this.enabledDrag = false,
   });

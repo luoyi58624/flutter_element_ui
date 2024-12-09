@@ -107,7 +107,7 @@ class _Test1State extends State<_Test1> {
               }),
             ),
             ObsBuilder(
-              watch: [
+              binding: [
                 if (flag1) count1,
                 if (flag2) count2,
               ],

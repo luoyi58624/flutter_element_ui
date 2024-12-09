@@ -1,7 +1,8 @@
 library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
-export 'package:element_annotation/element_annotation.dart';
+export 'package:element_annotation/element_annotation.dart'
+    hide ElThemeModel, ElGlobalThemeModel;
 export 'package:element_storage/element_storage.dart';
 
 export 'src/models.dart';

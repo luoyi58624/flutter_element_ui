@@ -76,8 +76,7 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式，
-    // 但我目前不知道更好的方法，请自行研究。
+    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式。
     return Theme(
       data: ThemeData.dark(),
       // 要为 Element UI 应用局部暗黑主题，只需套上 ElBrightness 小部件即可
@@ -170,8 +169,7 @@ class _Example extends StatelessWidget {
   }
 
   Widget get sidebar {
-    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式，
-    // 但我目前不知道更好的方法，请自行研究。
+    // 应用 Material 局部暗黑主题，这种方式并不好，它会覆写了祖先提供的默认样式。
     return Theme(
       data: ThemeData.dark(),
       // 要为 Element UI 应用局部暗黑主题，只需套上 ElBrightness 小部件即可

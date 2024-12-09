@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:element_annotation/element_annotation.dart';
-import 'package:element_storage/element_storage.dart';
 import 'package:flutter/foundation.dart';
 
 import 'local_obs.dart';

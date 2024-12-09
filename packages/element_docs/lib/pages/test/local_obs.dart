@@ -17,7 +17,6 @@ class _LocalObsTestState extends State<LocalObsTest> {
   final localColor = LocalObs(
     Colors.red,
     cacheKey: 'local_color',
-    serialize: const ElMaterialColorSerialize(),
   );
 
   @override

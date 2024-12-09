@@ -138,6 +138,9 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
   Widget build(BuildContext context) {
     themeData = ElSplitResizerTheme.of(context);
 
+    assert(themeData.triggerSize! > themeData.size!,
+        'ElSplitResizer 配置的 triggerSize 必须大于 size');
+
     nextTick(() {
       if (mounted) {
         size.value = context.size!;

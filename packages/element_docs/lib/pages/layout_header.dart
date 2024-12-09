@@ -100,7 +100,7 @@ class LayoutHeader extends StatelessWidget {
 
   Widget buildDesktopNav(BuildContext context) {
     return ObsBuilder(
-        watch: [RouterState.currentPath],
+        binding: [RouterState.currentPath],
         builder: (context) {
           return Row(
             mainAxisSize: MainAxisSize.min,

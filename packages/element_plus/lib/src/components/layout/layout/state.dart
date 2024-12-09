@@ -3,7 +3,8 @@ part of 'index.dart';
 class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
   late ElLayoutThemeData _themeData;
-  late final ModelObs<ElLayoutData> _layoutData; // 布局信息对象，对象会进行持久化
+  late final ModelObs<ElLayoutData> _layoutData;
+
   ElLayoutData get layoutData => _layoutData.value;
 
   double _navbar = 0.0;
@@ -12,7 +13,7 @@ class ElLayoutState extends State<ElLayout> {
   double _footer = 0.0;
 
   Size get bodySize => Size(
-        widget.body.minWidth ?? ElApp.of(context).responsive.xs,
+        widget.body.minWidth,
         widget.body.minHeight,
       );
 
@@ -135,44 +136,48 @@ class ElLayoutState extends State<ElLayout> {
   @override
   void didUpdateWidget(covariant ElLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
+    ElLayoutData newLayoutData = layoutData.copyWith();
     bool flag = false;
+
     if (widget.navbar != null) {
       if (oldWidget.navbar == null) {
-        _layoutData.value.navbar = widget.navbar!.height;
+        newLayoutData.navbar = widget.navbar!.height;
         flag = true;
       }
     } else {
       if (oldWidget.navbar != null) {
-        _layoutData.value.navbar = 0;
+        newLayoutData.navbar = 0;
         flag = true;
       }
     }
 
     if (widget.sidebar != null) {
       if (oldWidget.sidebar == null) {
-        _layoutData.value.sidebar = widget.sidebar!.width;
+        newLayoutData.sidebar = widget.sidebar!.width;
         flag = true;
       }
     } else {
       if (oldWidget.sidebar != null) {
-        _layoutData.value.sidebar = 0;
+        newLayoutData.sidebar = 0;
         flag = true;
       }
     }
 
     if (widget.rightSidebar != null) {
       if (oldWidget.rightSidebar == null) {
-        _layoutData.value.rightSidebar = widget.rightSidebar!.width;
+        newLayoutData.rightSidebar = widget.rightSidebar!.width;
         flag = true;
       }
     } else {
       if (oldWidget.rightSidebar != null) {
-        _layoutData.value.rightSidebar = 0;
+        newLayoutData.rightSidebar = 0;
         flag = true;
       }
     }
 
-    if (flag) _layoutData.notify();
+    if (flag) {
+      _layoutData.value = newLayoutData;
+    }
   }
 
   @override

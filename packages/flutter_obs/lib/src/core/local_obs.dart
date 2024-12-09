@@ -1,5 +1,5 @@
 import 'package:element_annotation/element_annotation.dart';
-import 'package:element_dart/element_dart.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:element_storage/element_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_obs/flutter_obs.dart';
@@ -7,14 +7,19 @@ import 'package:flutter_obs/flutter_obs.dart';
 ElStorage? _storage;
 
 class LocalObs<T> extends WatchObs<T> {
-  /// 支持本地缓存的响应式变量，如果是局部变量，请记得在 dispose 生命周期中销毁它，或者你可以使用 [useLocalObs] hook
+  /// 支持本地缓存的响应式变量
   LocalObs(
     super.value, {
     this.cacheKey,
-    this.serialize,
+    ElSerialize? serialize,
     super.watch,
     super.immediate,
   }) {
+    if (serialize != null) {
+      this.serialize = serialize;
+    } else {
+      this.serialize = _loadPresetSerialize<T>();
+    }
     final result = getLocalValue();
     if (result != null) super.setValue(result);
     super.addListener(setLocalValue);
@@ -23,8 +28,8 @@ class LocalObs<T> extends WatchObs<T> {
   /// 缓存 key，请保证唯一
   String? cacheKey;
 
-  /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，否则本地存储将抛出异常，
-  /// 序列化实现类请参考：[ElDateTimeSerialize]、[ElColorSerialize]
+  /// 对象序列化接口，如果 [value] 不是基本数据类型，你需要定义序列化和反序列化函数，
+  /// 否则持久化时会抛出异常。
   ElSerialize? serialize;
 
   @override
@@ -82,4 +87,14 @@ class LocalObs<T> extends WatchObs<T> {
   static Future<void> initStorage() async {
     _storage ??= await ElStorage.createLocalStorage('flutter_obs');
   }
+}
+
+/// 加载内部预设的序列化函数
+ElSerialize? _loadPresetSerialize<T>() {
+  final type = T.toString();
+  if (type == 'dynamic' || type == 'null') return null;
+  if (type == 'Color') return const ElColorSerialize();
+  if (type == 'MaterialColor') return const ElMaterialColorSerialize();
+  if (type == 'DateTime') return const ElDateTimeSerialize();
+  return null;
 }

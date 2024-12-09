@@ -40,7 +40,7 @@ class ElLayout extends StatefulWidget {
   /// 底部区域栏
   final ElFooter? footer;
 
-  /// 顶部工具栏，它位于 [navbar] 下方
+  /// 顶部工具栏，它位于 [navbar] 上方
   final ElToolbar? topToolbar;
 
   /// 左侧工具栏，它位于 [sidebar] 左边

@@ -25,7 +25,7 @@ mixin ElOverlayMixin<T extends StatefulWidget, D> on State<T> {
 
   /// Overlay 小部件
   late final Widget overlayWidget = ObsBuilder(
-      watch: [buildCount],
+      binding: [buildCount],
       builder: (_) {
         RenderBox renderBox = context.findRenderObject() as RenderBox;
         Offset offset = renderBox.localToGlobal(Offset.zero);
