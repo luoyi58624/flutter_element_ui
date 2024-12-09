@@ -56,6 +56,8 @@ class LocalObs<T> extends WatchObs<T> {
       } else {
         if (value is List) {
           return DartUtil.dynamicToList<T>(result);
+        } else if (value is Set) {
+          return DartUtil.dynamicToSet<T>(result);
         } else if (value is Map) {
           return (result as Map).autoCast();
         }

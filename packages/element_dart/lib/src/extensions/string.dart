@@ -61,6 +61,6 @@ extension DartStringExtension on String {
         substring(indexOf('<') + 1, lastIndexOf('>')).split(',');
     if (typeList.length != 2) return null;
 
-    return (key: typeList[0], value: typeList[1]);
+    return (key: typeList[0].trim(), value: typeList[1].trim());
   }
 }
