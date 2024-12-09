@@ -40,6 +40,7 @@ class El with AnchorService, RouterService, CursorService {
       _el = El._();
       await ElStorage.createLocalStorage();
       await ElStorage.createSessionStorage();
+      await LocalObs.initStorage();
     }
   }
 

@@ -20,14 +20,14 @@ class ModelObs<T extends ElSerializeModel> extends LocalObs<T> {
   void setLocalValue() {
     if (cacheKey == null) return;
     final value = getValue();
-    localStorage.setItem(cacheKey!, jsonEncode(value.toJson()));
+    LocalObs.storage.setItem(cacheKey!, jsonEncode(value.toJson()));
   }
 
   @protected
   @override
   dynamic getLocalValue() {
     if (cacheKey == null) return;
-    final result = localStorage.getItem(cacheKey!);
+    final result = LocalObs.storage.getItem(cacheKey!);
     return result == null ? null : getValue().fromJson(jsonDecode(result));
   }
 }
