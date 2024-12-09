@@ -1,5 +1,6 @@
 import 'package:element_dart/element_dart.dart';
 import 'package:element_flutter/element_flutter.dart';
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'dart:collection';
@@ -40,24 +41,25 @@ class GlobalFontUtil {
 
   /// 初始化全局默认字体
   static Future<void> initFont(FontModel fontModel) async {
-    var localStr = sp.getString(_localKey);
+    var localStr = localStorage.getItem(_localKey);
 
     // 第一次加载
     if (localStr == null) return await _initFont(fontModel);
 
     // 获取本地初始化的字体，如果本地初始化的字体和传递的fontModel不一致，说明用户更改了fontModel，
     // 那么我们需要重新加载用户传递的fontModel
-    var initialLocalStr = sp.getString(_initialLocalKey);
+    var initialLocalStr = localStorage.getItem(_initialLocalKey);
 
     if (initialLocalStr == null) {
       _initialFont = fontModel;
-      sp.setString(_initialLocalKey, jsonEncode(_initialFont.toJson()));
+      localStorage.setItem(_initialLocalKey, jsonEncode(_initialFont.toJson()));
     } else {
       _initialFont = FontModel.fromJson(
           (jsonDecode(initialLocalStr) as Map).cast<String, dynamic>());
       if (_initialFont.fontFamily != fontModel.fontFamily) {
         _initialFont = fontModel;
-        sp.setString(_initialLocalKey, jsonEncode(_initialFont.toJson()));
+        localStorage.setItem(
+            _initialLocalKey, jsonEncode(_initialFont.toJson()));
         return await _initFont(fontModel);
       }
     }
@@ -75,7 +77,7 @@ class GlobalFontUtil {
   static Future<void> _initFont(FontModel fontModel) async {
     bool success = await loadFont(fontModel);
     if (success) {
-      sp.setString(_initialLocalKey, jsonEncode(fontModel.toJson()));
+      localStorage.setItem(_initialLocalKey, jsonEncode(fontModel.toJson()));
     }
   }
 
@@ -89,7 +91,7 @@ class GlobalFontUtil {
     if (fontModel.fontUrl == null &&
         (fontModel.fontWeights == null || fontModel.fontWeights!.isEmpty)) {
       _currentFontModel.value = fontModel;
-      sp.setString(_localKey, jsonEncode(fontModel.toJson()));
+      localStorage.setItem(_localKey, jsonEncode(fontModel.toJson()));
       _loadFonts.add(fontModel.fontFamily);
       return true;
     } else {
@@ -127,7 +129,7 @@ class GlobalFontUtil {
         return false;
       }
       _currentFontModel.value = fontModel;
-      sp.setString(_localKey, jsonEncode(fontModel.toJson()));
+      localStorage.setItem(_localKey, jsonEncode(fontModel.toJson()));
       _loadFonts.addAll(fontFamilyList);
       return true;
     }

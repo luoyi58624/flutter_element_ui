@@ -12,6 +12,9 @@ void main() async {
   // El.init 内部会初始化 localStorage、sessionStorage
   await El.init();
 
+  // 若不使用 element_ui，直接调用 ElStorage.createLocalStorage 方法即可，你还可以指定 key 来创建多个存储对象
+  ElStorage.createLocalStorage();
+
   // 然后可以在任意位置调用 api，使用方式和 web 完全一致
   localStorage.setItem('name', 'hihi');
   localStorage.getItem('name');
@@ -19,3 +22,7 @@ void main() async {
   localStorage.clear();
 }
 ```
+
+Tip：此库的源码只有 100 多行，除非有明确的错误、或者第三方包的兼容性问题，否则不需要发布新的版本，
+请只将它用于存储简单的、不重要的数据，就如同在 Web 上使用 localStorage 一样，
+如果你需要更多功能，请考虑使用其他第三方库。

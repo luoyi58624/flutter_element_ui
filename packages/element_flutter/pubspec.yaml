@@ -26,7 +26,6 @@ dependencies:
   http: ^1.2.2
   meta: ^1.12.0
   path_provider: ^2.1.4
-  shared_preferences: ^2.3.3
   gap: ^3.0.1
   flutter_hooks: ^0.20.5
   super_sliver_list: ^0.4.1

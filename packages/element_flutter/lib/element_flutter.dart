@@ -28,7 +28,6 @@ export 'src/utils/annotation.dart';
 export 'src/utils/assert.dart';
 export 'src/utils/flutter_util.dart';
 export 'src/utils/cursor.dart';
-export 'src/utils/local_storage.dart';
 export 'src/utils/shortcut.dart';
 
 export 'src/widgets/html/list.dart';

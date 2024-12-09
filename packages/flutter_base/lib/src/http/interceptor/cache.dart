@@ -22,7 +22,7 @@ class CacheInterceptor extends Interceptor {
     _cacheKey = cacheKey;
     _cacheTime = cacheTime;
     _showLog = showLog;
-    var localStr = sp.getString(_cacheKey);
+    var localStr = localStorage.getItem(_cacheKey);
     if (localStr != null) {
       cacheData =
           (jsonDecode(localStr) as Map).cast<String, Map<String, dynamic>>();
@@ -32,7 +32,7 @@ class CacheInterceptor extends Interceptor {
   /// 清除http缓存数据
   static Future<void> clearCache() async {
     cacheData.clear();
-    sp.remove(_cacheKey);
+    localStorage.removeItem(_cacheKey);
   }
 
   @override
@@ -71,7 +71,7 @@ class CacheInterceptor extends Interceptor {
       cacheData[key] = ExpireDataModel(response.data,
               response.requestOptions.extra['cacheTime'] ?? _cacheTime)
           .toJson();
-      sp.setString(
+      localStorage.setItem(
         _cacheKey,
         jsonEncode(cacheData),
       );
