@@ -1,8 +1,4 @@
-import 'dart:collection';
-
 import 'package:collection/collection.dart';
-
-import '../utils/util.dart';
 
 extension DartMapExtension<K, V> on Map<K, V> {
   /// 判断两个 Map 是否相等
