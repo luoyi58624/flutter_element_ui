@@ -374,6 +374,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.0-release-candidate-9.2.1"
+  get_packer:
+    dependency: transitive
+    description:
+      name: get_packer
+      sha256: d289e2ca2f2a1c360148592731321a443f4b81a4103d3494e73c714e8b4b4a93
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
   go_router:
     dependency: "direct main"
     description:
@@ -948,5 +956,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.5.0 <4.0.0"
+  dart: ">=3.5.3 <4.0.0"
   flutter: ">=3.24.0"

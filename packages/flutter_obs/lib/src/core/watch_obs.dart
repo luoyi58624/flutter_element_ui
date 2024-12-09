@@ -61,6 +61,9 @@ class WatchObs<T> extends Obs<T> {
     _oldValue = value ?? getValue();
   }
 
+  /// [WatchObs] 不允许手动通知监听，原因如下：
+  /// * [oldValue] 无法被 setter 拦截，导致无法更新
+  /// * 直接操作对象会造成值引用问题，这点是最致命的问题，它会让程序出现各种难以预料的 bug
   @protected
   @override
   void notify() {

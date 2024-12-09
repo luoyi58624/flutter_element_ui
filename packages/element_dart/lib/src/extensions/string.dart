@@ -26,8 +26,24 @@ extension DartStringExtension on String {
         .trim();
   }
 
-  /// 提取类型字符串的泛型类型
-  String? get toGenericType {
+  /// 排除类型字符串中的泛型类型：
+  /// * List<E> -> List
+  /// * List<E>? -> List
+  String? get excludeGeneric {
+    return replaceAll(RegExp(r'(<.*>)|\?'), '');
+  }
+
+  // /// 排除类型字符串中的泛型类型：
+  // /// * List<E> -> List
+  // /// * List<E>? -> List
+  // String? get includeGeneric {
+  //   final result = RegExp(r'(<.*>)|\?').firstMatch(this)?.group(0);
+  //   if (result == null) return null;
+  //   return result.substring(1, result.length - 1);
+  // }
+
+  /// 提取类型字符串的泛型类型: List<E> -> E
+  String? get getGenericType {
     int start = indexOf('<') + 1;
     int end = lastIndexOf('>');
     if (start >= end) return null;
@@ -35,7 +51,7 @@ extension DartStringExtension on String {
   }
 
   /// 提取 Map 类型字符串的泛型类型，返回一个 Record 类型字符串集合
-  ({String key, String value})? get toMapGenericType {
+  ({String key, String value})? get getMapGenericType {
     int start = indexOf('<') + 1;
     int end = lastIndexOf('>');
 

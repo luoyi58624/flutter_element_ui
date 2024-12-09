@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math' as math;
 import 'package:archive/archive.dart';
+import 'package:element_dart/src/extensions/string.dart';
 import 'package:path/path.dart' as p;
 import 'package:crypto/crypto.dart' as crypto;
 
@@ -71,6 +72,50 @@ class DartUtil {
     if (type == 'bool') return value;
     if (type == 'num') return value;
     return strict == true ? null : value;
+  }
+
+  /// 将动态类型转换成指定类型的 List 集合
+  static T dynamicToList<T>(dynamic value) {
+    final valueType = T.toString().getGenericType;
+    if (valueType == 'dynamic') {
+      return List.from(value) as T;
+    } else if (valueType == 'Object') {
+      return List<Object>.from(value) as T;
+    } else if (valueType == 'String') {
+      return List<String>.from(value) as T;
+    } else if (valueType == 'int') {
+      return List<int>.from(value) as T;
+    } else if (valueType == 'double') {
+      return List<double>.from(value) as T;
+    } else if (valueType == 'num') {
+      return List<num>.from(value) as T;
+    } else if (valueType == 'bool') {
+      return List<bool>.from(value) as T;
+    } else {
+      return List.from(value) as T;
+    }
+  }
+
+  /// 将动态类型转换成指定类型的 Set 集合
+  static T dynamicToSet<T>(dynamic value) {
+    final valueType = T.toString().getGenericType;
+    if (valueType == 'dynamic') {
+      return Set.from(value) as T;
+    } else if (valueType == 'Object') {
+      return Set<Object>.from(value) as T;
+    } else if (valueType == 'String') {
+      return Set<String>.from(value) as T;
+    } else if (valueType == 'int') {
+      return Set<int>.from(value) as T;
+    } else if (valueType == 'double') {
+      return Set<double>.from(value) as T;
+    } else if (valueType == 'num') {
+      return Set<num>.from(value) as T;
+    } else if (valueType == 'bool') {
+      return Set<bool>.from(value) as T;
+    } else {
+      return Set.from(value) as T;
+    }
   }
 
   /// 安全解析String，如果传递的value为空，则返回一个默认值

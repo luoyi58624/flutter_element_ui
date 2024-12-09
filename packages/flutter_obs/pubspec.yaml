@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  element_dart:
+    path: ../element_dart
   element_storage:
     path: ../element_storage
   element_annotation:

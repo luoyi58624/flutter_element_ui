@@ -9,11 +9,11 @@ LocalObs<T> useLocalObs<T>(
   required String cacheKey,
   ElSerialize? serialize,
 }) {
-  return use(_ObsHook(initialData, cacheKey, serialize));
+  return use(_Hook(initialData, cacheKey, serialize));
 }
 
-class _ObsHook<T> extends Hook<LocalObs<T>> {
-  const _ObsHook(
+class _Hook<T> extends Hook<LocalObs<T>> {
+  const _Hook(
     this.initialData,
     this.cacheKey,
     this.serialize,
@@ -24,10 +24,10 @@ class _ObsHook<T> extends Hook<LocalObs<T>> {
   final ElSerialize? serialize;
 
   @override
-  _ObsHookState<T> createState() => _ObsHookState();
+  _HookState<T> createState() => _HookState();
 }
 
-class _ObsHookState<T> extends HookState<LocalObs<T>, _ObsHook<T>> {
+class _HookState<T> extends HookState<LocalObs<T>, _Hook<T>> {
   late final _state = LocalObs<T>(
     hook.initialData,
     cacheKey: hook.cacheKey,
@@ -35,7 +35,7 @@ class _ObsHookState<T> extends HookState<LocalObs<T>, _ObsHook<T>> {
   );
 
   @override
-  void didUpdateHook(_ObsHook<T> oldHook) {
+  void didUpdateHook(_Hook<T> oldHook) {
     super.didUpdateHook(oldHook);
     if (hook.cacheKey != oldHook.cacheKey) {
       _state.cacheKey = hook.cacheKey;

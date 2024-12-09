@@ -5,6 +5,7 @@ import 'animate_obs.dart';
 import 'animate_value_generate.dart';
 import 'local_obs.dart';
 import 'local_obs_list.dart';
+import 'local_obs_map.dart';
 import 'local_storage.dart';
 import 'nest_scroll.dart';
 import 'session_storage.dart';
@@ -30,8 +31,9 @@ class TestPage extends StatelessWidget {
             children: [
               CellWidget(title: '嵌套滚动测试', page: NestScrollTest()),
               CellWidget(title: '动画 Obs 测试', page: AnimateObsTestPage()),
-              CellWidget(title: '本地持久化 Obs 测试', page: LocalObsTest()),
-              CellWidget(title: '本地持久化 Obs 测试（列表）', page: LocalObsListTest()),
+              CellWidget(title: 'LocalObs 测试', page: LocalObsTest()),
+              CellWidget(title: 'LocalObs List 测试', page: LocalObsListTest()),
+              CellWidget(title: 'LocalObs Map 测试', page: LocalObsMapTest()),
               CellWidget(
                 title: 'localStorage 测试',
                 page: LocalStorageTestPage(),

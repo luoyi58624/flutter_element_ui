@@ -40,13 +40,19 @@ void elementDartTest() {
     });
   });
 
-  group('正则测试', () {
-    test('demo', () {
-      // String str = 'UserModel<T>?';
-      // final result = str.replaceAll(RegExp(r'(<.*>)|\?'), '');
-      // i(result);
+  group('DartStringExtension', () {
+    test('excludeGeneric', () {
+      expect('List<E>'.excludeGeneric, 'List');
+      expect('UserModel<T>?'.excludeGeneric, 'UserModel');
     });
 
+    test('getGenericType', () {
+      expect('List<E>'.getGenericType, 'E');
+      expect('UserModel<T>?'.getGenericType, 'T');
+    });
+  });
+
+  group('正则测试', () {
     test('提取 html 标签中的字符', () {
       htmlRegTest();
     });

@@ -129,7 +129,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreList) {
         valueContent =
-            "\$ElJsonUtil.\$list<${fieldType.toGenericType}>(json, '$jsonKey')";
+            "\$ElJsonUtil.\$list<${fieldType.getGenericType}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -141,7 +141,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreSet) {
         valueContent =
-            "\$ElJsonUtil.\$set<${fieldType.toGenericType}>(json, '$jsonKey')";
+            "\$ElJsonUtil.\$set<${fieldType.getGenericType}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -153,7 +153,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreMap) {
         valueContent =
-            "\$ElJsonUtil.\$map<${fieldType.toMapGenericType?.value}>(json, '$jsonKey')";
+            "\$ElJsonUtil.\$map<${fieldType.getMapGenericType?.value}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';

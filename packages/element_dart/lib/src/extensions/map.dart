@@ -30,26 +30,12 @@ extension DartMapExtension<K, V> on Map<K, V> {
     return newMap;
   }
 
-  /// 将 Map 转换成实际类型，例如：
-  /// ```dart
-  /// // runtimeType: _Map<dynamic, dynamic>
-  /// Map map = {'name': 'hihi', 'age': 20};
-  ///
-  /// // runtimeType: _Map<String, Object>
-  /// Map castMap = DartUtil.mapAutoCast(map);
-  ///
-  /// // runtimeType: _Map<dynamic, dynamic>
-  /// Map map2 = {'name': 'hihi', 'age': 20, 'test': null};
-  ///
-  /// // runtimeType: _Map<String, dynamic>
-  /// Map castMap2 = DartUtil.mapAutoCast(map2);
-  /// ```
+  /// 将 Map 转换成实际类型，它通常用于解决反序列化时的 Map 类型转换错误
   dynamic autoCast() {
     return _autoCastMap(this);
   }
 }
 
-/// 自动转换Map的实际类型
 Map _autoCastMap<K, V>(Map<K, V> map) {
   Map<String, bool> keyTypeMap = {
     'dynamic': false,

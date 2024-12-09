@@ -1,4 +1,5 @@
 import 'package:element_annotation/element_annotation.dart';
+import 'package:element_dart/element_dart.dart';
 import 'package:element_storage/element_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_obs/flutter_obs.dart';
@@ -37,7 +38,6 @@ class LocalObs<T> extends WatchObs<T> {
     if (cacheKey == null) return;
 
     final value = getValue();
-
     if (serialize != null) {
       localStorage.setItem(cacheKey!, serialize!.serialize(value));
     } else {
@@ -50,10 +50,21 @@ class LocalObs<T> extends WatchObs<T> {
     if (cacheKey == null) return null;
     final result = localStorage.getItem(cacheKey!);
     if (result == null) return null;
-    if (serialize != null) {
-      return serialize!.deserialize(result);
-    } else {
-      return result;
+    try {
+      if (serialize != null) {
+        return serialize!.deserialize(result);
+      } else {
+        if (value is List) {
+          return DartUtil.dynamicToList<T>(result);
+        } else if (value is Map) {
+          return (result as Map).autoCast();
+        }
+        return result;
+      }
+    } catch (e) {
+      w('LocalObs 类型转换失败，出现这个警告表示你可能更改了数据结构，LocalObs 将会删除旧数据返回默认值。');
+      localStorage.removeItem(cacheKey!);
+      return value;
     }
   }
 }
