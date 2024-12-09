@@ -1,6 +1,7 @@
 library flutter_element_ui;
 
 export 'package:url_launcher/link.dart' show LinkTarget;
+export 'package:element_annotation/element_annotation.dart';
 
 export 'src/models.dart';
 export 'src/service.dart';
@@ -75,6 +76,7 @@ export 'src/components/others/triangle/triangle.dart';
 export 'src/extensions/color.dart';
 export 'src/extensions/widget.dart';
 
+export 'src/utils/local_storage/local_storage.dart';
 export 'src/utils/font.dart';
 
 export 'src/widgets/brightness.dart';

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:element_dart/element_dart.dart';
+import 'package:element_annotation/element_annotation.dart';
 import 'package:flutter/foundation.dart';
 
 import 'local_obs.dart';
 
-class ModelObs<T extends SerializeModel> extends LocalObs<T> {
-  /// 继承自 [LocalObs]，[value] 只需要实现 [SerializeModel] 接口即可进行持久化
+class ModelObs<T extends ElSerializeModel> extends LocalObs<T> {
+  /// 继承自 [LocalObs]，[value] 只需要实现 [ElSerializeModel] 接口即可进行持久化
   ModelObs(
     super.value, {
     super.cacheKey,

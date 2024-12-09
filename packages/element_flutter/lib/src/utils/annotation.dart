@@ -1,11 +1,11 @@
-import 'package:element_dart/element_dart.dart';
+import 'package:element_annotation/element_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta_meta.dart';
 import '../extensions/color.dart';
 
-// @Target 表示可以将此类当做注解，对于实现 Serialize 接口的类请将其限制在 field 字段上
+// @Target 表示可以将此类当做注解，对于实现 ElSerialize 接口的类请将其限制在 field 字段上
 @Target({TargetKind.field})
-class ElDateTimeSerialize implements Serialize<DateTime> {
+class ElDateTimeSerialize implements ElSerialize<DateTime> {
   /// 日期序列化
   const ElDateTimeSerialize();
 
@@ -18,7 +18,7 @@ class ElDateTimeSerialize implements Serialize<DateTime> {
 }
 
 @Target({TargetKind.field})
-class ElColorSerialize implements Serialize<Color> {
+class ElColorSerialize implements ElSerialize<Color> {
   /// 颜色序列化
   const ElColorSerialize();
 
@@ -30,7 +30,7 @@ class ElColorSerialize implements Serialize<Color> {
 }
 
 @Target({TargetKind.field})
-class ElMaterialColorSerialize implements Serialize<MaterialColor> {
+class ElMaterialColorSerialize implements ElSerialize<MaterialColor> {
   /// Material 颜色序列化
   const ElMaterialColorSerialize();
 

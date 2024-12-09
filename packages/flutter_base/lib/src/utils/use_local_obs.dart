@@ -272,10 +272,10 @@
 //     };
 //   }
 //   // 如果模型类实现了ModelSerialize，则设置默认的序列化和反序列化函数
-//   else if (value is SerializeModel) {
-//     serializeFun ??= (model) => jsonEncode((model as SerializeModel).toJson());
+//   else if (value is ElSerializeModel) {
+//     serializeFun ??= (model) => jsonEncode((model as ElSerializeModel).toJson());
 //     deserializeFun ??=
-//         (json) => (value as SerializeModel).fromJson(jsonDecode(json)) as T;
+//         (json) => (value as ElSerializeModel).fromJson(jsonDecode(json)) as T;
 //   }
 //   // 序列化Color
 //   else if (value is Color) {

@@ -1,4 +1,4 @@
-import 'package:element_dart/element_dart.dart';
+import 'package:element_annotation/element_annotation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -7,7 +7,7 @@ import '../core/local_obs.dart';
 LocalObs<T> useLocalObs<T>(
   T initialData, {
   required String cacheKey,
-  Serialize? serialize,
+  ElSerialize? serialize,
 }) {
   return use(_ObsHook(initialData, cacheKey, serialize));
 }
@@ -21,7 +21,7 @@ class _ObsHook<T> extends Hook<LocalObs<T>> {
 
   final T initialData;
   final String cacheKey;
-  final Serialize? serialize;
+  final ElSerialize? serialize;
 
   @override
   _ObsHookState<T> createState() => _ObsHookState();

@@ -1,3 +1,4 @@
+import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_obs/flutter_obs.dart';
@@ -27,7 +28,7 @@ class LocalObs<T> extends WatchObs<T> {
 
   /// 对象序列化接口，如果 [value] 不是基本数据类型，那么你必须指定序列化实现类，请参考：
   /// [ElDateTimeSerialize]、[ElColorSerialize]
-  Serialize? serialize;
+  ElSerialize? serialize;
 
   @override
   void reset() {

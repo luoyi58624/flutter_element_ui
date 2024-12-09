@@ -64,7 +64,7 @@ class ElLayout extends StatefulWidget {
 }
 
 @ElModel.all()
-class ElLayoutData implements SerializeModel, Cloneable {
+class ElLayoutData implements ElSerializeModel, Cloneable {
   /// 导航头位置
   double navbar;
 

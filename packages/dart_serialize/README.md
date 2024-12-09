@@ -1,1 +1,0 @@
-Some serialized interface

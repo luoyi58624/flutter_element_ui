@@ -67,7 +67,7 @@ class ElModel {
   /// Map<String, dynamic> toJson() => _toJson();
   /// ```
   ///
-  /// 提示：序列化类需要继承 [SerializeModel] 序列号模型接口，所以不能直接生成 toJson 而是生成 _toJson
+  /// 提示：序列化类需要继承 [ElSerializeModel] 序列号模型接口，所以不能直接生成 toJson 而是生成 _toJson
   final bool toJson;
 
   /// 生成 copyWith 方法

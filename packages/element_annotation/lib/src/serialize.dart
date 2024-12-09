@@ -1,7 +1,5 @@
-library dart_serialize;
-
 /// Object serialize interface
-abstract interface class Serialize<T> {
+abstract interface class ElSerialize<T> {
   /// object -> string
   String? serialize(T? data);
 
@@ -10,7 +8,7 @@ abstract interface class Serialize<T> {
 }
 
 /// Data Model serialize interface
-abstract interface class SerializeModel<T> {
+abstract interface class ElSerializeModel<T> {
   /// json -> model
   T fromJson(Map<String, dynamic>? json);
 

@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   element_dart:
     path: ../element_dart
+  element_annotation:
+    path: ../element_annotation
   flutter_hooks: ^0.20.5
   shared_preferences: ^2.3.3
 

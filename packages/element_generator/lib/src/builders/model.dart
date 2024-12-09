@@ -467,7 +467,7 @@ String? _getCustomSerialize(FieldElement fieldInfo) {
       var flag = (meta.element as ConstructorElement)
           .enclosingElement
           .allSupertypes
-          .any((e) => e.toString().contains('Serialize'));
+          .any((e) => e.toString().contains('ElSerialize'));
 
       if (flag) {
         serializeMeta = meta;

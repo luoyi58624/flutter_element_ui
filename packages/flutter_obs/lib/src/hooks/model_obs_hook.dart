@@ -1,17 +1,17 @@
-import 'package:element_dart/element_dart.dart';
+import 'package:element_annotation/element_annotation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../core/model_obs.dart';
 
-ModelObs<T> useModelObs<T extends SerializeModel>(
+ModelObs<T> useModelObs<T extends ElSerializeModel>(
   T initialData, {
   required String cacheKey,
 }) {
   return use(_Hook(initialData, cacheKey));
 }
 
-class _Hook<T extends SerializeModel> extends Hook<ModelObs<T>> {
+class _Hook<T extends ElSerializeModel> extends Hook<ModelObs<T>> {
   const _Hook(
     this.initialData,
     this.cacheKey,
@@ -24,7 +24,7 @@ class _Hook<T extends SerializeModel> extends Hook<ModelObs<T>> {
   _HookState<T> createState() => _HookState();
 }
 
-class _HookState<T extends SerializeModel>
+class _HookState<T extends ElSerializeModel>
     extends HookState<ModelObs<T>, _Hook<T>> {
   late final _state = ModelObs<T>(
     hook.initialData,

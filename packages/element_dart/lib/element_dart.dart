@@ -1,7 +1,6 @@
 library element_dart;
 
 export 'package:collection/collection.dart';
-export 'package:dart_serialize/dart_serialize.dart';
 
 export 'src/utils/common.dart';
 export 'src/utils/logger.dart';

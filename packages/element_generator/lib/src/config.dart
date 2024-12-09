@@ -8,7 +8,7 @@ class ModelBuilderConfig {
   /// * PersonModel -> $personModel
   ///
   /// {{}} 占位符表示首字母小写的类名，请最好设置容易区分的命名方式，因为这些默认的模型对象属于全局实例，
-  /// 模型对象若实现了 [SerializeModel] 序列化模型接口，那么当对象嵌套对象时会直接调用目标全局实例对象的 fromJson 方法。
+  /// 模型对象若实现了 [ElSerializeModel] 序列化模型接口，那么当对象嵌套对象时会直接调用目标全局实例对象的 fromJson 方法。
   final String modelNameTemplate;
 
   ModelBuilderConfig({required this.modelNameTemplate});

@@ -7,8 +7,6 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  dart_serialize:
-    path: ../dart_serialize
   # 编码和解码各种存档和压缩格式
   archive: ^3.4.10
   # 一组加密哈希函数：MD5、SHA
