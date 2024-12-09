@@ -89,7 +89,7 @@ class GlobalSetting extends StatelessWidget {
             title: '清除本地缓存',
             trailing: const SizedBox(),
             onTap: () async {
-              await LocalObs.sp.clear();
+              localStorage.clear();
               FlutterUtil.refreshApp();
               el.message.success('清除成功');
             },

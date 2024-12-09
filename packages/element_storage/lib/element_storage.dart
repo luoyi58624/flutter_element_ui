@@ -16,9 +16,9 @@ ElStorage? _sessionStorage;
 
 /// 临时本地存储对象
 ElStorage get sessionStorage {
-  assert(_localStorage != null,
+  assert(_sessionStorage != null,
       'sessionStorage 未初始化，请执行 ElStorage.createSessionStorage 方法');
-  return _localStorage!;
+  return _sessionStorage!;
 }
 
 /// 本地存储抽象类，Api 设计来自 Web 中的 localStorage，在 Web 平台上直接使用 localStorage Api，
@@ -32,6 +32,9 @@ abstract class ElStorage {
   @protected
   final String key;
 
+  /// 本地存储 Map 对象。
+  ///
+  /// 提示：对于基本数据类型
   @protected
   final Map<String, dynamic> storage;
 

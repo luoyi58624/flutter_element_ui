@@ -1,39 +1,21 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+一个简单的本地存储库，它支持所有平台，其 Api 基于原生 Web 的 localStorage，在客户端上则会将数据简单地写入到文件中，
+由于浏览器 localStorage 存储上限为 5M，所以你不能将它用于存储大量数据。
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+此库 element_plus 已经默认导出，你无需声明此依赖。
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+使用示例：
 
 ```dart
-const like = 'sample';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // El.init 内部会初始化 localStorage、sessionStorage
+  await El.init();
+
+  // 然后可以在任意位置调用 api，使用方式和 web 完全一致
+  localStorage.setItem('name', 'hihi');
+  localStorage.getItem('name');
+  localStorage.removeItem('name');
+  localStorage.clear();
+}
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.

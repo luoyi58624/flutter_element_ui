@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:element_annotation/element_annotation.dart';
+import 'package:element_storage/element_storage.dart';
 import 'package:flutter/foundation.dart';
 
 import 'local_obs.dart';
@@ -19,14 +20,14 @@ class ModelObs<T extends ElSerializeModel> extends LocalObs<T> {
   void setLocalValue() {
     if (cacheKey == null) return;
     final value = getValue();
-    LocalObs.sp.setString(cacheKey!, jsonEncode(value.toJson()));
+    localStorage.setItem(cacheKey!, jsonEncode(value.toJson()));
   }
 
   @protected
   @override
   dynamic getLocalValue() {
     if (cacheKey == null) return;
-    final result = LocalObs.sp.getString(cacheKey!);
+    final result = localStorage.getItem(cacheKey!);
     return result == null ? null : getValue().fromJson(jsonDecode(result));
   }
 }

@@ -38,7 +38,6 @@ class El with AnchorService, RouterService, CursorService {
   static Future<void> init() async {
     if (_el == null) {
       _el = El._();
-      await LocalObs.initStorage();
       await ElStorage.createLocalStorage();
       await ElStorage.createSessionStorage();
     }
