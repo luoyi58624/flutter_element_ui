@@ -3,17 +3,6 @@ import 'dart:convert';
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-class MapSerialize implements ElSerialize<Map> {
-  const MapSerialize();
-
-  @override
-  String? serialize(Map? data) => jsonEncode(data);
-
-  @override
-  Map? deserialize(String? str) =>
-      str == null ? null : (jsonDecode(str) as Map).autoCast();
-}
-
 class LocalObsMapTest extends HookWidget {
   const LocalObsMapTest({super.key});
 

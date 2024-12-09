@@ -14,6 +14,20 @@ void elementDartTest() {
           isFalse);
       expect(DartUtil.listOnlyOne([null, null, null]), isTrue);
     });
+
+    test('dynamicToMap', () {
+      Map map = {'name': 'hihi', 'age': 20};
+      Map<String, dynamic> castMap =
+          DartUtil.dynamicToMap<Map<String, Object>>(map);
+      i(castMap.runtimeType.toString());
+      expect(map.runtimeType.toString(), '_Map<dynamic, dynamic>');
+      expect(castMap.runtimeType.toString(), '_Map<String, Object>');
+
+      Map map2 = {'name': 'hihi', 'age': '20'};
+      Map castMap2 = DartUtil.dynamicToMap<Map<String, String>>(map2);
+      expect(map2.runtimeType.toString(), '_Map<dynamic, dynamic>');
+      expect(castMap2.runtimeType.toString(), '_Map<String, String>');
+    });
   });
 
   group('DartMapExtension', () {
@@ -26,31 +40,6 @@ void elementDartTest() {
       final map = {'name': 'hihi', 'age': 20, 'money': 1000};
       final newMap = map.filterFromKeys(['age', 'money']);
       expect(newMap, {'age': 20, 'money': 1000});
-    });
-    test('autoCast', () {
-      Map map = {'name': 'hihi', 'age': 20};
-      Map<String, dynamic> castMap = map.autoCast();
-      expect(map.runtimeType.toString(), '_Map<dynamic, dynamic>');
-      expect(castMap.runtimeType.toString(), '_Map<String, Object>');
-
-      Map map2 = {'name': 'hihi', 'age': 20, 'demo': null};
-      Map castMap2 = map2.autoCast();
-      expect(map2.runtimeType.toString(), '_Map<dynamic, dynamic>');
-      expect(castMap2.runtimeType.toString(), '_Map<String, dynamic>');
-    });
-
-    test('DartUtil mapCast', () {
-      Map map = {'name': 'hihi', 'age': 20};
-      Map<String, dynamic> castMap =
-          DartUtil.dynamicToMap<Map<String, Object>>(map);
-      i(castMap.runtimeType.toString());
-      expect(map.runtimeType.toString(), '_Map<dynamic, dynamic>');
-      expect(castMap.runtimeType.toString(), '_Map<String, Object>');
-
-      Map map2 = {'name': 'hihi', 'age': '20'};
-      Map castMap2 = DartUtil.dynamicToMap<Map<String, String>>(map2);
-      expect(map2.runtimeType.toString(), '_Map<dynamic, dynamic>');
-      expect(castMap2.runtimeType.toString(), '_Map<String, String>');
     });
   });
 
