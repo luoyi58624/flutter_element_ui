@@ -64,7 +64,7 @@ class ElLayout extends StatefulWidget {
 }
 
 @ElModel.all()
-class ElLayoutData implements ElSerializeModel, Cloneable {
+class ElLayoutData implements ElSerializeModel {
   /// 导航头位置
   double navbar;
 
@@ -89,9 +89,6 @@ class ElLayoutData implements ElSerializeModel, Cloneable {
 
   @override
   Map<String, dynamic> toJson() => _toJson();
-
-  @override
-  ElLayoutData clone() => copyWith();
 
   @override
   bool operator ==(Object other) => _equals(other);

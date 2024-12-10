@@ -120,6 +120,11 @@ class SlideRouterConfig {
           '/${RootRoute.component.$2}/typography',
           WorkStatus.pending
         ),
+        (
+          'Scrollbar 滚动条',
+          '/${RootRoute.component.$2}/scrollbar',
+          WorkStatus.finished
+        ),
       ],
     ),
     (

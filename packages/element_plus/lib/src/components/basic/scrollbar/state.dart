@@ -127,7 +127,10 @@ class _ElScrollbarState extends State<ElScrollbar>
       onNotification: _handleScrollMetricsNotification,
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
-        child: result,
+        child: Listener(
+          onPointerSignal: _receivedPointerSignal,
+          child: result,
+        ),
       ),
     );
 

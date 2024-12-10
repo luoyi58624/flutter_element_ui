@@ -109,7 +109,7 @@ Widget _buildTableBodyItemContainer(Map dataItem, ElTableColumn column) {
   if (column.render != null) {
     return column.render!(dataItem);
   } else if (column.prop != null) {
-    return Text(
+    return ElText(
       DartUtil.safeString(dataItem[column.prop] ?? ''),
     );
   } else {

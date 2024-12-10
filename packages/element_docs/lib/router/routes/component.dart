@@ -55,6 +55,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const ExampleSmoothScroll(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}scrollbar',
+      builder: (context, state) => const ScrollbarPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}autocomplete',
       builder: (context, state) => const NotFoundPage(),
     ),
@@ -161,6 +165,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}tabs',
       builder: (context, state) => const TabsPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}table',
+      builder: (context, state) => const TablePage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}animated_size',

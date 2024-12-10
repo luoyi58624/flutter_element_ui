@@ -30,10 +30,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
     _thumbHold = null;
   }
 
-  // Given the drag's localPosition (see handleThumbPressUpdate) compute the
-  // scroll position delta in the scroll axis direction. Deal with the complications
-  // arising from scroll metrics changes that have occurred since the last
-  // drag update and the need to prevent overscrolling on some platforms.
   double? _getPrimaryDelta(Offset localPosition) {
     assert(_cachedController != null);
     assert(_startDragScrollbarAxisOffset != null);
@@ -323,7 +319,7 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
 
   bool _handleScrollMetricsNotification(
       ScrollMetricsNotification notification) {
-    if (!defaultScrollNotificationPredicate(notification.asScrollUpdate())) {
+    if (!widget.notificationPredicate(notification.asScrollUpdate())) {
       return false;
     }
 
@@ -347,7 +343,7 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
-    if (!defaultScrollNotificationPredicate(notification)) {
+    if (!widget.notificationPredicate(notification)) {
       return false;
     }
 
@@ -578,7 +574,6 @@ mixin _RawScrollbarMixin<T extends ElScrollbar> on _ElScrollbarMixin<T> {
         }
       } else if (event is PointerScrollInertiaCancelEvent) {
         position.jumpTo(position.pixels);
-        // Don't use the pointer signal resolver, all hit-tested scrollables should stop.
       }
     }
   }

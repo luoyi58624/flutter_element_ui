@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'demo.dart';
 import 'global.dart';
 import 'utils/theme.dart';
 
@@ -20,51 +21,6 @@ void main() async {
     fontFamily: MyFonts.consolas,
   );
   runApp(const MainApp());
-}
-
-class Demo extends StatelessWidget {
-  const Demo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ElApp(
-      child: MaterialApp(home: _HomePage()),
-    );
-  }
-}
-
-class _HomePage extends StatelessWidget {
-  const _HomePage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('首页'),
-      ),
-      body: const SelectionArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ElText([
-              'hello, ',
-              ElText(
-                '这是一段富文本, ',
-                style: TextStyle(color: Colors.green),
-              ),
-              ' ',
-              SelectionContainer.disabled(
-                child: ElButton(
-                  child: 'Hello',
-                  type: El.primary,
-                ),
-              ),
-            ]),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class MainApp extends StatefulWidget {

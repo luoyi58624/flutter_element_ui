@@ -57,6 +57,8 @@ mixin _ElScrollbarMixin<T extends ElScrollbar>
       ..textDirection = Directionality.of(context)
       ..thickness = widget.thickness
       ..radius = widget.radius
+      ..padding = widget.padding ?? MediaQuery.paddingOf(context)
+      ..scrollbarOrientation = widget.scrollbarOrientation
       ..mainAxisMargin = widget.mainAxisMargin
       ..shape = widget.shape
       ..crossAxisMargin = widget.crossAxisMargin

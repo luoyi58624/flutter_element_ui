@@ -42,6 +42,7 @@ class ElScrollbar extends StatefulWidget {
     this.trackRadius,
     this.mainAxisMargin = 0.0,
     this.crossAxisMargin = 1.0,
+    this.padding,
     this.minThumbLength = 36.0,
     this.trackColor = Colors.transparent,
     this.trackBorderColor = Colors.transparent,
@@ -53,6 +54,8 @@ class ElScrollbar extends StatefulWidget {
     this.fadeDuration = const Duration(milliseconds: 200),
     this.timeToFade = const Duration(milliseconds: 1000),
     this.trackScrollDuration = const Duration(milliseconds: 350),
+    this.scrollbarOrientation,
+    this.notificationPredicate = defaultScrollNotificationPredicate,
   });
 
   final Widget child;
@@ -80,6 +83,9 @@ class ElScrollbar extends StatefulWidget {
 
   /// 滚动条离轨道之间的间距，默认 1.0
   final double crossAxisMargin;
+
+  /// 滚动条和轨道内边距
+  final EdgeInsets? padding;
 
   /// 滚动条最小长度
   final double minThumbLength;
@@ -113,6 +119,10 @@ class ElScrollbar extends StatefulWidget {
 
   /// 点击轨道滚动跳转动画持续时间
   final Duration trackScrollDuration;
+
+  final ScrollbarOrientation? scrollbarOrientation;
+
+  final ScrollNotificationPredicate notificationPredicate;
 
   @override
   State<ElScrollbar> createState() => _ElScrollbarState();

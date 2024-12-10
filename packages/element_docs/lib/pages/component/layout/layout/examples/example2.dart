@@ -1,6 +1,8 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../demo.dart';
+
 class Example2 extends StatelessWidget {
   const Example2({super.key, required this.title});
 
@@ -12,12 +14,7 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: ['ElLayout 页面排版，内部的任何构造都由您自己决定，以下示例则是简单实现了 Material 风格样式。'],
-        ),
-        const Gap(8),
-        const CodeExample(
+        CodeExample(
           code: code,
           children: [
             _Example(),
@@ -29,7 +26,10 @@ class Example2 extends StatelessWidget {
 }
 
 class _Example extends StatelessWidget {
-  const _Example();
+  _Example();
+
+  final ScrollController _verticalController = ScrollController();
+  final ScrollController _horizontalController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,9 @@ class _Example extends StatelessWidget {
           enabledDrag: true,
           child: sidebar,
         ),
-        body: const ElBody(),
+        body: const ElBody(
+          minWidth: 320,
+        ),
       ),
     );
   }
@@ -85,19 +87,25 @@ class _Example extends StatelessWidget {
         // 波纹绘制必须放在 Material 小部件中
         child: Material(
           color: Colors.blueGrey.shade800,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ...List.generate(
-                  20,
-                  (index) => ListTile(
-                    onTap: () {},
-                    title: ElText(
-                      'Item - ${index + 1}',
+          child: TwoDimensionalScrollWidget(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                minWidth: 300,
+                maxWidth: 300,
+              ),
+              child: Column(
+                children: [
+                  ...List.generate(
+                    20,
+                    (index) => ListTile(
+                      onTap: () {},
+                      title: ElText(
+                        'Item - ${index + 1}',
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

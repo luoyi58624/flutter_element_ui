@@ -9,6 +9,7 @@ bool _initialize = false;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
+/// 解决行高和代码（中文高度比英文、数字高）不一致问题
 const _codeStrutStyle = StrutStyle(
   forceStrutHeight: true,
   leading: 0.3,
@@ -47,7 +48,6 @@ class CodePreview extends StatefulWidget {
   /// 代码字体全局样式
   static final textStyle = Obs(const TextStyle(
     fontSize: 14,
-    height: 1.5,
   ));
 
   @override
@@ -123,52 +123,55 @@ class _CodePreviewState extends State<CodePreview> {
 
   /// 构建预览代码块
   Widget buildCodePreview() {
-    return Stack(
-      children: [
-        TextSelectionTheme(
-          data: TextSelectionThemeData(
-            selectionColor: bgColor.isDark
-                ? Colors.blueAccent.withOpacity(0.5)
-                : Colors.blue.withOpacity(0.36),
-          ),
-          child: Container(
-            width: double.infinity,
-            height: widget.height,
-            constraints: widget.maxHeight != null
-                ? BoxConstraints(
-                    minWidth: double.infinity,
-                    maxWidth: double.infinity,
-                    maxHeight: widget.maxHeight!,
-                  )
-                : null,
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: borderRadius,
+    return ElBrightness(
+      brightness: Brightness.dark,
+      child: Stack(
+        children: [
+          TextSelectionTheme(
+            data: TextSelectionThemeData(
+              selectionColor: bgColor.isDark
+                  ? Colors.blueAccent.withOpacity(0.5)
+                  : Colors.blue.withOpacity(0.36),
             ),
-            clipBehavior: Clip.hardEdge,
-            child: NestScrollWrapper(
-              controller: scrollController,
-              child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              height: widget.height,
+              constraints: widget.maxHeight != null
+                  ? BoxConstraints(
+                      minWidth: double.infinity,
+                      maxWidth: double.infinity,
+                      maxHeight: widget.maxHeight!,
+                    )
+                  : null,
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: borderRadius,
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: NestScrollWrapper(
                 controller: scrollController,
-                child: IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildLineNum(),
-                      Expanded(child: buildCode()),
-                    ],
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildLineNum(),
+                        Expanded(child: buildCode()),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          top: 8,
-          right: 8,
-          child: buildCopyButton(),
-        ),
-      ],
+          Positioned(
+            top: 8,
+            right: 8,
+            child: buildCopyButton(),
+          ),
+        ],
+      ),
     );
   }
 
