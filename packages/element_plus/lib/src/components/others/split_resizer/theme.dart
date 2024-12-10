@@ -8,7 +8,6 @@ class ElSplitResizerThemeData {
     size: 0,
     triggerSize: 4,
     position: ElSplitPosition.center,
-    rootOverlay: true,
   );
   static const theme = _defaultTheme;
   static const darkTheme = _defaultTheme;
@@ -20,7 +19,6 @@ class ElSplitResizerThemeData {
     this.color,
     this.activeColor,
     this.position,
-    this.rootOverlay,
   });
 
   /// 分割器方向，默认垂直
@@ -44,12 +42,6 @@ class ElSplitResizerThemeData {
   ///
   /// 如果你设置了较大触发范围，可能会遮挡了页面中的滚动条，你可以设置此参数调整触发位置。
   final ElSplitPosition? position;
-
-  /// 分隔条是否作用于顶级 [Overlay]，默认 true。
-  ///
-  /// 如果没有在顶级 [Overlay] 插入，操作 [MaterialApp] 任意属性时分割器的事件将会丢失，
-  /// 这个问题似乎是 [Overlay] 的 bug。
-  final bool? rootOverlay;
 
   @override
   bool operator ==(Object other) => _equals(other);

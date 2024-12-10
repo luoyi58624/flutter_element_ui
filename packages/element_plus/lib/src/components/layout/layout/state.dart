@@ -3,7 +3,6 @@ part of 'index.dart';
 class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
   late ElLayoutThemeData _themeData;
-  late double _splitResizerTriggerSize;
 
   /// 拖拽过程中保存的布局数据，所产生的数据不受布局约束
   late ElLayoutData _dragLayoutData;
@@ -22,6 +21,9 @@ class ElLayoutState extends State<ElLayout> {
     _dragLayoutData.navbar += value;
     double result = _dragLayoutData.navbar;
 
+    if (layoutData.footer + bodySize.height >= _constraints.maxHeight) {
+      return;
+    }
     if (result < widget.navbar!.minHeight) {
       result = widget.navbar!.minHeight;
     } else {
@@ -42,7 +44,7 @@ class ElLayoutState extends State<ElLayout> {
     _dragLayoutData.sidebar += value;
     double result = _dragLayoutData.sidebar;
 
-    if (layoutData.sidebar > _constraints.maxWidth) {
+    if (layoutData.rightSidebar + bodySize.width >= _constraints.maxWidth) {
       return;
     }
     if (result < widget.sidebar!.minWidth) {
@@ -66,6 +68,10 @@ class ElLayoutState extends State<ElLayout> {
     _dragLayoutData.rightSidebar -= value;
 
     double result = _dragLayoutData.rightSidebar;
+
+    if (layoutData.sidebar + bodySize.width >= _constraints.maxWidth) {
+      return;
+    }
     if (result < widget.rightSidebar!.minWidth) {
       result = widget.rightSidebar!.minWidth;
     } else {
@@ -89,6 +95,9 @@ class ElLayoutState extends State<ElLayout> {
     _dragLayoutData.footer -= value;
     double result = _dragLayoutData.footer;
 
+    if (layoutData.navbar + bodySize.height >= _constraints.maxHeight) {
+      return;
+    }
     if (result < widget.footer!.minHeight) {
       result = widget.footer!.minHeight;
     } else {
@@ -184,196 +193,197 @@ class ElLayoutState extends State<ElLayout> {
     _themeData = ElLayoutTheme.of(context);
     final splitResizerThemeData = ElSplitResizerTheme.of(context);
     _splitResizerTriggerSize = splitResizerThemeData.triggerSize!;
-    return LayoutBuilder(builder: (context, constraints) {
-      _constraints = constraints;
+    return OverlayWidget(
+      child: LayoutBuilder(builder: (context, constraints) {
+        _constraints = constraints;
 
-      i('layout');
-      return ObsBuilder(builder: (context) {
-        List<Widget> children = [];
+        return ObsBuilder(builder: (context) {
+          List<Widget> children = [];
 
-        children.add(
-          Positioned(
-            top: layoutData.navbar,
-            bottom: 0,
-            left: layoutData.sidebar,
-            right: layoutData.rightSidebar,
-            child: widget.body,
-          ),
-        );
-
-        if (widget.sidebar != null) {
-          final double top =
-              widget.sidebar!.expandedTop ? 0 : layoutData.navbar;
-          final double bottom =
-              widget.sidebar!.expandedBottom ? 0 : layoutData.footer;
           children.add(
             Positioned(
-              top: top,
-              bottom: bottom,
-              left: 0,
-              child: ColoredBox(
-                color: _themeData.sidebarColor!,
-                child: SizedBox(
-                  width: layoutData.sidebar,
-                  child: widget.sidebar!,
-                ),
-              ),
-            ),
-          );
-          if (widget.sidebar!.enabledDrag) {
-            children.add(
-              Positioned(
-                top: top,
-                bottom: bottom,
-                left: layoutData.sidebar,
-                child: ElSplitResizerTheme(
-                  data: const ElSplitResizerThemeData(
-                    position: ElSplitPosition.right,
-                  ),
-                  child: ElSplitResizer(
-                    onChanged: _updateSidebar,
-                    onEnd: () {
-                      _dragLayoutData.sidebar = _layoutData.value.sidebar;
-                    },
-                  ),
-                ),
-              ),
-            );
-          }
-        }
-        if (widget.rightSidebar != null) {
-          final double top =
-              widget.rightSidebar!.expandedTop ? 0 : layoutData.navbar;
-          final double bottom =
-              widget.rightSidebar!.expandedBottom ? 0 : layoutData.footer;
-          children.add(
-            Positioned(
-              top: top,
-              bottom: bottom,
-              right: 0,
-              child: ColoredBox(
-                color: _themeData.sidebarColor!,
-                child: SizedBox(
-                  width: layoutData.rightSidebar,
-                  child: widget.rightSidebar!,
-                ),
-              ),
-            ),
-          );
-          if (widget.rightSidebar!.enabledDrag) {
-            children.add(
-              Positioned(
-                top: top,
-                bottom: bottom,
-                right: layoutData.rightSidebar,
-                child: ElSplitResizerTheme(
-                  data: const ElSplitResizerThemeData(
-                    position: ElSplitPosition.right,
-                  ),
-                  child: ElSplitResizer(
-                    onChanged: _updateRightSidebar,
-                    onEnd: () {
-                      _dragLayoutData.rightSidebar =
-                          _layoutData.value.rightSidebar;
-                    },
-                  ),
-                ),
-              ),
-            );
-          }
-        }
-        if (widget.navbar != null) {
-          final left = widget.sidebar?.expandedTop == true
-              ? layoutData.sidebar + splitResizerThemeData.size!
-              : 0.0;
-          final right = widget.rightSidebar?.expandedTop == true
-              ? layoutData.rightSidebar + splitResizerThemeData.size!
-              : 0.0;
-          children.add(
-            Positioned(
-              left: left,
-              right: right,
-              child: Container(
-                height: layoutData.navbar,
-                decoration: BoxDecoration(
-                  color: _themeData.navbarColor!,
-                ),
-                child: widget.navbar!,
-              ),
-            ),
-          );
-          if (widget.navbar!.enabledDrag) {
-            children.add(
-              Positioned(
-                top: layoutData.navbar,
-                left: left,
-                right: right,
-                child: ElSplitResizerTheme(
-                  data: const ElSplitResizerThemeData(
-                    axis: Axis.horizontal,
-                    position: ElSplitPosition.center,
-                  ),
-                  child: ElSplitResizer(
-                    onChanged: _updateNavbar,
-                    onEnd: () {
-                      _dragLayoutData.navbar = _layoutData.value.navbar;
-                    },
-                  ),
-                ),
-              ),
-            );
-          }
-        }
-        if (widget.footer != null) {
-          final left = widget.sidebar?.expandedBottom == true
-              ? layoutData.sidebar + splitResizerThemeData.size!
-              : 0.0;
-          final right = widget.rightSidebar?.expandedBottom == true
-              ? layoutData.rightSidebar + splitResizerThemeData.size!
-              : 0.0;
-          children.add(
-            Positioned(
-              left: left,
-              right: right,
+              top: layoutData.navbar,
               bottom: 0,
-              child: Container(
-                height: layoutData.footer,
-                decoration: BoxDecoration(
-                  color: _themeData.footerColor!,
-                ),
-                child: widget.footer!,
-              ),
+              left: layoutData.sidebar,
+              right: layoutData.rightSidebar,
+              child: widget.body,
             ),
           );
-          if (widget.footer!.enabledDrag) {
+
+          if (widget.sidebar != null) {
+            final double top =
+                widget.sidebar!.expandedTop ? 0 : layoutData.navbar;
+            final double bottom =
+                widget.sidebar!.expandedBottom ? 0 : layoutData.footer;
             children.add(
               Positioned(
-                bottom: layoutData.footer,
-                left: left,
-                right: right,
-                child: ElSplitResizerTheme(
-                  data: const ElSplitResizerThemeData(
-                    axis: Axis.horizontal,
-                    position: ElSplitPosition.center,
-                  ),
-                  child: ElSplitResizer(
-                    onChanged: _updateFooter,
-                    onEnd: () {
-                      _dragLayoutData.footer = _layoutData.value.footer;
-                    },
+                top: top,
+                bottom: bottom,
+                left: 0,
+                child: ColoredBox(
+                  color: _themeData.sidebarColor!,
+                  child: SizedBox(
+                    width: layoutData.sidebar,
+                    child: widget.sidebar!,
                   ),
                 ),
               ),
             );
+            if (widget.sidebar!.enabledDrag) {
+              children.add(
+                Positioned(
+                  top: top,
+                  bottom: bottom,
+                  left: layoutData.sidebar,
+                  child: ElSplitResizerTheme(
+                    data: const ElSplitResizerThemeData(
+                      position: ElSplitPosition.right,
+                    ),
+                    child: ElSplitResizer(
+                      onChanged: _updateSidebar,
+                      onEnd: () {
+                        _dragLayoutData.sidebar = _layoutData.value.sidebar;
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
           }
-        }
-        return _LayoutInheritedWidget(
-          layoutData,
-          child: Stack(
-            children: children,
-          ),
-        );
-      });
-    });
+          if (widget.rightSidebar != null) {
+            final double top =
+                widget.rightSidebar!.expandedTop ? 0 : layoutData.navbar;
+            final double bottom =
+                widget.rightSidebar!.expandedBottom ? 0 : layoutData.footer;
+            children.add(
+              Positioned(
+                top: top,
+                bottom: bottom,
+                right: 0,
+                child: ColoredBox(
+                  color: _themeData.sidebarColor!,
+                  child: SizedBox(
+                    width: layoutData.rightSidebar,
+                    child: widget.rightSidebar!,
+                  ),
+                ),
+              ),
+            );
+            if (widget.rightSidebar!.enabledDrag) {
+              children.add(
+                Positioned(
+                  top: top,
+                  bottom: bottom,
+                  right: layoutData.rightSidebar,
+                  child: ElSplitResizerTheme(
+                    data: const ElSplitResizerThemeData(
+                      position: ElSplitPosition.right,
+                    ),
+                    child: ElSplitResizer(
+                      onChanged: _updateRightSidebar,
+                      onEnd: () {
+                        _dragLayoutData.rightSidebar =
+                            _layoutData.value.rightSidebar;
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+          if (widget.navbar != null) {
+            final left = widget.sidebar?.expandedTop == true
+                ? layoutData.sidebar + splitResizerThemeData.size!
+                : 0.0;
+            final right = widget.rightSidebar?.expandedTop == true
+                ? layoutData.rightSidebar + splitResizerThemeData.size!
+                : 0.0;
+            children.add(
+              Positioned(
+                left: left,
+                right: right,
+                child: Container(
+                  height: layoutData.navbar,
+                  decoration: BoxDecoration(
+                    color: _themeData.navbarColor!,
+                  ),
+                  child: widget.navbar!,
+                ),
+              ),
+            );
+            if (widget.navbar!.enabledDrag) {
+              children.add(
+                Positioned(
+                  top: layoutData.navbar,
+                  left: left,
+                  right: right,
+                  child: ElSplitResizerTheme(
+                    data: const ElSplitResizerThemeData(
+                      axis: Axis.horizontal,
+                      position: ElSplitPosition.center,
+                    ),
+                    child: ElSplitResizer(
+                      onChanged: _updateNavbar,
+                      onEnd: () {
+                        _dragLayoutData.navbar = _layoutData.value.navbar;
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+          if (widget.footer != null) {
+            final left = widget.sidebar?.expandedBottom == true
+                ? layoutData.sidebar + splitResizerThemeData.size!
+                : 0.0;
+            final right = widget.rightSidebar?.expandedBottom == true
+                ? layoutData.rightSidebar + splitResizerThemeData.size!
+                : 0.0;
+            children.add(
+              Positioned(
+                left: left,
+                right: right,
+                bottom: 0,
+                child: Container(
+                  height: layoutData.footer,
+                  decoration: BoxDecoration(
+                    color: _themeData.footerColor!,
+                  ),
+                  child: widget.footer!,
+                ),
+              ),
+            );
+            if (widget.footer!.enabledDrag) {
+              children.add(
+                Positioned(
+                  bottom: layoutData.footer,
+                  left: left,
+                  right: right,
+                  child: ElSplitResizerTheme(
+                    data: const ElSplitResizerThemeData(
+                      axis: Axis.horizontal,
+                      position: ElSplitPosition.center,
+                    ),
+                    child: ElSplitResizer(
+                      onChanged: _updateFooter,
+                      onEnd: () {
+                        _dragLayoutData.footer = _layoutData.value.footer;
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          }
+          return _LayoutInheritedWidget(
+            layoutData,
+            child: Stack(
+              children: children,
+            ),
+          );
+        });
+      }),
+    );
   }
 }

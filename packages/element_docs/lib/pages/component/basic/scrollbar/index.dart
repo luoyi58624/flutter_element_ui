@@ -15,7 +15,7 @@ class ScrollbarPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Example1(title: '基础使用'),
-      const Example2(title: '定义滚动条外观'),
+      const Example2(title: '定制滚动条外观'),
       const Example3(title: '横向、垂直滚动条'),
     ];
   }

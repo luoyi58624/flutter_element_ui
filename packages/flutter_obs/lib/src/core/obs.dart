@@ -10,7 +10,7 @@ VoidCallback? _tempBuilderNotifyFun;
 Set<Set<VoidCallback>> _tempBuilderObsList = {};
 
 class Obs<T> extends ValueNotifier<T> {
-  /// 创建一个响应式变量，[ObsBuilder] 会收集所有依赖，当更新时会自动重建 UI：
+  /// 创建一个响应式变量，[ObsBuilder] 会自动收集所有依赖，当变量更新时会自动重建 UI：
   /// ```dart
   /// const count = Obs(0);
   ///

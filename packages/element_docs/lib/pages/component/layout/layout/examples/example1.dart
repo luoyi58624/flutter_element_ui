@@ -14,6 +14,11 @@ class Example1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: ['ElLayout 偏向于桌面端布局，对于移动端请使用 Scaffold 官方实现的布局组件'],
+        ),
+        textGap,
         const CodeExample(
           code: code,
           children: [

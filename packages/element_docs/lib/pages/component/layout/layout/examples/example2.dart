@@ -34,7 +34,7 @@ class _Example extends StatelessWidget {
         cacheKey: 'Material_Layout_Demo',
         navbar: ElNavbar(child: navbar),
         sidebar: ElSidebar(
-          enabledDrag: true, // 启动拖拽调整尺寸
+          enabledDrag: true, // 开启拖拽调整尺寸
           minWidth: 120, // 限制最小宽度
           child: sidebar,
         ),
@@ -131,7 +131,7 @@ class _Example extends StatelessWidget {
         cacheKey: 'Material_Layout_Demo',
         navbar: ElNavbar(child: navbar),
         sidebar: ElSidebar(
-          enabledDrag: true, // 启动拖拽调整尺寸
+          enabledDrag: true, // 开启拖拽调整尺寸
           minWidth: 120, // 限制最小宽度
           child: sidebar,
         ),

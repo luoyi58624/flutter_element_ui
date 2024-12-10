@@ -64,19 +64,7 @@ class WatchObs<T> extends Obs<T> {
     _oldValue = value ?? getValue();
   }
 
-  /// [WatchObs] 不允许手动通知监听，因为直接操作对象会造成值引用问题。
-  ///
-  /// 如果你非要手动监听，那么只需要创建一个自定义 Obs 继承它，覆写 notify 方法即可：
-  /// ```dart
-  /// class MyObs<T> extends WatchObs<T> {
-  ///   MyObs(super.value);
-  ///
-  ///   @override
-  ///   void notify() {
-  ///     super.notify();
-  ///   }
-  /// }
-  /// ```
+  /// [WatchObs] 不允许手动通知监听，因为直接操作对象会造成值引用问题
   @protected
   @override
   void notify() {

@@ -146,3 +146,17 @@ class HorizontalScrollWidget extends StatelessWidget {
         : child;
   }
 }
+
+class OverlayWidget extends StatelessWidget {
+  /// 创建局部 [Overlay] 小部件
+  const OverlayWidget({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Overlay(
+      initialEntries: [OverlayEntry(builder: (context) => child)],
+    );
+  }
+}

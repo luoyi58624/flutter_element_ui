@@ -17,7 +17,9 @@ enum ElSplitPosition {
   right,
 }
 
-/// Element UI 拖拽分割器，它内部会通过 [Overlay] 创建可交互的拖拽器，
+/// Element UI 拖拽分割器，该小部件通常用于分割页面布局，它内部会通过 [Overlay] 创建可交互的拖拽器，
+/// 所以当你创建拖拽页面尺寸的小部件时，你需要在外部嵌套一个局部 [Overlay]，否则分割器所在的层级可能很高。
+///
 /// 注意：[ElSplitResizer] 只负责提供拖拽交互，不会对交互数据做任何校验。
 class ElSplitResizer extends StatefulWidget {
   const ElSplitResizer({super.key, this.onChanged, this.onStart, this.onEnd});
@@ -116,8 +118,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
     });
 
     nextTick(() {
-      Overlay.of(context, rootOverlay: themeData.rootOverlay!)
-          .insert(overlayEntry);
+      Overlay.of(context).insert(overlayEntry);
     });
   }
 
