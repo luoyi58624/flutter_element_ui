@@ -63,7 +63,8 @@ class GlobalState {
   static final showPerformanceOverlay = Obs(false);
 
   /// 显示 debug 标识
-  static final debugShowCheckedModeBanner = LocalObs(true);
+  static final debugShowCheckedModeBanner =
+      LocalObs(true, cacheKey: 'show_debug_banner');
 
   /// 显示语义调式器
   static final showSemanticsDebugger = Obs(false);

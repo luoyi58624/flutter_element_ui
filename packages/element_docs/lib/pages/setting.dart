@@ -67,15 +67,16 @@ class GlobalSetting extends StatelessWidget {
                 },
               );
             }),
-          ObsBuilder(builder: (context) {
-            return CellWidget(
-              title: '显示 Debug 横幅',
-              value: GlobalState.debugShowCheckedModeBanner.value,
-              onChanged: (v) {
-                GlobalState.debugShowCheckedModeBanner.value = v;
-              },
-            );
-          }),
+          if (kDebugMode)
+            ObsBuilder(builder: (context) {
+              return CellWidget(
+                title: '显示 Debug 横幅',
+                value: GlobalState.debugShowCheckedModeBanner.value,
+                onChanged: (v) {
+                  GlobalState.debugShowCheckedModeBanner.value = v;
+                },
+              );
+            }),
           ObsBuilder(builder: (context) {
             return CellWidget(
               title: '监控 FPS 帧率',

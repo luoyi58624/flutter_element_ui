@@ -9,6 +9,11 @@ bool _initialize = false;
 /// 暗色代码主题
 Highlighter? _darkCode;
 
+const _codeStrutStyle = StrutStyle(
+  forceStrutHeight: true,
+  leading: 0.3,
+);
+
 class CodePreview extends StatefulWidget {
   /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
   const CodePreview({
@@ -179,6 +184,7 @@ class _CodePreviewState extends State<CodePreview> {
                 code.value,
                 softWrap: false,
                 style: CodePreview.textStyle.value,
+                strutStyle: _codeStrutStyle,
               );
             }),
           );
@@ -221,6 +227,7 @@ class _CodePreviewState extends State<CodePreview> {
                   style: CodePreview.textStyle.value.copyWith(
                     color: context.elTheme.textTheme.secondaryStyle.color,
                   ),
+                  strutStyle: _codeStrutStyle,
                 ),
               ),
             );
