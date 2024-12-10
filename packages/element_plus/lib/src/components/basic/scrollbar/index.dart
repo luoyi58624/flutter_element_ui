@@ -120,8 +120,12 @@ class ElScrollbar extends StatefulWidget {
   /// 点击轨道滚动跳转动画持续时间
   final Duration trackScrollDuration;
 
+  /// 滚动条在滚动容器中的位置，默认情况下，如果是垂直滚动，滚动条放置在右边，水平滚动滚动条放置在底部
   final ScrollbarOrientation? scrollbarOrientation;
 
+  /// 根据滚动通知响应的 depth 来决定滚动条是否触发滚动，默认 [defaultScrollNotificationPredicate]，
+  /// 它返回的条件是 notification.depth == 0，假如你嵌套了多个滚动容器，要让滚动条响应第二滚动容器只需要返回 notification.depth == 1，
+  /// 应用场景：同时显示垂直、水平滚动条，详细信息请参阅 element_docs 滚动条示例。
   final ScrollNotificationPredicate notificationPredicate;
 
   @override

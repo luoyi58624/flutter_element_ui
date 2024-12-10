@@ -1,8 +1,6 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../demo.dart';
-
 class Example2 extends StatelessWidget {
   const Example2({super.key, required this.title});
 
@@ -14,7 +12,7 @@ class Example2 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        CodeExample(
+        const CodeExample(
           code: code,
           children: [
             _Example(),
@@ -26,10 +24,7 @@ class Example2 extends StatelessWidget {
 }
 
 class _Example extends StatelessWidget {
-  _Example();
-
-  final ScrollController _verticalController = ScrollController();
-  final ScrollController _horizontalController = ScrollController();
+  const _Example();
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +34,8 @@ class _Example extends StatelessWidget {
         cacheKey: 'Material_Layout_Demo',
         navbar: ElNavbar(child: navbar),
         sidebar: ElSidebar(
-          enabledDrag: true,
+          enabledDrag: true, // 启动拖拽调整尺寸
+          minWidth: 120, // 限制最小宽度
           child: sidebar,
         ),
         body: const ElBody(
@@ -87,25 +83,19 @@ class _Example extends StatelessWidget {
         // 波纹绘制必须放在 Material 小部件中
         child: Material(
           color: Colors.blueGrey.shade800,
-          child: TwoDimensionalScrollWidget(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                minWidth: 300,
-                maxWidth: 300,
-              ),
-              child: Column(
-                children: [
-                  ...List.generate(
-                    20,
-                    (index) => ListTile(
-                      onTap: () {},
-                      title: ElText(
-                        'Item - ${index + 1}',
-                      ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ...List.generate(
+                  20,
+                  (index) => ListTile(
+                    onTap: () {},
+                    title: ElText(
+                      'Item - ${index + 1}',
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -138,12 +128,16 @@ class _Example extends StatelessWidget {
     return SizedBox(
       height: 500,
       child: ElLayout(
+        cacheKey: 'Material_Layout_Demo',
         navbar: ElNavbar(child: navbar),
         sidebar: ElSidebar(
-          enabledDrag: true,
+          enabledDrag: true, // 启动拖拽调整尺寸
+          minWidth: 120, // 限制最小宽度
           child: sidebar,
         ),
-        body: const ElBody(),
+        body: const ElBody(
+          minWidth: 320,
+        ),
       ),
     );
   }

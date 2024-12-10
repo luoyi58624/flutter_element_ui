@@ -13,6 +13,14 @@ class Example1 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: [
+            'ElScrollbar 是 Element UI 风格的滚动条，默认样式为当鼠标进入滚动区域将立即显示滚动条，'
+                '离开滚动区域则立即隐藏滚动条，同时，它还支持多种显示模式'
+          ],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: const [
@@ -29,8 +37,8 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollbarType = useState(0);
     final controller = useScrollController();
+    final scrollbarType = useState(0);
 
     late ElScrollbarMode scrollbarMode;
     switch (scrollbarType.value) {
@@ -85,7 +93,7 @@ class _Example extends HookWidget {
               ),
             ),
           ),
-        ).noScrollBehavior,
+        ).noScrollBehavior, // 添加此扩展屏蔽祖先提供的默认滚动条，防止重叠
       ],
     );
   }
@@ -153,7 +161,7 @@ class _Example extends HookWidget {
               ),
             ),
           ),
-        ).noScrollBehavior,
+        ).noScrollBehavior, // 添加此扩展屏蔽祖先提供的默认滚动条，防止重叠
       ],
     );
   }

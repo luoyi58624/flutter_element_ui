@@ -45,7 +45,6 @@ class FlatCodeExample extends StatelessWidget {
             Expanded(
               child: CodePreview(
                 code: code!,
-                height: double.infinity,
                 maxHeight: maxHeight,
                 borderRadius: noBorderRadius
                     ? BorderRadius.zero
@@ -69,7 +68,6 @@ class FlatCodeExample extends StatelessWidget {
             Expanded(
               child: CodePreview(
                 code: code!,
-                height: double.infinity,
                 maxHeight: maxHeight,
                 borderRadius: BorderRadius.only(
                   topLeft: context.elConfig.cardRadius!.topLeft,

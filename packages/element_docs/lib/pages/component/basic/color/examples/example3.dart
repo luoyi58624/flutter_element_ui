@@ -47,7 +47,7 @@ class MainApp extends StatelessWidget {
       // 演示代码就不可以再嵌套 MaterialApp 了，否则路由系统会出现异常
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Example'),
+          title: const Text('Global Theme Example'),
         ),
         body: Center(
           child: ElButton(

@@ -34,7 +34,8 @@ class _Example extends HookWidget {
     final mainAxisMargin = useState(0.0);
     final crossAxisMargin = useState(1.0);
     final enabledRadius = useState(true);
-    final showTrack = useState(true);
+    final showTrack = useState(false);
+    final interactive = useState(true);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +98,14 @@ class _Example extends HookWidget {
             ElSwitch(showTrack),
           ],
         ),
+        const Gap(16),
+        Row(
+          children: [
+            const ElText('允许交互'),
+            const Gap(8),
+            ElSwitch(interactive),
+          ],
+        ),
         const Gap(8),
         Container(
           height: 300,
@@ -117,6 +126,7 @@ class _Example extends HookWidget {
               trackBorderColor: showTrack.value
                   ? (context.isDark ? Colors.white30 : Colors.black12)
                   : Colors.transparent,
+              interactive: interactive.value,
               child: ListView.builder(
                 controller: controller,
                 itemCount: 30,
@@ -139,40 +149,82 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollbarType = useState(0);
     final controller = useScrollController();
-
-    late ElScrollbarMode scrollbarMode;
-    switch (scrollbarType.value) {
-      case 0:
-        scrollbarMode = ElScrollbarMode.hover;
-        break;
-      case 1:
-        scrollbarMode = ElScrollbarMode.always;
-        break;
-      case 2:
-        scrollbarMode = ElScrollbarMode.onlyScrolling;
-        break;
-      case 3:
-        scrollbarMode = ElScrollbarMode.hidden;
-        break;
-    }
+    final width = useState(6.0);
+    final mainAxisMargin = useState(0.0);
+    final crossAxisMargin = useState(1.0);
+    final enabledRadius = useState(true);
+    final showTrack = useState(false);
+    final interactive = useState(true);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElButtonTheme(
-          data: const ElButtonThemeData(type: El.primary),
-          child: ElButtonGroup.single(
-            scrollbarType,
-            mandatory: true,
-            children: const [
-              ElButton(child: '悬停显示'),
-              ElButton(child: '一直显示'),
-              ElButton(child: '滚动显示'),
-              ElButton(child: '不显示'),
-            ],
-          ),
+        Row(
+          children: [
+            const ElText('宽度'),
+            Expanded(
+              child: Slider(
+                min: 1.0,
+                max: 20.0,
+                label: width.value.round().toString(),
+                value: width.value,
+                onChanged: (v) => width.value = v,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            const ElText('上下边距'),
+            Expanded(
+              child: Slider(
+                min: 0.0,
+                max: 8.0,
+                label: mainAxisMargin.value.round().toString(),
+                value: mainAxisMargin.value,
+                onChanged: (v) => mainAxisMargin.value = v,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            const ElText('左右边距'),
+            Expanded(
+              child: Slider(
+                min: 0.0,
+                max: 8.0,
+                label: crossAxisMargin.value.round().toString(),
+                value: crossAxisMargin.value,
+                onChanged: (v) => crossAxisMargin.value = v,
+              ),
+            ),
+          ],
+        ),
+        const Gap(8),
+        Row(
+          children: [
+            const ElText('开启圆角'),
+            const Gap(8),
+            ElSwitch(enabledRadius),
+          ],
+        ),
+        const Gap(16),
+        Row(
+          children: [
+            const ElText('显示轨道'),
+            const Gap(8),
+            ElSwitch(showTrack),
+          ],
+        ),
+        const Gap(16),
+        Row(
+          children: [
+            const ElText('允许交互'),
+            const Gap(8),
+            ElSwitch(interactive),
+          ],
         ),
         const Gap(8),
         Container(
@@ -184,10 +236,20 @@ class _Example extends HookWidget {
             color: context.elLayout.bgColor,
             child: ElScrollbar(
               controller: controller,
-              mode: scrollbarMode,
+              mode: ElScrollbarMode.always,
+              thickness: width.value,
+              mainAxisMargin: mainAxisMargin.value,
+              crossAxisMargin: crossAxisMargin.value,
+              radius: Radius.circular(
+                enabledRadius.value ? width.value / 2 : 0.0,
+              ),
+              trackBorderColor: showTrack.value
+                  ? (context.isDark ? Colors.white30 : Colors.black12)
+                  : Colors.transparent,
+              interactive: interactive.value,
               child: ListView.builder(
                 controller: controller,
-                itemCount: 10,
+                itemCount: 30,
                 itemBuilder: (context, index) => ListTile(
                   onTap: () {},
                   title: ElText('Item - \${index + 1}'),

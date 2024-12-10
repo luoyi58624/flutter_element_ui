@@ -15,9 +15,9 @@ class LayoutPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      // const Example1(title: '基础使用'),
+      const Example1(title: '基础使用'),
       const Example2(title: '应用 Material 样式'),
-      // const Example3(title: '拖拽布局'),
+      const Example3(title: '拖拽布局'),
       // const Example4(title: 'Focus 焦点'),
     ];
   }

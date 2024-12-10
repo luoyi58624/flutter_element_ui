@@ -22,7 +22,6 @@ class CodePreview extends StatefulWidget {
     required this.code,
     this.color = const Color(0xFFD19A66),
     this.bgColor = const Color.fromRGBO(49, 49, 49, 1.0),
-    this.height,
     this.maxHeight,
     this.borderRadius,
   });
@@ -35,9 +34,6 @@ class CodePreview extends StatefulWidget {
 
   /// 默认背景颜色
   final Color bgColor;
-
-  /// 固定高度
-  final double? height;
 
   /// 代码块最大高度
   final double? maxHeight;
@@ -55,8 +51,14 @@ class CodePreview extends StatefulWidget {
 }
 
 class _CodePreviewState extends State<CodePreview> {
-  ScrollController scrollController = ScrollController();
+  ScrollController verticalController = ScrollController();
+  ScrollController horizontalController = ScrollController();
+  ScrollController lineNumController = ScrollController();
   final code = Obs(const TextSpan());
+  final codeHeight = Obs(0.0);
+
+  final lineNumKey = GlobalKey();
+  final lineNumWidth = Obs(0.0);
 
   Color get codeColor => widget.color;
 
@@ -74,6 +76,9 @@ class _CodePreviewState extends State<CodePreview> {
   void initState() {
     super.initState();
     initCodeStyle(context);
+    verticalController.addListener(() {
+      lineNumController.jumpTo(verticalController.position.pixels);
+    });
   }
 
   @override
@@ -87,12 +92,21 @@ class _CodePreviewState extends State<CodePreview> {
   @override
   void dispose() {
     super.dispose();
-    scrollController.dispose();
+    verticalController.dispose();
+    horizontalController.dispose();
+    lineNumController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return buildCodePreview();
+    Widget result = buildCodePreview();
+    if (widget.maxHeight != null) {
+      result = SizedBox.expand(child: result);
+    }
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: ColoredBox(color: bgColor, child: result),
+    );
   }
 
   /// 初始化预览代码样式，全局只加载一次
@@ -106,8 +120,6 @@ class _CodePreviewState extends State<CodePreview> {
           [
             'packages/flutter_base/assets/code_themes/dark_vs.json',
             'packages/flutter_base/assets/code_themes/dark_plus.json',
-            // 'assets/code_themes/dark_vs.json',
-            // 'assets/code_themes/dark_plus.json',
           ],
           TextStyle(color: codeColor),
         );
@@ -133,41 +145,64 @@ class _CodePreviewState extends State<CodePreview> {
                   ? Colors.blueAccent.withOpacity(0.5)
                   : Colors.blue.withOpacity(0.36),
             ),
-            child: Container(
-              width: double.infinity,
-              height: widget.height,
-              constraints: widget.maxHeight != null
-                  ? BoxConstraints(
-                      minWidth: double.infinity,
-                      maxWidth: double.infinity,
-                      maxHeight: widget.maxHeight!,
-                    )
-                  : null,
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: borderRadius,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: NestScrollWrapper(
-                controller: scrollController,
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  child: IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildLineNum(),
-                        Expanded(child: buildCode()),
-                      ],
+            child: ObsBuilder(builder: (context) {
+              return Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(left: lineNumWidth.value),
+                constraints: widget.maxHeight != null
+                    ? BoxConstraints(
+                        minWidth: double.infinity,
+                        maxWidth: double.infinity,
+                        minHeight: 0.0,
+                        maxHeight: widget.maxHeight!,
+                      )
+                    : null,
+                child: NestScrollWrapper(
+                  controller: verticalController,
+                  child: ElScrollbar(
+                    controller: verticalController,
+                    mode: ElScrollbarMode.always,
+                    child: ElScrollbar(
+                      mode: ElScrollbarMode.always,
+                      controller: horizontalController,
+                      notificationPredicate: (notify) => notify.depth == 1,
+                      child: SingleChildScrollView(
+                        controller: verticalController,
+                        child: SelectionArea(
+                          child: SingleChildScrollView(
+                            controller: horizontalController,
+                            scrollDirection: Axis.horizontal,
+                            child: ObsBuilder(builder: (context) {
+                              return Container(
+                                padding: _padding,
+                                child: ObsBuilder(builder: (context) {
+                                  return ElText(
+                                    code.value,
+                                    softWrap: false,
+                                    style: CodePreview.textStyle.value,
+                                    strutStyle: _codeStrutStyle,
+                                  );
+                                }),
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
+                ).noScrollBehavior,
+              );
+            }),
           ),
           Positioned(
-            top: 8,
-            right: 8,
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: buildLineNum(),
+          ),
+          Positioned(
+            top: 5,
+            right: 10,
             child: buildCopyButton(),
           ),
         ],
@@ -175,98 +210,75 @@ class _CodePreviewState extends State<CodePreview> {
     );
   }
 
-  Widget buildCode() {
-    Widget result = SelectionArea(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: ObsBuilder(builder: (context) {
-          return Container(
-            padding: _padding,
-            child: ObsBuilder(builder: (context) {
-              return ElText(
-                code.value,
-                softWrap: false,
-                style: CodePreview.textStyle.value,
-                strutStyle: _codeStrutStyle,
-              );
-            }),
-          );
-        }),
-      ),
-    );
-    return result;
-  }
-
   Widget buildLineNum() {
     final numLines = '\n'.allMatches(widget.code).length + 1;
 
-    return Container(
-      height: double.infinity,
-      padding: _padding,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.only(
-          topLeft: borderRadius.topLeft,
-          bottomLeft: borderRadius.bottomLeft,
+    nextTick(() {
+      lineNumWidth.value = lineNumKey.currentContext!.size!.width;
+    });
+    return IgnorePointer(
+      child: Container(
+        key: lineNumKey,
+        height: double.infinity,
+        padding: _padding,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.only(
+            topLeft: borderRadius.topLeft,
+            bottomLeft: borderRadius.bottomLeft,
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black38,
+              blurRadius: 2,
+              offset: Offset(2, 0),
+            )
+          ],
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black38,
-            blurRadius: 2,
-            offset: Offset(2, 0),
-          )
-        ],
-      ),
-      child: ObsBuilder(
-          binding: [CodePreview.textStyle],
-          builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: List.generate(
-                numLines,
-                (index) => ElText(
-                  '${index + 1}',
-                  textAlign: TextAlign.right,
-                  style: CodePreview.textStyle.value.copyWith(
-                    color: context.elTheme.textTheme.secondaryStyle.color,
+        child: ObsBuilder(
+            binding: [CodePreview.textStyle],
+            builder: (context) {
+              return SingleChildScrollView(
+                controller: lineNumController,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: List.generate(
+                    numLines,
+                    (index) => ElText(
+                      '${index + 1}',
+                      textAlign: TextAlign.right,
+                      style: CodePreview.textStyle.value.copyWith(
+                        color: context.elTheme.textTheme.secondaryStyle.color,
+                      ),
+                      strutStyle: _codeStrutStyle,
+                    ),
                   ),
-                  strutStyle: _codeStrutStyle,
                 ),
-              ),
-            );
-          }),
+              ).noScrollBehavior;
+            }),
+      ),
     );
   }
 
   Widget buildCopyButton() {
-    return ElEvent(
-      cursor: SystemMouseCursors.click,
-      builder: (context) {
-        return GestureDetector(
-          onTap: () async {
-            await Clipboard.setData(ClipboardData(text: widget.code));
-            el.message.show('复制成功', type: El.success);
-          },
-          onTapDown: (e) {
-            HapticFeedback.mediumImpact();
-          },
-          child: AnimatedContainer(
-            duration: context.elDuration(const Duration(milliseconds: 250)),
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              borderRadius: context.elConfig.radius,
-              color:
-                  bgColor.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
-            ),
-            child: ElIcon(
-              ElIcons.documentCopy,
-              color:
-                  bgColor.isDark ? Colors.grey.shade300 : Colors.grey.shade700,
-              size: 14,
-            ),
+    return Material(
+      borderRadius: context.elConfig.radius,
+      color: bgColor.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+      child: InkWell(
+        onTap: () async {
+          await Clipboard.setData(ClipboardData(text: widget.code));
+          el.message.success('复制成功');
+        },
+        borderRadius: context.elConfig.radius,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ElIcon(
+            ElIcons.documentCopy,
+            color: bgColor.isDark ? Colors.grey.shade300 : Colors.grey.shade700,
+            size: 14,
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

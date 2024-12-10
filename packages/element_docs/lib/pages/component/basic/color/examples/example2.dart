@@ -15,7 +15,7 @@ class Example2 extends StatelessWidget {
         const SectionText('除了主颜色外，您需要在不同的场景中使用不同的场景颜色 (例如，危险的颜色表示危险的操作)'),
         textGap,
         FlatCodeExample(
-          // code: code,
+          code: code,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
