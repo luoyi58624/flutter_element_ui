@@ -71,4 +71,7 @@ class GlobalState {
 
   /// 监控 fps 帧率
   static final fps = LocalObs(false, cacheKey: 'show_fps');
+
+  /// 是否展开代码块
+  static final expandedCode = LocalObs(false, cacheKey: 'expanded_code');
 }

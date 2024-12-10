@@ -50,15 +50,19 @@ class CodeExample extends HookWidget {
               if (code != null) const ElDivider(),
               if (code != null) _PreviewButton(isExpanded),
               if (code != null)
-                ElCollapseTransition(
-                  isExpanded.value,
-                  child: CodePreview(
-                    code: code!,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: context.elConfig.cardRadius!.bottomLeft,
-                      bottomRight: context.elConfig.cardRadius!.bottomRight,
-                    ),
-                  ),
+                ObsBuilder(
+                  builder: (context) {
+                    return ElCollapseTransition(
+                      GlobalState.expandedCode.value || isExpanded.value,
+                      child: CodePreview(
+                        code: code!,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: context.elConfig.cardRadius!.bottomLeft,
+                          bottomRight: context.elConfig.cardRadius!.bottomRight,
+                        ),
+                      ),
+                    );
+                  }
                 ),
             ],
           ),
