@@ -6,7 +6,7 @@ class ElFooter extends StatefulWidget {
   const ElFooter({
     super.key,
     this.child,
-    this.height = 100,
+    this.height = 200,
     this.minHeight = 0,
     this.maxHeight,
     this.enabledDrag = false,

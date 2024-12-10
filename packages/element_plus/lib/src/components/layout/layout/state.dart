@@ -192,7 +192,6 @@ class ElLayoutState extends State<ElLayout> {
   Widget build(BuildContext context) {
     _themeData = ElLayoutTheme.of(context);
     final splitResizerThemeData = ElSplitResizerTheme.of(context);
-    _splitResizerTriggerSize = splitResizerThemeData.triggerSize!;
     return OverlayWidget(
       child: LayoutBuilder(builder: (context, constraints) {
         _constraints = constraints;
@@ -224,7 +223,9 @@ class ElLayoutState extends State<ElLayout> {
                   color: _themeData.sidebarColor!,
                   child: SizedBox(
                     width: layoutData.sidebar,
-                    child: widget.sidebar!,
+                    child: Builder(builder: (context) {
+                      return widget.sidebar!;
+                    }),
                   ),
                 ),
               ),

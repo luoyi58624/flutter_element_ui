@@ -31,106 +31,124 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final username = useState('initialData');
-    return SizedBox(
-      height: 500,
-      child: ElLayoutTheme(
-        data: const ElLayoutThemeData(
-          sidebarColor: Color.fromRGBO(34, 37, 43, 0.9),
+    // 创建 GlobalKey 访问 ElLayoutState 内部方法
+    final layoutKey = useGlobalKey<ElLayoutState>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElButton(
+          onPressed: () {
+            layoutKey.currentState!.resetLayout();
+          },
+          type: El.primary,
+          child: '重置布局',
         ),
-        child: ElLayout(
-          sidebar: ElSidebar(
-            child: buildSidebar(),
-          ),
-          body: ElBody(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  ElInput(username),
-                  const Gap(8),
-                  const ElFocusScope(
-                    child: ElButton(child: 'hello'),
-                  ),
-                ],
+        const Gap(8),
+        SizedBox(
+          height: 500,
+          child: ElSplitResizerTheme(
+            // 定义拖拽分割器主题样式
+            data: ElSplitResizerThemeData(
+              size: 1,
+              activeColor: context.elTheme.primary,
+            ),
+            // 使用 Ring 在布局周围绘制边框
+            child: ElRing(
+              show: true,
+              width: 1,
+              offset: 0,
+              color: context.elLayout.borderColor,
+              child: ElLayout(
+                key: layoutKey,
+                cacheKey: 'layout_example3',
+                navbar: const ElNavbar(enabledDrag: true),
+                sidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedBottom: true,
+                ),
+                rightSidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedTop: true,
+                  expandedBottom: true,
+                ),
+                body: const ElBody(
+                  minWidth: 320,
+                ),
+                footer: const ElFooter(enabledDrag: true),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
-  Widget buildSidebar() {
-    final activeIndex = useState(-1);
-
-    return Builder(builder: (context) {
-      return ElBrightness(
-        brightness: Brightness.dark,
-        child: Column(
-          children: [
-            ...List.generate(
-              10,
-              (index) => CallbackShortcuts(
-                bindings: {
-                  const SingleActivator(LogicalKeyboardKey.enter): () {
-                    activeIndex.value = index;
-                  }
-                },
-                child: Builder(builder: (context) {
-                  return ElStopPropagation(
-                    child: ElEvent(
-                      onTapDown: (e) {
-                        activeIndex.value = index;
-                      },
-                      child: Builder(builder: (context) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Focus.of(context).hasPrimaryFocus
-                                ? Colors.lightBlueAccent.shade400
-                                : activeIndex.value == index
-                                    ? Colors.white24
-                                    : null,
-                          ),
-                          child: Center(child: ElText('item - ${index + 1}')),
-                        );
-                      }),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ],
-        ),
-      );
-    });
-  }
+// Widget get list => Material(
+//       child: ListView.builder(
+//         itemCount: 20,
+//         itemBuilder: (context, index) => CellWidget(
+//           onTap: () {},
+//           title: '列表-${index + 1}',
+//         ),
+//       ),
+//     );
 }
 
 const String code = """
-class _Example extends StatelessWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 500,
-      child: ElLayoutTheme(
-        data: ElLayoutThemeData(
-          navbarColor: Colors.blue,
-          sidebarColor: Colors.blueGrey.shade800,
+    // 创建 GlobalKey 访问 ElLayoutState 内部方法
+    final layoutKey = useGlobalKey<ElLayoutState>();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ElButton(
+          onPressed: () {
+            layoutKey.currentState!.resetLayout();
+          },
+          type: El.primary,
+          child: '重置布局',
         ),
-        child: const ElLayout(
-          navbar: ElNavbar(
-            child: Row(),
-          ),
-          sidebar: ElSidebar(
-            child: Column(),
+        const Gap(8),
+        SizedBox(
+          height: 500,
+          child: ElSplitResizerTheme(
+            // 定义拖拽分割器主题样式
+            data: ElSplitResizerThemeData(
+              size: 1,
+              activeColor: context.elTheme.primary,
+            ),
+            // 使用 Ring 在布局周围绘制边框
+            child: ElRing(
+              show: true,
+              width: 1,
+              offset: 0,
+              color: context.elLayout.borderColor,
+              child: ElLayout(
+                key: layoutKey,
+                cacheKey: 'layout_example3',
+                navbar: const ElNavbar(enabledDrag: true),
+                sidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedBottom: true,
+                ),
+                rightSidebar: const ElSidebar(
+                  enabledDrag: true,
+                  expandedTop: true,
+                  expandedBottom: true,
+                ),
+                body: const ElBody(),
+                footer: const ElFooter(enabledDrag: true),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }""";

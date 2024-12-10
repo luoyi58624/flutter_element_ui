@@ -1,6 +1,7 @@
 import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_obs/flutter_obs.dart';
 
 class GridWidget extends StatelessWidget {
   /// 网格小部件
@@ -147,16 +148,46 @@ class HorizontalScrollWidget extends StatelessWidget {
   }
 }
 
-class OverlayWidget extends StatelessWidget {
+class OverlayWidget extends StatefulWidget {
   /// 创建局部 [Overlay] 小部件
   const OverlayWidget({super.key, required this.child});
 
   final Widget child;
 
   @override
+  State<OverlayWidget> createState() => _OverlayWidgetState();
+}
+
+class _OverlayWidgetState extends State<OverlayWidget> {
+  /// 当 [OverlayWidget] 触发更新时，[Overlay] 包裹的初始化小部件是不会执行重建的，
+  /// 此变量的作用就是当 [OverlayWidget] 正常触发重建时，让包裹的小部件能够正常更新。
+  final update = Obs(true);
+
+  @override
+  void didUpdateWidget(covariant OverlayWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    update.notify();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    update.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Overlay(
-      initialEntries: [OverlayEntry(builder: (context) => child)],
+      initialEntries: [
+        OverlayEntry(
+          builder: (context) => ObsBuilder(
+            binding: [update],
+            builder: (context) {
+              return widget.child;
+            },
+          ),
+        )
+      ],
     );
   }
 }

@@ -112,7 +112,7 @@ class CellWidget extends StatelessWidget {
               onChanged: onChanged,
             ),
       tileColor: tileColor,
-      title: Text(
+      title: ElText(
         title,
         style: TextStyle(
           fontSize: Theme.of(context).listTileTheme.titleTextStyle?.fontSize,
@@ -192,13 +192,13 @@ Widget buildPopupMenuButton({
     ),
     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
       const PopupMenuItem(
-        child: Text('MaterialApp'),
+        child: ElText('MaterialApp'),
       ),
       const PopupMenuItem(
-        child: Text('CupertinoApp'),
+        child: ElText('CupertinoApp'),
       ),
       const PopupMenuItem(
-        child: Text('重启App'),
+        child: ElText('重启App'),
       ),
     ],
   );
