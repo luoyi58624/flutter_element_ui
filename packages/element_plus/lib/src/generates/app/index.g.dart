@@ -9,105 +9,92 @@ part of '../../app/index.dart';
 class ElThemeData extends _ElThemeData {
   /// 亮色默认主题
   static const ElThemeData theme = ElThemeData._(
-    inputTheme: ElInputThemeData.theme,
-    sliderTheme: ElSliderThemeData.theme,
-    layoutTheme: ElLayoutThemeData.theme,
+    button2Theme: ElButton2ThemeData.theme,
     linkTheme: ElLinkThemeData.theme,
-    textTheme: ElTextThemeData.theme,
-    buttonTheme: ElButtonThemeData.theme,
     iconTheme: ElIconThemeData.theme,
-    tabsTheme: ElTabsThemeData.theme,
-    navMenuTheme: ElNavMenuThemeData.theme,
+    buttonTheme: ElButtonThemeData.theme,
+    textTheme: ElTextThemeData.theme,
+    cardTheme: ElCardThemeData.theme,
+    collapseTheme: ElCollapseThemeData.theme,
     eventTheme: ElEventThemeData.theme,
-    closeButtonTheme: ElCloseButtonThemeData.theme,
-    splitPaneTheme: ElSplitPaneThemeData.theme,
-    splitResizerTheme: ElSplitResizerThemeData.theme,
-    ringTheme: ElRingThemeData.theme,
-    tooltipTheme: ElTooltipThemeData.theme,
-    toastTheme: ElToastThemeData.theme,
+    progressTheme: ElProgressThemeData.theme,
+    tagTheme: ElTagThemeData.theme,
+    treeTheme: ElTreeThemeData.theme,
     messageTheme: ElMessageThemeData.theme,
     modalTheme: ElModalThemeData.theme,
-    treeTheme: ElTreeThemeData.theme,
-    cardTheme: ElCardThemeData.theme,
-    progressTheme: ElProgressThemeData.theme,
-    collapseTheme: ElCollapseThemeData.theme,
-    tagTheme: ElTagThemeData.theme,
+    toastTheme: ElToastThemeData.theme,
+    tooltipTheme: ElTooltipThemeData.theme,
+    inputTheme: ElInputThemeData.theme,
+    layoutTheme: ElLayoutThemeData.theme,
+    sliderTheme: ElSliderThemeData.theme,
+    navMenuTheme: ElNavMenuThemeData.theme,
+    tabsTheme: ElTabsThemeData.theme,
+    closeButtonTheme: ElCloseButtonThemeData.theme,
+    ringTheme: ElRingThemeData.theme,
+    splitPaneTheme: ElSplitPaneThemeData.theme,
+    splitResizerTheme: ElSplitResizerThemeData.theme,
   );
 
   /// 暗色默认主题
   static const ElThemeData darkTheme = ElThemeData._dark(
-    inputTheme: ElInputThemeData.darkTheme,
-    sliderTheme: ElSliderThemeData.darkTheme,
-    layoutTheme: ElLayoutThemeData.darkTheme,
+    button2Theme: ElButton2ThemeData.darkTheme,
     linkTheme: ElLinkThemeData.darkTheme,
-    textTheme: ElTextThemeData.darkTheme,
-    buttonTheme: ElButtonThemeData.darkTheme,
     iconTheme: ElIconThemeData.darkTheme,
-    tabsTheme: ElTabsThemeData.darkTheme,
-    navMenuTheme: ElNavMenuThemeData.darkTheme,
+    buttonTheme: ElButtonThemeData.darkTheme,
+    textTheme: ElTextThemeData.darkTheme,
+    cardTheme: ElCardThemeData.darkTheme,
+    collapseTheme: ElCollapseThemeData.darkTheme,
     eventTheme: ElEventThemeData.darkTheme,
-    closeButtonTheme: ElCloseButtonThemeData.darkTheme,
-    splitPaneTheme: ElSplitPaneThemeData.darkTheme,
-    splitResizerTheme: ElSplitResizerThemeData.darkTheme,
-    ringTheme: ElRingThemeData.darkTheme,
-    tooltipTheme: ElTooltipThemeData.darkTheme,
-    toastTheme: ElToastThemeData.darkTheme,
+    progressTheme: ElProgressThemeData.darkTheme,
+    tagTheme: ElTagThemeData.darkTheme,
+    treeTheme: ElTreeThemeData.darkTheme,
     messageTheme: ElMessageThemeData.darkTheme,
     modalTheme: ElModalThemeData.darkTheme,
-    treeTheme: ElTreeThemeData.darkTheme,
-    cardTheme: ElCardThemeData.darkTheme,
-    progressTheme: ElProgressThemeData.darkTheme,
-    collapseTheme: ElCollapseThemeData.darkTheme,
-    tagTheme: ElTagThemeData.darkTheme,
+    toastTheme: ElToastThemeData.darkTheme,
+    tooltipTheme: ElTooltipThemeData.darkTheme,
+    inputTheme: ElInputThemeData.darkTheme,
+    layoutTheme: ElLayoutThemeData.darkTheme,
+    sliderTheme: ElSliderThemeData.darkTheme,
+    navMenuTheme: ElNavMenuThemeData.darkTheme,
+    tabsTheme: ElTabsThemeData.darkTheme,
+    closeButtonTheme: ElCloseButtonThemeData.darkTheme,
+    ringTheme: ElRingThemeData.darkTheme,
+    splitPaneTheme: ElSplitPaneThemeData.darkTheme,
+    splitResizerTheme: ElSplitResizerThemeData.darkTheme,
   );
 
-  /// 输入框默认样式
-  final ElInputThemeData inputTheme;
-
-  /// 滑块默认样式
-  final ElSliderThemeData sliderTheme;
-
-  /// 布局样式
-  final ElLayoutThemeData layoutTheme;
+  /// 按钮默认样式
+  final ElButton2ThemeData button2Theme;
 
   /// 超链接默认样式
   final ElLinkThemeData linkTheme;
 
-  /// 文本默认样式
-  final ElTextThemeData textTheme;
+  /// 图标默认样式
+  final ElIconThemeData iconTheme;
 
   /// 按钮默认样式
   final ElButtonThemeData buttonTheme;
 
-  /// 图标默认样式
-  final ElIconThemeData iconTheme;
+  /// 文本默认样式
+  final ElTextThemeData textTheme;
 
-  /// 标签容器默认样式
-  final ElTabsThemeData tabsTheme;
+  /// 卡片默认样式
+  final ElCardThemeData cardTheme;
 
-  /// 导航菜单默认样式
-  final ElNavMenuThemeData navMenuTheme;
+  /// 折叠菜单默认样式
+  final ElCollapseThemeData collapseTheme;
 
   /// 事件默认配置
   final ElEventThemeData eventTheme;
 
-  /// 关闭按钮默认样式
-  final ElCloseButtonThemeData closeButtonTheme;
+  /// 进度条默认样式
+  final ElProgressThemeData progressTheme;
 
-  /// 分割器默认样式
-  final ElSplitPaneThemeData splitPaneTheme;
+  /// 标签默认样式
+  final ElTagThemeData tagTheme;
 
-  /// 分割器默认样式
-  final ElSplitResizerThemeData splitResizerTheme;
-
-  /// 轮廓环默认样式
-  final ElRingThemeData ringTheme;
-
-  /// 提示框默认样式
-  final ElTooltipThemeData tooltipTheme;
-
-  /// 轻提示默认样式
-  final ElToastThemeData toastTheme;
+  /// ElTree 主题数据
+  final ElTreeThemeData treeTheme;
 
   /// 消息提示默认样式
   final ElMessageThemeData messageTheme;
@@ -115,20 +102,38 @@ class ElThemeData extends _ElThemeData {
   /// 模态框默认样式
   final ElModalThemeData modalTheme;
 
-  /// ElTree 主题数据
-  final ElTreeThemeData treeTheme;
+  /// 轻提示默认样式
+  final ElToastThemeData toastTheme;
 
-  /// 卡片默认样式
-  final ElCardThemeData cardTheme;
+  /// 提示框默认样式
+  final ElTooltipThemeData tooltipTheme;
 
-  /// 进度条默认样式
-  final ElProgressThemeData progressTheme;
+  /// 输入框默认样式
+  final ElInputThemeData inputTheme;
 
-  /// 折叠菜单默认样式
-  final ElCollapseThemeData collapseTheme;
+  /// 布局样式
+  final ElLayoutThemeData layoutTheme;
 
-  /// 标签默认样式
-  final ElTagThemeData tagTheme;
+  /// 滑块默认样式
+  final ElSliderThemeData sliderTheme;
+
+  /// 导航菜单默认样式
+  final ElNavMenuThemeData navMenuTheme;
+
+  /// 标签容器默认样式
+  final ElTabsThemeData tabsTheme;
+
+  /// 关闭按钮默认样式
+  final ElCloseButtonThemeData closeButtonTheme;
+
+  /// 轮廓环默认样式
+  final ElRingThemeData ringTheme;
+
+  /// 分割器默认样式
+  final ElSplitPaneThemeData splitPaneTheme;
+
+  /// 分割器默认样式
+  final ElSplitResizerThemeData splitResizerTheme;
 
   /// 亮色主题构造器，构建器是私有的，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
   const ElThemeData._({
@@ -137,56 +142,58 @@ class ElThemeData extends _ElThemeData {
     super.info,
     super.warning,
     super.error,
-    required this.inputTheme,
-    required this.sliderTheme,
-    required this.layoutTheme,
+    required this.button2Theme,
     required this.linkTheme,
-    required this.textTheme,
-    required this.buttonTheme,
     required this.iconTheme,
-    required this.tabsTheme,
-    required this.navMenuTheme,
+    required this.buttonTheme,
+    required this.textTheme,
+    required this.cardTheme,
+    required this.collapseTheme,
     required this.eventTheme,
-    required this.closeButtonTheme,
-    required this.splitPaneTheme,
-    required this.splitResizerTheme,
-    required this.ringTheme,
-    required this.tooltipTheme,
-    required this.toastTheme,
+    required this.progressTheme,
+    required this.tagTheme,
+    required this.treeTheme,
     required this.messageTheme,
     required this.modalTheme,
-    required this.treeTheme,
-    required this.cardTheme,
-    required this.progressTheme,
-    required this.collapseTheme,
-    required this.tagTheme,
+    required this.toastTheme,
+    required this.tooltipTheme,
+    required this.inputTheme,
+    required this.layoutTheme,
+    required this.sliderTheme,
+    required this.navMenuTheme,
+    required this.tabsTheme,
+    required this.closeButtonTheme,
+    required this.ringTheme,
+    required this.splitPaneTheme,
+    required this.splitResizerTheme,
   });
 
   /// 暗色主题构造器，构建器是私有的，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
   const ElThemeData._dark({
-    required this.inputTheme,
-    required this.sliderTheme,
-    required this.layoutTheme,
+    required this.button2Theme,
     required this.linkTheme,
-    required this.textTheme,
-    required this.buttonTheme,
     required this.iconTheme,
-    required this.tabsTheme,
-    required this.navMenuTheme,
+    required this.buttonTheme,
+    required this.textTheme,
+    required this.cardTheme,
+    required this.collapseTheme,
     required this.eventTheme,
-    required this.closeButtonTheme,
-    required this.splitPaneTheme,
-    required this.splitResizerTheme,
-    required this.ringTheme,
-    required this.tooltipTheme,
-    required this.toastTheme,
+    required this.progressTheme,
+    required this.tagTheme,
+    required this.treeTheme,
     required this.messageTheme,
     required this.modalTheme,
-    required this.treeTheme,
-    required this.cardTheme,
-    required this.progressTheme,
-    required this.collapseTheme,
-    required this.tagTheme,
+    required this.toastTheme,
+    required this.tooltipTheme,
+    required this.inputTheme,
+    required this.layoutTheme,
+    required this.sliderTheme,
+    required this.navMenuTheme,
+    required this.tabsTheme,
+    required this.closeButtonTheme,
+    required this.ringTheme,
+    required this.splitPaneTheme,
+    required this.splitResizerTheme,
   }) : super.dark();
 
   /// 接收一组可选参数，返回新的对象
@@ -196,29 +203,30 @@ class ElThemeData extends _ElThemeData {
     Color? info,
     Color? warning,
     Color? error,
-    ElInputThemeData? inputTheme,
-    ElSliderThemeData? sliderTheme,
-    ElLayoutThemeData? layoutTheme,
+    ElButton2ThemeData? button2Theme,
     ElLinkThemeData? linkTheme,
-    ElTextThemeData? textTheme,
-    ElButtonThemeData? buttonTheme,
     ElIconThemeData? iconTheme,
-    ElTabsThemeData? tabsTheme,
-    ElNavMenuThemeData? navMenuTheme,
+    ElButtonThemeData? buttonTheme,
+    ElTextThemeData? textTheme,
+    ElCardThemeData? cardTheme,
+    ElCollapseThemeData? collapseTheme,
     ElEventThemeData? eventTheme,
-    ElCloseButtonThemeData? closeButtonTheme,
-    ElSplitPaneThemeData? splitPaneTheme,
-    ElSplitResizerThemeData? splitResizerTheme,
-    ElRingThemeData? ringTheme,
-    ElTooltipThemeData? tooltipTheme,
-    ElToastThemeData? toastTheme,
+    ElProgressThemeData? progressTheme,
+    ElTagThemeData? tagTheme,
+    ElTreeThemeData? treeTheme,
     ElMessageThemeData? messageTheme,
     ElModalThemeData? modalTheme,
-    ElTreeThemeData? treeTheme,
-    ElCardThemeData? cardTheme,
-    ElProgressThemeData? progressTheme,
-    ElCollapseThemeData? collapseTheme,
-    ElTagThemeData? tagTheme,
+    ElToastThemeData? toastTheme,
+    ElTooltipThemeData? tooltipTheme,
+    ElInputThemeData? inputTheme,
+    ElLayoutThemeData? layoutTheme,
+    ElSliderThemeData? sliderTheme,
+    ElNavMenuThemeData? navMenuTheme,
+    ElTabsThemeData? tabsTheme,
+    ElCloseButtonThemeData? closeButtonTheme,
+    ElRingThemeData? ringTheme,
+    ElSplitPaneThemeData? splitPaneTheme,
+    ElSplitResizerThemeData? splitResizerTheme,
   }) {
     return ElThemeData._(
       primary: primary ?? super.primary,
@@ -226,29 +234,30 @@ class ElThemeData extends _ElThemeData {
       info: info ?? super.info,
       warning: warning ?? super.warning,
       error: error ?? super.error,
-      inputTheme: this.inputTheme.merge(inputTheme),
-      sliderTheme: this.sliderTheme.merge(sliderTheme),
-      layoutTheme: this.layoutTheme.merge(layoutTheme),
+      button2Theme: this.button2Theme.merge(button2Theme),
       linkTheme: this.linkTheme.merge(linkTheme),
-      textTheme: this.textTheme.merge(textTheme),
-      buttonTheme: this.buttonTheme.merge(buttonTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
-      tabsTheme: this.tabsTheme.merge(tabsTheme),
-      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
+      buttonTheme: this.buttonTheme.merge(buttonTheme),
+      textTheme: this.textTheme.merge(textTheme),
+      cardTheme: this.cardTheme.merge(cardTheme),
+      collapseTheme: this.collapseTheme.merge(collapseTheme),
       eventTheme: this.eventTheme.merge(eventTheme),
-      closeButtonTheme: this.closeButtonTheme.merge(closeButtonTheme),
-      splitPaneTheme: this.splitPaneTheme.merge(splitPaneTheme),
-      splitResizerTheme: this.splitResizerTheme.merge(splitResizerTheme),
-      ringTheme: this.ringTheme.merge(ringTheme),
-      tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
-      toastTheme: this.toastTheme.merge(toastTheme),
+      progressTheme: this.progressTheme.merge(progressTheme),
+      tagTheme: this.tagTheme.merge(tagTheme),
+      treeTheme: this.treeTheme.merge(treeTheme),
       messageTheme: this.messageTheme.merge(messageTheme),
       modalTheme: this.modalTheme.merge(modalTheme),
-      treeTheme: this.treeTheme.merge(treeTheme),
-      cardTheme: this.cardTheme.merge(cardTheme),
-      progressTheme: this.progressTheme.merge(progressTheme),
-      collapseTheme: this.collapseTheme.merge(collapseTheme),
-      tagTheme: this.tagTheme.merge(tagTheme),
+      toastTheme: this.toastTheme.merge(toastTheme),
+      tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
+      inputTheme: this.inputTheme.merge(inputTheme),
+      layoutTheme: this.layoutTheme.merge(layoutTheme),
+      sliderTheme: this.sliderTheme.merge(sliderTheme),
+      navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
+      tabsTheme: this.tabsTheme.merge(tabsTheme),
+      closeButtonTheme: this.closeButtonTheme.merge(closeButtonTheme),
+      ringTheme: this.ringTheme.merge(ringTheme),
+      splitPaneTheme: this.splitPaneTheme.merge(splitPaneTheme),
+      splitResizerTheme: this.splitResizerTheme.merge(splitResizerTheme),
     );
   }
 
@@ -261,29 +270,30 @@ class ElThemeData extends _ElThemeData {
       info: other.info,
       warning: other.warning,
       error: other.error,
-      inputTheme: other.inputTheme,
-      sliderTheme: other.sliderTheme,
-      layoutTheme: other.layoutTheme,
+      button2Theme: other.button2Theme,
       linkTheme: other.linkTheme,
-      textTheme: other.textTheme,
-      buttonTheme: other.buttonTheme,
       iconTheme: other.iconTheme,
-      tabsTheme: other.tabsTheme,
-      navMenuTheme: other.navMenuTheme,
+      buttonTheme: other.buttonTheme,
+      textTheme: other.textTheme,
+      cardTheme: other.cardTheme,
+      collapseTheme: other.collapseTheme,
       eventTheme: other.eventTheme,
-      closeButtonTheme: other.closeButtonTheme,
-      splitPaneTheme: other.splitPaneTheme,
-      splitResizerTheme: other.splitResizerTheme,
-      ringTheme: other.ringTheme,
-      tooltipTheme: other.tooltipTheme,
-      toastTheme: other.toastTheme,
+      progressTheme: other.progressTheme,
+      tagTheme: other.tagTheme,
+      treeTheme: other.treeTheme,
       messageTheme: other.messageTheme,
       modalTheme: other.modalTheme,
-      treeTheme: other.treeTheme,
-      cardTheme: other.cardTheme,
-      progressTheme: other.progressTheme,
-      collapseTheme: other.collapseTheme,
-      tagTheme: other.tagTheme,
+      toastTheme: other.toastTheme,
+      tooltipTheme: other.tooltipTheme,
+      inputTheme: other.inputTheme,
+      layoutTheme: other.layoutTheme,
+      sliderTheme: other.sliderTheme,
+      navMenuTheme: other.navMenuTheme,
+      tabsTheme: other.tabsTheme,
+      closeButtonTheme: other.closeButtonTheme,
+      ringTheme: other.ringTheme,
+      splitPaneTheme: other.splitPaneTheme,
+      splitResizerTheme: other.splitResizerTheme,
     );
   }
 }
@@ -296,12 +306,14 @@ extension ElConfigDataExtension on ElConfigData {
   /// 接收一组可选参数，返回新的对象
   ElConfigData copyWith({
     double? size,
+    ElSize? elSize,
     BorderRadius? radius,
     BorderRadius? cardRadius,
     double? borderWidth,
   }) {
     return ElConfigData(
       size: size ?? this.size,
+      elSize: elSize ?? this.elSize,
       radius: radius ?? this.radius,
       cardRadius: cardRadius ?? this.cardRadius,
       borderWidth: borderWidth ?? this.borderWidth,
@@ -313,6 +325,7 @@ extension ElConfigDataExtension on ElConfigData {
     if (other == null) return this;
     return copyWith(
       size: other.size,
+      elSize: other.elSize,
       radius: other.radius,
       cardRadius: other.cardRadius,
       borderWidth: other.borderWidth,
@@ -325,6 +338,7 @@ extension ElConfigDataExtension on ElConfigData {
       other is ElConfigData &&
           runtimeType == other.runtimeType &&
           size == other.size &&
+          elSize == other.elSize &&
           radius == other.radius &&
           cardRadius == other.cardRadius &&
           borderWidth == other.borderWidth;
@@ -332,6 +346,7 @@ extension ElConfigDataExtension on ElConfigData {
   /// 生成 hashCode 方法
   int get _hashCode =>
       size.hashCode ^
+      elSize.hashCode ^
       radius.hashCode ^
       cardRadius.hashCode ^
       borderWidth.hashCode;

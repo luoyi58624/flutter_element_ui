@@ -1,12 +1,25 @@
 part of 'index.dart';
 
+/// Element UI 所有组件预设尺寸枚举类
+enum ElSize {
+  /// 极小尺寸
+  mini,
+
+  /// 小尺寸
+  small,
+
+  /// 中等尺寸（默认）
+  medium,
+
+  /// 大尺寸
+  large,
+}
+
 @ElModel.copy()
 class ElConfigData {
-  /// 默认的全局配置数据，属性添加可选符号是为了方便合并祖先默认配置的全局样式，
-  /// ElApp 会将 [globalData] 作为默认值进行注入，所以在使用过程中它们不会为 null，
-  /// 你可以放心地添加 ! 符号移除警告。
   static const ElConfigData globalData = ElConfigData(
     size: 36,
+    elSize: ElSize.medium,
     radius: BorderRadius.all(Radius.circular(4)),
     cardRadius: BorderRadius.all(Radius.circular(6)),
     borderWidth: 1.0,
@@ -15,6 +28,7 @@ class ElConfigData {
   /// Element UI 通用配置
   const ElConfigData({
     this.size,
+    this.elSize,
     this.radius,
     this.cardRadius,
     this.borderWidth,
@@ -22,6 +36,9 @@ class ElConfigData {
 
   /// 基础控件尺寸，例如：按钮、输入框
   final double? size;
+
+  /// 配置组件预设尺寸
+  final ElSize? elSize;
 
   /// 基础控件默认圆角值，例如：按钮、输入框
   final BorderRadius? radius;

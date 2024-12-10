@@ -88,7 +88,7 @@ class GlobalSetting extends StatelessWidget {
           }),
           ObsBuilder(builder: (context) {
             return CellWidget(
-              title: '默认展开代码',
+              title: '展开所有代码',
               value: GlobalState.expandedCode.value,
               onChanged: (v) {
                 GlobalState.expandedCode.value = v;

@@ -1,6 +1,8 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
+import 'button_list.dart';
+
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
 
@@ -12,9 +14,25 @@ class NavPage extends ResponsivePage {
     return <Widget>[
       const Gap(50),
       // const FocusExample(),
-      ElButton2(
-        onPressed: () {},
-        child: 'Hello',
+      ElButton(
+        onPressed: () {
+          context.push(const ButtonListTestPage());
+        },
+        child: 'ElButton2',
+      ),
+      const Gap(8),
+      ElButton(
+        onPressed: () {
+          context.push(const ButtonListTestPage2());
+        },
+        child: 'ElButton',
+      ),
+      const Gap(8),
+      ElButton(
+        onPressed: () {
+          context.push(const ButtonListTestPage3());
+        },
+        child: 'ElevatedButton',
       ),
       const Gap(8),
       ElButton(

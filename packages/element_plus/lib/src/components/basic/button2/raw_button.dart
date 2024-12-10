@@ -1,29 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+part of 'index.dart';
 
-import '../../event/index.dart';
-
-abstract class RawButton extends StatelessWidget {
-  const RawButton({
+/// Element UI 基础按钮实现
+abstract class ElRawButton extends StatelessWidget {
+  const ElRawButton({
     super.key,
     required this.child,
+    this.duration,
     this.autofocus = false,
-    this.loading = false,
     this.disabled = false,
+    this.loading = false,
     this.onPressed,
   });
 
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
   final dynamic child;
 
+  /// 按钮颜色过渡时间
+  final Duration? duration;
+
   /// 按钮是否自动聚焦
   final bool autofocus;
 
-  /// 开启 loading
-  final bool loading;
-
   /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
   final bool disabled;
+
+  /// 开启 loading
+  final bool loading;
 
   /// 点击事件
   final VoidCallback? onPressed;

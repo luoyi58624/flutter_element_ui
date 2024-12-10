@@ -1,15 +1,13 @@
-import 'package:element_plus/src/global.dart';
-import 'package:flutter/material.dart';
+part of 'index.dart';
 
-import 'raw_button.dart';
-
-class ElButton2 extends RawButton {
-  const ElButton2({
+class ElOutlineButton extends ElRawButton {
+  const ElOutlineButton({
     super.key,
     required super.child,
     this.type,
     this.width,
     this.height,
+    this.block,
     super.autofocus,
     super.loading,
     super.disabled,
@@ -20,6 +18,10 @@ class ElButton2 extends RawButton {
   final String? type;
   final double? width;
   final double? height;
+
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件，
+  /// 所以，块级按钮的宽度将由父级约束决定
+  final bool? block;
 
   @override
   Widget buildWrapper(BuildContext context) {
@@ -45,9 +47,7 @@ class ElButton2 extends RawButton {
           child: ElAnimatedDefaultTextStyle(
             duration: context.elDuration(const Duration(milliseconds: 200)),
             style: TextStyle(
-              color: context.hasHover
-                  ? Colors.white
-                  : context.elTheme.primary,
+              color: context.hasHover ? Colors.white : context.elTheme.primary,
               fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
@@ -62,6 +62,17 @@ class ElButton2 extends RawButton {
       ),
     );
 
+    return result;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget result = super.build(context);
+    if (block == true) {
+      result = UnconstrainedBox(
+        child: result,
+      );
+    }
     return result;
   }
 }
