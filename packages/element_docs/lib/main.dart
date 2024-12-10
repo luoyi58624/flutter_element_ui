@@ -17,9 +17,6 @@ void main() async {
   // if (PlatformUtil.isWindows) {
   //   ElFont.bold = FontWeight.w700;
   // }
-  CodePreview.textStyle.value = CodePreview.textStyle.value.copyWith(
-    fontFamily: MyFonts.consolas,
-  );
   runApp(const MainApp());
 }
 

@@ -183,23 +183,86 @@ class _Example extends HookWidget {
               child: ElLayout(
                 key: layoutKey,
                 cacheKey: 'layout_example3',
-                navbar: const ElNavbar(enabledDrag: true),
-                sidebar: const ElSidebar(
+                navbar: ElNavbar(
+                  enabledDrag: true,
+                  minHeight: 56,
+                  child: buildNavbar(context),
+                ),
+                sidebar: ElSidebar(
                   enabledDrag: true,
                   expandedBottom: true,
+                  minWidth: 150,
+                  child: buildSlider(context),
                 ),
-                rightSidebar: const ElSidebar(
+                rightSidebar: ElSidebar(
                   enabledDrag: true,
                   expandedTop: true,
-                  expandedBottom: true,
+                  minWidth: 150,
+                  child: buildSlider(context),
                 ),
-                body: const ElBody(),
+                body: const ElBody(
+                  minWidth: 320,
+                ),
                 footer: const ElFooter(enabledDrag: true),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  Widget buildNavbar(BuildContext context) {
+    // i(context.elLayout.navbarColor);
+    return Container(
+      color: context.elLayout.navbarColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: Row(
+          children: [
+            buildIconButton(context, Icons.menu),
+            const Gap(8),
+            const ElText(
+              'Title',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            buildIconButton(context, Icons.search),
+            buildIconButton(context, Icons.favorite_border_outlined),
+            buildIconButton(context, Icons.more_vert_outlined),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildSlider(BuildContext context) => Material(
+        color: context.elLayout.sidebarColor,
+        child: ListView.builder(
+          itemCount: 20,
+          itemBuilder: (context, index) => CellWidget(
+            onTap: () {},
+            title: '列表-\${index + 1}',
+          ),
+        ),
+      );
+
+  Widget buildIconButton(BuildContext context, IconData iconData) {
+    final color = context.isDark ? Colors.white12 : Colors.black12;
+    return IconButton(
+      onPressed: () {},
+      hoverColor: color,
+      focusColor: color,
+      highlightColor: color,
+      splashColor: Colors.grey,
+      constraints: BoxConstraints.tight(const Size(48, 48)),
+      icon: Icon(
+        iconData,
+        color: context.isDark ? Colors.grey.shade200 : Colors.grey.shade800,
+      ),
     );
   }
 }""";

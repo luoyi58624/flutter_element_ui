@@ -43,7 +43,4 @@ flutter:
     - assets/images/
     - assets/images/home/
     - assets/images/contribute/
-  fonts:
-    - family: Consolas
-      fonts:
-        - asset: assets/fonts/Consolas-Regular.ttf
+

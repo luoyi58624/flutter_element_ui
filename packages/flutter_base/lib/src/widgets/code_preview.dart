@@ -12,7 +12,14 @@ Highlighter? _darkCode;
 /// 解决行高和代码（中文高度比英文、数字高）不一致问题
 const _codeStrutStyle = StrutStyle(
   forceStrutHeight: true,
-  leading: 0.3,
+  leading: 0.15,
+);
+
+/// 默认代码样式
+const _codeTextStyle = TextStyle(
+  fontSize: 14,
+  height: 1.5,
+  fontFamily: 'Consolas'
 );
 
 class CodePreview extends StatefulWidget {
@@ -24,6 +31,7 @@ class CodePreview extends StatefulWidget {
     this.bgColor = const Color.fromRGBO(49, 49, 49, 1.0),
     this.maxHeight,
     this.borderRadius,
+    this.textStyle,
   });
 
   /// 示例代码字符串
@@ -41,10 +49,8 @@ class CodePreview extends StatefulWidget {
   /// 代码示例背景圆角
   final BorderRadius? borderRadius;
 
-  /// 代码字体全局样式
-  static final textStyle = Obs(const TextStyle(
-    fontSize: 14,
-  ));
+  /// 代码字体样式
+  final TextStyle? textStyle;
 
   @override
   State<CodePreview> createState() => _CodePreviewState();
@@ -66,6 +72,8 @@ class _CodePreviewState extends State<CodePreview> {
         horizontal: 16,
         vertical: 10,
       );
+
+  TextStyle get textStyle => _codeTextStyle.merge(widget.textStyle);
 
   Color get bgColor => widget.bgColor;
 
@@ -172,19 +180,17 @@ class _CodePreviewState extends State<CodePreview> {
                           child: SingleChildScrollView(
                             controller: horizontalController,
                             scrollDirection: Axis.horizontal,
-                            child: ObsBuilder(builder: (context) {
-                              return Container(
-                                padding: _padding,
-                                child: ObsBuilder(builder: (context) {
-                                  return ElText(
-                                    code.value,
-                                    softWrap: false,
-                                    style: CodePreview.textStyle.value,
-                                    strutStyle: _codeStrutStyle,
-                                  );
-                                }),
-                              );
-                            }),
+                            child: Container(
+                              padding: _padding,
+                              child: ObsBuilder(builder: (context) {
+                                return ElText(
+                                  code.value,
+                                  softWrap: false,
+                                  style: textStyle,
+                                  strutStyle: _codeStrutStyle,
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ),
@@ -235,27 +241,23 @@ class _CodePreviewState extends State<CodePreview> {
             )
           ],
         ),
-        child: ObsBuilder(
-            binding: [CodePreview.textStyle],
-            builder: (context) {
-              return SingleChildScrollView(
-                controller: lineNumController,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: List.generate(
-                    numLines,
-                    (index) => ElText(
-                      '${index + 1}',
-                      textAlign: TextAlign.right,
-                      style: CodePreview.textStyle.value.copyWith(
-                        color: context.elTheme.textTheme.secondaryStyle.color,
-                      ),
-                      strutStyle: _codeStrutStyle,
-                    ),
-                  ),
+        child: SingleChildScrollView(
+          controller: lineNumController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: List.generate(
+              numLines,
+              (index) => ElText(
+                '${index + 1}',
+                textAlign: TextAlign.right,
+                style: textStyle.copyWith(
+                  color: context.elTheme.textTheme.secondaryStyle.color,
                 ),
-              ).noScrollBehavior;
-            }),
+                strutStyle: _codeStrutStyle,
+              ),
+            ),
+          ),
+        ).noScrollBehavior,
       ),
     );
   }

@@ -40,3 +40,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/code_themes/
+  fonts:
+    - family: Consolas
+      fonts:
+        - asset: assets/fonts/Consolas-Regular.ttf
