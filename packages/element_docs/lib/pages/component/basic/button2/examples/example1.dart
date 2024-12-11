@@ -18,6 +18,7 @@ class Example1 extends StatelessWidget {
         SectionTitle(title),
         CodeExample(
           code: code,
+          expanded: true,
           children: const [
             _Example(),
             Gap(8),
@@ -26,6 +27,8 @@ class Example1 extends StatelessWidget {
             _Example3(),
             Gap(8),
             _Example4(),
+            Gap(8),
+            _Example5(),
           ],
         ),
       ],
@@ -72,7 +75,8 @@ class _Example3 extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: _buttonTypes
-          .map((type) => ElTextButton(type: type, child: 'Hello'))
+          .map((type) => ElOutlineButton(
+              type: type, plain: false, borderWidth: 1.5, child: 'Hello'))
           .toList(),
     );
   }
@@ -80,6 +84,21 @@ class _Example3 extends StatelessWidget {
 
 class _Example4 extends StatelessWidget {
   const _Example4();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
+          .map((type) => ElTextButton(type: type, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example5 extends StatelessWidget {
+  const _Example5();
 
   @override
   Widget build(BuildContext context) {
@@ -96,5 +115,6 @@ class _Example4 extends StatelessWidget {
 String get code => '''
 ElButton(child: 'Hello'),
 ElOutlineButton(child: 'Hello'),
+ElOutlineButton(child: 'Hello', plain: false, borderWidth: 1.5),
 ElTextButton(child: 'Hello'),
-ElTextButton(bg: true, child: 'Hello'),''';
+ElTextButton(child: 'Hello', bg: true),''';

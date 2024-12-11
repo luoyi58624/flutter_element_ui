@@ -4,9 +4,6 @@ class ElButton2 extends ElRawButton {
   const ElButton2({
     super.key,
     required super.child,
-    super.duration,
-    super.curve,
-    super.type,
     this.bgColor,
     this.width,
     this.height,
@@ -14,8 +11,11 @@ class ElButton2 extends ElRawButton {
     this.leftIcon,
     this.rightIcon,
     this.round = false,
-    super.block,
     this.padding,
+    super.duration,
+    super.curve,
+    super.type,
+    super.block,
     super.textStyle,
     super.autofocus,
     super.disabled,
@@ -60,32 +60,54 @@ class ElButton2 extends ElRawButton {
 class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
   bool get isIconChild => widget.child is ElIcon;
 
+  bool get isDefaultButton => widget.type == null && widget.bgColor == null;
+
   @override
   Color get bgColor {
+    if (isDefaultButton) {
+      return context.isDark ? Colors.grey.shade800 : Colors.grey.shade200;
+    }
+    return getBgColor();
+  }
+
+  @override
+  Color? calcBgColor(BuildContext context) {
+    final color = bgColor;
+    if (isDefaultButton) {
+      return context.hasTap
+          ? color.elLight3(context, reverse: true)
+          : context.hasHover
+              ? color.elLight1(context, reverse: true)
+              : color;
+    } else {
+      return context.hasTap
+          ? color.elLight3(context, reverse: true)
+          : context.hasHover
+              ? color.elLight3(context)
+              : color;
+    }
+  }
+
+  @override
+  Color? calcTextColor(BuildContext context, Color? $bgColor) {
+    if (isDefaultButton) return context.elTheme.textTheme.regularStyle.color!;
+    return bgColor.elTextColor(context);
+  }
+
+  /// 如果按钮需要绘制边框，请重写它
+  Border? calcBorder(BuildContext context) => null;
+
+  /// 获取按钮的背景颜色
+  Color getBgColor() {
     if (widget.bgColor != null) return widget.bgColor!;
-    if (widget.type != null) return context.elThemeColors[widget.type]!;
-    return context.isDark ? Colors.grey.shade800 : Colors.grey.shade200;
+    return context.elThemeColors[widget.type ?? El.primary]!;
   }
 
   @override
-  Color get textColor => calcTextColor(context, bgColor);
-
-  @override
-  Color calcBgColor(BuildContext context, Color color) {
-    return context.hasTap
-        ? color.elLight3(context, reverse: true)
-        : context.hasHover
-            ? color.elLight3(context)
-            : color;
-  }
-
-  @override
-  Color calcTextColor(BuildContext context, Color color) {
-    return color.elTextColor(context);
-  }
-
-  @override
-  Widget buildWrapper(BuildContext context, Widget child) {
+  Widget buildButtonWrapper(BuildContext context, Widget child) {
+    final $bgColor = calcBgColor(context);
+    final $textColor = calcTextColor(context, $bgColor);
+    final $border = calcBorder(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: sizePreset.height!,
@@ -94,18 +116,19 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
       ),
       child: _AnimatedWidget(
         duration: duration,
-        curve: widget.curve,
+        curve: curve,
         decoration: BoxDecoration(
-          color: calcBgColor(context, bgColor),
+          color: $bgColor,
           borderRadius: context.elConfig.radius,
+          border: $border,
         ),
         textStyle: TextStyle(
-          color: textColor,
+          color: $textColor,
           fontSize: sizePreset.fontSize,
           fontWeight: FontWeight.w500,
         ).merge(widget.textStyle),
         iconThemeData: ElIconThemeData(
-            size: widget.iconSize ?? sizePreset.iconSize, color: textColor),
+            size: widget.iconSize ?? sizePreset.iconSize, color: $textColor),
         child: Padding(
           padding: widget.padding ??
               EdgeInsets.symmetric(horizontal: sizePreset.height! / 2),
@@ -118,8 +141,8 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
   }
 
   @override
-  Widget buildContent(BuildContext context) {
-    Widget result = super.buildContent(context);
+  Widget buildButtonContent(BuildContext context) {
+    Widget result = super.buildButtonContent(context);
 
     Widget? $leftIcon = widget.leftIcon;
     Widget? $rightIcon = widget.rightIcon;
@@ -170,5 +193,61 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
     }
 
     return result;
+  }
+}
+
+class _AnimatedWidget extends ImplicitlyAnimatedWidget {
+  const _AnimatedWidget({
+    required super.duration,
+    super.curve,
+    required this.decoration,
+    required this.textStyle,
+    required this.iconThemeData,
+    required this.child,
+  });
+
+  final BoxDecoration decoration;
+  final TextStyle textStyle;
+  final ElIconThemeData iconThemeData;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<_AnimatedWidget> createState() =>
+      _AnimatedWidgetState();
+}
+
+class _AnimatedWidgetState extends AnimatedWidgetBaseState<_AnimatedWidget> {
+  DecorationTween? _decoration;
+  TextStyleTween? _textStyle;
+  ElIconThemeDataTween? _iconThemeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: _decoration!.evaluate(animation),
+      child: ElDefaultTextStyle(
+        style: _textStyle!.evaluate(animation),
+        child: ElIconTheme(
+          data: _iconThemeData!.evaluate(animation),
+          child: widget.child,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _decoration = visitor(_decoration, widget.decoration,
+            (dynamic value) => DecorationTween(begin: value as BoxDecoration))
+        as DecorationTween;
+    _textStyle = visitor(_textStyle, widget.textStyle,
+            (dynamic value) => TextStyleTween(begin: value as TextStyle))
+        as TextStyleTween;
+    _iconThemeData = visitor(
+            _iconThemeData,
+            widget.iconThemeData,
+            (dynamic value) =>
+                ElIconThemeDataTween(begin: value as ElIconThemeData))
+        as ElIconThemeDataTween;
   }
 }

@@ -21,25 +21,23 @@ class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
   Color get bgColor => context.currentBgColor;
 
   @override
-  Color get textColor => widget.type == null
-      ? bgColor.elRegularTextColor(context)
-      : context.elThemeColors[widget.type]!;
-
-  @override
-  Color calcTextColor(BuildContext context, Color color) {
+  Color? calcTextColor(BuildContext context, Color? $bgColor) {
+    final result = widget.type == null
+        ? $bgColor!.elRegularTextColor(context)
+        : context.elThemeColors[widget.type]!;
     return context.hasTap
-        ? color.elLight3(context, reverse: true)
+        ? result.elLight3(context, reverse: true)
         : context.hasHover
-            ? color.elLight5(context)
-            : color;
+            ? result.elLight5(context)
+            : result;
   }
 
   @override
-  Widget buildWrapper(BuildContext context, Widget child) {
+  Widget buildButtonWrapper(BuildContext context, Widget child) {
     return ElAnimatedDefaultTextStyle(
       duration: duration,
       style: TextStyle(
-        color: calcTextColor(context, textColor),
+        color: calcTextColor(context, bgColor),
         fontSize: sizePreset.fontSize,
         fontWeight: FontWeight.w500,
       ),

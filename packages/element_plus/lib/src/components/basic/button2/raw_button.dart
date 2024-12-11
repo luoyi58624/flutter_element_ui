@@ -6,8 +6,8 @@ abstract class ElRawButton extends StatefulWidget {
     super.key,
     required this.child,
     this.type,
-    this.duration = const Duration(milliseconds: 80),
-    this.curve = Curves.linear,
+    this.duration,
+    this.curve,
     this.textStyle,
     this.block = false,
     this.autofocus = false,
@@ -25,10 +25,10 @@ abstract class ElRawButton extends StatefulWidget {
   final String? type;
 
   /// 按钮动画过渡时间
-  final Duration duration;
+  final Duration? duration;
 
   /// 按钮动画曲线
-  final Curve curve;
+  final Curve? curve;
 
   /// 自定义文本样式，其样式会通过 [ElDefaultTextStyle] 注入
   final TextStyle? textStyle;
@@ -59,28 +59,28 @@ abstract class ElRawButton extends StatefulWidget {
 }
 
 abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
-  Duration get duration => context.elDuration(widget.duration);
-
   late ElButtonSizePreset sizePreset;
   late MouseCursor cursor;
 
-  /// 定义按钮初始背景颜色
+  Duration get duration =>
+      context.elDuration(widget.duration ?? const Duration(milliseconds: 80));
+
+  Curve get curve => widget.curve ?? Curves.linear;
+
+  /// 按钮初始背景颜色
   Color get bgColor;
 
-  /// 定义按钮初始文本颜色
-  Color get textColor;
+  /// 按钮经过交互后计算出的背景颜色
+  Color? calcBgColor(BuildContext context) => null;
 
-  /// 计算按钮交互背景颜色
-  Color calcBgColor(BuildContext context, Color color) => color;
-
-  /// 计算按钮交互文字颜色
-  Color calcTextColor(BuildContext context, Color color) => color;
+  /// 计算按钮文字颜色，通常会将 [calcBgColor] 方法计算好的背景颜色作为第二个参数传入
+  Color? calcTextColor(BuildContext context, Color? $bgColor) => null;
 
   /// 构建按钮外观
-  Widget buildWrapper(BuildContext context, Widget child);
+  Widget buildButtonWrapper(BuildContext context, Widget child);
 
   /// 构建按钮内容
-  Widget buildContent(BuildContext context) {
+  Widget buildButtonContent(BuildContext context) {
     return widget.child is Widget ? widget.child : ElText('${widget.child}');
   }
 
@@ -98,10 +98,10 @@ abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
       autofocus: widget.autofocus,
       cursor: cursor,
       canRequestFocus: !widget.disabled,
-      tapUpDelay: widget.duration.inMilliseconds,
-      builder: (context) => buildWrapper(
+      tapUpDelay: duration.inMilliseconds,
+      builder: (context) => buildButtonWrapper(
         context,
-        buildContent(context),
+        buildButtonContent(context),
       ),
     );
     if (!widget.block) {

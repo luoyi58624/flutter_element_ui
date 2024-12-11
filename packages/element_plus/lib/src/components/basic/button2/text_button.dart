@@ -5,10 +5,11 @@ class ElTextButton extends ElButton2 {
   const ElTextButton({
     super.key,
     required super.child,
-    super.duration,
-    super.type,
     this.color,
     this.bg = false,
+    super.duration,
+    super.curve,
+    super.type,
     super.round,
     super.padding,
     super.textStyle,
@@ -33,14 +34,8 @@ class ElTextButtonState extends ElButton2State<ElTextButton> {
   Color get bgColor => context.currentBgColor;
 
   @override
-  Color get textColor =>
-      widget.color ??
-      (widget.type == null
-          ? bgColor.elRegularTextColor(context)
-          : context.elThemeColors[widget.type]!);
-
-  @override
-  Color calcBgColor(BuildContext context, Color color) {
+  Color? calcBgColor(BuildContext context) {
+    final color = bgColor;
     if (widget.bg) {
       return context.hasTap
           ? color.deepen(15)
@@ -57,5 +52,10 @@ class ElTextButtonState extends ElButton2State<ElTextButton> {
   }
 
   @override
-  Color calcTextColor(BuildContext context, Color color) => color;
+  Color calcTextColor(BuildContext context, Color? $bgColor) {
+    return widget.color ??
+        (widget.type == null
+            ? bgColor.elRegularTextColor(context)
+            : context.elThemeColors[widget.type]!);
+  }
 }
