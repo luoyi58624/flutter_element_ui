@@ -1,20 +1,5 @@
 part of 'index.dart';
 
-/// Element UI 所有组件预设尺寸枚举类
-enum ElSize {
-  /// 极小尺寸
-  mini,
-
-  /// 小尺寸
-  small,
-
-  /// 中等尺寸（默认）
-  medium,
-
-  /// 大尺寸
-  large,
-}
-
 @ElModel.copy()
 class ElConfigData {
   static const ElConfigData globalData = ElConfigData(

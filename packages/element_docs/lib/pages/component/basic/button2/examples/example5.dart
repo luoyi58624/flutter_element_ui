@@ -34,7 +34,7 @@ class _Example extends StatelessWidget {
       spacing: 16,
       runSpacing: 8,
       children: [null, ...El.themeTypes]
-          .map((type) => ElLinkButton('Hello', type: type))
+          .map((type) => ElLinkButton(type: type, child: 'Hello'))
           .toList(),
     );
   }

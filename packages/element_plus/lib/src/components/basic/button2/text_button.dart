@@ -10,6 +10,8 @@ class ElTextButton extends ElButton2 {
     this.color,
     this.bg = false,
     super.round,
+    super.padding,
+    super.textStyle,
     super.autofocus,
     super.loading,
     super.disabled,
@@ -23,8 +25,13 @@ class ElTextButton extends ElButton2 {
   final bool bg;
 
   @override
+  State<ElButton2> createState() => ElTextButtonState();
+}
+
+class ElTextButtonState extends ElButton2State<ElTextButton> {
+  @override
   Color calcBgColor(BuildContext context, Color color) {
-    if (bg) {
+    if (widget.bg) {
       return context.hasTap
           ? color.deepen(15)
           : context.hasHover
@@ -44,37 +51,36 @@ class ElTextButton extends ElButton2 {
 
   @override
   Widget buildWrapper(BuildContext context) {
-    final $duration = context.elDuration(_duration);
-    final $height = context.elConfig.size!;
     Color $bgColor = context.currentBgColor;
-    Color $color = color ??
-        (type == null
+    Color $color = widget.color ??
+        (widget.type == null
             ? $bgColor.elRegularTextColor(context)
-            : context.elThemeColors[type]!);
+            : context.elThemeColors[widget.type]!);
 
     return UnconstrainedBox(
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: $height,
-          minWidth: _minButtonWidth,
+          minHeight: sizePreset.height,
+          minWidth: sizePreset.width,
         ),
         child: AnimatedDecoratedBox(
-          duration: $duration,
+          duration: duration,
           decoration: BoxDecoration(
             color: calcBgColor(context, $bgColor),
             borderRadius: context.elConfig.radius,
           ),
           child: ElAnimatedDefaultTextStyle(
-            duration: $duration,
+            duration: duration,
             style: TextStyle(
               color: calcTextColor(context, $color),
-              fontSize: 15,
+              fontSize: sizePreset.fontSize,
               fontWeight: FontWeight.w500,
-            ),
+            ).merge(widget.textStyle),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: $height / 2),
+              padding: widget.padding ??
+                  EdgeInsets.symmetric(horizontal: sizePreset.height / 2),
               child: Center(
-                child: child is Widget ? child : ElText('$child'),
+                child: child,
               ),
             ),
           ),

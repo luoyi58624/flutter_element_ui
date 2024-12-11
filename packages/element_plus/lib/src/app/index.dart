@@ -8,6 +8,8 @@ part 'extension.dart';
 
 part 'config.dart';
 
+part 'size.dart';
+
 part 'responsive.dart';
 
 part 'theme.dart';
@@ -66,7 +68,7 @@ class ElApp extends StatelessWidget {
         brightness: $brightness,
         theme: theme,
         darkTheme: darkTheme,
-        config: config,
+        config: ElConfigData.globalData.merge(config),
         responsive: responsive,
       ),
       child: _SwitchThemeAnimation(

@@ -1,6 +1,7 @@
 part of 'index.dart';
 
 class ElOutlineButton extends ElButton2 {
+  /// Element UI 链接按钮，外观与普通文字完全一样
   const ElOutlineButton({
     super.key,
     required super.child,
@@ -15,10 +16,14 @@ class ElOutlineButton extends ElButton2 {
   });
 
   @override
+  State<ElButton2> createState() => ElOutlineButtonState();
+}
+
+class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
+  @override
   Widget buildWrapper(BuildContext context) {
-    Widget result = child is Widget ? child : ElText('$child');
     final $height = context.elConfig.size!;
-    result = UnconstrainedBox(
+    return UnconstrainedBox(
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: $height,
@@ -45,25 +50,12 @@ class ElOutlineButton extends ElButton2 {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: $height / 2),
               child: Center(
-                child: result,
+                child: child,
               ),
             ),
           ),
         ),
       ),
     );
-
-    return result;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Widget result = super.build(context);
-    if (block == true) {
-      result = UnconstrainedBox(
-        child: result,
-      );
-    }
-    return result;
   }
 }

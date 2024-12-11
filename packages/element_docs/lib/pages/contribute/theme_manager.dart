@@ -58,16 +58,17 @@ class ThemeManagerPage extends ResponsivePage {
       const SectionTitle('4. 代码生成器配置'),
       const SectionCard(
         title: 'Tip',
-        content: ['最后贴上代码生成器配置 build.yaml，配置并不复杂，也没什么好讲解的，您只需要知道配置的作用就行了。'],
+        content: ['最后贴上代码生成器配置 build.yaml。'],
       ),
       textGap,
       const ElImage(src: 'assets/images/contribute/code_generate_build.png'),
-      const SectionTitle('5. 删除、修改主题类导致旧数据问题'),
+      const SectionTitle('5. 删除、修改主题类时，全局主题数据未清除旧数据问题'),
       const SectionCard(
         title: 'Tip',
         content: [
           '有时候我们修改主题类、或者删除主题类时，全局主题依旧存在之前的配置，'
-              '这是因为代码生成器存在缓存机制，要解决此问题，请执行清除缓存命令。'
+              '这是因为代码生成器存在缓存机制，要解决此问题，请执行清除缓存命令。',
+          '提示：build_runner 不需要中止运行，当清除缓存后会自动重新运行。'
         ],
       ),
       textGap,

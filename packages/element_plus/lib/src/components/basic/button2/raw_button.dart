@@ -1,22 +1,34 @@
 part of 'index.dart';
 
 /// Element UI 按钮抽象类
-abstract class ElRawButton extends StatelessWidget {
+abstract class ElRawButton extends StatefulWidget {
   const ElRawButton({
     super.key,
+    required this.child,
     this.type,
-    this.duration = _duration,
+    this.duration = const Duration(milliseconds: 64),
+    this.curve = Curves.linear,
+    this.textStyle,
     this.autofocus = false,
     this.disabled = false,
     this.loading = false,
     this.onPressed,
   });
 
+  /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
+  final dynamic child;
+
   /// 主题类型，默认 primary
   final String? type;
 
-  /// 按钮颜色过渡时间
+  /// 按钮动画过渡时间
   final Duration duration;
+
+  /// 按钮动画曲线
+  final Curve curve;
+
+  /// 自定义文本样式，其样式会通过 [ElDefaultTextStyle] 注入
+  final TextStyle? textStyle;
 
   /// 按钮是否自动聚焦
   final bool autofocus;
@@ -30,6 +42,43 @@ abstract class ElRawButton extends StatelessWidget {
   /// 点击事件
   final VoidCallback? onPressed;
 
+  @override
+  State<ElRawButton> createState();
+}
+
+abstract class ElRawButtonState<T extends ElRawButton> extends State<T>
+    with ElSizeMixin<T, ElButtonSizePreset> {
+  Widget get child =>
+      widget.child is Widget ? widget.child : ElText('${widget.child}');
+
+  Duration get duration => context.elDuration(widget.duration);
+
+  late ElButtonSizePreset sizePreset;
+
+  @override
+  ElButtonSizePreset mini(BuildContext context) {
+    return const ElButtonSizePreset(
+        width: 48, height: 28, fontSize: 12, iconSize: 12);
+  }
+
+  @override
+  ElButtonSizePreset small(BuildContext context) {
+    return const ElButtonSizePreset(
+        width: 56, height: 32, fontSize: 14, iconSize: 14);
+  }
+
+  @override
+  ElButtonSizePreset medium(BuildContext context) {
+    return const ElButtonSizePreset(
+        width: 64, height: 36, fontSize: 15, iconSize: 16);
+  }
+
+  @override
+  ElButtonSizePreset large(BuildContext context) {
+    return const ElButtonSizePreset(
+        width: 72, height: 40, fontSize: 16, iconSize: 18);
+  }
+
   /// 计算按钮的背景颜色
   Color calcBgColor(BuildContext context, Color color) => color;
 
@@ -41,18 +90,19 @@ abstract class ElRawButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MouseCursor $cursor = loading
+    sizePreset = getSizePreset();
+    MouseCursor $cursor = widget.loading
         ? MouseCursor.defer
-        : disabled
+        : widget.disabled
             ? SystemMouseCursors.forbidden
             : SystemMouseCursors.click;
 
     return ElEvent(
-      disabled: disabled || loading,
-      autofocus: autofocus,
+      disabled: widget.disabled || widget.loading,
+      autofocus: widget.autofocus,
       cursor: $cursor,
-      canRequestFocus: !disabled,
-      tapUpDelay: duration.inMilliseconds,
+      canRequestFocus: !widget.disabled,
+      tapUpDelay: widget.duration.inMilliseconds,
       builder: (context) => buildWrapper(context),
     );
   }

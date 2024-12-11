@@ -175,7 +175,7 @@ class _$themeClassName extends InheritedWidget {
         _className.substring(0, _className.lastIndexOf(_suffix));
     String animatedThemeClassName =
         '${_prefix}Animated${themeClassName.substring(_prefix.length)}';
-    String tweenClassName = '_$_prefix${getRawName(_className)}DataTween';
+    String tweenClassName = '$_prefix${getRawName(_className)}ThemeDataTween';
 
     String lerpContent = '';
     for (int i = 0; i < _classFields.length; i++) {
@@ -249,6 +249,7 @@ class _${_className}State extends AnimatedWidgetBaseState<_$animatedThemeClassNa
   }
 }
 
+/// 生成的主题线性插值类
 class $tweenClassName extends Tween<$_className> {
   $tweenClassName({super.begin});
 

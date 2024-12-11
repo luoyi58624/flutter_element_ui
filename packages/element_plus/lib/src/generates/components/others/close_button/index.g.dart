@@ -138,16 +138,16 @@ class _ElAnimatedCloseButtonTheme extends ImplicitlyAnimatedWidget {
 
 class _ElCloseButtonThemeDataState
     extends AnimatedWidgetBaseState<_ElAnimatedCloseButtonTheme> {
-  _ElCloseButtonDataTween? _data;
+  ElCloseButtonThemeDataTween? _data;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _data = visitor(
             _data,
             widget.data,
-            (dynamic value) => _ElCloseButtonDataTween(
+            (dynamic value) => ElCloseButtonThemeDataTween(
                 begin: value as ElCloseButtonThemeData))!
-        as _ElCloseButtonDataTween;
+        as ElCloseButtonThemeDataTween;
   }
 
   @override
@@ -159,8 +159,9 @@ class _ElCloseButtonThemeDataState
   }
 }
 
-class _ElCloseButtonDataTween extends Tween<ElCloseButtonThemeData> {
-  _ElCloseButtonDataTween({super.begin});
+/// 生成的主题线性插值类
+class ElCloseButtonThemeDataTween extends Tween<ElCloseButtonThemeData> {
+  ElCloseButtonThemeDataTween({super.begin});
 
   @override
   ElCloseButtonThemeData lerp(double t) => _lerp(begin!, end!, t);

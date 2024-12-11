@@ -13,8 +13,8 @@ class ElThemeData extends _ElThemeData {
     layoutTheme: ElLayoutThemeData.theme,
     sliderTheme: ElSliderThemeData.theme,
     linkTheme: ElLinkThemeData.theme,
-    buttonTheme: ElButtonThemeData.theme,
     textTheme: ElTextThemeData.theme,
+    buttonTheme: ElButtonThemeData.theme,
     iconTheme: ElIconThemeData.theme,
     tabsTheme: ElTabsThemeData.theme,
     navMenuTheme: ElNavMenuThemeData.theme,
@@ -40,8 +40,8 @@ class ElThemeData extends _ElThemeData {
     layoutTheme: ElLayoutThemeData.darkTheme,
     sliderTheme: ElSliderThemeData.darkTheme,
     linkTheme: ElLinkThemeData.darkTheme,
-    buttonTheme: ElButtonThemeData.darkTheme,
     textTheme: ElTextThemeData.darkTheme,
+    buttonTheme: ElButtonThemeData.darkTheme,
     iconTheme: ElIconThemeData.darkTheme,
     tabsTheme: ElTabsThemeData.darkTheme,
     navMenuTheme: ElNavMenuThemeData.darkTheme,
@@ -73,11 +73,11 @@ class ElThemeData extends _ElThemeData {
   /// 超链接默认样式
   final ElLinkThemeData linkTheme;
 
-  /// 按钮默认样式
-  final ElButtonThemeData buttonTheme;
-
   /// 文本默认样式
   final ElTextThemeData textTheme;
+
+  /// 按钮默认样式
+  final ElButtonThemeData buttonTheme;
 
   /// 图标默认样式
   final ElIconThemeData iconTheme;
@@ -141,8 +141,8 @@ class ElThemeData extends _ElThemeData {
     required this.layoutTheme,
     required this.sliderTheme,
     required this.linkTheme,
-    required this.buttonTheme,
     required this.textTheme,
+    required this.buttonTheme,
     required this.iconTheme,
     required this.tabsTheme,
     required this.navMenuTheme,
@@ -168,8 +168,8 @@ class ElThemeData extends _ElThemeData {
     required this.layoutTheme,
     required this.sliderTheme,
     required this.linkTheme,
-    required this.buttonTheme,
     required this.textTheme,
+    required this.buttonTheme,
     required this.iconTheme,
     required this.tabsTheme,
     required this.navMenuTheme,
@@ -200,8 +200,8 @@ class ElThemeData extends _ElThemeData {
     ElLayoutThemeData? layoutTheme,
     ElSliderThemeData? sliderTheme,
     ElLinkThemeData? linkTheme,
-    ElButtonThemeData? buttonTheme,
     ElTextThemeData? textTheme,
+    ElButtonThemeData? buttonTheme,
     ElIconThemeData? iconTheme,
     ElTabsThemeData? tabsTheme,
     ElNavMenuThemeData? navMenuTheme,
@@ -230,8 +230,8 @@ class ElThemeData extends _ElThemeData {
       layoutTheme: this.layoutTheme.merge(layoutTheme),
       sliderTheme: this.sliderTheme.merge(sliderTheme),
       linkTheme: this.linkTheme.merge(linkTheme),
-      buttonTheme: this.buttonTheme.merge(buttonTheme),
       textTheme: this.textTheme.merge(textTheme),
+      buttonTheme: this.buttonTheme.merge(buttonTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
       tabsTheme: this.tabsTheme.merge(tabsTheme),
       navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
@@ -265,8 +265,8 @@ class ElThemeData extends _ElThemeData {
       layoutTheme: other.layoutTheme,
       sliderTheme: other.sliderTheme,
       linkTheme: other.linkTheme,
-      buttonTheme: other.buttonTheme,
       textTheme: other.textTheme,
+      buttonTheme: other.buttonTheme,
       iconTheme: other.iconTheme,
       tabsTheme: other.tabsTheme,
       navMenuTheme: other.navMenuTheme,

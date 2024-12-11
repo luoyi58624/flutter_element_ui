@@ -13,17 +13,64 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return <Widget>[
       const Gap(50),
-      // const FocusExample(),
-      Wrap(
-        spacing: 8,
-        children: [
-          ...El.themeTypes.map(
-            (e) => ElButton2(
-              child: 'Hello',
-              type: e,
+      ElConfig(
+        data: const ElConfigData(elSize: ElSize.mini),
+        child: Wrap(
+          spacing: 8,
+          children: [
+            ...El.themeTypes.map(
+              (e) => ElButton2(
+                child: 'Hello',
+                type: e,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ),
+      const Gap(8),
+      ElConfig(
+        data: const ElConfigData(elSize: ElSize.small),
+        child: Wrap(
+          spacing: 8,
+          children: [
+            ...El.themeTypes.map(
+              (e) => ElButton2(
+                child: 'Hello',
+                type: e,
+              ),
+            ),
+          ],
+        ),
+      ),
+      const Gap(8),
+      ElConfig(
+        data: const ElConfigData(elSize: ElSize.medium),
+        child: Wrap(
+          spacing: 8,
+          children: [
+            ...El.themeTypes.map(
+              (e) => ElButton2(
+                child: 'Hello',
+                type: e,
+              ),
+            ),
+          ],
+        ),
+      ),
+      const Gap(8),
+      ElConfig(
+        data: const ElConfigData(elSize: ElSize.large),
+        child: Wrap(
+          spacing: 8,
+          children: [
+            ...El.themeTypes.map(
+              (e) => ElButton2(
+                child: 'Hello',
+                type: e,
+              ),
+            ),
+          ],
+        ),
       ),
       const Gap(8),
       ElButton(

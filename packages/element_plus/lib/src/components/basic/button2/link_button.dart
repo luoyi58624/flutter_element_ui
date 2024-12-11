@@ -2,9 +2,9 @@ part of 'index.dart';
 
 class ElLinkButton extends ElRawButton {
   /// Element UI 链接按钮，外观与普通文字完全一样
-  const ElLinkButton(
-    this.text, {
+  const ElLinkButton({
     super.key,
+    required super.child,
     super.type,
     super.autofocus,
     super.loading,
@@ -12,33 +12,35 @@ class ElLinkButton extends ElRawButton {
     super.onPressed,
   });
 
-  final String text;
+  @override
+  State<ElLinkButton> createState() => _ElLinkButtonState();
+}
 
+class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
   @override
   Color calcTextColor(BuildContext context, Color color) {
     return context.hasTap
-        ? color.tap(context)
+        ? color.elLight3(context, reverse: true)
         : context.hasHover
-            ? color.disabled(context)
+            ? color.elLight5(context)
             : color;
   }
 
   @override
   Widget buildWrapper(BuildContext context) {
-    final $duration = context.elDuration(_duration);
     Color $bgColor = context.currentBgColor;
-    Color color = type == null
+    Color color = widget.type == null
         ? $bgColor.elRegularTextColor(context)
-        : context.elThemeColors[type]!;
+        : context.elThemeColors[widget.type]!;
 
     return ElAnimatedDefaultTextStyle(
-      duration: $duration,
+      duration: duration,
       style: TextStyle(
         color: calcTextColor(context, color),
-        fontSize: 15,
+        fontSize: sizePreset.fontSize,
         fontWeight: FontWeight.w500,
       ),
-      child: ElText(text),
+      child: child,
     );
   }
 }

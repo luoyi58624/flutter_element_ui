@@ -136,7 +136,7 @@ class _ElAnimatedIconTheme extends ImplicitlyAnimatedWidget {
 
 class _ElIconThemeDataState
     extends AnimatedWidgetBaseState<_ElAnimatedIconTheme> {
-  _ElIconDataTween? _data;
+  ElIconThemeDataTween? _data;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
@@ -144,8 +144,8 @@ class _ElIconThemeDataState
             _data,
             widget.data,
             (dynamic value) =>
-                _ElIconDataTween(begin: value as ElIconThemeData))!
-        as _ElIconDataTween;
+                ElIconThemeDataTween(begin: value as ElIconThemeData))!
+        as ElIconThemeDataTween;
   }
 
   @override
@@ -157,8 +157,9 @@ class _ElIconThemeDataState
   }
 }
 
-class _ElIconDataTween extends Tween<ElIconThemeData> {
-  _ElIconDataTween({super.begin});
+/// 生成的主题线性插值类
+class ElIconThemeDataTween extends Tween<ElIconThemeData> {
+  ElIconThemeDataTween({super.begin});
 
   @override
   ElIconThemeData lerp(double t) => _lerp(begin!, end!, t);
