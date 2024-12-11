@@ -12,15 +12,12 @@ Highlighter? _darkCode;
 /// 解决行高和代码（中文高度比英文、数字高）不一致问题
 const _codeStrutStyle = StrutStyle(
   forceStrutHeight: true,
-  leading: 0.15,
+  leading: 0.3,
 );
 
 /// 默认代码样式
-const _codeTextStyle = TextStyle(
-  fontSize: 14,
-  height: 1.5,
-  fontFamily: 'Consolas'
-);
+const _codeTextStyle =
+    TextStyle(fontSize: 14, height: 1.5, fontFamily: 'Consolas');
 
 class CodePreview extends StatefulWidget {
   /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]

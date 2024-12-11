@@ -32,10 +32,11 @@ class ElApp extends StatelessWidget {
     super.key,
     required this.child,
     this.brightness,
-    this.theme = ElThemeData.theme,
-    this.darkTheme = ElThemeData.darkTheme,
-    this.config = ElConfigData.globalData,
+    this.theme,
+    this.darkTheme,
+    this.config,
     this.responsive = const ElResponsiveData(),
+    this.sizePreset = const ElSizePreset(),
   });
 
   final Widget child;
@@ -44,16 +45,19 @@ class ElApp extends StatelessWidget {
   final Brightness? brightness;
 
   /// 亮色主题
-  final ElThemeData theme;
+  final ElThemeData? theme;
 
   /// 暗色主题
-  final ElThemeData darkTheme;
+  final ElThemeData? darkTheme;
 
   /// 全局配置
-  final ElConfigData config;
+  final ElConfigData? config;
 
   /// 响应式断点配置
   final ElResponsiveData responsive;
+
+  /// 全局组件尺寸预设
+  final ElSizePreset sizePreset;
 
   /// 访问 ElApp 注入的全局配置信息
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
@@ -61,20 +65,22 @@ class ElApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final $brightness = brightness ?? MediaQuery.of(context).platformBrightness;
-    ElThemeData $data = $brightness.isDark ? darkTheme : theme;
 
     return _AppInheritedWidget(
       ElAppData(
         brightness: $brightness,
-        theme: theme,
-        darkTheme: darkTheme,
+        theme: ElThemeData.theme.merge(theme),
+        darkTheme: ElThemeData.darkTheme.merge(darkTheme),
         config: ElConfigData.globalData.merge(config),
         responsive: responsive,
+        sizePreset: sizePreset,
       ),
-      child: _SwitchThemeAnimation(
-        data: $data,
-        child: child,
-      ),
+      child: Builder(builder: (context) {
+        return _SwitchThemeAnimation(
+          data: context.elTheme,
+          child: child,
+        );
+      }),
     );
   }
 }
@@ -85,6 +91,7 @@ class ElAppData {
   final ElThemeData darkTheme;
   final ElConfigData config;
   final ElResponsiveData responsive;
+  final ElSizePreset sizePreset;
 
   const ElAppData({
     required this.brightness,
@@ -92,6 +99,7 @@ class ElAppData {
     required this.darkTheme,
     required this.config,
     required this.responsive,
+    required this.sizePreset,
   });
 }
 

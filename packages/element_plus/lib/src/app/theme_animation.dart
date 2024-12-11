@@ -1,5 +1,6 @@
 part of 'index.dart';
 
+/// 切换暗黑模式时禁止所有动画过渡
 class _SwitchThemeAnimation extends StatefulWidget {
   const _SwitchThemeAnimation({
     required this.child,

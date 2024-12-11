@@ -14,19 +14,25 @@ class ElButton2 extends ElRawButton {
     this.leftIcon,
     this.rightIcon,
     this.round = false,
-    this.block = false,
+    super.block,
     this.padding,
     super.textStyle,
     super.autofocus,
-    super.loading,
     super.disabled,
+    super.loading,
+    super.loadingWidget,
+    super.loadingBuilder,
     super.onPressed,
   });
 
   /// 自定义颜色按钮，它会覆盖 [type] 属性
   final Color? bgColor;
 
-  /// 按钮宽度
+  /// 按钮最小宽度，按钮的宽度受多种因素影响，具体表现有以下几种情况（按优先级排序）：
+  /// * [block]，它会解除按钮约束，通常情况下按钮将充满整个空间，这取决于父级约束条件
+  /// * [circle]，按钮宽度强制等于高度，因为此时按钮是圆形
+  /// * [width]，用户自定义宽度
+  /// * 最后：如果 [child] 是 [ElIcon] 或 [Icon]，那么默认宽度等于 height * 1.25
   final double? width;
 
   /// 按钮高度
@@ -44,9 +50,6 @@ class ElButton2 extends ElRawButton {
   /// 圆角按钮
   final bool round;
 
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
-  final bool block;
-
   /// 自定义按钮内边距
   final EdgeInsets? padding;
 
@@ -56,6 +59,16 @@ class ElButton2 extends ElRawButton {
 
 class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
   bool get isIconChild => widget.child is ElIcon;
+
+  @override
+  Color get bgColor {
+    if (widget.bgColor != null) return widget.bgColor!;
+    if (widget.type != null) return context.elThemeColors[widget.type]!;
+    return context.isDark ? Colors.grey.shade800 : Colors.grey.shade200;
+  }
+
+  @override
+  Color get textColor => calcTextColor(context, bgColor);
 
   @override
   Color calcBgColor(BuildContext context, Color color) {
@@ -72,34 +85,30 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
   }
 
   @override
-  Widget buildWrapper(BuildContext context) {
-    Color $bgColor =
-        widget.bgColor ?? context.elThemeColors[widget.type ?? El.primary]!;
-    final $textColor = calcTextColor(context, $bgColor);
-
+  Widget buildWrapper(BuildContext context, Widget child) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: sizePreset.height,
+        minHeight: sizePreset.height!,
         minWidth: widget.width ??
-            (isIconChild ? sizePreset.height * 1.25 : sizePreset.width),
+            (isIconChild ? sizePreset.height! * 1.25 : sizePreset.width!),
       ),
       child: _AnimatedWidget(
         duration: duration,
         curve: widget.curve,
         decoration: BoxDecoration(
-          color: calcBgColor(context, $bgColor),
+          color: calcBgColor(context, bgColor),
           borderRadius: context.elConfig.radius,
         ),
         textStyle: TextStyle(
-          color: $textColor,
+          color: textColor,
           fontSize: sizePreset.fontSize,
           fontWeight: FontWeight.w500,
         ).merge(widget.textStyle),
         iconThemeData: ElIconThemeData(
-            size: widget.iconSize ?? sizePreset.iconSize, color: $textColor),
+            size: widget.iconSize ?? sizePreset.iconSize, color: textColor),
         child: Padding(
           padding: widget.padding ??
-              EdgeInsets.symmetric(horizontal: sizePreset.height / 2),
+              EdgeInsets.symmetric(horizontal: sizePreset.height! / 2),
           child: Center(
             child: child,
           ),
@@ -109,69 +118,57 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    Widget result = super.build(context);
-    if (!widget.block) {
-      result = UnconstrainedBox(
+  Widget buildContent(BuildContext context) {
+    Widget result = super.buildContent(context);
+
+    Widget? $leftIcon = widget.leftIcon;
+    Widget? $rightIcon = widget.rightIcon;
+    if (widget.loadingBuilder == null && widget.loading) {
+      if ($leftIcon != null) {
+        $leftIcon = widget.loadingWidget;
+      } else if ($rightIcon != null) {
+        $rightIcon = widget.loadingWidget;
+      } else {
+        if (!isIconChild) {
+          $leftIcon = widget.loadingWidget;
+        }
+      }
+    }
+
+    result = Padding(
+      padding: EdgeInsets.only(
+        left: $leftIcon != null ? 6.0 : 0.0,
+        right: $rightIcon != null ? 6.0 : 0.0,
+      ),
+      child: widget.loadingBuilder == null &&
+              widget.leftIcon == null &&
+              widget.loading &&
+              isIconChild
+          ? widget.loadingWidget
+          : result,
+    );
+
+    result = DefaultSelectionStyle(
+      mouseCursor: cursor,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if ($leftIcon != null) $leftIcon,
+          result,
+          if ($rightIcon != null) $rightIcon,
+        ],
+      ),
+    );
+
+    if (widget.loadingBuilder != null) {
+      result = Opacity(
+        opacity: widget.loading == true ? 0.0 : 1.0,
         child: result,
       );
     }
+
     return result;
-  }
-}
-
-class _AnimatedWidget extends ImplicitlyAnimatedWidget {
-  const _AnimatedWidget({
-    required super.duration,
-    super.curve,
-    required this.decoration,
-    required this.textStyle,
-    required this.iconThemeData,
-    required this.child,
-  });
-
-  final BoxDecoration decoration;
-  final TextStyle textStyle;
-  final ElIconThemeData iconThemeData;
-  final Widget child;
-
-  @override
-  AnimatedWidgetBaseState<_AnimatedWidget> createState() =>
-      _AnimatedWidgetState();
-}
-
-class _AnimatedWidgetState extends AnimatedWidgetBaseState<_AnimatedWidget> {
-  DecorationTween? _decoration;
-  TextStyleTween? _textStyle;
-  ElIconThemeDataTween? _iconThemeData;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: _decoration!.evaluate(animation),
-      child: ElDefaultTextStyle(
-        style: _textStyle!.evaluate(animation),
-        child: ElIconTheme(
-          data: _iconThemeData!.evaluate(animation),
-          child: widget.child,
-        ),
-      ),
-    );
-  }
-
-  @override
-  void forEachTween(TweenVisitor<dynamic> visitor) {
-    _decoration = visitor(_decoration, widget.decoration,
-            (dynamic value) => DecorationTween(begin: value as BoxDecoration))
-        as DecorationTween;
-    _textStyle = visitor(_textStyle, widget.textStyle,
-            (dynamic value) => TextStyleTween(begin: value as TextStyle))
-        as TextStyleTween;
-    _iconThemeData = visitor(
-            _iconThemeData,
-            widget.iconThemeData,
-            (dynamic value) =>
-                ElIconThemeDataTween(begin: value as ElIconThemeData))
-        as ElIconThemeDataTween;
   }
 }

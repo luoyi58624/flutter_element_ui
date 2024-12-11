@@ -6,12 +6,15 @@ abstract class ElRawButton extends StatefulWidget {
     super.key,
     required this.child,
     this.type,
-    this.duration = const Duration(milliseconds: 64),
+    this.duration = const Duration(milliseconds: 80),
     this.curve = Curves.linear,
     this.textStyle,
+    this.block = false,
     this.autofocus = false,
     this.disabled = false,
     this.loading = false,
+    this.loadingWidget = const ElLoading(ElIcons.loading),
+    this.loadingBuilder,
     this.onPressed,
   });
 
@@ -30,6 +33,9 @@ abstract class ElRawButton extends StatefulWidget {
   /// 自定义文本样式，其样式会通过 [ElDefaultTextStyle] 注入
   final TextStyle? textStyle;
 
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
+  final bool block;
+
   /// 按钮是否自动聚焦
   final bool autofocus;
 
@@ -39,6 +45,12 @@ abstract class ElRawButton extends StatefulWidget {
   /// 开启 loading
   final bool loading;
 
+  /// loading 图标小部件
+  final Widget? loadingWidget;
+
+  /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
+  final Widget Function(ElButtonLoadingData data)? loadingBuilder;
+
   /// 点击事件
   final VoidCallback? onPressed;
 
@@ -46,64 +58,57 @@ abstract class ElRawButton extends StatefulWidget {
   State<ElRawButton> createState();
 }
 
-abstract class ElRawButtonState<T extends ElRawButton> extends State<T>
-    with ElSizeMixin<T, ElButtonSizePreset> {
-  Widget get child =>
-      widget.child is Widget ? widget.child : ElText('${widget.child}');
-
+abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
   Duration get duration => context.elDuration(widget.duration);
 
   late ElButtonSizePreset sizePreset;
+  late MouseCursor cursor;
 
-  @override
-  ElButtonSizePreset mini(BuildContext context) {
-    return const ElButtonSizePreset(
-        width: 48, height: 28, fontSize: 12, iconSize: 12);
-  }
+  /// 定义按钮初始背景颜色
+  Color get bgColor;
 
-  @override
-  ElButtonSizePreset small(BuildContext context) {
-    return const ElButtonSizePreset(
-        width: 56, height: 32, fontSize: 14, iconSize: 14);
-  }
+  /// 定义按钮初始文本颜色
+  Color get textColor;
 
-  @override
-  ElButtonSizePreset medium(BuildContext context) {
-    return const ElButtonSizePreset(
-        width: 64, height: 36, fontSize: 15, iconSize: 16);
-  }
-
-  @override
-  ElButtonSizePreset large(BuildContext context) {
-    return const ElButtonSizePreset(
-        width: 72, height: 40, fontSize: 16, iconSize: 18);
-  }
-
-  /// 计算按钮的背景颜色
+  /// 计算按钮交互背景颜色
   Color calcBgColor(BuildContext context, Color color) => color;
 
-  /// 计算按钮的文字颜色
+  /// 计算按钮交互文字颜色
   Color calcTextColor(BuildContext context, Color color) => color;
 
   /// 构建按钮外观
-  Widget buildWrapper(BuildContext context);
+  Widget buildWrapper(BuildContext context, Widget child);
+
+  /// 构建按钮内容
+  Widget buildContent(BuildContext context) {
+    return widget.child is Widget ? widget.child : ElText('${widget.child}');
+  }
 
   @override
   Widget build(BuildContext context) {
-    sizePreset = getSizePreset();
-    MouseCursor $cursor = widget.loading
+    sizePreset = ElApp.of(context).sizePreset.button.apply(context);
+    cursor = widget.loading
         ? MouseCursor.defer
         : widget.disabled
             ? SystemMouseCursors.forbidden
             : SystemMouseCursors.click;
 
-    return ElEvent(
+    Widget result = ElEvent(
       disabled: widget.disabled || widget.loading,
       autofocus: widget.autofocus,
-      cursor: $cursor,
+      cursor: cursor,
       canRequestFocus: !widget.disabled,
       tapUpDelay: widget.duration.inMilliseconds,
-      builder: (context) => buildWrapper(context),
+      builder: (context) => buildWrapper(
+        context,
+        buildContent(context),
+      ),
     );
+    if (!widget.block) {
+      result = UnconstrainedBox(
+        child: result,
+      );
+    }
+    return result;
   }
 }

@@ -30,6 +30,16 @@ class ElTextButton extends ElButton2 {
 
 class ElTextButtonState extends ElButton2State<ElTextButton> {
   @override
+  Color get bgColor => context.currentBgColor;
+
+  @override
+  Color get textColor =>
+      widget.color ??
+      (widget.type == null
+          ? bgColor.elRegularTextColor(context)
+          : context.elThemeColors[widget.type]!);
+
+  @override
   Color calcBgColor(BuildContext context, Color color) {
     if (widget.bg) {
       return context.hasTap
@@ -48,44 +58,4 @@ class ElTextButtonState extends ElButton2State<ElTextButton> {
 
   @override
   Color calcTextColor(BuildContext context, Color color) => color;
-
-  @override
-  Widget buildWrapper(BuildContext context) {
-    Color $bgColor = context.currentBgColor;
-    Color $color = widget.color ??
-        (widget.type == null
-            ? $bgColor.elRegularTextColor(context)
-            : context.elThemeColors[widget.type]!);
-
-    return UnconstrainedBox(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: sizePreset.height,
-          minWidth: sizePreset.width,
-        ),
-        child: AnimatedDecoratedBox(
-          duration: duration,
-          decoration: BoxDecoration(
-            color: calcBgColor(context, $bgColor),
-            borderRadius: context.elConfig.radius,
-          ),
-          child: ElAnimatedDefaultTextStyle(
-            duration: duration,
-            style: TextStyle(
-              color: calcTextColor(context, $color),
-              fontSize: sizePreset.fontSize,
-              fontWeight: FontWeight.w500,
-            ).merge(widget.textStyle),
-            child: Padding(
-              padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: sizePreset.height / 2),
-              child: Center(
-                child: child,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }

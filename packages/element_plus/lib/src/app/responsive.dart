@@ -12,7 +12,6 @@ extension ElResponsiveExtension on BuildContext {
   bool get xl => MediaQuery.sizeOf(this).width <= ElApp.of(this).responsive.xl;
 }
 
-@ElModel.copy()
 class ElResponsiveData {
   /// 默认的响应式断点配置
   const ElResponsiveData({
@@ -37,10 +36,4 @@ class ElResponsiveData {
 
   /// 大屏桌面设备最大尺寸
   final double xl;
-
-  @override
-  bool operator ==(Object other) => _equals(other);
-
-  @override
-  int get hashCode => _hashCode;
 }

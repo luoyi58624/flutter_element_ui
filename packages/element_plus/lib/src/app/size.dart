@@ -15,37 +15,86 @@ enum ElSize {
   large,
 }
 
-mixin ElSizeMixin<T extends StatefulWidget, S> on State<T> {
-  /// 返回极小尺寸属性配置
-  @protected
-  S mini(BuildContext context);
+class ElSizePreset {
+  const ElSizePreset({this.button = const ElButtonSizePreset()});
 
-  /// 返回小尺寸属性配置
-  S small(BuildContext context);
+  final ElButtonSizePreset button;
+}
 
-  /// 返回中等尺寸属性配置
-  S medium(BuildContext context);
+abstract class _SizePreset<S> {
+  const _SizePreset();
 
-  /// 返回大尺寸属性配置
-  S large(BuildContext context);
+  S get mini;
 
-  /// 通过当前上下文访问 [ElConfig] 配置的 size 属性，返回组件自定义的预设尺寸配置
-  S getSizePreset() {
+  S get small;
+
+  S get medium;
+
+  S get large;
+
+  /// 通过当前上下文 context 应用得到预设的尺寸
+  S apply(BuildContext context) {
     late S sizePreset;
     switch (context.elConfig.elSize!) {
       case ElSize.mini:
-        sizePreset = mini(context);
+        sizePreset = mini;
         break;
       case ElSize.small:
-        sizePreset = small(context);
+        sizePreset = small;
         break;
       case ElSize.medium:
-        sizePreset = medium(context);
+        sizePreset = medium;
         break;
       case ElSize.large:
-        sizePreset = large(context);
+        sizePreset = large;
         break;
     }
     return sizePreset;
   }
+}
+
+/// 按钮尺寸预设，你可以继承它重写预设尺寸方法，例如：
+/// ```dart
+/// ElSizePreset elSizePreset = ElSizePreset(
+///   button: _ButtonSizePreset(),
+/// );
+///
+/// class _ButtonSizePreset extends ElButtonSizePreset {
+///   @override
+///   ElButtonSizePreset get mini => const ElButtonSizePreset(
+///       width: 48, height: 20, fontSize: 12, iconSize: 12);
+/// }
+/// ```
+///
+/// 然后将 elSizePreset 自定义预设传递给 [ElApp] 即可。
+///
+/// 提示：属性设置 ? 可选符号是为了能够直接通过构造器创建对象，实际不为 null。
+class ElButtonSizePreset extends _SizePreset<ElButtonSizePreset> {
+  final double? width;
+  final double? height;
+  final double? fontSize;
+  final double? iconSize;
+
+  const ElButtonSizePreset({
+    this.width,
+    this.height,
+    this.fontSize,
+    this.iconSize,
+  });
+
+  @override
+  ElButtonSizePreset get mini => const ElButtonSizePreset(
+      width: 48, height: 24, fontSize: 12, iconSize: 12);
+
+  @override
+  ElButtonSizePreset get small => const ElButtonSizePreset(
+      width: 56, height: 30, fontSize: 14, iconSize: 14);
+
+  @override
+  ElButtonSizePreset get medium => const ElButtonSizePreset(
+      width: 64, height: 36, fontSize: 15, iconSize: 16);
+
+  @override
+  ElButtonSizePreset get large => const ElButtonSizePreset(
+      width: 72, height: 40, fontSize: 16, iconSize: 18);
 }

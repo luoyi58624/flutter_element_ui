@@ -18,6 +18,14 @@ class ElLinkButton extends ElRawButton {
 
 class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
   @override
+  Color get bgColor => context.currentBgColor;
+
+  @override
+  Color get textColor => widget.type == null
+      ? bgColor.elRegularTextColor(context)
+      : context.elThemeColors[widget.type]!;
+
+  @override
   Color calcTextColor(BuildContext context, Color color) {
     return context.hasTap
         ? color.elLight3(context, reverse: true)
@@ -27,16 +35,11 @@ class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
   }
 
   @override
-  Widget buildWrapper(BuildContext context) {
-    Color $bgColor = context.currentBgColor;
-    Color color = widget.type == null
-        ? $bgColor.elRegularTextColor(context)
-        : context.elThemeColors[widget.type]!;
-
+  Widget buildWrapper(BuildContext context, Widget child) {
     return ElAnimatedDefaultTextStyle(
       duration: duration,
       style: TextStyle(
-        color: calcTextColor(context, color),
+        color: calcTextColor(context, textColor),
         fontSize: sizePreset.fontSize,
         fontWeight: FontWeight.w500,
       ),

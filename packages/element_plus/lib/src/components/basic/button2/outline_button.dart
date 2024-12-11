@@ -21,7 +21,7 @@ class ElOutlineButton extends ElButton2 {
 
 class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
   @override
-  Widget buildWrapper(BuildContext context) {
+  Widget buildWrapper(BuildContext context, Widget child) {
     final $height = context.elConfig.size!;
     return UnconstrainedBox(
       child: ConstrainedBox(
