@@ -41,6 +41,13 @@ class GlobalState {
   /// 全局文字大小
   static double globalFontSize = 16;
 
+  /// Element UI 组件全局尺寸
+  static final globalSize = LocalObs(
+    ElSize.medium,
+    cacheKey: 'global_size',
+    serialize: const ElSizeSerialize(),
+  );
+
   /// 开启边界重绘
   static final enabledRepaintRainbow = WatchObs(
     false,

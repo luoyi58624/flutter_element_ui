@@ -1,7 +1,7 @@
 /// Object serialize interface
 abstract interface class ElSerialize<T> {
   /// object -> string
-  String? serialize(T? data);
+  String? serialize(T? obj);
 
   /// string -> object
   T? deserialize(String? str);

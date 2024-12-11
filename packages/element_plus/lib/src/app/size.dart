@@ -1,5 +1,28 @@
 part of 'index.dart';
 
+class ElSizeSerialize implements ElSerialize<ElSize> {
+  const ElSizeSerialize();
+
+  @override
+  String? serialize(ElSize? obj) => obj!.index.toString();
+
+  @override
+  ElSize? deserialize(String? str) {
+    if (str == null) return null;
+    switch (int.parse(str)) {
+      case 0:
+        return ElSize.mini;
+      case 1:
+        return ElSize.small;
+      case 2:
+        return ElSize.medium;
+      case 3:
+        return ElSize.large;
+    }
+    return null;
+  }
+}
+
 /// Element UI 所有组件预设尺寸枚举类
 enum ElSize {
   /// 极小尺寸
@@ -13,6 +36,21 @@ enum ElSize {
 
   /// 大尺寸
   large,
+}
+
+extension ElSizeExtension on ElSize {
+  String get name {
+    switch (this) {
+      case ElSize.mini:
+        return '极小尺寸';
+      case ElSize.small:
+        return '小尺寸';
+      case ElSize.medium:
+        return '中等尺寸';
+      case ElSize.large:
+        return '大尺寸';
+    }
+  }
 }
 
 class ElSizePreset {

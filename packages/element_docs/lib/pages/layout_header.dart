@@ -73,6 +73,24 @@ class LayoutHeader extends StatelessWidget {
                       .toList();
                 },
               ),
+              PopupMenuButton<ElSize>(
+                enableFeedback: true,
+                offset: const Offset(0, 56),
+                popUpAnimationStyle: AnimationStyle.noAnimation,
+                icon: const Icon(Icons.format_size),
+                onSelected: (value) {
+                  GlobalState.globalSize.value = value;
+                },
+                itemBuilder: (context) {
+                  return ElSize.values
+                      .map((v) => PopupMenuItem(
+                            height: 40,
+                            value: v,
+                            child: Text(v.name),
+                          ))
+                      .toList();
+                },
+              ),
               IconButton(
                 tooltip: '全局配置',
                 onPressed: () {

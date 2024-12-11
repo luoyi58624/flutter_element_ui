@@ -82,7 +82,7 @@ class _MainAppState extends State<MainApp> {
             brightness: GlobalState.brightness,
             theme: ThemeUtil.buildElementTheme(),
             darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
-            config: const ElConfigData(elSize: ElSize.medium),
+            config: ElConfigData(elSize: GlobalState.globalSize.value),
             sizePreset: elSizePreset,
             child: ObsBuilder(builder: (context) {
               isMobileRoute.value = context.sm;
