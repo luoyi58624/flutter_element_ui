@@ -26,10 +26,10 @@ extension ElPointerMoveEventExtension on PointerMoveEvent {
 }
 
 extension ElEventExtension on BuildContext {
-  /// 是否激活了 hover 悬停状态
+  /// 是否激活了 hover 悬停状态，如果 [Widget] 依赖此变量，那么当鼠标悬停时将会重建小部件
   bool get hasHover => ElEvent.hasHover(this);
 
-  /// 是否激活了 tap 点击状态
+  /// 是否激活了 tap 点击状态，如果 [Widget] 依赖此变量，那么当点击时将会重建小部件
   bool get hasTap => ElEvent.hasTap(this);
 
   /// 是否激活了 focus 焦点状态，判断元素是否得到焦点不要通过 [Focus.of]，

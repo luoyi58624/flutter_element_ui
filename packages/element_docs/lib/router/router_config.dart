@@ -108,6 +108,11 @@ class SlideRouterConfig {
         ('Focus 焦点', '/${RootRoute.component.$2}/focus', WorkStatus.finished),
         ('Button 按钮', '/${RootRoute.component.$2}/button', WorkStatus.finished),
         (
+          'Button2 按钮',
+          '/${RootRoute.component.$2}/button2',
+          WorkStatus.finished
+        ),
+        (
           'ButtonGroup 按钮组',
           '/${RootRoute.component.$2}/button_group',
           WorkStatus.finished

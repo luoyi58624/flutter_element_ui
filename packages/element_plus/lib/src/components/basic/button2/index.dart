@@ -9,7 +9,15 @@ part 'button.dart';
 
 part 'outline_button.dart';
 
-part '../../../generates/components/basic/button2/index.g.dart';
+part 'text_button.dart';
+
+part 'link_button.dart';
+
+/// 按钮最小宽度
+const _minButtonWidth = 64.0;
+
+/// 按钮默认的动画持续时间
+const _duration = Duration(milliseconds: 64);
 
 extension _ButtonColorExtension on Color {
   /// 悬停状态颜色，颜色会变得更浅

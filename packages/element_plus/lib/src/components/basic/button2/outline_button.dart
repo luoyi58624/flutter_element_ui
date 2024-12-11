@@ -1,27 +1,18 @@
 part of 'index.dart';
 
-class ElOutlineButton extends ElRawButton {
+class ElOutlineButton extends ElButton2 {
   const ElOutlineButton({
     super.key,
     required super.child,
-    this.type,
-    this.width,
-    this.height,
-    this.block,
+    super.type,
+    super.width,
+    super.height,
+    super.block,
     super.autofocus,
     super.loading,
     super.disabled,
     super.onPressed,
   });
-
-  /// 主题类型
-  final String? type;
-  final double? width;
-  final double? height;
-
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件，
-  /// 所以，块级按钮的宽度将由父级约束决定
-  final bool? block;
 
   @override
   Widget buildWrapper(BuildContext context) {

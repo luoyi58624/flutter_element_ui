@@ -19,4 +19,5 @@ export 'extensions/widget.dart';
 
 export 'widgets/brightness.dart';
 
+export 'widgets/current_color.dart';
 export 'widgets/simple_widgets.dart';

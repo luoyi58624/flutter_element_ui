@@ -1,59 +1,27 @@
 part of 'index.dart';
 
-@ElModel.copy()
-@ElThemeModel(desc: '按钮默认样式')
-class ElButton2ThemeData {
-  static const _defaultTheme = ElButton2ThemeData(
-    round: false,
-    block: false,
-  );
-  static const theme = _defaultTheme;
-  static const darkTheme = _defaultTheme;
-
-  const ElButton2ThemeData({
-    this.type,
-    this.bgColor,
-    this.width,
-    this.height,
-    this.round,
-    this.block,
-  });
-
-  final String? type;
-  final Color? bgColor;
-  final double? width;
-  final double? height;
-  final bool? round;
-  final bool? block;
-
-  @override
-  bool operator ==(Object other) => _equals(other);
-
-  @override
-  int get hashCode => _hashCode;
-}
-
 class ElButton2 extends ElRawButton {
   const ElButton2({
     super.key,
-    required super.child,
+    required this.child,
     super.duration,
-    this.type,
+    super.type = El.primary,
     this.bgColor,
     this.width,
     this.height,
-    this.round,
-    this.block,
+    this.iconSize,
+    this.round = false,
+    this.block = false,
     super.autofocus,
     super.loading,
     super.disabled,
     super.onPressed,
   });
 
-  /// 主题类型
-  final String? type;
+  /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
+  final dynamic child;
 
-  /// 自定义颜色按钮
+  /// 自定义颜色按钮，它会覆盖 [type] 属性
   final Color? bgColor;
 
   /// 按钮宽度
@@ -62,76 +30,82 @@ class ElButton2 extends ElRawButton {
   /// 按钮高度
   final double? height;
 
+  /// 自定义图标尺寸
+  final double? iconSize;
+
   /// 圆角按钮
-  final bool? round;
+  final bool round;
 
-  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件，
-  /// 所以，块级按钮的宽度将由父级约束决定
-  final bool? block;
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
+  final bool block;
 
-  Color _calcBgColor(BuildContext context, Color $color) {
+  bool get isIconChild => child is ElIcon;
+
+  @override
+  Color calcBgColor(BuildContext context, Color color) {
     return context.hasTap
-        ? $color.tap(context)
+        ? color.tap(context)
         : context.hasHover
-            ? $color.hover(context)
-            : $color;
+            ? color.hover(context)
+            : color;
+  }
+
+  @override
+  Color calcTextColor(BuildContext context, Color color) {
+    return color.elTextColor(context);
   }
 
   @override
   Widget buildWrapper(BuildContext context) {
-    final themeData = ElButton2Theme.of(context).copyWith(
-      type: type,
-      bgColor: bgColor,
-      width: width,
-      height: height,
-      round: round,
-      block: block,
-    );
-    final $duration = context.elDuration(const Duration(milliseconds: 100));
+    final $duration = context.elDuration(_duration);
     final $height = context.elConfig.size!;
-    Widget result = child is Widget ? child : ElText('$child');
+    Color $bgColor = bgColor ?? context.elThemeColors[type]!;
+    final $textColor = calcTextColor(context, $bgColor);
+    double? $iconSize = iconSize;
+    if ($iconSize == null) {
+      if ($height >= 36) {
+        $iconSize = $height / 2 - 2;
+      } else {
+        $iconSize = $height / 2;
+      }
+    }
 
-    Color $bgColor = themeData.bgColor ??
-        (themeData.type == null
-            ? context.elTheme.primary
-            : context.elThemeColors[themeData.type]!);
-
-    result = UnconstrainedBox(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: $height,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: $height,
+        minWidth: width ?? (isIconChild ? $height * 1.25 : _minButtonWidth),
+      ),
+      child: AnimatedDecoratedBox(
+        duration: $duration,
+        decoration: BoxDecoration(
+          color: calcBgColor(context, $bgColor),
+          borderRadius: context.elConfig.radius,
         ),
-        child: AnimatedDecoratedBox(
-          duration: $duration,
-          decoration: BoxDecoration(
-            color: _calcBgColor(context, $bgColor),
-            borderRadius: context.elConfig.radius,
-          ),
-          child: ElAnimatedDefaultTextStyle(
-            duration: $duration,
-            style: TextStyle(
-              color: $bgColor.elTextColor(context),
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: $height / 2),
-              child: Center(
-                child: result,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: $height / 2),
+          child: Center(
+            child: ElAnimatedDefaultTextStyle(
+              duration: $duration,
+              style: TextStyle(
+                color: $textColor,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+              child: ElIconTheme(
+                data: ElIconThemeData(size: $iconSize, color: $textColor),
+                child: child is Widget ? child : ElText('$child'),
               ),
             ),
           ),
         ),
       ),
     );
-
-    return result;
   }
 
   @override
   Widget build(BuildContext context) {
     Widget result = super.build(context);
-    if (block == true) {
+    if (!block) {
       result = UnconstrainedBox(
         child: result,
       );

@@ -14,6 +14,18 @@ class NavPage extends ResponsivePage {
     return <Widget>[
       const Gap(50),
       // const FocusExample(),
+      Wrap(
+        spacing: 8,
+        children: [
+          ...El.themeTypes.map(
+            (e) => ElButton2(
+              child: 'Hello',
+              type: e,
+            ),
+          ),
+        ],
+      ),
+      const Gap(8),
       ElButton(
         onPressed: () {
           context.push(const ButtonListTestPage());

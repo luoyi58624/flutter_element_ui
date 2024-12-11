@@ -1,22 +1,22 @@
 part of 'index.dart';
 
-/// Element UI 基础按钮实现
+/// Element UI 按钮抽象类
 abstract class ElRawButton extends StatelessWidget {
   const ElRawButton({
     super.key,
-    required this.child,
-    this.duration,
+    this.type,
+    this.duration = _duration,
     this.autofocus = false,
     this.disabled = false,
     this.loading = false,
     this.onPressed,
   });
 
-  /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
-  final dynamic child;
+  /// 主题类型，默认 primary
+  final String? type;
 
   /// 按钮颜色过渡时间
-  final Duration? duration;
+  final Duration duration;
 
   /// 按钮是否自动聚焦
   final bool autofocus;
@@ -29,6 +29,12 @@ abstract class ElRawButton extends StatelessWidget {
 
   /// 点击事件
   final VoidCallback? onPressed;
+
+  /// 计算按钮的背景颜色
+  Color calcBgColor(BuildContext context, Color color) => color;
+
+  /// 计算按钮的文字颜色
+  Color calcTextColor(BuildContext context, Color color) => color;
 
   /// 构建按钮外观
   Widget buildWrapper(BuildContext context);
@@ -46,6 +52,7 @@ abstract class ElRawButton extends StatelessWidget {
       autofocus: autofocus,
       cursor: $cursor,
       canRequestFocus: !disabled,
+      tapUpDelay: duration.inMilliseconds,
       builder: (context) => buildWrapper(context),
     );
   }
