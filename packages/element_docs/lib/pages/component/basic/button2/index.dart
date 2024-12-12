@@ -25,12 +25,12 @@ class ButtonPage2 extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return const [
       Example1(title: '基础使用'),
-      Example2(title: '自定义颜色'),
-      Example3(title: '边框按钮'),
-      Example4(title: '文字按钮'),
-      Example5(title: '链接按钮'),
-      Example6(title: '图标按钮'),
-      Example7(title: '加载动画'),
+      Example2(title: '禁用按钮'),
+      Example3(title: '链接按钮'),
+      Example4(title: '图标按钮'),
+      Example5(title: '文字图标按钮'),
+      Example6(title: '加载动画'),
+      Example7(title: '块级按钮'),
     ];
   }
 }

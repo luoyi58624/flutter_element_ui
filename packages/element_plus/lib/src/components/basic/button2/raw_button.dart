@@ -1,25 +1,22 @@
+import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../app/index.dart';
-import '../../feedback/loading/loading.dart';
-import '../button/index.dart';
-import '../event/index.dart';
-import '../icon/index.dart';
-import '../text/index.dart';
+typedef ElButtonStyleBuilder = ({Color textColor, BoxDecoration decoration});
+typedef ElButtonColorStyle = ({Color bgColor, Color textColor});
 
-abstract class RawButton extends StatefulWidget {
-  const RawButton({
+abstract class ElRawButton extends StatefulWidget {
+  const ElRawButton({
     super.key,
     required this.child,
     this.type,
     this.duration,
     this.curve,
-    this.textStyle,
+    this.iconSize,
     this.block = false,
     this.autofocus = false,
     this.disabled = false,
     this.loading = false,
-    this.loadingWidget = const ElLoading(ElIcons.loading),
+    this.loadingWidget,
     this.loadingBuilder,
     this.onPressed,
   });
@@ -36,8 +33,8 @@ abstract class RawButton extends StatefulWidget {
   /// 按钮动画曲线
   final Curve? curve;
 
-  /// 自定义文本样式，其样式会通过 [ElDefaultTextStyle] 注入
-  final TextStyle? textStyle;
+  /// 自定义图标尺寸
+  final double? iconSize;
 
   /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
   final bool block;
@@ -55,18 +52,18 @@ abstract class RawButton extends StatefulWidget {
   final Widget? loadingWidget;
 
   /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
-  final Widget Function(ElButtonLoadingData data)? loadingBuilder;
+  final Widget Function(BuildContext context)? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;
 
   @override
-  State<RawButton> createState();
+  State<ElRawButton> createState();
 }
 
-abstract class RawButtonState<T extends RawButton> extends State<T> {
+abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
   late ElButtonSizePreset sizePreset;
-  late ButtonStyle style;
+  late ElButtonStyleBuilder style;
   late MouseCursor cursor;
 
   Duration get duration =>
@@ -74,11 +71,13 @@ abstract class RawButtonState<T extends RawButton> extends State<T> {
 
   Curve get curve => widget.curve ?? Curves.linear;
 
+  double get iconSize => widget.iconSize ?? sizePreset.iconSize!;
+
   /// 构建按钮样式
-  ButtonStyle buildButtonStyle(BuildContext context);
+  ElButtonStyleBuilder buildButtonStyle(BuildContext context);
 
   /// 构建按钮外观
-  Widget buildButtonWrapper(BuildContext context, Widget child);
+  Widget buildButtonWrapper(BuildContext context, Widget child) => child;
 
   /// 构建按钮内容
   Widget buildButtonContent(BuildContext context) {
@@ -101,11 +100,27 @@ abstract class RawButtonState<T extends RawButton> extends State<T> {
         cursor: cursor,
         canRequestFocus: !widget.disabled,
         tapUpDelay: duration.inMilliseconds,
+        onTap: widget.onPressed,
         builder: (context) {
           style = buildButtonStyle(context);
-          return buildButtonWrapper(
-            context,
-            buildButtonContent(context),
+          return _AnimatedWidget(
+            duration: duration,
+            curve: curve,
+            textStyle: TextStyle(
+              color: style.textColor,
+              fontSize: sizePreset.fontSize,
+              fontWeight: FontWeight.w500,
+            ),
+            iconThemeData: ElIconThemeData(
+              size: iconSize,
+              color: style.textColor,
+            ),
+            child: Builder(builder: (context) {
+              return buildButtonWrapper(
+                context,
+                buildButtonContent(context),
+              );
+            }),
           );
         });
     if (!widget.block) {
@@ -117,12 +132,49 @@ abstract class RawButtonState<T extends RawButton> extends State<T> {
   }
 }
 
-class ButtonStyle {
-  final Color textColor;
-  final BoxDecoration decoration;
-
-  ButtonStyle({
-    required this.textColor,
-    required this.decoration,
+class _AnimatedWidget extends ImplicitlyAnimatedWidget {
+  const _AnimatedWidget({
+    required super.duration,
+    super.curve,
+    required this.textStyle,
+    required this.iconThemeData,
+    required this.child,
   });
+
+  final TextStyle textStyle;
+  final ElIconThemeData iconThemeData;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<_AnimatedWidget> createState() =>
+      _AnimatedWidgetState();
+}
+
+class _AnimatedWidgetState extends AnimatedWidgetBaseState<_AnimatedWidget> {
+  TextStyleTween? _textStyle;
+  ElIconThemeDataTween? _iconThemeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElDefaultTextStyle(
+      style: _textStyle!.evaluate(animation),
+      child: ElIconTheme(
+        data: _iconThemeData!.evaluate(animation),
+        child: widget.child,
+      ),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _textStyle = visitor(_textStyle, widget.textStyle,
+            (dynamic value) => TextStyleTween(begin: value as TextStyle))
+        as TextStyleTween;
+    _iconThemeData = visitor(
+            _iconThemeData,
+            widget.iconThemeData,
+            (dynamic value) =>
+                ElIconThemeDataTween(begin: value as ElIconThemeData))
+        as ElIconThemeDataTween;
+  }
 }

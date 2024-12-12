@@ -13,6 +13,7 @@ export 'src/app/index.dart';
 
 export 'src/components/basic/button/index.dart';
 export 'src/components/basic/button2/button.dart';
+export 'src/components/basic/button2/raw_button.dart';
 export 'src/components/basic/button2/outline_button.dart';
 export 'src/components/basic/button2/text_button.dart';
 export 'src/components/basic/button2/link_button.dart';

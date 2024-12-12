@@ -2,16 +2,16 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 
+import '../../feedback/loading/loading.dart';
 import 'raw_button.dart';
 
-class ElButton2 extends RawButton {
+class ElButton2 extends ElRawButton {
   const ElButton2({
     super.key,
     required super.child,
     this.bgColor,
     this.width,
     this.height,
-    this.iconSize,
     this.leftIcon,
     this.rightIcon,
     this.round = false,
@@ -20,7 +20,7 @@ class ElButton2 extends RawButton {
     super.curve,
     super.type,
     super.block,
-    super.textStyle,
+    super.iconSize,
     super.autofocus,
     super.disabled,
     super.loading,
@@ -42,9 +42,6 @@ class ElButton2 extends RawButton {
   /// 按钮高度
   final double? height;
 
-  /// 自定义图标尺寸
-  final double? iconSize;
-
   /// 按钮左图标
   final Widget? leftIcon;
 
@@ -58,13 +55,29 @@ class ElButton2 extends RawButton {
   final EdgeInsets? padding;
 
   @override
-  State<RawButton> createState() => ElButton2State();
+  State<ElRawButton> createState() => ElButton2State();
 }
 
-class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
-  bool get isIconChild => widget.child is ElIcon;
+class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
+  bool get isIconChild => widget.child is ElIcon || widget.child is Icon;
 
   bool get isDefaultButton => widget.type == null && widget.bgColor == null;
+
+  /// 如果是图标按钮，直接应用预设宽度会显得剩余空间比较大，所以需要处理一下
+  double get minHeight => widget.height ?? sizePreset.height!;
+
+  /// 如果是图标按钮，直接应用预设宽度会显得剩余空间比较大，所以需要处理一下
+  double get minWidth =>
+      widget.width ??
+      (isIconChild ? sizePreset.height! * 1.25 : sizePreset.width!);
+
+  /// 按钮内边距
+  EdgeInsets get padding =>
+      widget.padding ??
+      EdgeInsets.symmetric(horizontal: sizePreset.height! / 2);
+
+  Widget get loadingWidget =>
+      widget.loadingWidget ?? const ElLoading(ElIcons.loading);
 
   /// 获取按钮主题背景颜色，如果 bgColor 不为 null，则返回 bgColor，否则根据 type 返回预设主题色
   Color get themeBgColor {
@@ -72,8 +85,31 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
     return context.elThemeColors[widget.type ?? El.primary]!;
   }
 
+  ElButtonColorStyle buildLoadingBuilderStyle(BuildContext context) {
+    final bgColor = context.isDark
+        ? const Color.fromRGBO(57, 57, 57, 1.0)
+        : const Color.fromRGBO(224, 224, 224, 1.0);
+    final textColor = context.isDark
+        ? const Color.fromRGBO(118, 118, 118, 1.0)
+        : const Color.fromRGBO(166, 166, 166, 1.0);
+
+    return (bgColor: bgColor, textColor: textColor);
+  }
+
   @override
-  ButtonStyle buildButtonStyle(BuildContext context) {
+  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
+    if (widget.loadingBuilder != null && widget.loading) {
+      final loadingStyle = buildLoadingBuilderStyle(context);
+
+      return (
+        textColor: loadingStyle.textColor,
+        decoration: BoxDecoration(
+          color: loadingStyle.bgColor,
+          borderRadius: BorderRadius.circular(sizePreset.radius!),
+        ),
+      );
+    }
+
     late Color bgColor;
     late Color textColor;
     if (isDefaultButton) {
@@ -96,7 +132,14 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
       }
     }
 
-    return ButtonStyle(
+    if (widget.disabled || widget.loading) {
+      bgColor = bgColor.elLight5(context);
+      textColor = isDefaultButton
+          ? textColor.elLight6(context)
+          : textColor.elLight5(context);
+    }
+
+    return (
       textColor: textColor,
       decoration: BoxDecoration(
         color: bgColor,
@@ -107,34 +150,37 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
 
   @override
   Widget buildButtonWrapper(BuildContext context, Widget child) {
-    return ConstrainedBox(
+    Widget result = ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: sizePreset.height!,
-        minWidth: widget.width ??
-            (isIconChild ? sizePreset.height! * 1.25 : sizePreset.width!),
+        minHeight: minHeight,
+        minWidth: minWidth,
       ),
-      child: _AnimatedWidget(
+      child: AnimatedDecoratedBox(
         duration: duration,
         curve: curve,
         decoration: style.decoration,
-        textStyle: TextStyle(
-          color: style.textColor,
-          fontSize: sizePreset.fontSize,
-          fontWeight: FontWeight.w500,
-        ).merge(widget.textStyle),
-        iconThemeData: ElIconThemeData(
-          size: widget.iconSize ?? sizePreset.iconSize,
-          color: style.textColor,
-        ),
         child: Padding(
-          padding: widget.padding ??
-              EdgeInsets.symmetric(horizontal: sizePreset.height! / 2),
+          padding: padding,
           child: Center(
             child: child,
           ),
         ),
       ),
     );
+    if (widget.loadingBuilder != null && widget.loading) {
+      result = Stack(
+        children: [
+          result,
+          Positioned.fill(
+            child: Center(
+              child: widget.loadingBuilder!(context),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return result;
   }
 
   @override
@@ -145,12 +191,12 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
     Widget? $rightIcon = widget.rightIcon;
     if (widget.loadingBuilder == null && widget.loading) {
       if ($leftIcon != null) {
-        $leftIcon = widget.loadingWidget;
+        $leftIcon = loadingWidget;
       } else if ($rightIcon != null) {
-        $rightIcon = widget.loadingWidget;
+        $rightIcon = loadingWidget;
       } else {
         if (!isIconChild) {
-          $leftIcon = widget.loadingWidget;
+          $leftIcon = loadingWidget;
         }
       }
     }
@@ -164,7 +210,7 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
               widget.leftIcon == null &&
               widget.loading &&
               isIconChild
-          ? widget.loadingWidget
+          ? loadingWidget
           : result,
     );
 
@@ -190,61 +236,5 @@ class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
     }
 
     return result;
-  }
-}
-
-class _AnimatedWidget extends ImplicitlyAnimatedWidget {
-  const _AnimatedWidget({
-    required super.duration,
-    super.curve,
-    required this.decoration,
-    required this.textStyle,
-    required this.iconThemeData,
-    required this.child,
-  });
-
-  final BoxDecoration decoration;
-  final TextStyle textStyle;
-  final ElIconThemeData iconThemeData;
-  final Widget child;
-
-  @override
-  AnimatedWidgetBaseState<_AnimatedWidget> createState() =>
-      _AnimatedWidgetState();
-}
-
-class _AnimatedWidgetState extends AnimatedWidgetBaseState<_AnimatedWidget> {
-  DecorationTween? _decoration;
-  TextStyleTween? _textStyle;
-  ElIconThemeDataTween? _iconThemeData;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: _decoration!.evaluate(animation),
-      child: ElDefaultTextStyle(
-        style: _textStyle!.evaluate(animation),
-        child: ElIconTheme(
-          data: _iconThemeData!.evaluate(animation),
-          child: widget.child,
-        ),
-      ),
-    );
-  }
-
-  @override
-  void forEachTween(TweenVisitor<dynamic> visitor) {
-    _decoration = visitor(_decoration, widget.decoration,
-            (dynamic value) => DecorationTween(begin: value as BoxDecoration))
-        as DecorationTween;
-    _textStyle = visitor(_textStyle, widget.textStyle,
-            (dynamic value) => TextStyleTween(begin: value as TextStyle))
-        as TextStyleTween;
-    _iconThemeData = visitor(
-            _iconThemeData,
-            widget.iconThemeData,
-            (dynamic value) =>
-                ElIconThemeDataTween(begin: value as ElIconThemeData))
-        as ElIconThemeDataTween;
   }
 }

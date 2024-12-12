@@ -22,6 +22,8 @@ class Example1 extends StatelessWidget {
           children: const [
             _Example(),
             Gap(8),
+            _Example1(),
+            Gap(8),
             _Example2(),
             Gap(8),
             _Example3(),
@@ -29,6 +31,10 @@ class Example1 extends StatelessWidget {
             _Example4(),
             Gap(8),
             _Example5(),
+            Gap(8),
+            _Example6(),
+            Gap(8),
+            _Example7(),
           ],
         ),
       ],
@@ -46,6 +52,31 @@ class _Example extends StatelessWidget {
       runSpacing: 8,
       children: _buttonTypes
           .map((type) => ElButton2(type: type, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+const _customColorList = [
+  Colors.red,
+  Colors.orange,
+  Colors.yellow,
+  Colors.green,
+  Colors.cyan,
+  Colors.blue,
+  Colors.purple,
+];
+
+class _Example1 extends StatelessWidget {
+  const _Example1();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _customColorList
+          .map((color) => ElButton2(bgColor: color, child: 'Hello'))
           .toList(),
     );
   }
@@ -75,8 +106,8 @@ class _Example3 extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: _buttonTypes
-          .map((type) => ElOutlineButton(
-              type: type, plain: false, borderWidth: 1.5, child: 'Hello'))
+          .map((type) =>
+              ElOutlineButton(type: type, plain: false, child: 'Hello'))
           .toList(),
     );
   }
@@ -91,7 +122,8 @@ class _Example4 extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: _buttonTypes
-          .map((type) => ElTextButton(type: type, child: 'Hello'))
+          .map((type) => ElOutlineButton(
+              type: type, onlyActiveBorder: true, child: 'Hello'))
           .toList(),
     );
   }
@@ -106,6 +138,37 @@ class _Example5 extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: _buttonTypes
+          .map((type) => ElOutlineButton(
+              type: type, plain: false, onlyActiveBorder: true, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example6 extends StatelessWidget {
+  const _Example6();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
+          .map((type) => ElTextButton(type: type, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example7 extends StatelessWidget {
+  const _Example7();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
           .map((type) => ElTextButton(type: type, bg: true, child: 'Hello'))
           .toList(),
     );
@@ -113,8 +176,12 @@ class _Example5 extends StatelessWidget {
 }
 
 String get code => '''
-ElButton(child: 'Hello'),
-ElOutlineButton(child: 'Hello'),
-ElOutlineButton(child: 'Hello', plain: false, borderWidth: 1.5),
+ElButton(child: 'Hello'), // 默认按钮
+ElButton(child: 'Hello', type: El.primary), // 设置按钮主题
+ElButton(child: 'Hello', bgColor: Colors.red), // 自定义颜色
+ElOutlineButton(child: 'Hello'), // 边框按钮
+ElOutlineButton(child: 'Hello', plain: false), // 将 plain 设为 false 按钮背景将完全与背景同步
+ElOutlineButton(child: 'Hello', onlyActiveBorder: true), // 只激活边框，不改变背景
+ElOutlineButton(child: 'Hello', plain: false, onlyActiveBorder: true),
 ElTextButton(child: 'Hello'),
 ElTextButton(child: 'Hello', bg: true),''';
