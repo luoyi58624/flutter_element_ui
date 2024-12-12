@@ -9,6 +9,8 @@ import 'examples/example4.dart';
 import 'examples/example5.dart';
 import 'examples/example6.dart';
 import 'examples/example7.dart';
+import 'examples/example8.dart';
+import 'examples/example9.dart';
 
 class ButtonPage2 extends ResponsivePage {
   const ButtonPage2({super.key});
@@ -31,6 +33,8 @@ class ButtonPage2 extends ResponsivePage {
       Example5(title: '文字图标按钮'),
       Example6(title: '加载动画'),
       Example7(title: '块级按钮'),
+      Example8(title: '自定义尺寸'),
+      Example9(title: '自定义按钮'),
     ];
   }
 }

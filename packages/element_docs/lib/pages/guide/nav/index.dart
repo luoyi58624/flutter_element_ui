@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:element_docs/global.dart';
-import 'package:element_docs/pages/guide/nav/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import 'button_list.dart';
@@ -16,66 +15,6 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Gap(50),
-      ElConfig(
-        data: const ElConfigData(elSize: ElSize.mini),
-        child: Wrap(
-          spacing: 8,
-          children: [
-            ...El.themeTypes.map(
-              (e) => ElButton2(
-                child: 'Hello',
-                type: e,
-              ),
-            ),
-          ],
-        ),
-      ),
-      const Gap(8),
-      ElConfig(
-        data: const ElConfigData(elSize: ElSize.small),
-        child: Wrap(
-          spacing: 8,
-          children: [
-            ...El.themeTypes.map(
-              (e) => ElButton2(
-                child: 'Hello',
-                type: e,
-              ),
-            ),
-          ],
-        ),
-      ),
-      const Gap(8),
-      ElConfig(
-        data: const ElConfigData(elSize: ElSize.medium),
-        child: Wrap(
-          spacing: 8,
-          children: [
-            ...El.themeTypes.map(
-              (e) => ElButton2(
-                child: 'Hello',
-                type: e,
-              ),
-            ),
-          ],
-        ),
-      ),
-      const Gap(8),
-      ElConfig(
-        data: const ElConfigData(elSize: ElSize.large),
-        child: Wrap(
-          spacing: 8,
-          children: [
-            ...El.themeTypes.map(
-              (e) => ElButton2(
-                child: 'Hello',
-                type: e,
-              ),
-            ),
-          ],
-        ),
-      ),
-      const Gap(8),
       ElButton(
         onPressed: () {
           context.push(const ButtonListTestPage());
@@ -122,10 +61,6 @@ class NavPage extends ResponsivePage {
             ),
           ),
         ),
-      ),
-      const Gap(8),
-      const CustomButton(
-        child: '自定义按钮',
       ),
       const Gap(8),
       ElButton(
