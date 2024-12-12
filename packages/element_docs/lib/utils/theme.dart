@@ -54,7 +54,7 @@ class ThemeUtil {
       textTheme: data.textTheme.copyWith(
         textStyle: ElFont.defaultTextStyle.copyWith(
           fontSize: GlobalState.globalFontSize,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

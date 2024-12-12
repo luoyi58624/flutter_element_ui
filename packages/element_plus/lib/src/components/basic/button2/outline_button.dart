@@ -1,4 +1,8 @@
-part of 'index.dart';
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
+
+import 'button.dart';
+import 'raw_button.dart';
 
 class ElOutlineButton extends ElButton2 {
   /// Element UI 边框按钮
@@ -41,53 +45,20 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
       widget.plain ? super.curve : widget.curve ?? Curves.easeOut;
 
   @override
-  Color get bgColor {
-    if (isDefaultButton || widget.plain == false) return context.currentBgColor;
-    return getBgColor();
-  }
+  ButtonStyle buildButtonStyle(BuildContext context) {
+    late Color bgColor;
+    late Color textColor;
+    late Color borderColor;
 
-  @override
-  Color? calcBgColor(BuildContext context) {
-    final color = bgColor;
     if (isDefaultButton) {
-      if (widget.plain) {
-        return context.hasTap || context.hasHover
-            ? context.elTheme.primary.elLight9(context)
-            : color;
-      } else {
-        return color;
-      }
-    }
-    if (widget.plain) {
-      return context.hasTap
-          ? color.elLight3(context, reverse: true)
-          : context.hasHover
-              ? color
-              : color.elLight9(context);
-    } else {
-      return context.hasTap || context.hasHover ? getBgColor() : color;
-    }
-  }
-
-  @override
-  Color? calcTextColor(BuildContext context, Color? $bgColor) {
-    if (isDefaultButton) {
-      return context.hasTap || context.hasHover
+      bgColor = context.currentBgColor;
+      textColor = context.hasTap || context.hasHover
           ? context.elTheme.primary
           : bgColor.elRegularTextColor(context);
-    }
-    if (context.hasTap || context.hasHover) {
-      return $bgColor?.elTextColor(context);
-    } else {
-      return getBgColor();
-    }
-  }
-
-  @override
-  Border? calcBorder(BuildContext context) {
-    late Color borderColor;
-    if (isDefaultButton) {
       if (widget.plain) {
+        bgColor = context.hasTap || context.hasHover
+            ? context.elTheme.primary.elLight9(context)
+            : bgColor;
         borderColor = context.hasTap
             ? context.elTheme.primary
             : context.hasHover
@@ -99,21 +70,46 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
             : context.elTheme.layoutTheme.borderColor!;
       }
     } else {
-      if (widget.plain) {
-        borderColor = context.hasTap
-            ? getBgColor().elLight3(context, reverse: true)
-            : context.hasHover
-                ? getBgColor()
-                : getBgColor().elLight5(context);
+      bgColor = themeBgColor;
+
+      if (context.hasTap || context.hasHover) {
+        textColor = bgColor.elTextColor(context);
       } else {
+        textColor = themeBgColor;
+      }
+
+      if (widget.plain) {
+        bgColor = context.hasTap
+            ? bgColor.elLight3(context, reverse: true)
+            : context.hasHover
+                ? bgColor
+                : bgColor.elLight9(context);
+
+        borderColor = context.hasTap
+            ? themeBgColor.elLight3(context, reverse: true)
+            : context.hasHover
+                ? themeBgColor
+                : themeBgColor.elLight5(context);
+      } else {
+        bgColor = context.hasTap || context.hasHover
+            ? themeBgColor
+            : context.currentBgColor;
+
         borderColor = context.hasTap || context.hasHover
-            ? getBgColor()
-            : getBgColor().elLight5(context);
+            ? themeBgColor
+            : themeBgColor.elLight5(context);
       }
     }
-    return Border.all(
-      width: widget.borderWidth,
-      color: borderColor,
+    return ButtonStyle(
+      textColor: textColor,
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: Border.all(
+          width: widget.borderWidth,
+          color: borderColor,
+        ),
+        borderRadius: BorderRadius.circular(sizePreset.radius!),
+      ),
     );
   }
 }

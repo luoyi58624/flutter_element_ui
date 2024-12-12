@@ -1,6 +1,10 @@
-part of 'index.dart';
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/material.dart' show Colors;
+import 'package:flutter/widgets.dart';
 
-class ElButton2 extends ElRawButton {
+import 'raw_button.dart';
+
+class ElButton2 extends RawButton {
   const ElButton2({
     super.key,
     required super.child,
@@ -54,60 +58,55 @@ class ElButton2 extends ElRawButton {
   final EdgeInsets? padding;
 
   @override
-  State<ElRawButton> createState() => ElButton2State();
+  State<RawButton> createState() => ElButton2State();
 }
 
-class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
+class ElButton2State<T extends ElButton2> extends RawButtonState<T> {
   bool get isIconChild => widget.child is ElIcon;
 
   bool get isDefaultButton => widget.type == null && widget.bgColor == null;
 
-  @override
-  Color get bgColor {
-    if (isDefaultButton) {
-      return context.isDark ? Colors.grey.shade800 : Colors.grey.shade200;
-    }
-    return getBgColor();
-  }
-
-  @override
-  Color? calcBgColor(BuildContext context) {
-    final color = bgColor;
-    if (isDefaultButton) {
-      return context.hasTap
-          ? color.elLight3(context, reverse: true)
-          : context.hasHover
-              ? color.elLight1(context, reverse: true)
-              : color;
-    } else {
-      return context.hasTap
-          ? color.elLight3(context, reverse: true)
-          : context.hasHover
-              ? color.elLight3(context)
-              : color;
-    }
-  }
-
-  @override
-  Color? calcTextColor(BuildContext context, Color? $bgColor) {
-    if (isDefaultButton) return context.elTheme.textTheme.regularStyle.color!;
-    return bgColor.elTextColor(context);
-  }
-
-  /// 如果按钮需要绘制边框，请重写它
-  Border? calcBorder(BuildContext context) => null;
-
-  /// 获取按钮的背景颜色
-  Color getBgColor() {
+  /// 获取按钮主题背景颜色，如果 bgColor 不为 null，则返回 bgColor，否则根据 type 返回预设主题色
+  Color get themeBgColor {
     if (widget.bgColor != null) return widget.bgColor!;
     return context.elThemeColors[widget.type ?? El.primary]!;
   }
 
   @override
+  ButtonStyle buildButtonStyle(BuildContext context) {
+    late Color bgColor;
+    late Color textColor;
+    if (isDefaultButton) {
+      bgColor = context.isDark ? Colors.grey.shade800 : Colors.grey.shade200;
+      textColor = context.elTheme.textTheme.regularStyle.color!;
+
+      if (context.hasTap) {
+        bgColor = bgColor.elLight2(context, reverse: true);
+      } else if (context.hasHover) {
+        bgColor = bgColor.elLight1(context, reverse: true);
+      }
+    } else {
+      bgColor = themeBgColor;
+      textColor = bgColor.elTextColor(context);
+
+      if (context.hasTap) {
+        bgColor = bgColor.elLight3(context, reverse: true);
+      } else if (context.hasHover) {
+        bgColor = bgColor.elLight3(context);
+      }
+    }
+
+    return ButtonStyle(
+      textColor: textColor,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(sizePreset.radius!),
+      ),
+    );
+  }
+
+  @override
   Widget buildButtonWrapper(BuildContext context, Widget child) {
-    final $bgColor = calcBgColor(context);
-    final $textColor = calcTextColor(context, $bgColor);
-    final $border = calcBorder(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight: sizePreset.height!,
@@ -117,18 +116,16 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
       child: _AnimatedWidget(
         duration: duration,
         curve: curve,
-        decoration: BoxDecoration(
-          color: $bgColor,
-          borderRadius: BorderRadius.circular(sizePreset.radius!),
-          border: $border,
-        ),
+        decoration: style.decoration,
         textStyle: TextStyle(
-          color: $textColor,
+          color: style.textColor,
           fontSize: sizePreset.fontSize,
           fontWeight: FontWeight.w500,
         ).merge(widget.textStyle),
         iconThemeData: ElIconThemeData(
-            size: widget.iconSize ?? sizePreset.iconSize, color: $textColor),
+          size: widget.iconSize ?? sizePreset.iconSize,
+          color: style.textColor,
+        ),
         child: Padding(
           padding: widget.padding ??
               EdgeInsets.symmetric(horizontal: sizePreset.height! / 2),

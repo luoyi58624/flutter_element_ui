@@ -1,4 +1,8 @@
-part of 'index.dart';
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
+
+import 'button.dart';
+import 'raw_button.dart';
 
 class ElTextButton extends ElButton2 {
   /// Element UI 文字按钮，外观与 [ElButton] 一样，但按钮颜色会跟随当前背景色
@@ -31,31 +35,33 @@ class ElTextButton extends ElButton2 {
 
 class ElTextButtonState extends ElButton2State<ElTextButton> {
   @override
-  Color get bgColor => context.currentBgColor;
-
-  @override
-  Color? calcBgColor(BuildContext context) {
-    final color = bgColor;
-    if (widget.bg) {
-      return context.hasTap
-          ? color.deepen(15)
-          : context.hasHover
-              ? color.deepen(10)
-              : color.deepen(5);
-    } else {
-      return context.hasTap
-          ? color.deepen(10)
-          : context.hasHover
-              ? color.deepen(5)
-              : color;
-    }
-  }
-
-  @override
-  Color calcTextColor(BuildContext context, Color? $bgColor) {
-    return widget.color ??
+  ButtonStyle buildButtonStyle(BuildContext context) {
+    var bgColor = context.currentBgColor;
+    final textColor = widget.color ??
         (widget.type == null
             ? bgColor.elRegularTextColor(context)
             : context.elThemeColors[widget.type]!);
+
+    if (widget.bg) {
+      bgColor = context.hasTap
+          ? bgColor.deepen(15)
+          : context.hasHover
+              ? bgColor.deepen(10)
+              : bgColor.deepen(5);
+    } else {
+      bgColor = context.hasTap
+          ? bgColor.deepen(10)
+          : context.hasHover
+              ? bgColor.deepen(5)
+              : bgColor;
+    }
+
+    return ButtonStyle(
+      textColor: textColor,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(sizePreset.radius!),
+      ),
+    );
   }
 }

@@ -1,8 +1,14 @@
-part of 'index.dart';
+import 'package:flutter/widgets.dart';
 
-/// Element UI 按钮抽象类
-abstract class ElRawButton extends StatefulWidget {
-  const ElRawButton({
+import '../../../app/index.dart';
+import '../../feedback/loading/loading.dart';
+import '../button/index.dart';
+import '../event/index.dart';
+import '../icon/index.dart';
+import '../text/index.dart';
+
+abstract class RawButton extends StatefulWidget {
+  const RawButton({
     super.key,
     required this.child,
     this.type,
@@ -55,11 +61,12 @@ abstract class ElRawButton extends StatefulWidget {
   final VoidCallback? onPressed;
 
   @override
-  State<ElRawButton> createState();
+  State<RawButton> createState();
 }
 
-abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
+abstract class RawButtonState<T extends RawButton> extends State<T> {
   late ElButtonSizePreset sizePreset;
+  late ButtonStyle style;
   late MouseCursor cursor;
 
   Duration get duration =>
@@ -67,14 +74,8 @@ abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
 
   Curve get curve => widget.curve ?? Curves.linear;
 
-  /// 按钮初始背景颜色
-  Color get bgColor;
-
-  /// 按钮经过交互后计算出的背景颜色
-  Color? calcBgColor(BuildContext context) => null;
-
-  /// 计算按钮文字颜色，通常会将 [calcBgColor] 方法计算好的背景颜色作为第二个参数传入
-  Color? calcTextColor(BuildContext context, Color? $bgColor) => null;
+  /// 构建按钮样式
+  ButtonStyle buildButtonStyle(BuildContext context);
 
   /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context, Widget child);
@@ -95,16 +96,18 @@ abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
             : SystemMouseCursors.click;
 
     Widget result = ElEvent(
-      disabled: widget.disabled || widget.loading,
-      autofocus: widget.autofocus,
-      cursor: cursor,
-      canRequestFocus: !widget.disabled,
-      tapUpDelay: duration.inMilliseconds,
-      builder: (context) => buildButtonWrapper(
-        context,
-        buildButtonContent(context),
-      ),
-    );
+        disabled: widget.disabled || widget.loading,
+        autofocus: widget.autofocus,
+        cursor: cursor,
+        canRequestFocus: !widget.disabled,
+        tapUpDelay: duration.inMilliseconds,
+        builder: (context) {
+          style = buildButtonStyle(context);
+          return buildButtonWrapper(
+            context,
+            buildButtonContent(context),
+          );
+        });
     if (!widget.block) {
       result = UnconstrainedBox(
         child: result,
@@ -112,4 +115,14 @@ abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
     }
     return result;
   }
+}
+
+class ButtonStyle {
+  final Color textColor;
+  final BoxDecoration decoration;
+
+  ButtonStyle({
+    required this.textColor,
+    required this.decoration,
+  });
 }

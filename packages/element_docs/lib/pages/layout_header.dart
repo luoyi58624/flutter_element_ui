@@ -4,6 +4,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../router/router_config.dart';
 
+extension ElSizeExtension on ElSize {
+  String get name {
+    switch (this) {
+      case ElSize.mini:
+        return '极小尺寸';
+      case ElSize.small:
+        return '小尺寸';
+      case ElSize.medium:
+        return '中等尺寸';
+      case ElSize.large:
+        return '大尺寸';
+    }
+  }
+}
+
 class LayoutHeader extends StatelessWidget {
   const LayoutHeader({super.key});
 

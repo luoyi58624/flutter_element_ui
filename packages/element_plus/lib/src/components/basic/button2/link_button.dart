@@ -1,6 +1,9 @@
-part of 'index.dart';
+import 'package:element_plus/src/global.dart';
+import 'package:flutter/widgets.dart';
 
-class ElLinkButton extends ElRawButton {
+import 'raw_button.dart';
+
+class ElLinkButton extends RawButton {
   /// Element UI 链接按钮，外观与普通文字完全一样
   const ElLinkButton({
     super.key,
@@ -16,20 +19,24 @@ class ElLinkButton extends ElRawButton {
   State<ElLinkButton> createState() => _ElLinkButtonState();
 }
 
-class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
+class _ElLinkButtonState extends RawButtonState<ElLinkButton> {
   @override
-  Color get bgColor => context.currentBgColor;
+  ButtonStyle buildButtonStyle(BuildContext context) {
+    final bgColor = context.currentBgColor;
 
-  @override
-  Color? calcTextColor(BuildContext context, Color? $bgColor) {
     final result = widget.type == null
-        ? $bgColor!.elRegularTextColor(context)
+        ? bgColor.elRegularTextColor(context)
         : context.elThemeColors[widget.type]!;
-    return context.hasTap
+
+    final textColor = context.hasTap
         ? result.elLight3(context, reverse: true)
         : context.hasHover
             ? result.elLight5(context)
             : result;
+    return ButtonStyle(
+      textColor: textColor,
+      decoration: const BoxDecoration(),
+    );
   }
 
   @override
@@ -37,7 +44,7 @@ class _ElLinkButtonState extends ElRawButtonState<ElLinkButton> {
     return ElAnimatedDefaultTextStyle(
       duration: duration,
       style: TextStyle(
-        color: calcTextColor(context, bgColor),
+        color: style.textColor,
         fontSize: sizePreset.fontSize,
         fontWeight: FontWeight.w500,
       ),
