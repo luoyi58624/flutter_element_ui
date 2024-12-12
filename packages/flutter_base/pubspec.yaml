@@ -37,10 +37,3 @@ dependencies:
 dev_dependencies:
   flutter_lints: ^4.0.0
 
-flutter:
-  assets:
-    - assets/code_themes/
-  fonts:
-    - family: Consolas
-      fonts:
-        - asset: assets/fonts/Consolas-Regular.ttf

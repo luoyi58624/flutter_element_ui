@@ -8,7 +8,7 @@ part 'extension.dart';
 
 part 'config.dart';
 
-part 'size.dart';
+part 'size_preset.dart';
 
 part 'responsive.dart';
 
@@ -37,6 +37,7 @@ class ElApp extends StatelessWidget {
     this.config,
     this.responsive = const ElResponsiveData(),
     this.sizePreset = const ElSizePreset(),
+    this.globalFontWeight = 0,
   });
 
   final Widget child;
@@ -59,12 +60,15 @@ class ElApp extends StatelessWidget {
   /// 全局组件尺寸预设
   final ElSizePreset sizePreset;
 
+  /// 定义全局字体粗细级别
+  final double globalFontWeight;
+
   /// 访问 ElApp 注入的全局配置信息
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
 
   @override
   Widget build(BuildContext context) {
-    final $brightness = brightness ?? MediaQuery.of(context).platformBrightness;
+    final $brightness = brightness ?? MediaQuery.platformBrightnessOf(context);
 
     return _AppInheritedWidget(
       ElAppData(

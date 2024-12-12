@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:element_docs/global.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -35,22 +34,22 @@ class _Example extends StatelessWidget {
       el.message.error('web不支持读取本地文件夹');
       return;
     }
-    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-    if (selectedDirectory != null) {
-      final directory = Directory(selectedDirectory);
-      i(directory);
-
-      final fileList = directory.listSync();
-      i(fileList);
-      for (var entity in fileList) {
-        print(entity.path);
-        // if (entity is Directory) {
-        //   i(entity.path, '目录');
-        // } else if (entity is File) {
-        //   w(entity.path, '文件');
-        // }
-      }
-    }
+    // String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    // if (selectedDirectory != null) {
+    //   final directory = Directory(selectedDirectory);
+    //   i(directory);
+    //
+    //   final fileList = directory.listSync();
+    //   i(fileList);
+    //   for (var entity in fileList) {
+    //     print(entity.path);
+    //     // if (entity is Directory) {
+    //     //   i(entity.path, '目录');
+    //     // } else if (entity is File) {
+    //     //   w(entity.path, '文件');
+    //     // }
+    //   }
+    // }
   }
 
   @override

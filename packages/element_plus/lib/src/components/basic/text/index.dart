@@ -98,7 +98,7 @@ class ElText extends StatelessWidget {
       softWrap: softWrap ?? defaultStyle.softWrap ?? true,
       overflow: overflow ?? defaultStyle.overflow ?? TextOverflow.clip,
       textDirection: textDirection,
-      textScaler: textScaler ?? TextScaler.noScaling,
+      textScaler: textScaler ?? MediaQuery.textScalerOf(context),
       maxLines: maxLines ?? defaultStyle.maxLines,
       locale: locale,
       strutStyle: strutStyle,

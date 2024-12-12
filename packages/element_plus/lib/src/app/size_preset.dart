@@ -59,6 +59,7 @@ class ElSizePreset {
   final ElButtonSizePreset button;
 }
 
+/// 组件尺寸预设抽象类
 abstract class _SizePreset<S> {
   const _SizePreset();
 
@@ -69,6 +70,11 @@ abstract class _SizePreset<S> {
   S get medium;
 
   S get large;
+
+  /// 操作系统可能开启了全局字体缩放，在设计组件尺寸时你也需要对这一行为进行适配。
+  ///
+  /// 注意：文字大小不需要进行缩放，因为 [ElText]、[Text] 组件本身已经默认对 [TextScaler] 进行了适配。
+  S applyTextScaler(TextScaler textScaler, S data);
 
   /// 通过当前上下文 context 应用得到预设的尺寸
   S apply(BuildContext context) {
@@ -87,7 +93,7 @@ abstract class _SizePreset<S> {
         sizePreset = large;
         break;
     }
-    return sizePreset;
+    return applyTextScaler(MediaQuery.textScalerOf(context), sizePreset);
   }
 }
 
@@ -106,33 +112,48 @@ abstract class _SizePreset<S> {
 ///
 /// 然后将 elSizePreset 自定义预设传递给 [ElApp] 即可。
 ///
-/// 提示：属性设置 ? 可选符号是为了能够直接通过构造器创建对象，实际不为 null。
+/// 注意：属性设置 ? 可选符号是为了能够直接通过构造器创建对象，在实现不同尺寸预设时你不能对任意一个属性设置为 null，
+/// 否则组件可能抛出异常。
 class ElButtonSizePreset extends _SizePreset<ElButtonSizePreset> {
   final double? width;
   final double? height;
   final double? fontSize;
   final double? iconSize;
+  final double? radius;
 
   const ElButtonSizePreset({
     this.width,
     this.height,
     this.fontSize,
     this.iconSize,
+    this.radius,
   });
 
   @override
   ElButtonSizePreset get mini => const ElButtonSizePreset(
-      width: 48, height: 24, fontSize: 12, iconSize: 12);
+      width: 48, height: 28, fontSize: 12, iconSize: 12, radius: 4);
 
   @override
   ElButtonSizePreset get small => const ElButtonSizePreset(
-      width: 56, height: 30, fontSize: 14, iconSize: 14);
+      width: 56, height: 32, fontSize: 14, iconSize: 14, radius: 4);
 
   @override
   ElButtonSizePreset get medium => const ElButtonSizePreset(
-      width: 64, height: 36, fontSize: 15, iconSize: 16);
+      width: 64, height: 36, fontSize: 15, iconSize: 16, radius: 4);
 
   @override
   ElButtonSizePreset get large => const ElButtonSizePreset(
-      width: 72, height: 40, fontSize: 16, iconSize: 18);
+      width: 72, height: 40, fontSize: 16, iconSize: 18, radius: 4);
+
+  @override
+  ElButtonSizePreset applyTextScaler(
+      TextScaler textScaler, ElButtonSizePreset data) {
+    return ElButtonSizePreset(
+      width: textScaler.scale(data.width!),
+      height: textScaler.scale(data.height!),
+      fontSize: data.fontSize,
+      iconSize: textScaler.scale(data.iconSize!),
+      radius: 4,
+    );
+  }
 }

@@ -121,7 +121,15 @@ class _MainAppState extends State<MainApp> {
                         context,
                         brightness: GlobalState.brightness,
                       ),
-                      child: child!,
+                      child: MediaQuery(
+                        data: MediaQuery.of(context).copyWith(
+                          textScaler: MediaQuery.of(context).textScaler.clamp(
+                                minScaleFactor: 0.8,
+                                maxScaleFactor: 2,
+                              ),
+                        ),
+                        child: child!,
+                      ),
                     ),
                   ),
                 ),

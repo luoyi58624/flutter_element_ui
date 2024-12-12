@@ -119,7 +119,7 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
         curve: curve,
         decoration: BoxDecoration(
           color: $bgColor,
-          borderRadius: context.elConfig.radius,
+          borderRadius: BorderRadius.circular(sizePreset.radius!),
           border: $border,
         ),
         textStyle: TextStyle(

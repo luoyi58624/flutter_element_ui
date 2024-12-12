@@ -101,6 +101,11 @@ class NavPage extends ResponsivePage {
         child: '查找所有 Text',
       ),
 
+      ...FontWeight.values.map((e) => ElText(
+            '这是一段文字',
+            style: TextStyle(fontWeight: e),
+          )),
+
       const TranslatorText(
         child: ElText('你好'),
       ),

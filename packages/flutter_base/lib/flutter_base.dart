@@ -17,7 +17,6 @@ export 'src/utils/device.dart';
 export 'src/utils/no_ripper.dart';
 export 'src/utils/use_local_obs.dart';
 
-export 'src/widgets/code_preview.dart';
 export 'src/widgets/simple_widgets.dart';
 export 'src/widgets/nest_scroll_wrapper.dart';
 export 'src/widgets/translator.dart';

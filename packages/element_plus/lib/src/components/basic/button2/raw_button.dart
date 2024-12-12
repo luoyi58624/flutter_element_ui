@@ -87,6 +87,7 @@ abstract class ElRawButtonState<T extends ElRawButton> extends State<T> {
   @override
   Widget build(BuildContext context) {
     sizePreset = ElApp.of(context).sizePreset.button.apply(context);
+
     cursor = widget.loading
         ? MouseCursor.defer
         : widget.disabled

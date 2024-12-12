@@ -5,7 +5,7 @@ ElSizePreset elSizePreset = ElSizePreset(
 );
 
 class _ButtonSizePreset extends ElButtonSizePreset {
-  @override
-  ElButtonSizePreset get mini => const ElButtonSizePreset(
-      width: 48, height: 20, fontSize: 12, iconSize: 12);
+  // @override
+  // ElButtonSizePreset get mini => const ElButtonSizePreset(
+  //     width: 48, height: 20, fontSize: 12, iconSize: 12);
 }

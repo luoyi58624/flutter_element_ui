@@ -1,6 +1,6 @@
+import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_base/flutter_base.dart';
 import 'package:syntax_highlight/syntax_highlight.dart';
 
 /// [syntax_highlight] 需要加载 assert 资产包中的代码样式配置文件，这个全局变量表示是否初始化成功
@@ -16,8 +16,11 @@ const _codeStrutStyle = StrutStyle(
 );
 
 /// 默认代码样式
-const _codeTextStyle =
-    TextStyle(fontSize: 14, height: 1.5, fontFamily: 'Consolas');
+const _codeTextStyle = TextStyle(
+  fontSize: 14,
+  height: 1.5,
+  fontFamily: MyFonts.consolas,
+);
 
 class CodePreview extends StatefulWidget {
   /// 代码示例预览小部件，展示效果基于第三方库：[syntax_highlight]
@@ -123,8 +126,8 @@ class _CodePreviewState extends State<CodePreview> {
         // 暗色主题使用自定义的配置文件
         var darkCodeTheme = await HighlighterTheme.loadFromAssets(
           [
-            'packages/flutter_base/assets/code_themes/dark_vs.json',
-            'packages/flutter_base/assets/code_themes/dark_plus.json',
+            'assets/code_themes/dark_vs.json',
+            'assets/code_themes/dark_plus.json',
           ],
           TextStyle(color: codeColor),
         );
