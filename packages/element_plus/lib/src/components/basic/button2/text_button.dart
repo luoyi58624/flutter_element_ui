@@ -39,7 +39,7 @@ class ElTextButton extends ElButton2 {
   State<ElButton2> createState() => ElTextButtonState();
 }
 
-class ElTextButtonState extends ElButton2State<ElTextButton> {
+class ElTextButtonState<T extends ElTextButton> extends ElButton2State<T> {
   @override
   bool get isDefaultButton => widget.type == null && widget.color == null;
 
@@ -53,50 +53,30 @@ class ElTextButtonState extends ElButton2State<ElTextButton> {
   EdgeInsets get padding =>
       isIconChild && widget.bg == false ? EdgeInsets.zero : super.padding;
 
-  @override
-  ElButtonColorStyle buildLoadingBuilderStyle(BuildContext context) {
-    final bgColor = context.currentBgColor;
-    return (
-      bgColor: bgColor,
-      textColor: widget.color ??
-          (widget.type == null
-              ? bgColor.elRegularTextColor(context)
-              : context.elThemeColors[widget.type]!)
-    );
-  }
+  Color get bgColor => context.currentBgColor;
+
+  Color get textColor =>
+      widget.color ??
+      (widget.type == null
+          ? bgColor.elRegularTextColor(context)
+          : context.elThemeColors[widget.type]!);
 
   @override
-  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
-    if (widget.loadingBuilder != null && widget.loading) {
-      final loadingStyle = buildLoadingBuilderStyle(context);
-
-      return (
-        textColor: loadingStyle.textColor,
-        decoration: BoxDecoration(
-          color: loadingStyle.bgColor,
-          borderRadius: BorderRadius.circular(sizePreset.radius!),
-        ),
-      );
-    }
-
-    Color bgColor = context.currentBgColor;
-    Color textColor = widget.color ??
-        (widget.type == null
-            ? bgColor.elRegularTextColor(context)
-            : context.elThemeColors[widget.type]!);
-
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
+    late Color bgColor;
+    late Color textColor = this.textColor;
     if (widget.bg) {
       bgColor = context.hasTap
-          ? bgColor.deepen(15)
+          ? this.bgColor.deepen(15)
           : context.hasHover
-              ? bgColor.deepen(10)
-              : bgColor.deepen(5);
+              ? this.bgColor.deepen(10)
+              : this.bgColor.deepen(5);
     } else {
       bgColor = context.hasTap
-          ? bgColor.deepen(10)
+          ? this.bgColor.deepen(10)
           : context.hasHover
-              ? bgColor.deepen(5)
-              : bgColor;
+              ? this.bgColor.deepen(5)
+              : this.bgColor;
     }
 
     if (widget.disabled || widget.loading) {
@@ -109,11 +89,22 @@ class ElTextButtonState extends ElButton2State<ElTextButton> {
     }
 
     return (
+      bgColor: bgColor,
       textColor: textColor,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(sizePreset.radius!),
-      ),
+      borderColor: null,
+    );
+  }
+
+  @override
+  ElButtonColorRecord buildLoadingColorRecord(BuildContext context) {
+    final bgColor = context.currentBgColor;
+    return (
+      bgColor: bgColor,
+      textColor: widget.color ??
+          (widget.type == null
+              ? bgColor.elRegularTextColor(context)
+              : context.elThemeColors[widget.type]!),
+      borderColor: null,
     );
   }
 }

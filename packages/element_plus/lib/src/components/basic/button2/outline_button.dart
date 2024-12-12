@@ -52,23 +52,7 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
       widget.plain ? super.curve : widget.curve ?? Curves.easeOut;
 
   @override
-  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
-    if (widget.loadingBuilder != null && widget.loading) {
-      final loadingStyle = buildLoadingBuilderStyle(context);
-
-      return (
-        textColor: loadingStyle.textColor,
-        decoration: BoxDecoration(
-          color: loadingStyle.bgColor,
-          border: Border.all(
-            width: widget.borderWidth,
-            color: loadingStyle.bgColor,
-          ),
-          borderRadius: BorderRadius.circular(sizePreset.radius!),
-        ),
-      );
-    }
-
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
     late Color bgColor;
     late Color textColor;
     late Color borderColor;
@@ -154,15 +138,31 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
     }
 
     return (
+      bgColor: bgColor,
       textColor: textColor,
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: Border.all(
-          width: widget.borderWidth,
-          color: borderColor,
-        ),
-        borderRadius: BorderRadius.circular(sizePreset.radius!),
+      borderColor: borderColor,
+    );
+  }
+
+  @override
+  ElButtonColorRecord buildLoadingColorRecord(BuildContext context) {
+    final colorRecord = super.buildLoadingColorRecord(context);
+    return (
+      bgColor: colorRecord.bgColor,
+      textColor: colorRecord.textColor,
+      borderColor: colorRecord.bgColor,
+    );
+  }
+
+  @override
+  BoxDecoration buildDecoration(BuildContext context) {
+    return BoxDecoration(
+      color: colorRecord.bgColor,
+      border: Border.all(
+        width: widget.borderWidth,
+        color: colorRecord.borderColor!,
       ),
+      borderRadius: BorderRadius.circular(sizePreset.radius!),
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-import '../index.dart';
-
 class Example6 extends StatelessWidget {
   const Example6({super.key, required this.title});
 
@@ -231,7 +229,7 @@ class _CustomLoading1 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: (data) => const ElText('加载中...'),
+      loadingBuilder: (context) => const ElText('加载中...'),
       type: 'primary',
       child: '自定义加载内容',
     );
@@ -252,7 +250,7 @@ class _CustomLoading2 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: loadingBuilder2,
+      loadingBuilder: ElLinkButton.loadingIndicator,
       type: 'primary',
       child: '自定义Loading',
     );
@@ -273,7 +271,7 @@ class _CustomLoading3 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: loadingBuilder2,
+      loadingBuilder: ElLinkButton.loadingIndicator,
       type: 'primary',
       child: '镂空按钮',
     );
@@ -294,7 +292,7 @@ class _CustomLoading4 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: loadingBuilder2,
+      loadingBuilder: ElLinkButton.loadingIndicator,
       type: 'primary',
       child: '文字按钮',
     );
@@ -315,23 +313,11 @@ class _CustomLoading5 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: loadingBuilder2,
       type: 'primary',
       child: '链接按钮',
     );
   }
 }
-
-var loadingBuilder2 = (BuildContext context) {
-  return SizedBox(
-    width: ElIconTheme.of(context).size,
-    height: ElIconTheme.of(context).size,
-    child: CircularProgressIndicator(
-      strokeWidth: 2,
-      color: ElIconTheme.of(context).color,
-    ),
-  );
-};
 
 String get code => '''
 // 默认在左边显示 loading 图标
@@ -349,23 +335,13 @@ ElButton(loading: true, loadingWidget: const ElLoading(ElIcons.eleme), child: '�
 // loadingBuilder 会替换按钮原有内容
 ElButton(
   loading: true,
-  loadingBuilder: (data) => const ElText('加载中...'), 
+  loadingBuilder: (context) => const ElText('加载中...'), 
   child: '自定义加载内容',
 ),
 
-// 渲染 Flutter 官方提供的进度指示器小部件
+// 使用 ElLinkButton 链接按钮的加载器
 ElButton(
   loading: true,
-  loadingBuilder: loadingBuilder,
+  loadingBuilder: ElLinkButton.loadingIndicator,
   child: '自定义Loading',
-),
-
-// 你可以将 loadingBuilder 封装成一个函数
-var loadingBuilder = (ElButtonLoadingData data) => SizedBox(
-      width: data.size,
-      height: data.size,
-      child: CircularProgressIndicator(
-        strokeWidth: 2,
-        color: data.color,
-      ),
-    );''';
+),''';

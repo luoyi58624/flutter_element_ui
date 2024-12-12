@@ -1,72 +1,49 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-import 'button.dart';
-
-class ElLinkButton extends ElButton2 {
+class ElLinkButton extends ElTextButton {
   /// Element UI 链接按钮，外观与普通文字完全一样
   const ElLinkButton({
     super.key,
     required super.child,
     super.type,
+    super.color,
     super.autofocus,
     super.loading,
-    super.loadingWidget,
     super.loadingBuilder,
     super.disabled,
     super.onPressed,
   });
 
+  static WidgetBuilder loadingIndicator = (BuildContext context) {
+    final iconTheme = ElIconTheme.of(context);
+    return SizedBox(
+      width: iconTheme.size,
+      height: iconTheme.size,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color: iconTheme.color,
+      ),
+    );
+  };
+
   @override
   State<ElLinkButton> createState() => _ElLinkButtonState();
 }
 
-class _ElLinkButtonState extends ElButton2State<ElLinkButton> {
+class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
   @override
-  bool get isDefaultButton => widget.type == null;
-
-  @override
-  double get minWidth => 0.0;
+  WidgetBuilder? get loadingBuilder =>
+      widget.loadingBuilder ?? ElLinkButton.loadingIndicator;
 
   @override
-  double get minHeight => 0.0;
-
-  @override
-  EdgeInsets get padding => EdgeInsets.zero;
-
-  @override
-  ElButtonColorStyle buildLoadingBuilderStyle(BuildContext context) {
-    final bgColor = context.currentBgColor;
-    return (
-      bgColor: bgColor,
-      textColor: widget.type == null
-          ? bgColor.elRegularTextColor(context)
-          : context.elThemeColors[widget.type]!
-    );
-  }
-
-  @override
-  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
-    if (widget.loadingBuilder != null && widget.loading) {
-      final loadingStyle = buildLoadingBuilderStyle(context);
-
-      return (
-        textColor: loadingStyle.textColor,
-        decoration: const BoxDecoration(),
-      );
-    }
-
-    final bgColor = context.currentBgColor;
-
-    Color textColor = widget.type == null
-        ? bgColor.elRegularTextColor(context)
-        : context.elThemeColors[widget.type]!;
-
-    textColor = context.hasTap
-        ? textColor.elLight3(context, reverse: true)
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
+    Color textColor = context.hasTap
+        ? this.textColor.elLight3(context, reverse: true)
         : context.hasHover
-            ? textColor.elLight5(context)
-            : textColor;
+            ? this.textColor.elLight5(context)
+            : this.textColor;
 
     if (widget.disabled || widget.loading) {
       textColor = isDefaultButton
@@ -75,8 +52,23 @@ class _ElLinkButtonState extends ElButton2State<ElLinkButton> {
     }
 
     return (
+      bgColor: null,
       textColor: textColor,
-      decoration: const BoxDecoration(),
+      borderColor: null,
     );
+  }
+
+  // ==================================================================
+  // 链接按钮只需要构建文本
+  // ==================================================================
+
+  @override
+  Widget buildButtonWrapper(BuildContext context, Widget child) {
+    return child;
+  }
+
+  @override
+  Widget buildButtonContent(BuildContext context) {
+    return child;
   }
 }

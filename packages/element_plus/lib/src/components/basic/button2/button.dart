@@ -4,8 +4,12 @@ import 'package:flutter/widgets.dart';
 
 import '../../feedback/loading/loading.dart';
 
-typedef ElButtonStyleBuilder = ({Color textColor, BoxDecoration decoration});
-typedef ElButtonColorStyle = ({Color bgColor, Color textColor});
+/// 构建的按钮颜色记录
+typedef ElButtonColorRecord = ({
+  Color? bgColor,
+  Color? textColor,
+  Color? borderColor,
+});
 
 class ElButton2 extends StatefulWidget {
   const ElButton2({
@@ -86,8 +90,9 @@ class ElButton2 extends StatefulWidget {
   /// loading 图标小部件
   final Widget? loadingWidget;
 
-  /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
-  final Widget Function(BuildContext context)? loadingBuilder;
+  /// loading 构建器，它会替待 [loadingWidget]，区别在于它会隐藏按钮当前内容，
+  /// 然后绘制自定义小部件
+  final WidgetBuilder? loadingBuilder;
 
   /// 点击事件
   final VoidCallback? onPressed;
@@ -98,18 +103,25 @@ class ElButton2 extends StatefulWidget {
 
 class ElButton2State<T extends ElButton2> extends State<T> {
   late ElButtonSizePreset sizePreset;
-  late ElButtonStyleBuilder style;
+  late ElButtonColorRecord colorRecord;
   late MouseCursor cursor;
+  late bool _triggerLoadingBuilder;
+
+  Widget get child =>
+      widget.child is Widget ? widget.child : ElText('${widget.child}');
 
   Duration get duration =>
       context.elDuration(widget.duration ?? const Duration(milliseconds: 80));
 
   Curve get curve => widget.curve ?? Curves.linear;
 
+  WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
+
   double get iconSize => widget.iconSize ?? sizePreset.iconSize!;
 
   bool get isIconChild => widget.child is ElIcon || widget.child is Icon;
 
+  /// 如果没有任意 type 和 bgColor，那么按钮为默认风格按钮
   bool get isDefaultButton => widget.type == null && widget.bgColor == null;
 
   /// 按钮最小高度
@@ -134,31 +146,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     return context.elThemeColors[widget.type ?? El.primary]!;
   }
 
-  ElButtonColorStyle buildLoadingBuilderStyle(BuildContext context) {
-    final bgColor = context.isDark
-        ? const Color.fromRGBO(57, 57, 57, 1.0)
-        : const Color.fromRGBO(224, 224, 224, 1.0);
-    final textColor = context.isDark
-        ? const Color.fromRGBO(118, 118, 118, 1.0)
-        : const Color.fromRGBO(166, 166, 166, 1.0);
-
-    return (bgColor: bgColor, textColor: textColor);
-  }
-
-  /// 构建按钮样式
-  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
-    if (widget.loadingBuilder != null && widget.loading) {
-      final loadingStyle = buildLoadingBuilderStyle(context);
-
-      return (
-        textColor: loadingStyle.textColor,
-        decoration: BoxDecoration(
-          color: loadingStyle.bgColor,
-          borderRadius: BorderRadius.circular(sizePreset.radius!),
-        ),
-      );
-    }
-
+  /// 构建按钮颜色集合，通常包括 背景、文字、边框 三种颜色
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
     late Color bgColor;
     late Color textColor;
     if (isDefaultButton) {
@@ -189,11 +178,33 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     }
 
     return (
+      bgColor: bgColor,
       textColor: textColor,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(sizePreset.radius!),
-      ),
+      borderColor: null,
+    );
+  }
+
+  /// 当 [_triggerLoadingBuilder] 被激活时，则直接调用此方法而不是 [buildColorRecord]
+  ElButtonColorRecord buildLoadingColorRecord(BuildContext context) {
+    final bgColor = context.isDark
+        ? const Color.fromRGBO(57, 57, 57, 1.0)
+        : const Color.fromRGBO(224, 224, 224, 1.0);
+    final textColor = context.isDark
+        ? const Color.fromRGBO(118, 118, 118, 1.0)
+        : const Color.fromRGBO(166, 166, 166, 1.0);
+
+    return (
+      bgColor: bgColor,
+      textColor: textColor,
+      borderColor: null,
+    );
+  }
+
+  /// 构建按钮 [BoxDecoration] 对象，它会在 [buildButtonWrapper] 中执行
+  BoxDecoration buildDecoration(BuildContext context) {
+    return BoxDecoration(
+      color: colorRecord.bgColor,
+      borderRadius: BorderRadius.circular(sizePreset.radius!),
     );
   }
 
@@ -207,7 +218,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
       child: AnimatedDecoratedBox(
         duration: duration,
         curve: curve,
-        decoration: style.decoration,
+        decoration: buildDecoration(context),
         child: Padding(
           padding: padding,
           child: Center(
@@ -216,30 +227,16 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         ),
       ),
     );
-    if (widget.loadingBuilder != null && widget.loading) {
-      result = Stack(
-        children: [
-          result,
-          Positioned.fill(
-            child: Center(
-              child: widget.loadingBuilder!(context),
-            ),
-          ),
-        ],
-      );
-    }
-
     return result;
   }
 
   /// 构建按钮内容
   Widget buildButtonContent(BuildContext context) {
-    Widget result =
-        widget.child is Widget ? widget.child : ElText('${widget.child}');
+    Widget result = child;
 
     Widget? $leftIcon = widget.leftIcon;
     Widget? $rightIcon = widget.rightIcon;
-    if (widget.loadingBuilder == null && widget.loading) {
+    if (loadingBuilder == null && widget.loading) {
       if ($leftIcon != null) {
         $leftIcon = loadingWidget;
       } else if ($rightIcon != null) {
@@ -256,7 +253,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         left: $leftIcon != null ? 6.0 : 0.0,
         right: $rightIcon != null ? 6.0 : 0.0,
       ),
-      child: widget.loadingBuilder == null &&
+      child: loadingBuilder == null &&
               widget.leftIcon == null &&
               widget.loading &&
               isIconChild
@@ -278,20 +275,13 @@ class ElButton2State<T extends ElButton2> extends State<T> {
       ),
     );
 
-    if (widget.loadingBuilder != null) {
-      result = Opacity(
-        opacity: widget.loading == true ? 0.0 : 1.0,
-        child: result,
-      );
-    }
-
     return result;
   }
 
   @override
   Widget build(BuildContext context) {
     sizePreset = ElApp.of(context).sizePreset.button.apply(context);
-
+    _triggerLoadingBuilder = loadingBuilder != null && widget.loading;
     cursor = widget.loading
         ? MouseCursor.defer
         : widget.disabled
@@ -306,24 +296,45 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         tapUpDelay: duration.inMilliseconds,
         onTap: widget.onPressed,
         builder: (context) {
-          style = buildButtonStyle(context);
+          if (_triggerLoadingBuilder) {
+            colorRecord = buildLoadingColorRecord(context);
+          } else {
+            colorRecord = buildColorRecord(context);
+          }
+
           return _AnimatedWidget(
             duration: duration,
             curve: curve,
             textStyle: TextStyle(
-              color: style.textColor,
+              color: colorRecord.textColor,
               fontSize: sizePreset.fontSize,
               fontWeight: FontWeight.w500,
             ),
             iconThemeData: ElIconThemeData(
               size: iconSize,
-              color: style.textColor,
+              color: colorRecord.textColor,
             ),
             child: Builder(builder: (context) {
-              return buildButtonWrapper(
+              Widget result = buildButtonWrapper(
                 context,
-                buildButtonContent(context),
+                Opacity(
+                  opacity: _triggerLoadingBuilder ? 0 : 1,
+                  child: buildButtonContent(context),
+                ),
               );
+              if (loadingBuilder != null && widget.loading) {
+                result = Stack(
+                  children: [
+                    result,
+                    Positioned.fill(
+                      child: Center(
+                        child: loadingBuilder!(context),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return result;
             }),
           );
         });

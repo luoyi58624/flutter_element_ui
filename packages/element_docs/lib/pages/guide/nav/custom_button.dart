@@ -17,30 +17,36 @@ class CustomButton extends ElButton2 {
 
 class _CustomButtonState extends ElButton2State<CustomButton> {
   @override
-  ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
     return (
+      bgColor: null,
       textColor: Colors.white,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(sizePreset.radius!),
-        gradient: context.hasTap
-            ? const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.purple,
-                  Colors.blue,
-                ],
-              )
-            : const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.pink,
-                  Colors.green,
-                ],
-              ),
-      ),
+      borderColor: null,
+    );
+  }
+
+  @override
+  BoxDecoration buildDecoration(BuildContext context) {
+    return BoxDecoration(
+      color: Colors.grey,
+      borderRadius: BorderRadius.circular(sizePreset.radius!),
+      gradient: context.hasTap
+          ? const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.purple,
+                Colors.blue,
+              ],
+            )
+          : const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.pink,
+                Colors.green,
+              ],
+            ),
     );
   }
 
