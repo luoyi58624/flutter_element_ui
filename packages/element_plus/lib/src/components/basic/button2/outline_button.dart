@@ -2,7 +2,6 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import 'button.dart';
-import 'raw_button.dart';
 
 class ElOutlineButton extends ElButton2 {
   /// Element UI 边框按钮

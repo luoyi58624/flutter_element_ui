@@ -3,12 +3,17 @@ import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 
 import '../../feedback/loading/loading.dart';
-import 'raw_button.dart';
 
-class ElButton2 extends ElRawButton {
+typedef ElButtonStyleBuilder = ({Color textColor, BoxDecoration decoration});
+typedef ElButtonColorStyle = ({Color bgColor, Color textColor});
+
+class ElButton2 extends StatefulWidget {
   const ElButton2({
     super.key,
-    required super.child,
+    required this.child,
+    this.duration,
+    this.curve,
+    this.type,
     this.bgColor,
     this.width,
     this.height,
@@ -16,18 +21,27 @@ class ElButton2 extends ElRawButton {
     this.rightIcon,
     this.round = false,
     this.padding,
-    super.duration,
-    super.curve,
-    super.type,
-    super.block,
-    super.iconSize,
-    super.autofocus,
-    super.disabled,
-    super.loading,
-    super.loadingWidget,
-    super.loadingBuilder,
-    super.onPressed,
+    this.iconSize,
+    this.block = false,
+    this.autofocus = false,
+    this.disabled = false,
+    this.loading = false,
+    this.loadingWidget,
+    this.loadingBuilder,
+    this.onPressed,
   });
+
+  /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
+  final dynamic child;
+
+  /// 按钮动画过渡时间
+  final Duration? duration;
+
+  /// 按钮动画曲线
+  final Curve? curve;
+
+  /// 主题类型，默认 primary
+  final String? type;
 
   /// 自定义颜色按钮，它会覆盖 [type] 属性
   final Color? bgColor;
@@ -42,6 +56,18 @@ class ElButton2 extends ElRawButton {
   /// 按钮高度
   final double? height;
 
+  /// 自定义图标尺寸
+  final double? iconSize;
+
+  /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
+  final bool block;
+
+  /// 按钮是否自动聚焦
+  final bool autofocus;
+
+  /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
+  final bool disabled;
+
   /// 按钮左图标
   final Widget? leftIcon;
 
@@ -54,19 +80,42 @@ class ElButton2 extends ElRawButton {
   /// 自定义按钮内边距
   final EdgeInsets? padding;
 
+  /// 开启 loading
+  final bool loading;
+
+  /// loading 图标小部件
+  final Widget? loadingWidget;
+
+  /// loading 构建器，它会隐藏按钮所有内容，如果不为 null，则会替换 [loadingWidget]
+  final Widget Function(BuildContext context)? loadingBuilder;
+
+  /// 点击事件
+  final VoidCallback? onPressed;
+
   @override
-  State<ElRawButton> createState() => ElButton2State();
+  State<ElButton2> createState() => ElButton2State();
 }
 
-class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
+class ElButton2State<T extends ElButton2> extends State<T> {
+  late ElButtonSizePreset sizePreset;
+  late ElButtonStyleBuilder style;
+  late MouseCursor cursor;
+
+  Duration get duration =>
+      context.elDuration(widget.duration ?? const Duration(milliseconds: 80));
+
+  Curve get curve => widget.curve ?? Curves.linear;
+
+  double get iconSize => widget.iconSize ?? sizePreset.iconSize!;
+
   bool get isIconChild => widget.child is ElIcon || widget.child is Icon;
 
   bool get isDefaultButton => widget.type == null && widget.bgColor == null;
 
-  /// 如果是图标按钮，直接应用预设宽度会显得剩余空间比较大，所以需要处理一下
+  /// 按钮最小高度
   double get minHeight => widget.height ?? sizePreset.height!;
 
-  /// 如果是图标按钮，直接应用预设宽度会显得剩余空间比较大，所以需要处理一下
+  /// 按钮最小宽度
   double get minWidth =>
       widget.width ??
       (isIconChild ? sizePreset.height! * 1.25 : sizePreset.width!);
@@ -96,7 +145,7 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
     return (bgColor: bgColor, textColor: textColor);
   }
 
-  @override
+  /// 构建按钮样式
   ElButtonStyleBuilder buildButtonStyle(BuildContext context) {
     if (widget.loadingBuilder != null && widget.loading) {
       final loadingStyle = buildLoadingBuilderStyle(context);
@@ -148,7 +197,7 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
     );
   }
 
-  @override
+  /// 构建按钮外观
   Widget buildButtonWrapper(BuildContext context, Widget child) {
     Widget result = ConstrainedBox(
       constraints: BoxConstraints(
@@ -183,9 +232,10 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
     return result;
   }
 
-  @override
+  /// 构建按钮内容
   Widget buildButtonContent(BuildContext context) {
-    Widget result = super.buildButtonContent(context);
+    Widget result =
+        widget.child is Widget ? widget.child : ElText('${widget.child}');
 
     Widget? $leftIcon = widget.leftIcon;
     Widget? $rightIcon = widget.rightIcon;
@@ -236,5 +286,99 @@ class ElButton2State<T extends ElButton2> extends ElRawButtonState<T> {
     }
 
     return result;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    sizePreset = ElApp.of(context).sizePreset.button.apply(context);
+
+    cursor = widget.loading
+        ? MouseCursor.defer
+        : widget.disabled
+            ? SystemMouseCursors.forbidden
+            : SystemMouseCursors.click;
+
+    Widget result = ElEvent(
+        disabled: widget.disabled || widget.loading,
+        autofocus: widget.autofocus,
+        cursor: cursor,
+        canRequestFocus: !widget.disabled,
+        tapUpDelay: duration.inMilliseconds,
+        onTap: widget.onPressed,
+        builder: (context) {
+          style = buildButtonStyle(context);
+          return _AnimatedWidget(
+            duration: duration,
+            curve: curve,
+            textStyle: TextStyle(
+              color: style.textColor,
+              fontSize: sizePreset.fontSize,
+              fontWeight: FontWeight.w500,
+            ),
+            iconThemeData: ElIconThemeData(
+              size: iconSize,
+              color: style.textColor,
+            ),
+            child: Builder(builder: (context) {
+              return buildButtonWrapper(
+                context,
+                buildButtonContent(context),
+              );
+            }),
+          );
+        });
+    if (!widget.block) {
+      result = UnconstrainedBox(
+        child: result,
+      );
+    }
+    return result;
+  }
+}
+
+class _AnimatedWidget extends ImplicitlyAnimatedWidget {
+  const _AnimatedWidget({
+    required super.duration,
+    super.curve,
+    required this.textStyle,
+    required this.iconThemeData,
+    required this.child,
+  });
+
+  final TextStyle textStyle;
+  final ElIconThemeData iconThemeData;
+  final Widget child;
+
+  @override
+  AnimatedWidgetBaseState<_AnimatedWidget> createState() =>
+      _AnimatedWidgetState();
+}
+
+class _AnimatedWidgetState extends AnimatedWidgetBaseState<_AnimatedWidget> {
+  TextStyleTween? _textStyle;
+  ElIconThemeDataTween? _iconThemeData;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElDefaultTextStyle(
+      style: _textStyle!.evaluate(animation),
+      child: ElIconTheme(
+        data: _iconThemeData!.evaluate(animation),
+        child: widget.child,
+      ),
+    );
+  }
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _textStyle = visitor(_textStyle, widget.textStyle,
+            (dynamic value) => TextStyleTween(begin: value as TextStyle))
+        as TextStyleTween;
+    _iconThemeData = visitor(
+            _iconThemeData,
+            widget.iconThemeData,
+            (dynamic value) =>
+                ElIconThemeDataTween(begin: value as ElIconThemeData))
+        as ElIconThemeDataTween;
   }
 }

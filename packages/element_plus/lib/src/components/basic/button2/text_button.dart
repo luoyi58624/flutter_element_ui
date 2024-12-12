@@ -2,7 +2,6 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import 'button.dart';
-import 'raw_button.dart';
 
 class ElTextButton extends ElButton2 {
   /// Element UI 文字按钮，外观与 [ElButton] 一样，但按钮颜色会跟随当前背景色

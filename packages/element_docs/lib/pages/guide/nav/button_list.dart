@@ -15,13 +15,15 @@ class ButtonListTestPage extends StatelessWidget {
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          child: Column(
-            children: List.generate(
-              _num,
-              (index) => Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: ElButton2(
-                  child: 'Item - ${index + 1}',
+          child: RepaintBoundary(
+            child: Column(
+              children: List.generate(
+                _num,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ElButton2(
+                    child: 'Item - ${index + 1}',
+                  ),
                 ),
               ),
             ),
@@ -43,14 +45,16 @@ class ButtonListTestPage2 extends StatelessWidget {
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          child: Column(
-            children: List.generate(
-              _num,
-              (index) => Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: ElButton(
-                  type: El.primary,
-                  child: 'Item - ${index + 1}',
+          child: RepaintBoundary(
+            child: Column(
+              children: List.generate(
+                _num,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ElButton(
+                    type: El.primary,
+                    child: 'Item - ${index + 1}',
+                  ),
                 ),
               ),
             ),
@@ -72,14 +76,16 @@ class ButtonListTestPage3 extends StatelessWidget {
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
-          child: Column(
-            children: List.generate(
-              _num,
-              (index) => Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Item - ${index + 1}'),
+          child: RepaintBoundary(
+            child: Column(
+              children: List.generate(
+                _num,
+                (index) => Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text('Item - ${index + 1}'),
+                  ),
                 ),
               ),
             ),

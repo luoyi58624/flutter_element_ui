@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/guide/nav/custom_button.dart';
 import 'package:flutter/material.dart';
 
 import 'button_list.dart';
@@ -11,7 +14,7 @@ class NavPage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    return <Widget>[
+    return [
       const Gap(50),
       ElConfig(
         data: const ElConfigData(elSize: ElSize.mini),
@@ -92,6 +95,37 @@ class NavPage extends ResponsivePage {
           context.push(const ButtonListTestPage3());
         },
         child: 'ElevatedButton',
+      ),
+      const Gap(8),
+      Container(
+        width: 400,
+        height: 400,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image:
+                AssetImage("assets/images/contribute/button_local_theme.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: ClipRect(
+            child: Container(
+              width: 160,
+              height: 160,
+              color: Colors.white10,
+              child: Center(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: const ElText('hello'),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      const Gap(8),
+      const CustomButton(
+        child: '自定义按钮',
       ),
       const Gap(8),
       ElButton(

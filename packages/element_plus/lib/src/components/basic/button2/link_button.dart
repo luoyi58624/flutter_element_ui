@@ -2,7 +2,6 @@ import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
 import 'button.dart';
-import 'raw_button.dart';
 
 class ElLinkButton extends ElButton2 {
   /// Element UI 链接按钮，外观与普通文字完全一样
