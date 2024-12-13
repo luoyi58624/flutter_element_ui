@@ -35,6 +35,12 @@ class Example1 extends StatelessWidget {
             _Example6(),
             Gap(8),
             _Example7(),
+            Gap(8),
+            _Example8(),
+            Gap(8),
+            _Example9(),
+            Gap(8),
+            _Example10(),
           ],
         ),
       ],
@@ -175,6 +181,52 @@ class _Example7 extends StatelessWidget {
   }
 }
 
+class _Example8 extends StatelessWidget {
+  const _Example8();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
+          .map((type) => ElButton2(type: type, round: true, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example9 extends StatelessWidget {
+  const _Example9();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
+          .map((type) =>
+              ElOutlineButton(type: type, round: true, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example10 extends StatelessWidget {
+  const _Example10();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: _buttonTypes
+          .map((type) => ElTextButton(type: type, round: true, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
 String get code => '''
 ElButton(child: 'Hello'), // 默认按钮
 ElButton(child: 'Hello', type: El.primary), // 设置按钮主题
@@ -184,4 +236,5 @@ ElOutlineButton(child: 'Hello', plain: false), // 将 plain 设为 false 按钮�
 ElOutlineButton(child: 'Hello', onlyActiveBorder: true), // 只激活边框，不改变背景
 ElOutlineButton(child: 'Hello', plain: false, onlyActiveBorder: true),
 ElTextButton(child: 'Hello'),
-ElTextButton(child: 'Hello', bg: true),''';
+ElTextButton(child: 'Hello', bg: true),
+ElButton(child: 'Hello', round: true), // 圆角按钮''';

@@ -11,8 +11,6 @@ class ElTextButton extends ElButton2 {
     this.color,
     this.bg = false,
     this.iconScale = 1.2,
-    super.duration,
-    super.curve,
     super.type,
     super.round,
     super.padding,

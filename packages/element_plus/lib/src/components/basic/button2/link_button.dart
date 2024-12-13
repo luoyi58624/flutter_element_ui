@@ -16,7 +16,8 @@ class ElLinkButton extends ElTextButton {
     super.onPressed,
   });
 
-  static WidgetBuilder loadingIndicator = (BuildContext context) {
+  /// 链接按钮默认的 loading 构造器，它使用 Material 风格的圆形进度条充当加载器
+  static Widget defaultLoadingBuilder(BuildContext context) {
     final iconTheme = ElIconTheme.of(context);
     return SizedBox(
       width: iconTheme.size,
@@ -26,7 +27,7 @@ class ElLinkButton extends ElTextButton {
         color: iconTheme.color,
       ),
     );
-  };
+  }
 
   @override
   State<ElLinkButton> createState() => _ElLinkButtonState();
@@ -35,7 +36,7 @@ class ElLinkButton extends ElTextButton {
 class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
   @override
   WidgetBuilder? get loadingBuilder =>
-      widget.loadingBuilder ?? ElLinkButton.loadingIndicator;
+      widget.loadingBuilder ?? ElLinkButton.defaultLoadingBuilder;
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {

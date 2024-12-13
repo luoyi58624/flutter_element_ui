@@ -11,11 +11,10 @@ class ElOutlineButton extends ElButton2 {
     this.plain = true,
     this.onlyActiveBorder = false,
     this.borderWidth = 1.0,
-    super.duration,
-    super.curve,
     super.type,
     super.width,
     super.height,
+    super.round,
     super.block,
     super.autofocus,
     super.loading,
@@ -42,14 +41,13 @@ class ElOutlineButton extends ElButton2 {
 
 class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
   @override
-  Duration get duration => widget.plain
-      ? super.duration
-      : context
-          .elDuration(widget.duration ?? const Duration(milliseconds: 200));
+  Duration get decorationDuration => widget.plain
+      ? super.decorationDuration
+      : context.elDuration(const Duration(milliseconds: 200));
 
   @override
-  Curve get curve =>
-      widget.plain ? super.curve : widget.curve ?? Curves.easeOut;
+  Curve get decorationCurve =>
+      widget.plain ? super.decorationCurve : Curves.easeOut;
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {
@@ -162,7 +160,7 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
         width: widget.borderWidth,
         color: colorRecord.borderColor!,
       ),
-      borderRadius: BorderRadius.circular(sizePreset.radius!),
+      borderRadius: borderRadius,
     );
   }
 }

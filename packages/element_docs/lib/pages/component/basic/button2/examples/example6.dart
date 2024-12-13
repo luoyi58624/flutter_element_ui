@@ -250,7 +250,7 @@ class _CustomLoading2 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: ElLinkButton.loadingIndicator,
+      loadingBuilder: ElLinkButton.defaultLoadingBuilder,
       type: 'primary',
       child: '自定义Loading',
     );
@@ -271,7 +271,7 @@ class _CustomLoading3 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: ElLinkButton.loadingIndicator,
+      loadingBuilder: ElLinkButton.defaultLoadingBuilder,
       type: 'primary',
       child: '镂空按钮',
     );
@@ -292,7 +292,7 @@ class _CustomLoading4 extends HookWidget {
         }, _loadingDuration);
       },
       loading: loading.value,
-      loadingBuilder: ElLinkButton.loadingIndicator,
+      loadingBuilder: ElLinkButton.defaultLoadingBuilder,
       type: 'primary',
       child: '文字按钮',
     );
@@ -342,6 +342,6 @@ ElButton(
 // 使用 ElLinkButton 链接按钮的加载器
 ElButton(
   loading: true,
-  loadingBuilder: ElLinkButton.loadingIndicator,
+  loadingBuilder: ElLinkButton.defaultLoadingBuilder,
   child: '自定义Loading',
 ),''';

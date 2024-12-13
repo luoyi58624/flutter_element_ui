@@ -15,8 +15,6 @@ class ElButton2 extends StatefulWidget {
   const ElButton2({
     super.key,
     required this.child,
-    this.duration,
-    this.curve,
     this.type,
     this.bgColor,
     this.width,
@@ -37,12 +35,6 @@ class ElButton2 extends StatefulWidget {
 
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
   final dynamic child;
-
-  /// 按钮动画过渡时间
-  final Duration? duration;
-
-  /// 按钮动画曲线
-  final Curve? curve;
 
   /// 主题类型，默认 primary
   final String? type;
@@ -90,8 +82,8 @@ class ElButton2 extends StatefulWidget {
   /// loading 图标小部件
   final Widget? loadingWidget;
 
-  /// loading 构建器，它会替待 [loadingWidget]，区别在于它会隐藏按钮当前内容，
-  /// 然后绘制自定义小部件
+  /// 自定义 loading 构建器，有些按钮不适合 Element 默认 loading 风格，比如：[ElLinkButton]，
+  /// [loadingBuilder] 的优先级高于 [loadingWidget]，它会隐藏按钮当前内容，然后绘制自定义小部件。
   final WidgetBuilder? loadingBuilder;
 
   /// 点击事件
@@ -110,11 +102,20 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   Widget get child =>
       widget.child is Widget ? widget.child : ElText('${widget.child}');
 
-  Duration get duration =>
-      context.elDuration(widget.duration ?? const Duration(milliseconds: 80));
+  /// 装饰器过渡动画持续时间
+  Duration get decorationDuration =>
+      context.elDuration(const Duration(milliseconds: 80));
 
-  Curve get curve => widget.curve ?? Curves.linear;
+  /// 装饰器过渡动画曲线
+  Curve get decorationCurve => Curves.linear;
 
+  /// 文本动画过渡持续时间，默认跟随装饰器
+  Duration get textDuration => decorationDuration;
+
+  /// 文本动画曲线，默认跟随装饰器
+  Curve get textCurve => decorationCurve;
+
+  /// 自定义 loading 构造器
   WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
 
   double get iconSize => widget.iconSize ?? sizePreset.iconSize!;
@@ -137,6 +138,10 @@ class ElButton2State<T extends ElButton2> extends State<T> {
       widget.padding ??
       EdgeInsets.symmetric(horizontal: sizePreset.height! / 2);
 
+  /// 按钮圆角
+  BorderRadius get borderRadius =>
+      BorderRadius.circular(widget.round ? minHeight / 2 : sizePreset.radius!);
+
   Widget get loadingWidget =>
       widget.loadingWidget ?? const ElLoading(ElIcons.loading);
 
@@ -146,7 +151,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     return context.elThemeColors[widget.type ?? El.primary]!;
   }
 
-  /// 构建按钮颜色集合，通常包括 背景、文字、边框 三种颜色
+  /// 构建按钮颜色集合，主要包括 背景、文字、边框 三种颜色
   ElButtonColorRecord buildColorRecord(BuildContext context) {
     late Color bgColor;
     late Color textColor;
@@ -184,7 +189,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     );
   }
 
-  /// 当 [_triggerLoadingBuilder] 被激活时，则直接调用此方法而不是 [buildColorRecord]
+  /// 当 [_triggerLoadingBuilder] 被激活时，则会调用此方法而不是 [buildColorRecord]，
+  /// 此方法返回的是自定义 loadingBuilder 需要的背景、文字颜色
   ElButtonColorRecord buildLoadingColorRecord(BuildContext context) {
     final bgColor = context.isDark
         ? const Color.fromRGBO(57, 57, 57, 1.0)
@@ -200,11 +206,11 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     );
   }
 
-  /// 构建按钮 [BoxDecoration] 对象，它会在 [buildButtonWrapper] 中执行
+  /// 根据之前计算好的颜色开始构建按钮 [BoxDecoration] 装饰对象，它会在 [buildButtonWrapper] 中执行
   BoxDecoration buildDecoration(BuildContext context) {
     return BoxDecoration(
       color: colorRecord.bgColor,
-      borderRadius: BorderRadius.circular(sizePreset.radius!),
+      borderRadius: borderRadius,
     );
   }
 
@@ -216,8 +222,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         minWidth: minWidth,
       ),
       child: AnimatedDecoratedBox(
-        duration: duration,
-        curve: curve,
+        duration: decorationDuration,
+        curve: decorationCurve,
         decoration: buildDecoration(context),
         child: Padding(
           padding: padding,
@@ -293,7 +299,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         autofocus: widget.autofocus,
         cursor: cursor,
         canRequestFocus: !widget.disabled,
-        tapUpDelay: duration.inMilliseconds,
+        tapUpDelay: decorationDuration.inMilliseconds,
         onTap: widget.onPressed,
         builder: (context) {
           if (_triggerLoadingBuilder) {
@@ -303,8 +309,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
           }
 
           return _AnimatedWidget(
-            duration: duration,
-            curve: curve,
+            duration: textDuration,
+            curve: textCurve,
             textStyle: TextStyle(
               color: colorRecord.textColor,
               fontSize: sizePreset.fontSize,
