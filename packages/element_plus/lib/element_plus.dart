@@ -16,6 +16,9 @@ export 'src/components/basic/button2/button.dart';
 export 'src/components/basic/button2/outline_button.dart';
 export 'src/components/basic/button2/text_button.dart';
 export 'src/components/basic/button2/link_button.dart';
+
+export 'src/components/basic/button2/button_group.dart';
+
 export 'src/components/basic/event/index.dart';
 export 'src/components/basic/icon/index.dart';
 export 'src/components/basic/link/index.dart';

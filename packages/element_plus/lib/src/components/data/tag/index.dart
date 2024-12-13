@@ -104,7 +104,7 @@ class ElTag extends StatelessWidget {
     final $closable = closable ?? theme.closable ?? false;
     final $borderRadius = $round
         ? BorderRadius.circular($height / 2)
-        : borderRadius ?? theme.borderRadius ?? context.elConfig.radius;
+        : borderRadius ?? theme.borderRadius ?? context.commonSizePreset.radius;
     final $padding = padding ??
         theme.padding ??
         EdgeInsets.only(

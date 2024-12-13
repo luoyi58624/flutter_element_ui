@@ -46,7 +46,7 @@ class Example2 extends StatelessWidget {
             size: 125,
             itemCount: ElIcons.values.length,
             borderColor: context.elLayout.borderColor!,
-            borderRadius: context.elConfig.cardRadius!,
+            borderRadius: context.commonSizePreset.cardRadius!,
             shrinkWrap: true,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {

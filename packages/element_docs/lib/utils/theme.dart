@@ -90,7 +90,7 @@ class ThemeUtil {
     }
 
     final cardBorder = RoundedRectangleBorder(
-      borderRadius: context.elConfig.cardRadius!,
+      borderRadius: context.commonSizePreset.cardRadius!,
     );
 
     final themeData = ThemeData(

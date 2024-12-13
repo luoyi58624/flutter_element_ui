@@ -25,8 +25,9 @@ class FlatCodeExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius:
-            noBorderRadius ? BorderRadius.zero : context.elConfig.cardRadius!,
+        borderRadius: noBorderRadius
+            ? BorderRadius.zero
+            : context.commonSizePreset.cardRadius!,
         border: Border.all(
           color: context.elLayout.borderColor!,
           width: 1,
@@ -49,8 +50,9 @@ class FlatCodeExample extends StatelessWidget {
                 borderRadius: noBorderRadius
                     ? BorderRadius.zero
                     : BorderRadius.only(
-                        topLeft: context.elConfig.cardRadius!.topLeft,
-                        bottomLeft: context.elConfig.cardRadius!.bottomLeft,
+                        topLeft: context.commonSizePreset.cardRadius!.topLeft,
+                        bottomLeft:
+                            context.commonSizePreset.cardRadius!.bottomLeft,
                       ),
               ),
             ),
@@ -70,8 +72,8 @@ class FlatCodeExample extends StatelessWidget {
                 code: code!,
                 maxHeight: maxHeight,
                 borderRadius: BorderRadius.only(
-                  topLeft: context.elConfig.cardRadius!.topLeft,
-                  bottomLeft: context.elConfig.cardRadius!.bottomLeft,
+                  topLeft: context.commonSizePreset.cardRadius!.topLeft,
+                  bottomLeft: context.commonSizePreset.cardRadius!.bottomLeft,
                 ),
               ),
             ),

@@ -8,30 +8,25 @@ part 'theme.dart';
 part '../../../generates/components/basic/icon/index.g.dart';
 
 /// Element UI 图标
-class ElIcon extends StatelessWidget {
+class ElIcon extends Icon {
   const ElIcon(
     this.child, {
     super.key,
-    this.size,
-    this.color,
-  });
+    super.size,
+    super.color,
+  }) : super(null);
 
   /// 渲染图标，支持以下参数：
   /// * [IconData] 字体图标
   /// * [Widget] 自定义图标
   final dynamic child;
 
-  /// 图标尺寸，默认 18
-  final double? size;
-
-  /// 图标颜色
-  final Color? color;
-
   @override
   Widget build(BuildContext context) {
+    final commonSizePreset = context.commonSizePreset;
     final $theme = ElIconTheme.of(context);
     final $icon = child ?? $theme.icon;
-    final $size = size ?? $theme.size ?? ElIconThemeData.theme.size!;
+    final $size = size ?? $theme.size ?? commonSizePreset.iconSize!;
     final $color = color ?? $theme.color;
     if ($icon is IconData) {
       return Icon($icon, size: $size, color: $color);

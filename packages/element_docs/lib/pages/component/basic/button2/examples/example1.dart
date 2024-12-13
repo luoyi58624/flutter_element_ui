@@ -232,7 +232,7 @@ ElButton(child: 'Hello'), // 默认按钮
 ElButton(child: 'Hello', type: El.primary), // 设置按钮主题
 ElButton(child: 'Hello', bgColor: Colors.red), // 自定义颜色
 ElOutlineButton(child: 'Hello'), // 边框按钮
-ElOutlineButton(child: 'Hello', plain: false), // 将 plain 设为 false 按钮背景将完全与背景同步
+ElOutlineButton(child: 'Hello', plain: false), // 将 plain 设为 false 按钮将移除微弱的背景装饰，同时移除 tap 反馈
 ElOutlineButton(child: 'Hello', onlyActiveBorder: true), // 只激活边框，不改变背景
 ElOutlineButton(child: 'Hello', plain: false, onlyActiveBorder: true),
 ElTextButton(child: 'Hello'),

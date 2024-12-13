@@ -110,7 +110,9 @@ class _Prop {
             EdgeInsets.symmetric(horizontal: $horizontalPadding));
     final $borderRadius = $round || $circle
         ? BorderRadius.circular($height / 2)
-        : widget.borderRadius ?? $data.borderRadius ?? context.elConfig.radius!;
+        : widget.borderRadius ??
+            $data.borderRadius ??
+            BorderRadius.circular(4.0);
 
     double? $iconSize = widget.iconSize ?? $data.iconSize;
     if ($iconSize == null) {

@@ -78,7 +78,7 @@ class _CodePreviewState extends State<CodePreview> {
   Color get bgColor => widget.bgColor;
 
   BorderRadius get borderRadius =>
-      widget.borderRadius ?? context.elConfig.cardRadius!;
+      widget.borderRadius ?? context.commonSizePreset.cardRadius!;
 
   @override
   void initState() {
@@ -264,14 +264,14 @@ class _CodePreviewState extends State<CodePreview> {
 
   Widget buildCopyButton() {
     return Material(
-      borderRadius: context.elConfig.radius,
+      borderRadius: context.commonSizePreset.radius,
       color: bgColor.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
       child: InkWell(
         onTap: () async {
           await Clipboard.setData(ClipboardData(text: widget.code));
           el.message.success('复制成功');
         },
-        borderRadius: context.elConfig.radius,
+        borderRadius: context.commonSizePreset.radius,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: ElIcon(

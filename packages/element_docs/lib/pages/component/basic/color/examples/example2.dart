@@ -43,7 +43,7 @@ class Example2 extends StatelessWidget {
       ),
       margin: const EdgeInsets.only(right: 8.0),
       decoration: BoxDecoration(
-        borderRadius: context.elConfig.cardRadius!,
+        borderRadius: context.commonSizePreset.cardRadius!,
       ),
       clipBehavior: Clip.hardEdge,
       child: Column(

@@ -14,6 +14,11 @@ class Example8 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
+        const SectionCard(
+          title: 'Tip',
+          content: ['你可以通过 ElConfig 小部件强制指定局部组件应用的尺寸'],
+        ),
+        textGap,
         CodeExample(
           code: code,
           children: const [
@@ -24,6 +29,8 @@ class Example8 extends StatelessWidget {
             _Example3(),
             Gap(8),
             _Example4(),
+            Gap(8),
+            _Example5(),
           ],
         ),
       ],
@@ -95,6 +102,25 @@ class _Example4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElConfig(
       data: const ElConfigData(elSize: ElSize.large),
+      child: Wrap(
+        spacing: 8,
+        children: [
+          ...El.themeTypes.map(
+            (e) => ElButton2(child: 'Hello', type: e),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Example5 extends StatelessWidget {
+  const _Example5();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElConfig(
+      data: const ElConfigData(elSize: ElSize.xLarge),
       child: Wrap(
         spacing: 8,
         children: [

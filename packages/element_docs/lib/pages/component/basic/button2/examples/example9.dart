@@ -17,8 +17,8 @@ class Example9 extends StatelessWidget {
         const SectionCard(
           title: 'Tip',
           content: [
-            'ElButton 提供的参数只适用于大部分常用场景，您可以通过继承 ElButton 来实现更灵活的样式，'
-                '例如下面这个例子便是通过继承 ElButton 来实现的渐变按钮'
+            'ElButton 提供的参数有限，但你可以通过继承 ElButton 实现更多样式的按钮，'
+                '下面这个例子便以最简单的方式实现渐变按钮'
           ],
         ),
         textGap,
@@ -31,6 +31,63 @@ class Example9 extends StatelessWidget {
   }
 }
 
+class CustomButton extends ElButton2 {
+  const CustomButton({
+    super.key,
+    required super.child,
+    super.loading,
+    super.onPressed,
+  });
+
+  @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends ElButton2State<CustomButton> {
+  /// 此方法是构建可交互按钮颜色集合，你可以通过 context.hasHover、context.hasTap 构建各种颜色变体，
+  /// 不过我们现在是要创建渐变按钮，所以只需要简单返回一个文本颜色即可
+  @override
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
+    return (
+      bgColor: null,
+      textColor: Colors.white,
+      borderColor: null,
+    );
+  }
+
+  /// 此方法是构建按钮的装饰，操作此对象完全相当于操作我们常用的 [Container] 小部件
+  @override
+  BoxDecoration buildDecoration(BuildContext context) {
+    return BoxDecoration(
+      borderRadius: borderRadius,
+      // 创建渐变色，这里我们监听点击事件来改变渐变颜色
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: context.hasTap
+            ? [Colors.purple, Colors.blue]
+            : [Colors.pink, Colors.green],
+      ),
+    );
+  }
+
+// /// 这里是对按钮进行一个高斯模糊，为了保持示例代码简单性，这段代码先注释掉
+// @override
+// Widget buildButtonWrapper(BuildContext context, Widget child) {
+//   return ClipRRect(
+//     borderRadius: borderRadius!,
+//     child: super.buildButtonWrapper(
+//       context,
+//       BackdropFilter(
+//         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+//         child: child,
+//       ),
+//     ),
+//   );
+// }
+}
+
+/// 使用示例
 class _Example extends HookWidget {
   const _Example();
 
@@ -64,6 +121,7 @@ class _Example extends HookWidget {
   }
 }
 
+String get code => '''
 class CustomButton extends ElButton2 {
   const CustomButton({
     super.key,
@@ -77,17 +135,8 @@ class CustomButton extends ElButton2 {
 }
 
 class _CustomButtonState extends ElButton2State<CustomButton> {
-  @override
-  Duration get decorationDuration => const Duration(milliseconds: 200);
-
-  @override
-  Curve get decorationCurve => Curves.easeOut;
-
-  /// 使用自定义 loading 构造器，这里使用链接按钮默认的 loading
-  @override
-  WidgetBuilder? get loadingBuilder => ElLinkButton.defaultLoadingBuilder;
-
-  /// 自定义按钮的颜色集合，由于我们要创建渐变按钮，所以不需要背景颜色、边框颜色
+  /// 此方法是构建可交互按钮颜色集合，你可以通过 context.hasHover、context.hasTap 构建各种颜色变体，
+  /// 不过我们现在是要创建渐变按钮，所以只需要简单返回一个文本颜色即可
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {
     return (
@@ -97,43 +146,24 @@ class _CustomButtonState extends ElButton2State<CustomButton> {
     );
   }
 
-  /// 构建按钮的 [BoxDecoration] 装饰
+  /// 此方法是构建按钮的装饰，操作此对象完全相当于操作我们常用的 [Container] 小部件
   @override
   BoxDecoration buildDecoration(BuildContext context) {
     return BoxDecoration(
-      color: widget.loading ? colorRecord.bgColor : null,
       borderRadius: borderRadius,
-      // 创建渐变色，loading 状态会移除渐变色使用默认背景
-      gradient: widget.loading
-          ? null
-          : LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              // 这里我们监听悬停、点击事件来改变渐变颜色
-              colors: context.hasHover || context.hasTap
-                  ? [Colors.purple, Colors.blue]
-                  : [Colors.pink, Colors.green],
-            ),
-    );
-  }
-
-  /// 这里是对按钮进行一个高斯模糊
-  @override
-  Widget buildButtonWrapper(BuildContext context, Widget child) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(sizePreset.radius!),
-      child: super.buildButtonWrapper(
-        context,
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: child,
-        ),
+      // 创建渐变色，这里我们监听点击事件来改变渐变颜色
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: context.hasTap
+            ? [Colors.purple, Colors.blue]
+            : [Colors.pink, Colors.green],
       ),
     );
   }
 }
 
-String get code => '''
+/// 使用示例
 class _Example extends HookWidget {
   const _Example();
 
@@ -163,75 +193,6 @@ class _Example extends HookWidget {
           child: 'count: \${count.value}',
         ),
       ],
-    );
-  }
-}
-
-class CustomButton extends ElButton2 {
-  const CustomButton({
-    super.key,
-    required super.child,
-    super.loading,
-    super.onPressed,
-  });
-
-  @override
-  State<CustomButton> createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends ElButton2State<CustomButton> {
-  @override
-  Duration get decorationDuration => const Duration(milliseconds: 200);
-
-  @override
-  Curve get decorationCurve => Curves.easeOut;
-
-  /// 使用自定义 loading 构造器，这里使用链接按钮默认的 loading
-  @override
-  WidgetBuilder? get loadingBuilder => ElLinkButton.defaultLoadingBuilder;
-
-  /// 自定义按钮的颜色集合，由于我们要创建渐变按钮，所以不需要背景颜色、边框颜色
-  @override
-  ElButtonColorRecord buildColorRecord(BuildContext context) {
-    return (
-      bgColor: null,
-      textColor: Colors.white,
-      borderColor: null,
-    );
-  }
-
-  /// 构建按钮的 [BoxDecoration] 装饰
-  @override
-  BoxDecoration buildDecoration(BuildContext context) {
-    return BoxDecoration(
-      color: widget.loading ? colorRecord.bgColor : null,
-      borderRadius: borderRadius,
-      // 创建渐变色，loading 状态会移除渐变色使用默认背景
-      gradient: widget.loading
-          ? null
-          : LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              // 这里我们监听悬停、点击事件来改变渐变颜色
-              colors: context.hasHover || context.hasTap
-                  ? [Colors.purple, Colors.blue]
-                  : [Colors.pink, Colors.green],
-            ),
-    );
-  }
-
-  /// 这里是对按钮进行一个高斯模糊
-  @override
-  Widget buildButtonWrapper(BuildContext context, Widget child) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(sizePreset.radius!),
-      child: super.buildButtonWrapper(
-        context,
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: child,
-        ),
-      ),
     );
   }
 }''';

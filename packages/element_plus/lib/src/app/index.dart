@@ -80,9 +80,14 @@ class ElApp extends StatelessWidget {
         sizePreset: sizePreset,
       ),
       child: Builder(builder: (context) {
-        return _SwitchThemeAnimation(
-          data: context.elTheme,
-          child: child,
+        return ElDefaultTextStyle(
+          style: TextStyle(
+            fontSize: context.commonSizePreset.fontSize,
+          ),
+          child: _SwitchThemeAnimation(
+            data: context.elTheme,
+            child: child,
+          ),
         );
       }),
     );

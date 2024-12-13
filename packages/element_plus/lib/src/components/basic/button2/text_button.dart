@@ -39,7 +39,7 @@ class ElTextButton extends ElButton2 {
 
 class ElTextButtonState<T extends ElTextButton> extends ElButton2State<T> {
   @override
-  bool get isDefaultButton => widget.type == null && widget.color == null;
+  bool get isDefaultButton => type == null && widget.color == null;
 
   @override
   double get iconSize => widget.bg == false && isIconChild
@@ -51,13 +51,14 @@ class ElTextButtonState<T extends ElTextButton> extends ElButton2State<T> {
   EdgeInsets get padding =>
       isIconChild && widget.bg == false ? EdgeInsets.zero : super.padding;
 
+  @override
   Color get bgColor => context.currentBgColor;
 
   Color get textColor =>
       widget.color ??
-      (widget.type == null
+      (type == null
           ? bgColor.elRegularTextColor(context)
-          : context.elThemeColors[widget.type]!);
+          : context.elThemeColors[type]!);
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {

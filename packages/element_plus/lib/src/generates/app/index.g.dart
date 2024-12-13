@@ -297,15 +297,11 @@ extension ElConfigDataExtension on ElConfigData {
   ElConfigData copyWith({
     double? size,
     ElSize? elSize,
-    BorderRadius? radius,
-    BorderRadius? cardRadius,
     double? borderWidth,
   }) {
     return ElConfigData(
       size: size ?? this.size,
       elSize: elSize ?? this.elSize,
-      radius: radius ?? this.radius,
-      cardRadius: cardRadius ?? this.cardRadius,
       borderWidth: borderWidth ?? this.borderWidth,
     );
   }
@@ -316,8 +312,6 @@ extension ElConfigDataExtension on ElConfigData {
     return copyWith(
       size: other.size,
       elSize: other.elSize,
-      radius: other.radius,
-      cardRadius: other.cardRadius,
       borderWidth: other.borderWidth,
     );
   }
@@ -329,15 +323,8 @@ extension ElConfigDataExtension on ElConfigData {
           runtimeType == other.runtimeType &&
           size == other.size &&
           elSize == other.elSize &&
-          radius == other.radius &&
-          cardRadius == other.cardRadius &&
           borderWidth == other.borderWidth;
 
   /// 生成 hashCode 方法
-  int get _hashCode =>
-      size.hashCode ^
-      elSize.hashCode ^
-      radius.hashCode ^
-      cardRadius.hashCode ^
-      borderWidth.hashCode;
+  int get _hashCode => size.hashCode ^ elSize.hashCode ^ borderWidth.hashCode;
 }

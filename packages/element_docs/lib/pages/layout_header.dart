@@ -15,6 +15,8 @@ extension ElSizeExtension on ElSize {
         return '中等尺寸';
       case ElSize.large:
         return '大尺寸';
+      case ElSize.xLarge:
+        return '超大尺寸';
     }
   }
 }

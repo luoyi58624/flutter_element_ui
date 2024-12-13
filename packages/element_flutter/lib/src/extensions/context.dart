@@ -21,6 +21,12 @@ extension FlutterContextExtension on BuildContext {
   /// Layout 主题
   ElLayoutThemeData get elLayout => elTheme.layoutTheme;
 
+  /// 全局尺寸预设
+  ElSizePreset get elSizePreset => ElApp.of(this).sizePreset;
+
+  /// 通用尺寸预设
+  ElCommonSizePreset get commonSizePreset => elSizePreset.common.apply(this);
+
   /// 通用边框主题
   Border get elBorder => Border.all(
         color: elLayout.borderColor!,

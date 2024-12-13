@@ -5,8 +5,6 @@ class ElConfigData {
   static const ElConfigData globalData = ElConfigData(
     size: 36,
     elSize: ElSize.medium,
-    radius: BorderRadius.all(Radius.circular(4)),
-    cardRadius: BorderRadius.all(Radius.circular(6)),
     borderWidth: 1.0,
   );
 
@@ -14,8 +12,6 @@ class ElConfigData {
   const ElConfigData({
     this.size,
     this.elSize,
-    this.radius,
-    this.cardRadius,
     this.borderWidth,
   });
 
@@ -24,12 +20,6 @@ class ElConfigData {
 
   /// 配置组件预设尺寸
   final ElSize? elSize;
-
-  /// 基础控件默认圆角值，例如：按钮、输入框
-  final BorderRadius? radius;
-
-  /// 尺寸比较大的布局类组件圆角值，例如：卡片
-  final BorderRadius? cardRadius;
 
   /// 基础控件默认边框尺寸
   final double? borderWidth;

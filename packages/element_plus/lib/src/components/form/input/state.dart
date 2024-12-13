@@ -36,7 +36,7 @@ class ElInputState extends ModelValueState<ElInput, String> {
           ? BorderRadius.circular($height / 2)
           : (widget.borderRadius ??
               defaultStyle.borderRadius ??
-              context.elConfig.radius!),
+              context.commonSizePreset.radius!),
       margin: widget.margin ?? defaultStyle.margin,
       padding: widget.padding ??
           (widget.round == true

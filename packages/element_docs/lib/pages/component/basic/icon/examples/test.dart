@@ -25,7 +25,7 @@ class IconTestPage extends HookWidget {
             size: 125,
             itemCount: keys.length,
             borderColor: context.elLayout.borderColor!,
-            borderRadius: context.elConfig.cardRadius!,
+            borderRadius: context.commonSizePreset.cardRadius!,
             itemBuilder: (context, index) => GestureDetector(
               onTap: () {
                 CommonUtil.copy('ElIcon(ElIcons.${keys[index]})');

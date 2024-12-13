@@ -7,8 +7,10 @@ class DemoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Demo(),
+    return ElApp(
+      child: const MaterialApp(
+        home: Demo(),
+      ),
     );
   }
 }
@@ -19,26 +21,8 @@ class Demo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...List.generate(
-              33,
-              (row) {
-                return Row(
-                  children: List.generate(33, (int col) {
-                    return Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Text('row: $row; col: $col'),
-                    );
-                  }),
-                );
-              },
-            ),
-          ],
-        ),
+      body: Container(
+        child: const ElText('xx'),
       ),
     );
   }

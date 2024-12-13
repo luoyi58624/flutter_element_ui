@@ -36,7 +36,7 @@ class _Example extends HookWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: context.elTheme.primary,
-        borderRadius: context.elConfig.cardRadius!,
+        borderRadius: context.commonSizePreset.cardRadius!,
       ),
       child: const ElText(
         'ElCollapseTransition',
@@ -78,7 +78,7 @@ class _Example extends HookWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: context.elTheme.primary,
-        borderRadius: context.elConfig.cardRadius!,
+        borderRadius: context.commonSizePreset.cardRadius!,
       ),
       child: const ElText(
         'ElCollapseTransition',

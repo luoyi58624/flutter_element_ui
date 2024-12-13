@@ -94,7 +94,8 @@ class ElButton2 extends StatefulWidget {
 }
 
 class ElButton2State<T extends ElButton2> extends State<T> {
-  late ElButtonSizePreset sizePreset;
+  late ElCommonSizePreset commonSizePreset;
+  late ElButtonSizePreset buttonSizePreset;
   late ElButtonColorRecord colorRecord;
   late MouseCursor cursor;
   late bool _triggerLoadingBuilder;
@@ -105,6 +106,15 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   /// 装饰器过渡动画持续时间
   Duration get decorationDuration =>
       context.elDuration(const Duration(milliseconds: 80));
+
+  /// 按钮主题类型
+  String? get type => widget.type;
+
+  /// 按钮背景颜色
+  Color? get bgColor => widget.bgColor;
+
+  /// 如果 [type]、[bgColor] 均为 null，那么按钮为默认风格按钮
+  bool get isDefaultButton => type == null && bgColor == null;
 
   /// 装饰器过渡动画曲线
   Curve get decorationCurve => Curves.linear;
@@ -118,40 +128,47 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   /// 自定义 loading 构造器
   WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
 
-  double get iconSize => widget.iconSize ?? sizePreset.iconSize!;
+  /// 图标尺寸，默认值为全局图标尺寸 - 2
+  double get iconSize => widget.iconSize ?? commonSizePreset.iconSize! - 2;
 
-  bool get isIconChild => widget.child is ElIcon || widget.child is Icon;
-
-  /// 如果没有任意 type 和 bgColor，那么按钮为默认风格按钮
-  bool get isDefaultButton => widget.type == null && widget.bgColor == null;
+  /// 是否是单纯的图标按钮
+  bool get isIconChild => widget.child is Icon;
 
   /// 按钮最小高度
-  double get minHeight => widget.height ?? sizePreset.height!;
+  double get minHeight => widget.height ?? buttonSizePreset.height!;
 
   /// 按钮最小宽度
   double get minWidth =>
       widget.width ??
-      (isIconChild ? sizePreset.height! * 1.25 : sizePreset.width!);
+      (isIconChild ? buttonSizePreset.height! * 1.25 : buttonSizePreset.width!);
 
   /// 按钮内边距
   EdgeInsets get padding =>
       widget.padding ??
-      EdgeInsets.symmetric(horizontal: sizePreset.height! / 2);
+      EdgeInsets.symmetric(horizontal: buttonSizePreset.height! / 2);
 
-  /// 按钮圆角
-  BorderRadius get borderRadius =>
-      BorderRadius.circular(widget.round ? minHeight / 2 : sizePreset.radius!);
+  /// 是否启用圆角按钮
+  bool get round => widget.round;
 
+  /// 按钮边框圆角
+  BorderRadius? get borderRadius =>
+      round ? BorderRadius.circular(minHeight / 2) : commonSizePreset.radius!;
+
+  /// 按钮边框
+  Border? get border => null;
+
+  /// 默认的加载器小部件
   Widget get loadingWidget =>
       widget.loadingWidget ?? const ElLoading(ElIcons.loading);
 
   /// 获取按钮主题背景颜色，如果 bgColor 不为 null，则返回 bgColor，否则根据 type 返回预设主题色
   Color get themeBgColor {
-    if (widget.bgColor != null) return widget.bgColor!;
-    return context.elThemeColors[widget.type ?? El.primary]!;
+    if (bgColor != null) return bgColor!;
+    return context.elThemeColors[type ?? El.primary]!;
   }
 
-  /// 构建按钮颜色集合，主要包括 背景、文字、边框 三种颜色
+  /// 构建可交互按钮颜色集合，目前主要包括 背景、文字、边框 三种颜色，
+  /// 创建的对象会赋值给 [colorRecord] 变量
   ElButtonColorRecord buildColorRecord(BuildContext context) {
     late Color bgColor;
     late Color textColor;
@@ -211,6 +228,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     return BoxDecoration(
       color: colorRecord.bgColor,
       borderRadius: borderRadius,
+      border: border,
     );
   }
 
@@ -286,7 +304,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    sizePreset = ElApp.of(context).sizePreset.button.apply(context);
+    commonSizePreset = context.commonSizePreset;
+    buttonSizePreset = context.elSizePreset.button.apply(context);
     _triggerLoadingBuilder = loadingBuilder != null && widget.loading;
     cursor = widget.loading
         ? MouseCursor.defer
@@ -313,7 +332,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
             curve: textCurve,
             textStyle: TextStyle(
               color: colorRecord.textColor,
-              fontSize: sizePreset.fontSize,
+              fontSize: commonSizePreset.fontSize,
               fontWeight: FontWeight.w500,
             ),
             iconThemeData: ElIconThemeData(
@@ -353,6 +372,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   }
 }
 
+/// 简单封装了文本、图标动画小部件
 class _AnimatedWidget extends ImplicitlyAnimatedWidget {
   const _AnimatedWidget({
     required super.duration,

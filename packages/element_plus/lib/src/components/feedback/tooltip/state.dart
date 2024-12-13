@@ -109,7 +109,7 @@ class _ElTooltipState extends State<ElTooltip> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: context.elConfig.radius,
+        borderRadius: context.commonSizePreset.radius,
       ),
       child: ElDefaultTextStyle(
         style: TextStyle(

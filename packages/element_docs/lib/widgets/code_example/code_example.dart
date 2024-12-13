@@ -30,7 +30,7 @@ class CodeExample extends HookWidget {
         return Container(
           decoration: BoxDecoration(
             color: context.elLayout.bgColor!,
-            borderRadius: context.elConfig.cardRadius!,
+            borderRadius: context.commonSizePreset.cardRadius!,
             border: Border.all(
               color: context.elLayout.borderColor!,
               width: 1,
@@ -50,20 +50,20 @@ class CodeExample extends HookWidget {
               if (code != null) const ElDivider(),
               if (code != null) _PreviewButton(isExpanded),
               if (code != null)
-                ObsBuilder(
-                  builder: (context) {
-                    return ElCollapseTransition(
-                      GlobalState.expandedCode.value || isExpanded.value,
-                      child: CodePreview(
-                        code: code!,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: context.elConfig.cardRadius!.bottomLeft,
-                          bottomRight: context.elConfig.cardRadius!.bottomRight,
-                        ),
+                ObsBuilder(builder: (context) {
+                  return ElCollapseTransition(
+                    GlobalState.expandedCode.value || isExpanded.value,
+                    child: CodePreview(
+                      code: code!,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft:
+                            context.commonSizePreset.cardRadius!.bottomLeft,
+                        bottomRight:
+                            context.commonSizePreset.cardRadius!.bottomRight,
                       ),
-                    );
-                  }
-                ),
+                    ),
+                  );
+                }),
             ],
           ),
         );
@@ -130,10 +130,10 @@ class _PreviewButton extends HookWidget {
                 borderRadius: BorderRadius.only(
                   bottomLeft: isExpanded.value
                       ? Radius.zero
-                      : context.elConfig.cardRadius!.bottomLeft,
+                      : context.commonSizePreset.cardRadius!.bottomLeft,
                   bottomRight: isExpanded.value
                       ? Radius.zero
-                      : context.elConfig.cardRadius!.bottomRight,
+                      : context.commonSizePreset.cardRadius!.bottomRight,
                 )),
             alignment: Alignment.center,
             child: AnimatedBuilder(

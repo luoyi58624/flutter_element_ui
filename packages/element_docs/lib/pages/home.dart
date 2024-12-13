@@ -95,7 +95,7 @@ class _CardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
           border: Border.all(color: context.elLayout.borderColor!),
-          borderRadius: context.elConfig.cardRadius!,
+          borderRadius: context.commonSizePreset.cardRadius!,
         ),
         child: Column(
           children: [
@@ -138,8 +138,10 @@ class _CardWidget extends StatelessWidget {
                           ? context.elTheme.primary
                           : context.elTheme.cardTheme.color,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: context.elConfig.cardRadius!.bottomLeft,
-                        bottomRight: context.elConfig.cardRadius!.bottomRight,
+                        bottomLeft:
+                            context.commonSizePreset.cardRadius!.bottomLeft,
+                        bottomRight:
+                            context.commonSizePreset.cardRadius!.bottomRight,
                       ),
                     ),
                     child: Center(

@@ -26,7 +26,7 @@ class ElOutlineButton extends ElButton2 {
     super.onPressed,
   });
 
-  /// 是否绘制镂空样式按钮，默认 true，若为 false，按钮将更加贴合背景颜色
+  /// 是否绘制镂空样式按钮，默认 true，若为 false，按钮将更加贴合背景颜色，同时移除 tap 反馈
   final bool plain;
 
   /// 当鼠标悬停、点击按钮时，是否只对边框进行高亮，默认 false
@@ -48,6 +48,12 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
   @override
   Curve get decorationCurve =>
       widget.plain ? super.decorationCurve : Curves.easeOut;
+
+  @override
+  Border? get border => Border.all(
+        width: widget.borderWidth,
+        color: colorRecord.borderColor!,
+      );
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {
@@ -149,18 +155,6 @@ class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
       bgColor: colorRecord.bgColor,
       textColor: colorRecord.textColor,
       borderColor: colorRecord.bgColor,
-    );
-  }
-
-  @override
-  BoxDecoration buildDecoration(BuildContext context) {
-    return BoxDecoration(
-      color: colorRecord.bgColor,
-      border: Border.all(
-        width: widget.borderWidth,
-        color: colorRecord.borderColor!,
-      ),
-      borderRadius: borderRadius,
     );
   }
 }
