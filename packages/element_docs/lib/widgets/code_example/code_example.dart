@@ -72,7 +72,6 @@ class CodeExample extends HookWidget {
   }
 }
 
-const _doubleOffset = 80.0;
 Timer? _delayShow;
 
 /// 构建展开预览代码按钮
@@ -83,6 +82,7 @@ class _PreviewButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final doubleOffset = 80.0.elFontScale(context);
     final controller = useAnimationController(
       duration: 250.ms,
     );
@@ -95,7 +95,7 @@ class _PreviewButton extends HookWidget {
       end: context.elTheme.primary,
     ).animate(curve);
     final offsetAnimate = Tween(
-      begin: _doubleOffset / 2,
+      begin: doubleOffset / 2,
       end: 0.0,
     ).animate(curve);
 
@@ -141,7 +141,7 @@ class _PreviewButton extends HookWidget {
               builder: (context, child) => Transform.translate(
                 offset: Offset(offsetAnimate.value, 0),
                 child: SizedBox(
-                  width: _doubleOffset,
+                  width: doubleOffset,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'demo.dart';
 import 'global.dart';
-import 'utils/element_size_preset.dart';
 import 'utils/theme.dart';
 
 void main() async {
@@ -82,11 +81,9 @@ class _MainAppState extends State<MainApp> {
             brightness: GlobalState.brightness,
             theme: ThemeUtil.buildElementTheme(),
             darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
-            config: ElConfigData(elSize: GlobalState.globalSize.value),
-            sizePreset: elSizePreset,
+            size: GlobalState.globalSize.value,
             child: ObsBuilder(builder: (context) {
               isMobileRoute.value = context.sm;
-              GlobalState.globalFontSize = context.sm ? 15 : 16;
               return ElFps(
                 enabled: GlobalState.fps.value,
                 child: MaterialApp.router(

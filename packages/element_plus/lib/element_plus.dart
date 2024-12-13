@@ -82,6 +82,7 @@ export 'src/components/others/fps.dart';
 export 'src/components/others/triangle/triangle.dart';
 
 export 'src/extensions/color.dart';
+export 'src/extensions/num.dart';
 export 'src/extensions/widget.dart';
 
 export 'src/utils/font.dart';

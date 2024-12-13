@@ -43,8 +43,8 @@ class _Example extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      data: const ElConfigData(elSize: ElSize.mini),
+    return ElSize(
+      El.mini,
       child: Wrap(
         spacing: 8,
         children: [
@@ -62,8 +62,8 @@ class _Example2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      data: const ElConfigData(elSize: ElSize.small),
+    return ElSize(
+      El.small,
       child: Wrap(
         spacing: 8,
         children: [
@@ -81,8 +81,8 @@ class _Example3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      data: const ElConfigData(elSize: ElSize.medium),
+    return ElSize(
+      El.medium,
       child: Wrap(
         spacing: 8,
         children: [
@@ -100,8 +100,8 @@ class _Example4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      data: const ElConfigData(elSize: ElSize.large),
+    return ElSize(
+      El.large,
       child: Wrap(
         spacing: 8,
         children: [
@@ -119,8 +119,8 @@ class _Example5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      data: const ElConfigData(elSize: ElSize.xLarge),
+    return ElSize(
+      El.xLarge,
       child: Wrap(
         spacing: 8,
         children: [

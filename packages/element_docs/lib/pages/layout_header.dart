@@ -4,22 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../router/router_config.dart';
 
-extension ElSizeExtension on ElSize {
-  String get name {
-    switch (this) {
-      case ElSize.mini:
-        return '极小尺寸';
-      case ElSize.small:
-        return '小尺寸';
-      case ElSize.medium:
-        return '中等尺寸';
-      case ElSize.large:
-        return '大尺寸';
-      case ElSize.xLarge:
-        return '超大尺寸';
-    }
-  }
-}
+Map<String, String> sizeOptions = {
+  '极小尺寸': El.mini,
+  '小尺寸': El.small,
+  '中等尺寸': El.medium,
+  '大尺寸': El.large,
+  '超大尺寸': El.xLarge,
+};
 
 class LayoutHeader extends StatelessWidget {
   const LayoutHeader({super.key});
@@ -90,7 +81,7 @@ class LayoutHeader extends StatelessWidget {
                       .toList();
                 },
               ),
-              PopupMenuButton<ElSize>(
+              PopupMenuButton<String>(
                 enableFeedback: true,
                 offset: const Offset(0, 56),
                 popUpAnimationStyle: AnimationStyle.noAnimation,
@@ -99,11 +90,11 @@ class LayoutHeader extends StatelessWidget {
                   GlobalState.globalSize.value = value;
                 },
                 itemBuilder: (context) {
-                  return ElSize.values
-                      .map((v) => PopupMenuItem(
+                  return sizeOptions.keys
+                      .map((key) => PopupMenuItem(
                             height: 40,
-                            value: v,
-                            child: Text(v.name),
+                            value: sizeOptions[key]!,
+                            child: Text(key),
                           ))
                       .toList();
                 },

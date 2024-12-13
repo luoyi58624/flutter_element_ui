@@ -36,7 +36,7 @@ class ElApp extends StatelessWidget {
     this.darkTheme,
     this.config,
     this.responsive = const ElResponsiveData(),
-    this.sizePreset = const ElSizePreset(),
+    this.size = El.medium,
     this.globalFontWeight = 0,
   });
 
@@ -57,8 +57,8 @@ class ElApp extends StatelessWidget {
   /// 响应式断点配置
   final ElResponsiveData responsive;
 
-  /// 全局组件尺寸预设
-  final ElSizePreset sizePreset;
+  /// 全局组件尺寸预设，默认 [El.medium]
+  final String size;
 
   /// 定义全局字体粗细级别
   final double globalFontWeight;
@@ -77,19 +77,16 @@ class ElApp extends StatelessWidget {
         darkTheme: ElThemeData.darkTheme.merge(darkTheme),
         config: ElConfigData.globalData.merge(config),
         responsive: responsive,
-        sizePreset: sizePreset,
       ),
-      child: Builder(builder: (context) {
-        return ElDefaultTextStyle(
-          style: TextStyle(
-            fontSize: context.commonSizePreset.fontSize,
-          ),
-          child: _SwitchThemeAnimation(
+      child: ElSize(
+        size,
+        child: Builder(builder: (context) {
+          return _SwitchThemeAnimation(
             data: context.elTheme,
             child: child,
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
@@ -100,7 +97,6 @@ class ElAppData {
   final ElThemeData darkTheme;
   final ElConfigData config;
   final ElResponsiveData responsive;
-  final ElSizePreset sizePreset;
 
   const ElAppData({
     required this.brightness,
@@ -108,7 +104,6 @@ class ElAppData {
     required this.darkTheme,
     required this.config,
     required this.responsive,
-    required this.sizePreset,
   });
 }
 

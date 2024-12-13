@@ -85,46 +85,6 @@ class _Example2 extends StatelessWidget {
   }
 }
 
-class _Example3 extends StatelessWidget {
-  const _Example3();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ElConfig(
-      data: ElConfigData(elSize: ElSize.small),
-      child: Wrap(
-        spacing: 8,
-        children: [
-          ElTextButton(
-            padding: EdgeInsets.zero,
-            child: ElIcon(ElIcons.sHome),
-          ),
-          ElTextButton(
-            type: El.primary,
-            padding: EdgeInsets.zero,
-            child: ElIcon(ElIcons.share),
-          ),
-          ElTextButton(
-            type: El.success,
-            padding: EdgeInsets.zero,
-            child: ElIcon(ElIcons.editOutline),
-          ),
-          ElTextButton(
-            type: El.warning,
-            padding: EdgeInsets.zero,
-            child: ElIcon(ElIcons.warning),
-          ),
-          ElTextButton(
-            type: El.error,
-            padding: EdgeInsets.zero,
-            child: ElIcon(ElIcons.delete),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 String get code => '''
 class _Example extends StatelessWidget {
   const _Example();

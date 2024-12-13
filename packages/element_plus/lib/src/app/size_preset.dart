@@ -1,50 +1,23 @@
 part of 'index.dart';
 
-/// [ElSize] 序列化
-class ElSizeSerialize implements ElSerialize<ElSize> {
-  const ElSizeSerialize();
+/// 指定小部件应用的尺寸预设
+class ElSize extends InheritedWidget {
+  const ElSize(
+    this.size, {
+    super.key,
+    required super.child,
+  });
+
+  final String size;
+
+  static ElSize of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ElSize>()!;
 
   @override
-  String? serialize(ElSize? obj) => obj!.index.toString();
-
-  @override
-  ElSize? deserialize(String? str) {
-    if (str == null) return null;
-    switch (int.parse(str)) {
-      case 0:
-        return ElSize.mini;
-      case 1:
-        return ElSize.small;
-      case 2:
-        return ElSize.medium;
-      case 3:
-        return ElSize.large;
-      case 4:
-        return ElSize.xLarge;
-    }
-    return null;
-  }
+  bool updateShouldNotify(ElSize oldWidget) => size != oldWidget.size;
 }
 
-/// Element UI 所有组件预设尺寸枚举类
-enum ElSize {
-  /// 极小尺寸
-  mini,
-
-  /// 小尺寸
-  small,
-
-  /// 中等尺寸（默认）
-  medium,
-
-  /// 大尺寸
-  large,
-
-  /// 超大尺寸
-  xLarge,
-}
-
-/// [ElApp] 注入的全局尺寸预设
+/// 全局尺寸预设对象，你可以通过 [el] 全局服务变量访问
 class ElSizePreset {
   const ElSizePreset({
     this.common = const ElCommonSizePreset(),
@@ -77,22 +50,24 @@ abstract class ElComponentSizePreset<S> {
   /// 通过当前上下文 context 获取 [ElConfig] 注入的 [ElSize] 配置，然后遍历枚举获取目标组件尺寸预设。
   S apply(BuildContext context) {
     late S sizePreset;
-    switch (context.elConfig.elSize!) {
-      case ElSize.mini:
+    switch (context.elSize) {
+      case El.mini:
         sizePreset = mini;
         break;
-      case ElSize.small:
+      case El.small:
         sizePreset = small;
         break;
-      case ElSize.medium:
+      case El.medium:
         sizePreset = medium;
         break;
-      case ElSize.large:
+      case El.large:
         sizePreset = large;
         break;
-      case ElSize.xLarge:
+      case El.xLarge:
         sizePreset = xLarge;
         break;
+      default:
+        sizePreset = medium;
     }
     final textScaler = MediaQuery.textScalerOf(context);
     if (textScaler == TextScaler.noScaling) return sizePreset;
@@ -100,25 +75,18 @@ abstract class ElComponentSizePreset<S> {
   }
 }
 
-/// 通用属性尺寸预设，你可以继承它重写预设尺寸方法，例如：
-/// ```dart
-/// ElSizePreset elSizePreset = ElSizePreset(
-///   common: _CommonSizePreset(),
-/// );
-///
-/// class _CommonSizePreset extends ElCommonSizePreset {
-///   @override
-///   ElCommonSizePreset get mini => const ElCommonSizePreset();
-/// }
-/// ```
-///
-/// 然后将 elSizePreset 自定义预设传递给 [ElApp] 即可。
+/// 通用属性尺寸预设。
 ///
 /// 注意：属性设置 ? 可选符号是为了 [ElSizePreset] 能够直接通过构造器创建对象，
 /// 组件的具体尺寸由不同 size 预设提供，在返回不同 size 预设对象时你不能对任意一个属性设置为 null。
 class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
-  /// 全局默认的文本大小
-  final double? fontSize;
+  /// 全局文本缩放因子，默认缩放因子以 16 像素为基准，分别计算的全局字体尺寸如下：
+  /// * mini     12      (0.75)
+  /// * small    14      (0.875)
+  /// * medium   16      (1.0)
+  /// * large    18      (1.125)
+  /// * xLarge   20      (1.25)
+  final double? fontScale;
 
   /// 全局默认的图标大小
   final double? iconSize;
@@ -130,7 +98,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
   final BorderRadius? cardRadius;
 
   const ElCommonSizePreset({
-    this.fontSize,
+    this.fontScale,
     this.iconSize,
     this.radius,
     this.cardRadius,
@@ -138,7 +106,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 
   @override
   ElCommonSizePreset get mini => const ElCommonSizePreset(
-        fontSize: 12,
+        fontScale: 0.75,
         iconSize: 14,
         radius: BorderRadius.all(Radius.circular(3)),
         cardRadius: BorderRadius.all(Radius.circular(5)),
@@ -146,7 +114,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 
   @override
   ElCommonSizePreset get small => const ElCommonSizePreset(
-        fontSize: 14,
+        fontScale: 0.875,
         iconSize: 16,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
@@ -154,7 +122,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 
   @override
   ElCommonSizePreset get medium => const ElCommonSizePreset(
-        fontSize: 15,
+        fontScale: 1.0,
         iconSize: 18,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
@@ -162,7 +130,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 
   @override
   ElCommonSizePreset get large => const ElCommonSizePreset(
-        fontSize: 16,
+        fontScale: 1.125,
         iconSize: 20,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
@@ -170,7 +138,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 
   @override
   ElCommonSizePreset get xLarge => const ElCommonSizePreset(
-        fontSize: 18,
+        fontScale: 1.25,
         iconSize: 24,
         radius: BorderRadius.all(Radius.circular(6)),
         cardRadius: BorderRadius.all(Radius.circular(8)),
@@ -179,7 +147,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
   @override
   ElCommonSizePreset applyTextScaler(textScaler, data) {
     return ElCommonSizePreset(
-      fontSize: data.fontSize,
+      fontScale: data.fontScale,
       iconSize: textScaler.scale(data.iconSize!),
       radius: BorderRadius.only(
         topLeft: Radius.elliptical(

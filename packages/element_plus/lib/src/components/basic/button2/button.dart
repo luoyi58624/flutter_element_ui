@@ -305,7 +305,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   @override
   Widget build(BuildContext context) {
     commonSizePreset = context.commonSizePreset;
-    buttonSizePreset = context.elSizePreset.button.apply(context);
+    buttonSizePreset = el.sizePreset.button.apply(context);
     _triggerLoadingBuilder = loadingBuilder != null && widget.loading;
     cursor = widget.loading
         ? MouseCursor.defer
@@ -332,7 +332,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
             curve: textCurve,
             textStyle: TextStyle(
               color: colorRecord.textColor,
-              fontSize: commonSizePreset.fontSize,
+              fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
             iconThemeData: ElIconThemeData(

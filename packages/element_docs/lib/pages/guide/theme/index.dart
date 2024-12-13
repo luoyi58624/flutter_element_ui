@@ -48,22 +48,8 @@ class _ChildPage extends StatelessWidget {
           }),
         ],
       ),
-      body: Column(
-        children: [
-          ElText(
-            context.elTheme.textTheme.textStyle.fontSize,
-            style: TextStyle(fontSize: 1.rem),
-          ),
-          ObsBuilder(builder: (context) {
-            return Slider(
-              min: 8,
-              max: 36,
-              label: GlobalState.globalFontSize.toStringAsFixed(2).toString(),
-              value: GlobalState.globalFontSize,
-              onChanged: (v) => GlobalState.globalFontSize = v,
-            );
-          }),
-        ],
+      body: const Column(
+        children: [],
       ),
     );
   }

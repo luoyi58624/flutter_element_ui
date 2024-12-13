@@ -100,7 +100,7 @@ class SlideWidget extends StatelessWidget {
                                           ? context.elTheme.primary
                                           : context.elTheme.textTheme.textStyle
                                               .color,
-                                      fontSize: 0.875.rem,
+                                      fontSize: 14,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),

@@ -39,7 +39,7 @@ class Example2 extends StatelessWidget {
         textGap,
         ElIconTheme(
           data: ElIconThemeData(
-            size: 1.8.rem,
+            size: 28,
             color: context.elTheme.iconTheme.color,
           ),
           child: GridWidget(

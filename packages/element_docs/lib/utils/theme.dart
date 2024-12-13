@@ -53,7 +53,6 @@ class ThemeUtil {
           : GlobalState.primaryColor.value,
       textTheme: data.textTheme.copyWith(
         textStyle: ElFont.defaultTextStyle.copyWith(
-          fontSize: GlobalState.globalFontSize,
           fontWeight: FontWeight.w400,
         ),
       ),

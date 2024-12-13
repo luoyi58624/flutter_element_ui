@@ -1,5 +1,6 @@
 import 'package:element_plus/src/global.dart';
 import 'package:element_storage/element_storage.dart';
+import 'package:flutter/cupertino.dart';
 
 import './services/anchor.dart';
 import './services/cursor.dart';
@@ -7,9 +8,9 @@ import './services/router.dart';
 import 'components/feedback/message/index.dart';
 import 'components/feedback/toast/index.dart';
 
-/// Element UI 全局服务对象实例
 El? _el;
 
+/// Element UI 全局服务对象实例
 El get el {
   assert(_el != null, 'el 全局变量还未初始化，请在 main 函数中执行 El.init() 方法');
   return _el!;
@@ -22,11 +23,19 @@ El get el {
 class El with AnchorService, RouterService, CursorService {
   El._();
 
+  // 主题颜色常量字符串，不使用枚举是因为命名太长了，例如：ElThemeType.primary
   static const String primary = 'primary';
   static const String success = 'success';
   static const String info = 'info';
   static const String warning = 'warning';
   static const String error = 'error';
+
+  // 全局尺寸预设字符串
+  static const String mini = 'mini';
+  static const String small = 'small';
+  static const String medium = 'medium';
+  static const String large = 'large';
+  static const String xLarge = 'xLarge';
 
   /// Element UI 主题状态类型集合，只包含：[success]、[info]、[warning]、[error]、
   static const List<String> themeStatusTypes = [success, info, warning, error];
@@ -43,6 +52,23 @@ class El with AnchorService, RouterService, CursorService {
       await LocalObs.initStorage();
     }
   }
+
+  /// Element UI 组件全局尺寸预设，如果你需要调整默认的尺寸配置，只需要在构建 ElApp 前对此变量赋值即可：
+  /// ```dart
+  /// ElSizePreset mySizePreset = ElSizePreset(
+  ///   common: _CommonSizePreset(),
+  /// );
+  ///
+  /// class _CommonSizePreset extends ElCommonSizePreset {
+  ///   @override
+  ///   ElCommonSizePreset get mini => const ElCommonSizePreset();
+  /// }
+  ///
+  /// el.sizePreset = mySizePreset;
+  /// ```
+  ///
+  /// 提示：[ElSizePreset] 没有必要通过 [InheritedWidget] 注入，因为它不需要在运行时改变状态。
+  ElSizePreset sizePreset = const ElSizePreset();
 
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
   ElMessageService message = ElMessageService();

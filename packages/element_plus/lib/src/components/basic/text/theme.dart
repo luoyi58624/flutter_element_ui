@@ -6,29 +6,37 @@ class ElTextThemeData {
   static const theme = ElTextThemeData(
     textStyle: TextStyle(
       color: Color(0xff323232),
+      fontSize: 16,
     ),
     regularStyle: TextStyle(
       color: Color(0xff606266),
+      fontSize: 15,
     ),
     secondaryStyle: TextStyle(
       color: Color(0xff909399),
+      fontSize: 14,
     ),
     placeholderStyle: TextStyle(
       color: Color(0xffA8ABB2),
+      fontSize: 12,
     ),
   );
   static const darkTheme = ElTextThemeData(
     textStyle: TextStyle(
       color: Color(0xfff2f2f2),
+      fontSize: 16,
     ),
     regularStyle: TextStyle(
       color: Color(0xffCFD3DC),
+      fontSize: 15,
     ),
     secondaryStyle: TextStyle(
       color: Color(0xffA3A6AD),
+      fontSize: 14,
     ),
     placeholderStyle: TextStyle(
       color: Color(0xff8D9095),
+      fontSize: 12,
     ),
   );
 

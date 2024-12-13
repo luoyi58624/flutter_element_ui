@@ -146,19 +146,14 @@ class Example1 extends StatelessWidget {
                 ),
                 child: ElDefaultTextStyle(
                   style: TextStyle(
-                    fontSize: 0.875.rem,
+                    fontSize: 14,
                     color: context.elTheme.primary.elTextColor(context),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ElText(
-                        'Primary Color',
-                        style: TextStyle(
-                          fontSize: 1.rem,
-                        ),
-                      ),
+                      const ElText('Primary Color'),
                       const Gap(4),
                       Row(
                         children: [

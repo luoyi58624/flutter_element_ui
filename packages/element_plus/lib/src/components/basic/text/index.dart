@@ -80,6 +80,14 @@ class ElText extends StatelessWidget {
     final defaultStyle = ElDefaultTextStyle.of(context);
     var $style = defaultStyle.style.merge(style);
 
+    final fontDetail = context.commonSizePreset.fontScale;
+    if (fontDetail != 1.0) {
+      final fontSize = $style.fontSize ?? 15;
+      $style = $style.copyWith(
+        fontSize: fontSize * context.commonSizePreset.fontScale!,
+      );
+    }
+
     // 同步 Text 小部件的加粗文本逻辑
     if (MediaQuery.boldTextOf(context)) {
       $style.copyWith(fontWeight: FontWeight.bold);

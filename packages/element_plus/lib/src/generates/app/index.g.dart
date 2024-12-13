@@ -296,12 +296,10 @@ extension ElConfigDataExtension on ElConfigData {
   /// 接收一组可选参数，返回新的对象
   ElConfigData copyWith({
     double? size,
-    ElSize? elSize,
     double? borderWidth,
   }) {
     return ElConfigData(
       size: size ?? this.size,
-      elSize: elSize ?? this.elSize,
       borderWidth: borderWidth ?? this.borderWidth,
     );
   }
@@ -311,7 +309,6 @@ extension ElConfigDataExtension on ElConfigData {
     if (other == null) return this;
     return copyWith(
       size: other.size,
-      elSize: other.elSize,
       borderWidth: other.borderWidth,
     );
   }
@@ -322,9 +319,8 @@ extension ElConfigDataExtension on ElConfigData {
       other is ElConfigData &&
           runtimeType == other.runtimeType &&
           size == other.size &&
-          elSize == other.elSize &&
           borderWidth == other.borderWidth;
 
   /// 生成 hashCode 方法
-  int get _hashCode => size.hashCode ^ elSize.hashCode ^ borderWidth.hashCode;
+  int get _hashCode => size.hashCode ^ borderWidth.hashCode;
 }

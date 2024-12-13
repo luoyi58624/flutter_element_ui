@@ -4,22 +4,17 @@ part of 'index.dart';
 class ElConfigData {
   static const ElConfigData globalData = ElConfigData(
     size: 36,
-    elSize: ElSize.medium,
     borderWidth: 1.0,
   );
 
   /// Element UI 通用配置
   const ElConfigData({
     this.size,
-    this.elSize,
     this.borderWidth,
   });
 
   /// 基础控件尺寸，例如：按钮、输入框
   final double? size;
-
-  /// 配置组件预设尺寸
-  final ElSize? elSize;
 
   /// 基础控件默认边框尺寸
   final double? borderWidth;
