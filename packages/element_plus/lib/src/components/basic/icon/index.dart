@@ -23,10 +23,9 @@ class ElIcon extends Icon {
 
   @override
   Widget build(BuildContext context) {
-    final commonSizePreset = context.commonSizePreset;
     final $theme = ElIconTheme.of(context);
     final $icon = child ?? $theme.icon;
-    final $size = size ?? $theme.size ?? commonSizePreset.iconSize!;
+    final $size = size ?? $theme.size ?? 18;
     final $color = color ?? $theme.color;
     if ($icon is IconData) {
       return Icon($icon, size: $size, color: $color);

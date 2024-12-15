@@ -82,7 +82,7 @@ class _PreviewButton extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final doubleOffset = 80.0.elFontScale(context);
+    const doubleOffset = 80.0;
     final controller = useAnimationController(
       duration: 250.ms,
     );

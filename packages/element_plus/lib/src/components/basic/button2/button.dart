@@ -128,8 +128,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   /// 自定义 loading 构造器
   WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
 
-  /// 图标尺寸，默认值为全局图标尺寸 - 2
-  double get iconSize => widget.iconSize ?? commonSizePreset.iconSize! - 2;
+  /// 图标尺寸
+  double get iconSize => widget.iconSize ?? buttonSizePreset.fontSize!;
 
   /// 是否是单纯的图标按钮
   bool get isIconChild => widget.child is Icon;
@@ -332,7 +332,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
             curve: textCurve,
             textStyle: TextStyle(
               color: colorRecord.textColor,
-              fontSize: 15,
+              fontSize: buttonSizePreset.fontSize,
               fontWeight: FontWeight.w500,
             ),
             iconThemeData: ElIconThemeData(

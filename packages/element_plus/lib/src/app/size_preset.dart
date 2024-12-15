@@ -80,17 +80,6 @@ abstract class ElComponentSizePreset<S> {
 /// 注意：属性设置 ? 可选符号是为了 [ElSizePreset] 能够直接通过构造器创建对象，
 /// 组件的具体尺寸由不同 size 预设提供，在返回不同 size 预设对象时你不能对任意一个属性设置为 null。
 class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
-  /// 全局文本缩放因子，默认缩放因子以 16 像素为基准，分别计算的全局字体尺寸如下：
-  /// * mini     12      (0.75)
-  /// * small    14      (0.875)
-  /// * medium   16      (1.0)
-  /// * large    18      (1.125)
-  /// * xLarge   20      (1.25)
-  final double? fontScale;
-
-  /// 全局默认的图标大小
-  final double? iconSize;
-
   /// 基础控件的全局圆角值，例如：Button、Input
   final BorderRadius? radius;
 
@@ -98,48 +87,36 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
   final BorderRadius? cardRadius;
 
   const ElCommonSizePreset({
-    this.fontScale,
-    this.iconSize,
     this.radius,
     this.cardRadius,
   });
 
   @override
   ElCommonSizePreset get mini => const ElCommonSizePreset(
-        fontScale: 0.75,
-        iconSize: 14,
         radius: BorderRadius.all(Radius.circular(3)),
         cardRadius: BorderRadius.all(Radius.circular(5)),
       );
 
   @override
   ElCommonSizePreset get small => const ElCommonSizePreset(
-        fontScale: 0.875,
-        iconSize: 16,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
       );
 
   @override
   ElCommonSizePreset get medium => const ElCommonSizePreset(
-        fontScale: 1.0,
-        iconSize: 18,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
       );
 
   @override
   ElCommonSizePreset get large => const ElCommonSizePreset(
-        fontScale: 1.125,
-        iconSize: 20,
         radius: BorderRadius.all(Radius.circular(4)),
         cardRadius: BorderRadius.all(Radius.circular(6)),
       );
 
   @override
   ElCommonSizePreset get xLarge => const ElCommonSizePreset(
-        fontScale: 1.25,
-        iconSize: 24,
         radius: BorderRadius.all(Radius.circular(6)),
         cardRadius: BorderRadius.all(Radius.circular(8)),
       );
@@ -147,8 +124,6 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
   @override
   ElCommonSizePreset applyTextScaler(textScaler, data) {
     return ElCommonSizePreset(
-      fontScale: data.fontScale,
-      iconSize: textScaler.scale(data.iconSize!),
       radius: BorderRadius.only(
         topLeft: Radius.elliptical(
           textScaler.scale(data.radius!.topLeft.x),
@@ -193,37 +168,40 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
 class ElButtonSizePreset extends ElComponentSizePreset<ElButtonSizePreset> {
   final double? width;
   final double? height;
+  final double? fontSize;
 
   const ElButtonSizePreset({
     this.width,
     this.height,
+    this.fontSize,
   });
 
   @override
   ElButtonSizePreset get mini =>
-      const ElButtonSizePreset(width: 48, height: 24);
+      const ElButtonSizePreset(width: 48, height: 28, fontSize: 12);
 
   @override
   ElButtonSizePreset get small =>
-      const ElButtonSizePreset(width: 56, height: 32);
+      const ElButtonSizePreset(width: 56, height: 32, fontSize: 14);
 
   @override
   ElButtonSizePreset get medium =>
-      const ElButtonSizePreset(width: 64, height: 36);
+      const ElButtonSizePreset(width: 64, height: 36, fontSize: 15);
 
   @override
   ElButtonSizePreset get large =>
-      const ElButtonSizePreset(width: 72, height: 40);
+      const ElButtonSizePreset(width: 72, height: 40, fontSize: 16);
 
   @override
   ElButtonSizePreset get xLarge =>
-      const ElButtonSizePreset(width: 80, height: 46);
+      const ElButtonSizePreset(width: 80, height: 46, fontSize: 18);
 
   @override
   ElButtonSizePreset applyTextScaler(textScaler, data) {
     return ElButtonSizePreset(
       width: textScaler.scale(data.width!),
       height: textScaler.scale(data.height!),
+      fontSize: data.fontSize,
     );
   }
 }
