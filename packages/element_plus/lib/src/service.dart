@@ -16,14 +16,11 @@ El get el {
   return _el!;
 }
 
-/// Element UI 全局服务。
-///
-/// 注意：只有 const 常量才使用静态修饰符，这样做的目的是让所有地方都能直接使用，
-/// 例如在函数参数中作为默认值。
+/// Element UI 全局服务类
 class El with AnchorService, RouterService, CursorService {
   El._();
 
-  // 主题颜色常量字符串，不使用枚举是因为命名太长了，例如：ElThemeType.primary
+  // 主题颜色常量字符串，之所以不使用枚举是因为枚举类名太长了，例如：ElThemeType.primary -> El.primary
   static const String primary = 'primary';
   static const String success = 'success';
   static const String info = 'info';

@@ -16,7 +16,7 @@ class Example8 extends StatelessWidget {
         SectionTitle(title),
         const SectionCard(
           title: 'Tip',
-          content: ['你可以通过 ElConfig 小部件强制指定局部组件应用的尺寸'],
+          content: ['Element UI 提供了 5 种预设尺寸样式，你可以通过嵌套 ElSize 小部件指定后代组件应用的尺寸'],
         ),
         textGap,
         CodeExample(
@@ -139,9 +139,8 @@ class _Example extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElConfig(
-      // 将按钮设置为 mini 尺寸
-      data: const ElConfigData(elSize: ElSize.mini),
+    return ElSize(
+      El.mini,
       child: Wrap(
         spacing: 8,
         children: [

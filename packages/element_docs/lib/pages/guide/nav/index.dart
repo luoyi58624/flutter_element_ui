@@ -14,6 +14,16 @@ class NavPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
+      const Row(
+        children: [
+          ElRing(
+            show: true,
+            offset: 8,
+            child: ElButton2(child: 'Hello'),
+          ),
+          ElText('Hello'),
+        ],
+      ),
       const Gap(50),
       ElButton(
         onPressed: () {

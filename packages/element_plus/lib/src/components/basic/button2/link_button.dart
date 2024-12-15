@@ -34,6 +34,7 @@ class ElLinkButton extends ElTextButton {
 }
 
 class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
+  /// 链接按钮不适合使用默认的 loading 加载器，使用自定义 loading 在外观上更好看一些
   @override
   WidgetBuilder? get loadingBuilder =>
       widget.loadingBuilder ?? ElLinkButton.defaultLoadingBuilder;
@@ -59,9 +60,9 @@ class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
     );
   }
 
-  // ==================================================================
-  // 链接按钮只需要构建文本
-  // ==================================================================
+  // =======================================================================
+  // 链接按钮只需要构建文本，所以在构建外观与内容方法上只需要返回 Text 小部件即可
+  // =======================================================================
 
   @override
   Widget buildButtonWrapper(BuildContext context, Widget child) {

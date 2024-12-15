@@ -1,4 +1,5 @@
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'button.dart';
@@ -13,12 +14,14 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   const _ElButtonGroupInheritedWidget({
     required super.child,
     required this.groupType,
+    required this.modelValue,
     required this.type,
     required this.axis,
     required this.onChanged,
   });
 
   final _ButtonGroupType groupType;
+  final dynamic modelValue;
   final String type;
   final Axis axis;
   final ValueChanged onChanged;
@@ -104,42 +107,12 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
   /// 按钮组分割线颜色，它的颜色会和按钮边框同步
   final _divideColor = Obs<Color?>(null);
 
-  /// 需要绘制分割线的按钮 key 列表，当构建完成按钮组后，会在下一帧通过这些 key 计算每个分割线的位置
-  List<GlobalKey> _childrenKeyList = [];
-
-  /// 按钮组分割线的偏移位置，分割线是通过 Stack 布局绘制上去的
-  final _dividePositionList = Obs<List<double>>([]);
-
   bool get _hasSelected => modelValue is List
       ? (modelValue as List).isNotEmpty
       : modelValue != null &&
           modelValue is int &&
           modelValue >= 0 &&
           modelValue <= widget.children.length - 1;
-
-  @override
-  void initState() {
-    super.initState();
-    _setChildrenKeyList(widget.children.length);
-  }
-
-  @override
-  void didUpdateWidget(covariant ElButtonGroup2 oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.children.length != oldWidget.children.length) {
-      _setChildrenKeyList(widget.children.length);
-    }
-  }
-
-  void _setChildrenKeyList(int length) {
-    if (length <= 1) {
-      _childrenKeyList.clear();
-    } else {
-      _childrenKeyList =
-          List.generate(widget.children.length - 1, (i) => GlobalKey())
-              .toList();
-    }
-  }
 
   /// 计算按钮组选中逻辑
   void _onChange(dynamic value) {
@@ -187,20 +160,6 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
     }
   }
 
-  /// 更新分割线的位置，只有当分割线位置明确发生变化时才更新它们
-  void _updateDivideOffset() {
-    nextTick(() {
-      List<double> $list = [];
-      for (int i = 0; i < _childrenKeyList.length; i++) {
-        final offset = _childrenKeyList[i].currentContext!.getPosition(context);
-        $list.add(widget.axis == Axis.horizontal ? offset.dx : offset.dy);
-      }
-      if (_dividePositionList.value.eq($list) == false) {
-        _dividePositionList.value = $list;
-      }
-    });
-  }
-
   @override
   Widget builder(BuildContext context) {
     List<Widget> $children = [];
@@ -214,19 +173,11 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
       );
 
       $children.add(itemWidget);
-    }
-
-    if ($length > 1) {
-      $children = [
-        $children.first,
-        ...$children.sublist(1).mapIndexed((i, e) {
-          return Builder(
-            key: _childrenKeyList[i],
-            builder: (context) => e,
-          );
-        }),
-      ];
-      _updateDivideOffset();
+      if (i < $length - 1) {
+        $children.add(
+          _GroupDivideWidget(axis: widget.axis),
+        );
+      }
     }
 
     late Widget result;
@@ -236,32 +187,37 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
         children: $children,
       );
     } else {
-      result = IntrinsicWidth(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: $children,
-        ),
+      result = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: $children,
       );
     }
 
     return _ElButtonGroupInheritedWidget(
       groupType: widget._type,
+      modelValue: modelValue,
       type: widget.type,
       axis: widget.axis,
       onChanged: _onChange,
-      child: Stack(
-        children: [
-          result,
-          // ..._childrenKeyList.mapIndexed(
-          //   (i, e) => _GroupDivide(
-          //     length: $length,
-          //     index: i,
-          //     hasSelected: _hasSelected,
-          //   ),
-          // ),
-        ],
-      ),
+      child: result,
     );
+  }
+}
+
+class _GroupDivideWidget extends StatelessWidget {
+  const _GroupDivideWidget({required this.axis});
+
+  final Axis axis;
+
+  @override
+  Widget build(BuildContext context) {
+    late Widget result;
+    if (axis == Axis.horizontal) {
+      result = const SizedBox(width: 0.1);
+    } else {
+      result = const SizedBox(height: 0.1);
+    }
+    return result;
   }
 }
 
@@ -282,19 +238,29 @@ class ElButtonGroupItem extends ElButton2 {
 class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
   late _ElButtonGroupInheritedWidget _groupWidget;
   late ElChildIndex _indexData;
-  late bool isHorizontal;
+  late bool _isHorizontal;
+  late bool _hasStatus; // 是否为有状态按钮组
+  bool _hasSelected = false; // 当前按钮是否被选中
 
   @override
   String? get type => _groupWidget.type;
 
-  // @override
-  // ElButtonColorRecord buildColorRecord(BuildContext context) {
-  //   return (
-  //     bgColor: themeBgColor,
-  //     textColor: themeBgColor.elTextColor(context),
-  //     borderColor: null,
-  //   );
-  // }
+  @override
+  ElButtonColorRecord buildColorRecord(BuildContext context) {
+    if (_hasStatus) {
+      return (
+        bgColor: _hasSelected ? themeBgColor : context.currentBgColor,
+        textColor: _hasSelected
+            ? themeBgColor.elTextColor(context)
+            : context.hasHover || context.hasTap
+                ? themeBgColor
+                : context.elTheme.textTheme.regularStyle.color,
+        borderColor: null,
+      );
+    } else {
+      return super.buildColorRecord(context);
+    }
+  }
 
   @override
   BorderRadius? get borderRadius {
@@ -304,14 +270,14 @@ class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
     if (_indexData.index == 0) {
       return BorderRadius.only(
         topLeft: borderRadius.topLeft,
-        topRight: !isHorizontal ? borderRadius.topLeft : Radius.zero,
-        bottomLeft: isHorizontal ? borderRadius.bottomLeft : Radius.zero,
+        topRight: !_isHorizontal ? borderRadius.topLeft : Radius.zero,
+        bottomLeft: _isHorizontal ? borderRadius.bottomLeft : Radius.zero,
       );
     }
     if (_indexData.index == _indexData.length! - 1) {
       return BorderRadius.only(
-        topRight: isHorizontal ? borderRadius.topRight : Radius.zero,
-        bottomLeft: !isHorizontal ? borderRadius.topLeft : Radius.zero,
+        topRight: _isHorizontal ? borderRadius.topRight : Radius.zero,
+        bottomLeft: !_isHorizontal ? borderRadius.topLeft : Radius.zero,
         bottomRight: borderRadius.bottomRight,
       );
     }
@@ -321,14 +287,69 @@ class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
 
   @override
   Border? get border {
-    if (_groupWidget.groupType == _ButtonGroupType.none) return null;
+    if (_hasStatus) {
+      final borderColor = _hasSelected
+          ? themeBgColor
+          : context.elTheme.layoutTheme.borderColor!;
+      final defaultBorder = Border.all(
+        color: borderColor,
+        width: 1.0,
+      );
+      if (_indexData.length == 1) return defaultBorder;
+      final borderSide = BorderSide(
+        color: borderColor,
+        width: 1.0,
+      );
+      if (_indexData.index == 0) {
+        return Border(
+          top: borderSide,
+          bottom: _isHorizontal ? borderSide : BorderSide.none,
+          left: borderSide,
+          right: !_isHorizontal ? borderSide : BorderSide.none,
+        );
+      }
+      if (_indexData.index == _indexData.length! - 1) {
+        return Border(
+          top: _isHorizontal ? borderSide : BorderSide.none,
+          bottom: borderSide,
+          left: !_isHorizontal ? borderSide : BorderSide.none,
+          right: borderSide,
+        );
+      }
+      return Border(
+        top: _isHorizontal ? borderSide : BorderSide.none,
+        bottom: _isHorizontal ? borderSide : BorderSide.none,
+        left: !_isHorizontal ? borderSide : BorderSide.none,
+        right: !_isHorizontal ? borderSide : BorderSide.none,
+      );
+    }
+    return null;
+  }
+
+  @override
+  void onPressed() {
+    _groupWidget.onChanged(_indexData.index);
+    super.onPressed();
   }
 
   @override
   Widget build(BuildContext context) {
     _groupWidget = _ElButtonGroupInheritedWidget.of(context);
     _indexData = ElChildIndex.of(context);
-    isHorizontal = _groupWidget.axis == Axis.horizontal;
+    _isHorizontal = _groupWidget.axis == Axis.horizontal;
+    _hasStatus = _groupWidget.groupType != _ButtonGroupType.none;
+
+    _hasSelected = false;
+    if (_groupWidget.modelValue != null) {
+      if (_groupWidget.modelValue is List) {
+        if (_groupWidget.modelValue.contains(_indexData.index)) {
+          _hasSelected = true;
+        }
+      } else if (_groupWidget.modelValue == _indexData.index) {
+        _hasSelected = true;
+      }
+    }
+
     return super.build(context);
   }
 }

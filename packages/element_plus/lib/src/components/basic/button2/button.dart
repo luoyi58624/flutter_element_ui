@@ -225,6 +225,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
 
   /// 根据之前计算好的颜色开始构建按钮 [BoxDecoration] 装饰对象，它会在 [buildButtonWrapper] 中执行
   BoxDecoration buildDecoration(BuildContext context) {
+    i(border);
     return BoxDecoration(
       color: colorRecord.bgColor,
       borderRadius: borderRadius,
@@ -302,6 +303,11 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     return result;
   }
 
+
+  void onPressed(){
+    widget.onPressed?.call();
+  }
+
   @override
   Widget build(BuildContext context) {
     commonSizePreset = context.commonSizePreset;
@@ -319,7 +325,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         cursor: cursor,
         canRequestFocus: !widget.disabled,
         tapUpDelay: decorationDuration.inMilliseconds,
-        onTap: widget.onPressed,
+        onTap: onPressed,
         builder: (context) {
           if (_triggerLoadingBuilder) {
             colorRecord = buildLoadingColorRecord(context);

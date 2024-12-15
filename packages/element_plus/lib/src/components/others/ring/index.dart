@@ -73,7 +73,7 @@ class _ElRingState extends State<ElRing> {
     );
   }
 
-  /// 我能力不够，计算圆角的准确度存在偏差
+  // 我能力不够，计算圆角的准确度依旧存在一点偏差
   double calcRadiusValue(double value) {
     if (themeData.offset == 0) {
       if (value == 0) {

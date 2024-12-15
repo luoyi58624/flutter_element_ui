@@ -20,6 +20,8 @@ class Example10 extends StatelessWidget {
             _Example(),
             Gap(8),
             _Example2(),
+            Gap(8),
+            _Example3(),
           ],
         ),
       ],
@@ -45,9 +47,28 @@ class _Example2 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = useState(-1);
+    final selectedIndex = useState(0);
     return ElButtonGroup2.single(
       selectedIndex,
+      type: El.success,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}
+
+class _Example3 extends HookWidget {
+  const _Example3();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      type: El.info,
       children: const [
         ElButtonGroupItem(child: '选项一'),
         ElButtonGroupItem(child: '选项二'),
