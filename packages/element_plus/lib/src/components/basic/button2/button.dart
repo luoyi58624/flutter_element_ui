@@ -352,17 +352,16 @@ class ElButton2State<T extends ElButton2> extends State<T> {
               color: colorRecord.textColor,
             ),
             child: Builder(builder: (context) {
-              Widget result = buildButtonWrapper(
-                context,
-                Opacity(
-                  opacity: _triggerLoadingBuilder ? 0 : 1,
-                  child: buildButtonContent(context),
-                ),
-              );
-              if (loadingBuilder != null && widget.loading) {
-                result = Stack(
+              Widget result = buildButtonContent(context);
+              if (_triggerLoadingBuilder == false) {
+                return buildButtonWrapper(context, result);
+              } else {
+                return Stack(
                   children: [
-                    result,
+                    buildButtonWrapper(
+                      context,
+                      Opacity(opacity: 0, child: result),
+                    ),
                     Positioned.fill(
                       child: Center(
                         child: loadingBuilder!(context),
@@ -371,7 +370,6 @@ class ElButton2State<T extends ElButton2> extends State<T> {
                   ],
                 );
               }
-              return result;
             }),
           );
         });
