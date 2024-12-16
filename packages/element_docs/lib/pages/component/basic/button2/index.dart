@@ -12,6 +12,8 @@ import 'examples/example7.dart';
 import 'examples/example8.dart';
 import 'examples/example9.dart';
 import 'examples/example10.dart';
+import 'examples/example11.dart';
+import 'examples/example12.dart';
 
 class ButtonPage2 extends ResponsivePage {
   const ButtonPage2({super.key});
@@ -37,6 +39,8 @@ class ButtonPage2 extends ResponsivePage {
       Example8(title: '自定义尺寸'),
       Example9(title: '自定义按钮'),
       Example10(title: '按钮组'),
+      Example11(title: '垂直按钮组'),
+      Example12(title: '分割按钮'),
     ];
   }
 }

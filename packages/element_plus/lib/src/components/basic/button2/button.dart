@@ -135,17 +135,19 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   bool get isIconChild => widget.child is Icon;
 
   /// 按钮最小高度
-  double get minHeight => widget.height ?? buttonSizePreset.height!;
+  double get minHeight => widget.height ?? commonSizePreset.size!;
 
   /// 按钮最小宽度
   double get minWidth =>
       widget.width ??
-      (isIconChild ? buttonSizePreset.height! * 1.25 : buttonSizePreset.width!);
+      (isIconChild
+          ? commonSizePreset.size! * 1.25
+          : buttonSizePreset.minWidth!);
 
   /// 按钮内边距
   EdgeInsets get padding =>
       widget.padding ??
-      EdgeInsets.symmetric(horizontal: buttonSizePreset.height! / 2);
+      EdgeInsets.symmetric(horizontal: commonSizePreset.size! / 2);
 
   /// 是否启用圆角按钮
   bool get round => widget.round;

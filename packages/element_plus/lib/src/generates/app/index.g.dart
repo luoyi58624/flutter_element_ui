@@ -325,6 +325,34 @@ extension ElConfigDataExtension on ElConfigData {
   int get _hashCode => size.hashCode ^ borderWidth.hashCode;
 }
 
+extension ElCommonSizePresetExtension on ElCommonSizePreset {
+  /// 接收一组可选参数，返回新的对象
+  ElCommonSizePreset copyWith({
+    double? size,
+    double? borderWidth,
+    BorderRadius? radius,
+    BorderRadius? cardRadius,
+  }) {
+    return ElCommonSizePreset(
+      size: size ?? this.size,
+      borderWidth: borderWidth ?? this.borderWidth,
+      radius: radius ?? this.radius,
+      cardRadius: cardRadius ?? this.cardRadius,
+    );
+  }
+
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
+  ElCommonSizePreset merge([ElCommonSizePreset? other]) {
+    if (other == null) return this;
+    return copyWith(
+      size: other.size,
+      borderWidth: other.borderWidth,
+      radius: other.radius,
+      cardRadius: other.cardRadius,
+    );
+  }
+}
+
 extension ElResponsiveDataExtension on ElResponsiveData {
   /// 接收一组可选参数，返回新的对象
   ElResponsiveData copyWith({

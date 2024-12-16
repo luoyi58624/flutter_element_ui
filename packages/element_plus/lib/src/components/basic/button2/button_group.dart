@@ -1,6 +1,5 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'button.dart';
 
@@ -162,6 +161,20 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
     }
   }
 
+  /// 更新分割线的位置，只有当分割线位置明确发生变化时才更新它们
+  void _updateDivideOffset() {
+    nextTick(() {
+      List<double> $list = [];
+      for (int i = 0; i < _childrenKeyList.length; i++) {
+        final offset = _childrenKeyList[i].currentContext!.getPosition(context);
+        $list.add(widget.axis == Axis.horizontal ? offset.dx : offset.dy);
+      }
+      if (_dividePositionList.value.eq($list) == false) {
+        _dividePositionList.value = $list;
+      }
+    });
+  }
+
   /// 计算按钮组选中逻辑
   void _onChange(dynamic value) {
     if (widget._type == _ButtonGroupType.none) return;
@@ -208,22 +221,9 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
     }
   }
 
-  /// 更新分割线的位置，只有当分割线位置明确发生变化时才更新它们
-  void _updateDivideOffset() {
-    nextTick(() {
-      List<double> $list = [];
-      for (int i = 0; i < _childrenKeyList.length; i++) {
-        final offset = _childrenKeyList[i].currentContext!.getPosition(context);
-        $list.add(widget.axis == Axis.horizontal ? offset.dx : offset.dy);
-      }
-      if (_dividePositionList.value.eq($list) == false) {
-        _dividePositionList.value = $list;
-      }
-    });
-  }
-
   @override
   Widget builder(BuildContext context) {
+    ElSize.of(context);
     List<Widget> $children = [];
 
     int $length = widget.children.length;
@@ -288,62 +288,6 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
   }
 }
 
-// class _GroupWidget extends StatelessWidget {
-//   const _GroupWidget({required this.children});
-//
-//   /// 按钮组子项集合
-//   final List<ElButtonGroupItem> children;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     List<Widget> $children = [];
-//
-//     int $length = children.length;
-//     for (int i = 0; i < $length; i++) {
-//       Widget itemWidget = ElChildIndex(
-//         length: $length,
-//         index: i,
-//         child: children[i],
-//       );
-//
-//       $children.add(itemWidget);
-//       if (i < $length - 1) {
-//         $children.add(
-//           const _GroupDivideWidget(axis: Axis.horizontal),
-//         );
-//       }
-//     }
-//     return CustomMultiChildLayout(
-//       delegate: _LayoutDelegate(length: $children.length),
-//       children: $children
-//           .mapIndexed(
-//             (index, child) => LayoutId(id: index, child: child),
-//           )
-//           .toList(),
-//     );
-//   }
-// }
-//
-// class _LayoutDelegate extends MultiChildLayoutDelegate {
-//   final int length;
-//
-//   _LayoutDelegate({required this.length});
-//
-//   @override
-//   void performLayout(Size size) {
-//     double offset = 0;
-//     if (length == 0) return;
-//     for (int i = 0; i < length; i++) {
-//       final currentSize = layoutChild(i, const BoxConstraints());
-//       positionChild(i, Offset(offset, 0));
-//       offset += currentSize.width;
-//     }
-//   }
-//
-//   @override
-//   bool shouldRelayout(covariant MultiChildLayoutDelegate oldDelegate) => true;
-// }
-
 /// 按钮组分割线
 class _GroupDivide extends StatelessWidget {
   const _GroupDivide({
@@ -397,12 +341,12 @@ class _GroupDivide extends StatelessWidget {
       final $modelValue = $groupData.modelValue;
 
       if ($groupData.groupType == _ButtonGroupType.none) {
-        $borderSize = 0.28;
-        $borderColor = Colors.white;
+        $borderSize = context.commonSizePreset.borderWidth!;
+        $borderColor = bgColor.mix(Colors.white, 50);
       } else {
         // 判断多选主题类型按钮组 selected 是否相邻，需要在中间绘制比较显眼的分割线
         bool isUnionBorder = false;
-        $borderSize = 1.0;
+        $borderSize = context.commonSizePreset.borderWidth!;
         $borderColor = context.elTheme.layoutTheme.borderColor!;
 
         if (hasSelected) {
@@ -439,7 +383,8 @@ class _GroupDivide extends StatelessWidget {
         height: isHorizontal ? null : $borderSize,
       );
 
-      result = ColoredBox(
+      result = AnimatedColoredBox(
+        duration: context.elDuration(const Duration(milliseconds: 80)),
         color: $borderColor,
         child: result,
       );
@@ -462,7 +407,6 @@ class ElButtonGroupItem extends ElButton2 {
   const ElButtonGroupItem({
     super.key,
     required super.child,
-    super.autofocus,
     super.disabled,
     super.onPressed,
   });
@@ -480,6 +424,12 @@ class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
 
   @override
   String? get type => _groupWidget.type;
+
+  @override
+  Color? get bgColor => _groupWidget.bgColor;
+
+  @override
+  EdgeInsets get padding => isIconChild ? EdgeInsets.zero : super.padding;
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {
@@ -527,14 +477,15 @@ class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
       final borderColor = _hasSelected
           ? themeBgColor
           : context.elTheme.layoutTheme.borderColor!;
+      final borderWidth = commonSizePreset.borderWidth!;
       final defaultBorder = Border.all(
         color: borderColor,
-        width: 1.0,
+        width: borderWidth,
       );
       if (_indexData.length == 1) return defaultBorder;
       final borderSide = BorderSide(
         color: borderColor,
-        width: 1.0,
+        width: borderWidth,
       );
       if (_indexData.index == 0) {
         return Border(

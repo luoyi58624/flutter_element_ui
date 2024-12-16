@@ -50,8 +50,9 @@ class El with AnchorService, RouterService, CursorService {
     }
   }
 
-  /// Element UI 组件全局尺寸预设，此对象没有必要通过 [InheritedWidget] 注入，因为尺寸预设不需要在运行时改变状态（通知 UI），
-  /// 它应当在编译前就直接确定，当需要调整默认的尺寸配置时，只需要对此变量赋值即可：
+  /// Element UI 组件全局尺寸预设，此对象没有必要通过 [InheritedWidget] 注入，因为尺寸预设的实现和使用都比较复杂，
+  /// 所以它很少需要在运行时改变状态（通知 UI），在绝大多数情况下尺寸预设会在编译前就直接确定，
+  /// 当需要覆写默认配置时，只需要在构建 ElApp 之前对此变量进行赋值即可：
   /// ```dart
   /// ElSizePreset mySizePreset = ElSizePreset(
   ///   common: _CommonSizePreset(),

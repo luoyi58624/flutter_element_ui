@@ -10,7 +10,7 @@ class ElOutlineButton extends ElButton2 {
     required super.child,
     this.plain = true,
     this.onlyActiveBorder = false,
-    this.borderWidth = 1.0,
+    this.borderWidth,
     super.type,
     super.width,
     super.height,
@@ -33,7 +33,7 @@ class ElOutlineButton extends ElButton2 {
   final bool onlyActiveBorder;
 
   /// 自定义边框宽度
-  final double borderWidth;
+  final double? borderWidth;
 
   @override
   State<ElButton2> createState() => _ElOutlineButtonState();
@@ -51,7 +51,7 @@ class _ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
 
   @override
   Border? get border => Border.all(
-        width: widget.borderWidth,
+        width: widget.borderWidth ?? commonSizePreset.borderWidth!,
         color: colorRecord.borderColor!,
       );
 

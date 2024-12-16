@@ -18,7 +18,8 @@ class Example9 extends StatelessWidget {
           title: 'Tip',
           content: [
             'ElButton 所提供的参数不可能覆盖全部场景，但你可以通过继承 ElButton 实现更复杂的按钮，'
-                '下面这个例子便是通过继承 ElButton 实现渐变按钮，像 ElOutlineButton、ElTextButton、ElLinkButton 等按钮都是通过继承 ElButton 进行实现'
+                '下面这个示例是以最简单的方式实现渐变按钮，更多交互你可以查看 ElOutlineButton、ElTextButton、ElLinkButton 源码实现，'
+                '它们都是通过继承 ElButton 实现的。'
           ],
         ),
         textGap,
@@ -55,8 +56,7 @@ class _CustomButtonState extends ElButton2State<CustomButton> {
     );
   }
 
-  /// ElButton 专门暴露 BoxDecoration 对象允许用户对按钮外观进行完全自定义，
-  /// BoxDecoration 允许用户创建普通颜色、渐变颜色、边框、边框圆角等容器外观配置
+  /// ElButton 专门暴露 BoxDecoration 对象允许用户对按钮外观进行完全自定义
   @override
   BoxDecoration buildDecoration(BuildContext context) {
     return BoxDecoration(
@@ -147,8 +147,7 @@ class _CustomButtonState extends ElButton2State<CustomButton> {
     );
   }
 
-  /// ElButton 专门暴露 BoxDecoration 对象允许用户对按钮外观进行完全自定义，
-  /// BoxDecoration 允许用户创建普通颜色、渐变颜色、边框、边框圆角等容器外观配置
+  /// ElButton 专门暴露 BoxDecoration 对象允许用户对按钮外观进行完全自定义
   @override
   BoxDecoration buildDecoration(BuildContext context) {
     return BoxDecoration(

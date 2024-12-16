@@ -22,6 +22,8 @@ class Example10 extends StatelessWidget {
             _Example2(),
             Gap(8),
             _Example3(),
+            Gap(8),
+            _Example4(),
           ],
         ),
       ],
@@ -29,6 +31,7 @@ class Example10 extends StatelessWidget {
   }
 }
 
+/// 普通按钮组示例
 class _Example extends HookWidget {
   const _Example();
 
@@ -42,6 +45,7 @@ class _Example extends HookWidget {
   }
 }
 
+/// 单选按钮组示例
 class _Example2 extends HookWidget {
   const _Example2();
 
@@ -60,6 +64,7 @@ class _Example2 extends HookWidget {
   }
 }
 
+/// 多选按钮组示例
 class _Example3 extends HookWidget {
   const _Example3();
 
@@ -78,105 +83,93 @@ class _Example3 extends HookWidget {
   }
 }
 
-String get code => '''
-class _Example extends HookWidget {
-  const _Example();
+/// 自定义颜色
+class _Example4 extends HookWidget {
+  const _Example4();
 
   @override
   Widget build(BuildContext context) {
-    final count = useState(0);
-    final loading = useState(false);
-    openLoading() {
-      loading.value = true;
-      setTimeout(() {
-        loading.value = false;
-      }, 1000);
-    }
-
-    return Row(
-      spacing: 8,
-      children: [
-        CustomButton(
-          onPressed: openLoading,
-          loading: loading.value,
-          child: '开启 loading',
-        ),
-        CustomButton(
-          onPressed: () {
-            count.value++;
-          },
-          child: 'count: \${count.value}',
-        ),
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      bgColor: Colors.purple,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
       ],
     );
   }
 }
 
-class CustomButton extends ElButton2 {
-  const CustomButton({
-    super.key,
-    required super.child,
-    super.loading,
-    super.onPressed,
-  });
+String get code => '''
+/// 普通按钮组示例
+class _Example extends HookWidget {
+  const _Example();
 
   @override
-  State<CustomButton> createState() => _CustomButtonState();
+  Widget build(BuildContext context) {
+    return const ElButtonGroup2(children: [
+      ElButtonGroupItem(child: '选项一'),
+      ElButtonGroupItem(child: '选项二'),
+      ElButtonGroupItem(child: '选项三'),
+    ]);
+  }
 }
 
-class _CustomButtonState extends ElButton2State<CustomButton> {
-  @override
-  Duration get decorationDuration => const Duration(milliseconds: 200);
+/// 单选按钮组示例
+class _Example2 extends HookWidget {
+  const _Example2();
 
   @override
-  Curve get decorationCurve => Curves.easeOut;
-
-  /// 使用自定义 loading 构造器，这里使用链接按钮默认的 loading
-  @override
-  WidgetBuilder? get loadingBuilder => ElLinkButton.defaultLoadingBuilder;
-
-  /// 自定义按钮的颜色集合，由于我们要创建渐变按钮，所以不需要背景颜色、边框颜色
-  @override
-  ElButtonColorRecord buildColorRecord(BuildContext context) {
-    return (
-      bgColor: null,
-      textColor: Colors.white,
-      borderColor: null,
+  Widget build(BuildContext context) {
+    final selectedIndex = useState(0);
+    return ElButtonGroup2.single(
+      selectedIndex,
+      type: El.success,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
     );
   }
+}
 
-  /// 构建按钮的 [BoxDecoration] 装饰
+/// 多选按钮组示例
+class _Example3 extends HookWidget {
+  const _Example3();
+
   @override
-  BoxDecoration buildDecoration(BuildContext context) {
-    return BoxDecoration(
-      color: widget.loading ? colorRecord.bgColor : null,
-      borderRadius: borderRadius,
-      // 创建渐变色，loading 状态会移除渐变色使用默认背景
-      gradient: widget.loading
-          ? null
-          : LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              // 这里我们监听悬停、点击事件来改变渐变颜色
-              colors: context.hasHover || context.hasTap
-                  ? [Colors.purple, Colors.blue]
-                  : [Colors.pink, Colors.green],
-            ),
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      type: El.info,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
     );
   }
+}
 
-  /// 这里是对按钮进行一个高斯模糊
+/// 自定义颜色
+class _Example4 extends HookWidget {
+  const _Example4();
+
   @override
-  Widget buildButtonWrapper(BuildContext context, Widget child) {
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: super.buildButtonWrapper(
-        context,
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: child,
-        ),
-      ),
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      bgColor: Colors.purple,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
     );
   }
 }''';
