@@ -36,10 +36,10 @@ class ElOutlineButton extends ElButton2 {
   final double borderWidth;
 
   @override
-  State<ElButton2> createState() => ElOutlineButtonState();
+  State<ElButton2> createState() => _ElOutlineButtonState();
 }
 
-class ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
+class _ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
   @override
   Duration get decorationDuration => widget.plain
       ? super.decorationDuration

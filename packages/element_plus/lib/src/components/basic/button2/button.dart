@@ -129,7 +129,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
 
   /// 图标尺寸
-  double get iconSize => widget.iconSize ?? buttonSizePreset.fontSize!;
+  double get iconSize => widget.iconSize ?? buttonSizePreset.iconSize!;
 
   /// 是否是单纯的图标按钮
   bool get isIconChild => widget.child is Icon;
@@ -223,9 +223,9 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     );
   }
 
-  /// 根据之前计算好的颜色开始构建按钮 [BoxDecoration] 装饰对象，它会在 [buildButtonWrapper] 中执行
+  /// 根据之前计算好的颜色开始构建按钮 [BoxDecoration] 装饰对象，它会在 [buildButtonWrapper] 构建按钮外观方法中执行，
+  /// 如果你重写了 [buildButtonWrapper] 方法，那么此方法不会调用
   BoxDecoration buildDecoration(BuildContext context) {
-    i(border);
     return BoxDecoration(
       color: colorRecord.bgColor,
       borderRadius: borderRadius,
@@ -273,10 +273,15 @@ class ElButton2State<T extends ElButton2> extends State<T> {
       }
     }
 
+    double paddingValue = ElSize.applyDouble(
+      context,
+      [4.0, 5.0, 6.0, 7.0, 8.0],
+    );
+
     result = Padding(
       padding: EdgeInsets.only(
-        left: $leftIcon != null ? 6.0 : 0.0,
-        right: $rightIcon != null ? 6.0 : 0.0,
+        left: $leftIcon != null ? paddingValue : 0.0,
+        right: $rightIcon != null ? paddingValue : 0.0,
       ),
       child: loadingBuilder == null &&
               widget.leftIcon == null &&
@@ -303,8 +308,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     return result;
   }
 
-
-  void onPressed(){
+  void onPressed() {
     widget.onPressed?.call();
   }
 

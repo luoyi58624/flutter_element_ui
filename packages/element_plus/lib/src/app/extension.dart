@@ -7,9 +7,6 @@ extension ElAppExtension on BuildContext {
   /// Element UI 全局配置
   ElConfigData get elConfig => ElConfig.of(this);
 
-  /// 访问当前配置的尺寸预设
-  String get elSize => ElSize.of(this).size;
-
   /// 此方法用于保证隐式动画小部件状态一致性，当更新全局主题时，此方法将返回 [Duration.zero]，
   /// 用于禁止所有隐式动画小部件的过渡，然后在一定时间后重置状态，使用方式：
   /// ```dart

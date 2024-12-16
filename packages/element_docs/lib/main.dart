@@ -77,61 +77,64 @@ class _MainAppState extends State<MainApp> {
       child: ObsBuilder(
         binding: [GlobalState.enableResampling],
         builder: (context) {
-          return ElApp(
-            brightness: GlobalState.brightness,
-            theme: ThemeUtil.buildElementTheme(),
-            darkTheme: ThemeUtil.buildElementTheme(brightness: Brightness.dark),
-            size: GlobalState.globalSize.value,
-            child: ObsBuilder(builder: (context) {
-              isMobileRoute.value = context.sm;
-              return ElFps(
-                enabled: GlobalState.fps.value,
-                child: MaterialApp.router(
-                  routerConfig: router,
-                  showSemanticsDebugger:
-                      GlobalState.showSemanticsDebugger.value,
-                  showPerformanceOverlay:
-                      GlobalState.showPerformanceOverlay.value,
-                  debugShowCheckedModeBanner:
-                      GlobalState.debugShowCheckedModeBanner.value,
-                  themeAnimationDuration: Duration.zero,
-                  theme: ThemeUtil.buildMaterialTheme(
-                    context,
-                    brightness: GlobalState.brightness,
-                  ),
-                  darkTheme: ThemeUtil.buildMaterialTheme(
-                    context,
-                    brightness: Brightness.dark,
-                  ),
-                  shortcuts: {
-                    ...WidgetsApp.defaultShortcuts,
-                    ...globalShortcuts(),
-                  },
-                  actions: {
-                    ...WidgetsApp.defaultActions,
-                    ...globalActions(),
-                  },
-                  builder: (context, child) => ScrollConfiguration(
-                    behavior: const ElScrollBehavior(showTrack: true),
-                    child: CupertinoTheme(
-                      data: ThemeUtil.buildCupertinoThemeData(
-                        context,
-                        brightness: GlobalState.brightness,
-                      ),
-                      child: MediaQuery(
-                        data: MediaQuery.of(context).copyWith(
-                          textScaler: MediaQuery.of(context).textScaler.clamp(
-                                minScaleFactor: 0.8,
-                                maxScaleFactor: 2,
-                              ),
+          return ElSize(
+            GlobalState.globalSize.value,
+            child: ElApp(
+              brightness: GlobalState.brightness,
+              theme: ThemeUtil.buildElementTheme(),
+              darkTheme:
+                  ThemeUtil.buildElementTheme(brightness: Brightness.dark),
+              child: ObsBuilder(builder: (context) {
+                isMobileRoute.value = context.sm;
+                return ElFps(
+                  enabled: GlobalState.fps.value,
+                  child: MaterialApp.router(
+                    routerConfig: router,
+                    showSemanticsDebugger:
+                        GlobalState.showSemanticsDebugger.value,
+                    showPerformanceOverlay:
+                        GlobalState.showPerformanceOverlay.value,
+                    debugShowCheckedModeBanner:
+                        GlobalState.debugShowCheckedModeBanner.value,
+                    themeAnimationDuration: Duration.zero,
+                    theme: ThemeUtil.buildMaterialTheme(
+                      context,
+                      brightness: GlobalState.brightness,
+                    ),
+                    darkTheme: ThemeUtil.buildMaterialTheme(
+                      context,
+                      brightness: Brightness.dark,
+                    ),
+                    shortcuts: {
+                      ...WidgetsApp.defaultShortcuts,
+                      ...globalShortcuts(),
+                    },
+                    actions: {
+                      ...WidgetsApp.defaultActions,
+                      ...globalActions(),
+                    },
+                    builder: (context, child) => ScrollConfiguration(
+                      behavior: const ElScrollBehavior(showTrack: true),
+                      child: CupertinoTheme(
+                        data: ThemeUtil.buildCupertinoThemeData(
+                          context,
+                          brightness: GlobalState.brightness,
                         ),
-                        child: child!,
+                        child: MediaQuery(
+                          data: MediaQuery.of(context).copyWith(
+                            textScaler: MediaQuery.of(context).textScaler.clamp(
+                                  minScaleFactor: 0.8,
+                                  maxScaleFactor: 2,
+                                ),
+                          ),
+                          child: child!,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
           );
         },
       ),
