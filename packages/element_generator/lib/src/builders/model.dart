@@ -264,7 +264,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
   /// 生成 copyWith 拷贝方法
   String generateCopyWidth(ConstantReader annotation) {
     if (!(annotation.read('copyWith').boolValue ||
-        annotation.read('merge').boolValue)) return '';
+        annotation.read('merge').boolValue)) {
+      return '';
+    }
 
     String copyWithArgument = '';
     String copyWithContent = '';
@@ -465,7 +467,7 @@ String? _getCustomSerialize(FieldElement fieldInfo) {
   for (final meta in fieldInfo.metadata) {
     if (meta.element is ConstructorElement) {
       var flag = (meta.element as ConstructorElement)
-          .enclosingElement
+          .enclosingElement3
           .allSupertypes
           .any((e) => e.toString().contains('ElSerialize'));
 

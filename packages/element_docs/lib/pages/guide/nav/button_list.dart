@@ -2,7 +2,7 @@ import 'package:element_docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-const _num = 5000;
+const _num = 1000;
 
 class ButtonListTestPage extends StatelessWidget {
   const ButtonListTestPage({super.key});
