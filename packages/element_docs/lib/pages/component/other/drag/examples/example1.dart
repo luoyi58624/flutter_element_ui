@@ -63,10 +63,9 @@ class _Example extends HookWidget {
         const Gap(8),
         ElStopPropagation(
           enabled: false,
-          child: Draggable(
+          child: ElDraggable(
             rootOverlay: isRootOverlay.value,
-            triggerOffset:
-                enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
+            triggerOffset: enabledTriggerOffset.value ? 20 : 0,
             axis: axisFlag.value == 0
                 ? null
                 : axisFlag.value == 1

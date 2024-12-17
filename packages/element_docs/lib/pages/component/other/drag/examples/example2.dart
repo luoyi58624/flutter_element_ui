@@ -40,42 +40,42 @@ class _Example extends HookWidget {
             Container(
               color: Colors.grey,
             ),
-            Positioned(
-              left: clampDouble(
-                offset.value.dx,
-                0,
-                constraints.maxWidth - size,
-              ),
-              top: clampDouble(
-                offset.value.dy,
-                0,
-                constraints.maxHeight - size,
-              ),
-              child: ElStopPropagation(
-                child: ElDrag(
-                  onDragDown: (e) {
-                    offset.value = offset.value.clampConstraints(BoxConstraints(
-                      maxWidth: constraints.maxWidth - size,
-                      maxHeight: constraints.maxHeight - size,
-                    ));
-                  },
-                  onChanged: (e) {
-                    offset.value += e.details;
-                  },
-                  enabledAnimate: true,
-                  damping: 0.975,
-                  triggerOffset: const Offset(30, 30),
-                  child: Container(
-                    width: size,
-                    height: size,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      // borderRadius: BorderRadius.circular(size / 2),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Positioned(
+            //   left: clampDouble(
+            //     offset.value.dx,
+            //     0,
+            //     constraints.maxWidth - size,
+            //   ),
+            //   top: clampDouble(
+            //     offset.value.dy,
+            //     0,
+            //     constraints.maxHeight - size,
+            //   ),
+            //   child: ElStopPropagation(
+            //     child: ElDrag(
+            //       onDragDown: (e) {
+            //         offset.value = offset.value.clampConstraints(BoxConstraints(
+            //           maxWidth: constraints.maxWidth - size,
+            //           maxHeight: constraints.maxHeight - size,
+            //         ));
+            //       },
+            //       onChanged: (e) {
+            //         offset.value += e.details;
+            //       },
+            //       enabledAnimate: true,
+            //       damping: 0.975,
+            //       triggerOffset: const Offset(30, 30),
+            //       child: Container(
+            //         width: size,
+            //         height: size,
+            //         decoration: const BoxDecoration(
+            //           color: Colors.green,
+            //           // borderRadius: BorderRadius.circular(size / 2),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         );
       }),

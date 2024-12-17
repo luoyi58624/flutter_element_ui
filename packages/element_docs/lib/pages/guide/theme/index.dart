@@ -12,7 +12,7 @@ class ThemePage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      TriggerOffsetDraggable(
+      ElDraggable(
         rootOverlay: true,
         feedback: Container(
           width: 100,
