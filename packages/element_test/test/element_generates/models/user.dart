@@ -1,11 +1,12 @@
 import 'package:element_annotation/element_annotation.dart';
 
 import 'animal.dart';
+import 'class_extended.dart';
 
 part '../generates/models/user.g.dart';
 
 @ElModel.all()
-class UserModel implements ElSerializeModel<UserModel> {
+class UserModel extends ChildModel2 implements ElSerializeModel<UserModel> {
   final String? username;
   final int? age;
   final UserModel? child;
@@ -20,6 +21,7 @@ class UserModel implements ElSerializeModel<UserModel> {
     this.children,
     this.animalMap,
     this.mapField,
+    super.childName,
   });
 
   @override

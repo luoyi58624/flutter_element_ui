@@ -63,8 +63,9 @@ extension ${_className}Extension on $_className {
 
     final fromJsonDiff = annotation.read('fromJsonDiff').boolValue;
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = fields[i];
       String field = fieldInfo.name;
       String fieldType = fieldInfo.type.toString();
       String jsonKey = _getJsonKey(fieldInfo) ?? field;
@@ -229,8 +230,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     String content = '';
     final toJsonUnderline = annotation.read('toJsonUnderline').boolValue;
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = fields[i];
       String field = fieldInfo.name;
       String fieldType = fieldInfo.type.toString();
       String? jsonKey = _getJsonKey(fieldInfo);
@@ -272,12 +274,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     String copyWithArgument = '';
     String copyWithContent = '';
 
-    final fields = MirrorUtils.getDefaultConstructor(_classInfo)
-        .children
-        .cast<VariableElement>();
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
     for (int i = 0; i < fields.length; i++) {
-      final fieldInfo = MirrorUtils.getField(_classInfo, fields[i]);
-      if (fieldInfo == null) continue;
+      final fieldInfo = fields[i];
       String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
       if (fieldInfo.type.toString() == 'dynamic') {
         fieldType = fieldType.substring(0, fieldType.length - 1);
@@ -311,8 +310,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     if (!annotation.read('merge').boolValue) return '';
 
     String content = '';
-    for (int i = 0; i < _classFields.length; i++) {
-      FieldElement fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      FieldElement fieldInfo = fields[i];
       final field = fieldInfo.name;
       content += '$field: other.$field,\n';
     }
@@ -334,8 +334,9 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
 
     String content = '';
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = fields[i];
       final field = fieldInfo.name;
       if (fieldInfo.type.isDartCoreList) {
         content += '&& \$ElJsonUtil.eqList($field, other.$field)';
@@ -362,11 +363,12 @@ bool _equals(Object other) =>
 
     String content = '';
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = fields[i];
       final field = fieldInfo.name;
       content += '$field.hashCode';
-      if (i < _classFields.length - 1) {
+      if (i < fields.length - 1) {
         content += ' ^ ';
       }
     }
@@ -383,11 +385,12 @@ int get _hashCode => $content;
 
     String content = '';
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getFieldsByConstructor(_classInfo);
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = fields[i];
       final field = fieldInfo.name;
       String toStringDot = '';
-      if (i < _classFields.length - 1) toStringDot = ',';
+      if (i < fields.length - 1) toStringDot = ',';
       content += '  $field: \$$field$toStringDot\\n';
     }
 

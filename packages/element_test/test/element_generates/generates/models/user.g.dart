@@ -19,6 +19,7 @@ UserModel _fromJson(Map<String, dynamic>? json) {
     children: $ElJsonUtil.$list<UserModel>(json, 'children'),
     animalMap: $ElJsonUtil.$map<AnimalModel>(json, 'animalMap'),
     mapField: $ElJsonUtil.$map<dynamic>(json, 'mapField'),
+    childName: $ElJsonUtil.$string(json, 'childName'),
   );
 }
 
@@ -32,6 +33,7 @@ extension UserModelExtension on UserModel {
       'children': children,
       'animalMap': animalMap,
       'mapField': mapField,
+      'childName': childName,
     };
   }
 
@@ -43,6 +45,7 @@ extension UserModelExtension on UserModel {
     List<UserModel>? children,
     Map<String, AnimalModel>? animalMap,
     Map<dynamic, dynamic>? mapField,
+    String? childName,
   }) {
     return UserModel(
       username: username ?? this.username,
@@ -51,6 +54,7 @@ extension UserModelExtension on UserModel {
       children: children ?? this.children,
       animalMap: animalMap ?? this.animalMap,
       mapField: mapField ?? this.mapField,
+      childName: childName ?? this.childName,
     );
   }
 
@@ -64,6 +68,7 @@ extension UserModelExtension on UserModel {
       children: other.children,
       animalMap: other.animalMap,
       mapField: other.mapField,
+      childName: other.childName,
     );
   }
 
@@ -77,7 +82,8 @@ extension UserModelExtension on UserModel {
           child == other.child &&
           $ElJsonUtil.eqList(children, other.children) &&
           $ElJsonUtil.eqMap(animalMap, other.animalMap) &&
-          $ElJsonUtil.eqMap(mapField, other.mapField);
+          $ElJsonUtil.eqMap(mapField, other.mapField) &&
+          childName == other.childName;
 
   /// 生成 hashCode 方法
   int get _hashCode =>
@@ -86,10 +92,11 @@ extension UserModelExtension on UserModel {
       child.hashCode ^
       children.hashCode ^
       animalMap.hashCode ^
-      mapField.hashCode;
+      mapField.hashCode ^
+      childName.hashCode;
 
   /// 生成 toString 方法
   String _toString() {
-    return 'UserModel{\n  username: $username,\n  age: $age,\n  child: $child,\n  children: $children,\n  animalMap: $animalMap,\n  mapField: $mapField\n}';
+    return 'UserModel{\n  username: $username,\n  age: $age,\n  child: $child,\n  children: $children,\n  animalMap: $animalMap,\n  mapField: $mapField,\n  childName: $childName\n}';
   }
 }

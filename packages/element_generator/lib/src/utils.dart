@@ -26,6 +26,19 @@ class MirrorUtils {
     return result;
   }
 
+  /// 获取 ClassElement 默认构造函数所包含的字段集合
+  static List<FieldElement> getFieldsByConstructor(ClassElement classElement) {
+    List<FieldElement> result = [];
+    final fields = MirrorUtils.getDefaultConstructor(classElement)
+        .children
+        .cast<VariableElement>();
+    for (int i = 0; i < fields.length; i++) {
+      final field = getField(classElement, fields[i]);
+      if (field != null) result.add(field);
+    }
+    return result;
+  }
+
   /// 通过 ClassElement 访问原始 VariableElement 元素的目标字段，此函数会遍历 super 继承的祖先元素，
   /// 注意：仅遍历添加了 ElModel 注解的父类。
   static FieldElement? getField(

@@ -86,17 +86,18 @@ class TestModel implements ElSerializeModel<TestModel> {
   final UserModel userModel;
   @ElField(
     defaultValue: UserModel(
-        username: 'hihi',
-        age: 30,
-        child: UserModel(username: 'xx', age: 14),
-        children: [
-          UserModel(username: 'one', age: 18),
-          UserModel(username: 'two', age: 4),
-        ],
-        animalMap: {
-          'one': AnimalModel(name: '旺财', type: '小狗'),
-          'two': AnimalModel(name: '小白', type: '猫咪'),
-        }),
+      username: 'hihi',
+      age: 30,
+      child: UserModel(username: 'xx', age: 14),
+      children: [
+        UserModel(username: 'one', age: 18),
+        UserModel(username: 'two', age: 4),
+      ],
+      animalMap: {
+        'one': AnimalModel(name: '旺财', type: '小狗'),
+        'two': AnimalModel(name: '小白', type: '猫咪'),
+      },
+    ),
   )
   final UserModel? userModel2;
   @ElField(jsonKey: 'my_animal_model')

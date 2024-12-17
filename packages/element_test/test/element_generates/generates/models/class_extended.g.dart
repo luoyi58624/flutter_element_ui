@@ -42,6 +42,7 @@ extension ParentModelExtension on ParentModel {
     if (other == null) return this;
     return copyWith(
       parentName: other.parentName,
+      rootName: other.rootName,
     );
   }
 }
@@ -65,6 +66,50 @@ extension ChildModelExtension on ChildModel {
     if (other == null) return this;
     return copyWith(
       childName: other.childName,
+      parentName: other.parentName,
+      rootName: other.rootName,
     );
   }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ChildModel &&
+          runtimeType == other.runtimeType &&
+          childName == other.childName &&
+          parentName == other.parentName &&
+          rootName == other.rootName;
+
+  /// 生成 hashCode 方法
+  int get _hashCode =>
+      childName.hashCode ^ parentName.hashCode ^ rootName.hashCode;
+}
+
+extension ChildModel2Extension on ChildModel2 {
+  /// 接收一组可选参数，返回新的对象
+  ChildModel2 copyWith({
+    String? childName,
+  }) {
+    return ChildModel2(
+      childName: childName ?? this.childName,
+    );
+  }
+
+  /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
+  ChildModel2 merge([ChildModel2? other]) {
+    if (other == null) return this;
+    return copyWith(
+      childName: other.childName,
+    );
+  }
+
+  /// 生成 equals 对象比较方法
+  bool _equals(Object other) =>
+      identical(this, other) ||
+      other is ChildModel2 &&
+          runtimeType == other.runtimeType &&
+          childName == other.childName;
+
+  /// 生成 hashCode 方法
+  int get _hashCode => childName.hashCode;
 }

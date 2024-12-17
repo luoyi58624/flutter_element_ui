@@ -4,6 +4,7 @@ import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'element_generates/models/class_extended.dart';
 import 'element_generates/models/test.dart';
 
 void elementGeneratesTest() {
@@ -60,5 +61,21 @@ void elementGeneratesTest() {
       final model3 = model.copyWith(materialColor: Colors.red);
       expect(model2, model3); // 测试重写 equals 是否正常工作
     });
+  });
+
+  test('继承 Model 比较方法 equals 测试', () {
+    ChildModel child1 = ChildModel(childName: 'child');
+    ChildModel child2 = ChildModel(childName: 'child');
+    expect(child1, child2);
+
+    // 继承的父类属性如果相等，那么对象也将相等
+    ChildModel child3 = ChildModel(childName: 'child', parentName: 'parent');
+    ChildModel child4 = ChildModel(childName: 'child', parentName: 'parent');
+    expect(child3 == child4, isTrue);
+
+    // 继承的父类属性如果不相等，那么对象也将不相等
+    ChildModel child5 = ChildModel(childName: 'child', parentName: 'parent1');
+    ChildModel child6 = ChildModel(childName: 'child', parentName: 'parent2');
+    expect(child5 == child6, isFalse);
   });
 }
