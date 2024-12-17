@@ -1,3 +1,4 @@
+import 'package:element_dart/element_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +10,7 @@ void memoryLeakTest() {
   testWidgets('内存泄漏测试1', (tester) async {
     GlobalState state = GlobalState(false);
     expect(state.count.value, 0);
+    tester.binding.scheduleWarmUpFrame();
     expect(state.activeCountWatch, false);
     // 对于嵌套 ObsBuilder，更新内部响应式变量不会影响外部
     await tester.pumpWidget(_MainApp(
@@ -42,6 +44,7 @@ void memoryLeakTest() {
     GlobalState state = GlobalState(true);
     // count使用了 late 修饰，所以判断监听函数是否触发前需要先使用它，这里只是做了判断，并未做修改
     expect(state.count.value, 0);
+    tester.binding.scheduleWarmUpFrame();
     // 监听函数已立即触发，它修改了 activeCountWatch 变量
     expect(state.activeCountWatch, true);
 
