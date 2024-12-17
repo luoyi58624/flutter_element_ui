@@ -36,4 +36,3 @@ export 'src/widgets/custom_layout.dart';
 export 'src/widgets/model_value.dart';
 export 'src/widgets/scroll_behavior.dart';
 export 'src/widgets/simple_widgets.dart';
-export 'src/widgets/trigger_offset_draggable.dart';

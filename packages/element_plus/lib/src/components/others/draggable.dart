@@ -2,8 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class TriggerOffsetDraggable<T extends Object> extends Draggable<T> {
-  const TriggerOffsetDraggable({
+/// 在长按拖拽的基础上新增一个 triggerOffset 属性，支持根据拖拽偏移来触发拖拽
+class ElDraggable<T extends Object> extends LongPressDraggable<T> {
+  const ElDraggable({
     super.key,
     required super.child,
     required super.feedback,
@@ -18,38 +19,43 @@ class TriggerOffsetDraggable<T extends Object> extends Draggable<T> {
     super.onDraggableCanceled,
     super.onDragEnd,
     super.onDragCompleted,
-    this.hapticFeedbackOnStart = true,
+    super.hapticFeedbackOnStart = true,
     super.ignoringFeedbackSemantics,
     super.ignoringFeedbackPointer,
-    this.triggerOffset = 10,
+    super.delay,
+    this.triggerOffset,
     super.allowedButtonsFilter,
     super.hitTestBehavior,
     super.rootOverlay,
   });
 
-  final bool hapticFeedbackOnStart;
-
-  final double triggerOffset;
+  /// 触发拖拽偏移值，如果不为空，则使用 [TriggerOffsetMultiDragGestureRecognizer] 手势，
+  /// 否则使用默认的长按触发拖拽手势
+  final double? triggerOffset;
 
   @override
-  MultiDragGestureRecognizer createRecognizer(
+  DelayedMultiDragGestureRecognizer createRecognizer(
       GestureMultiDragStartCallback onStart) {
-    return TriggerOffsetMultiDragGestureRecognizer(
-        triggerOffset: triggerOffset,
-        allowedButtonsFilter: allowedButtonsFilter)
-      ..onStart = (Offset position) {
-        final Drag? result = onStart(position);
-        if (result != null && hapticFeedbackOnStart) {
-          HapticFeedback.selectionClick();
-        }
-        return result;
-      };
+    if (triggerOffset != null) {
+      return TriggerOffsetMultiDragGestureRecognizer(
+          triggerOffset: triggerOffset!,
+          allowedButtonsFilter: allowedButtonsFilter)
+        ..onStart = (Offset position) {
+          final Drag? result = onStart(position);
+          if (result != null && hapticFeedbackOnStart) {
+            HapticFeedback.selectionClick();
+          }
+          return result;
+        };
+    } else {
+      return super.createRecognizer(onStart);
+    }
   }
 }
 
 /// 当拖拽偏移大于指定值时，将触发拖拽
 class TriggerOffsetMultiDragGestureRecognizer
-    extends MultiDragGestureRecognizer {
+    extends DelayedMultiDragGestureRecognizer {
   TriggerOffsetMultiDragGestureRecognizer({
     this.triggerOffset = 10,
     super.debugOwner,
@@ -61,7 +67,7 @@ class TriggerOffsetMultiDragGestureRecognizer
 
   @override
   MultiDragPointerState createNewPointerState(PointerDownEvent event) {
-    return _TriggerOffsetPointerState(
+    return _ElPointerState(
       event.position,
       event.kind,
       gestureSettings,
@@ -73,8 +79,8 @@ class TriggerOffsetMultiDragGestureRecognizer
   String get debugDescription => 'TriggerOffsetMultiDragGestureRecognizer';
 }
 
-class _TriggerOffsetPointerState extends MultiDragPointerState {
-  _TriggerOffsetPointerState(
+class _ElPointerState extends MultiDragPointerState {
+  _ElPointerState(
     super.initialPosition,
     super.kind,
     super.gestureSettings,

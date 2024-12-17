@@ -76,6 +76,7 @@ export 'src/components/others/split_resizer/index.dart';
 export 'src/components/others/split_pane/index.dart';
 export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
+export 'src/components/others/draggable.dart';
 export 'src/components/others/fps.dart';
 export 'src/components/others/triangle/triangle.dart';
 
