@@ -24,7 +24,7 @@ class ButtonPage extends ResponsivePage {
   String get title => 'Button2 按钮';
 
   @override
-  String get path => '/${RootRoute.component.$2}/button2';
+  String get path => '/${RootRoute.component.$2}/button';
 
   @override
   List<Widget> buildPage(BuildContext context) {

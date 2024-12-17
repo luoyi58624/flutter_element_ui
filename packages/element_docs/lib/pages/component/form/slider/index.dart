@@ -14,11 +14,10 @@ class SliderPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       textGap,
-      ElButton(
+      ElLinkButton(
         onPressed: () {
           context.push(const _ElSliderPage());
         },
-        link: true,
         type: 'primary',
         child: const ElText('ElSlider性能测试'),
       ),

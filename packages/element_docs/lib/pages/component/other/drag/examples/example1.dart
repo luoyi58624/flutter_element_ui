@@ -35,19 +35,14 @@ class _Example extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElButtonTheme(
-          data: const ElButtonThemeData(
-            type: El.primary,
-          ),
-          child: ElButtonGroup.single(
-            axisFlag,
-            mandatory: true,
-            children: const [
-              ElButton(child: '不限方向'),
-              ElButton(child: '固定横向'),
-              ElButton(child: '固定垂直'),
-            ],
-          ),
+        ElButtonGroup.single(
+          axisFlag,
+          mandatory: true,
+          children: const [
+            ElButtonGroupItem(child: '不限方向'),
+            ElButtonGroupItem(child: '固定横向'),
+            ElButtonGroupItem(child: '固定垂直'),
+          ],
         ),
         const Gap(8),
         Row(
@@ -107,19 +102,14 @@ class _Example extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElButtonTheme(
-          data: const ElButtonThemeData(
-            type: El.primary,
-          ),
-          child: ElButtonGroup.single(
-            axisFlag,
-            mandatory: true,
-            children: const [
-              ElButton(child: '不限方向'),
-              ElButton(child: '固定横向'),
-              ElButton(child: '固定垂直'),
-            ],
-          ),
+        ElButtonGroup.single(
+          axisFlag,
+          mandatory: true,
+          children: const [
+            ElButtonGroupItem(child: '不限方向'),
+            ElButtonGroupItem(child: '固定横向'),
+            ElButtonGroupItem(child: '固定垂直'),
+          ],
         ),
         const Gap(8),
         Row(
@@ -134,28 +124,31 @@ class _Example extends HookWidget {
           children: [
             ElSwitch(enabledTriggerOffset),
             const Gap(8),
-            ElText('开启拖拽偏移: \${enabledTriggerOffset.value}'),
+            ElText('开启触发拖拽偏移: \${enabledTriggerOffset.value}'),
           ],
         ),
         const Gap(8),
-        ElDrag(
-          rootOverlay: isRootOverlay.value,
-          triggerOffset:
-              enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
-          axis: axisFlag.value == 0
-              ? null
-              : axisFlag.value == 1
-                  ? Axis.horizontal
-                  : Axis.vertical,
-          feedback: Container(
-            width: 100,
-            height: 100,
-            color: Colors.green,
-          ),
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.grey,
+        ElStopPropagation(
+          enabled: false,
+          child: ElDrag(
+            rootOverlay: isRootOverlay.value,
+            triggerOffset:
+                enabledTriggerOffset.value ? const Offset(20, 20) : Offset.zero,
+            axis: axisFlag.value == 0
+                ? null
+                : axisFlag.value == 1
+                    ? Axis.horizontal
+                    : Axis.vertical,
+            feedback: Container(
+              width: 100,
+              height: 100,
+              color: Colors.green,
+            ),
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.grey,
+            ),
           ),
         ),
       ],

@@ -55,9 +55,9 @@ class _Example extends HookWidget {
             render: (dataItem) => const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElButton(child: '编辑', link: true, type: El.primary),
+                ElLinkButton(child: '编辑', type: El.primary),
                 Gap(8),
-                ElButton(child: '删除', link: true, type: El.error),
+                ElLinkButton(child: '删除', type: El.error),
               ],
             ),
           ),
@@ -103,9 +103,9 @@ class _Example extends HookWidget {
             render: (dataItem) => const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElButton(child: '编辑', link: true, type: El.primary),
+                ElLinkButton(child: '编辑', type: El.primary),
                 Gap(8),
-                ElButton(child: '删除', link: true, type: El.error),
+                ElLinkButton(child: '删除', type: El.error),
               ],
             ),
           ),

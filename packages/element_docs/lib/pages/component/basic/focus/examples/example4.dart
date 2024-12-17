@@ -35,23 +35,18 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loading = useState(false);
     final selectedIndex = useState(-1);
     return Column(
       children: [
         ElFocusScope(
-          child: ElButtonTheme(
-            data: const ElButtonThemeData(
-              type: El.primary,
-            ),
-            child: ElButtonGroup.single(
-              selectedIndex,
-              children: const [
-                ElButton(child: '选项一'),
-                ElButton(child: '选项二'),
-                ElButton(child: '选项三'),
-              ],
-            ),
+          child: ElButtonGroup.single(
+            selectedIndex,
+            type: El.primary,
+            children: const [
+              ElButtonGroupItem(child: '选项一'),
+              ElButtonGroupItem(child: '选项二'),
+              ElButtonGroupItem(child: '选项三'),
+            ],
           ),
         ),
       ],
@@ -60,19 +55,26 @@ class _Example extends HookWidget {
 }
 
 String get code => '''
-class _Example extends StatelessWidget {
+class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
-    return ElFocusScope(
-      child: Wrap(
-        spacing: 20,
-        runSpacing: 20,
-        children: [null, ...El.themeTypes]
-            .map((type) => ElButton(child: 'Hello', type: type))
-            .toList(),
-      ),
+    final selectedIndex = useState(-1);
+    return Column(
+      children: [
+        ElFocusScope(
+          child: ElButtonGroup.single(
+            selectedIndex,
+            type: El.primary,
+            children: const [
+              ElButtonGroupItem(child: '选项一'),
+              ElButtonGroupItem(child: '选项二'),
+              ElButtonGroupItem(child: '选项三'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }''';

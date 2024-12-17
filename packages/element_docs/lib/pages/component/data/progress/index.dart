@@ -36,11 +36,10 @@ class ProgressPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Gap(16),
-      ElButton(
+      ElLinkButton(
         onPressed: () {
           context.push(const PerformanceTestPage());
         },
-        link: true,
         type: 'primary',
         child: const ElText('进度条性能测试'),
       ),

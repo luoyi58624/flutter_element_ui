@@ -37,7 +37,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(children: [
+    return const ElButtonGroup(children: [
       ElButtonGroupItem(child: '选项一'),
       ElButtonGroupItem(child: '选项二'),
       ElButtonGroupItem(child: '选项三'),
@@ -52,7 +52,7 @@ class _Example2 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
-    return ElButtonGroup2.single(
+    return ElButtonGroup.single(
       selectedIndex,
       type: El.success,
       children: const [
@@ -71,7 +71,7 @@ class _Example3 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<List<int>>([]);
-    return ElButtonGroup2.multi(
+    return ElButtonGroup.multi(
       selectedIndex,
       type: El.info,
       children: const [
@@ -90,7 +90,7 @@ class _Example4 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<List<int>>([]);
-    return ElButtonGroup2.multi(
+    return ElButtonGroup.multi(
       selectedIndex,
       bgColor: Colors.purple,
       children: const [
@@ -109,7 +109,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(children: [
+    return const ElButtonGroup(children: [
       ElButtonGroupItem(child: '选项一'),
       ElButtonGroupItem(child: '选项二'),
       ElButtonGroupItem(child: '选项三'),
@@ -124,7 +124,7 @@ class _Example2 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
-    return ElButtonGroup2.single(
+    return ElButtonGroup.single(
       selectedIndex,
       type: El.success,
       children: const [
@@ -143,7 +143,7 @@ class _Example3 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<List<int>>([]);
-    return ElButtonGroup2.multi(
+    return ElButtonGroup.multi(
       selectedIndex,
       type: El.info,
       children: const [
@@ -162,7 +162,7 @@ class _Example4 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<List<int>>([]);
-    return ElButtonGroup2.multi(
+    return ElButtonGroup.multi(
       selectedIndex,
       bgColor: Colors.purple,
       children: const [

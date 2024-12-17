@@ -38,7 +38,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(
+    return const ElButtonGroup(
       axis: Axis.vertical,
       children: [
         ElButtonGroupItem(child: '选项一'),
@@ -55,7 +55,7 @@ class _Example2 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState(0);
-    return ElButtonGroup2.single(
+    return ElButtonGroup.single(
       selectedIndex,
       type: El.success,
       axis: Axis.vertical,
@@ -74,7 +74,7 @@ class _Example3 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final selectedIndex = useState<List<int>>([]);
-    return ElButtonGroup2.multi(
+    return ElButtonGroup.multi(
       selectedIndex,
       type: El.info,
       axis: Axis.vertical,
@@ -93,7 +93,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(
+    return const ElButtonGroup(
       axis: Axis.vertical,
       children: [
         ElButtonGroupItem(child: '选项一'),

@@ -49,18 +49,15 @@ class _Example extends HookWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ElButtonTheme(
-          data: const ElButtonThemeData(type: El.primary),
-          child: ElButtonGroup.single(
-            scrollbarType,
-            mandatory: true,
-            children: const [
-              ElButton(child: '悬停显示'),
-              ElButton(child: '一直显示'),
-              ElButton(child: '滚动显示'),
-              ElButton(child: '不显示'),
-            ],
-          ),
+        ElButtonGroup.single(
+          scrollbarType,
+          mandatory: true,
+          children: const [
+            ElButtonGroupItem(child: '悬停显示'),
+            ElButtonGroupItem(child: '一直显示'),
+            ElButtonGroupItem(child: '滚动显示'),
+            ElButtonGroupItem(child: '不显示'),
+          ],
         ),
         const Gap(8),
         Container(

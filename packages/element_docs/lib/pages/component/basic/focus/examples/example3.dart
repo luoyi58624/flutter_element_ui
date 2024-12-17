@@ -44,66 +44,40 @@ class _Example extends HookWidget {
         const ElFocusScope(
           child: ElButtonGroup(
             children: [
-              ElButton(child: '选项一'),
-              ElButton(child: '选项二'),
-              ElButton(child: '选项三'),
+              ElButtonGroupItem(child: '选项一'),
+              ElButtonGroupItem(child: '选项二'),
+              ElButtonGroupItem(child: '选项三'),
             ],
           ),
         ),
         const Gap(8),
         ElFocusScope(
-          child: ElButtonTheme(
-            data: const ElButtonThemeData(
-              type: El.primary,
-            ),
-            child: ElButtonGroup(
-              children: [
-                const ElButton(child: '选项一'),
-                ElButton(
-                  onPressed: () {
-                    loading.value = true;
-                    setTimeout(() {
-                      loading.value = false;
-                    }, 1000);
-                  },
-                  child: '选项二',
-                  loading: loading.value,
-                ),
-                const ElButton(child: '选项三'),
-              ],
-            ),
+          child: ElButtonGroup(
+            children: [
+              const ElButtonGroupItem(child: '选项一'),
+              ElButtonGroupItem(
+                onPressed: () {
+                  loading.value = true;
+                  setTimeout(() {
+                    loading.value = false;
+                  }, 1000);
+                },
+                child: '选项二',
+                loading: loading.value,
+              ),
+              const ElButtonGroupItem(child: '选项三'),
+            ],
           ),
         ),
         const Gap(8),
         const ElFocusScope(
-          child: ElButtonTheme(
-            data: ElButtonThemeData(
-              type: El.success,
-              plain: true,
-            ),
-            child: ElButtonGroup(
-              children: [
-                ElButton(child: '选项一'),
-                ElButton(child: '选项二'),
-                ElButton(child: '选项三'),
-              ],
-            ),
-          ),
-        ),
-        const Gap(8),
-        const ElFocusScope(
-          child: ElButtonTheme(
-            data: ElButtonThemeData(
-              type: El.success,
-              text: true,
-            ),
-            child: ElButtonGroup(
-              children: [
-                ElButton(child: '选项一'),
-                ElButton(child: '选项二'),
-                ElButton(child: '选项三'),
-              ],
-            ),
+          child: ElButtonGroup(
+            type: El.success,
+            children: [
+              ElButtonGroupItem(child: '选项一'),
+              ElButtonGroupItem(child: '选项二'),
+              ElButtonGroupItem(child: '选项三'),
+            ],
           ),
         ),
       ],

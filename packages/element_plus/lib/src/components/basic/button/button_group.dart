@@ -38,9 +38,9 @@ class _ElButtonGroupInheritedWidget extends InheritedWidget {
   bool updateShouldNotify(_ElButtonGroupInheritedWidget oldWidget) => false;
 }
 
-class ElButtonGroup2 extends ModelValue {
+class ElButtonGroup extends ModelValue {
   /// Element UI 普通按钮组
-  const ElButtonGroup2({
+  const ElButtonGroup({
     super.key,
     required this.children,
     this.type = El.primary,
@@ -52,7 +52,7 @@ class ElButtonGroup2 extends ModelValue {
         super(null, onChanged: null);
 
   /// Element UI 单选按钮组，[modelValue] 支持 [int]、[ValueNotifier] 类型
-  ElButtonGroup2.single(
+  ElButtonGroup.single(
     super.modelValue, {
     super.key,
     required this.children,
@@ -75,7 +75,7 @@ class ElButtonGroup2 extends ModelValue {
         }());
 
   /// Element UI 多选按钮组，[modelValue] 支持 [List]、[ValueNotifier] 类型
-  ElButtonGroup2.multi(
+  ElButtonGroup.multi(
     super.modelValue, {
     super.key,
     required this.children,
@@ -117,10 +117,10 @@ class ElButtonGroup2 extends ModelValue {
   final bool mandatory;
 
   @override
-  State<ElButtonGroup2> createState() => _ElButtonGroupState();
+  State<ElButtonGroup> createState() => _ElButtonGroupState();
 }
 
-class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
+class _ElButtonGroupState extends ModelValueState<ElButtonGroup, dynamic> {
   /// 按钮组分割线颜色，它的颜色会和按钮边框同步
   final _divideColor = Obs<Color?>(null);
 
@@ -137,7 +137,7 @@ class _ElButtonGroupState extends ModelValueState<ElButtonGroup2, dynamic> {
   }
 
   @override
-  void didUpdateWidget(covariant ElButtonGroup2 oldWidget) {
+  void didUpdateWidget(covariant ElButtonGroup oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.children.length != oldWidget.children.length) {
       _setChildrenKeyList(widget.children.length);
@@ -403,7 +403,7 @@ class _GroupDivide extends StatelessWidget {
 }
 
 class ElButtonGroupItem extends ElButton {
-  /// Element UI 按钮组子项，它必须放置于 [ElButtonGroup2] 中
+  /// Element UI 按钮组子项，它必须放置于 [ElButtonGroup] 中
   const ElButtonGroupItem({
     super.key,
     required super.child,

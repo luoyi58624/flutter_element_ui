@@ -51,7 +51,7 @@ class _Example extends StatelessWidget {
                 child: 'github链接',
               ),
               ' ',
-              ElButton(child: '链接按钮', type: 'success', link: true),
+              ElLinkButton(child: '链接按钮', type: 'success'),
               ' ',
               SelectionContainer.disabled(
                 child: ElButton(
@@ -91,7 +91,7 @@ class _Example extends StatelessWidget {
               child: 'github链接',
             ),
             ' ',
-            ElButton(child: '链接按钮', type: 'success', link: true),
+            ElLinkButton(child: '链接按钮', type: 'success'),
             ' ',
             SelectionContainer.disabled(
               child: ElButton(

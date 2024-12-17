@@ -51,8 +51,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map(
-                    (type) => ElButton(child: 'Hello', type: type, plain: true))
+                .map((type) => ElOutlineButton(child: 'Hello', type: type))
                 .toList(),
           ),
           const Gap(20),
@@ -60,7 +59,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElButton(child: 'Hello', type: type, text: true))
+                .map((type) => ElTextButton(child: 'Hello', type: type))
                 .toList(),
           ),
           const Gap(20),
@@ -68,7 +67,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElButton(child: 'Link', type: type, link: true))
+                .map((type) => ElLinkButton(child: 'Link', type: type))
                 .toList(),
           ),
         ],
@@ -99,8 +98,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map(
-                    (type) => ElButton(child: 'Hello', type: type, plain: true))
+                .map((type) => ElOutlineButton(child: 'Hello', type: type))
                 .toList(),
           ),
           const Gap(20),
@@ -108,7 +106,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElButton(child: 'Hello', type: type, text: true))
+                .map((type) => ElTextButton(child: 'Hello', type: type))
                 .toList(),
           ),
           const Gap(20),
@@ -116,7 +114,7 @@ class _Example extends StatelessWidget {
             spacing: 20,
             runSpacing: 20,
             children: [null, ...El.themeTypes]
-                .map((type) => ElButton(child: 'Link', type: type, link: true))
+                .map((type) => ElLinkButton(child: 'Link', type: type))
                 .toList(),
           ),
         ],

@@ -30,7 +30,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(
+    return const ElButtonGroup(
       children: [
         ElButtonGroupItem(child: '选项一'),
         ElButtonGroupItem(child: ElIcon(ElIcons.arrowDown)),
@@ -45,7 +45,7 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ElButtonGroup2(
+    return const ElButtonGroup(
       children: [
         ElButtonGroupItem(child: '选项一'),
         ElButtonGroupItem(child: ElIcon(ElIcons.arrowDown)),
