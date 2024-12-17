@@ -1,9 +1,52 @@
 import 'package:analyzer/dart/element/element.dart';
+import 'package:element_annotation/element_annotation.dart';
 import 'package:source_gen/source_gen.dart';
+
+const TypeChecker modelChecker = TypeChecker.fromRuntime(ElModel);
+const TypeChecker debugChecker = TypeChecker.fromRuntime(ElDebug);
 
 /// 反射工具类
 class MirrorUtils {
   MirrorUtils._();
+
+  /// 检查类名是否添加了 ElDebug 注解
+  static bool hasDebug(ClassElement classElement) {
+    return debugChecker.hasAnnotationOfExact(classElement);
+  }
+
+  /// 获取 class 默认的构造方法
+  static ConstructorElement getDefaultConstructor(ClassElement classElement) {
+    late ConstructorElement result;
+    for (int i = 0; i < classElement.constructors.length; i++) {
+      if (classElement.constructors[i].name.isEmpty) {
+        result = classElement.constructors[i];
+        break;
+      }
+    }
+    return result;
+  }
+
+  /// 通过 ClassElement 访问原始 VariableElement 元素的目标字段，此函数会遍历 super 继承的祖先元素，
+  /// 注意：仅遍历添加了 ElModel 注解的父类。
+  static FieldElement? getField(
+    ClassElement classElement,
+    VariableElement varElement,
+  ) {
+    if (varElement is FieldFormalParameterElement) {
+      return classElement.getField(varElement.name);
+    } else if (varElement is SuperFormalParameterElement) {
+      final supers = classElement.allSupertypes;
+      for (var s in supers) {
+        if (modelChecker.hasAnnotationOfExact(s.element)) {
+          final classElement = s.element as ClassElement;
+          if (classElement.getField(varElement.name) != null) {
+            return classElement.getField(varElement.name);
+          }
+        }
+      }
+    }
+    return null;
+  }
 
   /// 字段过滤，实体类需要生成的字段代码不需要关心以下修饰符
   static bool _fieldFilter(FieldElement fieldInfo) {

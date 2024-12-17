@@ -7,7 +7,6 @@ import 'package:source_gen/source_gen.dart';
 import '../config.dart';
 import '../utils.dart';
 
-const TypeChecker _modelChecker = TypeChecker.fromRuntime(ElModel);
 const TypeChecker _fieldChecker = TypeChecker.fromRuntime(ElField);
 
 /// 当前实体类的信息
@@ -22,6 +21,9 @@ late List<FieldElement> _classFields;
 /// 当前实体类的默认构造函数是否使用 const 修饰
 late bool _isConstConstructor;
 
+/// 是否添加了 ElDebug 注解
+late bool _hasDebug;
+
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
   @override
@@ -29,6 +31,7 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
     _classInfo = element as ClassElement;
     _className = _classInfo.name;
     _classFields = MirrorUtils.filterFields(_classInfo);
+    _hasDebug = MirrorUtils.hasDebug(_classInfo);
 
     for (var constructor in _classInfo.constructors) {
       if (constructor.name.isEmpty) {
@@ -271,8 +274,16 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     String copyWithArgument = '';
     String copyWithContent = '';
 
-    for (int i = 0; i < _classFields.length; i++) {
-      final fieldInfo = _classFields[i].declaration;
+    final fields = MirrorUtils.getDefaultConstructor(_classInfo)
+        .children
+        .cast<VariableElement>();
+    for (int i = 0; i < fields.length; i++) {
+      final fieldInfo = MirrorUtils.getField(_classInfo, fields[i]);
+      if (fieldInfo == null) continue;
+      if (_hasDebug) {
+        print(fieldInfo is SuperFormalParameterElement);
+      }
+
       if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
       String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
       if (fieldInfo.type.toString() == 'dynamic') {
@@ -289,6 +300,25 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
         copyWithContent += '$field: $field ?? this.$field,\n';
       }
     }
+
+    // for (int i = 0; i < _classFields.length; i++) {
+    //   final fieldInfo = _classFields[i].declaration;
+    //   if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
+    //   String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
+    //   if (fieldInfo.type.toString() == 'dynamic') {
+    //     fieldType = fieldType.substring(0, fieldType.length - 1);
+    //   }
+    //   String field = fieldInfo.name;
+    //   copyWithArgument += '$fieldType $field,\n';
+    //
+    //   if (_isDeepCloneField(fieldInfo)) {
+    //     bool isAllowNull = fieldInfo.type.toString().endsWith('?');
+    //     copyWithContent +=
+    //         '$field: this.$field${isAllowNull ? '?' : ''}.merge($field),';
+    //   } else {
+    //     copyWithContent += '$field: $field ?? this.$field,\n';
+    //   }
+    // }
 
     return """
   /// 接收一组可选参数，返回新的对象
@@ -403,7 +433,7 @@ String _toString() {
 /// 判断当前字段是否被忽略
 /// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
 /// 如果为true，则表示此函数生成的代码应当忽略该字段
-bool _isIgnoreField(FieldElement fieldInfo, String typeString) {
+bool _isIgnoreField(VariableElement fieldInfo, String typeString) {
   bool isElModelField = _fieldChecker.hasAnnotationOfExact(fieldInfo);
   if (isElModelField) {
     var target =
@@ -441,12 +471,12 @@ dynamic _getDefaultValue(FieldElement fieldInfo) {
 }
 
 /// 判断反射的字段是否包含克隆方法，如果包含，则生成的代码需要调用目标的克隆方法
-bool _isDeepCloneField(FieldElement fieldInfo) {
+bool _isDeepCloneField(VariableElement fieldInfo) {
   final fieldElement = fieldInfo.type.element;
   if (fieldElement is ClassElement) {
-    bool isElModelField = _modelChecker.hasAnnotationOfExact(fieldElement);
+    bool isElModelField = modelChecker.hasAnnotationOfExact(fieldElement);
     if (isElModelField) {
-      return _modelChecker
+      return modelChecker
               .firstAnnotationOfExact(fieldElement)!
               .getField('merge')!
               .toBoolValue() ??

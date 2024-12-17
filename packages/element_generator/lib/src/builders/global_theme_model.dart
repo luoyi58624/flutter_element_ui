@@ -42,7 +42,7 @@ class ElGlobalThemeModelGenerator
       mergeContent += '$fieldName: other.$fieldName,\n';
     }
 
-    print(ElThemeModelGenerator.themeModelList.map((e) => e.name).toList());
+    // print(ElThemeModelGenerator.themeModelList.map((e) => e.name).toList());
     for (final model in ElThemeModelGenerator.themeModelList) {
       final rawName = ElThemeModelGenerator.getRawName(model.name);
       final themeVarName = '${rawName.firstLowerCase}Theme';
