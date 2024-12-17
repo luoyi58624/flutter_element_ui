@@ -9,6 +9,7 @@ export 'router/router.dart';
 export 'utils/commons.dart';
 export 'utils/font.dart';
 export 'widgets/link_widgets.dart';
+export 'widgets/scroll_performance_test.dart';
 export 'widgets/simple_widgets.dart';
 export 'widgets/code_example/code_example.dart';
 export 'widgets/code_example/code_preview.dart';

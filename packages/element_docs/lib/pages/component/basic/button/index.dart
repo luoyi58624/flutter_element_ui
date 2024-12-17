@@ -21,7 +21,7 @@ class ButtonPage extends ResponsivePage {
   static final buttonTypes = [null, ...El.themeTypes];
 
   @override
-  String get title => 'Button2 按钮';
+  String get title => 'Button 按钮';
 
   @override
   String get path => '/${RootRoute.component.$2}/button';
@@ -29,6 +29,8 @@ class ButtonPage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return const [
+      textGap,
+      _Test(),
       Example1(title: '基础使用'),
       Example2(title: '禁用按钮'),
       Example3(title: '链接按钮'),
@@ -42,5 +44,37 @@ class ButtonPage extends ResponsivePage {
       Example11(title: '垂直按钮组'),
       Example12(title: '分割按钮'),
     ];
+  }
+}
+
+class _Test extends StatelessWidget {
+  const _Test();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElLinkButton(
+      onPressed: () {
+        context.push(ScrollPerformanceTest(
+          title: '按钮性能测试',
+          itemCount: 5000,
+          leftBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: ElevatedButton(
+              onPressed: () {},
+              child: ElText('Item - ${index + 1}'),
+            ),
+          ),
+          rightBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: ElButton(
+              type: El.primary,
+              child: ElText('Item - ${index + 1}'),
+            ),
+          ),
+        ));
+      },
+      type: El.primary,
+      child: const ElText('按钮性能测试'),
+    );
   }
 }

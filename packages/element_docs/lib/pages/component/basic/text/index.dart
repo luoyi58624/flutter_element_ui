@@ -27,7 +27,11 @@ class TextPage extends ResponsivePage {
       const Gap(8),
       ElLinkButton(
         onPressed: () {
-          context.push(const TextScrollTestPage());
+          context.push(ScrollPerformanceTest(
+            title: '文本滚动性能测试',
+            leftBuilder: (context, index) => Text('Text - ${index + 1}'),
+            rightBuilder: (context, index) => ElText('ElText - ${index + 1}'),
+          ));
         },
         type: 'primary',
         child: const ElText('文本滚动性能测试'),

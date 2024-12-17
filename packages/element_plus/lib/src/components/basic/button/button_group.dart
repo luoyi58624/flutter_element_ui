@@ -407,6 +407,7 @@ class ElButtonGroupItem extends ElButton {
   const ElButtonGroupItem({
     super.key,
     required super.child,
+    super.loading,
     super.disabled,
     super.onPressed,
   });
