@@ -6,8 +6,8 @@ part of '../../../../components/layout/layout/index.dart';
 // ElModelGenerator
 // **************************************************************************
 
-/// 生成的全局默认实体类对象
-final ElLayoutData $elLayoutData = ElLayoutData(
+/// 生成的全局默认实体类对象，此对象只用于代码生成器，不推荐用户引用它
+final ElLayoutData _elLayoutData = ElLayoutData(
   navbar: 0.0,
   sidebar: 0.0,
   rightSidebar: 0.0,
@@ -16,12 +16,12 @@ final ElLayoutData $elLayoutData = ElLayoutData(
 
 /// 生成 fromJson 方法，将 Map 对象转成实体类
 ElLayoutData _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return $elLayoutData;
+  if (json == null) return _elLayoutData;
   return ElLayoutData(
-    navbar: $ElJsonUtil.$double(json, 'navbar') ?? 0.0,
-    sidebar: $ElJsonUtil.$double(json, 'sidebar') ?? 0.0,
-    rightSidebar: $ElJsonUtil.$double(json, 'rightSidebar') ?? 0.0,
-    footer: $ElJsonUtil.$double(json, 'footer') ?? 0.0,
+    navbar: $$ElJsonUtil.$double(json, 'navbar') ?? 0.0,
+    sidebar: $$ElJsonUtil.$double(json, 'sidebar') ?? 0.0,
+    rightSidebar: $$ElJsonUtil.$double(json, 'rightSidebar') ?? 0.0,
+    footer: $$ElJsonUtil.$double(json, 'footer') ?? 0.0,
   );
 }
 
@@ -89,17 +89,17 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
   /// 接收一组可选参数，返回新的对象
   ElLayoutThemeData copyWith({
     Color? bgColor,
+    Color? borderColor,
     Color? navbarColor,
     Color? sidebarColor,
     Color? footerColor,
-    Color? borderColor,
   }) {
     return ElLayoutThemeData(
       bgColor: bgColor ?? this.bgColor,
+      borderColor: borderColor ?? this.borderColor,
       navbarColor: navbarColor ?? this.navbarColor,
       sidebarColor: sidebarColor ?? this.sidebarColor,
       footerColor: footerColor ?? this.footerColor,
-      borderColor: borderColor ?? this.borderColor,
     );
   }
 
@@ -108,10 +108,10 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
     if (other == null) return this;
     return copyWith(
       bgColor: other.bgColor,
+      borderColor: other.borderColor,
       navbarColor: other.navbarColor,
       sidebarColor: other.sidebarColor,
       footerColor: other.footerColor,
-      borderColor: other.borderColor,
     );
   }
 
@@ -121,18 +121,18 @@ extension ElLayoutThemeDataExtension on ElLayoutThemeData {
       other is ElLayoutThemeData &&
           runtimeType == other.runtimeType &&
           bgColor == other.bgColor &&
+          borderColor == other.borderColor &&
           navbarColor == other.navbarColor &&
           sidebarColor == other.sidebarColor &&
-          footerColor == other.footerColor &&
-          borderColor == other.borderColor;
+          footerColor == other.footerColor;
 
   /// 生成 hashCode 方法
   int get _hashCode =>
       bgColor.hashCode ^
+      borderColor.hashCode ^
       navbarColor.hashCode ^
       sidebarColor.hashCode ^
-      footerColor.hashCode ^
-      borderColor.hashCode;
+      footerColor.hashCode;
 }
 
 // **************************************************************************

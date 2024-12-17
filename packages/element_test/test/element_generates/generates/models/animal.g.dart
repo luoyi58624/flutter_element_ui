@@ -6,15 +6,15 @@ part of '../../models/animal.dart';
 // ElModelGenerator
 // **************************************************************************
 
-/// 生成的全局默认实体类对象
-const AnimalModel $animalModel = AnimalModel();
+/// 生成的全局默认实体类对象，此对象只用于代码生成器，不推荐用户引用它
+const AnimalModel $$animalModel = AnimalModel();
 
 /// 生成 fromJson 方法，将 Map 对象转成实体类
 AnimalModel _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return $animalModel;
+  if (json == null) return $$animalModel;
   return AnimalModel(
-    name: $ElJsonUtil.$string(json, 'name'),
-    type: $ElJsonUtil.$string(json, 'type'),
+    name: $$ElJsonUtil.$string(json, 'name'),
+    type: $$ElJsonUtil.$string(json, 'type'),
   );
 }
 

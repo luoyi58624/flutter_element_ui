@@ -15,14 +15,14 @@ late ClassElement _classInfo;
 /// 当前实体类的类名
 late String _className;
 
-/// 当前实体类的字段列表
-late List<FieldElement> _classFields;
+// /// 当前实体类的字段列表
+// late List<FieldElement> _classFields;
 
 /// 当前实体类的默认构造函数是否使用 const 修饰
 late bool _isConstConstructor;
 
-/// 是否添加了 ElDebug 注解
-late bool _hasDebug;
+// /// 是否添加了 ElDebug 注解
+// late bool _hasDebug;
 
 @immutable
 class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
@@ -30,8 +30,8 @@ class ElModelGenerator extends GeneratorForAnnotation<ElModel> {
   generateForAnnotatedElement(element, annotation, buildStep) {
     _classInfo = element as ClassElement;
     _className = _classInfo.name;
-    _classFields = MirrorUtils.filterFields(_classInfo);
-    _hasDebug = MirrorUtils.hasDebug(_classInfo);
+    // _classFields = MirrorUtils.filterFields(_classInfo);
+    // _hasDebug = MirrorUtils.hasDebug(_classInfo);
 
     for (var constructor in _classInfo.constructors) {
       if (constructor.name.isEmpty) {
@@ -76,7 +76,7 @@ extension ${_className}Extension on $_className {
 
       // 尽可能地安全处理 json 数据类型转换
       if (fieldType == 'String' || fieldType == 'String?') {
-        valueContent = "\$ElJsonUtil.\$string(json, '$jsonKey')";
+        valueContent = "\$\$ElJsonUtil.\$string(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -87,7 +87,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (fieldType == 'num' || fieldType == 'num?') {
-        valueContent = "\$ElJsonUtil.\$num(json, '$jsonKey')";
+        valueContent = "\$\$ElJsonUtil.\$num(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -98,7 +98,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (fieldType == 'int' || fieldType == 'int?') {
-        valueContent = "\$ElJsonUtil.\$int(json, '$jsonKey')";
+        valueContent = "\$\$ElJsonUtil.\$int(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -109,7 +109,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (fieldType == 'double' || fieldType == 'double?') {
-        valueContent = "\$ElJsonUtil.\$double(json, '$jsonKey')";
+        valueContent = "\$\$ElJsonUtil.\$double(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -120,7 +120,7 @@ extension ${_className}Extension on $_className {
           }
         }
       } else if (fieldType == 'bool' || fieldType == 'bool?') {
-        valueContent = "\$ElJsonUtil.\$bool(json, '$jsonKey')";
+        valueContent = "\$\$ElJsonUtil.\$bool(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -132,7 +132,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreList) {
         valueContent =
-            "\$ElJsonUtil.\$list<${fieldType.getGenericType}>(json, '$jsonKey')";
+            "\$\$ElJsonUtil.\$list<${fieldType.getGenericType}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -144,7 +144,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreSet) {
         valueContent =
-            "\$ElJsonUtil.\$set<${fieldType.getGenericType}>(json, '$jsonKey')";
+            "\$\$ElJsonUtil.\$set<${fieldType.getGenericType}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -156,7 +156,7 @@ extension ${_className}Extension on $_className {
         }
       } else if (fieldInfo.type.isDartCoreMap) {
         valueContent =
-            "\$ElJsonUtil.\$map<${fieldType.getMapGenericType?.value}>(json, '$jsonKey')";
+            "\$\$ElJsonUtil.\$map<${fieldType.getMapGenericType?.value}>(json, '$jsonKey')";
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
           defaultModelValueContent = '$defaultValue';
@@ -173,7 +173,7 @@ extension ${_className}Extension on $_className {
           fieldType.replaceAll(RegExp(r'(<.*>)|\?'), '').firstLowerCase,
         );
         valueContent =
-            "\$ElJsonUtil.\$model<$fieldType>(json, '$jsonKey', $modelName)";
+            "\$\$ElJsonUtil.\$model<$fieldType>(json, '$jsonKey', $modelName)";
 
         if (defaultValue != null) {
           valueContent = '$valueContent ?? $defaultValue';
@@ -190,7 +190,7 @@ extension ${_className}Extension on $_className {
           throw 'fromJson Error: $field 序列化失败，请配置序列化注解';
         } else {
           valueContent =
-              "\$ElJsonUtil.\$custom<$fieldType>(json, '$jsonKey', const $serializeName())";
+              "\$\$ElJsonUtil.\$custom<$fieldType>(json, '$jsonKey', const $serializeName())";
           if (fieldType.endsWith('?') == false) {
             throw 'fromJson Error: $fieldType $field 为自定义序列化类型，生成器无法设置默认值、'
                 '同时也无法访问配置的默认值，你必须添加可为空符号 ?';
@@ -208,7 +208,7 @@ extension ${_className}Extension on $_className {
         .replaceFirst('{{}}', _className.firstLowerCase);
 
     return """
-/// 生成的全局默认实体类对象
+/// 生成的全局默认实体类对象，此对象只用于代码生成器，不推荐用户引用它
 ${_isConstConstructor ? 'const' : 'final'} $_className $modelName = $_className(
   $defaultModelContent
 );
@@ -339,11 +339,11 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
       final fieldInfo = fields[i];
       final field = fieldInfo.name;
       if (fieldInfo.type.isDartCoreList) {
-        content += '&& \$ElJsonUtil.eqList($field, other.$field)';
+        content += '&& \$\$ElJsonUtil.eqList($field, other.$field)';
       } else if (fieldInfo.type.isDartCoreSet) {
-        content += '&& \$ElJsonUtil.eqSet($field, other.$field)';
+        content += '&& \$\$ElJsonUtil.eqSet($field, other.$field)';
       } else if (fieldInfo.type.isDartCoreMap) {
-        content += '&& \$ElJsonUtil.eqMap($field, other.$field)';
+        content += '&& \$\$ElJsonUtil.eqMap($field, other.$field)';
       } else {
         content += '&& $field == other.$field';
       }

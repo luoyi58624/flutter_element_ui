@@ -6,18 +6,18 @@ part of '../../models/clone_model.dart';
 // ElModelGenerator
 // **************************************************************************
 
-/// 生成的全局默认实体类对象
-final CloneModel3 $cloneModel3 = CloneModel3(
+/// 生成的全局默认实体类对象，此对象只用于代码生成器，不推荐用户引用它
+final CloneModel3 $$cloneModel3 = CloneModel3(
   name: '',
   age: 0,
 );
 
 /// 生成 fromJson 方法，将 Map 对象转成实体类
 CloneModel3 _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return $cloneModel3;
+  if (json == null) return $$cloneModel3;
   return CloneModel3(
-    name: $ElJsonUtil.$string(json, 'name') ?? '',
-    age: $ElJsonUtil.$int(json, 'age') ?? 0,
+    name: $$ElJsonUtil.$string(json, 'name') ?? '',
+    age: $$ElJsonUtil.$int(json, 'age') ?? 0,
   );
 }
 

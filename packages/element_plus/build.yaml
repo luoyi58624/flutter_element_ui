@@ -17,8 +17,8 @@ targets:
           - lib/src/app/index.dart
           - lib/src/components/**.dart
         options:
-          # 配置生成的默认模型对象名字，默认：${{}}
-          model_name_template: '${{}}'
+          # 配置生成的默认模型对象名字，默认：$${{}}
+          model_name_template: '_{{}}'
       element_generator|themeModel:
         generate_for:
           - lib/src/app/index.dart

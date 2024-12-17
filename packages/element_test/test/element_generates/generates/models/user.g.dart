@@ -6,20 +6,20 @@ part of '../../models/user.dart';
 // ElModelGenerator
 // **************************************************************************
 
-/// 生成的全局默认实体类对象
-const UserModel $userModel = UserModel();
+/// 生成的全局默认实体类对象，此对象只用于代码生成器，不推荐用户引用它
+const UserModel $$userModel = UserModel();
 
 /// 生成 fromJson 方法，将 Map 对象转成实体类
 UserModel _fromJson(Map<String, dynamic>? json) {
-  if (json == null) return $userModel;
+  if (json == null) return $$userModel;
   return UserModel(
-    username: $ElJsonUtil.$string(json, 'username'),
-    age: $ElJsonUtil.$int(json, 'age'),
-    child: $ElJsonUtil.$model<UserModel?>(json, 'child', $userModel),
-    children: $ElJsonUtil.$list<UserModel>(json, 'children'),
-    animalMap: $ElJsonUtil.$map<AnimalModel>(json, 'animalMap'),
-    mapField: $ElJsonUtil.$map<dynamic>(json, 'mapField'),
-    childName: $ElJsonUtil.$string(json, 'childName'),
+    username: $$ElJsonUtil.$string(json, 'username'),
+    age: $$ElJsonUtil.$int(json, 'age'),
+    child: $$ElJsonUtil.$model<UserModel?>(json, 'child', $$userModel),
+    children: $$ElJsonUtil.$list<UserModel>(json, 'children'),
+    animalMap: $$ElJsonUtil.$map<AnimalModel>(json, 'animalMap'),
+    mapField: $$ElJsonUtil.$map<dynamic>(json, 'mapField'),
+    childName: $$ElJsonUtil.$string(json, 'childName'),
   );
 }
 
@@ -80,9 +80,9 @@ extension UserModelExtension on UserModel {
           username == other.username &&
           age == other.age &&
           child == other.child &&
-          $ElJsonUtil.eqList(children, other.children) &&
-          $ElJsonUtil.eqMap(animalMap, other.animalMap) &&
-          $ElJsonUtil.eqMap(mapField, other.mapField) &&
+          $$ElJsonUtil.eqList(children, other.children) &&
+          $$ElJsonUtil.eqMap(animalMap, other.animalMap) &&
+          $$ElJsonUtil.eqMap(mapField, other.mapField) &&
           childName == other.childName;
 
   /// 生成 hashCode 方法

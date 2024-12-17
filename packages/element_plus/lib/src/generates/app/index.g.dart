@@ -25,12 +25,12 @@ class ElThemeData extends _ElThemeData {
     ringTheme: ElRingThemeData.theme,
     tooltipTheme: ElTooltipThemeData.theme,
     toastTheme: ElToastThemeData.theme,
-    messageTheme: ElMessageThemeData.theme,
     modalTheme: ElModalThemeData.theme,
     treeTheme: ElTreeThemeData.theme,
+    messageTheme: ElMessageThemeData.theme,
     cardTheme: ElCardThemeData.theme,
-    progressTheme: ElProgressThemeData.theme,
     collapseTheme: ElCollapseThemeData.theme,
+    progressTheme: ElProgressThemeData.theme,
     tagTheme: ElTagThemeData.theme,
   );
 
@@ -52,12 +52,12 @@ class ElThemeData extends _ElThemeData {
     ringTheme: ElRingThemeData.darkTheme,
     tooltipTheme: ElTooltipThemeData.darkTheme,
     toastTheme: ElToastThemeData.darkTheme,
-    messageTheme: ElMessageThemeData.darkTheme,
     modalTheme: ElModalThemeData.darkTheme,
     treeTheme: ElTreeThemeData.darkTheme,
+    messageTheme: ElMessageThemeData.darkTheme,
     cardTheme: ElCardThemeData.darkTheme,
-    progressTheme: ElProgressThemeData.darkTheme,
     collapseTheme: ElCollapseThemeData.darkTheme,
+    progressTheme: ElProgressThemeData.darkTheme,
     tagTheme: ElTagThemeData.darkTheme,
   );
 
@@ -109,23 +109,23 @@ class ElThemeData extends _ElThemeData {
   /// 轻提示默认样式
   final ElToastThemeData toastTheme;
 
-  /// 消息提示默认样式
-  final ElMessageThemeData messageTheme;
-
   /// 模态框默认样式
   final ElModalThemeData modalTheme;
 
   /// ElTree 主题数据
   final ElTreeThemeData treeTheme;
 
+  /// 消息提示默认样式
+  final ElMessageThemeData messageTheme;
+
   /// 卡片默认样式
   final ElCardThemeData cardTheme;
 
-  /// 进度条默认样式
-  final ElProgressThemeData progressTheme;
-
   /// 折叠菜单默认样式
   final ElCollapseThemeData collapseTheme;
+
+  /// 进度条默认样式
+  final ElProgressThemeData progressTheme;
 
   /// 标签默认样式
   final ElTagThemeData tagTheme;
@@ -153,12 +153,12 @@ class ElThemeData extends _ElThemeData {
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.messageTheme,
     required this.modalTheme,
     required this.treeTheme,
+    required this.messageTheme,
     required this.cardTheme,
-    required this.progressTheme,
     required this.collapseTheme,
+    required this.progressTheme,
     required this.tagTheme,
   });
 
@@ -180,12 +180,12 @@ class ElThemeData extends _ElThemeData {
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.messageTheme,
     required this.modalTheme,
     required this.treeTheme,
+    required this.messageTheme,
     required this.cardTheme,
-    required this.progressTheme,
     required this.collapseTheme,
+    required this.progressTheme,
     required this.tagTheme,
   }) : super.dark();
 
@@ -212,12 +212,12 @@ class ElThemeData extends _ElThemeData {
     ElRingThemeData? ringTheme,
     ElTooltipThemeData? tooltipTheme,
     ElToastThemeData? toastTheme,
-    ElMessageThemeData? messageTheme,
     ElModalThemeData? modalTheme,
     ElTreeThemeData? treeTheme,
+    ElMessageThemeData? messageTheme,
     ElCardThemeData? cardTheme,
-    ElProgressThemeData? progressTheme,
     ElCollapseThemeData? collapseTheme,
+    ElProgressThemeData? progressTheme,
     ElTagThemeData? tagTheme,
   }) {
     return ElThemeData._(
@@ -242,12 +242,12 @@ class ElThemeData extends _ElThemeData {
       ringTheme: this.ringTheme.merge(ringTheme),
       tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
-      messageTheme: this.messageTheme.merge(messageTheme),
       modalTheme: this.modalTheme.merge(modalTheme),
       treeTheme: this.treeTheme.merge(treeTheme),
+      messageTheme: this.messageTheme.merge(messageTheme),
       cardTheme: this.cardTheme.merge(cardTheme),
-      progressTheme: this.progressTheme.merge(progressTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
+      progressTheme: this.progressTheme.merge(progressTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
     );
   }
@@ -277,12 +277,12 @@ class ElThemeData extends _ElThemeData {
       ringTheme: other.ringTheme,
       tooltipTheme: other.tooltipTheme,
       toastTheme: other.toastTheme,
-      messageTheme: other.messageTheme,
       modalTheme: other.modalTheme,
       treeTheme: other.treeTheme,
+      messageTheme: other.messageTheme,
       cardTheme: other.cardTheme,
-      progressTheme: other.progressTheme,
       collapseTheme: other.collapseTheme,
+      progressTheme: other.progressTheme,
       tagTheme: other.tagTheme,
     );
   }

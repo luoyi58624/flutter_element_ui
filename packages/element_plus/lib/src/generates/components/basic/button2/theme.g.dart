@@ -42,9 +42,11 @@ extension ElButton2ThemeDataExtension on ElButton2ThemeData {
 extension ElTextButtonThemeDataExtension on ElTextButtonThemeData {
   /// 接收一组可选参数，返回新的对象
   ElTextButtonThemeData copyWith({
+    String? type,
     bool? bg,
   }) {
     return ElTextButtonThemeData(
+      type: type ?? this.type,
       bg: bg ?? this.bg,
     );
   }
@@ -53,6 +55,7 @@ extension ElTextButtonThemeDataExtension on ElTextButtonThemeData {
   ElTextButtonThemeData merge([ElTextButtonThemeData? other]) {
     if (other == null) return this;
     return copyWith(
+      type: other.type,
       bg: other.bg,
     );
   }
@@ -62,8 +65,9 @@ extension ElTextButtonThemeDataExtension on ElTextButtonThemeData {
       identical(this, other) ||
       other is ElTextButtonThemeData &&
           runtimeType == other.runtimeType &&
+          type == other.type &&
           bg == other.bg;
 
   /// 生成 hashCode 方法
-  int get _hashCode => bg.hashCode;
+  int get _hashCode => type.hashCode ^ bg.hashCode;
 }

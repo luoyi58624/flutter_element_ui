@@ -6,8 +6,8 @@ const String _formJsonErrorStart = '(error) ElModel fromJson: ';
 const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示。';
 
 /// 安全地访问 json 数据，此工具类只用于 [element_generator] 生成的代码
-class $ElJsonUtil {
-  $ElJsonUtil._();
+class $$ElJsonUtil {
+  $$ElJsonUtil._();
 
   static dynamic _getJsonValue(dynamic json, String key) {
     return json[key] ?? json[key.toUnderline];

@@ -9,6 +9,9 @@ import 'element_generates/models/test.dart';
 
 void elementGeneratesTest() {
   group('序列化测试', () {
+    // 这是一个比较复杂的实体模型测试，序列化 json 的数据包含各种类型数据（字符串、数字、布尔、数组、实体对象、颜色），
+    // 这个测试的目标是让生成的 formJson 能够尽可能地正确转换数据，避免常见的类型转换错误，
+    // 例如 dart 常见的低级类型转换错误：int -> String，String -> int
     test('TestModel 基础测试', () {
       String json =
           '{"custom_string": "10.0", "stringField2": 10.0, "stringField3": 10, "stringField4": false, '
