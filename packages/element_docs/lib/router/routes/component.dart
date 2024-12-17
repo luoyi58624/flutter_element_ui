@@ -31,10 +31,6 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const ButtonPage(),
     ),
     RouterUtil.buildRoute(
-      path: '${path}button_group',
-      builder: (context, state) => const ButtonGroupPage(),
-    ),
-    RouterUtil.buildRoute(
       path: '${path}color',
       builder: (context, state) => const ColorPage(),
     ),

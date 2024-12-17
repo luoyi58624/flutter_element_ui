@@ -30,7 +30,6 @@ import '../pages/guide/nav/index.dart';
 import '../pages/guide/quick_start/index.dart';
 import '../pages/guide/theme/index.dart';
 import '../pages/component/basic/button/index.dart';
-import '../pages/component/basic/button_group/index.dart';
 import '../pages/component/basic/color/index.dart';
 import '../pages/component/basic/icon/index.dart';
 import '../pages/component/basic/text/index.dart';

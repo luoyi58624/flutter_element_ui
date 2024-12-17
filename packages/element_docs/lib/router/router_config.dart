@@ -107,11 +107,6 @@ class SlideRouterConfig {
         ('Event 交互事件', '/${RootRoute.component.$2}/event', WorkStatus.finished),
         ('Focus 焦点', '/${RootRoute.component.$2}/focus', WorkStatus.finished),
         ('Button 按钮', '/${RootRoute.component.$2}/button', WorkStatus.finished),
-        (
-          'ButtonGroup 按钮组',
-          '/${RootRoute.component.$2}/button_group',
-          WorkStatus.finished
-        ),
         ('Color 色彩', '/${RootRoute.component.$2}/color', WorkStatus.finished),
         ('Icon 图标', '/${RootRoute.component.$2}/icon', WorkStatus.finished),
         ('Text 文本', '/${RootRoute.component.$2}/text', WorkStatus.finished),
