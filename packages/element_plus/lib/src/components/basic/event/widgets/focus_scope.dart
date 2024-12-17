@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 /// Element UI 控制焦点作用域小部件，此小部件只是对 [FocusScope] 进行一些略微增强，
 /// 但它需要配合 [ElEvent] 小部件一起工作，如果 [ElEvent] 祖先存在 [ElFocusScope]，

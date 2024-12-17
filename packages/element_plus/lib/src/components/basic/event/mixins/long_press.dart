@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _LongPressMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 长按事件计时器

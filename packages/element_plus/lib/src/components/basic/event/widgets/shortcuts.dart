@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 /// Element UI 快捷键小部件，
 class ElShortcuts extends StatelessWidget {

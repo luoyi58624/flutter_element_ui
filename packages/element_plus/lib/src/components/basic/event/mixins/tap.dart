@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _TapMixin<T extends ElEvent>
     on _CommonMixin<T>, _LongPressMixin<T>, _FocusMixin<T> {

@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _DragMixin<T extends ElEvent> on _CommonMixin<T> {
   late bool hasMoveEvent;

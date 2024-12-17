@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../components/basic/event/index.dart';
+part of '../../../../components/basic/event/event.dart';
 
 // **************************************************************************
 // ElModelGenerator

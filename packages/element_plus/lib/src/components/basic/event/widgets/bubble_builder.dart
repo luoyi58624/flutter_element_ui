@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 /// 捕获 [ElEvent] 事件冒泡小部件，这通常用于 [GestureDetector] 嵌套 [ElEvent] 时引发事件冒泡的场景。
 ///

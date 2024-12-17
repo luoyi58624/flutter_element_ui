@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _HoverMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 是否存在悬停状态依赖，如果没有依赖需要防止不必要的重新渲染

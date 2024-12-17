@@ -1,4 +1,4 @@
-part of 'index.dart';
+part of 'event.dart';
 
 @ElModel.copy()
 @ElThemeModel(desc: '事件默认配置')

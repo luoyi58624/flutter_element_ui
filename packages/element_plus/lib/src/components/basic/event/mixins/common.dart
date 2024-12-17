@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 /// 各种类型事件的通用属性 mixin
 mixin _CommonMixin<T extends ElEvent> on State<T> {

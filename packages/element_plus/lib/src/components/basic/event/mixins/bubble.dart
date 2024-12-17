@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _BubbleMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 冒泡标识，如果此标识变成 false，意味着后代组件阻止了事件冒泡

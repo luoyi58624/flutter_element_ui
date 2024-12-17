@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _DoubleTapMixin<T extends ElEvent> on _CommonMixin<T>, _TapMixin<T> {
   /// 双击事件处理，当第一次指针抬起时，如果用户注册了双击事件，

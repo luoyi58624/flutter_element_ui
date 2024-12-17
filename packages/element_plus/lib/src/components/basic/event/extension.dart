@@ -1,4 +1,4 @@
-part of 'index.dart';
+part of 'event.dart';
 
 extension ElPointerDownEventExtension on PointerDownEvent {
   TapDownDetails get toDetails => TapDownDetails(

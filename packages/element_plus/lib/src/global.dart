@@ -10,7 +10,7 @@ export 'service.dart';
 export 'types.dart';
 
 export 'app/index.dart';
-export 'components/basic/event/index.dart';
+export 'components/basic/event/event.dart';
 export 'components/basic/text/index.dart';
 export 'components/basic/icon/index.dart';
 

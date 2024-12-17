@@ -1,5 +1,7 @@
 import 'package:element_docs/global.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ThemePage extends ResponsivePage {
   const ThemePage({super.key});
@@ -10,47 +12,27 @@ class ThemePage extends ResponsivePage {
   @override
   List<Widget> buildPage(BuildContext context) {
     return [
-      ElButton(
-        onPressed: () {
-          el.context.push(const _ChildPage());
-        },
-        child: '下一页',
+      TriggerOffsetDraggable(
+        rootOverlay: true,
+        feedback: Container(
+          width: 100,
+          height: 100,
+          color: Colors.green,
+        ),
+        childWhenDragging: const SizedBox(
+          width: 100,
+          height: 100,
+        ),
+        child: Container(
+          width: 100,
+          height: 100,
+          color: Colors.grey,
+        ),
       ),
       Container(
-        width: 50,
-        height: 50,
-        color: el.context.isDark ? Colors.red : Colors.green,
+        height: 1000,
+        color: Colors.blueGrey,
       ),
     ];
-  }
-}
-
-class _ChildPage extends StatelessWidget {
-  const _ChildPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-        actions: [
-          ObsBuilder(builder: (context) {
-            return IconButton(
-              tooltip: GlobalState.isDark ? '切换亮色模式' : '切换黑暗模式',
-              onPressed: () {
-                GlobalState.isDark = !GlobalState.isDark;
-              },
-              icon: Icon(
-                GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
-              ),
-              color: context.elTheme.iconTheme.color,
-            );
-          }),
-        ],
-      ),
-      body: const Column(
-        children: [],
-      ),
-    );
   }
 }

@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 mixin _FocusMixin<T extends ElEvent> on _CommonMixin<T> {
   /// 焦点组节点对象，如果使用 [ElFocusScope]，那么它将初始化

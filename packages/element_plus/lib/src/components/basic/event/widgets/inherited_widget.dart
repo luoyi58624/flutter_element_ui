@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 class _EventInheritedWidget extends InheritedWidget {
   const _EventInheritedWidget(

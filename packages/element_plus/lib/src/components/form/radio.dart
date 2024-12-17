@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
 
-import '../basic/event/index.dart';
+import '../basic/event/event.dart';
 
 part 'radio_group.dart';
 

@@ -1,4 +1,4 @@
-part of '../index.dart';
+part of '../event.dart';
 
 /// 阻止事件冒泡小部件，它会在指针按下时立即触发，另一种方式是手动执行 context.stopPropagation()
 class ElStopPropagation extends InheritedWidget {
