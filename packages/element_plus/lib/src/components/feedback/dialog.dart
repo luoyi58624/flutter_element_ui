@@ -1,7 +1,6 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:element_plus/src/global.dart';
-
-import '../basic/button/index.dart';
 
 /// Element 对话框组件
 class ElDialog extends StatelessWidget {

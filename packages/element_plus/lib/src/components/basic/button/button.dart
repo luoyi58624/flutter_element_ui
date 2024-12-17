@@ -12,8 +12,8 @@ typedef ElButtonColorRecord = ({
   Color? borderColor,
 });
 
-class ElButton2 extends StatefulWidget {
-  const ElButton2({
+class ElButton extends StatefulWidget {
+  const ElButton({
     super.key,
     required this.child,
     this.duration,
@@ -99,19 +99,19 @@ class ElButton2 extends StatefulWidget {
   final VoidCallback? onPressed;
 
   @override
-  State<ElButton2> createState() => ElButton2State();
+  State<ElButton> createState() => ElButtonState();
 }
 
-class ElButton2State<T extends ElButton2> extends State<T> {
+class ElButtonState<T extends ElButton> extends State<T> {
   late ElCommonSizePreset commonSizePreset;
   late ElButtonSizePreset buttonSizePreset;
   late ElButtonColorRecord colorRecord;
   late MouseCursor cursor;
   late bool _triggerLoadingBuilder;
 
-  late ElButton2ThemeData _themeData;
+  late ElButtonThemeData _themeData;
 
-  ElButton2ThemeData get themeData => _themeData;
+  ElButtonThemeData get themeData => _themeData;
 
   Widget get child =>
       widget.child is Widget ? widget.child : ElText('${widget.child}');
@@ -242,8 +242,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   }
 
   /// 构建主题数据
-  ElButton2ThemeData buildThemeData(BuildContext context) {
-    return ElButton2Theme.of(context).copyWith(
+  ElButtonThemeData buildThemeData(BuildContext context) {
+    return ElButtonTheme.of(context).copyWith(
       duration: widget.duration,
       curve: widget.curve,
       type: widget.type,

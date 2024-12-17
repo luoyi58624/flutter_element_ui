@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../components/basic/button2/theme.dart';
+part of '../../../../components/basic/button/theme.dart';
 
 // **************************************************************************
 // ElModelGenerator
@@ -367,7 +367,7 @@ class ElButtonTheme extends StatelessWidget {
 
   /// 通过上下文访问默认的主题数据，如果为 null，则返回默认的全局主题数据
   static ElButtonThemeData of(BuildContext context) =>
-      maybeOf(context) ?? context.elTheme.button2Theme;
+      maybeOf(context) ?? context.elTheme.buttonTheme;
 
   @override
   Widget build(BuildContext context) {

@@ -12,12 +12,11 @@ class ElThemeData extends _ElThemeData {
     inputTheme: ElInputThemeData.theme,
     sliderTheme: ElSliderThemeData.theme,
     layoutTheme: ElLayoutThemeData.theme,
-    linkTheme: ElLinkThemeData.theme,
     buttonTheme: ElButtonThemeData.theme,
-    button2Theme: ElButton2ThemeData.theme,
     outlineButtonTheme: ElOutlineButtonThemeData.theme,
     textButtonTheme: ElTextButtonThemeData.theme,
     linkButtonTheme: ElLinkButtonThemeData.theme,
+    linkTheme: ElLinkThemeData.theme,
     textTheme: ElTextThemeData.theme,
     iconTheme: ElIconThemeData.theme,
     eventTheme: ElEventThemeData.theme,
@@ -29,12 +28,12 @@ class ElThemeData extends _ElThemeData {
     ringTheme: ElRingThemeData.theme,
     tooltipTheme: ElTooltipThemeData.theme,
     toastTheme: ElToastThemeData.theme,
-    messageTheme: ElMessageThemeData.theme,
     modalTheme: ElModalThemeData.theme,
+    messageTheme: ElMessageThemeData.theme,
     treeTheme: ElTreeThemeData.theme,
     cardTheme: ElCardThemeData.theme,
-    progressTheme: ElProgressThemeData.theme,
     collapseTheme: ElCollapseThemeData.theme,
+    progressTheme: ElProgressThemeData.theme,
     tagTheme: ElTagThemeData.theme,
   );
 
@@ -43,12 +42,11 @@ class ElThemeData extends _ElThemeData {
     inputTheme: ElInputThemeData.darkTheme,
     sliderTheme: ElSliderThemeData.darkTheme,
     layoutTheme: ElLayoutThemeData.darkTheme,
-    linkTheme: ElLinkThemeData.darkTheme,
     buttonTheme: ElButtonThemeData.darkTheme,
-    button2Theme: ElButton2ThemeData.darkTheme,
     outlineButtonTheme: ElOutlineButtonThemeData.darkTheme,
     textButtonTheme: ElTextButtonThemeData.darkTheme,
     linkButtonTheme: ElLinkButtonThemeData.darkTheme,
+    linkTheme: ElLinkThemeData.darkTheme,
     textTheme: ElTextThemeData.darkTheme,
     iconTheme: ElIconThemeData.darkTheme,
     eventTheme: ElEventThemeData.darkTheme,
@@ -60,12 +58,12 @@ class ElThemeData extends _ElThemeData {
     ringTheme: ElRingThemeData.darkTheme,
     tooltipTheme: ElTooltipThemeData.darkTheme,
     toastTheme: ElToastThemeData.darkTheme,
-    messageTheme: ElMessageThemeData.darkTheme,
     modalTheme: ElModalThemeData.darkTheme,
+    messageTheme: ElMessageThemeData.darkTheme,
     treeTheme: ElTreeThemeData.darkTheme,
     cardTheme: ElCardThemeData.darkTheme,
-    progressTheme: ElProgressThemeData.darkTheme,
     collapseTheme: ElCollapseThemeData.darkTheme,
+    progressTheme: ElProgressThemeData.darkTheme,
     tagTheme: ElTagThemeData.darkTheme,
   );
 
@@ -78,14 +76,8 @@ class ElThemeData extends _ElThemeData {
   /// 布局样式
   final ElLayoutThemeData layoutTheme;
 
-  /// 超链接默认样式
-  final ElLinkThemeData linkTheme;
-
-  /// 按钮默认样式
-  final ElButtonThemeData buttonTheme;
-
   /// 默认按钮默认样式
-  final ElButton2ThemeData button2Theme;
+  final ElButtonThemeData buttonTheme;
 
   /// 边框按钮默认样式
   final ElOutlineButtonThemeData outlineButtonTheme;
@@ -95,6 +87,9 @@ class ElThemeData extends _ElThemeData {
 
   /// 链接按钮默认样式
   final ElLinkButtonThemeData linkButtonTheme;
+
+  /// 超链接默认样式
+  final ElLinkThemeData linkTheme;
 
   /// 文本默认样式
   final ElTextThemeData textTheme;
@@ -129,11 +124,11 @@ class ElThemeData extends _ElThemeData {
   /// 轻提示默认样式
   final ElToastThemeData toastTheme;
 
-  /// 消息提示默认样式
-  final ElMessageThemeData messageTheme;
-
   /// 模态框默认样式
   final ElModalThemeData modalTheme;
+
+  /// 消息提示默认样式
+  final ElMessageThemeData messageTheme;
 
   /// ElTree 主题数据
   final ElTreeThemeData treeTheme;
@@ -141,11 +136,11 @@ class ElThemeData extends _ElThemeData {
   /// 卡片默认样式
   final ElCardThemeData cardTheme;
 
-  /// 进度条默认样式
-  final ElProgressThemeData progressTheme;
-
   /// 折叠菜单默认样式
   final ElCollapseThemeData collapseTheme;
+
+  /// 进度条默认样式
+  final ElProgressThemeData progressTheme;
 
   /// 标签默认样式
   final ElTagThemeData tagTheme;
@@ -160,12 +155,11 @@ class ElThemeData extends _ElThemeData {
     required this.inputTheme,
     required this.sliderTheme,
     required this.layoutTheme,
-    required this.linkTheme,
     required this.buttonTheme,
-    required this.button2Theme,
     required this.outlineButtonTheme,
     required this.textButtonTheme,
     required this.linkButtonTheme,
+    required this.linkTheme,
     required this.textTheme,
     required this.iconTheme,
     required this.eventTheme,
@@ -177,12 +171,12 @@ class ElThemeData extends _ElThemeData {
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.messageTheme,
     required this.modalTheme,
+    required this.messageTheme,
     required this.treeTheme,
     required this.cardTheme,
-    required this.progressTheme,
     required this.collapseTheme,
+    required this.progressTheme,
     required this.tagTheme,
   });
 
@@ -191,12 +185,11 @@ class ElThemeData extends _ElThemeData {
     required this.inputTheme,
     required this.sliderTheme,
     required this.layoutTheme,
-    required this.linkTheme,
     required this.buttonTheme,
-    required this.button2Theme,
     required this.outlineButtonTheme,
     required this.textButtonTheme,
     required this.linkButtonTheme,
+    required this.linkTheme,
     required this.textTheme,
     required this.iconTheme,
     required this.eventTheme,
@@ -208,12 +201,12 @@ class ElThemeData extends _ElThemeData {
     required this.ringTheme,
     required this.tooltipTheme,
     required this.toastTheme,
-    required this.messageTheme,
     required this.modalTheme,
+    required this.messageTheme,
     required this.treeTheme,
     required this.cardTheme,
-    required this.progressTheme,
     required this.collapseTheme,
+    required this.progressTheme,
     required this.tagTheme,
   }) : super.dark();
 
@@ -227,12 +220,11 @@ class ElThemeData extends _ElThemeData {
     ElInputThemeData? inputTheme,
     ElSliderThemeData? sliderTheme,
     ElLayoutThemeData? layoutTheme,
-    ElLinkThemeData? linkTheme,
     ElButtonThemeData? buttonTheme,
-    ElButton2ThemeData? button2Theme,
     ElOutlineButtonThemeData? outlineButtonTheme,
     ElTextButtonThemeData? textButtonTheme,
     ElLinkButtonThemeData? linkButtonTheme,
+    ElLinkThemeData? linkTheme,
     ElTextThemeData? textTheme,
     ElIconThemeData? iconTheme,
     ElEventThemeData? eventTheme,
@@ -244,12 +236,12 @@ class ElThemeData extends _ElThemeData {
     ElRingThemeData? ringTheme,
     ElTooltipThemeData? tooltipTheme,
     ElToastThemeData? toastTheme,
-    ElMessageThemeData? messageTheme,
     ElModalThemeData? modalTheme,
+    ElMessageThemeData? messageTheme,
     ElTreeThemeData? treeTheme,
     ElCardThemeData? cardTheme,
-    ElProgressThemeData? progressTheme,
     ElCollapseThemeData? collapseTheme,
+    ElProgressThemeData? progressTheme,
     ElTagThemeData? tagTheme,
   }) {
     return ElThemeData._(
@@ -261,12 +253,11 @@ class ElThemeData extends _ElThemeData {
       inputTheme: this.inputTheme.merge(inputTheme),
       sliderTheme: this.sliderTheme.merge(sliderTheme),
       layoutTheme: this.layoutTheme.merge(layoutTheme),
-      linkTheme: this.linkTheme.merge(linkTheme),
       buttonTheme: this.buttonTheme.merge(buttonTheme),
-      button2Theme: this.button2Theme.merge(button2Theme),
       outlineButtonTheme: this.outlineButtonTheme.merge(outlineButtonTheme),
       textButtonTheme: this.textButtonTheme.merge(textButtonTheme),
       linkButtonTheme: this.linkButtonTheme.merge(linkButtonTheme),
+      linkTheme: this.linkTheme.merge(linkTheme),
       textTheme: this.textTheme.merge(textTheme),
       iconTheme: this.iconTheme.merge(iconTheme),
       eventTheme: this.eventTheme.merge(eventTheme),
@@ -278,12 +269,12 @@ class ElThemeData extends _ElThemeData {
       ringTheme: this.ringTheme.merge(ringTheme),
       tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
-      messageTheme: this.messageTheme.merge(messageTheme),
       modalTheme: this.modalTheme.merge(modalTheme),
+      messageTheme: this.messageTheme.merge(messageTheme),
       treeTheme: this.treeTheme.merge(treeTheme),
       cardTheme: this.cardTheme.merge(cardTheme),
-      progressTheme: this.progressTheme.merge(progressTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
+      progressTheme: this.progressTheme.merge(progressTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
     );
   }
@@ -300,12 +291,11 @@ class ElThemeData extends _ElThemeData {
       inputTheme: other.inputTheme,
       sliderTheme: other.sliderTheme,
       layoutTheme: other.layoutTheme,
-      linkTheme: other.linkTheme,
       buttonTheme: other.buttonTheme,
-      button2Theme: other.button2Theme,
       outlineButtonTheme: other.outlineButtonTheme,
       textButtonTheme: other.textButtonTheme,
       linkButtonTheme: other.linkButtonTheme,
+      linkTheme: other.linkTheme,
       textTheme: other.textTheme,
       iconTheme: other.iconTheme,
       eventTheme: other.eventTheme,
@@ -317,12 +307,12 @@ class ElThemeData extends _ElThemeData {
       ringTheme: other.ringTheme,
       tooltipTheme: other.tooltipTheme,
       toastTheme: other.toastTheme,
-      messageTheme: other.messageTheme,
       modalTheme: other.modalTheme,
+      messageTheme: other.messageTheme,
       treeTheme: other.treeTheme,
       cardTheme: other.cardTheme,
-      progressTheme: other.progressTheme,
       collapseTheme: other.collapseTheme,
+      progressTheme: other.progressTheme,
       tagTheme: other.tagTheme,
     );
   }

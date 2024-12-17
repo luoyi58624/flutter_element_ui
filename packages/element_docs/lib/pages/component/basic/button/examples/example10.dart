@@ -1,5 +1,7 @@
+import 'dart:ui';
+
 import 'package:element_docs/global.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class Example10 extends StatelessWidget {
   const Example10({super.key, required this.title});
@@ -12,15 +14,16 @@ class Example10 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: ['拆分按钮是具有主要操作和次要操作的按钮，主要用于打开菜单'],
-        ),
-        textGap,
         CodeExample(
           code: code,
           children: const [
             _Example(),
+            Gap(8),
+            _Example2(),
+            Gap(8),
+            _Example3(),
+            Gap(8),
+            _Example4(),
           ],
         ),
       ],
@@ -28,53 +31,145 @@ class Example10 extends StatelessWidget {
   }
 }
 
+/// 普通按钮组示例
 class _Example extends HookWidget {
   const _Example();
 
   @override
   Widget build(BuildContext context) {
-    final count = useState(0);
-    return ElEventTheme(
-      data: ElEventThemeData(
-        onTapDown: (e) {
-          el.message.primary('点击按钮');
-        },
-        onCancel: () {
-          el.message.error('取消点击');
-        },
-      ),
-      child: ElButton(
-        onPressed: () {
-          count.value++;
-        },
-        type: 'primary',
-        child: ElText('count: ${count.value}'),
-      ),
+    return const ElButtonGroup2(children: [
+      ElButtonGroupItem(child: '选项一'),
+      ElButtonGroupItem(child: '选项二'),
+      ElButtonGroupItem(child: '选项三'),
+    ]);
+  }
+}
+
+/// 单选按钮组示例
+class _Example2 extends HookWidget {
+  const _Example2();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState(0);
+    return ElButtonGroup2.single(
+      selectedIndex,
+      type: El.success,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}
+
+/// 多选按钮组示例
+class _Example3 extends HookWidget {
+  const _Example3();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      type: El.info,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}
+
+/// 自定义颜色
+class _Example4 extends HookWidget {
+  const _Example4();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      bgColor: Colors.purple,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
     );
   }
 }
 
 String get code => '''
-Wrap(
-  spacing: 8,
-  runSpacing: 8,
-  children: [
-    ElButton(
-      height: 20,
-      type: 'primary',
-      child: ElText('小型按钮', style: TextStyle(fontSize: 12)),
-    ),
-    ElButton(
-      width: 160,
-      height: 48,
-      type: 'primary',
-      child: ElText('按钮', style: TextStyle(fontSize: 20)),
-    ),
-    ElButton(
-      padding: EdgeInsets.symmetric(horizontal: 80, vertical: 28),
-      borderRadius: BorderRadius.circular(16),
-      type: 'primary',
-      child: ElText('按钮', style: TextStyle(fontSize: 24)),
-    ),
-  ],
-),''';
+/// 普通按钮组示例
+class _Example extends HookWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    return const ElButtonGroup2(children: [
+      ElButtonGroupItem(child: '选项一'),
+      ElButtonGroupItem(child: '选项二'),
+      ElButtonGroupItem(child: '选项三'),
+    ]);
+  }
+}
+
+/// 单选按钮组示例
+class _Example2 extends HookWidget {
+  const _Example2();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState(0);
+    return ElButtonGroup2.single(
+      selectedIndex,
+      type: El.success,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}
+
+/// 多选按钮组示例
+class _Example3 extends HookWidget {
+  const _Example3();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      type: El.info,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}
+
+/// 自定义颜色
+class _Example4 extends HookWidget {
+  const _Example4();
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = useState<List<int>>([]);
+    return ElButtonGroup2.multi(
+      selectedIndex,
+      bgColor: Colors.purple,
+      children: const [
+        ElButtonGroupItem(child: '选项一'),
+        ElButtonGroupItem(child: '选项二'),
+        ElButtonGroupItem(child: '选项三'),
+      ],
+    );
+  }
+}''';

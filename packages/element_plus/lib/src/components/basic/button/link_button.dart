@@ -44,7 +44,7 @@ class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
       themeData.loadingBuilder ?? ElLinkButton.defaultLoadingBuilder;
 
   @override
-  ElButton2ThemeData buildThemeData(BuildContext context) {
+  ElButtonThemeData buildThemeData(BuildContext context) {
     return ElLinkButtonTheme.of(context).copyWith(
       duration: widget.duration,
       curve: widget.curve,

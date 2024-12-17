@@ -11,7 +11,7 @@ class ButtonListTestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ElButton2'),
+        title: const Text('ElButton'),
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
@@ -21,7 +21,7 @@ class ButtonListTestPage extends StatelessWidget {
               _num,
               (index) => Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: ElButton2(
+                child: ElButton(
                   type: El.primary,
                   child: 'Item - ${index + 1}',
                 ),

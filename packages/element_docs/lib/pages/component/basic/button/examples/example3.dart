@@ -1,5 +1,5 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 import '../index.dart';
 
@@ -14,59 +14,12 @@ class Example3 extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title),
-        const SectionCard(
-          title: 'Tip',
-          content: ['链接按钮的外观与普通文字完全一样，你可以搭配 ElLink 一起使用'],
-        ),
-        textGap,
         CodeExample(
           code: code,
-          children: [
-            Wrap(
-              spacing: 16,
-              runSpacing: 8,
-              children: ButtonPage.buttonTypes
-                  .map(
-                    (type) => ElButton(
-                      type: type,
-                      link: true,
-                      child: (type ?? 'Default').firstUpperCase,
-                    ),
-                  )
-                  .toList(),
-            ),
-            const Gap(12),
-            Wrap(
-              spacing: 16,
-              runSpacing: 8,
-              children: ButtonPage.buttonTypes
-                  .map(
-                    (type) => ElLink(
-                      href: githubLink,
-                      child: ElButton(
-                        type: type,
-                        link: true,
-                        child: (type ?? 'Default').firstUpperCase,
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-            const Gap(12),
-            Wrap(
-              spacing: 16,
-              runSpacing: 8,
-              children: ButtonPage.buttonTypes
-                  .map(
-                    (type) => ElButton(
-                      type: type,
-                      link: true,
-                      disabled: true,
-                      child: (type ?? 'Default').firstUpperCase,
-                    ),
-                  )
-                  .toList(),
-            ),
+          children: const [
+            _Example(),
+            Gap(8),
+            _Example2(),
           ],
         ),
       ],
@@ -74,10 +27,49 @@ class Example3 extends StatelessWidget {
   }
 }
 
-String get code => '''
-ElButton(child: 'Hello', link: true),
+class _Example extends StatelessWidget {
+  const _Example();
 
-const ElLink(
-  href: 'https://github.com/luoyi58624/flutter_element_ui',
-  child: ElButton(child: 'Hello', link: true),
-),''';
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      runSpacing: 8,
+      children: [null, ...El.themeTypes]
+          .map((type) => ElLinkButton(type: type, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+class _Example2 extends StatelessWidget {
+  const _Example2();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      runSpacing: 8,
+      children: [null, ...El.themeTypes]
+          .map((type) =>
+              ElLinkButton(type: type, disabled: true, child: 'Hello'))
+          .toList(),
+    );
+  }
+}
+
+String get code => '''
+class _Example extends StatelessWidget {
+  const _Example();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      runSpacing: 8,
+      children: [null, ...El.themeTypes]
+          .map((type) => ElLinkButton(type: type, child: 'Hello'))
+          .toList(),
+    );
+  }
+}''';

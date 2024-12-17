@@ -20,7 +20,7 @@ class NavPage extends ResponsivePage {
           ElRing(
             show: true,
             offset: 8,
-            child: ElButton2(child: 'Hello'),
+            child: ElButton(child: 'Hello'),
           ),
           ElText('Hello'),
         ],
@@ -30,7 +30,7 @@ class NavPage extends ResponsivePage {
         onPressed: () {
           context.push(const ButtonListTestPage());
         },
-        child: 'ElButton2',
+        child: 'ElButton',
       ),
       const Gap(8),
       ElButton(

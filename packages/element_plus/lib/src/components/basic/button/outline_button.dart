@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'button.dart';
 import 'theme.dart';
 
-class ElOutlineButton extends ElButton2 {
+class ElOutlineButton extends ElButton {
   /// Element UI 边框按钮
   const ElOutlineButton({
     super.key,
@@ -37,10 +37,10 @@ class ElOutlineButton extends ElButton2 {
   final double? borderWidth;
 
   @override
-  State<ElButton2> createState() => _ElOutlineButtonState();
+  State<ElButton> createState() => _ElOutlineButtonState();
 }
 
-class _ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
+class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
   bool get plain => themeData.plain ?? true;
 
   bool get onlyActiveBorder => themeData.onlyActiveBorder ?? false;
@@ -64,7 +64,7 @@ class _ElOutlineButtonState extends ElButton2State<ElOutlineButton> {
       );
 
   @override
-  ElButton2ThemeData buildThemeData(BuildContext context) {
+  ElButtonThemeData buildThemeData(BuildContext context) {
     return ElOutlineButtonTheme.of(context).copyWith(
       plain: widget.plain,
       onlyActiveBorder: widget.onlyActiveBorder,

@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'button.dart';
 import 'theme.dart';
 
-class ElTextButton extends ElButton2 {
+class ElTextButton extends ElButton {
   /// Element UI 文字按钮，外观与 [ElButton] 一样，但按钮颜色会跟随当前背景色
   const ElTextButton({
     super.key,
@@ -35,10 +35,10 @@ class ElTextButton extends ElButton2 {
   final double? iconScale;
 
   @override
-  State<ElButton2> createState() => ElTextButtonState();
+  State<ElButton> createState() => ElTextButtonState();
 }
 
-class ElTextButtonState<T extends ElTextButton> extends ElButton2State<T> {
+class ElTextButtonState<T extends ElTextButton> extends ElButtonState<T> {
   bool get bg => themeData.bg ?? false;
 
   double get iconScale => themeData.iconScale ?? 1.2;
@@ -69,7 +69,7 @@ class ElTextButtonState<T extends ElTextButton> extends ElButton2State<T> {
           : context.elThemeColors[type]!);
 
   @override
-  ElButton2ThemeData buildThemeData(BuildContext context) {
+  ElButtonThemeData buildThemeData(BuildContext context) {
     return ElTextButtonTheme.of(context).copyWith(
       color: widget.color,
       bg: widget.bg,

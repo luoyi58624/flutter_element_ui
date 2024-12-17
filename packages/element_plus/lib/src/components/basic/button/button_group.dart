@@ -402,7 +402,7 @@ class _GroupDivide extends StatelessWidget {
   }
 }
 
-class ElButtonGroupItem extends ElButton2 {
+class ElButtonGroupItem extends ElButton {
   /// Element UI 按钮组子项，它必须放置于 [ElButtonGroup2] 中
   const ElButtonGroupItem({
     super.key,
@@ -415,7 +415,7 @@ class ElButtonGroupItem extends ElButton2 {
   State<ElButtonGroupItem> createState() => _ElButtonGroupItemState();
 }
 
-class _ElButtonGroupItemState extends ElButton2State<ElButtonGroupItem> {
+class _ElButtonGroupItemState extends ElButtonState<ElButtonGroupItem> {
   late _ElButtonGroupInheritedWidget _groupWidget;
   late ElChildIndex _indexData;
   late bool _isHorizontal;

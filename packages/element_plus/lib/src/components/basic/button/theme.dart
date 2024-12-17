@@ -1,15 +1,15 @@
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/widgets.dart';
 
-part '../../../generates/components/basic/button2/theme.g.dart';
+part '../../../generates/components/basic/button/theme.g.dart';
 
 @ElModel.copy()
 @ElThemeModel(desc: '默认按钮默认样式')
-class ElButton2ThemeData {
-  static const theme = ElButton2ThemeData();
-  static const darkTheme = ElButton2ThemeData();
+class ElButtonThemeData {
+  static const theme = ElButtonThemeData();
+  static const darkTheme = ElButtonThemeData();
 
-  const ElButton2ThemeData({
+  const ElButtonThemeData({
     this.duration,
     this.curve,
     this.type,
@@ -50,7 +50,7 @@ class ElButton2ThemeData {
 
 @ElModel.copy()
 @ElThemeModel(desc: '边框按钮默认样式')
-class ElOutlineButtonThemeData extends ElButton2ThemeData {
+class ElOutlineButtonThemeData extends ElButtonThemeData {
   static const theme = ElOutlineButtonThemeData();
   static const darkTheme = ElOutlineButtonThemeData();
 
@@ -87,7 +87,7 @@ class ElOutlineButtonThemeData extends ElButton2ThemeData {
 
 @ElModel.copy()
 @ElThemeModel(desc: '文字按钮默认样式')
-class ElTextButtonThemeData extends ElButton2ThemeData {
+class ElTextButtonThemeData extends ElButtonThemeData {
   static const theme = ElTextButtonThemeData();
   static const darkTheme = ElTextButtonThemeData();
 
