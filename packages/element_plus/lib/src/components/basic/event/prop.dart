@@ -11,9 +11,6 @@ class _Prop {
   final bool delayTapForDouble;
   final int longPressTimeout;
   final bool feedback;
-  final int triggerDragScope;
-  final double minVelocity;
-  final double maxVelocity;
   final HitTestBehavior behavior;
   final MouseCursor cursor;
   final PointerEnterEventListener? onEnter;
@@ -25,21 +22,8 @@ class _Prop {
   final GestureTapCallback? onSecondaryTap;
   final GestureTapDownCallback? onSecondaryTapDown;
   final GestureTapUpCallback? onSecondaryTapUp;
-  final GestureTapCallback? onTertiaryTap;
-  final GestureTapDownCallback? onTertiaryTapDown;
-  final GestureTapUpCallback? onTertiaryTapUp;
-  final TapRegionCallback? onTapOutside;
   final VoidCallback? onDoubleTap;
   final VoidCallback? onLongPress;
-  final GestureDragStartCallback? onDragStart;
-  final GestureDragUpdateCallback? onDragUpdate;
-  final GestureDragEndCallback? onDragEnd;
-  final GestureDragStartCallback? onVerticalDragStart;
-  final GestureDragUpdateCallback? onVerticalDragUpdate;
-  final GestureDragEndCallback? onVerticalDragEnd;
-  final GestureDragStartCallback? onHorizontalDragStart;
-  final GestureDragUpdateCallback? onHorizontalDragUpdate;
-  final GestureDragEndCallback? onHorizontalDragEnd;
   final PointerDownEventListener? onPointerDown;
   final PointerUpEventListener? onPointerUp;
   final PointerMoveEventListener? onPointerMove;
@@ -60,9 +44,6 @@ class _Prop {
     this.delayTapForDouble,
     this.longPressTimeout,
     this.feedback,
-    this.triggerDragScope,
-    this.minVelocity,
-    this.maxVelocity,
     this.behavior,
     this.cursor,
     this.onEnter,
@@ -74,21 +55,8 @@ class _Prop {
     this.onSecondaryTap,
     this.onSecondaryTapDown,
     this.onSecondaryTapUp,
-    this.onTertiaryTap,
-    this.onTertiaryTapDown,
-    this.onTertiaryTapUp,
-    this.onTapOutside,
     this.onDoubleTap,
     this.onLongPress,
-    this.onDragStart,
-    this.onDragUpdate,
-    this.onDragEnd,
-    this.onVerticalDragStart,
-    this.onVerticalDragUpdate,
-    this.onVerticalDragEnd,
-    this.onHorizontalDragStart,
-    this.onHorizontalDragUpdate,
-    this.onHorizontalDragEnd,
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
@@ -116,9 +84,6 @@ class _Prop {
       widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,
       widget.longPressTimeout ?? $data.longPressTimeout ?? 500,
       widget.feedback ?? $data.feedback ?? true,
-      widget.triggerDragScope ?? $data.triggerDragScope ?? 0,
-      widget.minVelocity ?? $data.minVelocity ?? kMinFlingVelocity,
-      widget.maxVelocity ?? $data.maxVelocity ?? kMaxFlingVelocity,
       widget.behavior ?? $data.behavior ?? HitTestBehavior.deferToChild,
       widget.cursor ?? $data.cursor ?? MouseCursor.defer,
       widget.onEnter ?? $data.onEnter,
@@ -130,21 +95,8 @@ class _Prop {
       widget.onSecondaryTap ?? $data.onSecondaryTap,
       widget.onSecondaryTapDown ?? $data.onSecondaryTapDown,
       widget.onSecondaryTapUp ?? $data.onSecondaryTapUp,
-      widget.onTertiaryTap ?? $data.onTertiaryTap,
-      widget.onTertiaryTapDown ?? $data.onTertiaryTapDown,
-      widget.onTertiaryTapUp ?? $data.onTertiaryTapUp,
-      widget.onTapOutside ?? $data.onTapOutside,
       widget.onDoubleTap ?? $data.onDoubleTap,
       widget.onLongPress ?? $data.onLongPress,
-      widget.onDragStart ?? $data.onDragStart,
-      widget.onDragUpdate ?? $data.onDragUpdate,
-      widget.onDragEnd ?? $data.onDragEnd,
-      widget.onVerticalDragStart ?? $data.onVerticalDragStart,
-      widget.onVerticalDragUpdate ?? $data.onVerticalDragUpdate,
-      widget.onVerticalDragEnd ?? $data.onVerticalDragEnd,
-      widget.onHorizontalDragStart ?? $data.onHorizontalDragStart,
-      widget.onHorizontalDragUpdate ?? $data.onHorizontalDragUpdate,
-      widget.onHorizontalDragEnd ?? $data.onHorizontalDragEnd,
       widget.onPointerDown ?? $data.onPointerDown,
       widget.onPointerUp ?? $data.onPointerUp,
       widget.onPointerMove ?? $data.onPointerMove,

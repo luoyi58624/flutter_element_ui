@@ -33,9 +33,6 @@ class ElEventThemeData {
     this.delayTapForDouble,
     this.longPressTimeout,
     this.feedback,
-    this.triggerDragScope,
-    this.minVelocity,
-    this.maxVelocity,
     this.behavior,
     this.cursor,
     this.onEnter,
@@ -47,21 +44,8 @@ class ElEventThemeData {
     this.onSecondaryTap,
     this.onSecondaryTapDown,
     this.onSecondaryTapUp,
-    this.onTertiaryTap,
-    this.onTertiaryTapDown,
-    this.onTertiaryTapUp,
-    this.onTapOutside,
     this.onDoubleTap,
     this.onLongPress,
-    this.onDragStart,
-    this.onDragUpdate,
-    this.onDragEnd,
-    this.onVerticalDragStart,
-    this.onVerticalDragUpdate,
-    this.onVerticalDragEnd,
-    this.onHorizontalDragStart,
-    this.onHorizontalDragUpdate,
-    this.onHorizontalDragEnd,
     this.onPointerDown,
     this.onPointerUp,
     this.onPointerMove,
@@ -103,15 +87,6 @@ class ElEventThemeData {
   /// 是否启用长按反馈，在移动端将会触发轻微震动提示，默认 true
   final bool? feedback;
 
-  /// 触发拖拽事件的偏移幅度，在桌面端设置一定的偏移幅度可以防止意外地触发拖拽行为，默认 0
-  final int? triggerDragScope;
-
-  /// 拖拽结束时触发惯性速度的最小力度，当滑动力度小于该值，其返回的速度将为 0，默认 [kMinFlingVelocity]
-  final double? minVelocity;
-
-  /// 拖拽结束时触发惯性速度的最大值，默认 [kMaxFlingVelocity]
-  final double? maxVelocity;
-
   /// 命中测试行为，默认：[HitTestBehavior.deferToChild]，这也是 [Listener] 的默认值，
   /// 关于 [HitTestBehavior] 的三个行为，这里简单列举一下：
   /// * [HitTestBehavior.deferToChild] - 命中透明部分事件会被忽略
@@ -152,47 +127,11 @@ class ElEventThemeData {
   final GestureTapDownCallback? onSecondaryTapDown;
   final GestureTapUpCallback? onSecondaryTapUp;
 
-  /// 第三级按钮的指针回调，例如：鼠标中键
-  final GestureTapCallback? onTertiaryTap;
-  final GestureTapDownCallback? onTertiaryTapDown;
-  final GestureTapUpCallback? onTertiaryTapUp;
-
-  /// 在元素外进行了点击，如果你监听了 Outside 系列事件，那么 Widget 将会包裹 [TapRegion] 小部件，
-  /// 这个小部件会定义一个区域，该区域会检查内部、外部的点击，而且它不参与手势消歧系统，
-  final TapRegionCallback? onTapOutside;
-
   /// 双击事件
   final VoidCallback? onDoubleTap;
 
   /// 长按事件
   final VoidCallback? onLongPress;
-
-  /// 拖拽开始事件，它受 [triggerDragScope] 属性影响
-  final GestureDragStartCallback? onDragStart;
-
-  /// 拖拽更新事件
-  final GestureDragUpdateCallback? onDragUpdate;
-
-  /// 拖拽结束事件
-  final GestureDragEndCallback? onDragEnd;
-
-  /// 垂直拖拽开始事件，它受 [triggerDragScope] 属性影响
-  final GestureDragStartCallback? onVerticalDragStart;
-
-  /// 垂直拖拽更新事件
-  final GestureDragUpdateCallback? onVerticalDragUpdate;
-
-  /// 垂直拖拽结束事件
-  final GestureDragEndCallback? onVerticalDragEnd;
-
-  /// 水平拖拽开始事件，它受 [triggerDragScope] 属性影响
-  final GestureDragStartCallback? onHorizontalDragStart;
-
-  /// 水平拖拽更新事件
-  final GestureDragUpdateCallback? onHorizontalDragUpdate;
-
-  /// 水平拖拽结束事件
-  final GestureDragEndCallback? onHorizontalDragEnd;
 
   /// [Listener] 指针按下事件
   final PointerDownEventListener? onPointerDown;

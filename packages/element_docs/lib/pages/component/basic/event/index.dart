@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'examples/example1.dart';
 import 'examples/example2.dart';
 import 'examples/example3.dart';
-import 'examples/example4.dart';
 
 class EventPage extends ResponsivePage {
   const EventPage({super.key});
@@ -31,7 +30,6 @@ class EventPage extends ResponsivePage {
       const Example1(title: '基础使用'),
       const Example2(title: '事件冒泡'),
       const Example3(title: '解决 GestureDetector 事件冲突'),
-      const Example4(title: '拖拽事件'),
     ];
   }
 }

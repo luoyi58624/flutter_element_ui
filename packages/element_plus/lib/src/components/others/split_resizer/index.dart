@@ -89,29 +89,32 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
             cursor: isVertical
                 ? SystemMouseCursors.resizeColumn
                 : SystemMouseCursors.resizeRow,
-            onTapDown: (e) {
+            onPointerDown: (e) {
               isActive.value = true;
               el.cursor.add(isVertical
                   ? SystemMouseCursors.resizeColumn
                   : SystemMouseCursors.resizeRow);
               widget.onStart?.call();
             },
-            onDragEnd: (e) {
+            onPointerUp: (e) {
               isActive.value = false;
               el.cursor.remove();
               widget.onEnd?.call();
             },
-            onHorizontalDragUpdate: !isVertical
-                ? null
-                : (e) {
-                    widget.onChanged?.call(e.delta.dx);
-                  },
-            onVerticalDragUpdate: isVertical
-                ? null
-                : (e) {
-                    widget.onChanged?.call(e.delta.dy);
-                  },
-            child: result,
+            child: GestureDetector(
+              onHorizontalDragUpdate: !isVertical
+                  ? null
+                  : (e) {
+                      widget.onChanged?.call(e.delta.dx);
+                    },
+              onVerticalDragUpdate: isVertical
+                  ? null
+                  : (e) {
+                      widget.onChanged?.call(e.delta.dy);
+                    },
+
+              child: result,
+            ),
           ),
         ),
       );

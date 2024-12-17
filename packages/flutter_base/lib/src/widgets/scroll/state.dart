@@ -78,21 +78,21 @@ class _ElScrollState extends State<CustomScrollWidget> {
           controller.stop();
         }
       },
-      onVerticalDragUpdate: (e) {
-        offset -= e.delta.dy;
-      },
-      onVerticalDragEnd: (e) {
-        if (e.velocity.pixelsPerSecond.dy.abs() > 0.0 &&
-            offset > 0 &&
-            offset < maxScrollPixels) {
-          FrictionSimulation frictionSim = FrictionSimulation(
-            0.135,
-            0.0,
-            e.velocity.pixelsPerSecond.dy,
-          );
-          controller.animateWith(frictionSim);
-        }
-      },
+      // onVerticalDragUpdate: (e) {
+      //   offset -= e.delta.dy;
+      // },
+      // onVerticalDragEnd: (e) {
+      //   if (e.velocity.pixelsPerSecond.dy.abs() > 0.0 &&
+      //       offset > 0 &&
+      //       offset < maxScrollPixels) {
+      //     FrictionSimulation frictionSim = FrictionSimulation(
+      //       0.135,
+      //       0.0,
+      //       e.velocity.pixelsPerSecond.dy,
+      //     );
+      //     controller.animateWith(frictionSim);
+      //   }
+      // },
       child: result,
     );
 
