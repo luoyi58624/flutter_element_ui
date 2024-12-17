@@ -19,16 +19,20 @@ extension RootModelExtension on RootModel {
   /// 接收一个对象，将它内部属性和原来对象进行 copy，然后返回新的对象
   RootModel merge([RootModel? other]) {
     if (other == null) return this;
-    return copyWith();
+    return copyWith(
+      rootName: other.rootName,
+    );
   }
 }
 
 extension ParentModelExtension on ParentModel {
   /// 接收一组可选参数，返回新的对象
   ParentModel copyWith({
+    String? parentName,
     String? rootName,
   }) {
     return ParentModel(
+      parentName: parentName ?? this.parentName,
       rootName: rootName ?? this.rootName,
     );
   }
@@ -45,9 +49,13 @@ extension ParentModelExtension on ParentModel {
 extension ChildModelExtension on ChildModel {
   /// 接收一组可选参数，返回新的对象
   ChildModel copyWith({
+    String? childName,
+    String? parentName,
     String? rootName,
   }) {
     return ChildModel(
+      childName: childName ?? this.childName,
+      parentName: parentName ?? this.parentName,
       rootName: rootName ?? this.rootName,
     );
   }

@@ -19,7 +19,6 @@ void elementDartTest() {
       Map map = {'name': 'hihi', 'age': 20};
       Map<String, dynamic> castMap =
           DartUtil.dynamicToMap<Map<String, Object>>(map);
-      i(castMap.runtimeType.toString());
       expect(map.runtimeType.toString(), '_Map<dynamic, dynamic>');
       expect(castMap.runtimeType.toString(), '_Map<String, Object>');
 

@@ -58,11 +58,8 @@ class TestModel implements ElSerializeModel<TestModel> {
 
   @ElField(defaultValue: ['hello', 'world'])
   final List<String> listStringField3;
-  @ElField(ignore: ElModel(generateEquals: true))
   final List<String>? listStringField4;
-  @ElField(ignore: ElModel(generateEquals: true))
   final List<int> listIntField;
-  @ElField(ignore: ElModel(generateEquals: true))
   final List<int>? listIntField2;
 
   @ElField(defaultValue: [1, 2, 3, 4, 5])

@@ -465,6 +465,9 @@ extension TestModelExtension on TestModel {
           $ElJsonUtil.eqList(listStringField, other.listStringField) &&
           $ElJsonUtil.eqList(listStringField2, other.listStringField2) &&
           $ElJsonUtil.eqList(listStringField3, other.listStringField3) &&
+          $ElJsonUtil.eqList(listStringField4, other.listStringField4) &&
+          $ElJsonUtil.eqList(listIntField, other.listIntField) &&
+          $ElJsonUtil.eqList(listIntField2, other.listIntField2) &&
           $ElJsonUtil.eqList(listIntField3, other.listIntField3) &&
           $ElJsonUtil.eqList(listIntField4, other.listIntField4) &&
           $ElJsonUtil.eqList(listDoubleField, other.listDoubleField) &&

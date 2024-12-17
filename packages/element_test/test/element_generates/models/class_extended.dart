@@ -4,7 +4,6 @@ part '../generates/models/class_extended.g.dart';
 
 @ElModel.copy(generateHashCode: false, generateEquals: false)
 class RootModel {
-  @ElField(ignore: ElModel(merge: true))
   final String? rootName;
 
   const RootModel({this.rootName});
@@ -12,7 +11,6 @@ class RootModel {
 
 @ElModel.copy(generateHashCode: false, generateEquals: false)
 class ParentModel extends RootModel {
-  @ElField(ignore: ElModel(copyWith: true))
   final String? parentName;
 
   const ParentModel({this.parentName, super.rootName});
@@ -21,7 +19,6 @@ class ParentModel extends RootModel {
 @ElDebug()
 @ElModel.copy(generateHashCode: false, generateEquals: false)
 class ChildModel extends ParentModel {
-  @ElField(ignore: ElModel(copyWith: true))
   final String childName;
 
   const ChildModel({

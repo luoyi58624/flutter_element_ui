@@ -65,7 +65,6 @@ extension ${_className}Extension on $_className {
 
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'fromJson')) continue;
       String field = fieldInfo.name;
       String fieldType = fieldInfo.type.toString();
       String jsonKey = _getJsonKey(fieldInfo) ?? field;
@@ -232,7 +231,6 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
 
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'toJson')) continue;
       String field = fieldInfo.name;
       String fieldType = fieldInfo.type.toString();
       String? jsonKey = _getJsonKey(fieldInfo);
@@ -280,11 +278,6 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     for (int i = 0; i < fields.length; i++) {
       final fieldInfo = MirrorUtils.getField(_classInfo, fields[i]);
       if (fieldInfo == null) continue;
-      if (_hasDebug) {
-        print(fieldInfo is SuperFormalParameterElement);
-      }
-
-      if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
       String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
       if (fieldInfo.type.toString() == 'dynamic') {
         fieldType = fieldType.substring(0, fieldType.length - 1);
@@ -300,25 +293,6 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
         copyWithContent += '$field: $field ?? this.$field,\n';
       }
     }
-
-    // for (int i = 0; i < _classFields.length; i++) {
-    //   final fieldInfo = _classFields[i].declaration;
-    //   if (_isIgnoreField(fieldInfo, 'copyWith')) continue;
-    //   String fieldType = '${fieldInfo.type.toString().replaceAll('?', '')}?';
-    //   if (fieldInfo.type.toString() == 'dynamic') {
-    //     fieldType = fieldType.substring(0, fieldType.length - 1);
-    //   }
-    //   String field = fieldInfo.name;
-    //   copyWithArgument += '$fieldType $field,\n';
-    //
-    //   if (_isDeepCloneField(fieldInfo)) {
-    //     bool isAllowNull = fieldInfo.type.toString().endsWith('?');
-    //     copyWithContent +=
-    //         '$field: this.$field${isAllowNull ? '?' : ''}.merge($field),';
-    //   } else {
-    //     copyWithContent += '$field: $field ?? this.$field,\n';
-    //   }
-    // }
 
     return """
   /// 接收一组可选参数，返回新的对象
@@ -339,7 +313,6 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
     String content = '';
     for (int i = 0; i < _classFields.length; i++) {
       FieldElement fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'merge')) continue;
       final field = fieldInfo.name;
       content += '$field: other.$field,\n';
     }
@@ -363,7 +336,6 @@ $_className _fromJson${fromJsonDiff ? _className : ''}(Map<String, dynamic>? jso
 
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'generateEquals')) continue;
       final field = fieldInfo.name;
       if (fieldInfo.type.isDartCoreList) {
         content += '&& \$ElJsonUtil.eqList($field, other.$field)';
@@ -392,7 +364,6 @@ bool _equals(Object other) =>
 
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'generateHashCode')) continue;
       final field = fieldInfo.name;
       content += '$field.hashCode';
       if (i < _classFields.length - 1) {
@@ -414,7 +385,6 @@ int get _hashCode => $content;
 
     for (int i = 0; i < _classFields.length; i++) {
       final fieldInfo = _classFields[i].declaration;
-      if (_isIgnoreField(fieldInfo, 'generateToString')) continue;
       final field = fieldInfo.name;
       String toStringDot = '';
       if (i < _classFields.length - 1) toStringDot = ',';
@@ -428,19 +398,6 @@ String _toString() {
 } 
     """;
   }
-}
-
-/// 判断当前字段是否被忽略
-/// * typeString 生成的函数类型字符串，根据此字符串获取当前字段声明的注解参数，
-/// 如果为true，则表示此函数生成的代码应当忽略该字段
-bool _isIgnoreField(VariableElement fieldInfo, String typeString) {
-  bool isElModelField = _fieldChecker.hasAnnotationOfExact(fieldInfo);
-  if (isElModelField) {
-    var target =
-        _fieldChecker.firstAnnotationOfExact(fieldInfo)!.getField('ignore')!;
-    return target.getField(typeString)?.toBoolValue() ?? false;
-  }
-  return false;
 }
 
 /// 获取当前字段配置的 jsonKey，如果为空则表示用户没有指定 jsonKey

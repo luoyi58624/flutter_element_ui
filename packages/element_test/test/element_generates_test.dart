@@ -57,10 +57,8 @@ void elementGeneratesTest() {
       });
       expect(TestModel.fromJson(model.toJson()), model);
       final model2 = model.copyWith(materialColor: Colors.red);
-      expect(
-        $testModel.fromJson(model2.toJson()).materialColor?.toHex(),
-        Colors.red.toHex(),
-      );
+      final model3 = model.copyWith(materialColor: Colors.red);
+      expect(model2, model3); // 测试重写 equals 是否正常工作
     });
   });
 }
