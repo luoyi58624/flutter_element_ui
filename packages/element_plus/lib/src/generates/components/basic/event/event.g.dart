@@ -19,9 +19,6 @@ extension ElEventThemeDataExtension on ElEventThemeData {
     bool? delayTapForDouble,
     int? longPressTimeout,
     bool? feedback,
-    int? triggerDragScope,
-    double? minVelocity,
-    double? maxVelocity,
     HitTestBehavior? behavior,
     MouseCursor? cursor,
     void Function(PointerEnterEvent)? onEnter,
@@ -33,21 +30,8 @@ extension ElEventThemeDataExtension on ElEventThemeData {
     void Function()? onSecondaryTap,
     void Function(TapDownDetails)? onSecondaryTapDown,
     void Function(TapUpDetails)? onSecondaryTapUp,
-    void Function()? onTertiaryTap,
-    void Function(TapDownDetails)? onTertiaryTapDown,
-    void Function(TapUpDetails)? onTertiaryTapUp,
-    void Function(PointerDownEvent)? onTapOutside,
     void Function()? onDoubleTap,
     void Function()? onLongPress,
-    void Function(DragStartDetails)? onDragStart,
-    void Function(DragUpdateDetails)? onDragUpdate,
-    void Function(DragEndDetails)? onDragEnd,
-    void Function(DragStartDetails)? onVerticalDragStart,
-    void Function(DragUpdateDetails)? onVerticalDragUpdate,
-    void Function(DragEndDetails)? onVerticalDragEnd,
-    void Function(DragStartDetails)? onHorizontalDragStart,
-    void Function(DragUpdateDetails)? onHorizontalDragUpdate,
-    void Function(DragEndDetails)? onHorizontalDragEnd,
     void Function(PointerDownEvent)? onPointerDown,
     void Function(PointerUpEvent)? onPointerUp,
     void Function(PointerMoveEvent)? onPointerMove,
@@ -68,9 +52,6 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       delayTapForDouble: delayTapForDouble ?? this.delayTapForDouble,
       longPressTimeout: longPressTimeout ?? this.longPressTimeout,
       feedback: feedback ?? this.feedback,
-      triggerDragScope: triggerDragScope ?? this.triggerDragScope,
-      minVelocity: minVelocity ?? this.minVelocity,
-      maxVelocity: maxVelocity ?? this.maxVelocity,
       behavior: behavior ?? this.behavior,
       cursor: cursor ?? this.cursor,
       onEnter: onEnter ?? this.onEnter,
@@ -82,23 +63,8 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onSecondaryTap: onSecondaryTap ?? this.onSecondaryTap,
       onSecondaryTapDown: onSecondaryTapDown ?? this.onSecondaryTapDown,
       onSecondaryTapUp: onSecondaryTapUp ?? this.onSecondaryTapUp,
-      onTertiaryTap: onTertiaryTap ?? this.onTertiaryTap,
-      onTertiaryTapDown: onTertiaryTapDown ?? this.onTertiaryTapDown,
-      onTertiaryTapUp: onTertiaryTapUp ?? this.onTertiaryTapUp,
-      onTapOutside: onTapOutside ?? this.onTapOutside,
       onDoubleTap: onDoubleTap ?? this.onDoubleTap,
       onLongPress: onLongPress ?? this.onLongPress,
-      onDragStart: onDragStart ?? this.onDragStart,
-      onDragUpdate: onDragUpdate ?? this.onDragUpdate,
-      onDragEnd: onDragEnd ?? this.onDragEnd,
-      onVerticalDragStart: onVerticalDragStart ?? this.onVerticalDragStart,
-      onVerticalDragUpdate: onVerticalDragUpdate ?? this.onVerticalDragUpdate,
-      onVerticalDragEnd: onVerticalDragEnd ?? this.onVerticalDragEnd,
-      onHorizontalDragStart:
-          onHorizontalDragStart ?? this.onHorizontalDragStart,
-      onHorizontalDragUpdate:
-          onHorizontalDragUpdate ?? this.onHorizontalDragUpdate,
-      onHorizontalDragEnd: onHorizontalDragEnd ?? this.onHorizontalDragEnd,
       onPointerDown: onPointerDown ?? this.onPointerDown,
       onPointerUp: onPointerUp ?? this.onPointerUp,
       onPointerMove: onPointerMove ?? this.onPointerMove,
@@ -126,9 +92,6 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       delayTapForDouble: other.delayTapForDouble,
       longPressTimeout: other.longPressTimeout,
       feedback: other.feedback,
-      triggerDragScope: other.triggerDragScope,
-      minVelocity: other.minVelocity,
-      maxVelocity: other.maxVelocity,
       behavior: other.behavior,
       cursor: other.cursor,
       onEnter: other.onEnter,
@@ -140,21 +103,8 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onSecondaryTap: other.onSecondaryTap,
       onSecondaryTapDown: other.onSecondaryTapDown,
       onSecondaryTapUp: other.onSecondaryTapUp,
-      onTertiaryTap: other.onTertiaryTap,
-      onTertiaryTapDown: other.onTertiaryTapDown,
-      onTertiaryTapUp: other.onTertiaryTapUp,
-      onTapOutside: other.onTapOutside,
       onDoubleTap: other.onDoubleTap,
       onLongPress: other.onLongPress,
-      onDragStart: other.onDragStart,
-      onDragUpdate: other.onDragUpdate,
-      onDragEnd: other.onDragEnd,
-      onVerticalDragStart: other.onVerticalDragStart,
-      onVerticalDragUpdate: other.onVerticalDragUpdate,
-      onVerticalDragEnd: other.onVerticalDragEnd,
-      onHorizontalDragStart: other.onHorizontalDragStart,
-      onHorizontalDragUpdate: other.onHorizontalDragUpdate,
-      onHorizontalDragEnd: other.onHorizontalDragEnd,
       onPointerDown: other.onPointerDown,
       onPointerUp: other.onPointerUp,
       onPointerMove: other.onPointerMove,
@@ -181,9 +131,6 @@ extension ElEventThemeDataExtension on ElEventThemeData {
           delayTapForDouble == other.delayTapForDouble &&
           longPressTimeout == other.longPressTimeout &&
           feedback == other.feedback &&
-          triggerDragScope == other.triggerDragScope &&
-          minVelocity == other.minVelocity &&
-          maxVelocity == other.maxVelocity &&
           behavior == other.behavior &&
           cursor == other.cursor &&
           onEnter == other.onEnter &&
@@ -195,21 +142,8 @@ extension ElEventThemeDataExtension on ElEventThemeData {
           onSecondaryTap == other.onSecondaryTap &&
           onSecondaryTapDown == other.onSecondaryTapDown &&
           onSecondaryTapUp == other.onSecondaryTapUp &&
-          onTertiaryTap == other.onTertiaryTap &&
-          onTertiaryTapDown == other.onTertiaryTapDown &&
-          onTertiaryTapUp == other.onTertiaryTapUp &&
-          onTapOutside == other.onTapOutside &&
           onDoubleTap == other.onDoubleTap &&
           onLongPress == other.onLongPress &&
-          onDragStart == other.onDragStart &&
-          onDragUpdate == other.onDragUpdate &&
-          onDragEnd == other.onDragEnd &&
-          onVerticalDragStart == other.onVerticalDragStart &&
-          onVerticalDragUpdate == other.onVerticalDragUpdate &&
-          onVerticalDragEnd == other.onVerticalDragEnd &&
-          onHorizontalDragStart == other.onHorizontalDragStart &&
-          onHorizontalDragUpdate == other.onHorizontalDragUpdate &&
-          onHorizontalDragEnd == other.onHorizontalDragEnd &&
           onPointerDown == other.onPointerDown &&
           onPointerUp == other.onPointerUp &&
           onPointerMove == other.onPointerMove &&
@@ -231,9 +165,6 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       delayTapForDouble.hashCode ^
       longPressTimeout.hashCode ^
       feedback.hashCode ^
-      triggerDragScope.hashCode ^
-      minVelocity.hashCode ^
-      maxVelocity.hashCode ^
       behavior.hashCode ^
       cursor.hashCode ^
       onEnter.hashCode ^
@@ -245,21 +176,8 @@ extension ElEventThemeDataExtension on ElEventThemeData {
       onSecondaryTap.hashCode ^
       onSecondaryTapDown.hashCode ^
       onSecondaryTapUp.hashCode ^
-      onTertiaryTap.hashCode ^
-      onTertiaryTapDown.hashCode ^
-      onTertiaryTapUp.hashCode ^
-      onTapOutside.hashCode ^
       onDoubleTap.hashCode ^
       onLongPress.hashCode ^
-      onDragStart.hashCode ^
-      onDragUpdate.hashCode ^
-      onDragEnd.hashCode ^
-      onVerticalDragStart.hashCode ^
-      onVerticalDragUpdate.hashCode ^
-      onVerticalDragEnd.hashCode ^
-      onHorizontalDragStart.hashCode ^
-      onHorizontalDragUpdate.hashCode ^
-      onHorizontalDragEnd.hashCode ^
       onPointerDown.hashCode ^
       onPointerUp.hashCode ^
       onPointerMove.hashCode ^

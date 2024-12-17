@@ -80,6 +80,20 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
           offset = const Offset(0, 0);
       }
 
+      void onStart() {
+        isActive.value = true;
+        el.cursor.add(isVertical
+            ? SystemMouseCursors.resizeColumn
+            : SystemMouseCursors.resizeRow);
+        widget.onStart?.call();
+      }
+
+      void onEnd() {
+        isActive.value = false;
+        el.cursor.remove();
+        widget.onEnd?.call();
+      }
+
       return UnconstrainedBox(
         child: CompositedTransformFollower(
           link: layerLink,
@@ -89,30 +103,38 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
             cursor: isVertical
                 ? SystemMouseCursors.resizeColumn
                 : SystemMouseCursors.resizeRow,
-            onPointerDown: (e) {
-              isActive.value = true;
-              el.cursor.add(isVertical
-                  ? SystemMouseCursors.resizeColumn
-                  : SystemMouseCursors.resizeRow);
-              widget.onStart?.call();
-            },
-            onPointerUp: (e) {
-              isActive.value = false;
-              el.cursor.remove();
-              widget.onEnd?.call();
-            },
             child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onHorizontalDragStart: !isVertical
+                  ? null
+                  : (e) {
+                      onStart();
+                    },
               onHorizontalDragUpdate: !isVertical
                   ? null
                   : (e) {
                       widget.onChanged?.call(e.delta.dx);
+                    },
+              onHorizontalDragEnd: !isVertical
+                  ? null
+                  : (e) {
+                      onEnd();
+                    },
+              onVerticalDragStart: isVertical
+                  ? null
+                  : (e) {
+                      onStart();
                     },
               onVerticalDragUpdate: isVertical
                   ? null
                   : (e) {
                       widget.onChanged?.call(e.delta.dy);
                     },
-
+              onVerticalDragEnd: isVertical
+                  ? null
+                  : (e) {
+                      onEnd();
+                    },
               child: result,
             ),
           ),
