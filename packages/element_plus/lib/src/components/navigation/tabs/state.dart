@@ -103,8 +103,9 @@ class _ElTabsState extends ModelValueState<ElTabs, int> {
                         list?.startItemDragReorder(
                           index: index,
                           event: pointerDownEvent!,
-                          recognizer: TriggerOffsetMultiDragGestureRecognizer(
+                          recognizer: ElMultiDragGestureRecognizer(
                             triggerOffset: 10,
+                            delay: const Duration(milliseconds: 250),
                           )..gestureSettings = gestureSettings,
                         );
                       },

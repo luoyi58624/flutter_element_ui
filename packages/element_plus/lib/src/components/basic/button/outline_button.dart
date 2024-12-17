@@ -52,7 +52,7 @@ class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
   @override
   Duration get decorationDuration => plain
       ? super.decorationDuration
-      : context.elDuration(const Duration(milliseconds: 300));
+      : context.elDuration(const Duration(milliseconds: 200));
 
   @override
   Curve get decorationCurve => plain ? super.decorationCurve : Curves.easeOut;
@@ -151,7 +151,7 @@ class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
           textColor = themeBgColor;
           borderColor = context.hasTap || context.hasHover
               ? themeBgColor.elLight2(context, reverse: true)
-              : themeBgColor.elLight5(context);
+              : themeBgColor.elLight7(context);
         } else {
           bgColor = context.hasTap || context.hasHover
               ? themeBgColor
@@ -159,7 +159,7 @@ class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
 
           borderColor = context.hasTap || context.hasHover
               ? themeBgColor
-              : themeBgColor.elLight5(context);
+              : themeBgColor.elLight7(context);
         }
       }
     }

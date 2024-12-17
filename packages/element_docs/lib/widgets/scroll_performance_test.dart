@@ -55,6 +55,7 @@ class _LeftWidget extends HookWidget {
     return ColumnWidget(
       scroll: true,
       repaintBoundary: false,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: List.generate(
         itemCount,
         (index) => builder(context, index)!,
@@ -74,6 +75,7 @@ class _RightWidget extends HookWidget {
     return ColumnWidget(
       scroll: true,
       repaintBoundary: false,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: List.generate(
         itemCount,
         (index) => builder(context, index)!,

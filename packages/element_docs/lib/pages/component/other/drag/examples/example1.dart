@@ -64,6 +64,7 @@ class _Example extends HookWidget {
         ElStopPropagation(
           enabled: false,
           child: ElDraggable(
+            key: UniqueKey(),
             rootOverlay: isRootOverlay.value,
             triggerOffset: enabledTriggerOffset.value ? 20 : 0,
             axis: axisFlag.value == 0

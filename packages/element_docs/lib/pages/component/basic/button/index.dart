@@ -56,7 +56,7 @@ class _Test extends StatelessWidget {
       onPressed: () {
         context.push(ScrollPerformanceTest(
           title: '按钮性能测试',
-          itemCount: 5000,
+          itemCount: 1000,
           leftBuilder: (context, index) => Padding(
             padding: const EdgeInsets.only(top: 8),
             child: ElevatedButton(
