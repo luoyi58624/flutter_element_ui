@@ -15,31 +15,6 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Gap(50),
-      Stack(
-        clipBehavior: Clip.none,
-        children: [
-          const SizedBox(
-            width: 200,
-            height: 200,
-          ),
-          Positioned(
-            left: -10,
-            right: 10,
-            child: ElEvent(
-              cursor: SystemMouseCursors.click,
-              child: Builder(builder: (context) {
-                return Container(
-                  width: 100,
-                  height: 100,
-                  color: context.hasTap ? Colors.green : Colors.red,
-                );
-              }),
-            ),
-          ),
-        ],
-      ),
-      const ElEmptyWidget(),
-      const Gap(30),
       const Row(
         children: [
           ElRing(

@@ -9,10 +9,10 @@ class ElLinkButton extends ElTextButton {
     required super.child,
     super.type,
     super.color,
-    super.autofocus,
-    super.loading,
     super.loadingBuilder,
+    super.loading,
     super.disabled,
+    super.autofocus,
     super.onPressed,
   });
 
@@ -34,10 +34,25 @@ class ElLinkButton extends ElTextButton {
 }
 
 class _ElLinkButtonState extends ElTextButtonState<ElLinkButton> {
+  @override
+  ElLinkButtonThemeData get themeData =>
+      super.themeData as ElLinkButtonThemeData;
+
   /// 链接按钮不适合使用默认的 loading 加载器，使用自定义 loading 在外观上更好看一些
   @override
   WidgetBuilder? get loadingBuilder =>
-      widget.loadingBuilder ?? ElLinkButton.defaultLoadingBuilder;
+      themeData.loadingBuilder ?? ElLinkButton.defaultLoadingBuilder;
+
+  @override
+  ElButton2ThemeData buildThemeData(BuildContext context) {
+    return ElLinkButtonTheme.of(context).copyWith(
+      duration: widget.duration,
+      curve: widget.curve,
+      type: widget.type,
+      color: widget.color,
+      loadingBuilder: widget.loadingBuilder,
+    );
+  }
 
   @override
   ElButtonColorRecord buildColorRecord(BuildContext context) {

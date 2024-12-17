@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 
 import '../../feedback/loading/loading.dart';
+import 'theme.dart';
 
 /// 构建的按钮颜色记录
 typedef ElButtonColorRecord = ({
@@ -15,26 +16,34 @@ class ElButton2 extends StatefulWidget {
   const ElButton2({
     super.key,
     required this.child,
+    this.duration,
+    this.curve,
     this.type,
     this.bgColor,
     this.width,
     this.height,
     this.leftIcon,
     this.rightIcon,
-    this.round = false,
+    this.round,
     this.padding,
     this.iconSize,
-    this.block = false,
-    this.autofocus = false,
-    this.disabled = false,
-    this.loading = false,
+    this.block,
     this.loadingWidget,
     this.loadingBuilder,
+    this.disabled = false,
+    this.loading = false,
+    this.autofocus = false,
     this.onPressed,
   });
 
   /// 子组件，如果是[Widget]，则直接渲染，否则自动渲染为文字
   final dynamic child;
+
+  /// 按钮动画过渡时间
+  final Duration? duration;
+
+  /// 按钮动画曲线
+  final Curve? curve;
 
   /// 主题类型，默认 primary
   final String? type;
@@ -56,13 +65,7 @@ class ElButton2 extends StatefulWidget {
   final double? iconSize;
 
   /// 块级按钮，宽度会充满容器，其原理只是移除 [UnconstrainedBox] 小部件
-  final bool block;
-
-  /// 按钮是否自动聚焦
-  final bool autofocus;
-
-  /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
-  final bool disabled;
+  final bool? block;
 
   /// 按钮左图标
   final Widget? leftIcon;
@@ -71,13 +74,10 @@ class ElButton2 extends StatefulWidget {
   final Widget? rightIcon;
 
   /// 圆角按钮
-  final bool round;
+  final bool? round;
 
   /// 自定义按钮内边距
   final EdgeInsets? padding;
-
-  /// 开启 loading
-  final bool loading;
 
   /// loading 图标小部件
   final Widget? loadingWidget;
@@ -85,6 +85,15 @@ class ElButton2 extends StatefulWidget {
   /// 自定义 loading 构建器，有些按钮不适合 Element 默认 loading 风格，比如：[ElLinkButton]，
   /// [loadingBuilder] 的优先级高于 [loadingWidget]，它会隐藏按钮当前内容，然后绘制自定义小部件。
   final WidgetBuilder? loadingBuilder;
+
+  /// 开启 loading
+  final bool loading;
+
+  /// 是否禁用按钮，当 [loading] 为 true 时，按钮也将被禁用
+  final bool disabled;
+
+  /// 按钮是否自动聚焦
+  final bool autofocus;
 
   /// 点击事件
   final VoidCallback? onPressed;
@@ -100,6 +109,10 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   late MouseCursor cursor;
   late bool _triggerLoadingBuilder;
 
+  late ElButton2ThemeData _themeData;
+
+  ElButton2ThemeData get themeData => _themeData;
+
   Widget get child =>
       widget.child is Widget ? widget.child : ElText('${widget.child}');
 
@@ -108,12 +121,12 @@ class ElButton2State<T extends ElButton2> extends State<T> {
       context.elDuration(const Duration(milliseconds: 80));
 
   /// 按钮主题类型
-  String? get type => widget.type;
+  String? get type => themeData.type;
 
   /// 按钮背景颜色
-  Color? get bgColor => widget.bgColor;
+  Color? get bgColor => themeData.bgColor;
 
-  /// 如果 [type]、[bgColor] 均为 null，那么按钮为默认风格按钮
+  /// 判断是否为默认风格按钮
   bool get isDefaultButton => type == null && bgColor == null;
 
   /// 装饰器过渡动画曲线
@@ -126,31 +139,34 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   Curve get textCurve => decorationCurve;
 
   /// 自定义 loading 构造器
-  WidgetBuilder? get loadingBuilder => widget.loadingBuilder;
+  WidgetBuilder? get loadingBuilder => themeData.loadingBuilder;
 
   /// 图标尺寸
-  double get iconSize => widget.iconSize ?? buttonSizePreset.iconSize!;
+  double get iconSize => themeData.iconSize ?? buttonSizePreset.iconSize!;
 
   /// 是否是单纯的图标按钮
   bool get isIconChild => widget.child is Icon;
 
   /// 按钮最小高度
-  double get minHeight => widget.height ?? commonSizePreset.size!;
+  double get minHeight => themeData.height ?? commonSizePreset.size!;
 
   /// 按钮最小宽度
   double get minWidth =>
-      widget.width ??
+      themeData.width ??
       (isIconChild
           ? commonSizePreset.size! * 1.25
           : buttonSizePreset.minWidth!);
 
   /// 按钮内边距
   EdgeInsets get padding =>
-      widget.padding ??
+      themeData.padding ??
       EdgeInsets.symmetric(horizontal: commonSizePreset.size! / 2);
 
   /// 是否启用圆角按钮
-  bool get round => widget.round;
+  bool get round => themeData.round ?? false;
+
+  /// 是否为块级按钮
+  bool get block => themeData.block ?? false;
 
   /// 按钮边框圆角
   BorderRadius? get borderRadius =>
@@ -161,7 +177,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
 
   /// 默认的加载器小部件
   Widget get loadingWidget =>
-      widget.loadingWidget ?? const ElLoading(ElIcons.loading);
+      themeData.loadingWidget ?? const ElLoading(ElIcons.loading);
 
   /// 获取按钮主题背景颜色，如果 bgColor 不为 null，则返回 bgColor，否则根据 type 返回预设主题色
   Color get themeBgColor {
@@ -225,6 +241,26 @@ class ElButton2State<T extends ElButton2> extends State<T> {
     );
   }
 
+  /// 构建主题数据
+  ElButton2ThemeData buildThemeData(BuildContext context) {
+    return ElButton2Theme.of(context).copyWith(
+      duration: widget.duration,
+      curve: widget.curve,
+      type: widget.type,
+      bgColor: widget.bgColor,
+      width: widget.width,
+      height: widget.height,
+      leftIcon: widget.leftIcon,
+      rightIcon: widget.rightIcon,
+      round: widget.round,
+      padding: widget.padding,
+      iconSize: widget.iconSize,
+      block: widget.block,
+      loadingWidget: widget.loadingWidget,
+      loadingBuilder: widget.loadingBuilder,
+    );
+  }
+
   /// 根据之前计算好的颜色开始构建按钮 [BoxDecoration] 装饰对象，它会在 [buildButtonWrapper] 构建按钮外观方法中执行，
   /// 如果你重写了 [buildButtonWrapper] 方法，那么此方法不会调用
   BoxDecoration buildDecoration(BuildContext context) {
@@ -261,8 +297,8 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   Widget buildButtonContent(BuildContext context) {
     Widget result = child;
 
-    Widget? $leftIcon = widget.leftIcon;
-    Widget? $rightIcon = widget.rightIcon;
+    Widget? $leftIcon = themeData.leftIcon;
+    Widget? $rightIcon = themeData.rightIcon;
     if (loadingBuilder == null && widget.loading) {
       if ($leftIcon != null) {
         $leftIcon = loadingWidget;
@@ -286,7 +322,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
         right: $rightIcon != null ? paddingValue : 0.0,
       ),
       child: loadingBuilder == null &&
-              widget.leftIcon == null &&
+              themeData.leftIcon == null &&
               widget.loading &&
               isIconChild
           ? loadingWidget
@@ -318,6 +354,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
   Widget build(BuildContext context) {
     commonSizePreset = context.commonSizePreset;
     buttonSizePreset = el.sizePreset.button.apply(context);
+    _themeData = buildThemeData(context);
     _triggerLoadingBuilder = loadingBuilder != null && widget.loading;
     cursor = widget.loading
         ? MouseCursor.defer
@@ -373,11 +410,7 @@ class ElButton2State<T extends ElButton2> extends State<T> {
             }),
           );
         });
-    if (!widget.block) {
-      result = UnconstrainedBox(
-        child: result,
-      );
-    }
+    if (!block) result = UnconstrainedBox(child: result);
     return result;
   }
 }

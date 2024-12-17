@@ -6,7 +6,7 @@ targets:
       - lib/**
       - $package$
     builders:
-      # 配置源码生成位置，统一将生成的代码放到 generates 文件目录下
+      # 配置源码生成位置，统一将生成的代码放到 generates 文件目录下，避免污染源码目录结构
       source_gen:combining_builder:
         options:
           build_extensions:
