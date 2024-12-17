@@ -64,7 +64,7 @@ class _Example extends HookWidget {
                 color: Colors.grey,
                 alignment: Alignment.center,
                 // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
-                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
+                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢
                 child: Listener(
                   onPointerDown: (e) {
                     context.stopPropagation();
@@ -102,8 +102,8 @@ class _Example2 extends HookWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            // 目前我只能想到这种方法解决 GestureDetector 嵌套 ElEvent 事件冒泡问题，
-            // 这种方式会引起 UI 重建
+            // 使用 ElBubbleBuilder 组件可以捕获内部发射的阻止事件冒泡标识，
+            // 你需要通过此标识手动阻止逻辑执行，这种方式会引起 UI 重建
             ElBubbleBuilder(
               builder: (stopBubble) => GestureDetector(
                 onTap: stopBubble
@@ -259,7 +259,7 @@ class _Example extends HookWidget {
             color: Colors.grey,
             alignment: Alignment.center,
             // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
-            // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 还要慢
+            // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢
             child: Listener(
               onPointerDown: (e) {
                 context.stopPropagation();
@@ -295,8 +295,8 @@ class _Example2 extends HookWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            // 目前我只能想到这种方法解决 GestureDetector 嵌套 ElEvent 事件冒泡问题，
-            // 这种方式会引起 UI 重建
+            // 使用 ElBubbleBuilder 组件可以捕获内部发射的阻止事件冒泡标识，
+            // 你需要通过此标识手动阻止逻辑执行，这种方式会引起 UI 重建
             ElBubbleBuilder(
               builder: (stopBubble) => GestureDetector(
                 onTap: stopBubble

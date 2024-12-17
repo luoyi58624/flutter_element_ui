@@ -43,26 +43,4 @@ mixin _FocusMixin<T extends ElEvent> on _CommonMixin<T> {
       if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
     }
   }
-
-  Widget buildFocusWidget(BuildContext context, Widget child) {
-    focusScopeWidget = _FocusScopeLookupBoundary.getWidget(context);
-    if (focusScopeWidget != null) {
-      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
-      // 这么做的目的是：只有当用户使用了 ElFocusScope 小部件，下面 ElEvent 才会创建焦点，
-      // 同时，如果 ElEvent 嵌套 ElEvent，内部 ElEvent 要想获得焦点就必须再次插入 ElFocusScope。
-      return _FocusScopeLookupBoundary(
-        child: Focus(
-          autofocus: prop.autofocus,
-          canRequestFocus: prop.canRequestFocus,
-          child: Builder(builder: (context) {
-            focusNode = Focus.of(context);
-            hasFocus = focusNode!.hasFocus;
-            return child;
-          }),
-        ),
-      );
-    } else {
-      return child;
-    }
-  }
 }

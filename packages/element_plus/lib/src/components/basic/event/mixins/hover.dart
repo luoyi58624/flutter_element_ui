@@ -38,21 +38,4 @@ mixin _HoverMixin<T extends ElEvent> on _CommonMixin<T> {
       _hasHover = Obs(false);
     }
   }
-
-  Widget buildHoverWidget(BuildContext context, Widget child) {
-    // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
-    if (PlatformUtil.isDesktop) {
-      if (prop.disabled) hasHover = false;
-      return MouseRegion(
-        cursor: prop.cursor,
-        hitTestBehavior: prop.behavior,
-        onHover: prop.disabled ? null : prop.onHover,
-        onEnter: prop.disabled ? null : onEnter,
-        onExit: prop.disabled ? null : onExit,
-        child: child,
-      );
-    } else {
-      return child;
-    }
-  }
 }
