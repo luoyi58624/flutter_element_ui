@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -120,7 +120,7 @@ class ElEvent extends StatefulWidget {
   /// 触发取消事件偏移范围，默认 20 像素
   final int? cancelScope;
 
-  /// 当注册了 [onSecondaryTap] 时，是否阻止浏览器右键默认行为，默认 true
+  /// 在 web 平台上，是否阻止浏览器右键默认行为，默认 false
   final bool? prevent;
 
   /// 指针抬起延迟时间，作用是让 [hasTap] 状态效果更好，默认 100 毫秒
@@ -281,12 +281,20 @@ class _ElEventState extends State<ElEvent>
       tapDownHandler(e);
       longPressStartHandler(e);
     } else if (pointType == kSecondaryButton) {
+      if (kIsWeb && prop.prevent) {
+        if (preventContextMenuTimer != null) {
+          preventContextMenuTimer!.cancel();
+          preventContextMenuTimer = null;
+        } else {
+          await BrowserContextMenu.disableContextMenu();
+        }
+      }
       prop.onSecondaryTapDown?.call(e.toDetails);
     }
   }
 
   /// 指针抬起事件
-  void onPointerUp(PointerUpEvent e) {
+  void onPointerUp(PointerUpEvent e) async {
     resetBubbleBuilderWidget();
     if (!bubbleFlag) {
       bubbleFlag = true;
@@ -300,6 +308,12 @@ class _ElEventState extends State<ElEvent>
     } else if (pointType == kSecondaryButton) {
       prop.onSecondaryTapUp?.call(e.toDetails);
       if (isCancel == false) prop.onSecondaryTap?.call();
+      if (kIsWeb && prop.prevent) {
+        preventContextMenuTimer ??= setTimeout(() {
+          BrowserContextMenu.enableContextMenu();
+          preventContextMenuTimer = null;
+        }, 100);
+      }
     }
 
     if (isCancel == false) {
@@ -390,24 +404,6 @@ class _ElEventState extends State<ElEvent>
       },
     );
 
-    focusScopeWidget = _FocusScopeLookupBoundary.getWidget(context);
-    if (focusScopeWidget != null) {
-      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
-      // 这么做的目的是：只有当用户使用了 ElFocusScope 小部件，下面 ElEvent 才会创建焦点，
-      // 同时，如果 ElEvent 嵌套 ElEvent，内部 ElEvent 要想获得焦点就必须再次插入 ElFocusScope。
-      result = _FocusScopeLookupBoundary(
-        child: Focus(
-          autofocus: prop.autofocus,
-          canRequestFocus: prop.canRequestFocus,
-          child: Builder(builder: (context) {
-            focusNode = Focus.of(context);
-            hasFocus = focusNode!.hasFocus;
-            return result;
-          }),
-        ),
-      );
-    }
-
     // 只有在桌面端才渲染鼠标悬停小部件，移动端不存在悬停事件
     if (PlatformUtil.isDesktop) {
       if (prop.disabled) hasHover = false;
@@ -433,6 +429,26 @@ class _ElEventState extends State<ElEvent>
         onPointerPanZoomEnd: onPointerPanZoomEnd,
         onPointerSignal: onPointerSignal,
         child: result,
+      );
+    }
+
+    focusScopeWidget = _FocusScopeLookupBoundary.getWidget(context);
+    if (focusScopeWidget != null) {
+      if (focusNode == null) {
+        focusNode = FocusNode();
+        focusNode!.addListener(listenerFocus);
+      }
+
+      // 创建 ElFocusScope 隔离边界，防止嵌套 ElEvent 小部件重复创建 Focus 焦点，
+      // 这么做的目的是：只有当用户使用了 ElFocusScope 小部件，下面 ElEvent 才会创建焦点，
+      // 同时，如果 ElEvent 嵌套 ElEvent，内部 ElEvent 要想获得焦点就必须再次插入 ElFocusScope。
+      result = _FocusScopeLookupBoundary(
+        child: Focus(
+          focusNode: focusNode,
+          autofocus: prop.autofocus,
+          canRequestFocus: prop.canRequestFocus,
+          child: result,
+        ),
       );
     }
 

@@ -3,21 +3,14 @@ part of 'event.dart';
 @ElModel.copy()
 @ElThemeModel(desc: '事件默认配置')
 class ElEventThemeData {
-  static const _default = ElEventThemeData(
-    tapUpDelay: 100,
-  );
-  static const theme = _default;
-  static const darkTheme = _default;
+  static const theme = ElEventThemeData();
+  static const darkTheme = ElEventThemeData();
 
-  /// 在 Element UI 中，事件也拥有主题数据，你不仅可以配置事件的全局属性（取消偏移范围、开启长按反馈、拖拽偏移幅度...），
-  /// 还可以为任意一个组件注入所有事件（悬停、双击、长按、右键、拖拽...），这样的机制大大简化了每个组件的 prop 参数，
-  /// 例如 [ElButton] 只需提供 onPressed 参数即可，更多事件你可以通过 [ElEventTheme] 注入。
+  /// 事件主题配置，对于所有使用 [ElEvent] 的小部件，你可以为它们绑定默认事件（悬停、单击、双击、长按、右键...）。
   ///
-  /// 当然，事件主题数据也同样遵循 Component -> LocalTheme -> GlobalTheme 这样主题合并机制，
-  /// 对于组件开发者来说，如果你实现的组件占用了某些事件，若你希望用户可以通过 [ElEventTheme] 注入默认事件，
-  /// 只需在组件事件中调用默认事件即可。
-  ///
-  /// 例如 [ElButton] 占用了 onTapDown、onTapUp 等事件，只需在事件逻辑中编写以下代码：
+  /// 合并事件主题数据也同样遵循 Component -> LocalTheme -> GlobalTheme 机制，
+  /// 在开发组件时，如果你直接占用了某个事件，那么默认情况下用户是无法通过主题进行绑定的，
+  /// 如果需要支持用户通过主题绑定，只需在对应事件逻辑中编写以下代码：
   /// ```dart
   /// ElEventTheme.maybeOf(context)?.onTapDown?.call(e);
   /// ElEventTheme.maybeOf(context)?.onTapUp?.call(e);
@@ -96,7 +89,8 @@ class ElEventThemeData {
   /// 以 Stack 为例，堆叠了两个小部件，下方小部件颜色随机，上方小部件颜色透明，点击重叠区域的行为如下：
   /// * [HitTestBehavior.deferToChild] - 下方小部件触发事件
   /// * [HitTestBehavior.opaque] - 上方小部件触发事件
-  /// * [HitTestBehavior.translucent] - 上方、下方小部件同时触发事件，但 [GestureDetector] 由于存在手势竞技场机制，所以它依然只有上方小部件触发事件
+  /// * [HitTestBehavior.translucent] - 上方、下方小部件同时触发事件，但如果使用 [GestureDetector] 而不是 [Listener]，
+  /// 由于存在手势竞技场机制，所以它依然只有上方小部件触发事件
   ///
   /// 在大部分情况下你只需考虑 [HitTestBehavior.opaque]，而不是 [HitTestBehavior.translucent]。
   final HitTestBehavior? behavior;

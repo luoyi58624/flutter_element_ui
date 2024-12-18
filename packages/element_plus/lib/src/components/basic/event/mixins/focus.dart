@@ -43,4 +43,18 @@ mixin _FocusMixin<T extends ElEvent> on _CommonMixin<T> {
       if (focusNode?.canRequestFocus == true) focusNode?.requestFocus();
     }
   }
+
+  void listenerFocus() {
+    assert(focusNode != null);
+    hasFocus = focusNode!.hasFocus;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (focusNode != null) {
+      focusNode!.dispose();
+      focusNode = null;
+    }
+  }
 }

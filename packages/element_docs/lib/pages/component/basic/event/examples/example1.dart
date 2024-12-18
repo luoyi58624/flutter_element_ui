@@ -54,6 +54,7 @@ class _Example extends HookWidget {
           onCancel: () {
             el.message.error('取消');
           },
+          prevent: true,
           child: Container(
             width: 100,
             height: 50,
