@@ -64,19 +64,31 @@ class _Example extends HookWidget {
                 color: Colors.grey,
                 alignment: Alignment.center,
                 // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
-                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢
+                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢，
                 child: Listener(
                   onPointerDown: (e) {
+                    // 不能使用 ElStopPropagation 小部件，你只能通过 context 手动执行阻止事件冒泡
                     context.stopPropagation();
                   },
                   child: GestureDetector(
                     onTap: () {
-                      el.message.success('GestureDetector');
+                      el.message.error('Parent GestureDetector');
                     },
                     child: Container(
-                      width: 50,
-                      height: 50,
-                      color: Colors.green,
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          el.message.success('Child GestureDetector');
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.green,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -103,28 +115,42 @@ class _Example2 extends HookWidget {
           runSpacing: 8,
           children: [
             // 使用 ElBubbleBuilder 组件可以捕获内部发射的阻止事件冒泡标识，
-            // 你需要通过此标识手动阻止逻辑执行，这种方式会引起 UI 重建
+            // 你可以通过 ElBubbleBuilder.of(context) 访问冒泡标识手动阻止逻辑执行，
+            // 请注意这种方式会引起 UI 重建（按下、抬起）
             ElBubbleBuilder(
-              builder: (stopBubble) => GestureDetector(
-                onTap: stopBubble
+              builder: (context) => GestureDetector(
+                onTap: ElBubbleBuilder.of(context)
                     ? null
                     : () {
-                        el.message.show('GestureDetector');
+                        el.message.show('Parent GestureDetector');
                       },
                 child: Container(
                   width: 150,
                   height: 150,
                   color: Colors.grey,
                   alignment: Alignment.center,
-                  child: ElStopPropagation(
-                    child: ElEvent(
-                      onTap: () {
-                        el.message.success('ElEvent');
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        color: Colors.green,
+                  child: GestureDetector(
+                    onTap: ElBubbleBuilder.of(context)
+                        ? null
+                        : () {
+                            el.message.error('Child GestureDetector');
+                          },
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: ElStopPropagation(
+                        child: ElEvent(
+                          onTap: () {
+                            el.message.success('ElEvent');
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.green,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -152,11 +178,11 @@ class _Example3 extends HookWidget {
           runSpacing: 8,
           children: [
             ElBubbleBuilder(
-              builder: (stopBubble) => Card(
+              builder: (context) => Card(
                 clipBehavior: Clip.hardEdge,
                 margin: EdgeInsets.zero,
                 child: InkWell(
-                  onTap: stopBubble
+                  onTap: ElBubbleBuilder.of(context)
                       ? null
                       : () {
                           el.message.show('InkWell');
@@ -201,12 +227,12 @@ class _Example4 extends HookWidget {
           runSpacing: 8,
           children: [
             ElBubbleBuilder(
-              builder: (stopBubble) => Card(
+              builder: (context) => Card(
                 clipBehavior: Clip.hardEdge,
                 margin: EdgeInsets.zero,
                 child: InkWell(
                   mouseCursor: MouseCursor.defer,
-                  onTap: stopBubble
+                  onTap: ElBubbleBuilder.of(context)
                       ? null
                       : () {
                           el.message.show('InkWell');
@@ -245,37 +271,55 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
+    return Column(
       children: [
-        ElEvent(
-          onTap: () {
-            el.message.show('ElEvent');
-          },
-          builder: (context) => Container(
-            width: 150,
-            height: 150,
-            color: Colors.grey,
-            alignment: Alignment.center,
-            // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
-            // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢
-            child: Listener(
-              onPointerDown: (e) {
-                context.stopPropagation();
+        const ElText('ElEvent -> GestureDetector'),
+        const Gap(8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ElEvent(
+              onTap: () {
+                el.message.show('ElEvent');
               },
-              child: GestureDetector(
-                onTap: () {
-                  el.message.success('GestureDetector');
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: Colors.green,
+              builder: (context) => Container(
+                width: 150,
+                height: 150,
+                color: Colors.grey,
+                alignment: Alignment.center,
+                // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
+                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢，
+                child: Listener(
+                  onPointerDown: (e) {
+                    // 不能使用 ElStopPropagation 小部件，你只能通过 context 手动执行阻止事件冒泡
+                    context.stopPropagation();
+                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      el.message.error('Parent GestureDetector');
+                    },
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          el.message.success('Child GestureDetector');
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
@@ -296,28 +340,42 @@ class _Example2 extends HookWidget {
           runSpacing: 8,
           children: [
             // 使用 ElBubbleBuilder 组件可以捕获内部发射的阻止事件冒泡标识，
-            // 你需要通过此标识手动阻止逻辑执行，这种方式会引起 UI 重建
+            // 你可以通过 ElBubbleBuilder.of(context) 访问冒泡标识手动阻止逻辑执行，
+            // 请注意这种方式会引起 UI 重建（按下、抬起）
             ElBubbleBuilder(
-              builder: (stopBubble) => GestureDetector(
-                onTap: stopBubble
+              builder: (context) => GestureDetector(
+                onTap: ElBubbleBuilder.of(context)
                     ? null
                     : () {
-                        el.message.show('GestureDetector');
+                        el.message.show('Parent GestureDetector');
                       },
                 child: Container(
                   width: 150,
                   height: 150,
                   color: Colors.grey,
                   alignment: Alignment.center,
-                  child: ElStopPropagation(
-                    child: ElEvent(
-                      onTap: () {
-                        el.message.success('ElEvent');
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        color: Colors.green,
+                  child: GestureDetector(
+                    onTap: ElBubbleBuilder.of(context)
+                        ? null
+                        : () {
+                            el.message.error('Child GestureDetector');
+                          },
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.red,
+                      alignment: Alignment.center,
+                      child: ElStopPropagation(
+                        child: ElEvent(
+                          onTap: () {
+                            el.message.success('ElEvent');
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.green,
+                          ),
+                        ),
                       ),
                     ),
                   ),

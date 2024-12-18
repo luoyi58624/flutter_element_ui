@@ -6,8 +6,11 @@ part of '../event.dart';
 class ElBubbleBuilder extends StatefulWidget {
   const ElBubbleBuilder({super.key, required this.builder});
 
-  /// 构建小部件，回调参数为停止冒泡 bool 标识，如果为 true，意味着后代组件发出停止冒泡的信号
-  final Widget Function(bool stopBubble) builder;
+  final Widget Function(BuildContext context) builder;
+
+  /// 通过当前上下文访问祖先是否阻止了事件冒泡
+  static bool of(BuildContext context) =>
+      _BubbleInheritedWidget.maybeOf(context) ?? false;
 
   @override
   State<ElBubbleBuilder> createState() => _ElBubbleBuilderState();
@@ -17,16 +20,12 @@ class _ElBubbleBuilderState extends State<ElBubbleBuilder> {
   bool? flag;
 
   void updateBubbleFlag(bool value) {
-    // 找到最上层 ElBubbleBuilder 所在的位置，让从那个位置触发重建，确保只执行一次 setState
-    if (_BubbleInheritedWidget.getWidget(context) != null) {
-      _BubbleInheritedWidget._updateBubbleFlag(context, value);
-    } else {
-      if (flag != value) {
-        setState(() {
-          flag = value == true ? true : null;
-        });
-      }
+    if (flag != value) {
+      setState(() {
+        flag = value == true ? true : null;
+      });
     }
+    _BubbleInheritedWidget._updateBubbleFlag(context, value);
   }
 
   @override
@@ -34,8 +33,9 @@ class _ElBubbleBuilderState extends State<ElBubbleBuilder> {
     return _BubbleInheritedWidget(
       flag: flag,
       updateBubbleFlag: updateBubbleFlag,
-      child: widget
-          .builder(_BubbleInheritedWidget.maybeOf(context) ?? flag ?? false),
+      child: Builder(builder: (context) {
+        return widget.builder(context);
+      }),
     );
   }
 }

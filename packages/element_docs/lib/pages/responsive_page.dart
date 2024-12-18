@@ -17,7 +17,7 @@ abstract class ResponsivePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useScrollController();
-    return ElBubbleBuilder(builder: (stopBubble) {
+    return ElBubbleBuilder(builder: (context) {
       return ResponsivePageData(
         path,
         controller,
@@ -30,7 +30,7 @@ abstract class ResponsivePage extends HookWidget {
                   width: double.infinity,
                   child: SingleChildScrollView(
                     controller: controller,
-                    physics: stopBubble
+                    physics: ElBubbleBuilder.of(context)
                         ? const NeverScrollableScrollPhysics()
                         : null,
                     padding:
@@ -48,8 +48,9 @@ abstract class ResponsivePage extends HookWidget {
                 controller: controller,
                 child: SingleChildScrollView(
                   controller: controller,
-                  physics:
-                      stopBubble ? const NeverScrollableScrollPhysics() : null,
+                  physics: ElBubbleBuilder.of(context)
+                      ? const NeverScrollableScrollPhysics()
+                      : null,
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50,
                     vertical: 50,
