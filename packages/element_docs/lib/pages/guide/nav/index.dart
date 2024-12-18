@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -14,9 +15,7 @@ class NavPage extends ResponsivePage {
     return [
       const Gap(50),
       ElButton(
-        onPressed: () {
-          getTextElement(el.context);
-        },
+        onPressed: () async {},
         child: '查找所有 Text',
       ),
 

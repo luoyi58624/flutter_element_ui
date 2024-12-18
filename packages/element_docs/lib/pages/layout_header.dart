@@ -1,6 +1,8 @@
 import 'package:element_docs/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../router/router_config.dart';
 
@@ -19,107 +21,121 @@ class LayoutHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8),
-      child: Row(
-        children: [
-          ElLink(
-            href: '/',
-            manualTrigger: true,
-            cursor: SystemMouseCursors.click,
-            child: Builder(builder: (context) {
-              return ElEvent(
-                onTapDown: (e) {
-                  ElLink.to(context);
-                },
-                child: SvgPicture.asset(
-                  'assets/images/element-plus-logo.svg',
-                  colorFilter: ColorFilter.mode(
-                    context.elTheme.primary,
-                    BlendMode.srcIn,
-                  ),
-                  width: 28,
-                  height: 28,
-                  package: null,
-                ),
-              );
-            }),
-          ),
-          const Expanded(child: SizedBox()),
-          Row(
-            children: [
-              if (!context.sm) buildDesktopNav(context),
-              const Gap(16),
-              ObsBuilder(builder: (context) {
-                return IconButton(
-                  tooltip: GlobalState.isDark ? '切换亮色模式' : '切换黑暗模式',
-                  onPressed: () {
-                    GlobalState.isDark = !GlobalState.isDark;
+    double size = 12;
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Row(
+          children: [
+            const Gap(72),
+            // Container(
+            //   width: size,
+            //   height: size,
+            //   decoration: BoxDecoration(
+            //     color: Colors.purple,
+            //     borderRadius: BorderRadius.circular(size / 2),
+            //   ),
+            // ),
+            // const Gap(8),
+            ElLink(
+              href: '/',
+              manualTrigger: true,
+              cursor: SystemMouseCursors.click,
+              child: Builder(builder: (context) {
+                return ElEvent(
+                  onTapDown: (e) {
+                    ElLink.to(context);
                   },
-                  icon: Icon(
-                    GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
+                  child: SvgPicture.asset(
+                    'assets/images/element-plus-logo.svg',
+                    colorFilter: ColorFilter.mode(
+                      context.elTheme.primary,
+                      BlendMode.srcIn,
+                    ),
+                    width: 28,
+                    height: 28,
+                    package: null,
                   ),
-                  // color: context.elTheme.iconTheme.color,
                 );
               }),
-              PopupMenuButton<String>(
-                enableFeedback: true,
-                offset: const Offset(0, 56),
-                popUpAnimationStyle: AnimationStyle.noAnimation,
-                icon: const Icon(Icons.translate),
-                onSelected: (value) {
-                  TranslatorText.language.value = value;
-                  FlutterUtil.refreshApp();
-                },
-                itemBuilder: (context) {
-                  return TranslatorText.supportLanguages.keys
-                      .map((key) => PopupMenuItem(
-                            height: 40,
-                            value: TranslatorText.supportLanguages[key]!,
-                            child: Text(key),
-                          ))
-                      .toList();
-                },
-              ),
-              PopupMenuButton<String>(
-                enableFeedback: true,
-                offset: const Offset(0, 56),
-                popUpAnimationStyle: AnimationStyle.noAnimation,
-                icon: const Icon(Icons.format_size),
-                onSelected: (value) {
-                  GlobalState.globalSize.value = value;
-                },
-                itemBuilder: (context) {
-                  return sizeOptions.keys
-                      .map((key) => PopupMenuItem(
-                            height: 40,
-                            value: sizeOptions[key]!,
-                            child: Text(key),
-                          ))
-                      .toList();
-                },
-              ),
-              IconButton(
-                tooltip: '全局配置',
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-                icon: const Icon(Icons.settings),
-              ),
-              Tooltip(
-                message: '跳转 GitHub 链接',
-                child: ElLink(
-                  href: 'https://github.com/luoyi58624/flutter_element_ui',
-                  target: LinkTarget.blank,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const _GithubLogo(),
+            ),
+            const Expanded(child: _DragDesktopWindows()),
+            Row(
+              children: [
+                if (!context.sm) buildDesktopNav(context),
+                const Gap(16),
+                ObsBuilder(builder: (context) {
+                  return IconButton(
+                    tooltip: GlobalState.isDark ? '切换亮色模式' : '切换黑暗模式',
+                    onPressed: () {
+                      GlobalState.isDark = !GlobalState.isDark;
+                    },
+                    icon: Icon(
+                      GlobalState.isDark ? Icons.dark_mode : Icons.light_mode,
+                    ),
+                    // color: context.elTheme.iconTheme.color,
+                  );
+                }),
+                PopupMenuButton<String>(
+                  enableFeedback: true,
+                  offset: const Offset(0, 56),
+                  popUpAnimationStyle: AnimationStyle.noAnimation,
+                  icon: const Icon(Icons.translate),
+                  onSelected: (value) {
+                    TranslatorText.language.value = value;
+                    FlutterUtil.refreshApp();
+                  },
+                  itemBuilder: (context) {
+                    return TranslatorText.supportLanguages.keys
+                        .map((key) => PopupMenuItem(
+                              height: 40,
+                              value: TranslatorText.supportLanguages[key]!,
+                              child: Text(key),
+                            ))
+                        .toList();
+                  },
+                ),
+                PopupMenuButton<String>(
+                  enableFeedback: true,
+                  offset: const Offset(0, 56),
+                  popUpAnimationStyle: AnimationStyle.noAnimation,
+                  icon: const Icon(Icons.format_size),
+                  onSelected: (value) {
+                    GlobalState.globalSize.value = value;
+                  },
+                  itemBuilder: (context) {
+                    return sizeOptions.keys
+                        .map((key) => PopupMenuItem(
+                              height: 40,
+                              value: sizeOptions[key]!,
+                              child: Text(key),
+                            ))
+                        .toList();
+                  },
+                ),
+                IconButton(
+                  tooltip: '全局配置',
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                  icon: const Icon(Icons.settings),
+                ),
+                Tooltip(
+                  message: '跳转 GitHub 链接',
+                  child: ElLink(
+                    href: 'https://github.com/luoyi58624/flutter_element_ui',
+                    target: LinkTarget.blank,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const _GithubLogo(),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -189,6 +205,25 @@ class LayoutHeader extends StatelessWidget {
             ],
           );
         });
+  }
+}
+
+class _DragDesktopWindows extends StatelessWidget {
+  const _DragDesktopWindows();
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kIsWeb && PlatformUtil.isDesktop) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onPanDown: (e) {
+          windowManager.startDragging();
+        },
+        child: const SizedBox(height: 56),
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 }
 

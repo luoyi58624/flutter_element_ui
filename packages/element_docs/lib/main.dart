@@ -1,15 +1,33 @@
 import 'package:element_docs/shortcuts/global_shortcut.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'demo.dart';
 import 'global.dart';
+import 'utils/macos_window_utils_config.dart';
 import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await El.init();
+
+  if (!kIsWeb) {
+    await windowManager.ensureInitialized();
+    if (PlatformUtil.isMacOS) {
+      await const MacosWindowUtilsConfig().apply();
+    }
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(1280, 800),
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+    });
+  }
+
   // setPathUrlStrategy();
   // await initFont(
   //   windows: true,
