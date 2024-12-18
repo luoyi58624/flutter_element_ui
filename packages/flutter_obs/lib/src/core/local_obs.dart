@@ -93,8 +93,8 @@ class LocalObs<T> extends WatchObs<T> {
 ElSerialize? _loadPresetSerialize<T>() {
   final type = T.toString();
   if (type == 'dynamic' || type == 'null') return null;
-  if (type == 'Color') return const ElColorSerialize();
-  if (type == 'MaterialColor') return const ElMaterialColorSerialize();
-  if (type == 'DateTime') return const ElDateTimeSerialize();
+  if (type == 'Color') return const ColorSerialize();
+  if (type == 'MaterialColor') return const MaterialColorSerialize();
+  if (type == 'DateTime') return const DateTimeSerialize();
   return null;
 }

@@ -1,6 +1,8 @@
 import 'package:element_plus/src/global.dart';
 import 'package:element_storage/element_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:window_manager/window_manager.dart';
 
 import './services/anchor.dart';
 import './services/cursor.dart';
@@ -41,12 +43,37 @@ class El with AnchorService, RouterService, CursorService {
   static const List<String> themeTypes = [primary, ...themeStatusTypes];
 
   /// 初始化 [el] 全局变量
-  static Future<void> init() async {
+  static Future<void> init({
+    Size initWindowsSize = const Size(1280, 800),
+  }) async {
     if (_el == null) {
+      WidgetsFlutterBinding.ensureInitialized();
       _el = El._();
       await ElStorage.createLocalStorage();
       await ElStorage.createSessionStorage();
       await LocalObs.initStorage();
+
+      if (!kIsWeb) {
+        if (PlatformUtil.isDesktop) {
+          await windowManager.ensureInitialized();
+          final size = localStorage.getItem(
+            StorageKeys.windowsSize,
+            const SizeSerialize(),
+          );
+          WindowOptions windowOptions = WindowOptions(
+            size: size ?? initWindowsSize,
+            titleBarStyle: TitleBarStyle.hidden,
+          );
+          final position = localStorage.getItem(
+            StorageKeys.windowsPosition,
+            const OffsetSerialize(),
+          );
+          if (position != null) windowManager.setPosition(position);
+          windowManager.waitUntilReadyToShow(windowOptions, () async {
+            await windowManager.show();
+          });
+        }
+      }
     }
   }
 

@@ -222,11 +222,11 @@ TestModel _fromJson(Map<String, dynamic>? json) {
           )
         ],
     startDate: $$ElJsonUtil.$custom<DateTime?>(
-        json, 'startDate', const ElDateTimeSerialize()),
+        json, 'startDate', const DateTimeSerialize()),
     color:
-        $$ElJsonUtil.$custom<Color?>(json, 'color', const ElColorSerialize()),
+        $$ElJsonUtil.$custom<Color?>(json, 'color', const ColorSerialize()),
     materialColor: $$ElJsonUtil.$custom<MaterialColor?>(
-        json, 'materialColor', const ElMaterialColorSerialize()),
+        json, 'materialColor', const MaterialColorSerialize()),
   );
 }
 
@@ -277,10 +277,10 @@ extension TestModelExtension on TestModel {
       'my_animal_model': myAnimal.toJson(),
       'my_dog': myDog?.toJson(),
       'animal_list': animalList,
-      'start_date': const ElDateTimeSerialize().serialize(startDate),
-      'color': const ElColorSerialize().serialize(color),
+      'start_date': const DateTimeSerialize().serialize(startDate),
+      'color': const ColorSerialize().serialize(color),
       'material_color':
-          const ElMaterialColorSerialize().serialize(materialColor),
+          const MaterialColorSerialize().serialize(materialColor),
     };
   }
 

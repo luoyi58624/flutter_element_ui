@@ -214,9 +214,9 @@ class _DragDesktopWindows extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!kIsWeb && PlatformUtil.isDesktop) {
       return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onPanDown: (e) {
-          // windowManager.startDragging();
+        behavior: HitTestBehavior.translucent,
+        onPanStart: (e) {
+          windowManager.startDragging();
         },
         child: const SizedBox(height: 56),
       );

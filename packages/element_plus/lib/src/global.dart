@@ -17,7 +17,8 @@ export 'components/basic/icon/index.dart';
 export 'extensions/color.dart';
 export 'extensions/widget.dart';
 
-export 'widgets/brightness.dart';
+export 'utils/keys.dart';
 
+export 'widgets/brightness.dart';
 export 'widgets/current_color.dart';
 export 'widgets/simple_widgets.dart';

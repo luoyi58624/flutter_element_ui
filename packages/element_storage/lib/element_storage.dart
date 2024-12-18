@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:element_annotation/element_annotation.dart';
 import 'package:element_dart/element_dart.dart';
 import 'package:flutter/foundation.dart';
 
@@ -26,7 +27,7 @@ ElStorage get sessionStorage {
 }
 
 /// 本地存储抽象类，Api 设计来自 Web 中的 localStorage，在 Web 平台上直接使用 localStorage Api，
-/// 在客户端上则直接创建一个普通文件进行序列化存储，所以你不能用它存储大量数据，也不能用它存储敏感数据。
+/// 在客户端上则直接创建一个普通文件进行序列化存储，所以你不能用它存储大量数据。
 abstract class ElStorage {
   ElStorage(this.key, this.storage) {
     _debounceSerialize = DartUtil.debounce(serialize, 1000);
@@ -53,13 +54,14 @@ abstract class ElStorage {
   int get length => storage.length;
 
   /// 设置数据
-  void setItem(String key, dynamic value) {
-    storage[key] = value;
+  void setItem(String key, dynamic value, [ElSerialize? serialize]) {
+    storage[key] = serialize == null ? value : serialize.serialize(value);
     _debounceSerialize();
   }
 
   /// 获取数据
-  dynamic getItem(String key) => storage[key];
+  dynamic getItem(String key, [ElSerialize? serialize]) =>
+      serialize == null ? storage[key] : serialize.deserialize(storage[key]);
 
   /// 删除数据
   void removeItem(String key) {

@@ -112,13 +112,13 @@ class TestModel implements ElSerializeModel<TestModel> {
   )
   final List<AnimalModel> animalList;
 
-  @ElDateTimeSerialize()
+  @DateTimeSerialize()
   final DateTime? startDate;
 
-  @ElColorSerialize()
+  @ColorSerialize()
   final Color? color;
 
-  @ElMaterialColorSerialize()
+  @MaterialColorSerialize()
   final MaterialColor? materialColor;
 
   TestModel({

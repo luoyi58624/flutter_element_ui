@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   element_dart:
     path: ../element_dart
+  element_annotation:
+    path: ../element_annotation
   web: ^1.1.0
   path: ^1.9.0
   path_provider: ^2.1.4

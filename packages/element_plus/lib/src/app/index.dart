@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:element_plus/element_plus.dart';
 import 'package:element_plus/src/global.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 part 'extension.dart';
 
@@ -18,7 +20,7 @@ part 'theme_animation.dart';
 
 part '../generates/app/index.g.dart';
 
-class ElApp extends StatelessWidget {
+class ElApp extends StatefulWidget {
   /// Element UI 全局配置小部件
   /// ```dart
   /// ElApp(
@@ -59,20 +61,55 @@ class ElApp extends StatelessWidget {
   static ElAppData of(BuildContext context) => _AppInheritedWidget.of(context);
 
   @override
+  State<ElApp> createState() => _ElAppState();
+}
+
+class _ElAppState extends State<ElApp> with WindowListener {
+  @override
+  void initState() {
+    super.initState();
+    if (!kIsWeb && PlatformUtil.isDesktop) {
+      windowManager.addListener(this);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (!kIsWeb && PlatformUtil.isDesktop) {
+      windowManager.removeListener(this);
+    }
+    super.dispose();
+  }
+
+  @override
+  void onWindowMoved() async {
+    final position = await windowManager.getPosition();
+    localStorage.setItem(
+        StorageKeys.windowsPosition, position, const OffsetSerialize());
+  }
+
+  @override
+  void onWindowResized() async {
+    final size = await windowManager.getSize();
+    localStorage.setItem(StorageKeys.windowsSize, size, const SizeSerialize());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final $brightness = brightness ?? MediaQuery.platformBrightnessOf(context);
+    final $brightness =
+        widget.brightness ?? MediaQuery.platformBrightnessOf(context);
 
     return _AppInheritedWidget(
       ElAppData(
         brightness: $brightness,
-        theme: ElThemeData.theme.merge(theme),
-        darkTheme: ElThemeData.darkTheme.merge(darkTheme),
-        config: ElConfigData.globalData.merge(config),
+        theme: ElThemeData.theme.merge(widget.theme),
+        darkTheme: ElThemeData.darkTheme.merge(widget.darkTheme),
+        config: ElConfigData.globalData.merge(widget.config),
       ),
       child: Builder(builder: (context) {
         return _SwitchThemeAnimation(
           data: context.elTheme,
-          child: child,
+          child: widget.child,
         );
       }),
     );
