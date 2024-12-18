@@ -22,12 +22,12 @@ class MacosWindowUtilsConfig {
   /// The [toolbarStyle] is [NSWindowToolbarStyle.unified] by default. If the
   /// app will have a title bar, use [NSWindowToolbarStyle.expanded] instead.
   const MacosWindowUtilsConfig({
-    this.toolbarStyle = NSWindowToolbarStyle.unified,
+    this.toolbarStyle = NSWindowToolbarStyle.automatic,
     this.enableFullSizeContentView = true,
     this.makeTitlebarTransparent = true,
     this.hideTitle = true,
     this.removeMenubarInFullScreenMode = true,
-    this.autoHideToolbarAndMenuBarInFullScreenMode = true,
+    this.autoHideToolbarAndMenuBarInFullScreenMode = false,
   });
 
   /// The style of the window toolbar.

@@ -15,17 +15,18 @@ void main() async {
   await El.init();
 
   if (!kIsWeb) {
-    await windowManager.ensureInitialized();
-    if (PlatformUtil.isMacOS) {
-      await const MacosWindowUtilsConfig().apply();
-    }
+    // await windowManager.ensureInitialized();
+    // if (PlatformUtil.isMacOS) {
+    //   await const MacosWindowUtilsConfig().apply();
+    // }
 
-    WindowOptions windowOptions = const WindowOptions(
-      size: Size(1280, 800),
-    );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-    });
+    // WindowOptions windowOptions = const WindowOptions(
+    //   size: Size(1280, 800),
+    //   // titleBarStyle: TitleBarStyle.hidden,
+    // );
+    // windowManager.waitUntilReadyToShow(windowOptions, () async {
+    //   await windowManager.show();
+    // });
   }
 
   // setPathUrlStrategy();

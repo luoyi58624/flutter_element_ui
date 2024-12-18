@@ -21,14 +21,13 @@ class LayoutHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size = 12;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: Padding(
         padding: const EdgeInsets.only(left: 8),
         child: Row(
           children: [
-            const Gap(72),
+            if (!kIsWeb && PlatformUtil.isMacOS) const Gap(72),
             // Container(
             //   width: size,
             //   height: size,
@@ -217,7 +216,7 @@ class _DragDesktopWindows extends StatelessWidget {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onPanDown: (e) {
-          windowManager.startDragging();
+          // windowManager.startDragging();
         },
         child: const SizedBox(height: 56),
       );
