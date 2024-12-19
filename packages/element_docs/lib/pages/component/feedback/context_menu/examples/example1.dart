@@ -123,7 +123,9 @@ class _ElContextMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElContextMenu(
-      menu: ElMenu(),
+      menu: const ElMenu(
+        children: [],
+      ),
       child: child,
     );
   }

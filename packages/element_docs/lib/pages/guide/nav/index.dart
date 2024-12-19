@@ -63,7 +63,7 @@ class NavPage extends ResponsivePage {
               height: 40,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: context.elLayout.borderColor!),
+                border: Border.all(color: context.elTheme.borderColor),
               ),
             ),
           );

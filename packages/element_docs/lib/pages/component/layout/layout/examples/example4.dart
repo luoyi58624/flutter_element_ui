@@ -1,7 +1,6 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class Example4 extends StatelessWidget {
@@ -58,7 +57,7 @@ class _Example extends HookWidget {
               show: true,
               width: 1,
               offset: 0,
-              color: context.elLayout.borderColor,
+              color: context.elTheme.borderColor,
               child: ElLayout(
                 key: layoutKey,
                 cacheKey: 'layout_example3',
@@ -128,7 +127,7 @@ class _Example extends HookWidget {
               show: true,
               width: 1,
               offset: 0,
-              color: context.elLayout.borderColor,
+              color: context.elTheme.borderColor,
               child: ElLayout(
                 key: layoutKey,
                 cacheKey: 'layout_example3',

@@ -53,7 +53,7 @@ class _Example extends StatelessWidget {
               ? context.isDark
                   ? Colors.grey.shade800
                   : Colors.grey.shade200
-              : context.elLayout.bgColor,
+              : context.elTheme.bgColor,
           // 第二层焦点按钮盒子
           child: const ElFocusScope(
             child: Center(
@@ -108,7 +108,7 @@ class _Example extends StatelessWidget {
               ? context.isDark
               ? Colors.grey.shade800
               : Colors.grey.shade200
-              : context.elLayout.bgColor,
+              : context.elTheme.bgColor,
           // 第二层焦点按钮盒子
           child: const ElFocusScope(
             child: Center(

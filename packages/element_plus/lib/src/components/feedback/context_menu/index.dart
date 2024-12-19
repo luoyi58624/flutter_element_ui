@@ -2,7 +2,7 @@ import 'package:element_plus/element_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-import '../menu/index.dart';
+import '../menu/menu.dart';
 
 class ElContextMenu extends StatefulWidget {
   /// 给目标小部件绑定右键事件，打开菜单
@@ -13,7 +13,7 @@ class ElContextMenu extends StatefulWidget {
   });
 
   final Widget child;
-  final Widget menu;
+  final ElMenu menu;
 
   @override
   State<ElContextMenu> createState() => _ElContextMenuState();
@@ -61,6 +61,7 @@ class _ElContextMenuState extends State<ElContextMenu> {
   Widget build(BuildContext context) {
     overlay ??= Overlay.of(context, rootOverlay: true);
     return ElEvent(
+      behavior: HitTestBehavior.translucent,
       onSecondaryTapDown: (e) {
         insertMenu(e.globalPosition);
       },

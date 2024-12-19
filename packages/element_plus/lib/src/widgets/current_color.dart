@@ -9,7 +9,7 @@ extension ElCurrentColorExtension on BuildContext {
 
   /// 当前背景颜色，默认为全局背景色
   Color get currentBgColor =>
-      ElCurrentColor.maybeOf(this)?.bgColor ?? elTheme.layoutTheme.bgColor!;
+      ElCurrentColor.maybeOf(this)?.bgColor ?? elTheme.bgColor;
 }
 
 class ElCurrentColor extends InheritedWidget {

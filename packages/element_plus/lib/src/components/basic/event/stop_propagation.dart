@@ -1,7 +1,7 @@
 part of 'event.dart';
 
-/// 阻止事件冒泡小部件
 class ElStopPropagation extends StatelessWidget {
+  /// 阻止事件冒泡
   const ElStopPropagation({super.key, required this.child});
 
   final Widget child;

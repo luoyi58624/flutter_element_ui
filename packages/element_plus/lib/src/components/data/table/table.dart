@@ -273,7 +273,7 @@ class _ElTableState extends State<ElTable> {
     return Container(
       height: widget.height,
       decoration: BoxDecoration(
-        border: Border.all(color: context.elLayout.borderColor!),
+        border: Border.all(color: context.elTheme.borderColor),
       ),
       child: LayoutBuilder(builder: (context, constraints) {
         var columnMaxWidth = getColumnMaxWidth(constraints);

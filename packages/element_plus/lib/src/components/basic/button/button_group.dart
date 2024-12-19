@@ -347,7 +347,7 @@ class _GroupDivide extends StatelessWidget {
         // 判断多选主题类型按钮组 selected 是否相邻，需要在中间绘制比较显眼的分割线
         bool isUnionBorder = false;
         $borderSize = context.commonSizePreset.borderWidth!;
-        $borderColor = context.elTheme.layoutTheme.borderColor!;
+        $borderColor = context.elTheme.borderColor;
 
         if (hasSelected) {
           if ($groupData.groupType == _ButtonGroupType.single) {
@@ -475,9 +475,8 @@ class _ElButtonGroupItemState extends ElButtonState<ElButtonGroupItem> {
   @override
   Border? get border {
     if (_hasStatus) {
-      final borderColor = _hasSelected
-          ? themeBgColor
-          : context.elTheme.layoutTheme.borderColor!;
+      final borderColor =
+          _hasSelected ? themeBgColor : context.elTheme.borderColor;
       final borderWidth = commonSizePreset.borderWidth!;
       final defaultBorder = Border.all(
         color: borderColor,

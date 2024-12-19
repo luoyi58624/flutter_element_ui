@@ -10,6 +10,7 @@ class ElFooter extends StatefulWidget {
     this.minHeight = 0,
     this.maxHeight,
     this.enabledDrag = false,
+    this.bgColor,
   });
 
   /// 底部区域栏子组件，底部区域栏不包含任何影响你布局的内容
@@ -26,6 +27,9 @@ class ElFooter extends StatefulWidget {
 
   /// 是否开启拖拽，默认 false
   final bool enabledDrag;
+
+  /// 底部区域栏背景颜色
+  final Color? bgColor;
 
   @override
   State<ElFooter> createState() => _ElFooterState();

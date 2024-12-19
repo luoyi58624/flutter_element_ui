@@ -40,19 +40,11 @@ part 'theme.dart';
 
 part '../../../generates/components/basic/event/event.g.dart';
 
-/// Element UI 交互事件小部件，它包含了焦点、悬停、单击、双击、右键、长按、拖拽等功能。
-///
-/// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
-/// 嵌套事件小部件会产生事件冒泡。
-///
-/// 解决事件冒泡需要分 2 种情况：
-/// 1. [ElEvent] 嵌套 [ElEvent]、[ElEvent] 嵌套 [GestureDetector]
-/// 2. [GestureDetector] 嵌套 [ElEvent]
-///
-/// 第一种情况只需要插入 [ElStopPropagation] 即可阻止事件冒泡
-///
-/// 第二种情况需要使用 [ElBubbleBuilder] 包裹外层的小部件，然后通过 [ElBubbleBuilder.of] 访问冒泡标识，
-/// 你要根据这个冒泡标识手动控制逻辑的执行。
+/// Element UI 交互事件小部件，它包含了焦点、悬停、单击、双击、右键、长按等功能，此小部件直接基于 [Listener] 实现，
+/// 这意味着 [ElEvent] 不参与手势竞技场的竞争，默认情况下嵌套事件会产生事件冒泡：
+/// 1. 如果是 [ElEvent] 嵌套其他小部件，那么只需要插入 [ElStopPropagation] 即可；
+/// 2. 如果是其他小部件嵌套 [ElEvent]，那么你需要使用 [ElBubbleBuilder] 包裹外层的小部件，
+/// 然后通过 [ElBubbleBuilder.of] 获取冒泡标识手动阻止逻辑的执行；
 class ElEvent extends StatefulWidget {
   const ElEvent({
     super.key,
@@ -159,7 +151,7 @@ class ElEvent extends StatefulWidget {
   /// 主指针点击事件
   final GestureTapCallback? onTap;
 
-  /// 主指针按下事件
+  /// 主指针按下事件，与 [onPointerDown] 原生指针按下事件主要区别在于，它多了 1 毫秒的延迟
   final GestureTapDownCallback? onTapDown;
 
   /// 主指针抬起事件，为了更好的点击效果，它存在一点延迟：[tapUpDelay]
@@ -195,7 +187,7 @@ class ElEvent extends StatefulWidget {
   final PointerSignalEventListener? onPointerSignal;
 
   /// 指针取消事件，当指针按下时，如果指针移动超出 [cancelScope] 范围、或者离开了元素本身，将执行此回调，
-  /// 但是，如果已经触发了长按事件、或者监听了指针移动事件（包括拖拽），那么此回调不会触发。
+  /// 但是，如果已经触发了长按事件、或者监听了指针移动事件，那么此回调永远不会触发。
   final VoidCallback? onCancel;
 
   /// 通过上下文访问最近的 Hover 悬停状态，如果引用此变量，[ElEvent] 获得悬停事件时将会重建子组件
@@ -236,9 +228,9 @@ class _ElEventState extends State<ElEvent>
     }
 
     prop.onPointerDown?.call(e);
-    await tapDownDelay.delay();
 
     if (pointType == kPrimaryButton) {
+      await tapDownDelay.delay();
       tapDownHandler(e);
       longPressStartHandler(e);
     } else if (pointType == kSecondaryButton) {
@@ -251,6 +243,7 @@ class _ElEventState extends State<ElEvent>
         }
       }
 
+      await tapDownDelay.delay();
       prop.onSecondaryTapDown?.call(e.toDetails);
     }
   }

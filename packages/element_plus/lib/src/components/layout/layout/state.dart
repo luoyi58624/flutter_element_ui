@@ -2,7 +2,6 @@ part of 'index.dart';
 
 class ElLayoutState extends State<ElLayout> {
   late BoxConstraints _constraints;
-  late ElLayoutThemeData _themeData;
 
   /// 拖拽过程中保存的布局数据，所产生的数据不受布局约束
   late ElLayoutData _dragLayoutData;
@@ -190,7 +189,6 @@ class ElLayoutState extends State<ElLayout> {
 
   @override
   Widget build(BuildContext context) {
-    _themeData = ElLayoutTheme.of(context);
     final splitResizerThemeData = ElSplitResizerTheme.of(context);
     return OverlayWidget(
       child: LayoutBuilder(builder: (context, constraints) {
@@ -210,22 +208,24 @@ class ElLayoutState extends State<ElLayout> {
           );
 
           if (widget.sidebar != null) {
-            final double top =
-                widget.sidebar!.expandedTop ? 0 : layoutData.navbar;
-            final double bottom =
-                widget.sidebar!.expandedBottom ? 0 : layoutData.footer;
+            final top = widget.sidebar!.expandedTop ? 0.0 : layoutData.navbar;
+            final bottom =
+                widget.sidebar!.expandedBottom ? 0.0 : layoutData.footer;
+            final bgColor =
+                widget.sidebar!.bgColor ?? context.elTheme.sidebarColor;
             children.add(
               Positioned(
                 top: top,
                 bottom: bottom,
                 left: 0,
                 child: ColoredBox(
-                  color: _themeData.sidebarColor!,
+                  color: bgColor,
                   child: SizedBox(
                     width: layoutData.sidebar,
-                    child: Builder(builder: (context) {
-                      return widget.sidebar!;
-                    }),
+                    child: ElCurrentColor(
+                      bgColor: bgColor,
+                      child: widget.sidebar!,
+                    ),
                   ),
                 ),
               ),
@@ -252,20 +252,25 @@ class ElLayoutState extends State<ElLayout> {
             }
           }
           if (widget.rightSidebar != null) {
-            final double top =
-                widget.rightSidebar!.expandedTop ? 0 : layoutData.navbar;
-            final double bottom =
-                widget.rightSidebar!.expandedBottom ? 0 : layoutData.footer;
+            final top =
+                widget.rightSidebar!.expandedTop ? 0.0 : layoutData.navbar;
+            final bottom =
+                widget.rightSidebar!.expandedBottom ? 0.0 : layoutData.footer;
+            final bgColor =
+                widget.rightSidebar!.bgColor ?? context.elTheme.sidebarColor;
             children.add(
               Positioned(
                 top: top,
                 bottom: bottom,
                 right: 0,
                 child: ColoredBox(
-                  color: _themeData.sidebarColor!,
+                  color: bgColor,
                   child: SizedBox(
                     width: layoutData.rightSidebar,
-                    child: widget.rightSidebar!,
+                    child: ElCurrentColor(
+                      bgColor: bgColor,
+                      child: widget.rightSidebar!,
+                    ),
                   ),
                 ),
               ),
@@ -299,16 +304,19 @@ class ElLayoutState extends State<ElLayout> {
             final right = widget.rightSidebar?.expandedTop == true
                 ? layoutData.rightSidebar + splitResizerThemeData.size!
                 : 0.0;
+            final bgColor =
+                widget.navbar!.bgColor ?? context.elTheme.navbarColor;
             children.add(
               Positioned(
                 left: left,
                 right: right,
                 child: Container(
                   height: layoutData.navbar,
-                  decoration: BoxDecoration(
-                    color: _themeData.navbarColor!,
+                  decoration: BoxDecoration(color: bgColor),
+                  child: ElCurrentColor(
+                    bgColor: bgColor,
+                    child: widget.navbar!,
                   ),
-                  child: widget.navbar!,
                 ),
               ),
             );
@@ -341,6 +349,8 @@ class ElLayoutState extends State<ElLayout> {
             final right = widget.rightSidebar?.expandedBottom == true
                 ? layoutData.rightSidebar + splitResizerThemeData.size!
                 : 0.0;
+            final bgColor =
+                widget.footer!.bgColor ?? context.elTheme.footerColor;
             children.add(
               Positioned(
                 left: left,
@@ -348,10 +358,11 @@ class ElLayoutState extends State<ElLayout> {
                 bottom: 0,
                 child: Container(
                   height: layoutData.footer,
-                  decoration: BoxDecoration(
-                    color: _themeData.footerColor!,
+                  decoration: BoxDecoration(color: bgColor),
+                  child: ElCurrentColor(
+                    bgColor: bgColor,
+                    child: widget.footer!,
                   ),
-                  child: widget.footer!,
                 ),
               ),
             );

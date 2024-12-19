@@ -95,8 +95,8 @@ class ElInputState extends ModelValueState<ElInput, String> {
         borderRadius: _styleProp.borderRadius,
         borderSide: BorderSide(
           color: context.hasHover
-              ? context.elLayout.borderColor!.deepen(16)
-              : context.elLayout.borderColor!,
+              ? context.elTheme.borderColor.deepen(16)
+              : context.elTheme.borderColor,
         ),
       ),
       focusedBorder: OutlineInputBorder(

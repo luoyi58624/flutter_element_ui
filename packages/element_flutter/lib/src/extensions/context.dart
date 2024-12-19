@@ -18,15 +18,12 @@ extension FlutterContextExtension on BuildContext {
         El.error: elTheme.error,
       };
 
-  /// Layout 主题
-  ElLayoutThemeData get elLayout => elTheme.layoutTheme;
-
   /// 通用尺寸预设
   ElCommonSizePreset get commonSizePreset => el.sizePreset.common.apply(this);
 
   /// 通用边框主题
   Border get elBorder => Border.all(
-        color: elLayout.borderColor!,
+        color: elTheme.borderColor,
         width: elConfig.borderWidth!,
       );
 

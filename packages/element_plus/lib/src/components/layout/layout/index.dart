@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 
 part 'state.dart';
 
-part 'theme.dart';
-
 part '../../../generates/components/layout/layout/index.g.dart';
 
 class ElLayout extends StatefulWidget {

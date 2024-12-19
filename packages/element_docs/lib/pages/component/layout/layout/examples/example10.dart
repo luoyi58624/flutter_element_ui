@@ -34,26 +34,22 @@ class _Example extends HookWidget {
     final username = useState('initialData');
     return SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: const ElLayoutThemeData(
-          sidebarColor: Color.fromRGBO(34, 37, 43, 0.9),
+      child: ElLayout(
+        sidebar: ElSidebar(
+          bgColor: const Color.fromRGBO(34, 37, 43, 0.9),
+          child: buildSidebar(),
         ),
-        child: ElLayout(
-          sidebar: ElSidebar(
-            child: buildSidebar(),
-          ),
-          body: ElBody(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                children: [
-                  ElInput(username),
-                  const Gap(8),
-                  const ElFocusScope(
-                    child: ElButton(child: 'hello'),
-                  ),
-                ],
-              ),
+        body: ElBody(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                ElInput(username),
+                const Gap(8),
+                const ElFocusScope(
+                  child: ElButton(child: 'hello'),
+                ),
+              ],
             ),
           ),
         ),

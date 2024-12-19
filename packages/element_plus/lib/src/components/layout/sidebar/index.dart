@@ -13,6 +13,7 @@ class ElSidebar extends StatefulWidget {
     this.enabledDrag = false,
     this.expandedTop = false,
     this.expandedBottom = false,
+    this.bgColor,
   })  : assert(width >= minWidth, 'ElSidebar width 必须大于等于 minWidth'),
         assert(maxWidth == null || maxWidth >= width,
             'ElSidebar maxWidth 要么等于 null，要么必须大于 width');
@@ -37,6 +38,9 @@ class ElSidebar extends StatefulWidget {
 
   /// 侧边栏是否强制延伸至底部，默认 false，若为 true，它将挤占 footer 的空间
   final bool expandedBottom;
+
+  /// 侧边栏背景颜色
+  final Color? bgColor;
 
   @override
   State<ElSidebar> createState() => _ElSidebarState();

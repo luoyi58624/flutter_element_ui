@@ -1,8 +1,5 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class Example3 extends StatelessWidget {
   const Example3({super.key, required this.title});
@@ -58,7 +55,7 @@ class _Example extends HookWidget {
               show: true,
               width: 1,
               offset: 0,
-              color: context.elLayout.borderColor,
+              color: context.elTheme.borderColor,
               child: ElLayout(
                 key: layoutKey,
                 cacheKey: 'layout_example3',
@@ -94,7 +91,7 @@ class _Example extends HookWidget {
   Widget buildNavbar(BuildContext context) {
     // i(context.elLayout.navbarColor);
     return Container(
-      color: context.elLayout.navbarColor,
+      color: context.elTheme.navbarColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: Row(
@@ -119,7 +116,7 @@ class _Example extends HookWidget {
   }
 
   Widget buildSlider(BuildContext context) => Material(
-        color: context.elLayout.sidebarColor,
+        color: context.elTheme.sidebarColor,
         child: ListView.builder(
           itemCount: 20,
           itemBuilder: (context, index) => CellWidget(
@@ -179,7 +176,7 @@ class _Example extends HookWidget {
               show: true,
               width: 1,
               offset: 0,
-              color: context.elLayout.borderColor,
+              color: context.elTheme.borderColor,
               child: ElLayout(
                 key: layoutKey,
                 cacheKey: 'layout_example3',
@@ -215,7 +212,7 @@ class _Example extends HookWidget {
   Widget buildNavbar(BuildContext context) {
     // i(context.elLayout.navbarColor);
     return Container(
-      color: context.elLayout.navbarColor,
+      color: context.elTheme.navbarColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: Row(
@@ -240,7 +237,7 @@ class _Example extends HookWidget {
   }
 
   Widget buildSlider(BuildContext context) => Material(
-        color: context.elLayout.sidebarColor,
+        color: context.elTheme.sidebarColor,
         child: ListView.builder(
           itemCount: 20,
           itemBuilder: (context, index) => CellWidget(

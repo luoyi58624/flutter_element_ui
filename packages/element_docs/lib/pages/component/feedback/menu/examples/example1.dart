@@ -12,20 +12,21 @@ class Example1 extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElContextMenu(
-      menu: ElMenu(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SectionTitle(title),
-          CodeExample(
-            code: code,
-            children: const [
-              _Example(),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(title),
+        CodeExample(
+          code: code,
+          children: const [
+            ElContextMenu(
+                menu: ElMenu(
+                  children: [],
+                ),
+                child: _Example()),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -35,30 +36,38 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Expanded(
-          child: Column(
-            spacing: 8,
-            children: [
-              ElMenu(),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            spacing: 8,
-            children: [
-              _NativeContextMenu(
-                child: ElButton(
-                  onPressed: () {},
-                  child: '右键菜单',
+    return SizedBox(
+      height: 300,
+      child: Row(
+        children: [
+          const Expanded(
+            child: Column(
+              spacing: 8,
+              children: [
+                ElMenu(
+                  children: [],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Column(
+              spacing: 8,
+              children: [
+                ElStopPropagation(
+                  child: _NativeContextMenu(
+                    child: ElButton(
+                      type: El.primary,
+                      onPressed: () {},
+                      child: '右键菜单',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -71,7 +80,9 @@ class _ElContextMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElContextMenu(
-      menu: ElMenu(),
+      menu: ElMenu(
+        children: [],
+      ),
       child: child,
     );
   }
@@ -88,6 +99,7 @@ class _NativeContextMenu extends StatelessWidget {
       child: child,
       menuProvider: (_) {
         return Menu(
+          title: 'Demo',
           children: [
             MenuAction(
               title: 'Menu Item 1',

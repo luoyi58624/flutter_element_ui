@@ -8,6 +8,7 @@ class ElNavbar extends StatefulWidget {
     this.minHeight = 40,
     this.maxHeight,
     this.enabledDrag = false,
+    this.bgColor,
   });
 
   /// 导航栏子组件，导航栏不包含任何影响你布局的内容
@@ -24,6 +25,9 @@ class ElNavbar extends StatefulWidget {
 
   /// 是否开启拖拽，默认 false
   final bool enabledDrag;
+
+  /// 导航头背景颜色
+  final Color? bgColor;
 
   @override
   State<ElNavbar> createState() => _ElNavbarState();

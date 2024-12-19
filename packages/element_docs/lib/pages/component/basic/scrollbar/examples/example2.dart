@@ -113,7 +113,7 @@ class _Example extends HookWidget {
             border: context.elBorder,
           ),
           child: Material(
-            color: context.elLayout.bgColor,
+            color: context.elTheme.bgColor,
             child: ElScrollbar(
               controller: controller,
               mode: ElScrollbarMode.always,
@@ -233,7 +233,7 @@ class _Example extends HookWidget {
             border: context.elBorder,
           ),
           child: Material(
-            color: context.elLayout.bgColor,
+            color: context.elTheme.bgColor,
             child: ElScrollbar(
               controller: controller,
               mode: ElScrollbarMode.always,

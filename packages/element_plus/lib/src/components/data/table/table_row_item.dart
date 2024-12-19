@@ -18,7 +18,7 @@ class _TableRowItem extends StatefulWidget {
 class _TableRowItemState extends State<_TableRowItem> {
   @override
   Widget build(BuildContext context) {
-    var borderSide = BorderSide(color: context.elLayout.borderColor!);
+    var borderSide = BorderSide(color: context.elTheme.borderColor);
     var elTableData = _ElTableData.of(context);
     var rowHeight = elTableData.rowHeight;
     var column = widget.columns[0];
@@ -92,10 +92,10 @@ class _TableRowItemState extends State<_TableRowItem> {
           return DecoratedBox(
             decoration: BoxDecoration(
               color: elTableData.highlightCurrentRow && value == widget.index
-                  ? context.elLayout.bgColor!.deepen(5)
+                  ? context.elTheme.bgColor.deepen(5)
                   : null,
               border: Border(
-                  bottom: BorderSide(color: context.elLayout.borderColor!)),
+                  bottom: BorderSide(color: context.elTheme.borderColor)),
             ),
             child: Row(children: children),
           );

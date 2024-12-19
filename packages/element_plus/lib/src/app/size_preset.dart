@@ -135,7 +135,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
         size: 28,
         borderWidth: 1.0,
         radius: BorderRadius.all(Radius.circular(3)),
-        cardRadius: BorderRadius.all(Radius.circular(5)),
+        cardRadius: BorderRadius.all(Radius.circular(6)),
       );
 
   @override
@@ -143,7 +143,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
         size: 32,
         borderWidth: 1.0,
         radius: BorderRadius.all(Radius.circular(4)),
-        cardRadius: BorderRadius.all(Radius.circular(6)),
+        cardRadius: BorderRadius.all(Radius.circular(8)),
       );
 
   @override
@@ -151,7 +151,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
         size: 36,
         borderWidth: 1.0,
         radius: BorderRadius.all(Radius.circular(4)),
-        cardRadius: BorderRadius.all(Radius.circular(6)),
+        cardRadius: BorderRadius.all(Radius.circular(8)),
       );
 
   @override
@@ -159,7 +159,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
         size: 40,
         borderWidth: 1.2,
         radius: BorderRadius.all(Radius.circular(5)),
-        cardRadius: BorderRadius.all(Radius.circular(7)),
+        cardRadius: BorderRadius.all(Radius.circular(10)),
       );
 
   @override
@@ -167,7 +167,7 @@ class ElCommonSizePreset extends ElComponentSizePreset<ElCommonSizePreset> {
         size: 46,
         borderWidth: 1.5,
         radius: BorderRadius.all(Radius.circular(6)),
-        cardRadius: BorderRadius.all(Radius.circular(8)),
+        cardRadius: BorderRadius.all(Radius.circular(12)),
       );
 
   @override

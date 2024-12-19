@@ -94,7 +94,7 @@ class _CardWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: context.elTheme.cardTheme.color,
-          border: Border.all(color: context.elLayout.borderColor!),
+          border: Border.all(color: context.elTheme.borderColor),
           borderRadius: context.commonSizePreset.cardRadius!,
         ),
         child: Column(

@@ -35,18 +35,12 @@ class _Example extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: ElLayoutThemeData(
-          navbarColor: Colors.blue,
-          sidebarColor: Colors.blueGrey.shade800,
-        ),
-        child: const ElLayout(
-          navbar: ElNavbar(),
-          sidebar: ElSidebar(),
-          body: ElBody(),
-        ),
+      child: ElLayout(
+        navbar: ElNavbar(),
+        sidebar: ElSidebar(),
+        body: ElBody(),
       ),
     );
   }

@@ -37,16 +37,10 @@ class _Example extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: ElLayoutThemeData(
-          navbarColor: Colors.blue,
-          sidebarColor: Colors.blueGrey.shade800,
-        ),
-        child: const ElLayout(
-          navbar: ElNavbar(),
-          sidebar: ElSidebar(),
-          body: ElBody(),
-        ),
+      child: ElLayout(
+        navbar: const ElNavbar(bgColor: Colors.blue),
+        sidebar: ElSidebar(bgColor: Colors.blueGrey.shade800),
+        body: const ElBody(),
       ),
     );
   }
@@ -60,16 +54,10 @@ class _Example extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
-      child: ElLayoutTheme(
-        data: ElLayoutThemeData(
-          navbarColor: Colors.blue,
-          sidebarColor: Colors.blueGrey.shade800,
-        ),
-        child: const ElLayout(
-          navbar: ElNavbar(),
-          sidebar: ElSidebar(),
-          body: ElBody(),
-        ),
+      child: ElLayout(
+        navbar: const ElNavbar(bgColor: Colors.blue),
+        sidebar: ElSidebar(bgColor: Colors.blueGrey.shade800),
+        body: const ElBody(),
       ),
     );
   }

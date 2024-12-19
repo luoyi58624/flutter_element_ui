@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'animate_obs.dart';
 import 'animate_value_generate.dart';
+import 'box_shadow_test_page.dart';
 import 'local_obs.dart';
 import 'local_obs_list.dart';
 import 'local_obs_map.dart';
@@ -47,6 +48,7 @@ class TestPage extends StatelessWidget {
                 page: AnimateValueGeneratePage(),
               ),
               CellWidget(title: '节流测试', page: ThrottleTestPage()),
+              CellWidget(title: '阴影生成', page: BoxShadowTestPage()),
             ],
           ),
         ],

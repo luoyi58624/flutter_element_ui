@@ -101,7 +101,7 @@ class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
         if (onlyActiveBorder) {
           borderColor = context.hasTap || context.hasHover
               ? context.elTheme.primary
-              : context.elTheme.layoutTheme.borderColor!;
+              : context.elTheme.borderColor;
         } else {
           bgColor = context.hasTap || context.hasHover
               ? context.elTheme.primary.elLight9(context)
@@ -110,12 +110,12 @@ class _ElOutlineButtonState extends ElButtonState<ElOutlineButton> {
               ? context.elTheme.primary
               : context.hasHover
                   ? context.elTheme.primary.elLight5(context)
-                  : context.elTheme.layoutTheme.borderColor!;
+                  : context.elTheme.borderColor;
         }
       } else {
         borderColor = context.hasTap || context.hasHover
             ? context.elTheme.primary
-            : context.elTheme.layoutTheme.borderColor!;
+            : context.elTheme.borderColor;
       }
     } else {
       bgColor = themeBgColor;

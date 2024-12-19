@@ -178,7 +178,7 @@ class _ElSplitResizerState extends State<ElSplitResizer> {
         : SizedBox(height: themeData.size, width: double.infinity);
     if (themeData.size! > 0) {
       result = ColoredBox(
-        color: themeData.color ?? context.elLayout.borderColor!,
+        color: themeData.color ?? context.elTheme.borderColor,
         child: result,
       );
     }

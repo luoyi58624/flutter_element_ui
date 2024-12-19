@@ -17,6 +17,7 @@ import '../pages/component/feedback/menu/index.dart';
 import '../pages/component/layout/layout/index.dart';
 import '../pages/component/layout/menu_bar/index.dart';
 import '../pages/component/other/drag/index.dart';
+import '../pages/component/other/resizer/index.dart';
 import '../pages/component/other/ring/index.dart';
 import '../pages/component/other/split_pane/index.dart';
 import '../pages/component/other/split_resizer/index.dart';
