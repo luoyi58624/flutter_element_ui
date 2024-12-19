@@ -78,7 +78,7 @@ class _Prop {
       widget.autofocus ?? $data.autofocus ?? false,
       $canRequestFocus,
       widget.cancelScope ?? $data.cancelScope ?? 20,
-      widget.prevent ?? $data.prevent ?? false,
+      widget.prevent ?? $data.prevent ?? true,
       widget.tapUpDelay ?? $data.tapUpDelay ?? 100,
       widget.doubleTapTimeout ?? $data.doubleTapTimeout ?? 300,
       widget.delayTapForDouble ?? $data.delayTapForDouble ?? false,

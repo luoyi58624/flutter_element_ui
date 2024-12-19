@@ -151,6 +151,14 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const TreePage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}context_menu',
+      builder: (context, state) => const ContextMenuPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}menu',
+      builder: (context, state) => const MenuPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}message',
       builder: (context, state) => const MessagePage(),
     ),
@@ -173,10 +181,6 @@ List<RouteBase> _buildComponentRoutes(String path) {
     RouterUtil.buildRoute(
       path: '${path}animated_size',
       builder: (context, state) => const AnimatedSizePage(),
-    ),
-    RouterUtil.buildRoute(
-      path: '${path}context_menu',
-      builder: (context, state) => const ContextMenuPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}drag',

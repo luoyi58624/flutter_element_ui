@@ -20,7 +20,7 @@ part 'widgets/focus_scope.dart';
 
 part 'widgets/shortcuts.dart';
 
-part 'widgets/stop_propagation.dart';
+part 'stop_propagation.dart';
 
 part 'mixins/bubble.dart';
 
@@ -120,7 +120,7 @@ class ElEvent extends StatefulWidget {
   /// 触发取消事件偏移范围，默认 20 像素
   final int? cancelScope;
 
-  /// 在 web 平台上，是否阻止浏览器右键默认行为，默认 false
+  /// 在 web 平台上，是否阻止浏览器右键默认行为，默认 true
   final bool? prevent;
 
   /// 指针抬起延迟时间，作用是让 [hasTap] 状态效果更好，默认 100 毫秒
@@ -265,7 +265,6 @@ class _ElEventState extends State<ElEvent>
   /// 指针按下事件
   void onPointerDown(PointerDownEvent e) async {
     if (!bubbleFlag) return;
-    stopPropagationByWidget();
     setPointerDownDetails(e);
     // 指针按下时立即设置选中的焦点，这里只做预选中，当触发点击事件时将请求焦点
     if (_focusScopeWidget != null) {
@@ -276,6 +275,7 @@ class _ElEventState extends State<ElEvent>
     }
 
     prop.onPointerDown?.call(e);
+    await tapDownDelay.delay();
 
     if (pointType == kPrimaryButton) {
       tapDownHandler(e);
@@ -289,6 +289,7 @@ class _ElEventState extends State<ElEvent>
           await BrowserContextMenu.disableContextMenu();
         }
       }
+
       prop.onSecondaryTapDown?.call(e.toDetails);
     }
   }

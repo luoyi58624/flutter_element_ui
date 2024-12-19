@@ -307,6 +307,12 @@ class SlideRouterConfig {
       'Feedback 反馈组件',
       [
         ('Alert 提示', '/${RootRoute.component.$2}/Alert', WorkStatus.pending),
+        (
+          'ContextMenu 右键菜单',
+          '/${RootRoute.component.$2}/context_menu',
+          WorkStatus.finished
+        ),
+        ('Menu 菜单', '/${RootRoute.component.$2}/menu', WorkStatus.finished),
         ('Dialog 对话框', '/${RootRoute.component.$2}/Dialog', WorkStatus.pending),
         ('Drawer 抽屉', '/${RootRoute.component.$2}/Drawer', WorkStatus.pending),
         (
@@ -362,11 +368,6 @@ class SlideRouterConfig {
         (
           'AnimatedSize 动画尺寸',
           '/${RootRoute.component.$2}/animated_size',
-          WorkStatus.pending
-        ),
-        (
-          'ContextMenuPage 右键菜单',
-          '/${RootRoute.component.$2}/context_menu',
           WorkStatus.pending
         ),
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),

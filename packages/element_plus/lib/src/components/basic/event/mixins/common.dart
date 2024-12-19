@@ -34,6 +34,9 @@ mixin _CommonMixin<T extends ElEvent> on State<T> {
   /// 阻止 web 默认右键菜单计数器，当指针释放时需要延迟释放
   Timer? preventContextMenuTimer;
 
+  /// onTapDown 触发延迟时间
+  Duration tapDownDelay = const Duration(milliseconds: 1);
+
   /// 设置指针按下时的一些通用属性
   setPointerDownDetails(PointerDownEvent e) {
     childSize = childKey.currentContext?.size ?? Size.zero;

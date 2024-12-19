@@ -38,6 +38,8 @@ export 'src/components/data/tree/index.dart';
 export 'src/components/data/table/table.dart';
 export 'src/components/data/image.dart';
 
+export 'src/components/feedback/context_menu/index.dart';
+export 'src/components/feedback/menu/index.dart';
 export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
 export 'src/components/feedback/drawer.dart';
@@ -74,7 +76,6 @@ export 'src/components/others/close_button/index.dart';
 export 'src/components/others/ring/index.dart';
 export 'src/components/others/split_resizer/index.dart';
 export 'src/components/others/split_pane/index.dart';
-export 'src/components/others/context_menu.dart';
 export 'src/components/others/divider.dart';
 export 'src/components/others/draggable.dart';
 export 'src/components/others/fps.dart';

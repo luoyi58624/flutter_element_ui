@@ -20,16 +20,16 @@ mixin _BubbleMixin<T extends ElEvent> on _CommonMixin<T> {
     _EventInheritedWidget.resetPropagation(context);
   }
 
-  /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
-  /// 所在 Element Tree 的位置开始，向上查找 [ElEvent] 小部件并执行阻止冒泡函数
-  void stopPropagationByWidget() {
-    final result = context.getInheritedWidgetOfExactType<ElStopPropagation>();
-    if (result != null && result.enabled == true) {
-      context
-          .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
-          ?.stopPropagation();
-    }
-  }
+  // /// 根据 [ElStopPropagation] 尝试阻止事件冒泡，此方法会以 [ElStopPropagation]
+  // /// 所在 Element Tree 的位置开始，向上查找 [ElEvent] 小部件并执行阻止冒泡函数
+  // void stopPropagationByWidget() {
+  //   final result = context.getInheritedWidgetOfExactType<ElStopPropagation>();
+  //   if (result != null && result.enabled == true) {
+  //     context
+  //         .getElementForInheritedWidgetOfExactType<ElStopPropagation>()
+  //         ?.stopPropagation();
+  //   }
+  // }
 
   /// 重置 [ElBubbleBuilder] 小部件的状态，当 [onPointerUp]、[onPointerCancel] 时触发
   void resetBubbleBuilderWidget() {

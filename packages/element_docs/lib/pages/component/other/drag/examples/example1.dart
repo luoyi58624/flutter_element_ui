@@ -62,7 +62,6 @@ class _Example extends HookWidget {
         ),
         const Gap(8),
         ElStopPropagation(
-          enabled: false,
           child: ElDraggable(
             key: UniqueKey(),
             rootOverlay: isRootOverlay.value,
