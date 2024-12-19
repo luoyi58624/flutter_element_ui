@@ -218,37 +218,6 @@ class ElEvent extends StatefulWidget {
   static bool hasFocus(BuildContext context) =>
       _EventInheritedWidget.getFocusStatus(context);
 
-  /// 阻止事件冒泡，在大部分情况下你只需嵌套 [ElStopPropagation] 小部件即可，它更简单，
-  /// 你无需考虑 context 作用域问题，但如果你想要控制阻止事件冒泡的时机，例如：
-  /// 只阻止 onTap 事件但希望父级 onTapDown 能正常触发，那么你可以在 onTap 中执行此函数。
-  ///
-  /// 它的原理就是运用 [InheritedWidget] 小部件，通过 context 不断向上查找，然后依次更新它们的冒泡标识（bool），
-  /// 当上层事件执行时，由于冒泡标识被更改从而阻止逻辑执行，当指针抬起或者指针被取消，再重置冒泡标识。
-  ///
-  /// 提示：更改冒泡标识不会引起 UI 重建，查找 [InheritedWidget] 小部件的实例很便宜，时间复杂度为 O(1)。
-  static void stopPropagation(BuildContext context) {
-    _EventInheritedWidget.stopPropagation(context);
-
-    // 查找是否存在 ElBubbleBuilder 小部件，如果有那么需要通知它的回调
-    final result = _BubbleInheritedWidget.getWidget(context);
-    if (result != null) {
-      _BubbleInheritedWidget.triggerFlag = true;
-      _BubbleInheritedWidget._updateBubbleFlag(context, true, result);
-    }
-  }
-
-  /// 重置事件冒泡，如果 [stopPropagation] 是手动触发的（鼠标点击、手指按下），
-  /// 那么被阻止的事件在指针抬起时会自动重置冒泡标识，但你若是通过隐式方式调用 [stopPropagation]，
-  /// 那么你必须在逻辑处理完后手动重置冒泡标识，否则上层事件将永远无法触发。
-  static void resetPropagation(BuildContext context) {
-    _EventInheritedWidget.resetPropagation(context);
-    final result = _BubbleInheritedWidget.getWidget(context);
-    if (result != null) {
-      _BubbleInheritedWidget.triggerFlag = false;
-      _BubbleInheritedWidget._updateBubbleFlag(context, false, result);
-    }
-  }
-
   @override
   State<ElEvent> createState() => _ElEventState();
 }
@@ -396,7 +365,6 @@ class _ElEventState extends State<ElEvent>
           hasFocus,
           setFocusDepend,
           stopPropagation,
-          resetPropagation,
           child: Builder(
             key: childKey,
             builder: (context) => widget.child ?? widget.builder!(context),

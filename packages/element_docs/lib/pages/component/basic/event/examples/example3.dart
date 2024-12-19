@@ -63,13 +63,7 @@ class _Example extends HookWidget {
                 height: 150,
                 color: Colors.grey,
                 alignment: Alignment.center,
-                // 你必须在 Listener 中阻止事件冲突，因为在手指轻触屏幕时，
-                // GestureDetector onTapDown 的触发时机可能比 ElEvent 的 onTap 要慢，
-                child: Listener(
-                  onPointerDown: (e) {
-                    // 不能使用 ElStopPropagation 小部件，你只能通过 context 手动执行阻止事件冒泡
-                    context.stopPropagation();
-                  },
+                child: ElStopPropagation(
                   child: GestureDetector(
                     onTap: () {
                       el.message.error('Parent GestureDetector');

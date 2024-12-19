@@ -8,8 +8,7 @@ class _EventInheritedWidget extends InheritedWidget {
     this.setTapDepend,
     this.hasFocus,
     this.setFocusDepend,
-    this._stopPropagation,
-    this._resetPropagation, {
+    this._stopPropagation, {
     required super.child,
   });
 
@@ -20,7 +19,6 @@ class _EventInheritedWidget extends InheritedWidget {
   final bool hasFocus;
   final VoidCallback setFocusDepend;
   final VoidCallback _stopPropagation;
-  final VoidCallback _resetPropagation;
 
   static _EventInheritedWidget? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<_EventInheritedWidget>();
@@ -47,12 +45,6 @@ class _EventInheritedWidget extends InheritedWidget {
     context
         .getInheritedWidgetOfExactType<_EventInheritedWidget>()
         ?._stopPropagation();
-  }
-
-  static void resetPropagation(BuildContext context) {
-    context
-        .getInheritedWidgetOfExactType<_EventInheritedWidget>()
-        ?._resetPropagation();
   }
 
   @override

@@ -35,10 +35,4 @@ extension ElEventExtension on BuildContext {
   /// 是否激活了 focus 焦点状态，判断元素是否得到焦点不要通过 [Focus.of]，
   /// [Focus] 没有限制作用域，会导致你的小部件意外地得到焦点。
   bool get hasFocus => ElEvent.hasFocus(this);
-
-  /// 阻止事件冒泡
-  void stopPropagation() => ElEvent.stopPropagation(this);
-
-  /// 重置事件冒泡
-  void resetPropagation() => ElEvent.resetPropagation(this);
 }
