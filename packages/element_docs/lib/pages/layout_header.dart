@@ -1,8 +1,6 @@
 import 'package:element_docs/global.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:window_manager/window_manager.dart';
 
 import '../router/router_config.dart';
 
@@ -27,16 +25,6 @@ class LayoutHeader extends StatelessWidget {
         padding: const EdgeInsets.only(left: 8),
         child: Row(
           children: [
-            if (!kIsWeb && PlatformUtil.isMacOS) const Gap(72),
-            // Container(
-            //   width: size,
-            //   height: size,
-            //   decoration: BoxDecoration(
-            //     color: Colors.purple,
-            //     borderRadius: BorderRadius.circular(size / 2),
-            //   ),
-            // ),
-            // const Gap(8),
             ElLink(
               href: '/',
               manualTrigger: true,
@@ -59,7 +47,7 @@ class LayoutHeader extends StatelessWidget {
                 );
               }),
             ),
-            const Expanded(child: _DragDesktopWindows()),
+            const Expanded(child: SizedBox()),
             Row(
               children: [
                 if (!context.sm) buildDesktopNav(context),
@@ -204,25 +192,6 @@ class LayoutHeader extends StatelessWidget {
             ],
           );
         });
-  }
-}
-
-class _DragDesktopWindows extends StatelessWidget {
-  const _DragDesktopWindows();
-
-  @override
-  Widget build(BuildContext context) {
-    if (!kIsWeb && PlatformUtil.isDesktop) {
-      return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onPanStart: (e) {
-          windowManager.startDragging();
-        },
-        child: const SizedBox(height: 56),
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 }
 

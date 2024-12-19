@@ -9,12 +9,6 @@ import 'utils/theme.dart';
 
 void main() async {
   await El.init();
-  //
-  // if (!kIsWeb) {
-  //   if (PlatformUtil.isMacOS) {
-  //     await const MacosWindowUtilsConfig().apply();
-  //   }
-  // }
 
   // setPathUrlStrategy();
   // await initFont(
