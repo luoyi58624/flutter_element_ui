@@ -45,22 +45,14 @@ part '../../../generates/components/basic/event/event.g.dart';
 /// 注意：此小部件直接基于 [Listener] 实现，这意味着 [ElEvent] 不参与手势竞技场的竞争，
 /// 嵌套事件小部件会产生事件冒泡。
 ///
-/// 解决事件冒泡需要分 3 种情况：
-/// 1. [ElEvent] 嵌套 [ElEvent]
-/// 2. [ElEvent] 嵌套 [GestureDetector]
-/// 3. [GestureDetector] 嵌套 [ElEvent]
+/// 解决事件冒泡需要分 2 种情况：
+/// 1. [ElEvent] 嵌套 [ElEvent]、[ElEvent] 嵌套 [GestureDetector]
+/// 2. [GestureDetector] 嵌套 [ElEvent]
 ///
-/// 第一种情况：
-/// * 在中间插入 [ElStopPropagation] 小部件
-/// * 在事件中执行 context.stopPropagation() 方法
+/// 第一种情况只需要插入 [ElStopPropagation] 即可阻止事件冒泡
 ///
-/// 第二种情况：
-/// * 你需要插入 [Listener] 小部件，然后在事件中执行 context.stopPropagation() 方法，
-/// 这是因为在手指轻触屏幕时，[GestureDetector] onTapDown 事件的触发比 [ElEvent] onTap 还要慢一点。
-///
-/// 第三种情况：
-/// * 你需要使用 [ElBubbleBuilder] 包裹外层的小部件，它会捕获内部子组件的停止事件冒泡信号，
-/// builder 回调会传递一个 bool 类型的冒泡标识，你要根据这个标识手动控制逻辑的执行。
+/// 第二种情况需要使用 [ElBubbleBuilder] 包裹外层的小部件，然后通过 [ElBubbleBuilder.of] 访问冒泡标识，
+/// 你要根据这个冒泡标识手动控制逻辑的执行。
 class ElEvent extends StatefulWidget {
   const ElEvent({
     super.key,
