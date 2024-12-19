@@ -22,11 +22,11 @@ class MacosWindowUtilsConfig {
   /// The [toolbarStyle] is [NSWindowToolbarStyle.unified] by default. If the
   /// app will have a title bar, use [NSWindowToolbarStyle.expanded] instead.
   const MacosWindowUtilsConfig({
-    this.toolbarStyle = NSWindowToolbarStyle.automatic,
+    this.toolbarStyle = NSWindowToolbarStyle.unified,
     this.enableFullSizeContentView = true,
     this.makeTitlebarTransparent = true,
     this.hideTitle = true,
-    this.removeMenubarInFullScreenMode = true,
+    this.removeMenubarInFullScreenMode = false,
     this.autoHideToolbarAndMenuBarInFullScreenMode = false,
   });
 
@@ -53,7 +53,7 @@ class MacosWindowUtilsConfig {
 
   Future<void> apply() async {
     WidgetsFlutterBinding.ensureInitialized();
-    await WindowManipulator.initialize(enableWindowDelegate: true);
+    await WindowManipulator.initialize(enableWindowDelegate: false);
     await WindowManipulator.setMaterial(
       NSVisualEffectViewMaterial.windowBackground,
     );
@@ -66,7 +66,6 @@ class MacosWindowUtilsConfig {
     if (hideTitle) {
       await WindowManipulator.hideTitle();
     }
-    await WindowManipulator.addToolbar();
 
     await WindowManipulator.setToolbarStyle(
       toolbarStyle: toolbarStyle,

@@ -17,7 +17,7 @@ class DesktopLayout extends StatelessWidget {
         title: const LayoutHeader(),
         elevation: 1,
         scrolledUnderElevation: 1,
-        toolbarHeight: 56,
+        toolbarHeight: 50,
         actions: const [
           SizedBox.shrink(),
         ],
