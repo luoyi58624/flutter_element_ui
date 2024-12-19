@@ -13,6 +13,7 @@ import '../pages/component/basic/scrollbar/index.dart';
 import '../pages/component/data/table/index.dart';
 import '../pages/component/data/tree/index.dart';
 import '../pages/component/layout/layout/index.dart';
+import '../pages/component/layout/menu_bar/index.dart';
 import '../pages/component/other/drag/index.dart';
 import '../pages/component/other/ring/index.dart';
 import '../pages/component/other/split_pane/index.dart';

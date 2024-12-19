@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-class ElSystemBar extends StatelessWidget {
-  const ElSystemBar({super.key});
+class ElMenuBar extends StatelessWidget {
+  const ElMenuBar({super.key});
 
   @override
   Widget build(BuildContext context) {

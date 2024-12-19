@@ -382,6 +382,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.19.0"
+  irondash_engine_context:
+    dependency: transitive
+    description:
+      name: irondash_engine_context
+      sha256: cd7b769db11a2b5243b037c8a9b1ecaef02e1ae27a2d909ffa78c1dad747bb10
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.4"
+  irondash_message_channel:
+    dependency: transitive
+    description:
+      name: irondash_message_channel
+      sha256: b4101669776509c76133b8917ab8cfc704d3ad92a8c450b92934dd8884a2f060
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.7.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -534,6 +550,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.0.2"
+  pixel_snap:
+    dependency: transitive
+    description:
+      name: pixel_snap
+      sha256: "677410ea37b07cd37ecb6d5e6c0d8d7615a7cf3bd92ba406fd1ac57e937d1fb0"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.5"
   platform:
     dependency: transitive
     description:
@@ -707,6 +731,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.0"
+  super_context_menu:
+    dependency: "direct main"
+    description:
+      name: super_context_menu
+      sha256: "2652802b173413f05ec91e21eaa24c8b39e2c9b9168241cc75bfa8be228974c3"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.8.24"
+  super_native_extensions:
+    dependency: transitive
+    description:
+      name: super_native_extensions
+      sha256: a433bba8186cd6b707560c42535bf284804665231c00bca86faf1aa4968b7637
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.8.24"
   super_sliver_list:
     dependency: transitive
     description:

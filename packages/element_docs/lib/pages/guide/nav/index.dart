@@ -1,7 +1,55 @@
-import 'dart:ui';
-
 import 'package:element_docs/global.dart';
+import 'package:element_docs/pages/component/basic/button/examples/example9.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:super_context_menu/super_context_menu.dart';
+
+class _ContextMenu extends StatelessWidget {
+  const _ContextMenu({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ContextMenuWidget(
+      // force to use dark brightness
+      // mobileMenuWidgetBuilder: DefaultMobileMenuWidgetBuilder(brightness: Brightness.dark),
+      child: child,
+      menuProvider: (_) {
+        return Menu(
+          children: [
+            MenuAction(
+              title: 'Menu Item 1',
+              callback: () {
+                el.message.show('menu item 1');
+              },
+            ),
+            MenuAction(
+              title: 'Menu Item 2',
+              callback: () {
+                el.message.primary('menu item 2');
+              },
+            ),
+            MenuSeparator(),
+            Menu(title: 'Submenu', children: [
+              MenuAction(
+                title: 'Submenu Item 1',
+                callback: () {
+                  el.message.success('sub_menu item 1');
+                },
+              ),
+              MenuAction(title: 'Submenu Item 2', callback: () {}),
+              Menu(title: 'Nested Submenu', children: [
+                MenuAction(title: 'Submenu Item 1', callback: () {}),
+                MenuAction(title: 'Submenu Item 2', callback: () {}),
+              ]),
+            ]),
+          ],
+        );
+      },
+    );
+  }
+}
 
 class NavPage extends ResponsivePage {
   const NavPage({super.key});
@@ -13,6 +61,49 @@ class NavPage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     return [
       const Gap(50),
+      SizedBox(
+        width: double.infinity,
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _ContextMenu(
+              child: ElButton(
+                onPressed: () {},
+                child: '右键菜单',
+              ),
+            ),
+            _ContextMenu(
+              child: ElButton(
+                onPressed: () {},
+                type: El.primary,
+                child: '右键菜单',
+              ),
+            ),
+            _ContextMenu(
+              child: CustomButton(
+                onPressed: () {},
+                child: '右键菜单',
+              ),
+            ),
+            _ContextMenu(
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('右键菜单'),
+              ),
+            ),
+            _ContextMenu(
+              child: CupertinoButton.filled(
+                onPressed: () {},
+                child: const Text('右键菜单'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const Gap(8),
+      _ContextMenu(child: SectionCard(title: 'Tip', content: ['hello'])),
+      const Gap(8),
       ElButton(
         onPressed: () async {},
         child: '查找所有 Text',

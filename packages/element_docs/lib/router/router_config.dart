@@ -95,8 +95,13 @@ class SlideRouterConfig {
       'Layout 布局',
       [
         (
-          'ElLayout 布局容器',
+          'Layout 布局容器',
           '/${RootRoute.component.$2}/layout',
+          WorkStatus.finished
+        ),
+        (
+          'MenuBar 菜单栏',
+          '/${RootRoute.component.$2}/menu_bar',
           WorkStatus.finished
         ),
       ],

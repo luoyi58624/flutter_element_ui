@@ -19,6 +19,10 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const LayoutPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}menu_bar',
+      builder: (context, state) => const MenuBarPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}event',
       builder: (context, state) => const EventPage(),
     ),

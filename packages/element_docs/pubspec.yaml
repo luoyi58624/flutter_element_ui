@@ -26,6 +26,7 @@ dependencies:
   web: ^1.0.0
   url_strategy: ^0.3.0
   path_provider: ^2.1.5
+  super_context_menu: ^0.8.24
 
 dev_dependencies:
   flutter_test:
