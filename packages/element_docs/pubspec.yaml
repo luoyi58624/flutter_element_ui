@@ -16,7 +16,6 @@ dependencies:
   flutter_base:
     path: ../flutter_base
   window_manager: ^0.4.2
-  macos_window_utils: ^1.6.1
   collection: ^1.18.0
   go_router: ^14.1.4
   flutter_svg: ^2.0.10+1
