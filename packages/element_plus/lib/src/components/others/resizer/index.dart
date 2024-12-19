@@ -49,23 +49,162 @@ class _ElResizerState extends State<ElResizer> {
 
   Size get size => _size.value;
 
+  void setSize(Offset offset) {
+    size + offset;
+  }
+
   void insertOverlay() {
     overlayEntry = OverlayEntry(builder: (context) {
+      final triggerSize = themeData.triggerSize!;
+      final offset = Offset(-triggerSize, -triggerSize);
       return UnconstrainedBox(
         child: CompositedTransformFollower(
           link: layerLink,
-          child: MouseRegion(
-            hitTestBehavior: HitTestBehavior.opaque,
-            cursor: SystemMouseCursors.resizeRow,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                width: size.width,
-                height: 8,
-                color: Colors.red,
-              ),
-            ),
-          ),
+          offset: offset,
+          child: ObsBuilder(
+              binding: [_size],
+              builder: (context) {
+                return Stack(
+                  children: [
+                    IgnorePointer(
+                      child: Container(
+                        width: size.width + triggerSize * 2,
+                        height: size.height + triggerSize * 2,
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                        ),
+                      ),
+                    ),
+                    // top
+                    Positioned(
+                      top: 0,
+                      left: triggerSize,
+                      right: triggerSize,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeRow,
+                        child: Container(
+                          height: triggerSize,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    // right
+                    Positioned(
+                      top: triggerSize,
+                      bottom: triggerSize,
+                      right: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeColumn,
+                        child: Container(
+                          width: triggerSize,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    // bottom
+                    Positioned(
+                      bottom: 0,
+                      left: triggerSize,
+                      right: triggerSize,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeRow,
+                        child: Container(
+                          height: triggerSize,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    // left
+                    Positioned(
+                      top: triggerSize,
+                      bottom: triggerSize,
+                      left: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeColumn,
+                        child: Container(
+                          width: triggerSize,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    // top - right 对角
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                        child: Container(
+                          width: triggerSize,
+                          height: triggerSize,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                    // right - bottom 对角
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                        child: GestureDetector(
+                          onPanStart: (e) {
+                            el.cursor
+                                .add(SystemMouseCursors.resizeUpLeftDownRight);
+                          },
+                          onPanUpdate: (e) {
+                            _size.value = size + e.delta;
+                          },
+                          onPanEnd: (e) {
+                            el.cursor.remove();
+                          },
+                          onPanCancel: () {
+                            el.cursor.remove();
+                          },
+                          child: Container(
+                            width: triggerSize,
+                            height: triggerSize,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // bottom - left 对角
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeUpRightDownLeft,
+                        child: Container(
+                          width: triggerSize,
+                          height: triggerSize,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                    // left - top 对角
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: MouseRegion(
+                        hitTestBehavior: HitTestBehavior.opaque,
+                        cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                        child: Container(
+                          width: triggerSize,
+                          height: triggerSize,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
         ),
       );
     });

@@ -31,12 +31,17 @@ class _Example extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return ElResizer(
+      cacheKey: 'resizer_example1',
       initialSize: const Size(100, 100),
       builder: (size) {
-        return Container(
-          width: size.width,
-          height: size.height,
-          color: Colors.grey,
+        return ElEvent(
+          child: Builder(builder: (context) {
+            return Container(
+              width: size.width,
+              height: size.height,
+              color: context.hasTap ? Colors.red : Colors.grey,
+            );
+          }),
         );
       },
     );
