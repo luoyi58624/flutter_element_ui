@@ -27,10 +27,10 @@ Future<ElStorage> $createStorage(
 class _Storage extends ElStorage {
   final File _file;
 
-  _Storage(this._file, super.key, super.storage, super.serializePreset);
+  _Storage(this._file, super.key, super.mapData, super.serializePreset);
 
   @override
   void serialize() {
-    _file.writeAsString(jsonEncode(storage));
+    _file.writeAsString(jsonEncode(mapData));
   }
 }

@@ -106,6 +106,14 @@ class GlobalSetting extends StatelessWidget {
               el.message.success('清除成功');
             },
           ),
+          CellWidget(
+            title: '打印本地存储数据',
+            trailing: const SizedBox(),
+            onTap: () async {
+              i(localStorage.mapData);
+              i(LocalObs.storage.mapData);
+            },
+          ),
         ],
       ),
     );

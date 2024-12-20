@@ -30,7 +30,7 @@ ElStorage get sessionStorage {
 /// 注意：浏览器所支持存储的数据量最多只有 5M，虽然在客户端上没有限制，但数据量太大会严重影响性能，
 /// 因为每个 Storage 对象实际上就是一个 Map 集合，对 Map 集合做的任何修改都会全量将数据写入到文件中。
 abstract class ElStorage {
-  ElStorage(this.key, this.storage, this.serializePreset) {
+  ElStorage(this.key, this.mapData, this.serializePreset) {
     _debounceSerialize = DartUtil.debounce(serialize, 1000);
   }
 
@@ -42,7 +42,7 @@ abstract class ElStorage {
   ///
   /// 提示：value 如果是对象，你需要通过 [jsonEncode] 进行编码，否则序列化的时候底层会抛出异常。
   @protected
-  final Map<String, dynamic> storage;
+  final Map<String, dynamic> mapData;
 
   /// 内置的序列化预设对象，当你使用 [setItem] 存储非基本数据类型时，会寻找内置的序列化函数，例如：
   /// * Color -> ElColorSerialize
@@ -62,35 +62,35 @@ abstract class ElStorage {
   late VoidCallback _debounceSerialize;
 
   /// 存储的 key 数量
-  int get length => storage.length;
+  int get length => mapData.length;
 
   /// 设置数据
   void setItem<T>(String key, T value, [ElSerialize? serialize]) {
     final result = serializePreset.apply<T>(serialize);
-    storage[key] = result == null ? value : result.serialize(value);
+    mapData[key] = result == null ? value : result.serialize(value);
     try {
       _debounceSerialize();
     } catch (error) {
       e(error, '存储库 $key 进行持久化失败');
-      e(storage, '持久化失败的数据结构如下');
+      e(mapData, '持久化失败的数据结构如下');
     }
   }
 
   /// 获取数据
   T? getItem<T>(String key, [ElSerialize? serialize]) {
     final result = serializePreset.apply<T>(serialize);
-    return result == null ? storage[key] : result.deserialize(storage[key]);
+    return result == null ? mapData[key] : result.deserialize(mapData[key]);
   }
 
   /// 删除数据
   void removeItem(String key) {
-    storage.remove(key);
+    mapData.remove(key);
     _debounceSerialize();
   }
 
   /// 清空数据
   void clear() {
-    storage.clear();
+    mapData.clear();
     _debounceSerialize();
   }
 

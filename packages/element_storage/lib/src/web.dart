@@ -35,15 +35,15 @@ Future<ElStorage> $createStorage(
 }
 
 class _LocalStorage extends ElStorage {
-  _LocalStorage(super.key, super.storage, super.serializePreset);
+  _LocalStorage(super.key, super.mapData, super.serializePreset);
 
   @override
-  void serialize() => _localStorage.setItem(key, jsonEncode(storage));
+  void serialize() => _localStorage.setItem(key, jsonEncode(mapData));
 }
 
 class _SessionStorage extends ElStorage {
-  _SessionStorage(super.key, super.storage, super.serializePreset);
+  _SessionStorage(super.key, super.mapData, super.serializePreset);
 
   @override
-  void serialize() => _sessionStorage.setItem(key, jsonEncode(storage));
+  void serialize() => _sessionStorage.setItem(key, jsonEncode(mapData));
 }
