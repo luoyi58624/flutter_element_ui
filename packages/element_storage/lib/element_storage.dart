@@ -68,7 +68,12 @@ abstract class ElStorage {
   void setItem<T>(String key, T value, [ElSerialize? serialize]) {
     final result = serializePreset.apply<T>(serialize);
     storage[key] = result == null ? value : result.serialize(value);
-    _debounceSerialize();
+    try {
+      _debounceSerialize();
+    } catch (error) {
+      e(error, '存储库 $key 进行持久化失败');
+      e(storage, '持久化失败的数据结构如下');
+    }
   }
 
   /// 获取数据

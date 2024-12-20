@@ -4,8 +4,8 @@ version: 1.5.4
 homepage: https://github.com/luoyi58624/flutter_element_ui/packages/flutter_obs
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=3.0.0"
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: ">=3.27.0"
 
 dependencies:
   flutter:
