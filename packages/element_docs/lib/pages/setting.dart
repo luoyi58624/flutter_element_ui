@@ -100,6 +100,8 @@ class GlobalSetting extends StatelessWidget {
             trailing: const SizedBox(),
             onTap: () async {
               localStorage.clear();
+              sessionStorage.clear();
+              LocalObs.storage.clear();
               FlutterUtil.refreshApp();
               el.message.success('清除成功');
             },

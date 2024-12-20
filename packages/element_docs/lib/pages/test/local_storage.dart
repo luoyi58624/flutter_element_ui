@@ -203,9 +203,10 @@ class _DateTimeListStoragePage extends HookWidget {
 
     useInit(() {
       dataList.value = localStorage.getItem(
-        'date_time_list',
-        const ElListDateTimeSerialize(),
-      );
+            'date_time_list',
+            const ElListDateTimeSerialize(),
+          ) ??
+          [];
     });
 
     useWatch(dataList, (newValue, oldValue) {

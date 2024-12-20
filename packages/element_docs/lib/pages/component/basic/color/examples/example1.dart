@@ -144,29 +144,31 @@ class Example1 extends StatelessWidget {
                       ? context.elTheme.primary.withOpacity(0.8)
                       : context.elTheme.primary,
                 ),
-                child: ElDefaultTextStyle(
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.elTheme.primary.elTextColor(context),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const ElText('Primary Color'),
-                      const Gap(4),
-                      Row(
-                        children: [
-                          ElText(
-                            context.elTheme.primary.toHex().toUpperCase(),
-                          ),
-                          const Gap(20),
-                          ElText(
-                            context.elTheme.primary.hsp,
-                          ),
-                        ],
-                      ),
-                    ],
+                child: SelectionArea(
+                  child: ElDefaultTextStyle(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: context.elTheme.primary.elTextColor(context),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const ElText('Primary Color'),
+                        const Gap(4),
+                        Row(
+                          children: [
+                            ElText(
+                              context.elTheme.primary.toHex().toUpperCase(),
+                            ),
+                            const Gap(20),
+                            ElText(
+                              context.elTheme.primary.hsp,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
