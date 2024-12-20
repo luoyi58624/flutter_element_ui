@@ -12,6 +12,7 @@ class GlobalState {
   static final primaryColor = LocalObs(
     ElThemeData.theme.primary,
     cacheKey: 'primary_color',
+    serialize: const ElColorSerialize(),
   );
 
   static final _isDark = LocalObs(false, cacheKey: 'isDark');

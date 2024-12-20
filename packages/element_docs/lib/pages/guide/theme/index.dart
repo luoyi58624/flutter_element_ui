@@ -11,28 +11,13 @@ class ThemePage extends ResponsivePage {
 
   @override
   List<Widget> buildPage(BuildContext context) {
-    return [
-      ElDraggable(
-        rootOverlay: true,
-        feedback: Container(
-          width: 100,
-          height: 100,
-          color: Colors.green,
-        ),
-        childWhenDragging: const SizedBox(
-          width: 100,
-          height: 100,
-        ),
-        child: Container(
-          width: 100,
-          height: 100,
-          color: Colors.grey,
-        ),
-      ),
-      Container(
-        height: 1000,
-        color: Colors.blueGrey,
-      ),
-    ];
+    apply(const Color.fromRGBO(255, 255, 255, 1.0));
+    apply(Colors.red);
+    return [];
+  }
+
+  T apply<T>(T value) {
+    i(T.toString(), value is Color);
+    return value;
   }
 }
