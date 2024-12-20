@@ -9,7 +9,7 @@ import 'utils/theme.dart';
 
 void main() async {
   await El.init();
-
+  logger.setLoggerLevel(Level.all);
   // setPathUrlStrategy();
   // await initFont(
   //   windows: true,

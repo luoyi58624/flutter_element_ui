@@ -1,6 +1,7 @@
 library element_dart;
 
 export 'package:collection/collection.dart';
+export 'package:logger/logger.dart' show Level;
 
 export 'src/serialize.dart';
 
