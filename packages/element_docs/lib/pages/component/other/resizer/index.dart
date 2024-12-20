@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'examples/example1.dart';
 
-class ResizerPage extends ResponsivePage {
-  const ResizerPage({super.key});
+class DragResizerPage extends ResponsivePage {
+  const DragResizerPage({super.key});
 
   @override
-  String get title => 'Resizer 拖拽尺寸';
+  String get title => 'DragResizer 拖拽位置 + 拖拽尺寸';
 
   @override
   List<Widget> buildPage(BuildContext context) {

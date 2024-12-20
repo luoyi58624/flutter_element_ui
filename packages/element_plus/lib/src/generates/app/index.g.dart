@@ -23,18 +23,18 @@ class ElThemeData extends _ElThemeData {
     navMenuTheme: ElNavMenuThemeData.theme,
     closeButtonTheme: ElCloseButtonThemeData.theme,
     splitPaneTheme: ElSplitPaneThemeData.theme,
+    dragResizerTheme: ElDragResizerThemeData.theme,
     splitResizerTheme: ElSplitResizerThemeData.theme,
     ringTheme: ElRingThemeData.theme,
     tooltipTheme: ElTooltipThemeData.theme,
+    modalTheme: ElModalThemeData.theme,
     toastTheme: ElToastThemeData.theme,
     messageTheme: ElMessageThemeData.theme,
-    modalTheme: ElModalThemeData.theme,
-    treeTheme: ElTreeThemeData.theme,
     cardTheme: ElCardThemeData.theme,
+    treeTheme: ElTreeThemeData.theme,
     collapseTheme: ElCollapseThemeData.theme,
     progressTheme: ElProgressThemeData.theme,
     tagTheme: ElTagThemeData.theme,
-    resizerTheme: ElResizerThemeData.theme,
   );
 
   /// 暗色默认主题
@@ -53,18 +53,18 @@ class ElThemeData extends _ElThemeData {
     navMenuTheme: ElNavMenuThemeData.darkTheme,
     closeButtonTheme: ElCloseButtonThemeData.darkTheme,
     splitPaneTheme: ElSplitPaneThemeData.darkTheme,
+    dragResizerTheme: ElDragResizerThemeData.darkTheme,
     splitResizerTheme: ElSplitResizerThemeData.darkTheme,
     ringTheme: ElRingThemeData.darkTheme,
     tooltipTheme: ElTooltipThemeData.darkTheme,
+    modalTheme: ElModalThemeData.darkTheme,
     toastTheme: ElToastThemeData.darkTheme,
     messageTheme: ElMessageThemeData.darkTheme,
-    modalTheme: ElModalThemeData.darkTheme,
-    treeTheme: ElTreeThemeData.darkTheme,
     cardTheme: ElCardThemeData.darkTheme,
+    treeTheme: ElTreeThemeData.darkTheme,
     collapseTheme: ElCollapseThemeData.darkTheme,
     progressTheme: ElProgressThemeData.darkTheme,
     tagTheme: ElTagThemeData.darkTheme,
-    resizerTheme: ElResizerThemeData.darkTheme,
   );
 
   /// 输入框默认样式
@@ -109,6 +109,9 @@ class ElThemeData extends _ElThemeData {
   /// 分割器默认样式
   final ElSplitPaneThemeData splitPaneTheme;
 
+  /// 支持拖拽、调整 Widget 尺寸小部件默认样式
+  final ElDragResizerThemeData dragResizerTheme;
+
   /// 分割器默认样式
   final ElSplitResizerThemeData splitResizerTheme;
 
@@ -118,20 +121,20 @@ class ElThemeData extends _ElThemeData {
   /// 提示框默认样式
   final ElTooltipThemeData tooltipTheme;
 
+  /// 模态框默认样式
+  final ElModalThemeData modalTheme;
+
   /// 轻提示默认样式
   final ElToastThemeData toastTheme;
 
   /// 消息提示默认样式
   final ElMessageThemeData messageTheme;
 
-  /// 模态框默认样式
-  final ElModalThemeData modalTheme;
+  /// 卡片默认样式
+  final ElCardThemeData cardTheme;
 
   /// ElTree 主题数据
   final ElTreeThemeData treeTheme;
-
-  /// 卡片默认样式
-  final ElCardThemeData cardTheme;
 
   /// 折叠菜单默认样式
   final ElCollapseThemeData collapseTheme;
@@ -141,9 +144,6 @@ class ElThemeData extends _ElThemeData {
 
   /// 标签默认样式
   final ElTagThemeData tagTheme;
-
-  /// 分割器默认样式
-  final ElResizerThemeData resizerTheme;
 
   /// 亮色主题构造器，构建器是私有的，请通过 [theme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
   const ElThemeData._({
@@ -171,18 +171,18 @@ class ElThemeData extends _ElThemeData {
     required this.navMenuTheme,
     required this.closeButtonTheme,
     required this.splitPaneTheme,
+    required this.dragResizerTheme,
     required this.splitResizerTheme,
     required this.ringTheme,
     required this.tooltipTheme,
+    required this.modalTheme,
     required this.toastTheme,
     required this.messageTheme,
-    required this.modalTheme,
-    required this.treeTheme,
     required this.cardTheme,
+    required this.treeTheme,
     required this.collapseTheme,
     required this.progressTheme,
     required this.tagTheme,
-    required this.resizerTheme,
   });
 
   /// 暗色主题构造器，构建器是私有的，请通过 [darkTheme] 调用 [copyWith] 方法实现自定义主题，避免破坏主题默认值
@@ -201,18 +201,18 @@ class ElThemeData extends _ElThemeData {
     required this.navMenuTheme,
     required this.closeButtonTheme,
     required this.splitPaneTheme,
+    required this.dragResizerTheme,
     required this.splitResizerTheme,
     required this.ringTheme,
     required this.tooltipTheme,
+    required this.modalTheme,
     required this.toastTheme,
     required this.messageTheme,
-    required this.modalTheme,
-    required this.treeTheme,
     required this.cardTheme,
+    required this.treeTheme,
     required this.collapseTheme,
     required this.progressTheme,
     required this.tagTheme,
-    required this.resizerTheme,
   }) : super.dark();
 
   /// 接收一组可选参数，返回新的对象
@@ -241,18 +241,18 @@ class ElThemeData extends _ElThemeData {
     ElNavMenuThemeData? navMenuTheme,
     ElCloseButtonThemeData? closeButtonTheme,
     ElSplitPaneThemeData? splitPaneTheme,
+    ElDragResizerThemeData? dragResizerTheme,
     ElSplitResizerThemeData? splitResizerTheme,
     ElRingThemeData? ringTheme,
     ElTooltipThemeData? tooltipTheme,
+    ElModalThemeData? modalTheme,
     ElToastThemeData? toastTheme,
     ElMessageThemeData? messageTheme,
-    ElModalThemeData? modalTheme,
-    ElTreeThemeData? treeTheme,
     ElCardThemeData? cardTheme,
+    ElTreeThemeData? treeTheme,
     ElCollapseThemeData? collapseTheme,
     ElProgressThemeData? progressTheme,
     ElTagThemeData? tagTheme,
-    ElResizerThemeData? resizerTheme,
   }) {
     return ElThemeData._(
       primary: primary ?? super.primary,
@@ -279,18 +279,18 @@ class ElThemeData extends _ElThemeData {
       navMenuTheme: this.navMenuTheme.merge(navMenuTheme),
       closeButtonTheme: this.closeButtonTheme.merge(closeButtonTheme),
       splitPaneTheme: this.splitPaneTheme.merge(splitPaneTheme),
+      dragResizerTheme: this.dragResizerTheme.merge(dragResizerTheme),
       splitResizerTheme: this.splitResizerTheme.merge(splitResizerTheme),
       ringTheme: this.ringTheme.merge(ringTheme),
       tooltipTheme: this.tooltipTheme.merge(tooltipTheme),
+      modalTheme: this.modalTheme.merge(modalTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
       messageTheme: this.messageTheme.merge(messageTheme),
-      modalTheme: this.modalTheme.merge(modalTheme),
-      treeTheme: this.treeTheme.merge(treeTheme),
       cardTheme: this.cardTheme.merge(cardTheme),
+      treeTheme: this.treeTheme.merge(treeTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
       progressTheme: this.progressTheme.merge(progressTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
-      resizerTheme: this.resizerTheme.merge(resizerTheme),
     );
   }
 
@@ -322,18 +322,18 @@ class ElThemeData extends _ElThemeData {
       navMenuTheme: other.navMenuTheme,
       closeButtonTheme: other.closeButtonTheme,
       splitPaneTheme: other.splitPaneTheme,
+      dragResizerTheme: other.dragResizerTheme,
       splitResizerTheme: other.splitResizerTheme,
       ringTheme: other.ringTheme,
       tooltipTheme: other.tooltipTheme,
+      modalTheme: other.modalTheme,
       toastTheme: other.toastTheme,
       messageTheme: other.messageTheme,
-      modalTheme: other.modalTheme,
-      treeTheme: other.treeTheme,
       cardTheme: other.cardTheme,
+      treeTheme: other.treeTheme,
       collapseTheme: other.collapseTheme,
       progressTheme: other.progressTheme,
       tagTheme: other.tagTheme,
-      resizerTheme: other.resizerTheme,
     );
   }
 }

@@ -191,8 +191,8 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const RingPage(),
     ),
     RouterUtil.buildRoute(
-      path: '${path}resizer',
-      builder: (context, state) => const ResizerPage(),
+      path: '${path}drag_resizer',
+      builder: (context, state) => const DragResizerPage(),
     ),
     RouterUtil.buildRoute(
       path: '${path}split_resizer',

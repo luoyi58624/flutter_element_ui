@@ -71,7 +71,7 @@ export 'src/components/navigation/tabs/index.dart';
 
 export 'src/components/others/anchor/index.dart' show ElAnchor;
 export 'src/components/others/close_button/index.dart';
-export 'src/components/others/resizer/index.dart';
+export 'src/components/others/drag_resizer/index.dart';
 export 'src/components/others/ring/index.dart';
 export 'src/components/others/split_resizer/index.dart';
 export 'src/components/others/split_pane/index.dart';

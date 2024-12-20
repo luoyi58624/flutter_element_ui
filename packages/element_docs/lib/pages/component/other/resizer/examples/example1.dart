@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
@@ -30,26 +28,24 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: ElResizer(
+    return Stack(
+      children: [
+        const SizedBox(height: 300),
+        ElDragResizer(
           cacheKey: 'resizer_example1',
+          initialPosition: Offset.zero,
           initialSize: const Size(100, 100),
           builder: (size) {
             return ElEvent(
               child: Builder(builder: (context) {
                 return Container(
-                  width: size.width,
-                  height: size.height,
                   color: context.hasTap ? Colors.red : Colors.grey,
                 );
               }),
             );
           },
         ),
-      ),
+      ],
     );
   }
 }

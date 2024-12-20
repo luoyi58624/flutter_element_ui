@@ -1,15 +1,15 @@
 part of 'index.dart';
 
 @ElModel.copy()
-@ElThemeModel(desc: '调整 Widget 尺寸小部件默认样式')
-class ElResizerThemeData {
-  static const _defaultTheme = ElResizerThemeData(
+@ElThemeModel(desc: '支持拖拽、调整 Widget 尺寸小部件默认样式')
+class ElDragResizerThemeData {
+  static const _defaultTheme = ElDragResizerThemeData(
     triggerSize: 8,
   );
   static const theme = _defaultTheme;
   static const darkTheme = _defaultTheme;
 
-  const ElResizerThemeData({
+  const ElDragResizerThemeData({
     this.triggerSize,
   });
 

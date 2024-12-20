@@ -373,8 +373,8 @@ class SlideRouterConfig {
         ('Drag 拖拽', '/${RootRoute.component.$2}/drag', WorkStatus.pending),
         ('Ring 轮廓环', '/${RootRoute.component.$2}/ring', WorkStatus.finished),
         (
-          'Resizer 调整尺寸',
-          '/${RootRoute.component.$2}/resizer',
+          'DragResizer 调整尺寸',
+          '/${RootRoute.component.$2}/drag_resizer',
           WorkStatus.finished
         ),
         (
