@@ -1,6 +1,4 @@
-import 'package:element_annotation/element_annotation.dart';
 import 'package:element_flutter/element_flutter.dart';
-import 'package:element_storage/element_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_obs/flutter_obs.dart';
 
@@ -11,15 +9,10 @@ class LocalObs<T> extends WatchObs<T> {
   LocalObs(
     super.value, {
     this.cacheKey,
-    ElSerialize? serialize,
+    this.serialize,
     super.watch,
     super.immediate,
   }) {
-    if (serialize != null) {
-      this.serialize = serialize;
-    } else {
-      this.serialize = _loadPresetSerialize<T>();
-    }
     final result = getLocalValue();
     if (result != null) super.setValue(result);
     super.addListener(setLocalValue);
@@ -42,33 +35,23 @@ class LocalObs<T> extends WatchObs<T> {
   @protected
   void setLocalValue() {
     if (cacheKey == null) return;
-
-    final value = getValue();
-    if (serialize != null) {
-      storage.setItem(cacheKey!, serialize!.serialize(value));
-    } else {
-      storage.setItem(cacheKey!, value);
-    }
+    storage.setItem(cacheKey!, getValue(), serialize);
   }
 
   @protected
   dynamic getLocalValue() {
     if (cacheKey == null) return null;
-    final result = storage.getItem(cacheKey!);
+    final result = storage.getItem<T>(cacheKey!, serialize);
     if (result == null) return null;
     try {
-      if (serialize != null) {
-        return serialize!.deserialize(result);
-      } else {
-        if (value is List) {
-          return DartUtil.dynamicToList<T>(result);
-        } else if (value is Set) {
-          return DartUtil.dynamicToSet<T>(result);
-        } else if (value is Map) {
-          return DartUtil.dynamicToMap<T>(result);
-        }
-        return result;
+      if (value is List) {
+        return DartUtil.dynamicToList<T>(result);
+      } else if (value is Set) {
+        return DartUtil.dynamicToSet<T>(result);
+      } else if (value is Map) {
+        return DartUtil.dynamicToMap<T>(result);
       }
+      return result;
     } catch (e) {
       w('LocalObs 类型转换失败，出现这个警告表示你可能更改了数据结构，LocalObs 将会删除旧数据返回默认值。');
       storage.removeItem(cacheKey!);
@@ -83,20 +66,13 @@ class LocalObs<T> extends WatchObs<T> {
     return _storage!;
   }
 
-  /// 初始化 [LocalObs] 专属存储对象
-  static Future<void> initStorage() async {
-    _storage ??= await ElStorage.createLocalStorage('flutter_obs');
+  /// 初始化保存响应式变量的本地存储对象
+  static Future<void> initStorage([
+    ElSerializePreset serializePreset = const ElSerializePreset(),
+  ]) async {
+    _storage ??= await ElStorage.createLocalStorage(
+      'flutter_obs',
+      serializePreset,
+    );
   }
-}
-
-/// 加载内部预设的序列化函数
-ElSerialize? _loadPresetSerialize<T>() {
-  final type = T.toString();
-  if (type == 'dynamic' || type == 'null') return null;
-  if (type == 'Size') return const SizeSerialize();
-  if (type == 'Offset') return const OffsetSerialize();
-  if (type == 'Color') return const ColorSerialize();
-  if (type == 'MaterialColor') return const MaterialColorSerialize();
-  if (type == 'DateTime') return const DateTimeSerialize();
-  return null;
 }

@@ -30,20 +30,26 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElResizer(
-      cacheKey: 'resizer_example1',
-      initialSize: const Size(100, 100),
-      builder: (size) {
-        return ElEvent(
-          child: Builder(builder: (context) {
-            return Container(
-              width: size.width,
-              height: size.height,
-              color: context.hasTap ? Colors.red : Colors.grey,
+    return SizedBox(
+      height: 300,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: ElResizer(
+          cacheKey: 'resizer_example1',
+          initialSize: const Size(100, 100),
+          builder: (size) {
+            return ElEvent(
+              child: Builder(builder: (context) {
+                return Container(
+                  width: size.width,
+                  height: size.height,
+                  color: context.hasTap ? Colors.red : Colors.grey,
+                );
+              }),
             );
-          }),
-        );
-      },
+          },
+        ),
+      ),
     );
   }
 }

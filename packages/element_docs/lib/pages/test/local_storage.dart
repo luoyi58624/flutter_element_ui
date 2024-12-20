@@ -19,9 +19,17 @@ class LocalStorageTestPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const BigDataPage()));
+                    builder: (context) => const _BigDataPage()));
               },
               child: const Text('big data test'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const _DateTimeListStoragePage()));
+              },
+              child: const Text('DateTime Local List'),
             ),
             const SizedBox(height: 8),
             ElevatedButton(
@@ -70,6 +78,23 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
+                localStorage.setItem('color', context.elTheme.primary);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("设置成功，请长按查看颜色"),
+                ));
+              },
+              onLongPress: () {
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("${localStorage.getItem('color') ?? 'null'}"),
+                ));
+              },
+              child: const Text('set color'),
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
                 localStorage.clear();
               },
               child: const Text('clear'),
@@ -81,14 +106,14 @@ class LocalStorageTestPage extends StatelessWidget {
   }
 }
 
-class BigDataPage extends StatefulWidget {
-  const BigDataPage({super.key});
+class _BigDataPage extends StatefulWidget {
+  const _BigDataPage();
 
   @override
-  State<BigDataPage> createState() => _BigDataPageState();
+  State<_BigDataPage> createState() => _BigDataPageState();
 }
 
-class _BigDataPageState extends State<BigDataPage> {
+class _BigDataPageState extends State<_BigDataPage> {
   final ScrollController controller = ScrollController();
   List<Map<String, dynamic>> dataList = [];
 
@@ -140,6 +165,87 @@ class _BigDataPageState extends State<BigDataPage> {
           itemBuilder: (context, index) => ListTile(
             onTap: () {},
             title: Text(dataList[index].toString()),
+          ),
+        ),
+      ).noScrollBehavior,
+    );
+  }
+}
+
+class ElListDateTimeSerialize implements ElSerialize<List<DateTime>> {
+  const ElListDateTimeSerialize();
+
+  @override
+  String? serialize(List<DateTime>? obj) {
+    if (obj == null) return null;
+    final result = jsonEncode(
+        obj.map((e) => e.millisecondsSinceEpoch.toString()).toList());
+    return result;
+  }
+
+  @override
+  List<DateTime>? deserialize(String? str) {
+    if (str == null) return null;
+    final List<String> list = (jsonDecode(str) as List).cast<String>();
+    return list
+        .map((e) => DateTime.fromMillisecondsSinceEpoch(int.parse(e)))
+        .toList();
+  }
+}
+
+class _DateTimeListStoragePage extends HookWidget {
+  const _DateTimeListStoragePage();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = useScrollController();
+    final dataList = useState<List<DateTime>>([]);
+
+    useInit(() {
+      dataList.value = localStorage.getItem(
+        'date_time_list',
+        const ElListDateTimeSerialize(),
+      );
+    });
+
+    useWatch(dataList, (newValue, oldValue) {
+      localStorage.setItem(
+        'date_time_list',
+        dataList.value,
+        const ElListDateTimeSerialize(),
+      );
+    });
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('大量数据测试'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              dataList.value = [];
+            },
+            icon: const Icon(Icons.clear),
+          ),
+          IconButton(
+            onPressed: () {
+              final newList = List.generate(
+                100000,
+                (index) => DateTime.now(),
+              );
+              dataList.value = [...dataList.value, ...newList];
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: CupertinoScrollbar(
+        controller: controller,
+        child: SuperListView.builder(
+          controller: controller,
+          itemCount: dataList.value.length,
+          itemBuilder: (context, index) => ListTile(
+            onTap: () {},
+            title: Text(dataList.value[index].toString()),
           ),
         ),
       ).noScrollBehavior,

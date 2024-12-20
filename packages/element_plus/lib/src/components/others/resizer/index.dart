@@ -7,7 +7,7 @@ part 'theme.dart';
 part '../../../generates/components/others/resizer/index.g.dart';
 
 class ElResizer extends StatefulWidget {
-  /// 调整 Widget 尺寸小部件
+  /// 调整 Widget 尺寸小部件，注意：被包裹的小部件所在的容器必须明确宽高
   const ElResizer({
     super.key,
     required this.initialSize,
@@ -42,6 +42,7 @@ class _ElResizerState extends State<ElResizer> {
   final LayerLink layerLink = LayerLink();
   late OverlayEntry overlayEntry;
 
+  late BoxConstraints _constraints;
   late final LocalObs<Size> _size = LocalObs(
     widget.initialSize,
     cacheKey: widget.cacheKey,
@@ -230,11 +231,18 @@ class _ElResizerState extends State<ElResizer> {
   @override
   Widget build(BuildContext context) {
     themeData = ElResizerTheme.of(context);
-    return CompositedTransformTarget(
-      link: layerLink,
-      child: ObsBuilder(builder: (context) {
-        return widget.builder(size);
-      }),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      assert(
+          constraints.maxWidth != double.infinity &&
+              constraints.maxHeight != double.infinity,
+          '被 ElResizer 包裹的小部件所在的容器必须指定最大宽高，不能是 double.infinity 无限尺寸');
+      _constraints = constraints;
+      return CompositedTransformTarget(
+        link: layerLink,
+        child: ObsBuilder(builder: (context) {
+          return widget.builder(size);
+        }),
+      );
+    });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:element_annotation/element_annotation.dart';
+import 'package:element_dart/element_dart.dart';
 
 import 'animal.dart';
 import 'class_extended.dart';

@@ -1,14 +1,15 @@
 import 'package:element_dart/element_dart.dart';
 
-import '../element_annotation.dart';
-
 const String _formJsonErrorStart = '(error) ElModel fromJson: ';
 const String _formJsonErrorEnd = '提示：此错误仅在开发环境下显示。';
 
-/// 安全地访问 json 数据，此工具类只用于 [element_generator] 生成的代码
+/// 直接访问 Map 对象的数据很容易出现低级类型转换错误，例如：int is not String.
+///
+/// 为了解决这些低级错误，我们有必要封装一些 Api 来安全地访问 json 数据，尽可能减少运行时错误。
 class $$ElJsonUtil {
   $$ElJsonUtil._();
 
+  /// json key 需要同时支持驼峰、下划线
   static dynamic _getJsonValue(dynamic json, String key) {
     return json[key] ?? json[key.toUnderline];
   }

@@ -1,3 +1,4 @@
+import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:element_flutter/element_flutter.dart';
 import 'package:element_annotation/element_annotation.dart';
@@ -112,13 +113,13 @@ class TestModel implements ElSerializeModel<TestModel> {
   )
   final List<AnimalModel> animalList;
 
-  @DateTimeSerialize()
+  @ElDateTimeSerialize()
   final DateTime? startDate;
 
-  @ColorSerialize()
+  @ElColorSerialize()
   final Color? color;
 
-  @MaterialColorSerialize()
+  @ElMaterialElColorSerialize()
   final MaterialColor? materialColor;
 
   TestModel({

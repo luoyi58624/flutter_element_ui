@@ -19,6 +19,8 @@ dependencies:
     path: ../element_dart
   element_annotation:
     path: ../element_annotation
+  element_storage:
+    path: ../element_storage
   flutter_obs:
     path: ../flutter_obs
   intl: ^0.19.0

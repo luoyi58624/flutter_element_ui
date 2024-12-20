@@ -1,6 +1,7 @@
 library element_flutter;
 
 export 'package:element_dart/element_dart.dart';
+export 'package:element_storage/element_storage.dart';
 export 'package:gap/gap.dart';
 export 'package:flutter_hooks/flutter_hooks.dart';
 export 'package:super_sliver_list/super_sliver_list.dart';
@@ -25,8 +26,8 @@ export 'src/utils/platform/platform.dart';
 
 export 'src/utils/assert.dart';
 export 'src/utils/flutter_util.dart';
-export 'src/utils/preset_serialize.dart';
 export 'src/utils/cursor.dart';
+export 'src/utils/serialize_preset.dart';
 export 'src/utils/shortcut.dart';
 
 export 'src/widgets/html/list.dart';

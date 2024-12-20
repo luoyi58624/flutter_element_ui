@@ -1,14 +1,13 @@
 import 'dart:convert';
 
-import 'package:element_annotation/element_annotation.dart';
-import 'package:element_dart/element_dart.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/foundation.dart';
 
 import './src/web.dart' if (dart.library.io) './src/io.dart';
 
 ElStorage? _localStorage;
 
-/// 默认的持久化本地存储对象，[ElStorage] 支持创建多个隔离的数据对象
+/// 本地存储对象，你也可以通过 [ElStorage] 创建多个隔离的存储对象
 ElStorage get localStorage {
   assert(_localStorage != null,
       'localStorage 未初始化，请执行 ElStorage.createLocalStorage 方法');
@@ -26,10 +25,12 @@ ElStorage get sessionStorage {
   return _sessionStorage!;
 }
 
-/// 本地存储抽象类，Api 设计来自 Web 中的 localStorage，在 Web 平台上直接使用 localStorage Api，
-/// 在客户端上则直接创建一个普通文件进行序列化存储，所以你不能用它存储大量数据。
+/// 本地存储抽象类，在 Web 平台上使用 localStorage 进行存储，在客户端上则创建一个普通文件进行序列化存储。
+///
+/// 注意：浏览器所支持存储的数据量最多只有 5M，虽然在客户端上没有限制，但数据量太大会严重影响性能，
+/// 因为每个 Storage 对象实际上就是一个 Map 集合，对 Map 集合做的任何修改都会全量将数据写入到文件中。
 abstract class ElStorage {
-  ElStorage(this.key, this.storage) {
+  ElStorage(this.key, this.storage, this.serializePreset) {
     _debounceSerialize = DartUtil.debounce(serialize, 1000);
   }
 
@@ -43,6 +44,16 @@ abstract class ElStorage {
   @protected
   final Map<String, dynamic> storage;
 
+  /// 内置的序列化预设对象，当你使用 [setItem] 存储非基本数据类型时，会寻找内置的序列化函数，例如：
+  /// * Color -> ElColorSerialize
+  /// * MaterialColor -> ElMaterialElColorSerialize
+  /// * DateTime -> ElDateTimeSerialize
+  /// * Size -> ElSizeSerialize
+  /// * Offset -> ElOffsetSerialize
+  ///
+  /// 如果没有找到内置的序列化函数，那么你必须手动指定对应的序列化对象，否则数据无法存储于本地。
+  final ElSerializePreset serializePreset;
+
   /// 本地序列化
   @protected
   void serialize();
@@ -54,14 +65,17 @@ abstract class ElStorage {
   int get length => storage.length;
 
   /// 设置数据
-  void setItem(String key, dynamic value, [ElSerialize? serialize]) {
-    storage[key] = serialize == null ? value : serialize.serialize(value);
+  void setItem<T>(String key, T value, [ElSerialize? serialize]) {
+    final result = serializePreset.apply<T>(serialize);
+    storage[key] = result == null ? value : result.serialize(value);
     _debounceSerialize();
   }
 
   /// 获取数据
-  dynamic getItem(String key, [ElSerialize? serialize]) =>
-      serialize == null ? storage[key] : serialize.deserialize(storage[key]);
+  T? getItem<T>(String key, [ElSerialize? serialize]) {
+    final result = serializePreset.apply<T>(serialize);
+    return result == null ? storage[key] : result.deserialize(storage[key]);
+  }
 
   /// 删除数据
   void removeItem(String key) {
@@ -76,22 +90,30 @@ abstract class ElStorage {
   }
 
   /// 创建 localStorage 对象，你可以指定 key 创建多个存储对象
-  static Future<ElStorage> createLocalStorage([String? key]) async {
+  static Future<ElStorage> createLocalStorage([
+    String? key,
+    ElSerializePreset serializePreset = const ElSerializePreset(),
+  ]) async {
     if (key == null) {
-      _localStorage ??= await $createStorage('element_storage', false);
+      _localStorage ??=
+          await $createStorage('element_storage', false, serializePreset);
       return _localStorage!;
     } else {
-      return await $createStorage(key, false);
+      return await $createStorage(key, false, serializePreset);
     }
   }
 
   /// 创建 sessionStorage 对象，你可以指定 key 创建多个存储对象
-  static Future<ElStorage> createSessionStorage([String? key]) async {
+  static Future<ElStorage> createSessionStorage([
+    String? key,
+    ElSerializePreset serializePreset = const ElSerializePreset(),
+  ]) async {
     if (key == null) {
-      _sessionStorage ??= await $createStorage('element_storage', true);
+      _sessionStorage ??=
+          await $createStorage('element_storage', true, serializePreset);
       return _sessionStorage!;
     } else {
-      return await $createStorage(key, true);
+      return await $createStorage(key, true, serializePreset);
     }
   }
 }

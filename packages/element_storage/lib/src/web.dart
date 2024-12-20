@@ -1,41 +1,48 @@
 import 'dart:convert';
 
+import 'package:element_flutter/element_flutter.dart';
 import 'package:web/web.dart' show window;
-
-import '../element_storage.dart';
 
 final _localStorage = window.localStorage;
 final _sessionStorage = window.sessionStorage;
 
-Future<ElStorage> $createStorage(String key, bool isTemp) async {
+Future<ElStorage> $createStorage(
+  String key,
+  bool isTemp,
+  ElSerializePreset serializePreset,
+) async {
   if (isTemp) {
     final result = _sessionStorage.getItem(key);
     if (result != null) {
       final json = jsonDecode(result);
-      return _SessionStorage(key, json.cast<String, dynamic>());
+      return _SessionStorage(
+        key,
+        json.cast<String, dynamic>(),
+        serializePreset,
+      );
     } else {
-      return _SessionStorage(key, {});
+      return _SessionStorage(key, {}, serializePreset);
     }
   } else {
     final result = _localStorage.getItem(key);
     if (result != null) {
       final json = jsonDecode(result);
-      return _LocalStorage(key, json.cast<String, dynamic>());
+      return _LocalStorage(key, json.cast<String, dynamic>(), serializePreset);
     } else {
-      return _LocalStorage(key, {});
+      return _LocalStorage(key, {}, serializePreset);
     }
   }
 }
 
 class _LocalStorage extends ElStorage {
-  _LocalStorage(super.key, super.storage);
+  _LocalStorage(super.key, super.storage, super.serializePreset);
 
   @override
   void serialize() => _localStorage.setItem(key, jsonEncode(storage));
 }
 
 class _SessionStorage extends ElStorage {
-  _SessionStorage(super.key, super.storage);
+  _SessionStorage(super.key, super.storage, super.serializePreset);
 
   @override
   void serialize() => _sessionStorage.setItem(key, jsonEncode(storage));

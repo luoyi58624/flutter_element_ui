@@ -1,6 +1,5 @@
-import 'package:element_annotation/element_annotation.dart';
+import 'package:element_flutter/element_flutter.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../core/model_obs.dart';
 
