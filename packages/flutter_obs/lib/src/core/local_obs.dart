@@ -67,12 +67,7 @@ class LocalObs<T> extends WatchObs<T> {
   }
 
   /// 初始化保存响应式变量的本地存储对象
-  static Future<void> initStorage([
-    ElSerializePreset serializePreset = const ElSerializePreset(),
-  ]) async {
-    _storage ??= await ElStorage.createLocalStorage(
-      'flutter_obs',
-      serializePreset,
-    );
+  static Future<void> initStorage() async {
+    _storage ??= await ElStorage.createLocalStorage('flutter_obs');
   }
 }

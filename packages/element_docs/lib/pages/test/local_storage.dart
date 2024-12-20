@@ -78,7 +78,11 @@ class LocalStorageTestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: () {
-                localStorage.setItem('color', context.elTheme.primary);
+                localStorage.setItem(
+                  'color',
+                  context.elTheme.primary,
+                  const ElColorSerialize(),
+                );
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("设置成功，请长按查看颜色"),
@@ -87,7 +91,8 @@ class LocalStorageTestPage extends StatelessWidget {
               onLongPress: () {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("${localStorage.getItem('color') ?? 'null'}"),
+                  content: Text(
+                      "${localStorage.getItem('color', const ElColorSerialize()) ?? 'null'}"),
                 ));
               },
               child: const Text('set color'),
