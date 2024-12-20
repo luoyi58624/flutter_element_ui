@@ -1,3 +1,4 @@
+import 'package:element_dart/element_dart.dart';
 import 'package:element_plus/element_plus.dart';
 import 'package:flutter/material.dart' show MaterialColor, Color, HSLColor;
 
@@ -19,7 +20,9 @@ extension FlutterColorExtension on Color {
   ///
   /// http://www.w3.org/TR/AERT#color-contrast
   int get hsp =>
-      ((red * 299 + green * 587 + blue * 114) / 1000).ceilToDouble().toInt();
+      ((r.floatToInt8 * 299 + g.floatToInt8 * 587 + b.floatToInt8 * 114) / 1000)
+          .ceilToDouble()
+          .toInt();
 
   /// 根据明亮度获取一个新的颜色，lightness以1为基准，小于1则颜色变暗，大于1则颜色变亮
   Color getLightnessColor(double lightness) {
@@ -29,6 +32,13 @@ extension FlutterColorExtension on Color {
     return newColor.toColor();
   }
 
+  /// 将颜色转成 int
+  int get toInt =>
+      a.floatToInt8 << 24 |
+      r.floatToInt8 << 16 |
+      g.floatToInt8 << 8 |
+      b.floatToInt8 << 0;
+
   /// Color对象转16进制字符串格式颜色
   /// * hasLeading 是否添加 # 前缀，默认true
   /// * hasAlpha 是否添加透明度，默认false
@@ -37,12 +47,15 @@ extension FlutterColorExtension on Color {
     bool hasAlpha = false,
   }) =>
       '${hasLeading == true ? '#' : ''}'
-      '${hasAlpha == true ? alpha.toRadixString(16).padLeft(2, '0') : ''}'
-      '${red.toRadixString(16).padLeft(2, '0')}'
-      '${green.toRadixString(16).padLeft(2, '0')}'
-      '${blue.toRadixString(16).padLeft(2, '0')}';
+      '${hasAlpha == true ? a.floatToInt8.toRadixString(16).padLeft(2, '0') : ''}'
+      '${r.floatToInt8.toRadixString(16).padLeft(2, '0')}'
+      '${g.floatToInt8.toRadixString(16).padLeft(2, '0')}'
+      '${b.floatToInt8.toRadixString(16).padLeft(2, '0')}';
 
-  /// 将当前颜色转换成 Material 颜色
+  /// 将当前颜色转换成 Material 颜色。
+  ///
+  /// 注意：[MaterialColor] 中所有颜色都是手动预设值，此函数只是简单根据预设梯度创建不同级别颜色，
+  /// 所以最终得到的 [MaterialColor] 除 shade500 级别外都不匹配。
   MaterialColor toMaterialColor() {
     List strengths = <double>[.05];
     Map<int, Color> swatch = {};
@@ -53,13 +66,16 @@ extension FlutterColorExtension on Color {
     for (var strength in strengths) {
       final double ds = 0.5 - strength;
       swatch[(strength * 1000).round()] = Color.fromRGBO(
-        red + ((ds < 0 ? red : (255 - red)) * ds).round(),
-        green + ((ds < 0 ? green : (255 - green)) * ds).round(),
-        blue + ((ds < 0 ? blue : (255 - blue)) * ds).round(),
+        r.floatToInt8 +
+            ((ds < 0 ? r.floatToInt8 : (255 - r.floatToInt8)) * ds).round(),
+        g.floatToInt8 +
+            ((ds < 0 ? g.floatToInt8 : (255 - g.floatToInt8)) * ds).round(),
+        b.floatToInt8 +
+            ((ds < 0 ? b.floatToInt8 : (255 - b.floatToInt8)) * ds).round(),
         1,
       );
     }
-    return MaterialColor(value, swatch);
+    return MaterialColor(toInt, swatch);
   }
 
   /// 将颜色变得更亮
@@ -68,10 +84,10 @@ extension FlutterColorExtension on Color {
     assert(scale >= 0 && scale <= 100);
     var p = scale / 100;
     return Color.fromARGB(
-      alpha,
-      red + ((255 - red) * p).round(),
-      green + ((255 - green) * p).round(),
-      blue + ((255 - blue) * p).round(),
+      a.floatToInt8,
+      r.floatToInt8 + ((255 - r.floatToInt8) * p).round(),
+      g.floatToInt8 + ((255 - g.floatToInt8) * p).round(),
+      b.floatToInt8 + ((255 - b.floatToInt8) * p).round(),
     );
   }
 
@@ -81,10 +97,10 @@ extension FlutterColorExtension on Color {
     assert(scale >= 0 && scale <= 100);
     var p = 1 - scale / 100;
     return Color.fromARGB(
-      alpha,
-      (red * p).round(),
-      (green * p).round(),
-      (blue * p).round(),
+      a.floatToInt8,
+      (r.floatToInt8 * p).round(),
+      (g.floatToInt8 * p).round(),
+      (b.floatToInt8 * p).round(),
     );
   }
 
@@ -111,10 +127,10 @@ extension FlutterColorExtension on Color {
     assert(scale >= 0 && scale <= 100);
     var p = scale / 100;
     return Color.fromARGB(
-      ((other.alpha - alpha) * p + alpha).round(),
-      ((other.red - red) * p + red).round(),
-      ((other.green - green) * p + green).round(),
-      ((other.blue - blue) * p + blue).round(),
+      ((other.a.floatToInt8 - a.floatToInt8) * p + a.floatToInt8).round(),
+      ((other.r.floatToInt8 - r.floatToInt8) * p + r.floatToInt8).round(),
+      ((other.g.floatToInt8 - g.floatToInt8) * p + g.floatToInt8).round(),
+      ((other.b.floatToInt8 - b.floatToInt8) * p + b.floatToInt8).round(),
     );
   }
 

@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:element_flutter/element_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void colorTest() {
@@ -28,18 +27,39 @@ void colorTest() {
     expect('#FF5722'.toColor().hsp, 132);
   });
 
+  test('toInt', () {
+    const color = Colors.green;
+    expect(color.toInt, 0xFF4CAF50);
+  });
+
+  test('toHex', () {
+    const color = Color.fromRGBO(25, 25, 112, 1.0);
+    expect(color.toHex(), '#191970');
+  });
+
   test('toColor', () {
     const color1 = Color(0xff409EFF);
     final color2 = '#409EFF'.toColor();
     expect(color1, color2);
   });
 
-  test('toHex', () {
-    const color = Color.fromRGBO(25, 25, 112, 1.0);
-    i(color.r, color.red);
-    i(color.red.toRadixString(16));
-    i((25 & 0xff) / 255);
-    i((color.r * 255).toInt().toRadixString(16));
-    expect(color.toHex(), '#191970');
+  // MaterialColor 都是预设值，转换的目标颜色不会匹配是符号预期的
+  test('toMaterialColor', () {
+    const color = Colors.green;
+    final hexColor = color.toHex();
+    expect(hexColor, '#4caf50');
+
+    final newColor = hexColor.toColor().toMaterialColor();
+
+    // expect(newColor.shade50, color.shade50);
+    // expect(newColor.shade100, color.shade100);
+    // expect(newColor.shade200, color.shade200);
+    // expect(newColor.shade300, color.shade300);
+    // expect(newColor.shade400, color.shade400);
+    expect(newColor.shade500, color.shade500);
+    // expect(newColor.shade600, color.shade600);
+    // expect(newColor.shade700, color.shade700);
+    // expect(newColor.shade800, color.shade800);
+    // expect(newColor.shade900, color.shade900);
   });
 }
