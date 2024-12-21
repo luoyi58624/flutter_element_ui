@@ -234,12 +234,18 @@ class _ElEventState extends State<ElEvent>
       tapDownHandler(e);
       longPressStartHandler(e);
     } else if (pointType == kSecondaryButton) {
-      if (kIsWeb && prop.prevent) {
-        if (preventContextMenuTimer != null) {
-          preventContextMenuTimer!.cancel();
-          preventContextMenuTimer = null;
-        } else {
-          await BrowserContextMenu.disableContextMenu();
+      if (kIsWeb) {
+        if (prop.onSecondaryTapDown != null ||
+            prop.onSecondaryTap != null ||
+            prop.onSecondaryTapUp != null) {
+          if (prop.prevent) {
+            if (preventContextMenuTimer != null) {
+              preventContextMenuTimer!.cancel();
+              preventContextMenuTimer = null;
+            } else {
+              await BrowserContextMenu.disableContextMenu();
+            }
+          }
         }
       }
 
@@ -263,11 +269,17 @@ class _ElEventState extends State<ElEvent>
     } else if (pointType == kSecondaryButton) {
       prop.onSecondaryTapUp?.call(e.toDetails);
       if (isCancel == false) prop.onSecondaryTap?.call();
-      if (kIsWeb && prop.prevent) {
-        preventContextMenuTimer ??= setTimeout(() {
-          BrowserContextMenu.enableContextMenu();
-          preventContextMenuTimer = null;
-        }, 100);
+      if (kIsWeb) {
+        if (prop.onSecondaryTapDown != null ||
+            prop.onSecondaryTap != null ||
+            prop.onSecondaryTapUp != null) {
+          if (prop.prevent) {
+            preventContextMenuTimer ??= setTimeout(() {
+              BrowserContextMenu.enableContextMenu();
+              preventContextMenuTimer = null;
+            }, 100);
+          }
+        }
       }
     }
 
