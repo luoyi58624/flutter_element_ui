@@ -13,6 +13,16 @@ class ThemePage extends ResponsivePage {
   List<Widget> buildPage(BuildContext context) {
     apply(const Color.fromRGBO(255, 255, 255, 1.0));
     apply(Colors.red);
+    apply('hello');
+    apply(10);
+    apply(10.0);
+    apply(true);
+
+    Object hello = Object();
+    apply(hello);
+
+    dynamic hello2 = 'xx';
+    apply(hello2);
     return [];
   }
 

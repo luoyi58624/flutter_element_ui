@@ -8,10 +8,12 @@ class ObsBuilder extends StatefulWidget {
     this.binding = const [],
   });
 
-  /// 通过函数构建小部件，它会自动收集内部的响应式变量，你也可以手动指定：[watch]
+  /// 通过函数构建小部件，它会自动收集内部的响应式变量
   final WidgetBuilder builder;
 
-  /// 手动绑定监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件
+  /// 手动绑定监听的响应式变量，监听的任意一个变量发生更改都会刷新此小部件，应用场景：
+  /// * 需要依赖响应式变量但 [Widget] 不需要使用它；
+  /// * 响应式变量在多层嵌套 builder 函数内部导致 [ObsBuilder] 的 [builder] 没有收集到；
   final List<Obs> binding;
 
   @override
@@ -87,7 +89,7 @@ class _ObsBuilderState extends State<ObsBuilder> {
 
   /// 响应式变量发生变更就是执行此函数通知页面刷新
   void _notify() {
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override

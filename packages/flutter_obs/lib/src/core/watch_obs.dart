@@ -64,7 +64,17 @@ class WatchObs<T> extends Obs<T> {
     _oldValue = value ?? getValue();
   }
 
-  /// [WatchObs] 不允许手动通知监听，因为直接操作对象会造成值引用问题
+  /// [WatchObs] 不推荐手动通知监听，所以添加了 protected 注解，原因有以下 2 点：
+  /// * 允许手动监听意味着 setter 方法不会被拦截，watch 监听函数的 oldValue 不会因此更新；
+  /// * 直接操作对象会造成值引用问题，它会影响所有通过 = 赋值引起的潜在 bug；
+  ///
+  /// 你可以强制使用，dart 编译器只是将其屏蔽，或者通过继承覆写 [notify] 方法将其公开，
+  /// 当然，前提是你得知晓并避免上面的陷阱：
+  /// * 不要依赖 oldValue；
+  /// * 不要使用类似与 [reset] 值引用方法，因为当你直接操作原始对象那一刻，对象已经被修改；
+  ///
+  /// 在 dart 中，拷贝一个对象十分艰难，List、Set、Map 很容易出现类型转换错误，
+  /// 库没法动态地替你进行转换，而 Model 模型对象需要你自己实现 copyWith，通常它依赖代码生成器。
   @protected
   @override
   void notify() {
@@ -76,7 +86,7 @@ class WatchObs<T> extends Obs<T> {
   /// 执行通过构造方法添加的监听函数
   _notifyWatch() {
     if (_watchFun != null) {
-      _watchFun!(getValue(), oldValue);
+      _watchFun(getValue(), oldValue);
     }
   }
 

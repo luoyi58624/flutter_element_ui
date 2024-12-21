@@ -1,7 +1,7 @@
 // import 'package:flutter/widgets.dart';
 //
 // import '../../../basic/text.dart';
-// import '../index.dart';
+// import '../drag_resizer.dart';
 //
 // class ElDefaultTabs2 extends StatelessWidget {
 //   const ElDefaultTabs2({super.key});

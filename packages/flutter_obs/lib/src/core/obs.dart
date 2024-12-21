@@ -21,7 +21,7 @@ class Obs<T> extends ValueNotifier<T> {
   /// ),
   /// ```
   ///
-  /// 由于 [Obs] 继承 [ValueNotifier]，所以它也兼容以下小部件：
+  /// [Obs] 继承 [ValueNotifier] 只是为了兼容以下小部件的用法：
   /// ```dart
   /// const count = Obs(0);
   ///
@@ -43,7 +43,7 @@ class Obs<T> extends ValueNotifier<T> {
   /// 响应式变量原始值
   T _value;
 
-  /// 当小部件被 [ObsBuilder] 包裹时，它会追踪内部的响应式变量
+  /// 当你在 [ObsBuilder] 中通过 .value 访问响应式变量时，会进入 getter 方法绑定依赖
   @override
   T get value {
     bindBuilders();
@@ -103,16 +103,15 @@ class Obs<T> extends ValueNotifier<T> {
 
   /// 释放所有监听器，只有当你将响应式变量作为局部变量时才可能需要用到它。
   ///
-  /// 但如果响应式只有刷新小部件的依赖，你不需要调用这个函数，因为当小部件被卸载时会自动移除监听函数，
-  /// 但如果添加了副作用监听函数、或者说你重度使用了该变量，其他 [Widget] 可能会添加各种隐式依赖，
-  /// 为了安全起见，建议你在 dispose 生命周期中明确销毁它，杜绝内存泄漏的风险。
+  /// 如果变量只有 [ObsBuilder] 的依赖，那么你不需要调用这个函数，因为当 [ObsBuilder] 被卸载时会自动移除监听函数，
+  /// 但如果添加了副作用监听函数，那么建议你在 dispose 生命周期中销毁它，防止潜在的内存泄漏。
   @override
   void dispose() {
     builderFunList.clear();
     super.dispose();
   }
 
-  /// 如果将响应式变量当字符串使用，你可以省略.value
+  /// 如果将响应式变量当字符串使用，你可以省略 .value
   @override
   String toString() {
     return value.toString();

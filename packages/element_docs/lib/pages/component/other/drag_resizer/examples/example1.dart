@@ -28,24 +28,29 @@ class _Example extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        const SizedBox(height: 300),
-        ElDragResizer(
-          cacheKey: 'resizer_example1',
-          initialPosition: Offset.zero,
-          initialSize: const Size(100, 100),
-          builder: (size) {
-            return ElEvent(
-              child: Builder(builder: (context) {
-                return Container(
-                  color: context.hasTap ? Colors.red : Colors.grey,
-                );
-              }),
-            );
-          },
-        ),
-      ],
+    return SizedBox(
+      width: double.infinity,
+      height: 300,
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Stack(
+          children: [
+            ElDragResizer(
+              cacheKey: 'resizer_example1',
+              initialPosition: Offset.zero,
+              initialSize: const Size(100, 100),
+              minSize: const Size(50, 50),
+              maxSize: Size(constraints.maxWidth, constraints.maxHeight),
+              child: ElEvent(
+                child: Builder(builder: (context) {
+                  return ColoredBox(
+                    color: context.hasTap ? Colors.red : Colors.grey,
+                  );
+                }),
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

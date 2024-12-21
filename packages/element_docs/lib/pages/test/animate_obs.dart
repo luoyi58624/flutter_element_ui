@@ -1,27 +1,43 @@
 import 'package:element_docs/global.dart';
 import 'package:flutter/material.dart';
 
-class AnimateObsTestPage extends StatelessWidget {
+class AnimateObsTestPage extends HookWidget {
   const AnimateObsTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final enabled = useState(true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('动画 Obs 测试'),
+        actions: [
+          ElSwitch(enabled),
+          const Gap(8),
+        ],
       ),
-      body: Center(
-        child: Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            ...List.generate(
-              100,
-              (index) => Test(
-                index: index,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: TickerMode(
+            enabled: enabled.value,
+            child: Center(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  const CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                  ...List.generate(
+                    10,
+                    (index) => Test(
+                      index: index,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -59,6 +75,7 @@ class Test extends HookWidget {
           color: color.value,
           borderRadius: BorderRadius.circular(radius.value),
           clipBehavior: Clip.hardEdge,
+          animationDuration: Duration.zero,
           child: InkWell(
             onTap: () {
               if (size.targetValue == size.initialValue) {

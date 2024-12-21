@@ -1,7 +1,7 @@
 // import 'package:element_plus/src/global.dart';
 // import 'package:flutter/material.dart';
 //
-// import '../index.dart';
+// import '../drag_resizer.dart';
 //
 // class ElMaterialTabs extends StatefulWidget {
 //   /// Flutter Material 原生实现的 Tabs 标签

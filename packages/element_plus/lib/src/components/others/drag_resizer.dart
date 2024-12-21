@@ -3,39 +3,56 @@ import 'dart:math';
 import 'package:element_plus/src/global.dart';
 import 'package:flutter/material.dart';
 
-part 'theme.dart';
-
-part '../../../generates/components/others/drag_resizer/index.g.dart';
+part '../../generates/components/others/drag_resizer.g.dart';
 
 class ElDragResizer extends StatefulWidget {
   /// 对子组件进行拖拽位置 + 调整尺寸，它必须放置于 [Stack] 小部件中
   const ElDragResizer({
     super.key,
-    required this.initialPosition,
+    required this.child,
     required this.initialSize,
-    this.minSize = Size.zero,
-    this.maxSize,
+    required this.minSize,
+    required this.maxSize,
+    this.initialPosition,
+    this.alignment = Alignment.topLeft,
+    this.alignmentOffset = Offset.zero,
+    this.disabledDrag = false,
+    this.disabledResizer = false,
+    this.dragAreaHeight = 0,
     this.cacheKey,
-    required this.builder,
   });
 
-  /// 初始化位置
-  final Offset initialPosition;
+  final Widget child;
 
   /// Widget 初始尺寸
   final Size initialSize;
 
-  /// 限制 Widget 最小尺寸，宽高必须大于等于0
+  /// 限制 Widget 最小尺寸
   final Size minSize;
 
-  /// 限制 Widget 最大尺寸，如果为 null，那么你必须指定当前容器的最大宽高
-  final Size? maxSize;
+  /// 限制 Widget 最大尺寸
+  final Size maxSize;
+
+  /// 初始化位置，如果不为 null 它会覆盖 [alignment]
+  final Offset? initialPosition;
+
+  /// 初始定位位置，默认：左上角
+  final Alignment alignment;
+
+  /// [alignment] 相对偏移位置
+  final Offset alignmentOffset;
+
+  /// 是否禁用拖拽移动，默认 false
+  final bool disabledDrag;
+
+  /// 是否禁用调整尺寸，默认 false
+  final bool disabledResizer;
+
+  ///
+  final double dragAreaHeight;
 
   /// 本地持久化 key
   final String? cacheKey;
-
-  /// 尺寸回调
-  final Widget Function(Size size) builder;
 
   @override
   State<ElDragResizer> createState() => _ElDragResizerState();
@@ -43,7 +60,6 @@ class ElDragResizer extends StatefulWidget {
 
 class _ElDragResizerState extends State<ElDragResizer> {
   late ElDragResizerThemeData themeData;
-  late Size maxSize;
 
   final LayerLink layerLink = LayerLink();
   late OverlayEntry overlayEntry;
@@ -56,14 +72,29 @@ class _ElDragResizerState extends State<ElDragResizer> {
     cacheKey: widget.cacheKey,
   );
 
+  late Offset position;
+
+  Offset calcPosition() {
+    return Offset(
+      min(
+        widget.maxSize.width,
+        max(0, localData.value.position!.dx),
+      ),
+      min(
+        widget.maxSize.height,
+        max(0, localData.value.position!.dy),
+      ),
+    );
+  }
+
   Size get size {
     return Size(
       min(
-        maxSize.width,
+        widget.maxSize.width,
         max(widget.minSize.width, localData.value.size!.width),
       ),
       min(
-        maxSize.height,
+        widget.maxSize.height,
         max(widget.minSize.height, localData.value.size!.height),
       ),
     );
@@ -183,9 +214,15 @@ class _ElDragResizerState extends State<ElDragResizer> {
                             );
                           },
                           onPanEnd: (e) {
+                            localData.value = localData.value.copyWith(
+                              size: size,
+                            );
                             el.cursor.remove();
                           },
                           onPanCancel: () {
+                            localData.value = localData.value.copyWith(
+                              size: size,
+                            );
                             el.cursor.remove();
                           },
                           child: Container(
@@ -224,6 +261,21 @@ class _ElDragResizerState extends State<ElDragResizer> {
                         ),
                       ),
                     ),
+                    if (widget.disabledDrag == false)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: MouseRegion(
+                          hitTestBehavior: HitTestBehavior.opaque,
+                          cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                          child: Container(
+                            width: triggerSize,
+                            height: triggerSize,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
                   ],
                 );
               }),
@@ -240,6 +292,14 @@ class _ElDragResizerState extends State<ElDragResizer> {
   void initState() {
     super.initState();
     insertOverlay();
+    position = localData.value.position!;
+    localData.addListener(() {
+      if (position != localData.value.position) {
+        setState(() {
+          position = localData.value.position!;
+        });
+      }
+    });
   }
 
   @override
@@ -247,42 +307,27 @@ class _ElDragResizerState extends State<ElDragResizer> {
     overlayEntry.remove();
     overlayEntry.dispose();
     super.dispose();
+    localData.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     themeData = ElDragResizerTheme.of(context);
-
-    nextTick(() {
-      i(context.size);
-    });
     return Positioned(
-      left: 0,
-      top: 0,
-      child: LayoutBuilder(builder: (context, constraints) {
-        if (widget.maxSize != null) {
-          maxSize = widget.maxSize!;
-        } else {
-          maxSize = Size(constraints.maxWidth, constraints.maxHeight);
-        }
-        // assert(
-        //     constraints.maxWidth != double.infinity &&
-        //         constraints.maxHeight != double.infinity,
-        //     '你没有指定 ElResizer 的最大宽高，那么你必须小部件所在容器的最大宽高，不能是 double.infinity 无限尺寸');
-        // maxSize = Size(constraints.maxWidth, constraints.maxHeight);
-        return ObsBuilder(builder: (context) {
-          return SizedBox(
-            width: size.width,
-            height: size.height,
-            child: CompositedTransformTarget(
-              link: layerLink,
-              child: ObsBuilder(builder: (context) {
-                return widget.builder(size);
-              }),
-            ),
-          );
-        });
-      }),
+      left: position.dx,
+      top: position.dy,
+      child: CompositedTransformTarget(
+        link: layerLink,
+        child: UnconstrainedBox(
+          child: ObsBuilder(builder: (context) {
+            return SizedBox(
+              width: size.width,
+              height: size.height,
+              child: widget.child,
+            );
+          }),
+        ),
+      ),
     );
   }
 }
@@ -311,4 +356,29 @@ class _ElDragResizerData implements ElSerializeModel {
 
   @override
   String toString() => _toString();
+}
+
+@ElModel.copy()
+@ElThemeModel(desc: '支持拖拽、调整 Widget 尺寸小部件默认样式')
+class ElDragResizerThemeData {
+  static const _defaultTheme = ElDragResizerThemeData(
+    triggerSize: 8,
+  );
+  static const theme = _defaultTheme;
+  static const darkTheme = _defaultTheme;
+
+  const ElDragResizerThemeData({
+    this.triggerSize,
+  });
+
+  /// 拖拽控件触发范围，默认 8。
+  ///
+  /// 注意：[triggerSize] 必须大于 [size]，否则会抛出异常。
+  final double? triggerSize;
+
+  @override
+  bool operator ==(Object other) => _equals(other);
+
+  @override
+  int get hashCode => _hashCode;
 }

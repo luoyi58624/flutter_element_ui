@@ -131,7 +131,7 @@ class _Example extends HookWidget {
 String get code1 => '''
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../widgets/index.dart';
+import '../widgets/drag_resizer.dart';
 
 class GradientCircularProgressRoute extends StatefulWidget {
   const GradientCircularProgressRoute({Key? key}) : super(key: key);

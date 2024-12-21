@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../../../../components/others/drag_resizer/index.dart';
+part of '../../../components/others/drag_resizer.dart';
 
 // **************************************************************************
 // ElModelGenerator
