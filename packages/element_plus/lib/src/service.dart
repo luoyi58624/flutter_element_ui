@@ -1,10 +1,10 @@
 import 'package:element_plus/src/global.dart';
-import 'package:element_storage/element_storage.dart';
 import 'package:flutter/cupertino.dart';
 
 import './services/anchor.dart';
 import './services/cursor.dart';
 import './services/router.dart';
+import 'components/feedback/dialog/index.dart';
 import 'components/feedback/message/index.dart';
 import 'components/feedback/toast/index.dart';
 
@@ -45,6 +45,8 @@ class El with AnchorService, RouterService, CursorService {
     if (_el == null) {
       WidgetsFlutterBinding.ensureInitialized();
       _el = El._();
+
+      // 有些组件提供了 cacheKey 属性用于本地保存配置信息，所以需要初始化这些本地存储实例对象
       await ElStorage.createLocalStorage();
       await ElStorage.createSessionStorage();
       await LocalObs.initStorage();
@@ -67,6 +69,9 @@ class El with AnchorService, RouterService, CursorService {
   /// el.sizePreset = mySizePreset;
   /// ```
   ElSizePreset sizePreset = const ElSizePreset();
+
+  /// Element UI 对话框实例对象
+  ElDialogService dialog = ElDialogService();
 
   /// Element UI 消息实例对象，它会在屏幕中上方显示一连串的消息，并支持合并相同类型的消息
   ElMessageService message = ElMessageService();

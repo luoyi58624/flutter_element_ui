@@ -41,6 +41,7 @@ class ElDialog extends StatelessWidget {
   }) async {
     return await showDialog<bool>(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           bool loading = false;
           return ElDialog(
@@ -98,8 +99,10 @@ class ElDialog extends StatelessWidget {
             if (title != null)
               Text(
                 title!,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),

@@ -29,41 +29,46 @@ class _ElDrawerState extends State<ElDrawer>
   late double position = -widget.width;
   double opacity = 0;
 
-  late final Widget overlayWidget = ValueListenableBuilder(
-    valueListenable: widget.modelValue,
-    builder: (context, value, _) {
-      return Offstage(
-        offstage: !value,
-        child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) => Stack(
-            children: [
-              GestureDetector(
-                onTap: () async {
-                  controller.reverse();
-                  await _duration.ms.delay();
-                  widget.modelValue.value = false;
-                },
-                child: Container(
-                  color: Color.fromRGBO(0, 0, 0, _opacityAnimation!.value),
-                  alignment: Alignment.topLeft,
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                bottom: 0.0,
-                left: _positionAnimation!.value,
-                child: Container(
-                  width: widget.width,
-                  color: context.elTheme.modalTheme.color,
-                  child: widget.child,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+  late final Widget overlayWidget = WillPopScope(
+    onWillPop: () async {
+      return false;
     },
+    child: ValueListenableBuilder(
+      valueListenable: widget.modelValue,
+      builder: (context, value, _) {
+        return Offstage(
+          offstage: !value,
+          child: AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) => Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    controller.reverse();
+                    await _duration.ms.delay();
+                    widget.modelValue.value = false;
+                  },
+                  child: Container(
+                    color: Color.fromRGBO(0, 0, 0, _opacityAnimation!.value),
+                    alignment: Alignment.topLeft,
+                  ),
+                ),
+                Positioned(
+                  top: 0.0,
+                  bottom: 0.0,
+                  left: _positionAnimation!.value,
+                  child: Container(
+                    width: widget.width,
+                    color: context.elTheme.modalTheme.color,
+                    child: widget.child,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
   );
 
   @override
@@ -82,7 +87,8 @@ class _ElDrawerState extends State<ElDrawer>
       overlayEntry = OverlayEntry(builder: (_) {
         return overlayWidget;
       });
-      Overlay.of(context, rootOverlay: true).insert(overlayEntry);
+      el.overlay.insert(overlayEntry);
+      // Overlay.of(context, rootOverlay: false).insert(overlayEntry);
     });
   }
 
@@ -102,6 +108,6 @@ class _ElDrawerState extends State<ElDrawer>
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox();
+    return widget.child;
   }
 }

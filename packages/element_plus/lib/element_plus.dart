@@ -38,6 +38,7 @@ export 'src/components/data/image.dart';
 
 export 'src/components/feedback/context_menu/index.dart';
 export 'src/components/feedback/menu/menu.dart';
+export 'src/components/feedback/dialog/index.dart';
 export 'src/components/feedback/alert.dart';
 export 'src/components/feedback/dialog.dart';
 export 'src/components/feedback/drawer.dart';

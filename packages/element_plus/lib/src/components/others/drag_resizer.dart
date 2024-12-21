@@ -18,7 +18,7 @@ class ElDragResizer extends StatefulWidget {
     this.alignmentOffset = Offset.zero,
     this.disabledDrag = false,
     this.disabledResizer = false,
-    this.dragAreaHeight = 0,
+    this.dragAreaHeight = 20,
     this.cacheKey,
   });
 
@@ -48,7 +48,7 @@ class ElDragResizer extends StatefulWidget {
   /// 是否禁用调整尺寸，默认 false
   final bool disabledResizer;
 
-  ///
+  /// 拖拽区域高度
   final double dragAreaHeight;
 
   /// 本地持久化 key
@@ -73,19 +73,6 @@ class _ElDragResizerState extends State<ElDragResizer> {
   );
 
   late Offset position;
-
-  Offset calcPosition() {
-    return Offset(
-      min(
-        widget.maxSize.width,
-        max(0, localData.value.position!.dx),
-      ),
-      min(
-        widget.maxSize.height,
-        max(0, localData.value.position!.dy),
-      ),
-    );
-  }
 
   Size get size {
     return Size(
@@ -263,16 +250,28 @@ class _ElDragResizerState extends State<ElDragResizer> {
                     ),
                     if (widget.disabledDrag == false)
                       Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: MouseRegion(
-                          hitTestBehavior: HitTestBehavior.opaque,
-                          cursor: SystemMouseCursors.resizeUpLeftDownRight,
+                        top: triggerSize,
+                        left: triggerSize,
+                        right: triggerSize,
+                        child: GestureDetector(
+                          onPanStart: (e){
+                            el.cursor.add();
+                          },
+                          onPanUpdate: (e){
+                            localData.value = localData.value.copyWith(
+                              position: localData.value.position! + e.delta,
+                            );
+                          },
+                          onPanEnd: (e){
+                            el.cursor.remove();
+                          },
+                          onPanCancel: (){
+                            el.cursor.remove();
+                          },
                           child: Container(
                             width: triggerSize,
-                            height: triggerSize,
-                            color: Colors.red,
+                            height: widget.dragAreaHeight,
+                            color: Colors.blue,
                           ),
                         ),
                       ),

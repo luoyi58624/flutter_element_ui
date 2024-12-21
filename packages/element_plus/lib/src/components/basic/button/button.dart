@@ -411,7 +411,12 @@ class ElButtonState<T extends ElButton> extends State<T> {
           );
         });
     if (!block) result = UnconstrainedBox(child: result);
-    return result;
+    return Semantics(
+      button: true,
+      enabled: !widget.disabled,
+      onTap: onPressed,
+      child: result,
+    );
   }
 }
 

@@ -301,7 +301,9 @@ class _ElEventState extends State<ElEvent>
     }
     if (isCancel) return;
     isCancel = true;
+
     hasTap = false;
+    e('取消了', hasTap);
     isActiveDoubleTap = false;
     isActiveLongPress = false;
     cancelLongPressTimer();

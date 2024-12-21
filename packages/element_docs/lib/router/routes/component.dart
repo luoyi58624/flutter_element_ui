@@ -159,6 +159,14 @@ List<RouteBase> _buildComponentRoutes(String path) {
       builder: (context, state) => const MenuPage(),
     ),
     RouterUtil.buildRoute(
+      path: '${path}dialog',
+      builder: (context, state) => const DialogPage(),
+    ),
+    RouterUtil.buildRoute(
+      path: '${path}drawer',
+      builder: (context, state) => const DrawerPage(),
+    ),
+    RouterUtil.buildRoute(
       path: '${path}message',
       builder: (context, state) => const MessagePage(),
     ),

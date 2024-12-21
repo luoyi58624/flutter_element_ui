@@ -17,11 +17,12 @@ class ElThemeData extends _ElThemeData {
     iconTheme: ElIconThemeData.theme,
     textTheme: ElTextThemeData.theme,
     cardTheme: ElCardThemeData.theme,
-    eventTheme: ElEventThemeData.theme,
     collapseTheme: ElCollapseThemeData.theme,
+    eventTheme: ElEventThemeData.theme,
     progressTheme: ElProgressThemeData.theme,
     tagTheme: ElTagThemeData.theme,
     treeTheme: ElTreeThemeData.theme,
+    dialogTheme: ElDialogThemeData.theme,
     messageTheme: ElMessageThemeData.theme,
     modalTheme: ElModalThemeData.theme,
     toastTheme: ElToastThemeData.theme,
@@ -47,11 +48,12 @@ class ElThemeData extends _ElThemeData {
     iconTheme: ElIconThemeData.darkTheme,
     textTheme: ElTextThemeData.darkTheme,
     cardTheme: ElCardThemeData.darkTheme,
-    eventTheme: ElEventThemeData.darkTheme,
     collapseTheme: ElCollapseThemeData.darkTheme,
+    eventTheme: ElEventThemeData.darkTheme,
     progressTheme: ElProgressThemeData.darkTheme,
     tagTheme: ElTagThemeData.darkTheme,
     treeTheme: ElTreeThemeData.darkTheme,
+    dialogTheme: ElDialogThemeData.darkTheme,
     messageTheme: ElMessageThemeData.darkTheme,
     modalTheme: ElModalThemeData.darkTheme,
     toastTheme: ElToastThemeData.darkTheme,
@@ -91,11 +93,11 @@ class ElThemeData extends _ElThemeData {
   /// 卡片默认样式
   final ElCardThemeData cardTheme;
 
-  /// 事件默认配置
-  final ElEventThemeData eventTheme;
-
   /// 折叠菜单默认样式
   final ElCollapseThemeData collapseTheme;
+
+  /// 事件默认配置
+  final ElEventThemeData eventTheme;
 
   /// 进度条默认样式
   final ElProgressThemeData progressTheme;
@@ -105,6 +107,9 @@ class ElThemeData extends _ElThemeData {
 
   /// ElTree 主题数据
   final ElTreeThemeData treeTheme;
+
+  /// 对话框默认样式
+  final ElDialogThemeData dialogTheme;
 
   /// 消息提示默认样式
   final ElMessageThemeData messageTheme;
@@ -165,11 +170,12 @@ class ElThemeData extends _ElThemeData {
     required this.iconTheme,
     required this.textTheme,
     required this.cardTheme,
-    required this.eventTheme,
     required this.collapseTheme,
+    required this.eventTheme,
     required this.progressTheme,
     required this.tagTheme,
     required this.treeTheme,
+    required this.dialogTheme,
     required this.messageTheme,
     required this.modalTheme,
     required this.toastTheme,
@@ -195,11 +201,12 @@ class ElThemeData extends _ElThemeData {
     required this.iconTheme,
     required this.textTheme,
     required this.cardTheme,
-    required this.eventTheme,
     required this.collapseTheme,
+    required this.eventTheme,
     required this.progressTheme,
     required this.tagTheme,
     required this.treeTheme,
+    required this.dialogTheme,
     required this.messageTheme,
     required this.modalTheme,
     required this.toastTheme,
@@ -235,11 +242,12 @@ class ElThemeData extends _ElThemeData {
     ElIconThemeData? iconTheme,
     ElTextThemeData? textTheme,
     ElCardThemeData? cardTheme,
-    ElEventThemeData? eventTheme,
     ElCollapseThemeData? collapseTheme,
+    ElEventThemeData? eventTheme,
     ElProgressThemeData? progressTheme,
     ElTagThemeData? tagTheme,
     ElTreeThemeData? treeTheme,
+    ElDialogThemeData? dialogTheme,
     ElMessageThemeData? messageTheme,
     ElModalThemeData? modalTheme,
     ElToastThemeData? toastTheme,
@@ -273,11 +281,12 @@ class ElThemeData extends _ElThemeData {
       iconTheme: this.iconTheme.merge(iconTheme),
       textTheme: this.textTheme.merge(textTheme),
       cardTheme: this.cardTheme.merge(cardTheme),
-      eventTheme: this.eventTheme.merge(eventTheme),
       collapseTheme: this.collapseTheme.merge(collapseTheme),
+      eventTheme: this.eventTheme.merge(eventTheme),
       progressTheme: this.progressTheme.merge(progressTheme),
       tagTheme: this.tagTheme.merge(tagTheme),
       treeTheme: this.treeTheme.merge(treeTheme),
+      dialogTheme: this.dialogTheme.merge(dialogTheme),
       messageTheme: this.messageTheme.merge(messageTheme),
       modalTheme: this.modalTheme.merge(modalTheme),
       toastTheme: this.toastTheme.merge(toastTheme),
@@ -316,11 +325,12 @@ class ElThemeData extends _ElThemeData {
       iconTheme: other.iconTheme,
       textTheme: other.textTheme,
       cardTheme: other.cardTheme,
-      eventTheme: other.eventTheme,
       collapseTheme: other.collapseTheme,
+      eventTheme: other.eventTheme,
       progressTheme: other.progressTheme,
       tagTheme: other.tagTheme,
       treeTheme: other.treeTheme,
+      dialogTheme: other.dialogTheme,
       messageTheme: other.messageTheme,
       modalTheme: other.modalTheme,
       toastTheme: other.toastTheme,

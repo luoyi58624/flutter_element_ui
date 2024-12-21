@@ -99,6 +99,7 @@ class _MessageWidgetState extends State<_MessageWidget>
 
   @override
   Widget build(BuildContext context) {
+    i('build');
     // 绑定窗口尺寸变化监听，这样可以触发重新计算消息偏移布局
     MediaQuery.maybeSizeOf(context);
 

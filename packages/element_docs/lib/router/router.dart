@@ -13,6 +13,8 @@ import '../pages/component/basic/scrollbar/index.dart';
 import '../pages/component/data/table/index.dart';
 import '../pages/component/data/tree/index.dart';
 import '../pages/component/feedback/context_menu/index.dart';
+import '../pages/component/feedback/dialog/index.dart';
+import '../pages/component/feedback/drawer/index.dart';
 import '../pages/component/feedback/menu/index.dart';
 import '../pages/component/layout/layout/index.dart';
 import '../pages/component/layout/menu_bar/index.dart';

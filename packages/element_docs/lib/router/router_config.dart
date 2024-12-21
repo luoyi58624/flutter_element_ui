@@ -147,17 +147,17 @@ class SlideRouterConfig {
         ),
         (
           'ColorPicker 颜色选择器',
-          '/${RootRoute.component.$2}/color-picker',
+          '/${RootRoute.component.$2}/color_picker',
           WorkStatus.pending
         ),
         (
           'DatePicker 日期选择器',
-          '/${RootRoute.component.$2}/date-picker',
+          '/${RootRoute.component.$2}/date_picker',
           WorkStatus.pending
         ),
         (
           'DateTimePicker 日期时间选择器',
-          '/${RootRoute.component.$2}/datetime-picker',
+          '/${RootRoute.component.$2}/datetime_picker',
           WorkStatus.pending
         ),
         ('Form 表单', '/${RootRoute.component.$2}/form', WorkStatus.pending),
@@ -168,7 +168,7 @@ class SlideRouterConfig {
         ),
         (
           'Input Number 数字输入框',
-          '/${RootRoute.component.$2}/input-number',
+          '/${RootRoute.component.$2}/input_number',
           WorkStatus.pending
         ),
         ('Radio 单选框', '/${RootRoute.component.$2}/radio', WorkStatus.pending),
@@ -178,12 +178,12 @@ class SlideRouterConfig {
         ('Switch 开关', '/${RootRoute.component.$2}/switch', WorkStatus.beta),
         (
           'TimePicker 时间选择器',
-          '/${RootRoute.component.$2}/time-picker',
+          '/${RootRoute.component.$2}/time_picker',
           WorkStatus.pending
         ),
         (
           'TimeSelect 时间选择',
-          '/${RootRoute.component.$2}/time-select',
+          '/${RootRoute.component.$2}/time_select',
           WorkStatus.pending
         ),
         (
@@ -229,7 +229,7 @@ class SlideRouterConfig {
         ('Image 图片', '/${RootRoute.component.$2}/image', WorkStatus.pending),
         (
           'Infinite Scroll 无限滚动',
-          '/${RootRoute.component.$2}/infinite-scroll',
+          '/${RootRoute.component.$2}/infinite_scroll',
           WorkStatus.pending
         ),
         (
@@ -272,21 +272,21 @@ class SlideRouterConfig {
     (
       'Navigation 导航',
       [
-        ('Affix 固钉', '/${RootRoute.component.$2}/Affix', WorkStatus.pending),
-        ('Anchor 锚点', '/${RootRoute.component.$2}/Anchor', WorkStatus.pending),
+        ('Affix 固钉', '/${RootRoute.component.$2}/affix', WorkStatus.pending),
+        ('Anchor 锚点', '/${RootRoute.component.$2}/anchor', WorkStatus.pending),
         (
           'Backtop 回到顶部',
-          '/${RootRoute.component.$2}/Backtop',
+          '/${RootRoute.component.$2}/backtop',
           WorkStatus.pending
         ),
         (
           'Breadcrumb 面包屑',
-          '/${RootRoute.component.$2}/Breadcrumb',
+          '/${RootRoute.component.$2}/breadcrumb',
           WorkStatus.pending
         ),
         (
           'Dropdown 下拉菜单',
-          '/${RootRoute.component.$2}/Dropdown',
+          '/${RootRoute.component.$2}/dropdown',
           WorkStatus.pending
         ),
         (
@@ -296,28 +296,28 @@ class SlideRouterConfig {
         ),
         (
           'Page Header 页头',
-          '/${RootRoute.component.$2}/page-header',
+          '/${RootRoute.component.$2}/page_header',
           WorkStatus.pending
         ),
-        ('Steps 步骤条', '/${RootRoute.component.$2}/Steps', WorkStatus.pending),
+        ('Steps 步骤条', '/${RootRoute.component.$2}/steps', WorkStatus.pending),
         ('Tabs 标签页', '/${RootRoute.component.$2}/tabs', WorkStatus.finished),
       ],
     ),
     (
       'Feedback 反馈组件',
       [
-        ('Alert 提示', '/${RootRoute.component.$2}/Alert', WorkStatus.pending),
+        ('Alert 提示', '/${RootRoute.component.$2}/alert', WorkStatus.pending),
         (
           'ContextMenu 右键菜单',
           '/${RootRoute.component.$2}/context_menu',
           WorkStatus.finished
         ),
         ('Menu 菜单', '/${RootRoute.component.$2}/menu', WorkStatus.finished),
-        ('Dialog 对话框', '/${RootRoute.component.$2}/Dialog', WorkStatus.pending),
-        ('Drawer 抽屉', '/${RootRoute.component.$2}/Drawer', WorkStatus.pending),
+        ('Dialog 对话框', '/${RootRoute.component.$2}/dialog', WorkStatus.finished),
+        ('Drawer 抽屉', '/${RootRoute.component.$2}/drawer', WorkStatus.pending),
         (
           'Loading 加载',
-          '/${RootRoute.component.$2}/Loading',
+          '/${RootRoute.component.$2}/loading',
           WorkStatus.pending
         ),
         (
@@ -327,27 +327,27 @@ class SlideRouterConfig {
         ),
         (
           'MessageBox 消息弹框',
-          '/${RootRoute.component.$2}/MessageBox',
+          '/${RootRoute.component.$2}/message_box',
           WorkStatus.pending
         ),
         (
           'Notification 通知',
-          '/${RootRoute.component.$2}/Notification',
+          '/${RootRoute.component.$2}/notification',
           WorkStatus.pending
         ),
         (
           'PopConfirm 气泡确认框',
-          '/${RootRoute.component.$2}/PopConfirm',
+          '/${RootRoute.component.$2}/pop_confirm',
           WorkStatus.pending
         ),
         (
           'Popover 气泡卡片',
-          '/${RootRoute.component.$2}/Popover',
+          '/${RootRoute.component.$2}/popover',
           WorkStatus.pending
         ),
         (
           'Tooltip 文字提示',
-          '/${RootRoute.component.$2}/Tooltip',
+          '/${RootRoute.component.$2}/tooltip',
           WorkStatus.pending
         ),
       ],
@@ -357,12 +357,12 @@ class SlideRouterConfig {
       [
         (
           'Divider 分割线',
-          '/${RootRoute.component.$2}/Divider',
+          '/${RootRoute.component.$2}/divider',
           WorkStatus.pending
         ),
         (
           'Watermark 水印',
-          '/${RootRoute.component.$2}/Watermark',
+          '/${RootRoute.component.$2}/watermark',
           WorkStatus.pending
         ),
         (
